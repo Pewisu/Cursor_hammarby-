@@ -496,7 +496,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       <table className="min-w-full text-sm">
                         <thead className="bg-slate-950/40 text-left text-xs uppercase tracking-wide text-slate-400">
                           <tr>
-                            <th className="px-4 py-3">
+                        <th className="sticky left-0 z-20 min-w-[190px] bg-slate-950/95 px-4 py-3 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
                               <SortHeader
                                 label="Spelare"
                                 active={matchSort.key === "name"}
@@ -504,7 +504,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                                 onClick={() => handleMatchSort("name")}
                               />
                             </th>
-                            <th className="px-4 py-3 text-right">
+                        <th className="px-4 py-3 text-right whitespace-nowrap">
                               <SortHeader
                                 label="Löpmeter"
                                 align="right"
@@ -513,7 +513,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                                 onClick={() => handleMatchSort("distanceMeters")}
                               />
                             </th>
-                            <th className="px-4 py-3 text-right">
+                        <th className="px-4 py-3 text-right whitespace-nowrap">
                               <SortHeader
                                 label="Minuter"
                                 align="right"
@@ -522,7 +522,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                                 onClick={() => handleMatchSort("minutesPlayed")}
                               />
                             </th>
-                            <th className="px-4 py-3 text-right">
+                        <th className="px-4 py-3 text-right whitespace-nowrap">
                               <SortHeader
                                 label="Löpmeter/min"
                                 align="right"
@@ -531,7 +531,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                                 onClick={() => handleMatchSort("metersPerMinute")}
                               />
                             </th>
-                            <th className="px-4 py-3 text-right">
+                        <th className="px-4 py-3 text-right whitespace-nowrap">
                               <SortHeader
                                 label="Maxhastighet"
                                 align="right"
@@ -548,21 +548,21 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                               key={`${match.matchId}-${player.name}`}
                               className="border-t border-slate-700/50 text-slate-200"
                             >
-                              <td className="px-4 py-2.5">
+                          <td className="sticky left-0 z-10 min-w-[190px] bg-slate-900/95 px-4 py-2.5 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
                                 <span className="font-medium text-white">
                                   #{player.shirtNumber} {player.name}
                                 </span>
                               </td>
-                              <td className="px-4 py-2.5 text-right font-medium text-white">
+                          <td className="px-4 py-2.5 text-right font-medium text-white whitespace-nowrap">
                                 {formatMeters(player.distanceMeters)}
                               </td>
-                              <td className="px-4 py-2.5 text-right">
+                          <td className="px-4 py-2.5 text-right whitespace-nowrap">
                                 {player.minutesPlayed.toFixed(2)}
                               </td>
-                              <td className="px-4 py-2.5 text-right">
+                          <td className="px-4 py-2.5 text-right whitespace-nowrap">
                                 {player.metersPerMinute.toFixed(2)}
                               </td>
-                              <td className="px-4 py-2.5 text-right">
+                          <td className="px-4 py-2.5 text-right whitespace-nowrap">
                                 {player.maxSpeedKmh.toFixed(2)} km/h
                               </td>
                             </tr>
@@ -635,7 +635,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
             <table className="min-w-full text-sm">
               <thead className="bg-slate-900/70 text-left text-xs uppercase tracking-wide text-slate-400">
                 <tr>
-                  <th className="px-4 py-3">
+                  <th className="sticky left-0 z-20 min-w-[190px] bg-slate-900/95 px-4 py-3 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
                     <SortHeader
                       label="Spelare"
                       active={totalSort.key === "name"}
@@ -643,7 +643,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       onClick={() => handleTotalSort("name")}
                     />
                   </th>
-                  <th className="px-4 py-3 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     <SortHeader
                       label="Löpmeter"
                       align="right"
@@ -652,7 +652,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       onClick={() => handleTotalSort("totalDistanceMeters")}
                     />
                   </th>
-                  <th className="px-4 py-3 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     <SortHeader
                       label="Minuter"
                       align="right"
@@ -661,7 +661,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       onClick={() => handleTotalSort("totalMinutes")}
                     />
                   </th>
-                  <th className="px-4 py-3 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     <SortHeader
                       label="Löpmeter/min"
                       align="right"
@@ -670,7 +670,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       onClick={() => handleTotalSort("metersPerMinute")}
                     />
                   </th>
-                  <th className="px-4 py-3 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     <SortHeader
                       label="Peak max"
                       align="right"
@@ -679,7 +679,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       onClick={() => handleTotalSort("peakMaxSpeedKmh")}
                     />
                   </th>
-                  <th className="px-4 py-3 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     <SortHeader
                       label="Snitt max"
                       align="right"
@@ -688,7 +688,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                       onClick={() => handleTotalSort("averageMaxSpeedKmh")}
                     />
                   </th>
-                  <th className="px-4 py-3 text-right">
+                  <th className="px-4 py-3 text-right whitespace-nowrap">
                     <SortHeader
                       label="Matcher"
                       align="right"
@@ -705,28 +705,28 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                     key={player.name}
                     className="border-t border-slate-700/50 text-slate-200"
                   >
-                    <td className="px-4 py-3">
+                    <td className="sticky left-0 z-10 min-w-[190px] bg-slate-800/95 px-4 py-3 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
                       <div className="font-medium text-white">
                         #{player.shirtNumber} {player.name}
                       </div>
                       <div className="text-xs text-slate-400">{player.position}</div>
                     </td>
-                    <td className="px-4 py-3 text-right font-medium text-white">
+                    <td className="px-4 py-3 text-right font-medium text-white whitespace-nowrap">
                       {formatMeters(player.totalDistanceMeters)}
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
                       {player.totalMinutes.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
                       {player.metersPerMinute.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
                       {player.peakMaxSpeedKmh.toFixed(2)} km/h
                     </td>
-                    <td className="px-4 py-3 text-right">
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
                       {player.averageMaxSpeedKmh.toFixed(2)} km/h
                     </td>
-                    <td className="px-4 py-3 text-right">{player.matches}</td>
+                    <td className="px-4 py-3 text-right whitespace-nowrap">{player.matches}</td>
                   </tr>
                 ))}
               </tbody>
