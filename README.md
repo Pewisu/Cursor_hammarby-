@@ -11,6 +11,11 @@ Sidan publiceras via GitHub Pages:
 
 **https://pewisu.github.io/Cursor_hammarby-/**
 
+### Rutter
+
+- Matchstatistik (originalsidan): `https://pewisu.github.io/Cursor_hammarby-/`
+- Hammarby löpdata (egen sida): `https://pewisu.github.io/Cursor_hammarby-/lopdata`
+
 ## Funktioner
 
 - Total löpsträcka för Hammarby över båda matcherna
