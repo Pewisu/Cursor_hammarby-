@@ -158,6 +158,9 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   const [trendPlayerName, setTrendPlayerName] = useState(
     playerTotals[0]?.name ?? ""
   );
+  const [expandedMatchIds, setExpandedMatchIds] = useState<
+    Record<number, boolean>
+  >({});
 
   const overallDistance = matches.reduce(
     (sum, match) => sum + match.hammarbyTeamDistanceMeters,
@@ -292,6 +295,13 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
       key,
       direction:
         current.key === key ? (current.direction === "desc" ? "asc" : "desc") : "desc",
+    }));
+  };
+
+  const toggleMatchExpanded = (matchId: number) => {
+    setExpandedMatchIds((current) => ({
+      ...current,
+      [matchId]: !current[matchId],
     }));
   };
 
@@ -438,104 +448,132 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
             Per match och spelare
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            Klicka på kolumnrubriker för att sortera högst/lägst.
+            Matcherna är kollapsade som standard. Öppna en match och klicka på
+            kolumnrubriker för att sortera högst/lägst.
           </p>
 
           <div className="mt-5 space-y-6">
-            {sortedMatches.map((match) => (
-              <article
-                key={`players-${match.matchId}`}
-                className="overflow-hidden rounded-xl border border-slate-700/50 bg-slate-900/60"
-              >
-                <div className="border-b border-slate-700/50 px-4 py-3">
-                  <p className="text-xs text-slate-400">
-                    {match.round} • {match.date}
-                  </p>
-                  <h3 className="text-sm font-semibold text-white">
-                    {match.homeTeam} - {match.awayTeam}
-                  </h3>
-                </div>
+            {sortedMatches.map((match) => {
+              const isExpanded = Boolean(expandedMatchIds[match.matchId]);
+              const topRunner = match.sortedPlayers[0];
 
-                <div className="overflow-x-auto">
-                  <table className="min-w-full text-sm">
-                    <thead className="bg-slate-950/40 text-left text-xs uppercase tracking-wide text-slate-400">
-                      <tr>
-                        <th className="px-4 py-3">
-                          <SortHeader
-                            label="Spelare"
-                            active={matchSort.key === "name"}
-                            direction={matchSort.direction}
-                            onClick={() => handleMatchSort("name")}
-                          />
-                        </th>
-                        <th className="px-4 py-3 text-right">
-                          <SortHeader
-                            label="Löpmeter"
-                            align="right"
-                            active={matchSort.key === "distanceMeters"}
-                            direction={matchSort.direction}
-                            onClick={() => handleMatchSort("distanceMeters")}
-                          />
-                        </th>
-                        <th className="px-4 py-3 text-right">
-                          <SortHeader
-                            label="Minuter"
-                            align="right"
-                            active={matchSort.key === "minutesPlayed"}
-                            direction={matchSort.direction}
-                            onClick={() => handleMatchSort("minutesPlayed")}
-                          />
-                        </th>
-                        <th className="px-4 py-3 text-right">
-                          <SortHeader
-                            label="Löpmeter/min"
-                            align="right"
-                            active={matchSort.key === "metersPerMinute"}
-                            direction={matchSort.direction}
-                            onClick={() => handleMatchSort("metersPerMinute")}
-                          />
-                        </th>
-                        <th className="px-4 py-3 text-right">
-                          <SortHeader
-                            label="Maxhastighet"
-                            align="right"
-                            active={matchSort.key === "maxSpeedKmh"}
-                            direction={matchSort.direction}
-                            onClick={() => handleMatchSort("maxSpeedKmh")}
-                          />
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {match.sortedPlayers.map((player) => (
-                        <tr
-                          key={`${match.matchId}-${player.name}`}
-                          className="border-t border-slate-700/50 text-slate-200"
-                        >
-                          <td className="px-4 py-2.5">
-                            <span className="font-medium text-white">
-                              #{player.shirtNumber} {player.name}
-                            </span>
-                          </td>
-                          <td className="px-4 py-2.5 text-right font-medium text-white">
-                            {formatMeters(player.distanceMeters)}
-                          </td>
-                          <td className="px-4 py-2.5 text-right">
-                            {player.minutesPlayed.toFixed(2)}
-                          </td>
-                          <td className="px-4 py-2.5 text-right">
-                            {player.metersPerMinute.toFixed(2)}
-                          </td>
-                          <td className="px-4 py-2.5 text-right">
-                            {player.maxSpeedKmh.toFixed(2)} km/h
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </article>
-            ))}
+              return (
+                <article
+                  key={`players-${match.matchId}`}
+                  className="overflow-hidden rounded-xl border border-slate-700/50 bg-slate-900/60"
+                >
+                  <div className="border-b border-slate-700/50 px-4 py-3">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <p className="text-xs text-slate-400">
+                          {match.round} • {match.date}
+                        </p>
+                        <h3 className="text-sm font-semibold text-white">
+                          {match.homeTeam} - {match.awayTeam}
+                        </h3>
+                        {topRunner && (
+                          <p className="mt-1 text-xs text-slate-400">
+                            Topp löpmeter just nu: #{topRunner.shirtNumber}{" "}
+                            {topRunner.name} ({formatMeters(topRunner.distanceMeters)})
+                          </p>
+                        )}
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => toggleMatchExpanded(match.matchId)}
+                        className="inline-flex shrink-0 items-center gap-1 rounded-md border border-slate-600 px-3 py-1 text-xs text-slate-200 hover:border-slate-400 hover:text-white"
+                        aria-expanded={isExpanded}
+                      >
+                        {isExpanded ? "Dölj spelare" : "Visa spelare"}
+                        <span>{isExpanded ? "▲" : "▼"}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {isExpanded && (
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full text-sm">
+                        <thead className="bg-slate-950/40 text-left text-xs uppercase tracking-wide text-slate-400">
+                          <tr>
+                            <th className="px-4 py-3">
+                              <SortHeader
+                                label="Spelare"
+                                active={matchSort.key === "name"}
+                                direction={matchSort.direction}
+                                onClick={() => handleMatchSort("name")}
+                              />
+                            </th>
+                            <th className="px-4 py-3 text-right">
+                              <SortHeader
+                                label="Löpmeter"
+                                align="right"
+                                active={matchSort.key === "distanceMeters"}
+                                direction={matchSort.direction}
+                                onClick={() => handleMatchSort("distanceMeters")}
+                              />
+                            </th>
+                            <th className="px-4 py-3 text-right">
+                              <SortHeader
+                                label="Minuter"
+                                align="right"
+                                active={matchSort.key === "minutesPlayed"}
+                                direction={matchSort.direction}
+                                onClick={() => handleMatchSort("minutesPlayed")}
+                              />
+                            </th>
+                            <th className="px-4 py-3 text-right">
+                              <SortHeader
+                                label="Löpmeter/min"
+                                align="right"
+                                active={matchSort.key === "metersPerMinute"}
+                                direction={matchSort.direction}
+                                onClick={() => handleMatchSort("metersPerMinute")}
+                              />
+                            </th>
+                            <th className="px-4 py-3 text-right">
+                              <SortHeader
+                                label="Maxhastighet"
+                                align="right"
+                                active={matchSort.key === "maxSpeedKmh"}
+                                direction={matchSort.direction}
+                                onClick={() => handleMatchSort("maxSpeedKmh")}
+                              />
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {match.sortedPlayers.map((player) => (
+                            <tr
+                              key={`${match.matchId}-${player.name}`}
+                              className="border-t border-slate-700/50 text-slate-200"
+                            >
+                              <td className="px-4 py-2.5">
+                                <span className="font-medium text-white">
+                                  #{player.shirtNumber} {player.name}
+                                </span>
+                              </td>
+                              <td className="px-4 py-2.5 text-right font-medium text-white">
+                                {formatMeters(player.distanceMeters)}
+                              </td>
+                              <td className="px-4 py-2.5 text-right">
+                                {player.minutesPlayed.toFixed(2)}
+                              </td>
+                              <td className="px-4 py-2.5 text-right">
+                                {player.metersPerMinute.toFixed(2)}
+                              </td>
+                              <td className="px-4 py-2.5 text-right">
+                                {player.maxSpeedKmh.toFixed(2)} km/h
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </article>
+              );
+            })}
           </div>
         </section>
 
