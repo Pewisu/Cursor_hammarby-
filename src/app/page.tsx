@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { matchData } from "@/lib/matchData";
 import { MatchHeader } from "@/components/MatchHeader";
 import { MatchTimeline } from "@/components/MatchTimeline";
@@ -31,6 +32,13 @@ export default function Home() {
             >
               bolldata.se
             </a>
+            {" · "}
+            <Link
+              href="/lopdata"
+              className="text-green-400 hover:text-green-300 transition-colors"
+            >
+              Hammarby löpdata
+            </Link>
           </div>
         </div>
       </header>
