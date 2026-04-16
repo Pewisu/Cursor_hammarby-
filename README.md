@@ -14,7 +14,7 @@ Sidan publiceras via GitHub Pages:
 ### Rutter
 
 - Matchstatistik (originalsidan): `https://pewisu.github.io/Cursor_hammarby-/`
-- Hammarby löpdata (egen sida): `https://pewisu.github.io/Cursor_hammarby-/lopdata`
+- Hammarby löpdata (egen sida): `https://pewisu.github.io/Cursor_hammarby-/lopdata/`
 
 ## Funktioner
 
