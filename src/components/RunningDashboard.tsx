@@ -247,9 +247,9 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
       .filter((row): row is NonNullable<typeof row> => row !== null);
   }, [matches, trendPlayerName]);
 
-  const chartHeight = 240;
-  const chartWidth = 860;
-  const chartPadding = { top: 20, right: 16, bottom: 46, left: 44 };
+  const chartHeight = 232;
+  const chartWidth = 640;
+  const chartPadding = { top: 18, right: 16, bottom: 44, left: 40 };
   const plotWidth = chartWidth - chartPadding.left - chartPadding.right;
   const plotHeight = chartHeight - chartPadding.top - chartPadding.bottom;
   const minSpeed = Math.floor(Math.min(...allPlayerRows.map((p) => p.maxSpeedKmh)) - 1);
@@ -257,10 +257,16 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   const speedRange = Math.max(maxSpeed - minSpeed, 1);
 
   const xForMatch = (index: number) => {
-    if (matches.length <= 1) {
+    if (trendSeries.length <= 1) {
       return chartPadding.left + plotWidth / 2;
     }
-    return chartPadding.left + (index / (matches.length - 1)) * plotWidth;
+    const innerPadding = Math.min(44, plotWidth * 0.12);
+    const usableWidth = Math.max(plotWidth - innerPadding * 2, 1);
+    return (
+      chartPadding.left +
+      innerPadding +
+      (index / (trendSeries.length - 1)) * usableWidth
+    );
   };
 
   const yForSpeed = (value: number) =>
@@ -782,10 +788,10 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
             </div>
           </div>
 
-          <div className="mt-5 overflow-x-auto">
+          <div className="mt-5 overflow-x-auto lg:overflow-visible">
             <svg
               viewBox={`0 0 ${chartWidth} ${chartHeight}`}
-              className="min-w-[680px] w-full"
+              className="w-full min-w-[320px] lg:min-w-0"
             >
               {speedTicks.map((tick) => (
                 <g key={tick}>
