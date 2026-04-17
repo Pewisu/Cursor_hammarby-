@@ -6,6 +6,13 @@ import {
   hammarbyRoundMatchStats,
   type RoundMatchStats,
 } from "@/lib/matchStatisticsOverviewData";
+import {
+  MATCH_ANALYSIS_PERIOD_LABELS,
+  hammarbyMatchAnalysisMetricDefinitions,
+  hammarbyMatchAnalysisRounds,
+  type MatchAnalysisMetricDefinition,
+  type MatchAnalysisMetricKey,
+} from "@/lib/hammarbyMatchAnalysisData";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -45,6 +52,17 @@ type TrendPoint = {
   opponent: string;
 };
 
+type MatchAnalysisRoundRow = {
+  gameweek: number;
+  date: string;
+  opponent: string;
+  sourceUrl: string;
+  value: number;
+  seasonAverage: number;
+  periods: [number, number, number, number, number, number];
+  deltaFromPrevious: number | null;
+};
+
 type OverviewData = {
   id: string;
   title: string;
@@ -67,6 +85,8 @@ const TREND_METRIC_OPTIONS: TrendMetricOption[] = [
   { key: "corners", label: "Hörnor", format: "number" },
   { key: "goals", label: "Mål", format: "number" },
 ];
+
+const DEFAULT_MATCH_ANALYSIS_METRIC_KEY: MatchAnalysisMetricKey = "ball_possession_pct";
 
 function formatDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -98,6 +118,40 @@ function formatCompactValue(
   return value.toLocaleString("sv-SE", {
     maximumFractionDigits: 0,
   });
+}
+
+function formatMatchAnalysisValue(
+  value: number,
+  metric: MatchAnalysisMetricDefinition
+): string {
+  const normalized = metric.format === "percent" ? value * 100 : value;
+  const formatted = normalized.toLocaleString("sv-SE", {
+    minimumFractionDigits: metric.decimals,
+    maximumFractionDigits: metric.decimals,
+  });
+  return metric.format === "percent" ? `${formatted}%` : formatted;
+}
+
+function formatMatchAnalysisDelta(
+  value: number,
+  metric: MatchAnalysisMetricDefinition
+): string {
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+  const absValue = Math.abs(metric.format === "percent" ? value * 100 : value);
+  const formatted = absValue.toLocaleString("sv-SE", {
+    minimumFractionDigits: metric.decimals,
+    maximumFractionDigits: metric.decimals,
+  });
+  return `${sign}${formatted}${metric.format === "percent" ? " p" : ""}`;
+}
+
+function getMatchAnalysisDeltaTone(
+  value: number,
+  direction: MatchAnalysisMetricDefinition["direction"]
+): string {
+  if (value === 0) return "text-slate-300";
+  const isPositiveOutcome = direction === "higher" ? value > 0 : value < 0;
+  return isPositiveOutcome ? "text-green-300" : "text-rose-300";
 }
 
 function getBarWidth(left: number, right: number): number {
@@ -380,6 +434,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const sortedMatches = [...sourceRounds].sort((a, b) => a.gameweek - b.gameweek);
   const [selectedTrendMetricKey, setSelectedTrendMetricKey] =
     useState<TrendMetricKey>("possessionPercent");
+  const [selectedMatchAnalysisMetricKey, setSelectedMatchAnalysisMetricKey] =
+    useState<MatchAnalysisMetricKey>(DEFAULT_MATCH_ANALYSIS_METRIC_KEY);
 
   const roundOverview =
     mode === "round"
@@ -416,6 +472,43 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const trendAverage =
     trendPoints.reduce((sum, point) => sum + point.value, 0) /
     Math.max(trendPoints.length, 1);
+  const selectedMatchAnalysisMetric =
+    hammarbyMatchAnalysisMetricDefinitions.find(
+      (metric) => metric.key === selectedMatchAnalysisMetricKey
+    ) ?? hammarbyMatchAnalysisMetricDefinitions[0];
+  const matchAnalysisRows: MatchAnalysisRoundRow[] = hammarbyMatchAnalysisRounds
+    .map((roundData) => {
+      const metricSample = roundData.metrics[selectedMatchAnalysisMetric.key];
+      return {
+        gameweek: roundData.gameweek,
+        date: roundData.date,
+        opponent: roundData.opponent,
+        sourceUrl: roundData.sourceUrl,
+        value: metricSample.value,
+        seasonAverage: metricSample.seasonAverage,
+        periods: metricSample.periods,
+        deltaFromPrevious: null,
+      };
+    })
+    .sort((a, b) => a.gameweek - b.gameweek)
+    .map((row, index, items) => {
+      const previous = index > 0 ? items[index - 1] : null;
+      return {
+        ...row,
+        deltaFromPrevious: previous ? row.value - previous.value : null,
+      };
+    });
+  const latestMatchAnalysisRow = matchAnalysisRows[matchAnalysisRows.length - 1] ?? null;
+  const matchAnalysisAverage =
+    matchAnalysisRows.reduce((sum, row) => sum + row.value, 0) /
+    Math.max(matchAnalysisRows.length, 1);
+  const matchAnalysisTrendDelta =
+    matchAnalysisRows.length >= 2
+      ? matchAnalysisRows[matchAnalysisRows.length - 1].value - matchAnalysisRows[0].value
+      : 0;
+  const latestVsSeasonAverageDelta = latestMatchAnalysisRow
+    ? latestMatchAnalysisRow.value - latestMatchAnalysisRow.seasonAverage
+    : 0;
 
   const chart = {
     width: 760,
@@ -747,6 +840,163 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         </section>
 
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                Matchanalys omgång för omgång (Hammarby KPI)
+              </h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Hammarbys egna matchanalys-metriker per omgång med perioder 0-15 till 75-FT.
+              </p>
+            </div>
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              KPI
+              <select
+                value={selectedMatchAnalysisMetricKey}
+                onChange={(event) =>
+                  setSelectedMatchAnalysisMetricKey(
+                    event.target.value as MatchAnalysisMetricKey
+                  )
+                }
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+              >
+                {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
+                  <option key={metric.key} value={metric.key}>
+                    {metric.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <p className="mt-3 text-xs text-slate-500">
+            Tolkning:{" "}
+            {selectedMatchAnalysisMetric.direction === "higher"
+              ? "högre värde är oftast bättre för den här KPI:n."
+              : "lägre värde är oftast bättre för den här KPI:n."}
+          </p>
+
+          <div className="mt-4 grid gap-3 text-xs text-slate-300 md:grid-cols-4">
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Senaste omgång</p>
+              <p className="mt-1 text-base font-semibold text-white">
+                {latestMatchAnalysisRow
+                  ? formatMatchAnalysisValue(
+                      latestMatchAnalysisRow.value,
+                      selectedMatchAnalysisMetric
+                    )
+                  : "–"}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Snitt (omgångar)</p>
+              <p className="mt-1 text-base font-semibold text-white">
+                {formatMatchAnalysisValue(matchAnalysisAverage, selectedMatchAnalysisMetric)}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Senaste vs säsongssnitt</p>
+              <p
+                className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
+                  latestVsSeasonAverageDelta,
+                  selectedMatchAnalysisMetric.direction
+                )}`}
+              >
+                {formatMatchAnalysisDelta(
+                  latestVsSeasonAverageDelta,
+                  selectedMatchAnalysisMetric
+                )}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Trend (första → senaste)</p>
+              <p
+                className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
+                  matchAnalysisTrendDelta,
+                  selectedMatchAnalysisMetric.direction
+                )}`}
+              >
+                {formatMatchAnalysisDelta(matchAnalysisTrendDelta, selectedMatchAnalysisMetric)}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 overflow-x-auto">
+            <table className="min-w-[900px] table-fixed border-separate border-spacing-0 text-xs">
+              <thead>
+                <tr>
+                  <th className="sticky left-0 z-10 w-36 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                    Omgång
+                  </th>
+                  <th className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                    Värde
+                  </th>
+                  <th className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                    Δ mot förra
+                  </th>
+                  {MATCH_ANALYSIS_PERIOD_LABELS.map((label) => (
+                    <th
+                      key={label}
+                      className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300"
+                    >
+                      {label}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {matchAnalysisRows.map((row) => (
+                  <tr key={`analysis-${row.gameweek}`}>
+                    <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-medium text-slate-100">
+                      <div>Omg {row.gameweek}</div>
+                      <div className="text-[10px] text-slate-400">
+                        {row.opponent}, {formatDate(row.date)}
+                      </div>
+                      <a
+                        href={row.sourceUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[10px] text-blue-300 hover:text-blue-200"
+                      >
+                        Matchanalys
+                      </a>
+                    </th>
+                    <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 font-semibold text-white">
+                      {formatMatchAnalysisValue(row.value, selectedMatchAnalysisMetric)}
+                    </td>
+                    <td
+                      className={`border border-slate-700/60 bg-slate-900/70 px-2 py-2 ${
+                        row.deltaFromPrevious === null
+                          ? "text-slate-400"
+                          : getMatchAnalysisDeltaTone(
+                              row.deltaFromPrevious,
+                              selectedMatchAnalysisMetric.direction
+                            )
+                      }`}
+                    >
+                      {row.deltaFromPrevious === null
+                        ? "–"
+                        : formatMatchAnalysisDelta(
+                            row.deltaFromPrevious,
+                            selectedMatchAnalysisMetric
+                          )}
+                    </td>
+                    {row.periods.map((periodValue, index) => (
+                      <td
+                        key={`period-${row.gameweek}-${index}`}
+                        className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-200"
+                      >
+                        {formatMatchAnalysisValue(periodValue, selectedMatchAnalysisMetric)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <footer className="rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5 text-xs leading-relaxed text-slate-400">
           <p>
             Datakälla:{" "}
@@ -759,7 +1009,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               bolldata.se
             </a>
             . Kombinerat-läget summerar räknetal (mål, avslut, passningar osv.) och
-            använder snitt för procenttal.
+            använder snitt för procenttal. Matchanalys KPI bygger på Hammarbys matchanalys
+            (Twelve/Wyscout) per omgång.
           </p>
         </footer>
       </main>
