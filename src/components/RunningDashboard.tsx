@@ -33,6 +33,16 @@ type TotalSortKey =
   | "averageMaxSpeedKmh"
   | "matches";
 
+type TrendSeriesPoint = {
+  matchId: number;
+  round: string;
+  date: string;
+  homeTeam: string;
+  awayTeam: string;
+  matchIndex: number;
+  maxSpeedKmh: number;
+};
+
 function formatMeters(meters: number) {
   return `${meters.toLocaleString("sv-SE")} m`;
 }
@@ -104,6 +114,30 @@ function buildTrendPath(
     .join(" ");
 }
 
+function buildPlayerTrendSeries(
+  matches: RunningMatchStat[],
+  playerName: string
+): TrendSeriesPoint[] {
+  return matches
+    .map((match, matchIndex) => {
+      const playerRow = match.players.find((player) => player.name === playerName);
+      if (!playerRow) {
+        return null;
+      }
+
+      return {
+        matchId: match.matchId,
+        round: match.round,
+        date: match.date,
+        homeTeam: match.homeTeam,
+        awayTeam: match.awayTeam,
+        matchIndex,
+        maxSpeedKmh: playerRow.maxSpeedKmh,
+      };
+    })
+    .filter((row): row is TrendSeriesPoint => row !== null);
+}
+
 type SortHeaderProps = {
   label: string;
   active: boolean;
@@ -138,6 +172,7 @@ function SortHeader({
 export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   const playerTotals = useMemo(() => aggregatePlayers(matches), [matches]);
   const allPlayerRows = useMemo(() => matches.flatMap((match) => match.players), [matches]);
+  const playerNames = useMemo(() => playerTotals.map((player) => player.name), [playerTotals]);
 
   const [matchSort, setMatchSort] = useState<{
     key: MatchSortKey;
@@ -155,8 +190,11 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     direction: "desc",
   });
 
-  const [trendPlayerName, setTrendPlayerName] = useState(
+  const [trendPrimaryPlayerName, setTrendPrimaryPlayerName] = useState(
     playerTotals[0]?.name ?? ""
+  );
+  const [trendSecondaryPlayerName, setTrendSecondaryPlayerName] = useState(
+    playerTotals[1]?.name ?? playerTotals[0]?.name ?? ""
   );
   const [expandedMatchIds, setExpandedMatchIds] = useState<
     Record<number, boolean>
@@ -227,25 +265,14 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     });
   }, [playerTotals, totalSort]);
 
-  const trendSeries = useMemo(() => {
-    return matches
-      .map((match, matchIndex) => {
-        const playerRow = match.players.find((p) => p.name === trendPlayerName);
-        if (!playerRow) {
-          return null;
-        }
-        return {
-          matchId: match.matchId,
-          round: match.round,
-          date: match.date,
-          homeTeam: match.homeTeam,
-          awayTeam: match.awayTeam,
-          matchIndex,
-          maxSpeedKmh: playerRow.maxSpeedKmh,
-        };
-      })
-      .filter((row): row is NonNullable<typeof row> => row !== null);
-  }, [matches, trendPlayerName]);
+  const primaryTrendSeries = useMemo(
+    () => buildPlayerTrendSeries(matches, trendPrimaryPlayerName),
+    [matches, trendPrimaryPlayerName]
+  );
+  const secondaryTrendSeries = useMemo(
+    () => buildPlayerTrendSeries(matches, trendSecondaryPlayerName),
+    [matches, trendSecondaryPlayerName]
+  );
 
   const chartHeight = 232;
   const chartWidth = 640;
@@ -257,7 +284,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   const speedRange = Math.max(maxSpeed - minSpeed, 1);
 
   const xForMatch = (index: number) => {
-    if (trendSeries.length <= 1) {
+    if (matches.length <= 1) {
       return chartPadding.left + plotWidth / 2;
     }
     const innerPadding = Math.min(44, plotWidth * 0.12);
@@ -265,28 +292,52 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     return (
       chartPadding.left +
       innerPadding +
-      (index / (trendSeries.length - 1)) * usableWidth
+      (index / (matches.length - 1)) * usableWidth
     );
   };
 
   const yForSpeed = (value: number) =>
     chartPadding.top + ((maxSpeed - value) / speedRange) * plotHeight;
 
-  const trendPoints = trendSeries.map((row) => ({
+  const primaryTrendPoints = primaryTrendSeries.map((row) => ({
+    ...row,
+    x: xForMatch(row.matchIndex),
+    y: yForSpeed(row.maxSpeedKmh),
+  }));
+  const secondaryTrendPoints = secondaryTrendSeries.map((row) => ({
     ...row,
     x: xForMatch(row.matchIndex),
     y: yForSpeed(row.maxSpeedKmh),
   }));
 
-  const trendPath = buildTrendPath(trendPoints, chartPadding.top + plotHeight);
+  const primaryTrendPath = buildTrendPath(
+    primaryTrendPoints,
+    chartPadding.top + plotHeight
+  );
+  const secondaryTrendPath = buildTrendPath(
+    secondaryTrendPoints,
+    chartPadding.top + plotHeight
+  );
 
   const speedTicks = Array.from({ length: speedRange + 1 }, (_, i) => minSpeed + i)
     .filter((value) => (value - minSpeed) % 2 === 0);
 
-  const trendDelta =
-    trendSeries.length >= 2
-      ? trendSeries[trendSeries.length - 1].maxSpeedKmh - trendSeries[0].maxSpeedKmh
+  const primaryTrendDelta =
+    primaryTrendSeries.length >= 2
+      ? primaryTrendSeries[primaryTrendSeries.length - 1].maxSpeedKmh -
+        primaryTrendSeries[0].maxSpeedKmh
       : 0;
+  const secondaryTrendDelta =
+    secondaryTrendSeries.length >= 2
+      ? secondaryTrendSeries[secondaryTrendSeries.length - 1].maxSpeedKmh -
+        secondaryTrendSeries[0].maxSpeedKmh
+      : 0;
+  const primaryTrendAverage =
+    primaryTrendSeries.reduce((sum, row) => sum + row.maxSpeedKmh, 0) /
+    Math.max(primaryTrendSeries.length, 1);
+  const secondaryTrendAverage =
+    secondaryTrendSeries.reduce((sum, row) => sum + row.maxSpeedKmh, 0) /
+    Math.max(secondaryTrendSeries.length, 1);
 
   const handleMatchSort = (key: MatchSortKey) => {
     setMatchSort((current) => ({
@@ -309,6 +360,23 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
       ...current,
       [matchId]: !current[matchId],
     }));
+  };
+
+  const pickAlternativePlayer = (excludeName: string) =>
+    playerNames.find((name) => name !== excludeName) ?? excludeName;
+
+  const handlePrimaryTrendPlayerChange = (nextName: string) => {
+    setTrendPrimaryPlayerName(nextName);
+    if (nextName === trendSecondaryPlayerName) {
+      setTrendSecondaryPlayerName(pickAlternativePlayer(nextName));
+    }
+  };
+
+  const handleSecondaryTrendPlayerChange = (nextName: string) => {
+    setTrendSecondaryPlayerName(nextName);
+    if (nextName === trendPrimaryPlayerName) {
+      setTrendPrimaryPlayerName(pickAlternativePlayer(nextName));
+    }
   };
 
   return (
@@ -745,15 +813,17 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
             Trendkurva: maxhastighet per spelare
           </h2>
           <p className="mt-1 text-sm text-slate-400">
-            Välj spelare för att se hur maxhastigheten utvecklas över matcherna.
+            Välj två spelare för att jämföra maxhastighet över matcherna.
           </p>
 
-          <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-            <label className="flex max-w-xs flex-col gap-1 text-sm text-slate-300">
-              Spelare
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              Spelare A
               <select
-                value={trendPlayerName}
-                onChange={(event) => setTrendPlayerName(event.target.value)}
+                value={trendPrimaryPlayerName}
+                onChange={(event) =>
+                  handlePrimaryTrendPlayerChange(event.target.value)
+                }
                 className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-green-400"
               >
                 {playerTotals.map((player) => (
@@ -764,25 +834,74 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
               </select>
             </label>
 
-            <div className="grid grid-cols-2 gap-2 text-xs text-slate-300 lg:text-sm">
-              <div className="rounded-lg bg-slate-900/60 px-3 py-2">
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              Spelare B
+              <select
+                value={trendSecondaryPlayerName}
+                onChange={(event) =>
+                  handleSecondaryTrendPlayerChange(event.target.value)
+                }
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+              >
+                {playerTotals.map((player) => (
+                  <option key={player.name} value={player.name}>
+                    #{player.shirtNumber} {player.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-2 text-xs text-slate-300 lg:grid-cols-2 lg:text-sm">
+            <div className="rounded-lg border border-green-500/30 bg-green-950/20 px-3 py-2">
+              <div className="mb-1 flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                <span className="font-medium text-green-200">
+                  {trendPrimaryPlayerName || "Spelare A"}
+                </span>
+              </div>
+              <div>
                 Snitt max:{" "}
                 <span className="font-semibold text-white">
-                  {(trendSeries.reduce((sum, row) => sum + row.maxSpeedKmh, 0) /
-                    Math.max(trendSeries.length, 1)
-                  ).toFixed(2)}{" "}
+                  {primaryTrendAverage.toFixed(2)}{" "}
                   km/h
                 </span>
               </div>
-              <div className="rounded-lg bg-slate-900/60 px-3 py-2">
+              <div>
                 Trend:{" "}
                 <span
                   className={`font-semibold ${
-                    trendDelta >= 0 ? "text-green-300" : "text-rose-300"
+                    primaryTrendDelta >= 0 ? "text-green-300" : "text-rose-300"
                   }`}
                 >
-                  {trendDelta >= 0 ? "+" : ""}
-                  {trendDelta.toFixed(2)} km/h
+                  {primaryTrendDelta >= 0 ? "+" : ""}
+                  {primaryTrendDelta.toFixed(2)} km/h
+                </span>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-blue-500/30 bg-blue-950/20 px-3 py-2">
+              <div className="mb-1 flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
+                <span className="font-medium text-blue-200">
+                  {trendSecondaryPlayerName || "Spelare B"}
+                </span>
+              </div>
+              <div>
+                Snitt max:{" "}
+                <span className="font-semibold text-white">
+                  {secondaryTrendAverage.toFixed(2)} km/h
+                </span>
+              </div>
+              <div>
+                Trend:{" "}
+                <span
+                  className={`font-semibold ${
+                    secondaryTrendDelta >= 0 ? "text-green-300" : "text-rose-300"
+                  }`}
+                >
+                  {secondaryTrendDelta >= 0 ? "+" : ""}
+                  {secondaryTrendDelta.toFixed(2)} km/h
                 </span>
               </div>
             </div>
@@ -846,9 +965,9 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                 </g>
               ))}
 
-              {trendPath && (
+              {primaryTrendPath && (
                 <path
-                  d={trendPath}
+                  d={primaryTrendPath}
                   fill="none"
                   stroke="#22c55e"
                   strokeWidth="2.5"
@@ -856,7 +975,17 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                 />
               )}
 
-              {trendPoints.map((point) => (
+              {secondaryTrendPath && (
+                <path
+                  d={secondaryTrendPath}
+                  fill="none"
+                  stroke="#60a5fa"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                />
+              )}
+
+              {primaryTrendPoints.map((point) => (
                 <g key={point.matchId}>
                   <circle cx={point.x} cy={point.y} r="5" fill="#22c55e" />
                   <text
@@ -864,6 +993,22 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                     y={point.y - 10}
                     textAnchor="middle"
                     fill="#e2e8f0"
+                    fontSize="10"
+                    fontWeight="bold"
+                  >
+                    {point.maxSpeedKmh.toFixed(2)}
+                  </text>
+                </g>
+              ))}
+
+              {secondaryTrendPoints.map((point) => (
+                <g key={`secondary-${point.matchId}`}>
+                  <circle cx={point.x} cy={point.y} r="5" fill="#60a5fa" />
+                  <text
+                    x={point.x}
+                    y={point.y + 16}
+                    textAnchor="middle"
+                    fill="#bfdbfe"
                     fontSize="10"
                     fontWeight="bold"
                   >
