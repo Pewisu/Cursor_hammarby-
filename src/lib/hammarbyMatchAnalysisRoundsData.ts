@@ -6033,95 +6033,95 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         "value": 0.72,
         "seasonAverage": 0.5,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.74,
+          0.82,
+          0.59,
+          0.65,
+          0.71,
+          0.79
         ]
       },
       "num_possessions_final_third": {
         "value": 57,
         "seasonAverage": 46.84,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          9,
+          14,
+          4,
+          11,
+          8,
+          11
         ]
       },
       "num_box_entries": {
         "value": 13,
         "seasonAverage": 7.91,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          1,
+          3,
+          1,
+          4,
+          1,
+          3
         ]
       },
       "xt_within_10s_after_recovery": {
         "value": 0.74,
         "seasonAverage": 0.66,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.08,
+          0.16,
+          0.14,
+          0.15,
+          0.05,
+          0.16
         ]
       },
       "num_recoveries_att_half": {
         "value": 8,
         "seasonAverage": 8,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          1,
+          1,
+          1,
+          1,
+          1,
+          3
         ]
       },
       "ppda": {
         "value": 3.57,
         "seasonAverage": 5.64,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          7,
+          3,
+          3.89,
+          3.29,
+          5.63,
+          1.92
         ]
       },
       "defensive_action_height_m": {
         "value": 40.09,
         "seasonAverage": 41.52,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          29.58,
+          52.94,
+          31.91,
+          40.08,
+          40.39,
+          42.83
         ]
       },
       "opp_num_box_entries": {
         "value": 3,
         "seasonAverage": 0,
         "periods": [
+          1,
           0,
           0,
-          0,
-          0,
-          0,
+          1,
+          1,
           0
         ]
       },
@@ -6129,84 +6129,84 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         "value": 5.300000190734863,
         "seasonAverage": 5.97,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          4.56,
+          5.42,
+          5.55,
+          4.74,
+          13.29,
+          3.06
         ]
       },
       "xt": {
         "value": 1.81,
         "seasonAverage": 1.36,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.16,
+          0.29,
+          0.45,
+          0.27,
+          0.25,
+          0.38
         ]
       },
       "opp_xt": {
         "value": 0.49,
         "seasonAverage": 0,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          -0.15,
+          0.03,
+          0.19,
+          0.15,
+          0.17,
+          0.09
         ]
       },
       "np_xg": {
         "value": 1.41,
         "seasonAverage": 1.35,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.51,
+          0.1,
+          0.03,
+          0.05,
+          0.33,
+          0.39
         ]
       },
       "opp_np_xg": {
         "value": 0.96,
         "seasonAverage": 0,
         "periods": [
+          0.07,
           0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.18,
+          0.15,
+          0.53,
+          0.04
         ]
       },
       "np_xg_per_shot": {
         "value": 0.09,
         "seasonAverage": 0.12,
         "periods": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.17,
+          0.03,
+          0.02,
+          0.03,
+          0.11,
+          0.13
         ]
       },
       "opp_np_xg_per_shot": {
         "value": 0.12,
         "seasonAverage": 0,
         "periods": [
+          0.04,
           0,
-          0,
-          0,
-          0,
-          0,
-          0
+          0.09,
+          0.15,
+          0.26,
+          0.04
         ]
       }
     }

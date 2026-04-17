@@ -88,6 +88,13 @@ type HistoricalComparisonCandidate = {
   context: string;
 };
 
+type SeasonVsSeasonPeriodRow = {
+  label: string;
+  seasonAValue: number;
+  seasonBValue: number;
+  delta: number;
+};
+
 type OverviewData = {
   id: string;
   title: string;
@@ -486,6 +493,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [selectedMatchAnalysisSeason, setSelectedMatchAnalysisSeason] = useState<number>(
     DEFAULT_MATCH_ANALYSIS_SEASON
   );
+  const [showSeasonRows, setShowSeasonRows] = useState<boolean>(false);
+  const [showCrossSeasonCompare, setShowCrossSeasonCompare] = useState<boolean>(true);
   const [comparisonRoundA, setComparisonRoundA] = useState<string>("");
   const [comparisonRoundB, setComparisonRoundB] = useState<string>("");
   const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
@@ -603,6 +612,74 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           periods: averagePeriodValues as [number, number, number, number, number, number],
         }
       : null;
+  const seasonAverage2025 = matchAnalysisRows
+    .filter((row) => row.season === 2025)
+    .reduce(
+      (acc, row, _, arr) => {
+        acc.value += row.seasonAverage / arr.length;
+        for (let i = 0; i < 6; i += 1) {
+          acc.periods[i] += row.periods[i] / arr.length;
+        }
+        return acc;
+      },
+      { value: 0, periods: [0, 0, 0, 0, 0, 0] as [number, number, number, number, number, number] }
+    );
+  const hasSeason2025 = matchAnalysisRows.some((row) => row.season === 2025);
+  const seasonAverage2026 = matchAnalysisRows
+    .filter((row) => row.season === 2026)
+    .reduce(
+      (acc, row, _, arr) => {
+        acc.value += row.seasonAverage / arr.length;
+        for (let i = 0; i < 6; i += 1) {
+          acc.periods[i] += row.periods[i] / arr.length;
+        }
+        return acc;
+      },
+      { value: 0, periods: [0, 0, 0, 0, 0, 0] as [number, number, number, number, number, number] }
+    );
+  const hasSeason2026 = matchAnalysisRows.some((row) => row.season === 2026);
+  const seasonDelta2026Vs2025 =
+    hasSeason2025 && hasSeason2026 ? seasonAverage2026.value - seasonAverage2025.value : 0;
+  const seasonVsSeasonPeriodRows: SeasonVsSeasonPeriodRow[] =
+    hasSeason2025 && hasSeason2026
+      ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
+          label,
+          seasonAValue: seasonAverage2025.periods[index],
+          seasonBValue: seasonAverage2026.periods[index],
+          delta: seasonAverage2026.periods[index] - seasonAverage2025.periods[index],
+        }))
+      : [];
+  const seasonAverage2025Value = hasSeason2025 ? seasonAverage2025.value : 0;
+  const seasonAverage2026Value = hasSeason2026 ? seasonAverage2026.value : 0;
+  const seasonAverageDifference = seasonAverage2026Value - seasonAverage2025Value;
+  const seasonPeriods2025 = hasSeason2025 ? seasonAverage2025.periods : ([0, 0, 0, 0, 0, 0] as const);
+  const seasonPeriods2026 = hasSeason2026 ? seasonAverage2026.periods : ([0, 0, 0, 0, 0, 0] as const);
+  const crossSeasonRows2025 = matchAnalysisRows.filter((row) => row.season === 2025);
+  const crossSeasonRows2026 = matchAnalysisRows.filter((row) => row.season === 2026);
+  const fallbackCrossSeasonRound2025 = crossSeasonRows2025[0]?.key ?? "";
+  const fallbackCrossSeasonRound2026 = crossSeasonRows2026[0]?.key ?? "";
+  const [crossSeasonRound2025Key, setCrossSeasonRound2025Key] = useState<string>(
+    fallbackCrossSeasonRound2025
+  );
+  const [crossSeasonRound2026Key, setCrossSeasonRound2026Key] = useState<string>(
+    fallbackCrossSeasonRound2026
+  );
+  const effectiveCrossSeasonRound2025 = crossSeasonRows2025.some(
+    (row) => row.key === crossSeasonRound2025Key
+  )
+    ? crossSeasonRound2025Key
+    : fallbackCrossSeasonRound2025;
+  const effectiveCrossSeasonRound2026 = crossSeasonRows2026.some(
+    (row) => row.key === crossSeasonRound2026Key
+  )
+    ? crossSeasonRound2026Key
+    : fallbackCrossSeasonRound2026;
+  const crossSeasonRow2025 =
+    crossSeasonRows2025.find((row) => row.key === effectiveCrossSeasonRound2025) ?? null;
+  const crossSeasonRow2026 =
+    crossSeasonRows2026.find((row) => row.key === effectiveCrossSeasonRound2026) ?? null;
+  const crossSeasonDelta =
+    crossSeasonRow2025 && crossSeasonRow2026 ? crossSeasonRow2026.value - crossSeasonRow2025.value : 0;
   const comparisonRowA = seasonRows.find((row) => row.key === effectiveComparisonRoundA) ?? null;
   const comparisonRowB = seasonRows.find((row) => row.key === effectiveComparisonRoundB) ?? null;
   const comparisonDelta =
@@ -849,6 +926,97 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       }}
                     />
                   </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                Säsongssnitt: 2025 vs 2026 (vald KPI)
+              </h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Snabb överblick av skillnad i KPI-snitt mellan säsongerna.
+              </p>
+            </div>
+            <label className="flex items-center gap-2 text-xs text-slate-300">
+              Byt KPI här
+              <select
+                value={selectedMatchAnalysisMetricKey}
+                onChange={(event) =>
+                  setSelectedMatchAnalysisMetricKey(
+                    event.target.value as MatchAnalysisMetricKey
+                  )
+                }
+                className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+              >
+                {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
+                  <option key={`season-summary-kpi-${metric.key}`} value={metric.key}>
+                    {metric.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+              <p className="text-slate-400">Säsong 2025</p>
+              <p className="mt-1 text-base font-semibold text-white">
+                {seasonAverage2025
+                  ? formatMatchAnalysisValue(seasonAverage2025.value, selectedMatchAnalysisMetric)
+                  : "–"}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+              <p className="text-slate-400">Säsong 2026</p>
+              <p className="mt-1 text-base font-semibold text-white">
+                {seasonAverage2026
+                  ? formatMatchAnalysisValue(seasonAverage2026.value, selectedMatchAnalysisMetric)
+                  : "–"}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+              <p className="text-slate-400">Skillnad (2026 - 2025)</p>
+              <p
+                className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
+                  seasonDelta2026Vs2025,
+                  selectedMatchAnalysisMetric.direction
+                )}`}
+              >
+                {formatMatchAnalysisDelta(seasonDelta2026Vs2025, selectedMatchAnalysisMetric)}
+              </p>
+              <p className="mt-0.5 text-[11px] text-slate-400">
+                {getMatchAnalysisDeltaMeaning(
+                  seasonDelta2026Vs2025,
+                  selectedMatchAnalysisMetric.direction
+                )}
+              </p>
+            </div>
+          </div>
+          <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
+            {MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => {
+              const periodDelta = seasonPeriods2026[index] - seasonPeriods2025[index];
+              return (
+                <div
+                  key={`season-delta-period-${label}`}
+                  className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                >
+                  <p className="text-slate-500">{label}</p>
+                  <p className="text-slate-300">
+                    {formatMatchAnalysisValue(seasonPeriods2025[index], selectedMatchAnalysisMetric)} vs{" "}
+                    {formatMatchAnalysisValue(seasonPeriods2026[index], selectedMatchAnalysisMetric)}
+                  </p>
+                  <p
+                    className={`font-semibold ${getMatchAnalysisDeltaTone(
+                      periodDelta,
+                      selectedMatchAnalysisMetric.direction
+                    )}`}
+                  >
+                    {formatMatchAnalysisDelta(periodDelta, selectedMatchAnalysisMetric)}
+                  </p>
                 </div>
               );
             })}
@@ -1127,6 +1295,15 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               </p>
             </div>
           </div>
+          <div className="mt-3 grid gap-2 text-xs">
+            <button
+              type="button"
+              onClick={() => setShowSeasonRows((currentValue) => !currentValue)}
+              className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-2 text-left text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+            >
+              {showSeasonRows ? "Dölj omgångslista" : "Visa omgångslista"}
+            </button>
+          </div>
 
           {comparisonRowA && comparisonRowB && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
@@ -1358,6 +1535,79 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
+          <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
+            <h3 className="text-sm font-semibold text-white">
+              Jämför 2025 vs 2026 (valfri omgång)
+            </h3>
+            <p className="mt-1 text-xs text-slate-400">
+              Välj en omgång från varje säsong för direkt KPI-jämförelse.
+            </p>
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <label className="flex flex-col gap-1 text-xs text-slate-300">
+                Omgång 2025
+                <select
+                  value={crossSeasonRound2025Key}
+                  onChange={(event) => setCrossSeasonRound2025Key(event.target.value)}
+                  className="rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+                >
+                  {crossSeasonRows2025.map((row) => (
+                    <option key={`cross-2025-${row.key}`} value={row.key}>
+                      Omgång {row.gameweek} ({row.opponent})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="flex flex-col gap-1 text-xs text-slate-300">
+                Omgång 2026
+                <select
+                  value={crossSeasonRound2026Key}
+                  onChange={(event) => setCrossSeasonRound2026Key(event.target.value)}
+                  className="rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+                >
+                  {crossSeasonRows2026.map((row) => (
+                    <option key={`cross-2026-${row.key}`} value={row.key}>
+                      Omgång {row.gameweek} ({row.opponent})
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+
+            {crossSeasonRow2025 && crossSeasonRow2026 && (
+              <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                  <p className="text-slate-400">2025</p>
+                  <p className="mt-1 text-base font-semibold text-white">
+                    {formatMatchAnalysisValue(crossSeasonRow2025.value, selectedMatchAnalysisMetric)}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                  <p className="text-slate-400">2026</p>
+                  <p className="mt-1 text-base font-semibold text-white">
+                    {formatMatchAnalysisValue(crossSeasonRow2026.value, selectedMatchAnalysisMetric)}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                  <p className="text-slate-400">Skillnad (2026 - 2025)</p>
+                  <p
+                    className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
+                      crossSeasonDelta,
+                      selectedMatchAnalysisMetric.direction
+                    )}`}
+                  >
+                    {formatMatchAnalysisDelta(crossSeasonDelta, selectedMatchAnalysisMetric)}
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-slate-400">
+                    {getMatchAnalysisDeltaMeaning(
+                      crossSeasonDelta,
+                      selectedMatchAnalysisMetric.direction
+                    )}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
           {roundVsSeasonRow && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
@@ -1406,13 +1656,54 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </span>
               </p>
 
+              <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/70 p-3">
+                <p className="text-xs font-semibold text-slate-100">
+                  Jämför säsongssnitt 2025 vs 2026
+                </p>
+                <div className="mt-2 grid gap-2 text-[11px] text-slate-300 sm:grid-cols-3">
+                  <div className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
+                    <p className="text-slate-500">Snitt 2025</p>
+                    <p className="font-semibold text-white">
+                      {formatMatchAnalysisValue(seasonAverage2025Value, selectedMatchAnalysisMetric)}
+                    </p>
+                  </div>
+                  <div className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
+                    <p className="text-slate-500">Snitt 2026</p>
+                    <p className="font-semibold text-white">
+                      {formatMatchAnalysisValue(seasonAverage2026Value, selectedMatchAnalysisMetric)}
+                    </p>
+                  </div>
+                  <div className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
+                    <p className="text-slate-500">Skillnad (2026 - 2025)</p>
+                    <p
+                      className={`font-semibold ${getMatchAnalysisDeltaTone(
+                        seasonAverageDifference,
+                        selectedMatchAnalysisMetric.direction
+                      )}`}
+                    >
+                      {formatMatchAnalysisDelta(
+                        seasonAverageDifference,
+                        selectedMatchAnalysisMetric
+                      )}
+                    </p>
+                    <p className="text-[10px] text-slate-500">
+                      {getMatchAnalysisDeltaMeaning(
+                        seasonAverageDifference,
+                        selectedMatchAnalysisMetric.direction
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               {selectedMatchAnalysisSeason === 2026 &&
                 roundVsSeasonRow &&
+                previousSeason &&
                 historicalComparisonCandidates.length > 0 && (
                   <div className="mt-3 rounded-lg border border-blue-500/25 bg-slate-900/70 p-3">
                     <div className="flex flex-wrap items-center gap-2">
                       <p className="text-xs font-semibold text-blue-200">
-                        Jämför med motsvarande match 2025
+                        Jämför med motsvarande match {previousSeason}
                       </p>
                       <select
                         value={selectedHistoricalComparisonKey}
@@ -1435,7 +1726,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {historicalComparisonRow && (
                       <div className="mt-3 grid gap-2 text-[11px] text-slate-300 sm:grid-cols-3">
                         <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
-                          <p className="text-slate-500">Nuvarande (2026)</p>
+                          <p className="text-slate-500">Nuvarande ({roundVsSeasonRow.season})</p>
                           <p className="font-semibold text-white">
                             {formatMatchAnalysisValue(
                               roundVsSeasonRow.value,
@@ -1444,7 +1735,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           </p>
                         </div>
                         <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
-                          <p className="text-slate-500">Motsvarande 2025</p>
+                          <p className="text-slate-500">Motsvarande {previousSeason}</p>
                           <p className="font-semibold text-white">
                             {formatMatchAnalysisValue(
                               historicalComparisonRow.value,
@@ -1453,7 +1744,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           </p>
                         </div>
                         <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
-                          <p className="text-slate-500">Skillnad (2026 - 2025)</p>
+                          <p className="text-slate-500">
+                            Skillnad ({roundVsSeasonRow.season} - {previousSeason})
+                          </p>
                           <p
                             className={`font-semibold ${getMatchAnalysisDeltaTone(
                               roundVsSeasonRow.value - historicalComparisonRow.value,
@@ -1476,10 +1769,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     )}
                     {historicalComparisonRow && historicalComparisonPeriodRows.length > 0 && (
                       <div className="mt-3 rounded border border-slate-700/60 bg-slate-950/60 p-2 text-[11px]">
-                    <p className="text-slate-500">
-                      Perioder: {roundVsSeasonRow.sourceMatchName} vs{" "}
-                      {historicalComparisonRow.sourceMatchName}
-                    </p>
+                        <p className="text-slate-500">
+                          Perioder: {roundVsSeasonRow.sourceMatchName} vs{" "}
+                          {historicalComparisonRow.sourceMatchName}
+                        </p>
                         <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
                           {historicalComparisonPeriodRows.map((periodRow) => (
                             <div
@@ -1588,9 +1881,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           )}
 
           <div className="mt-4 grid gap-3 sm:hidden">
-            {matchAnalysisRows.map((row) => (
+            <p className="text-[11px] text-slate-500">
+              Kompakt lista: visar vald säsong. Full tabell finns på större skärm.
+            </p>
+            {seasonRows.map((row) => (
               <article
-                key={`mobile-analysis-${row.gameweek}`}
+                key={`mobile-analysis-${row.key}`}
                 className="rounded-xl border border-slate-700/60 bg-slate-900/60 p-3"
               >
                 <div className="flex items-start justify-between gap-3">
@@ -1678,7 +1974,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </tr>
               </thead>
               <tbody>
-                {matchAnalysisRows.map((row) => (
+                {seasonRows.map((row) => (
                   <tr key={`analysis-${row.key}`}>
                     <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-medium text-slate-100">
                       <div>Omg {row.gameweek}</div>

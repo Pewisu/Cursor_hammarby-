@@ -51,6 +51,19 @@ function sleep(ms) {
   });
 }
 
+function createTwelveRequestHeaders(token) {
+  return {
+    authorization: token,
+    referer: `${BASE_URL}/`,
+    "user-agent":
+      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.7727.15 Safari/537.36",
+    "sec-ch-ua": '"HeadlessChrome";v="147", "Not.A/Brand";v="8", "Chromium";v="147"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Linux"',
+    "content-type": "application/json",
+  };
+}
+
 async function fetchJson(url, init) {
   const response = await fetch(url, init);
   if (!response.ok) {
@@ -155,9 +168,7 @@ async function main() {
 
     const trendsUrl = `${TWELVE_WIDGETS_API_URL}/wyscout/competitions/${ALLSVENSKAN_COMPETITION_ID}/years/${season}/matches/${match.wyscoutId}/trends?t=${Date.now()}`;
     const trendsResponse = await fetch(trendsUrl, {
-      headers: {
-        authorization: twelveToken,
-      },
+      headers: createTwelveRequestHeaders(twelveToken),
     });
 
     if (!trendsResponse.ok) {
