@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import {
   hammarbyRoundMatchStats,
   type RoundMatchStats,
@@ -20,6 +21,30 @@ type StatRow = {
   away: number;
 };
 
+type TrendMetricKey =
+  | "goals"
+  | "xg"
+  | "shots"
+  | "shotsOnTarget"
+  | "possessionPercent"
+  | "passes"
+  | "passesSuccessful"
+  | "touchesInBox"
+  | "corners";
+
+type TrendMetricOption = {
+  key: TrendMetricKey;
+  label: string;
+  format: "number" | "percent" | "decimal";
+};
+
+type TrendPoint = {
+  gameweek: number;
+  date: string;
+  value: number;
+  opponent: string;
+};
+
 type OverviewData = {
   id: string;
   title: string;
@@ -30,6 +55,18 @@ type OverviewData = {
   sourceUrl?: string;
   stats: StatRow[];
 };
+
+const TREND_METRIC_OPTIONS: TrendMetricOption[] = [
+  { key: "possessionPercent", label: "Bollinnehav", format: "percent" },
+  { key: "shots", label: "Avslut", format: "number" },
+  { key: "shotsOnTarget", label: "Skott på mål", format: "number" },
+  { key: "passes", label: "Passningar", format: "number" },
+  { key: "passesSuccessful", label: "Lyckade passningar", format: "number" },
+  { key: "xg", label: "xG", format: "decimal" },
+  { key: "touchesInBox", label: "Bollkontakter i box", format: "number" },
+  { key: "corners", label: "Hörnor", format: "number" },
+  { key: "goals", label: "Mål", format: "number" },
+];
 
 function formatDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -43,6 +80,24 @@ function formatValue(
   if (format === "percent") return `${value}%`;
   if (format === "decimal") return value.toFixed(2);
   return value.toString();
+}
+
+function formatCompactValue(
+  value: number,
+  format: "number" | "percent" | "decimal"
+): string {
+  if (format === "percent") {
+    return `${value.toLocaleString("sv-SE", { maximumFractionDigits: 0 })}%`;
+  }
+  if (format === "decimal") {
+    return value.toLocaleString("sv-SE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  }
+  return value.toLocaleString("sv-SE", {
+    maximumFractionDigits: 0,
+  });
 }
 
 function getBarWidth(left: number, right: number): number {
@@ -323,6 +378,8 @@ function buildCombinedOverview(items: RoundMatchStats[]): OverviewData | null {
 export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubProps) {
   const sourceRounds = rounds ?? hammarbyRoundMatchStats;
   const sortedMatches = [...sourceRounds].sort((a, b) => a.gameweek - b.gameweek);
+  const [selectedTrendMetricKey, setSelectedTrendMetricKey] =
+    useState<TrendMetricKey>("possessionPercent");
 
   const roundOverview =
     mode === "round"
@@ -342,6 +399,62 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       active: mode === "round" && round === item.gameweek,
     })),
   ];
+  const selectedTrendMetric =
+    TREND_METRIC_OPTIONS.find((metric) => metric.key === selectedTrendMetricKey) ??
+    TREND_METRIC_OPTIONS[0];
+  const trendPoints: TrendPoint[] = sortedMatches.map((item) => ({
+    gameweek: item.gameweek,
+    date: item.date,
+    value: item.hammarby[selectedTrendMetric.key],
+    opponent: item.opponent.teamName,
+  }));
+
+  const trendHasEnoughPoints = trendPoints.length >= 2;
+  const trendDelta = trendHasEnoughPoints
+    ? trendPoints[trendPoints.length - 1].value - trendPoints[0].value
+    : 0;
+  const trendAverage =
+    trendPoints.reduce((sum, point) => sum + point.value, 0) /
+    Math.max(trendPoints.length, 1);
+
+  const chart = {
+    width: 760,
+    height: 260,
+    padding: { top: 16, right: 18, bottom: 56, left: 48 },
+  };
+  const plotWidth = chart.width - chart.padding.left - chart.padding.right;
+  const plotHeight = chart.height - chart.padding.top - chart.padding.bottom;
+  const xFor = (index: number) => {
+    if (trendPoints.length <= 1) return chart.padding.left + plotWidth / 2;
+    return chart.padding.left + (index / (trendPoints.length - 1)) * plotWidth;
+  };
+
+  let minY = 0;
+  let maxY = 1;
+  if (selectedTrendMetric.format === "percent") {
+    maxY = 100;
+  } else if (trendPoints.length > 0) {
+    const values = trendPoints.map((point) => point.value);
+    const rawMin = Math.min(...values);
+    const rawMax = Math.max(...values);
+    const range = Math.max(rawMax - rawMin, 1);
+    minY = Math.max(0, rawMin - range * 0.2);
+    maxY = rawMax + range * 0.2;
+  }
+  const yRange = Math.max(maxY - minY, 1);
+  const yFor = (value: number) =>
+    chart.padding.top + ((maxY - value) / yRange) * plotHeight;
+  const yTicks = Array.from({ length: 5 }, (_, index) => {
+    const value = minY + ((maxY - minY) * index) / 4;
+    return value;
+  });
+  const trendPath = trendPoints
+    .map((point, index) => {
+      const x = xFor(index);
+      const y = yFor(point.value);
+      return `${index === 0 ? "M" : "L"} ${x} ${y}`;
+    })
+    .join(" ");
 
   if (!current || current.stats.length === 0) {
     return (
@@ -475,6 +588,162 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                Trend omgång för omgång (Hammarby)
+              </h2>
+              <p className="mt-1 text-sm text-slate-400">
+                Jämför hur Hammarby utvecklas mellan omgångarna inom valda nyckeltal.
+              </p>
+            </div>
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              Parameter
+              <select
+                value={selectedTrendMetricKey}
+                onChange={(event) =>
+                  setSelectedTrendMetricKey(event.target.value as TrendMetricKey)
+                }
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+              >
+                {TREND_METRIC_OPTIONS.map((metric) => (
+                  <option key={metric.key} value={metric.key}>
+                    {metric.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-3 text-xs text-slate-300 md:grid-cols-3">
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Senast</p>
+              <p className="mt-1 text-base font-semibold text-white">
+                {formatCompactValue(
+                  trendPoints[trendPoints.length - 1]?.value ?? 0,
+                  selectedTrendMetric.format
+                )}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Snitt</p>
+              <p className="mt-1 text-base font-semibold text-white">
+                {formatCompactValue(trendAverage, selectedTrendMetric.format)}
+              </p>
+            </div>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
+              <p className="text-slate-400">Trend (första → senaste)</p>
+              <p
+                className={`mt-1 text-base font-semibold ${
+                  trendDelta >= 0 ? "text-green-300" : "text-rose-300"
+                }`}
+              >
+                {trendDelta >= 0 ? "+" : ""}
+                {formatCompactValue(trendDelta, selectedTrendMetric.format)}
+                {selectedTrendMetric.format === "percent" ? "p" : ""}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 overflow-x-auto lg:overflow-visible">
+            <svg
+              viewBox={`0 0 ${chart.width} ${chart.height}`}
+              className="w-full min-w-[420px] lg:min-w-0"
+            >
+              {yTicks.map((tickValue) => (
+                <g key={tickValue}>
+                  <line
+                    x1={chart.padding.left}
+                    x2={chart.padding.left + plotWidth}
+                    y1={yFor(tickValue)}
+                    y2={yFor(tickValue)}
+                    stroke="#334155"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x={chart.padding.left - 8}
+                    y={yFor(tickValue) + 4}
+                    textAnchor="end"
+                    fill="#94a3b8"
+                    fontSize="10"
+                  >
+                    {formatCompactValue(tickValue, selectedTrendMetric.format)}
+                  </text>
+                </g>
+              ))}
+
+              {trendPoints.map((point, index) => (
+                <g key={point.gameweek}>
+                  <line
+                    x1={xFor(index)}
+                    x2={xFor(index)}
+                    y1={chart.padding.top}
+                    y2={chart.padding.top + plotHeight}
+                    stroke="#1e293b"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x={xFor(index)}
+                    y={chart.height - 24}
+                    textAnchor="middle"
+                    fill="#94a3b8"
+                    fontSize="10"
+                  >
+                    Omg {point.gameweek}
+                  </text>
+                  <text
+                    x={xFor(index)}
+                    y={chart.height - 10}
+                    textAnchor="middle"
+                    fill="#64748b"
+                    fontSize="9"
+                  >
+                    {formatDate(point.date)}
+                  </text>
+                </g>
+              ))}
+
+              {trendPath && (
+                <path
+                  d={trendPath}
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                />
+              )}
+
+              {trendPoints.map((point, index) => (
+                <g key={`point-${point.gameweek}`}>
+                  <circle cx={xFor(index)} cy={yFor(point.value)} r="5" fill="#22c55e" />
+                  <text
+                    x={xFor(index)}
+                    y={yFor(point.value) - 10}
+                    textAnchor="middle"
+                    fill="#e2e8f0"
+                    fontSize="10"
+                    fontWeight="bold"
+                  >
+                    {formatCompactValue(point.value, selectedTrendMetric.format)}
+                  </text>
+                </g>
+              ))}
+            </svg>
+          </div>
+
+          <div className="mt-3 grid gap-2 text-xs text-slate-400 md:grid-cols-2">
+            {trendPoints.map((point) => (
+              <div
+                key={`legend-${point.gameweek}`}
+                className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2"
+              >
+                Omgång {point.gameweek}: {point.opponent} ({formatDate(point.date)})
+              </div>
+            ))}
           </div>
         </section>
 
