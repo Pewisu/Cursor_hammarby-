@@ -462,6 +462,12 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
           </div>
         </div>
         <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 pb-4 text-xs">
+          <Link
+            href="/"
+            className="rounded-md border border-slate-500/50 bg-slate-900/70 px-2.5 py-1 text-slate-100 hover:border-slate-300 hover:text-white"
+          >
+            🏠 Huvudsida
+          </Link>
           <Link href="/lopdata" className="text-slate-300 hover:text-white">
             ← Till löpdatasidan
           </Link>

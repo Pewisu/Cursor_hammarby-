@@ -459,6 +459,12 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
         <div className="mx-auto max-w-7xl px-4 pb-4">
           <div className="flex flex-wrap items-center gap-4 text-xs">
             <Link
+              href="/"
+              className="inline-flex items-center gap-1 rounded-md border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-slate-100 hover:border-slate-400 hover:text-white"
+            >
+              🏠 Huvudsida
+            </Link>
+            <Link
               href="/matchstatistik"
               className="inline-flex text-slate-300 hover:text-white"
             >
