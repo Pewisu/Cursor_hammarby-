@@ -70,6 +70,13 @@ type ComparisonPeriodRow = {
   delta: number;
 };
 
+type RoundVsSeasonPeriodRow = {
+  label: string;
+  roundValue: number;
+  seasonValue: number;
+  delta: number;
+};
+
 type OverviewData = {
   id: string;
   title: string;
@@ -449,6 +456,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [comparisonRoundB, setComparisonRoundB] = useState<number>(
     () => hammarbyMatchAnalysisRounds[hammarbyMatchAnalysisRounds.length - 1]?.gameweek ?? 0
   );
+  const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<number>(
+    () => hammarbyMatchAnalysisRounds[hammarbyMatchAnalysisRounds.length - 1]?.gameweek ?? 0
+  );
 
   const roundOverview =
     mode === "round"
@@ -542,6 +552,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           delta: comparisonRowB.periods[index] - comparisonRowA.periods[index],
         }))
       : [];
+  const roundVsSeasonRow =
+    matchAnalysisRows.find((row) => row.gameweek === roundVsSeasonRound) ?? null;
+  const roundVsSeasonDelta = roundVsSeasonRow
+    ? roundVsSeasonRow.value - matchAnalysisAverage
+    : 0;
+  const roundVsSeasonPeriodRows: RoundVsSeasonPeriodRow[] = roundVsSeasonRow
+    ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
+        label,
+        roundValue: roundVsSeasonRow.periods[index],
+        seasonValue: averagePeriodValues[index],
+        delta: roundVsSeasonRow.periods[index] - averagePeriodValues[index],
+      }))
+    : [];
 
   const chart = {
     width: 760,
@@ -1023,6 +1046,124 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     )}
                   </p>
                 </div>
+              </div>
+
+              {comparisonPeriodRows.length > 0 && (
+                <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/70 p-3">
+                  <p className="text-xs text-slate-400">
+                    Periodskillnad (Omgång {comparisonRowA.gameweek} → Omgång{" "}
+                    {comparisonRowB.gameweek})
+                  </p>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
+                    {comparisonPeriodRows.map((periodRow) => (
+                      <div
+                        key={`comparison-period-${periodRow.label}`}
+                        className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                      >
+                        <p className="text-slate-500">{periodRow.label}</p>
+                        <p className="text-slate-300">
+                          {formatMatchAnalysisValue(
+                            periodRow.roundAValue,
+                            selectedMatchAnalysisMetric
+                          )}{" "}
+                          →{" "}
+                          {formatMatchAnalysisValue(
+                            periodRow.roundBValue,
+                            selectedMatchAnalysisMetric
+                          )}
+                        </p>
+                        <p
+                          className={`font-semibold ${getMatchAnalysisDeltaTone(
+                            periodRow.delta,
+                            selectedMatchAnalysisMetric.direction
+                          )}`}
+                        >
+                          {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {roundVsSeasonRow && (
+            <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h3 className="text-sm font-semibold text-white">
+                  Jämför omgång mot säsongssnitt
+                </h3>
+                <label className="flex items-center gap-2 text-xs text-slate-300">
+                  Omgång
+                  <select
+                    value={roundVsSeasonRound}
+                    onChange={(event) => setRoundVsSeasonRound(Number(event.target.value))}
+                    className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                  >
+                    {matchAnalysisRows.map((row) => (
+                      <option key={`season-vs-round-${row.gameweek}`} value={row.gameweek}>
+                        Omgång {row.gameweek} ({row.opponent})
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                  <p className="text-slate-400">Vald omgång</p>
+                  <p className="mt-1 text-base font-semibold text-white">
+                    {formatMatchAnalysisValue(roundVsSeasonRow.value, selectedMatchAnalysisMetric)}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                  <p className="text-slate-400">Säsongssnitt</p>
+                  <p className="mt-1 text-base font-semibold text-white">
+                    {formatMatchAnalysisValue(matchAnalysisAverage, selectedMatchAnalysisMetric)}
+                  </p>
+                </div>
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                  <p className="text-slate-400">Skillnad (omgång - snitt)</p>
+                  <p
+                    className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
+                      roundVsSeasonDelta,
+                      selectedMatchAnalysisMetric.direction
+                    )}`}
+                  >
+                    {formatMatchAnalysisDelta(roundVsSeasonDelta, selectedMatchAnalysisMetric)}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
+                {roundVsSeasonPeriodRows.map((periodRow) => (
+                  <div
+                    key={`round-vs-season-${periodRow.label}`}
+                    className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                  >
+                    <p className="text-slate-500">{periodRow.label}</p>
+                    <p className="text-slate-300">
+                      {formatMatchAnalysisValue(
+                        periodRow.roundValue,
+                        selectedMatchAnalysisMetric
+                      )}{" "}
+                      vs{" "}
+                      {formatMatchAnalysisValue(
+                        periodRow.seasonValue,
+                        selectedMatchAnalysisMetric
+                      )}
+                    </p>
+                    <p
+                      className={`font-semibold ${getMatchAnalysisDeltaTone(
+                        periodRow.delta,
+                        selectedMatchAnalysisMetric.direction
+                      )}`}
+                    >
+                      {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
