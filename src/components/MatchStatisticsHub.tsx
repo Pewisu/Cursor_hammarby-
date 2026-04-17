@@ -168,6 +168,15 @@ function getMatchAnalysisDeltaTone(
   return isPositiveOutcome ? "text-green-300" : "text-rose-300";
 }
 
+function getMatchAnalysisDeltaMeaning(
+  value: number,
+  direction: MatchAnalysisMetricDefinition["direction"]
+): "Bättre" | "Sämre" | "Oförändrat" {
+  if (value === 0) return "Oförändrat";
+  const isPositiveOutcome = direction === "higher" ? value > 0 : value < 0;
+  return isPositiveOutcome ? "Bättre" : "Sämre";
+}
+
 function getBarWidth(left: number, right: number): number {
   const total = left + right;
   if (total === 0) return 50;
@@ -932,6 +941,27 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               ? "högre värde är oftast bättre för den här KPI:n."
               : "lägre värde är oftast bättre för den här KPI:n."}
           </p>
+          <p className="mt-1 text-xs text-slate-500">
+            Färgkodning: <span className="font-semibold text-green-300">Grön = bättre</span>,{" "}
+            <span className="font-semibold text-rose-300">Röd = sämre</span> enligt vald KPI
+            (inte alltid plus/minus i sig).
+          </p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
+              <button
+                key={`quick-metric-${metric.key}`}
+                type="button"
+                onClick={() => setSelectedMatchAnalysisMetricKey(metric.key)}
+                className={`rounded-full border px-3 py-1 text-xs transition-colors ${
+                  metric.key === selectedMatchAnalysisMetricKey
+                    ? "border-blue-500/40 bg-blue-500/20 text-blue-100"
+                    : "border-slate-700 bg-slate-900/60 text-slate-300 hover:border-slate-500 hover:text-white"
+                }`}
+              >
+                {metric.label}
+              </button>
+            ))}
+          </div>
 
           <div className="mt-4 grid gap-3 text-xs text-slate-300 md:grid-cols-4">
             <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
@@ -986,6 +1016,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   Snabbt sätt att se skillnad mot säsongsnivån.
                 </div>
               </div>
+              <p className="mt-2 text-xs text-slate-500">
+                KPI (samma för alla jämförelser):{" "}
+                <span className="font-semibold text-slate-200">
+                  {selectedMatchAnalysisMetric.label}
+                </span>
+              </p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
                 <label className="flex flex-col gap-1 text-xs text-slate-300">
                   Omgång A
@@ -1036,6 +1072,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   >
                     {formatMatchAnalysisDelta(comparisonDelta, selectedMatchAnalysisMetric)}
                   </p>
+                  <p className="mt-0.5 text-[11px] text-slate-400">
+                    {getMatchAnalysisDeltaMeaning(
+                      comparisonDelta,
+                      selectedMatchAnalysisMetric.direction
+                    )}
+                  </p>
                 </div>
                 <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
                   <p className="text-slate-400">Säsongssnitt (referens)</p>
@@ -1079,6 +1121,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           )}`}
                         >
                           {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          {getMatchAnalysisDeltaMeaning(
+                            periodRow.delta,
+                            selectedMatchAnalysisMetric.direction
+                          )}
                         </p>
                       </div>
                     ))}
@@ -1133,6 +1181,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   >
                     {formatMatchAnalysisDelta(roundVsSeasonDelta, selectedMatchAnalysisMetric)}
                   </p>
+                  <p className="mt-0.5 text-[11px] text-slate-400">
+                    {getMatchAnalysisDeltaMeaning(
+                      roundVsSeasonDelta,
+                      selectedMatchAnalysisMetric.direction
+                    )}
+                  </p>
                 </div>
               </div>
 
@@ -1161,6 +1215,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       )}`}
                     >
                       {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                    </p>
+                    <p className="text-[10px] text-slate-500">
+                      {getMatchAnalysisDeltaMeaning(
+                        periodRow.delta,
+                        selectedMatchAnalysisMetric.direction
+                      )}
                     </p>
                   </div>
                 ))}
