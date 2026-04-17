@@ -41,6 +41,7 @@ type TrendSeriesPoint = {
   awayTeam: string;
   matchIndex: number;
   maxSpeedKmh: number;
+  metersPerMinute: number;
 };
 
 function formatMeters(meters: number) {
@@ -133,6 +134,7 @@ function buildPlayerTrendSeries(
         awayTeam: match.awayTeam,
         matchIndex,
         maxSpeedKmh: playerRow.maxSpeedKmh,
+        metersPerMinute: playerRow.metersPerMinute,
       };
     })
     .filter((row): row is TrendSeriesPoint => row !== null);
@@ -279,9 +281,17 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   const chartPadding = { top: 18, right: 16, bottom: 44, left: 40 };
   const plotWidth = chartWidth - chartPadding.left - chartPadding.right;
   const plotHeight = chartHeight - chartPadding.top - chartPadding.bottom;
+
   const minSpeed = Math.floor(Math.min(...allPlayerRows.map((p) => p.maxSpeedKmh)) - 1);
   const maxSpeed = Math.ceil(Math.max(...allPlayerRows.map((p) => p.maxSpeedKmh)) + 1);
   const speedRange = Math.max(maxSpeed - minSpeed, 1);
+  const minMetersPerMinute = Math.floor(
+    Math.min(...allPlayerRows.map((p) => p.metersPerMinute)) - 2
+  );
+  const maxMetersPerMinute = Math.ceil(
+    Math.max(...allPlayerRows.map((p) => p.metersPerMinute)) + 2
+  );
+  const metersPerMinuteRange = Math.max(maxMetersPerMinute - minMetersPerMinute, 1);
 
   const xForMatch = (index: number) => {
     if (matches.length <= 1) {
@@ -298,6 +308,9 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
 
   const yForSpeed = (value: number) =>
     chartPadding.top + ((maxSpeed - value) / speedRange) * plotHeight;
+  const yForMetersPerMinute = (value: number) =>
+    chartPadding.top +
+    ((maxMetersPerMinute - value) / metersPerMinuteRange) * plotHeight;
 
   const primaryTrendPoints = primaryTrendSeries.map((row) => ({
     ...row,
@@ -309,6 +322,16 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     x: xForMatch(row.matchIndex),
     y: yForSpeed(row.maxSpeedKmh),
   }));
+  const primaryMetersPerMinuteTrendPoints = primaryTrendSeries.map((row) => ({
+    ...row,
+    x: xForMatch(row.matchIndex),
+    y: yForMetersPerMinute(row.metersPerMinute),
+  }));
+  const secondaryMetersPerMinuteTrendPoints = secondaryTrendSeries.map((row) => ({
+    ...row,
+    x: xForMatch(row.matchIndex),
+    y: yForMetersPerMinute(row.metersPerMinute),
+  }));
 
   const primaryTrendPath = buildTrendPath(
     primaryTrendPoints,
@@ -318,9 +341,30 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     secondaryTrendPoints,
     chartPadding.top + plotHeight
   );
+  const primaryMetersPerMinuteTrendPath = buildTrendPath(
+    primaryMetersPerMinuteTrendPoints,
+    chartPadding.top + plotHeight
+  );
+  const secondaryMetersPerMinuteTrendPath = buildTrendPath(
+    secondaryMetersPerMinuteTrendPoints,
+    chartPadding.top + plotHeight
+  );
 
   const speedTicks = Array.from({ length: speedRange + 1 }, (_, i) => minSpeed + i)
     .filter((value) => (value - minSpeed) % 2 === 0);
+  const metersPerMinuteTickStep = Math.max(
+    Math.ceil((metersPerMinuteRange / 6) / 5) * 5,
+    1
+  );
+  const metersPerMinuteTicks = Array.from(
+    {
+      length:
+        Math.floor(
+          (maxMetersPerMinute - minMetersPerMinute) / metersPerMinuteTickStep
+        ) + 1,
+    },
+    (_, index) => minMetersPerMinute + index * metersPerMinuteTickStep
+  );
 
   const primaryTrendDelta =
     primaryTrendSeries.length >= 2
@@ -337,6 +381,22 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     Math.max(primaryTrendSeries.length, 1);
   const secondaryTrendAverage =
     secondaryTrendSeries.reduce((sum, row) => sum + row.maxSpeedKmh, 0) /
+    Math.max(secondaryTrendSeries.length, 1);
+  const primaryMetersPerMinuteTrendDelta =
+    primaryTrendSeries.length >= 2
+      ? primaryTrendSeries[primaryTrendSeries.length - 1].metersPerMinute -
+        primaryTrendSeries[0].metersPerMinute
+      : 0;
+  const secondaryMetersPerMinuteTrendDelta =
+    secondaryTrendSeries.length >= 2
+      ? secondaryTrendSeries[secondaryTrendSeries.length - 1].metersPerMinute -
+        secondaryTrendSeries[0].metersPerMinute
+      : 0;
+  const primaryMetersPerMinuteTrendAverage =
+    primaryTrendSeries.reduce((sum, row) => sum + row.metersPerMinute, 0) /
+    Math.max(primaryTrendSeries.length, 1);
+  const secondaryMetersPerMinuteTrendAverage =
+    secondaryTrendSeries.reduce((sum, row) => sum + row.metersPerMinute, 0) /
     Math.max(secondaryTrendSeries.length, 1);
 
   const handleMatchSort = (key: MatchSortKey) => {
@@ -1013,6 +1073,221 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                     fontWeight="bold"
                   >
                     {point.maxSpeedKmh.toFixed(2)}
+                  </text>
+                </g>
+              ))}
+            </svg>
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+          <h2 className="text-lg font-semibold text-white">
+            Trendkurva: löpmeter per minut per spelare
+          </h2>
+          <p className="mt-1 text-sm text-slate-400">
+            Välj två spelare för att jämföra tempo över matcherna.
+          </p>
+
+          <div className="mt-4 grid gap-4 lg:grid-cols-2">
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              Spelare A
+              <select
+                value={trendPrimaryPlayerName}
+                onChange={(event) =>
+                  handlePrimaryTrendPlayerChange(event.target.value)
+                }
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-green-400"
+              >
+                {playerTotals.map((player) => (
+                  <option key={player.name} value={player.name}>
+                    #{player.shirtNumber} {player.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              Spelare B
+              <select
+                value={trendSecondaryPlayerName}
+                onChange={(event) =>
+                  handleSecondaryTrendPlayerChange(event.target.value)
+                }
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+              >
+                {playerTotals.map((player) => (
+                  <option key={player.name} value={player.name}>
+                    #{player.shirtNumber} {player.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="mt-4 grid gap-2 text-xs text-slate-300 lg:grid-cols-2 lg:text-sm">
+            <div className="rounded-lg border border-green-500/30 bg-green-950/20 px-3 py-2">
+              <div className="mb-1 flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+                <span className="font-medium text-green-200">
+                  {trendPrimaryPlayerName || "Spelare A"}
+                </span>
+              </div>
+              <div>
+                Snitt löpmeter/min:{" "}
+                <span className="font-semibold text-white">
+                  {primaryMetersPerMinuteTrendAverage.toFixed(2)}
+                </span>
+              </div>
+              <div>
+                Trend:{" "}
+                <span
+                  className={`font-semibold ${
+                    primaryMetersPerMinuteTrendDelta >= 0
+                      ? "text-green-300"
+                      : "text-rose-300"
+                  }`}
+                >
+                  {primaryMetersPerMinuteTrendDelta >= 0 ? "+" : ""}
+                  {primaryMetersPerMinuteTrendDelta.toFixed(2)} m/min
+                </span>
+              </div>
+            </div>
+
+            <div className="rounded-lg border border-blue-500/30 bg-blue-950/20 px-3 py-2">
+              <div className="mb-1 flex items-center gap-2">
+                <span className="h-2.5 w-2.5 rounded-full bg-blue-400" />
+                <span className="font-medium text-blue-200">
+                  {trendSecondaryPlayerName || "Spelare B"}
+                </span>
+              </div>
+              <div>
+                Snitt löpmeter/min:{" "}
+                <span className="font-semibold text-white">
+                  {secondaryMetersPerMinuteTrendAverage.toFixed(2)}
+                </span>
+              </div>
+              <div>
+                Trend:{" "}
+                <span
+                  className={`font-semibold ${
+                    secondaryMetersPerMinuteTrendDelta >= 0
+                      ? "text-green-300"
+                      : "text-rose-300"
+                  }`}
+                >
+                  {secondaryMetersPerMinuteTrendDelta >= 0 ? "+" : ""}
+                  {secondaryMetersPerMinuteTrendDelta.toFixed(2)} m/min
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-5 overflow-x-auto lg:overflow-visible">
+            <svg
+              viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+              className="w-full min-w-[320px] lg:min-w-0"
+            >
+              {metersPerMinuteTicks.map((tick) => (
+                <g key={tick}>
+                  <line
+                    x1={chartPadding.left}
+                    x2={chartPadding.left + plotWidth}
+                    y1={yForMetersPerMinute(tick)}
+                    y2={yForMetersPerMinute(tick)}
+                    stroke="#334155"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x={chartPadding.left - 8}
+                    y={yForMetersPerMinute(tick) + 4}
+                    textAnchor="end"
+                    fill="#94a3b8"
+                    fontSize="10"
+                  >
+                    {tick}
+                  </text>
+                </g>
+              ))}
+
+              {matches.map((match, index) => (
+                <g key={`mpm-${match.matchId}`}>
+                  <line
+                    x1={xForMatch(index)}
+                    x2={xForMatch(index)}
+                    y1={chartPadding.top}
+                    y2={chartPadding.top + plotHeight}
+                    stroke="#1e293b"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x={xForMatch(index)}
+                    y={chartHeight - 22}
+                    textAnchor="middle"
+                    fill="#94a3b8"
+                    fontSize="10"
+                  >
+                    {match.round}
+                  </text>
+                  <text
+                    x={xForMatch(index)}
+                    y={chartHeight - 8}
+                    textAnchor="middle"
+                    fill="#64748b"
+                    fontSize="9"
+                  >
+                    {match.date}
+                  </text>
+                </g>
+              ))}
+
+              {primaryMetersPerMinuteTrendPath && (
+                <path
+                  d={primaryMetersPerMinuteTrendPath}
+                  fill="none"
+                  stroke="#22c55e"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                />
+              )}
+
+              {secondaryMetersPerMinuteTrendPath && (
+                <path
+                  d={secondaryMetersPerMinuteTrendPath}
+                  fill="none"
+                  stroke="#60a5fa"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                />
+              )}
+
+              {primaryMetersPerMinuteTrendPoints.map((point) => (
+                <g key={`mpm-primary-${point.matchId}`}>
+                  <circle cx={point.x} cy={point.y} r="5" fill="#22c55e" />
+                  <text
+                    x={point.x}
+                    y={point.y - 10}
+                    textAnchor="middle"
+                    fill="#e2e8f0"
+                    fontSize="10"
+                    fontWeight="bold"
+                  >
+                    {point.metersPerMinute.toFixed(1)}
+                  </text>
+                </g>
+              ))}
+
+              {secondaryMetersPerMinuteTrendPoints.map((point) => (
+                <g key={`mpm-secondary-${point.matchId}`}>
+                  <circle cx={point.x} cy={point.y} r="5" fill="#60a5fa" />
+                  <text
+                    x={point.x}
+                    y={point.y + 16}
+                    textAnchor="middle"
+                    fill="#bfdbfe"
+                    fontSize="10"
+                    fontWeight="bold"
+                  >
+                    {point.metersPerMinute.toFixed(1)}
                   </text>
                 </g>
               ))}
