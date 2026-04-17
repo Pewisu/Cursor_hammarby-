@@ -73,7 +73,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
       {
         "playerId": 3971,
         "playerName": "F. Adjei",
-        "roleName": "Forward",
+        "roleName": "Midfielder",
         "minutes": 15,
         "metrics": {
           "passes": 15,
@@ -181,7 +181,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
       {
         "playerId": 3963,
         "playerName": "I. Fofana",
-        "roleName": "Midfielder",
+        "roleName": "Defender",
         "minutes": 95,
         "metrics": {
           "passes": 73,
@@ -621,7 +621,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
       {
         "playerId": 3971,
         "playerName": "F. Adjei",
-        "roleName": "Forward",
+        "roleName": "Midfielder",
         "minutes": 12,
         "metrics": {
           "passes": 7,
@@ -729,7 +729,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
       {
         "playerId": 3963,
         "playerName": "I. Fofana",
-        "roleName": "Midfielder",
+        "roleName": "Defender",
         "minutes": 64,
         "metrics": {
           "passes": 75,
@@ -891,7 +891,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
       {
         "playerId": 4593,
         "playerName": "O. Hagen",
-        "roleName": "Midfielder",
+        "roleName": "Forward",
         "minutes": 18,
         "metrics": {
           "passes": 17,

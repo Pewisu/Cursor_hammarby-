@@ -8,6 +8,12 @@ const OUT_PATH = path.resolve(
   "src/lib/hammarbyPlayerTrendData.ts"
 );
 
+const PLAYER_ROLE_OVERRIDES = {
+  "F. Adjei": "Midfielder",
+  "I. Fofana": "Defender",
+  "O. Hagen": "Forward",
+};
+
 function pct(successful, total) {
   if (!total) return 0;
   return Math.round((successful / total) * 10000) / 100;
@@ -100,7 +106,8 @@ async function main() {
       .filter((row) => row?.PlayerTeam?.Team?.Name === "Hammarby")
       .map((row) => {
         const player = row.PlayerTeam?.player ?? {};
-        const role = player.roleName ?? "Unknown";
+        const role =
+          PLAYER_ROLE_OVERRIDES[player.Name] ?? player.roleName ?? "Unknown";
         return {
           playerId: player.id ?? -1,
           playerName: player.Name ?? "Unknown",
