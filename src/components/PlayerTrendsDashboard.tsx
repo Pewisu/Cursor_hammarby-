@@ -51,6 +51,12 @@ const ROLE_LABELS: Record<string, string> = {
   Unknown: "Okänd",
 };
 
+const PLAYER_ROLE_OVERRIDES: Record<string, keyof typeof ROLE_LABELS> = {
+  "F. Adjei": "Midfielder",
+  "I. Fofana": "Defender",
+  "O. Hagen": "Forward",
+};
+
 const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "passAccuracy",
@@ -156,6 +162,14 @@ function roleLabel(roleName: string): string {
   return ROLE_LABELS[roleName] ?? roleName;
 }
 
+function normalizeRole(playerName: string, roleName: string): string {
+  const overriddenRole = PLAYER_ROLE_OVERRIDES[playerName];
+  if (overriddenRole) {
+    return overriddenRole;
+  }
+  return roleName || "Unknown";
+}
+
 function metricByKey(metricKey: TrendMetricKey): TrendMetricOption {
   return (
     METRIC_OPTIONS.find((metric) => metric.key === metricKey) ?? METRIC_OPTIONS[0]
@@ -190,7 +204,8 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     matches[0]?.gameweek ?? "all"
   );
   const [selectedRole, setSelectedRole] = useState("Alla");
-  const [minMinutes, setMinMinutes] = useState(45);
+  const [minMinutes, setMinMinutes] = useState(1);
+  const [playerSearch, setPlayerSearch] = useState("");
   const [selectedPlayerIds, setSelectedPlayerIds] = useState<number[]>(
     () =>
       matches
@@ -227,7 +242,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     for (const match of filteredMatches) {
       for (const row of match.players) {
         const existing = playerMap.get(row.playerId);
-        const safeRole = row.roleName || "Unknown";
+        const safeRole = normalizeRole(row.playerName, row.roleName);
         if (existing) {
           existing.totalMinutes += row.minutes;
           if (row.minutes > 0) {
@@ -248,9 +263,9 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
       }
     }
 
-    return Array.from(playerMap.values()).sort(
-      (a, b) => b.totalMinutes - a.totalMinutes
-    );
+    return Array.from(playerMap.values())
+      .filter((player) => player.totalMinutes > 0)
+      .sort((a, b) => b.totalMinutes - a.totalMinutes);
   }, [filteredMatches]);
 
   const roleOptions = useMemo(() => {
@@ -273,39 +288,39 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     return lookup;
   }, [filteredMatches]);
 
-  const playersAfterFilters = useMemo(() => {
+  const playersForSelection = useMemo(() => {
     return playerSummaries.filter((player) => {
       if (selectedRole !== "Alla" && player.roleName !== selectedRole) {
         return false;
       }
-
-      return filteredMatches.some((match) => {
-        const row = playerMatchLookup.get(player.playerId)?.get(match.matchId);
-        return Boolean(row && row.minutes >= minMinutes);
-      });
+      return true;
     });
-  }, [
-    filteredMatches,
-    minMinutes,
-    playerMatchLookup,
-    playerSummaries,
-    selectedRole,
-  ]);
+  }, [playerSummaries, selectedRole]);
+
+  const playersAfterFilters = useMemo(() => {
+    const searchTerm = playerSearch.trim().toLocaleLowerCase("sv-SE");
+    if (!searchTerm) {
+      return playersForSelection;
+    }
+    return playersForSelection.filter((player) =>
+      player.playerName.toLocaleLowerCase("sv-SE").includes(searchTerm)
+    );
+  }, [playerSearch, playersForSelection]);
 
   const activePlayerIds = useMemo(() => {
-    const allowed = new Set(playersAfterFilters.map((player) => player.playerId));
+    const allowed = new Set(playersForSelection.map((player) => player.playerId));
     return selectedPlayerIds.filter((playerId) => allowed.has(playerId));
-  }, [playersAfterFilters, selectedPlayerIds]);
+  }, [playersForSelection, selectedPlayerIds]);
 
   const fallbackPlayerIds = useMemo(
-    () => playersAfterFilters.slice(0, 3).map((player) => player.playerId),
-    [playersAfterFilters]
+    () => playersForSelection.slice(0, 3).map((player) => player.playerId),
+    [playersForSelection]
   );
 
   const displayedPlayerIds =
     activePlayerIds.length > 0 ? activePlayerIds : fallbackPlayerIds;
 
-  const displayedPlayers = playersAfterFilters.filter((player) =>
+  const displayedPlayers = playersForSelection.filter((player) =>
     displayedPlayerIds.includes(player.playerId)
   );
 
@@ -350,7 +365,11 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     if (!latestMatch) return [];
     return latestMatch.players
       .filter((row) => row.minutes >= minMinutes)
-      .filter((row) => selectedRole === "Alla" || row.roleName === selectedRole)
+      .filter(
+        (row) =>
+          selectedRole === "Alla" ||
+          normalizeRole(row.playerName, row.roleName) === selectedRole
+      )
       .sort((a, b) => b.metrics[selectedMetricKey] - a.metrics[selectedMetricKey])
       .slice(0, 5);
   }, [latestMatch, minMinutes, selectedMetricKey, selectedRole]);
@@ -538,6 +557,11 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
             <strong className="text-slate-100">{selectedMetric.label}:</strong>{" "}
             {selectedMetric.description}
           </div>
+          <div className="mt-2 rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-xs text-slate-300">
+            Minutfiltret påverkar kurvor/tabeller -- du kan fortfarande välja
+            spelare i listan. Positioner för Adjei, Fofana och Hagen är manuellt
+            korrigerade.
+          </div>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[2fr_1fr]">
@@ -655,6 +679,15 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
             <p className="mt-1 text-sm text-slate-400">
               Valda spelare: {displayedPlayerIds.length}/{MAX_SELECTED_PLAYERS}
             </p>
+            <div className="mt-3">
+              <input
+                type="search"
+                value={playerSearch}
+                onChange={(event) => setPlayerSearch(event.target.value)}
+                placeholder="Sök spelare..."
+                className="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none placeholder:text-slate-500 focus:border-blue-400"
+              />
+            </div>
             <div className="mt-4 max-h-[22rem] space-y-2 overflow-y-auto pr-1">
               {playersAfterFilters.map((player) => {
                 const checked = displayedPlayerIds.includes(player.playerId);
@@ -682,6 +715,11 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                   </label>
                 );
               })}
+              {playersAfterFilters.length === 0 && (
+                <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-3 text-sm text-slate-400">
+                  Ingen spelare matchar filtren.
+                </div>
+              )}
             </div>
           </div>
         </section>
