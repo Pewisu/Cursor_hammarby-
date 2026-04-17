@@ -387,8 +387,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           <Link href="/lopdata/trender" className="text-xs text-purple-300 hover:text-purple-200">
             Spelartrender
           </Link>
-          <Link href="/" className="text-xs text-slate-400 hover:text-slate-200">
-            Startsida
+          <Link
+            href="/"
+            className="rounded-lg border border-slate-500/50 bg-slate-900/70 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:border-slate-300 hover:bg-slate-800"
+          >
+            🏠 Huvudsida
           </Link>
         </div>
       </header>
