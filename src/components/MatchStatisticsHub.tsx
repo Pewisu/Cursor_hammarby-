@@ -45,6 +45,20 @@ type TrendPoint = {
   opponent: string;
 };
 
+type TrendTransitionMetric = TrendMetricOption & {
+  previousValue: number;
+  currentValue: number;
+  delta: number;
+};
+
+type TrendTransition = {
+  fromRound: number;
+  toRound: number;
+  opponent: string;
+  date: string;
+  metrics: TrendTransitionMetric[];
+};
+
 type OverviewData = {
   id: string;
   title: string;
@@ -66,6 +80,15 @@ const TREND_METRIC_OPTIONS: TrendMetricOption[] = [
   { key: "touchesInBox", label: "Bollkontakter i box", format: "number" },
   { key: "corners", label: "Hörnor", format: "number" },
   { key: "goals", label: "Mål", format: "number" },
+];
+
+const TREND_OVERVIEW_METRICS: TrendMetricOption[] = [
+  { key: "possessionPercent", label: "Bollinnehav", format: "percent" },
+  { key: "shots", label: "Avslut", format: "number" },
+  { key: "shotsOnTarget", label: "Skott på mål", format: "number" },
+  { key: "passes", label: "Passningar", format: "number" },
+  { key: "passesSuccessful", label: "Lyckade passningar", format: "number" },
+  { key: "xg", label: "xG", format: "decimal" },
 ];
 
 function formatDate(date: string): string {
@@ -98,6 +121,27 @@ function formatCompactValue(
   return value.toLocaleString("sv-SE", {
     maximumFractionDigits: 0,
   });
+}
+
+function formatDeltaValue(
+  value: number,
+  format: "number" | "percent" | "decimal"
+): string {
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+  const absValue = Math.abs(value);
+
+  if (format === "percent") {
+    return `${sign}${absValue.toLocaleString("sv-SE", { maximumFractionDigits: 0 })} p`;
+  }
+  if (format === "decimal") {
+    return `${sign}${absValue.toLocaleString("sv-SE", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
+  }
+  return `${sign}${absValue.toLocaleString("sv-SE", {
+    maximumFractionDigits: 0,
+  })}`;
 }
 
 function getBarWidth(left: number, right: number): number {
@@ -416,6 +460,25 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const trendAverage =
     trendPoints.reduce((sum, point) => sum + point.value, 0) /
     Math.max(trendPoints.length, 1);
+  const trendTransitions: TrendTransition[] = sortedMatches.slice(1).map((match, index) => {
+    const previousMatch = sortedMatches[index];
+    return {
+      fromRound: previousMatch.gameweek,
+      toRound: match.gameweek,
+      opponent: match.opponent.teamName,
+      date: match.date,
+      metrics: TREND_OVERVIEW_METRICS.map((metric) => {
+        const previousValue = previousMatch.hammarby[metric.key];
+        const currentValue = match.hammarby[metric.key];
+        return {
+          ...metric,
+          previousValue,
+          currentValue,
+          delta: currentValue - previousValue,
+        };
+      }),
+    };
+  });
 
   const chart = {
     width: 760,
@@ -639,14 +702,84 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               <p className="text-slate-400">Trend (första → senaste)</p>
               <p
                 className={`mt-1 text-base font-semibold ${
-                  trendDelta >= 0 ? "text-green-300" : "text-rose-300"
+                  trendDelta > 0
+                    ? "text-green-300"
+                    : trendDelta < 0
+                      ? "text-rose-300"
+                      : "text-slate-300"
                 }`}
               >
-                {trendDelta >= 0 ? "+" : ""}
-                {formatCompactValue(trendDelta, selectedTrendMetric.format)}
-                {selectedTrendMetric.format === "percent" ? "p" : ""}
+                {formatDeltaValue(trendDelta, selectedTrendMetric.format)}
               </p>
             </div>
+          </div>
+
+          <div className="mt-5 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
+            <h3 className="text-sm font-semibold uppercase tracking-wide text-slate-100">
+              Snabb överblick: skillnad per omgång
+            </h3>
+            <p className="mt-1 text-xs text-slate-400">
+              Varje cell visar värdet i den senaste omgången i jämförelsen och skillnaden mot
+              föregående omgång.
+            </p>
+            {trendTransitions.length === 0 ? (
+              <p className="mt-3 text-sm text-slate-400">
+                Minst två omgångar krävs för att visa skillnader.
+              </p>
+            ) : (
+              <div className="mt-3 overflow-x-auto">
+                <table className="min-w-[760px] table-fixed border-separate border-spacing-0 text-xs">
+                  <thead>
+                    <tr>
+                      <th className="sticky left-0 z-10 w-36 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                        Jämförelse
+                      </th>
+                      {TREND_OVERVIEW_METRICS.map((metric) => (
+                        <th
+                          key={`header-${metric.key}`}
+                          className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300"
+                        >
+                          {metric.label}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {trendTransitions.map((transition) => (
+                      <tr key={`${transition.fromRound}-${transition.toRound}`}>
+                        <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-medium text-slate-100">
+                          <div>Omg {transition.fromRound} → {transition.toRound}</div>
+                          <div className="text-[10px] text-slate-400">
+                            {transition.opponent}, {formatDate(transition.date)}
+                          </div>
+                        </th>
+                        {transition.metrics.map((metric) => {
+                          const deltaTone =
+                            metric.delta > 0
+                              ? "text-green-300"
+                              : metric.delta < 0
+                                ? "text-rose-300"
+                                : "text-slate-300";
+                          return (
+                            <td
+                              key={`${transition.fromRound}-${transition.toRound}-${metric.key}`}
+                              className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 align-top"
+                            >
+                              <div className="font-semibold text-white">
+                                {formatCompactValue(metric.currentValue, metric.format)}
+                              </div>
+                              <div className={`text-[11px] ${deltaTone}`}>
+                                {formatDeltaValue(metric.delta, metric.format)}
+                              </div>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
 
           <div className="mt-5 overflow-x-auto lg:overflow-visible">
