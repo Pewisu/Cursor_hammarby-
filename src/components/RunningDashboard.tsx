@@ -459,10 +459,10 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
         <div className="mx-auto max-w-7xl px-4 pb-4">
           <div className="flex flex-wrap items-center gap-4 text-xs">
             <Link
-              href="/"
+              href="/matchstatistik"
               className="inline-flex text-slate-300 hover:text-white"
             >
-              ← Till matchstatistik (startsidan)
+              ← Till matchstatistik
             </Link>
             <Link
               href="/lopdata/trender"

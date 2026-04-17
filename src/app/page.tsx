@@ -1,94 +1,74 @@
-"use client";
-
 import Link from "next/link";
-import { matchData } from "@/lib/matchData";
-import { MatchHeader } from "@/components/MatchHeader";
-import { MatchTimeline } from "@/components/MatchTimeline";
-import { LineupFormation } from "@/components/LineupFormation";
-import { StatComparison } from "@/components/StatComparison";
-import { StandoutPlayers } from "@/components/StandoutPlayers";
-import { XgTimeline } from "@/components/XgTimeline";
-import { MomentumChart } from "@/components/MomentumChart";
-import { ShotMap } from "@/components/ShotMap";
-import { KeyInsights } from "@/components/KeyInsights";
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#0f172a]">
-      <header className="border-b border-slate-700/50 bg-[#0f172a]/80 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-400 to-green-400 bg-clip-text text-transparent">
-              Matchstatistik
-            </span>
-          </div>
-          <div className="text-sm text-slate-400">
-            Källa:{" "}
-            <a
-              href="https://bolldata.se/allsvenskan/matcher/2026/2026-04-13/sirius-hammarby-2-0"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              bolldata.se
-            </a>
-            {" · "}
-            <Link
-              href="/lopdata"
-              className="text-green-400 hover:text-green-300 transition-colors"
-            >
-              Hammarby löpdata
-            </Link>
-          </div>
+      <header className="border-b border-slate-700/50 bg-[#0f172a]/80">
+        <div className="mx-auto max-w-6xl px-4 py-8">
+          <p className="text-xs uppercase tracking-[0.25em] text-blue-300">
+            Hammarby IF Datahub
+          </p>
+          <h1 className="mt-2 text-3xl font-bold text-white md:text-4xl">
+            Välj vad du vill analysera
+          </h1>
+          <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
+            Här hittar du tre olika vyer: matchstatistik med undernavigering,
+            Hammarbys löpdata och individuella spelartrender över tid.
+          </p>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8 space-y-8">
-        <MatchHeader data={matchData} />
-
-        <StandoutPlayers data={matchData} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <StatComparison data={matchData} />
-          <MatchTimeline data={matchData} />
-        </div>
-
-        <LineupFormation data={matchData} />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <XgTimeline data={matchData} />
-          <ShotMap data={matchData} />
-        </div>
-
-        <MomentumChart data={matchData} />
-        <KeyInsights data={matchData} />
-
-        <footer className="text-center text-sm text-slate-500 pb-8 pt-4 border-t border-slate-700/30">
-          <div className="space-y-1">
-            <div>
-              Data från{" "}
-              <a
-                href="https://bolldata.se/allsvenskan/matcher/2026/2026-04-13/sirius-hammarby-2-0"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-400 hover:text-blue-300"
-              >
-                bolldata.se
-              </a>
-              ,{" "}
-              <a href="https://www.bbc.com/sport/football/live/cwykp40jg18t" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
-                BBC Sport
-              </a>
-              {" "}&amp;{" "}
-              <a href="https://www.espn.com/soccer/matchstats/_/gameId/401842672" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300">
-                ESPN
-              </a>
-            </div>
-            <div>
-              {matchData.competition} {matchData.round} &middot; {matchData.date} &middot; {matchData.venue}
-            </div>
+      <main className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
+        <Link
+          href="/matchstatistik"
+          className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20 text-blue-300">
+            📊
           </div>
-        </footer>
+          <h2 className="text-xl font-semibold text-white">Matchstatistik</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Kombinerad översikt samt omgång för omgång med resultat, xG, skott
+            och lagjämförelser.
+          </p>
+          <p className="mt-4 text-sm font-medium text-blue-300 group-hover:text-blue-200">
+            Öppna matchstatistik →
+          </p>
+        </Link>
+
+        <Link
+          href="/lopdata"
+          className="group rounded-2xl border border-green-500/30 bg-slate-800/80 p-6 transition-colors hover:border-green-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/20 text-green-300">
+            🏃
+          </div>
+          <h2 className="text-xl font-semibold text-white">Löpdata</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Löpsträcka, tempo och maxhastighet per spelare och match för
+            Hammarby.
+          </p>
+          <p className="mt-4 text-sm font-medium text-green-300 group-hover:text-green-200">
+            Öppna löpdata →
+          </p>
+        </Link>
+
+        <Link
+          href="/lopdata/trender"
+          className="group rounded-2xl border border-purple-500/30 bg-slate-800/80 p-6 transition-colors hover:border-purple-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300">
+            📈
+          </div>
+          <h2 className="text-xl font-semibold text-white">Spelartrender</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Följ spelare över tid med valbara parametrar och filtrering per
+            omgång.
+          </p>
+          <p className="mt-4 text-sm font-medium text-purple-300 group-hover:text-purple-200">
+            Öppna spelartrender →
+          </p>
+        </Link>
       </main>
     </div>
   );
