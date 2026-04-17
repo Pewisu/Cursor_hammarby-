@@ -186,14 +186,45 @@ function formatMatchLabel(match: PlayerTrendMatch): string {
 export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[] }) {
   const [selectedMetricKey, setSelectedMetricKey] =
     useState<TrendMetricKey>("passAccuracy");
+  const [selectedGameweek, setSelectedGameweek] = useState<number | "all">(
+    matches[0]?.gameweek ?? "all"
+  );
   const [selectedRole, setSelectedRole] = useState("Alla");
   const [minMinutes, setMinMinutes] = useState(45);
-  const [selectedPlayerIds, setSelectedPlayerIds] = useState<number[]>([]);
+  const [selectedPlayerIds, setSelectedPlayerIds] = useState<number[]>(
+    () =>
+      matches
+        .flatMap((match) => match.players)
+        .reduce<number[]>((acc, playerRow) => {
+          if (playerRow.minutes <= 0 || acc.includes(playerRow.playerId)) {
+            return acc;
+          }
+          if (acc.length >= 3) {
+            return acc;
+          }
+          return [...acc, playerRow.playerId];
+        }, [])
+  );
+
+  const gameweekOptions = useMemo(
+    () =>
+      Array.from(new Set(matches.map((match) => match.gameweek))).sort(
+        (a, b) => a - b
+      ),
+    [matches]
+  );
+
+  const filteredMatches = useMemo(() => {
+    if (selectedGameweek === "all") {
+      return matches;
+    }
+    return matches.filter((match) => match.gameweek === selectedGameweek);
+  }, [matches, selectedGameweek]);
 
   const playerSummaries = useMemo(() => {
     const playerMap = new Map<number, PlayerSummary>();
 
-    for (const match of matches) {
+    for (const match of filteredMatches) {
       for (const row of match.players) {
         const existing = playerMap.get(row.playerId);
         const safeRole = row.roleName || "Unknown";
@@ -220,7 +251,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     return Array.from(playerMap.values()).sort(
       (a, b) => b.totalMinutes - a.totalMinutes
     );
-  }, [matches]);
+  }, [filteredMatches]);
 
   const roleOptions = useMemo(() => {
     const roles = new Set(playerSummaries.map((player) => player.roleName));
@@ -231,7 +262,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
 
   const playerMatchLookup = useMemo(() => {
     const lookup = new Map<number, Map<number, PlayerTrendMatchPlayer>>();
-    for (const match of matches) {
+    for (const match of filteredMatches) {
       for (const row of match.players) {
         if (!lookup.has(row.playerId)) {
           lookup.set(row.playerId, new Map<number, PlayerTrendMatchPlayer>());
@@ -240,7 +271,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
       }
     }
     return lookup;
-  }, [matches]);
+  }, [filteredMatches]);
 
   const playersAfterFilters = useMemo(() => {
     return playerSummaries.filter((player) => {
@@ -248,12 +279,18 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
         return false;
       }
 
-      return matches.some((match) => {
+      return filteredMatches.some((match) => {
         const row = playerMatchLookup.get(player.playerId)?.get(match.matchId);
         return Boolean(row && row.minutes >= minMinutes);
       });
     });
-  }, [matches, minMinutes, playerMatchLookup, playerSummaries, selectedRole]);
+  }, [
+    filteredMatches,
+    minMinutes,
+    playerMatchLookup,
+    playerSummaries,
+    selectedRole,
+  ]);
 
   const activePlayerIds = useMemo(() => {
     const allowed = new Set(playersAfterFilters.map((player) => player.playerId));
@@ -275,8 +312,12 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
   const series = useMemo<PlayerSeries[]>(() => {
     return displayedPlayers.map((player, index) => {
       const points: SeriesPoint[] = [];
-      for (let matchIndex = 0; matchIndex < matches.length; matchIndex += 1) {
-        const match = matches[matchIndex];
+      for (
+        let matchIndex = 0;
+        matchIndex < filteredMatches.length;
+        matchIndex += 1
+      ) {
+        const match = filteredMatches[matchIndex];
         const row = playerMatchLookup.get(player.playerId)?.get(match.matchId);
         if (!row || row.minutes < minMinutes) continue;
 
@@ -297,13 +338,13 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     });
   }, [
     displayedPlayers,
-    matches,
+    filteredMatches,
     minMinutes,
     playerMatchLookup,
     selectedMetricKey,
   ]);
 
-  const latestMatch = matches[matches.length - 1];
+  const latestMatch = filteredMatches[filteredMatches.length - 1];
 
   const latestTopList = useMemo(() => {
     if (!latestMatch) return [];
@@ -358,8 +399,11 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
 
   const yRange = Math.max(maxY - minY, 1);
   const xFor = (matchIndex: number) => {
-    if (matches.length <= 1) return chart.padding.left + plotWidth / 2;
-    return chart.padding.left + (matchIndex / (matches.length - 1)) * plotWidth;
+    if (filteredMatches.length <= 1) return chart.padding.left + plotWidth / 2;
+    return (
+      chart.padding.left +
+      (matchIndex / (filteredMatches.length - 1)) * plotWidth
+    );
   };
   const yFor = (value: number) =>
     chart.padding.top + ((maxY - value) / yRange) * plotHeight;
@@ -415,10 +459,34 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
           </h2>
           <p className="mt-1 text-sm text-slate-400">
             Här följer du spelarnas utveckling i de mest relevanta matchparametrarna.
-            Datan växer automatiskt när fler matcher spelas.
+            Visningen är endast för Hammarbys spelare och växer när fler matcher
+            spelas.
           </p>
 
-          <div className="mt-4 grid gap-4 lg:grid-cols-3">
+          <div className="mt-4 grid gap-4 lg:grid-cols-4">
+            <label className="flex flex-col gap-1 text-sm text-slate-300">
+              Omgång
+              <select
+                value={selectedGameweek}
+                onChange={(event) => {
+                  const nextValue = event.target.value;
+                  setSelectedGameweek(
+                    nextValue === "all" ? "all" : Number(nextValue)
+                  );
+                }}
+                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-sky-400"
+              >
+                {gameweekOptions.map((gameweek) => (
+                  <option key={gameweek} value={gameweek}>
+                    Omgång {gameweek}
+                  </option>
+                ))}
+                {gameweekOptions.length > 1 && (
+                  <option value="all">Alla omgångar</option>
+                )}
+              </select>
+            </label>
+
             <label className="flex flex-col gap-1 text-sm text-slate-300">
               Parameter
               <select
@@ -508,7 +576,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                   </g>
                 ))}
 
-                {matches.map((match, index) => (
+                {filteredMatches.map((match, index) => (
                   <g key={match.matchId}>
                     <line
                       x1={xFor(index)}
@@ -628,7 +696,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                 <thead className="text-left text-xs uppercase tracking-wide text-slate-400">
                   <tr>
                     <th className="px-2 py-2">Spelare</th>
-                    {matches.map((match) => (
+                    {filteredMatches.map((match) => (
                       <th key={match.matchId} className="px-2 py-2 text-right">
                         Omg {match.gameweek}
                       </th>
@@ -648,7 +716,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                         />
                         {player.playerName}
                       </td>
-                      {matches.map((match) => {
+                      {filteredMatches.map((match) => {
                         const row = playerMatchLookup
                           .get(player.playerId)
                           ?.get(match.matchId);
