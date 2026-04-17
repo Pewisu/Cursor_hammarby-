@@ -53,9 +53,14 @@ type TrendPoint = {
 };
 
 type MatchAnalysisRoundRow = {
+  key: string;
+  season: number;
   gameweek: number;
   date: string;
   opponent: string;
+  sourceMatchName: string;
+  isHome: boolean;
+  opponentTeamId: number | null;
   sourceUrl: string;
   value: number;
   seasonAverage: number;
@@ -75,6 +80,12 @@ type RoundVsSeasonPeriodRow = {
   roundValue: number;
   seasonValue: number;
   delta: number;
+};
+
+type HistoricalComparisonCandidate = {
+  key: string;
+  label: string;
+  context: string;
 };
 
 type OverviewData = {
@@ -101,6 +112,11 @@ const TREND_METRIC_OPTIONS: TrendMetricOption[] = [
 ];
 
 const DEFAULT_MATCH_ANALYSIS_METRIC_KEY: MatchAnalysisMetricKey = "ball_possession_pct";
+const MATCH_ANALYSIS_AVAILABLE_SEASONS = Array.from(
+  new Set(hammarbyMatchAnalysisRounds.map((row) => row.season))
+).sort((a, b) => a - b);
+const DEFAULT_MATCH_ANALYSIS_SEASON =
+  MATCH_ANALYSIS_AVAILABLE_SEASONS[MATCH_ANALYSIS_AVAILABLE_SEASONS.length - 1] ?? 2026;
 
 function formatDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -175,6 +191,14 @@ function getMatchAnalysisDeltaMeaning(
   if (value === 0) return "Oförändrat";
   const isPositiveOutcome = direction === "higher" ? value > 0 : value < 0;
   return isPositiveOutcome ? "Bättre" : "Sämre";
+}
+
+function normalizeOpponentName(value: string): string {
+  return value
+    .toLocaleLowerCase("sv-SE")
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9]+/g, "");
 }
 
 function getBarWidth(left: number, right: number): number {
@@ -459,15 +483,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     useState<TrendMetricKey>("possessionPercent");
   const [selectedMatchAnalysisMetricKey, setSelectedMatchAnalysisMetricKey] =
     useState<MatchAnalysisMetricKey>(DEFAULT_MATCH_ANALYSIS_METRIC_KEY);
-  const [comparisonRoundA, setComparisonRoundA] = useState<number>(
-    () => hammarbyMatchAnalysisRounds[0]?.gameweek ?? 0
+  const [selectedMatchAnalysisSeason, setSelectedMatchAnalysisSeason] = useState<number>(
+    DEFAULT_MATCH_ANALYSIS_SEASON
   );
-  const [comparisonRoundB, setComparisonRoundB] = useState<number>(
-    () => hammarbyMatchAnalysisRounds[hammarbyMatchAnalysisRounds.length - 1]?.gameweek ?? 0
-  );
-  const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<number>(
-    () => hammarbyMatchAnalysisRounds[hammarbyMatchAnalysisRounds.length - 1]?.gameweek ?? 0
-  );
+  const [comparisonRoundA, setComparisonRoundA] = useState<string>("");
+  const [comparisonRoundB, setComparisonRoundB] = useState<string>("");
+  const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
+  const [selectedHistoricalComparisonKey, setSelectedHistoricalComparisonKey] =
+    useState<string>("none");
 
   const roundOverview =
     mode === "round"
@@ -512,9 +535,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     .map((roundData) => {
       const metricSample = roundData.metrics[selectedMatchAnalysisMetric.key];
       return {
+        key: roundData.key,
+        season: roundData.season,
         gameweek: roundData.gameweek,
         date: roundData.date,
         opponent: roundData.opponent,
+        sourceMatchName: roundData.matchName,
+        isHome: roundData.isHome,
+        opponentTeamId: roundData.opponentTeamId,
         sourceUrl: roundData.sourceUrl,
         value: metricSample.value,
         seasonAverage: metricSample.seasonAverage,
@@ -522,21 +550,37 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         deltaFromPrevious: null,
       };
     })
-    .sort((a, b) => a.gameweek - b.gameweek)
+    .sort((a, b) => {
+      if (a.season !== b.season) return a.season - b.season;
+      return a.gameweek - b.gameweek;
+    })
     .map((row, index, items) => {
-      const previous = index > 0 ? items[index - 1] : null;
+      const previous =
+        index > 0 && items[index - 1].season === row.season ? items[index - 1] : null;
       return {
         ...row,
         deltaFromPrevious: previous ? row.value - previous.value : null,
       };
     });
-  const latestMatchAnalysisRow = matchAnalysisRows[matchAnalysisRows.length - 1] ?? null;
+  const seasonRows = matchAnalysisRows.filter((row) => row.season === selectedMatchAnalysisSeason);
+  const fallbackRoundAKey = seasonRows[0]?.key ?? "";
+  const fallbackRoundBKey = seasonRows[seasonRows.length - 1]?.key ?? "";
+  const effectiveComparisonRoundA = seasonRows.some((row) => row.key === comparisonRoundA)
+    ? comparisonRoundA
+    : fallbackRoundAKey;
+  const effectiveComparisonRoundB = seasonRows.some((row) => row.key === comparisonRoundB)
+    ? comparisonRoundB
+    : fallbackRoundBKey;
+  const effectiveRoundVsSeasonRound = seasonRows.some((row) => row.key === roundVsSeasonRound)
+    ? roundVsSeasonRound
+    : fallbackRoundBKey;
+
+  const latestMatchAnalysisRow = seasonRows[seasonRows.length - 1] ?? null;
   const matchAnalysisAverage =
-    matchAnalysisRows.reduce((sum, row) => sum + row.value, 0) /
-    Math.max(matchAnalysisRows.length, 1);
+    seasonRows.reduce((sum, row) => sum + row.value, 0) / Math.max(seasonRows.length, 1);
   const matchAnalysisTrendDelta =
-    matchAnalysisRows.length >= 2
-      ? matchAnalysisRows[matchAnalysisRows.length - 1].value - matchAnalysisRows[0].value
+    seasonRows.length >= 2
+      ? seasonRows[seasonRows.length - 1].value - seasonRows[0].value
       : 0;
   const latestVsSeasonAverageDelta = latestMatchAnalysisRow
     ? latestMatchAnalysisRow.value - latestMatchAnalysisRow.seasonAverage
@@ -544,12 +588,23 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const seasonAverageReference = latestMatchAnalysisRow?.seasonAverage ?? 0;
   const averagePeriodValues = MATCH_ANALYSIS_PERIOD_LABELS.map((_, periodIndex) => {
     return (
-      matchAnalysisRows.reduce((sum, row) => sum + row.periods[periodIndex], 0) /
-      Math.max(matchAnalysisRows.length, 1)
+      seasonRows.reduce((sum, row) => sum + row.periods[periodIndex], 0) /
+      Math.max(seasonRows.length, 1)
     );
   });
-  const comparisonRowA = matchAnalysisRows.find((row) => row.gameweek === comparisonRoundA) ?? null;
-  const comparisonRowB = matchAnalysisRows.find((row) => row.gameweek === comparisonRoundB) ?? null;
+  const seasonAverageRow =
+    seasonRows.length > 0
+      ? {
+          key: `season-average-${selectedMatchAnalysisSeason}`,
+          season: selectedMatchAnalysisSeason,
+          value:
+            seasonRows.reduce((sum, row) => sum + row.seasonAverage, 0) /
+            Math.max(seasonRows.length, 1),
+          periods: averagePeriodValues as [number, number, number, number, number, number],
+        }
+      : null;
+  const comparisonRowA = seasonRows.find((row) => row.key === effectiveComparisonRoundA) ?? null;
+  const comparisonRowB = seasonRows.find((row) => row.key === effectiveComparisonRoundB) ?? null;
   const comparisonDelta =
     comparisonRowA && comparisonRowB ? comparisonRowB.value - comparisonRowA.value : 0;
   const comparisonPeriodRows: ComparisonPeriodRow[] =
@@ -561,8 +616,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           delta: comparisonRowB.periods[index] - comparisonRowA.periods[index],
         }))
       : [];
-  const roundVsSeasonRow =
-    matchAnalysisRows.find((row) => row.gameweek === roundVsSeasonRound) ?? null;
+  const roundVsSeasonRow = seasonRows.find((row) => row.key === effectiveRoundVsSeasonRound) ?? null;
   const roundVsSeasonDelta = roundVsSeasonRow
     ? roundVsSeasonRow.value - matchAnalysisAverage
     : 0;
@@ -574,6 +628,58 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         delta: roundVsSeasonRow.periods[index] - averagePeriodValues[index],
       }))
     : [];
+  const previousSeason = roundVsSeasonRow ? roundVsSeasonRow.season - 1 : null;
+  const strictHistoricalCandidates =
+    roundVsSeasonRow && previousSeason
+      ? matchAnalysisRows.filter((row) => {
+          if (row.season !== previousSeason) return false;
+          const sameOpponent =
+            roundVsSeasonRow.opponentTeamId !== null && row.opponentTeamId !== null
+              ? row.opponentTeamId === roundVsSeasonRow.opponentTeamId
+              : normalizeOpponentName(row.opponent) === normalizeOpponentName(roundVsSeasonRow.opponent);
+          return sameOpponent && row.isHome === roundVsSeasonRow.isHome;
+        })
+      : [];
+  const fallbackHistoricalCandidates =
+    roundVsSeasonRow && previousSeason && strictHistoricalCandidates.length === 0
+      ? matchAnalysisRows.filter((row) => {
+          if (row.season !== previousSeason) return false;
+          return roundVsSeasonRow.opponentTeamId !== null && row.opponentTeamId !== null
+            ? row.opponentTeamId === roundVsSeasonRow.opponentTeamId
+            : normalizeOpponentName(row.opponent) === normalizeOpponentName(roundVsSeasonRow.opponent);
+        })
+      : [];
+  const historicalComparisonCandidates: HistoricalComparisonCandidate[] = (
+    strictHistoricalCandidates.length > 0
+      ? strictHistoricalCandidates
+      : fallbackHistoricalCandidates
+  ).map((row) => ({
+    key: row.key,
+    label: `S${row.season} Omg ${row.gameweek} (${row.opponent})`,
+    context: row.isHome ? "Hemma" : "Borta",
+  }));
+
+  const effectiveHistoricalComparisonKey =
+    historicalComparisonCandidates.length === 0
+      ? "none"
+      : historicalComparisonCandidates.some(
+            (candidate) => candidate.key === selectedHistoricalComparisonKey
+          )
+        ? selectedHistoricalComparisonKey
+        : historicalComparisonCandidates[0].key;
+  const historicalComparisonRow =
+    effectiveHistoricalComparisonKey === "none"
+      ? null
+      : matchAnalysisRows.find((row) => row.key === effectiveHistoricalComparisonKey) ?? null;
+  const historicalComparisonPeriodRows: ComparisonPeriodRow[] =
+    roundVsSeasonRow && historicalComparisonRow
+      ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
+          label,
+          roundAValue: historicalComparisonRow.periods[index],
+          roundBValue: roundVsSeasonRow.periods[index],
+          delta: roundVsSeasonRow.periods[index] - historicalComparisonRow.periods[index],
+        }))
+      : [];
 
   const chart = {
     width: 760,
@@ -946,7 +1052,21 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             <span className="font-semibold text-rose-300">Röd = sämre</span> enligt vald KPI
             (inte alltid plus/minus i sig).
           </p>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-3 flex flex-wrap items-end gap-3">
+            <label className="flex flex-col gap-1 text-xs text-slate-300">
+              Säsong
+              <select
+                value={selectedMatchAnalysisSeason}
+                onChange={(event) => setSelectedMatchAnalysisSeason(Number(event.target.value))}
+                className="rounded-lg border border-slate-600 bg-slate-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+              >
+                {MATCH_ANALYSIS_AVAILABLE_SEASONS.map((seasonValue) => (
+                  <option key={`analysis-season-${seasonValue}`} value={seasonValue}>
+                    {seasonValue}
+                  </option>
+                ))}
+              </select>
+            </label>
             {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
               <button
                 key={`quick-metric-${metric.key}`}
@@ -1045,11 +1165,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   Omgång A
                   <select
                     value={comparisonRoundA}
-                    onChange={(event) => setComparisonRoundA(Number(event.target.value))}
+                    onChange={(event) => setComparisonRoundA(event.target.value)}
                     className="rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
                   >
-                    {matchAnalysisRows.map((row) => (
-                      <option key={`round-a-${row.gameweek}`} value={row.gameweek}>
+                    {seasonRows.map((row) => (
+                      <option key={`round-a-${row.key}`} value={row.key}>
                         Omgång {row.gameweek} ({row.opponent})
                       </option>
                     ))}
@@ -1059,17 +1179,101 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   Omgång B
                   <select
                     value={comparisonRoundB}
-                    onChange={(event) => setComparisonRoundB(Number(event.target.value))}
+                    onChange={(event) => setComparisonRoundB(event.target.value)}
                     className="rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
                   >
-                    {matchAnalysisRows.map((row) => (
-                      <option key={`round-b-${row.gameweek}`} value={row.gameweek}>
+                    {seasonRows.map((row) => (
+                      <option key={`round-b-${row.key}`} value={row.key}>
                         Omgång {row.gameweek} ({row.opponent})
                       </option>
                     ))}
                   </select>
                 </label>
               </div>
+              {historicalComparisonRow && (
+                <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/70 p-3">
+                  <p className="text-xs text-slate-400">
+                    Periodskillnad (2025 motsvarande → vald omgång 2026)
+                  </p>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
+                    {historicalComparisonPeriodRows.map((periodRow) => (
+                      <div
+                        key={`historical-period-${periodRow.label}`}
+                        className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                      >
+                        <p className="text-slate-500">{periodRow.label}</p>
+                        <p className="text-slate-300">
+                          {formatMatchAnalysisValue(
+                            periodRow.roundAValue,
+                            selectedMatchAnalysisMetric
+                          )}{" "}
+                          →{" "}
+                          {formatMatchAnalysisValue(
+                            periodRow.roundBValue,
+                            selectedMatchAnalysisMetric
+                          )}
+                        </p>
+                        <p
+                          className={`font-semibold ${getMatchAnalysisDeltaTone(
+                            periodRow.delta,
+                            selectedMatchAnalysisMetric.direction
+                          )}`}
+                        >
+                          {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          {getMatchAnalysisDeltaMeaning(
+                            periodRow.delta,
+                            selectedMatchAnalysisMetric.direction
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {historicalComparisonPeriodRows.length > 0 && (
+                <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/70 p-3">
+                  <p className="text-xs text-slate-400">Periodskillnad mot motsvarande 2025</p>
+                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
+                    {historicalComparisonPeriodRows.map((periodRow) => (
+                      <div
+                        key={`historical-period-${periodRow.label}`}
+                        className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                      >
+                        <p className="text-slate-500">{periodRow.label}</p>
+                        <p className="text-slate-300">
+                          {formatMatchAnalysisValue(
+                            periodRow.roundAValue,
+                            selectedMatchAnalysisMetric
+                          )}{" "}
+                          →{" "}
+                          {formatMatchAnalysisValue(
+                            periodRow.roundBValue,
+                            selectedMatchAnalysisMetric
+                          )}
+                        </p>
+                        <p
+                          className={`font-semibold ${getMatchAnalysisDeltaTone(
+                            periodRow.delta,
+                            selectedMatchAnalysisMetric.direction
+                          )}`}
+                        >
+                          {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                        </p>
+                        <p className="text-[10px] text-slate-500">
+                          {getMatchAnalysisDeltaMeaning(
+                            periodRow.delta,
+                            selectedMatchAnalysisMetric.direction
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
                 <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
                   <p className="text-slate-400">
@@ -1165,11 +1369,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     Omgång
                     <select
                       value={roundVsSeasonRound}
-                      onChange={(event) => setRoundVsSeasonRound(Number(event.target.value))}
+                      onChange={(event) => setRoundVsSeasonRound(event.target.value)}
                       className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
-                      {matchAnalysisRows.map((row) => (
-                        <option key={`season-vs-round-${row.gameweek}`} value={row.gameweek}>
+                      {seasonRows.map((row) => (
+                        <option key={`season-vs-round-${row.key}`} value={row.key}>
                           Omgång {row.gameweek} ({row.opponent})
                         </option>
                       ))}
@@ -1201,6 +1405,117 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   {selectedMatchAnalysisMetric.label}
                 </span>
               </p>
+
+              {selectedMatchAnalysisSeason === 2026 &&
+                roundVsSeasonRow &&
+                historicalComparisonCandidates.length > 0 && (
+                  <div className="mt-3 rounded-lg border border-blue-500/25 bg-slate-900/70 p-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <p className="text-xs font-semibold text-blue-200">
+                        Jämför med motsvarande match 2025
+                      </p>
+                      <select
+                        value={selectedHistoricalComparisonKey}
+                        onChange={(event) =>
+                          setSelectedHistoricalComparisonKey(event.target.value)
+                        }
+                        className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                      >
+                        <option value="none">Välj match</option>
+                        {historicalComparisonCandidates.map((candidate) => (
+                          <option key={`historical-candidate-${candidate.key}`} value={candidate.key}>
+                            {candidate.label}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <p className="mt-1 text-[11px] text-slate-400">
+                      Jämförelsen använder samma KPI och perioder (0-15 till 75-FT).
+                    </p>
+                    {historicalComparisonRow && (
+                      <div className="mt-3 grid gap-2 text-[11px] text-slate-300 sm:grid-cols-3">
+                        <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
+                          <p className="text-slate-500">Nuvarande (2026)</p>
+                          <p className="font-semibold text-white">
+                            {formatMatchAnalysisValue(
+                              roundVsSeasonRow.value,
+                              selectedMatchAnalysisMetric
+                            )}
+                          </p>
+                        </div>
+                        <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
+                          <p className="text-slate-500">Motsvarande 2025</p>
+                          <p className="font-semibold text-white">
+                            {formatMatchAnalysisValue(
+                              historicalComparisonRow.value,
+                              selectedMatchAnalysisMetric
+                            )}
+                          </p>
+                        </div>
+                        <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
+                          <p className="text-slate-500">Skillnad (2026 - 2025)</p>
+                          <p
+                            className={`font-semibold ${getMatchAnalysisDeltaTone(
+                              roundVsSeasonRow.value - historicalComparisonRow.value,
+                              selectedMatchAnalysisMetric.direction
+                            )}`}
+                          >
+                            {formatMatchAnalysisDelta(
+                              roundVsSeasonRow.value - historicalComparisonRow.value,
+                              selectedMatchAnalysisMetric
+                            )}
+                          </p>
+                          <p className="text-[10px] text-slate-500">
+                            {getMatchAnalysisDeltaMeaning(
+                              roundVsSeasonRow.value - historicalComparisonRow.value,
+                              selectedMatchAnalysisMetric.direction
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                    {historicalComparisonRow && historicalComparisonPeriodRows.length > 0 && (
+                      <div className="mt-3 rounded border border-slate-700/60 bg-slate-950/60 p-2 text-[11px]">
+                    <p className="text-slate-500">
+                      Perioder: {roundVsSeasonRow.sourceMatchName} vs{" "}
+                      {historicalComparisonRow.sourceMatchName}
+                    </p>
+                        <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
+                          {historicalComparisonPeriodRows.map((periodRow) => (
+                            <div
+                              key={`historical-period-${periodRow.label}`}
+                              className="rounded border border-slate-700/60 bg-slate-900/70 px-2 py-1.5"
+                            >
+                              <p className="text-slate-500">{periodRow.label}</p>
+                              <p className="text-slate-300">
+                                {formatMatchAnalysisValue(
+                                  periodRow.roundAValue,
+                                  selectedMatchAnalysisMetric
+                                )}{" "}
+                                vs{" "}
+                                {formatMatchAnalysisValue(
+                                  periodRow.roundBValue,
+                                  selectedMatchAnalysisMetric
+                                )}
+                              </p>
+                              <p
+                                className={`font-semibold ${getMatchAnalysisDeltaTone(
+                                  periodRow.delta,
+                                  selectedMatchAnalysisMetric.direction
+                                )}`}
+                              >
+                                {formatMatchAnalysisDelta(
+                                  periodRow.delta,
+                                  selectedMatchAnalysisMetric
+                                )}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
 
               <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
                 <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
@@ -1364,7 +1679,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               </thead>
               <tbody>
                 {matchAnalysisRows.map((row) => (
-                  <tr key={`analysis-${row.gameweek}`}>
+                  <tr key={`analysis-${row.key}`}>
                     <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-medium text-slate-100">
                       <div>Omg {row.gameweek}</div>
                       <div className="text-[10px] text-slate-400">
@@ -1409,9 +1724,30 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     ))}
                   </tr>
                 ))}
+                {seasonAverageRow && (
+                  <tr>
+                    <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-semibold text-slate-100">
+                      Säsongssnitt ({selectedMatchAnalysisSeason})
+                    </th>
+                    <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 font-semibold text-white">
+                      {formatMatchAnalysisValue(seasonAverageRow.value, selectedMatchAnalysisMetric)}
+                    </td>
+                    <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-400">
+                      –
+                    </td>
+                    {seasonAverageRow.periods.map((periodAverage, index) => (
+                      <td
+                        key={`season-period-row-${selectedMatchAnalysisSeason}-${index}`}
+                        className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-200"
+                      >
+                        {formatMatchAnalysisValue(periodAverage, selectedMatchAnalysisMetric)}
+                      </td>
+                    ))}
+                  </tr>
+                )}
                 <tr>
                   <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-semibold text-slate-100">
-                    Säsongssnitt
+                    Snitt (valda omgångar)
                   </th>
                   <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 font-semibold text-white">
                     {formatMatchAnalysisValue(matchAnalysisAverage, selectedMatchAnalysisMetric)}
@@ -1446,7 +1782,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </a>
             . Kombinerat-läget summerar räknetal (mål, avslut, passningar osv.) och
             använder snitt för procenttal. Matchanalys KPI bygger på Hammarbys matchanalys
-            (Twelve/Wyscout) per omgång.
+            (Twelve/Wyscout) för Allsvenskan 2025-2026 per omgång.
           </p>
         </footer>
       </main>
