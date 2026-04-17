@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   type PlayerTrendMatch,
   type PlayerTrendMatchPlayer,
@@ -264,13 +264,6 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     () => playersAfterFilters.slice(0, 3).map((player) => player.playerId),
     [playersAfterFilters]
   );
-
-  useEffect(() => {
-    if (selectedPlayerIds.length > 0) {
-      return;
-    }
-    setSelectedPlayerIds(playerSummaries.slice(0, 3).map((player) => player.playerId));
-  }, [playerSummaries, selectedPlayerIds.length]);
 
   const displayedPlayerIds =
     activePlayerIds.length > 0 ? activePlayerIds : fallbackPlayerIds;
