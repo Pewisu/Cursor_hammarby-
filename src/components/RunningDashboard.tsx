@@ -453,16 +453,24 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
           </div>
           <div className="hidden text-right text-xs text-slate-400 md:block">
             <p>Allsvenskan 2026</p>
-            <p>Källa: allsvenskan.se</p>
+            <p>Källa: allsvenskan.se & bolldata.se</p>
           </div>
         </div>
         <div className="mx-auto max-w-7xl px-4 pb-4">
-          <Link
-            href="/"
-            className="inline-flex text-xs text-slate-300 hover:text-white"
-          >
-            ← Till matchstatistik (startsidan)
-          </Link>
+          <div className="flex flex-wrap items-center gap-4 text-xs">
+            <Link
+              href="/"
+              className="inline-flex text-slate-300 hover:text-white"
+            >
+              ← Till matchstatistik (startsidan)
+            </Link>
+            <Link
+              href="/lopdata/trender"
+              className="inline-flex text-blue-300 hover:text-blue-200"
+            >
+              Öppna spelartrender över tid →
+            </Link>
+          </div>
         </div>
       </header>
 
