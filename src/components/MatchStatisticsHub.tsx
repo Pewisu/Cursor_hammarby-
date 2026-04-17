@@ -1012,10 +1012,28 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför två omgångar</h3>
-                <div className="text-xs text-slate-400">
-                  Snabbt sätt att se skillnad mot säsongsnivån.
-                </div>
+                <label className="flex items-center gap-2 text-xs text-slate-300">
+                  Byt KPI här
+                  <select
+                    value={selectedMatchAnalysisMetricKey}
+                    onChange={(event) =>
+                      setSelectedMatchAnalysisMetricKey(
+                        event.target.value as MatchAnalysisMetricKey
+                      )
+                    }
+                    className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                  >
+                    {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
+                      <option key={`comparison-kpi-${metric.key}`} value={metric.key}>
+                        {metric.label}
+                      </option>
+                    ))}
+                  </select>
+                </label>
               </div>
+              <p className="mt-2 text-xs text-slate-400">
+                Snabbt sätt att se skillnad mot säsongsnivån.
+              </p>
               <p className="mt-2 text-xs text-slate-500">
                 KPI (samma för alla jämförelser):{" "}
                 <span className="font-semibold text-slate-200">
@@ -1142,21 +1160,47 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <h3 className="text-sm font-semibold text-white">
                   Jämför omgång mot säsongssnitt
                 </h3>
-                <label className="flex items-center gap-2 text-xs text-slate-300">
-                  Omgång
-                  <select
-                    value={roundVsSeasonRound}
-                    onChange={(event) => setRoundVsSeasonRound(Number(event.target.value))}
-                    className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
-                  >
-                    {matchAnalysisRows.map((row) => (
-                      <option key={`season-vs-round-${row.gameweek}`} value={row.gameweek}>
-                        Omgång {row.gameweek} ({row.opponent})
-                      </option>
-                    ))}
-                  </select>
-                </label>
+                <div className="flex flex-wrap items-center gap-2">
+                  <label className="flex items-center gap-2 text-xs text-slate-300">
+                    Omgång
+                    <select
+                      value={roundVsSeasonRound}
+                      onChange={(event) => setRoundVsSeasonRound(Number(event.target.value))}
+                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                    >
+                      {matchAnalysisRows.map((row) => (
+                        <option key={`season-vs-round-${row.gameweek}`} value={row.gameweek}>
+                          Omgång {row.gameweek} ({row.opponent})
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="flex items-center gap-2 text-xs text-slate-300">
+                    Byt KPI här
+                    <select
+                      value={selectedMatchAnalysisMetricKey}
+                      onChange={(event) =>
+                        setSelectedMatchAnalysisMetricKey(
+                          event.target.value as MatchAnalysisMetricKey
+                        )
+                      }
+                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                    >
+                      {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
+                        <option key={`round-vs-season-kpi-${metric.key}`} value={metric.key}>
+                          {metric.label}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
               </div>
+              <p className="mt-2 text-xs text-slate-500">
+                KPI (samma för alla jämförelser):{" "}
+                <span className="font-semibold text-slate-200">
+                  {selectedMatchAnalysisMetric.label}
+                </span>
+              </p>
 
               <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
                 <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
