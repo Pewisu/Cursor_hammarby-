@@ -544,11 +544,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [seasonComparisonMode, setSeasonComparisonMode] =
     useState<SeasonComparisonMode>("played");
   const [showSeasonComparisonPeriods, setShowSeasonComparisonPeriods] = useState<boolean>(false);
-  const [matchAnalysisViewMode, setMatchAnalysisViewMode] =
-    useState<MatchAnalysisViewMode>("round");
+  const [matchAnalysisViewMode, setMatchAnalysisViewMode] = useState<MatchAnalysisViewMode>(
+    mode === "combined" ? "season-average" : "round"
+  );
   const [selectedSingleRoundComparisonMode, setSelectedSingleRoundComparisonMode] = useState<
     "season-average" | "previous-season-match"
   >("season-average");
+  const [seasonVenueFilter, setSeasonVenueFilter] = useState<"all" | "home" | "away">("all");
+  const [seasonOpponentSearch, setSeasonOpponentSearch] = useState<string>("");
   const [historicalComparisonMode, setHistoricalComparisonMode] =
     useState<HistoricalComparisonMode>("recommended");
   const [seasonViewRoundA, setSeasonViewRoundA] = useState<string>("");
@@ -558,9 +561,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
   const [selectedHistoricalComparisonKey, setSelectedHistoricalComparisonKey] =
     useState<string>("none");
-  const [historicalComparisonSelectionType, setHistoricalComparisonSelectionType] = useState<
-    "recommended" | "all"
-  >("recommended");
 
   const roundOverview =
     mode === "round"
@@ -571,6 +571,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       : null;
   const combinedOverview = mode === "combined" ? buildCombinedOverview(sortedMatches) : null;
   const current = mode === "combined" ? combinedOverview : roundOverview;
+  const effectiveMatchAnalysisViewMode: MatchAnalysisViewMode =
+    mode === "combined" ? "season-average" : matchAnalysisViewMode;
 
   const navItems = [
     { href: "/matchstatistik", label: "Översikt", active: false },
@@ -649,7 +651,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     fallbackFocusSeasonRows[fallbackFocusSeasonRows.length - 1] ??
     null;
   const effectiveSelectedSeason =
-    matchAnalysisViewMode === "round" && defaultRoundFocusRow
+    effectiveMatchAnalysisViewMode === "round" && defaultRoundFocusRow
       ? defaultRoundFocusRow.season
       : selectedMatchAnalysisSeason;
   const seasonRows = matchAnalysisRows.filter((row) => row.season === effectiveSelectedSeason);
@@ -663,7 +665,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     : fallbackRoundBKey;
   const effectiveRoundVsSeasonRound = seasonRows.some((row) => row.key === roundVsSeasonRound)
     ? roundVsSeasonRound
-    : matchAnalysisViewMode === "round" && defaultRoundFocusRow && seasonRows.length > 0
+    : effectiveMatchAnalysisViewMode === "round" && defaultRoundFocusRow && seasonRows.length > 0
       ? defaultRoundFocusRow.key
       : fallbackRoundBKey;
 
@@ -721,25 +723,55 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       { value: 0, periods: [0, 0, 0, 0, 0, 0] as [number, number, number, number, number, number] }
     );
   const hasSeason2026 = matchAnalysisRows.some((row) => row.season === 2026);
-  const seasonVsSeasonPeriodRows: SeasonVsSeasonPeriodRow[] =
-    hasSeason2025 && hasSeason2026
-      ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
-          label,
-          seasonAValue: seasonAverage2025.periods[index],
-          seasonBValue: seasonAverage2026.periods[index],
-          delta: seasonAverage2026.periods[index] - seasonAverage2025.periods[index],
-        }))
-      : [];
-  const seasonAverage2025Value = hasSeason2025 ? seasonAverage2025.value : 0;
-  const seasonAverage2026Value = hasSeason2026 ? seasonAverage2026.value : 0;
-  const seasonAverageDifference = seasonAverage2026Value - seasonAverage2025Value;
   const seasonRows2025 = matchAnalysisRows.filter((row) => row.season === 2025);
   const seasonRows2026 = matchAnalysisRows.filter((row) => row.season === 2026);
+  const seasonOpponentSearchNormalized = normalizeOpponentName(seasonOpponentSearch.trim());
+  const seasonOpponentOptions = Array.from(
+    new Map(
+      [...seasonRows2025, ...seasonRows2026]
+        .sort((a, b) => a.opponent.localeCompare(b.opponent, "sv-SE"))
+        .map((row) => [normalizeOpponentName(row.opponent), row.opponent] as const)
+    ).entries()
+  ).map(([, opponent]) => opponent);
+  const filteredSeasonRows2025 = seasonRows2025.filter((row) => {
+    if (seasonVenueFilter === "home" && !row.isHome) return false;
+    if (seasonVenueFilter === "away" && row.isHome) return false;
+    if (!seasonOpponentSearchNormalized) return true;
+    return normalizeOpponentName(row.opponent).includes(seasonOpponentSearchNormalized);
+  });
+  const filteredSeasonRows2026 = seasonRows2026.filter((row) => {
+    if (seasonVenueFilter === "home" && !row.isHome) return false;
+    if (seasonVenueFilter === "away" && row.isHome) return false;
+    if (!seasonOpponentSearchNormalized) return true;
+    return normalizeOpponentName(row.opponent).includes(seasonOpponentSearchNormalized);
+  });
+  const seasonRowsForSelectedFilters2025 =
+    seasonOpponentSearchNormalized || seasonVenueFilter !== "all"
+      ? filteredSeasonRows2025
+      : seasonRows2025;
+  const seasonRowsForSelectedFilters2026 =
+    seasonOpponentSearchNormalized || seasonVenueFilter !== "all"
+      ? filteredSeasonRows2026
+      : seasonRows2026;
+  const filteredSeasonAverage2025 = averageMatchAnalysisRows(seasonRowsForSelectedFilters2025);
+  const filteredSeasonAverage2026 = averageMatchAnalysisRows(seasonRowsForSelectedFilters2026);
+  const filteredSeasonAverageDifference =
+    (filteredSeasonAverage2026?.value ?? 0) - (filteredSeasonAverage2025?.value ?? 0);
+  const filteredSeasonVsSeasonPeriodRows: SeasonVsSeasonPeriodRow[] =
+    filteredSeasonAverage2025 && filteredSeasonAverage2026
+      ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
+          label,
+          seasonAValue: filteredSeasonAverage2025.periods[index],
+          seasonBValue: filteredSeasonAverage2026.periods[index],
+          delta:
+            filteredSeasonAverage2026.periods[index] - filteredSeasonAverage2025.periods[index],
+        }))
+      : [];
   const usedSeason2025Keys = new Set<string>();
-  const playedSeasonPairs = seasonRows2026.reduce<
+  const playedSeasonPairs = seasonRowsForSelectedFilters2026.reduce<
     Array<{ season2025: MatchAnalysisRoundRow; season2026: MatchAnalysisRoundRow }>
   >((pairs, row2026) => {
-    const strictCandidates = seasonRows2025.filter((row2025) => {
+    const strictCandidates = seasonRowsForSelectedFilters2025.filter((row2025) => {
       const sameOpponent =
         row2026.opponentTeamId !== null && row2025.opponentTeamId !== null
           ? row2025.opponentTeamId === row2026.opponentTeamId
@@ -749,7 +781,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     const fallbackCandidates =
       strictCandidates.length > 0
         ? strictCandidates
-        : seasonRows2025.filter((row2025) => {
+        : seasonRowsForSelectedFilters2025.filter((row2025) => {
             const sameOpponent =
               row2026.opponentTeamId !== null && row2025.opponentTeamId !== null
                 ? row2025.opponentTeamId === row2026.opponentTeamId
@@ -792,25 +824,47 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         })
       : [];
   const activeSeasonComparisonAverage2025 =
-    seasonComparisonMode === "full" ? seasonAverage2025Value : playedSeasonAverage2025;
+    seasonComparisonMode === "full"
+      ? (filteredSeasonAverage2025?.value ?? 0)
+      : playedSeasonAverage2025;
   const activeSeasonComparisonAverage2026 =
-    seasonComparisonMode === "full" ? seasonAverage2026Value : playedSeasonAverage2026;
+    seasonComparisonMode === "full"
+      ? (filteredSeasonAverage2026?.value ?? 0)
+      : playedSeasonAverage2026;
   const activeSeasonComparisonDelta =
-    seasonComparisonMode === "full" ? seasonAverageDifference : playedSeasonDelta;
+    seasonComparisonMode === "full" ? filteredSeasonAverageDifference : playedSeasonDelta;
   const activeSeasonComparisonPeriodRows =
-    seasonComparisonMode === "full" ? seasonVsSeasonPeriodRows : playedSeasonPeriodRows;
-  const fallbackSeasonViewRoundAKey = seasonRows2026[0]?.key ?? "";
-  const fallbackSeasonViewRoundBKey = seasonRows2025[0]?.key ?? "";
-  const effectiveSeasonViewRoundA = seasonRows2026.some((row) => row.key === seasonViewRoundA)
+    seasonComparisonMode === "full" ? filteredSeasonVsSeasonPeriodRows : playedSeasonPeriodRows;
+  const seasonFiltersActive = seasonVenueFilter !== "all" || seasonOpponentSearchNormalized.length > 0;
+  const seasonAvailableRowsCount =
+    seasonRowsForSelectedFilters2025.length + seasonRowsForSelectedFilters2026.length;
+  const seasonComparisonSelectedPairCount = playedSeasonPairCount;
+  const seasonFilterSummary = [
+    seasonVenueFilter === "all"
+      ? "Hemma + borta"
+      : seasonVenueFilter === "home"
+        ? "Endast hemma"
+        : "Endast borta",
+    seasonOpponentSearchNormalized
+      ? `Motståndare: ${seasonOpponentSearch.trim()}`
+      : "Alla motståndare",
+  ].join(" • ");
+  const fallbackSeasonViewRoundAKey = seasonRowsForSelectedFilters2026[0]?.key ?? "";
+  const fallbackSeasonViewRoundBKey = seasonRowsForSelectedFilters2025[0]?.key ?? "";
+  const effectiveSeasonViewRoundA = seasonRowsForSelectedFilters2026.some(
+    (row) => row.key === seasonViewRoundA
+  )
     ? seasonViewRoundA
     : fallbackSeasonViewRoundAKey;
-  const effectiveSeasonViewRoundB = seasonRows2025.some((row) => row.key === seasonViewRoundB)
+  const effectiveSeasonViewRoundB = seasonRowsForSelectedFilters2025.some(
+    (row) => row.key === seasonViewRoundB
+  )
     ? seasonViewRoundB
     : fallbackSeasonViewRoundBKey;
   const seasonViewComparisonRoundA =
-    seasonRows2026.find((row) => row.key === effectiveSeasonViewRoundA) ?? null;
+    seasonRowsForSelectedFilters2026.find((row) => row.key === effectiveSeasonViewRoundA) ?? null;
   const seasonViewComparisonRoundB =
-    seasonRows2025.find((row) => row.key === effectiveSeasonViewRoundB) ?? null;
+    seasonRowsForSelectedFilters2025.find((row) => row.key === effectiveSeasonViewRoundB) ?? null;
   const seasonViewComparisonDelta =
     seasonViewComparisonRoundA && seasonViewComparisonRoundB
       ? seasonViewComparisonRoundA.value - seasonViewComparisonRoundB.value
@@ -1344,30 +1398,33 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             <label className="flex flex-col gap-1 text-xs text-slate-300">
               Visning
               <select
-                value={matchAnalysisViewMode}
+                value={effectiveMatchAnalysisViewMode}
                 onChange={(event) =>
                   setMatchAnalysisViewMode(event.target.value as MatchAnalysisViewMode)
                 }
                 className="rounded-lg border border-slate-600 bg-slate-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                disabled={mode === "combined"}
               >
                 <option value="round">Omgång</option>
                 <option value="season-average">Säsongsgenomsnitt</option>
               </select>
             </label>
-            <label className="flex flex-col gap-1 text-xs text-slate-300">
-              Säsong
-              <select
-                value={selectedMatchAnalysisSeason}
-                onChange={(event) => setSelectedMatchAnalysisSeason(Number(event.target.value))}
-                className="rounded-lg border border-slate-600 bg-slate-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
-              >
-                {MATCH_ANALYSIS_AVAILABLE_SEASONS.map((seasonValue) => (
-                  <option key={`analysis-season-${seasonValue}`} value={seasonValue}>
-                    {seasonValue}
-                  </option>
-                ))}
-              </select>
-            </label>
+            {mode === "round" && (
+              <label className="flex flex-col gap-1 text-xs text-slate-300">
+                Säsong
+                <select
+                  value={selectedMatchAnalysisSeason}
+                  onChange={(event) => setSelectedMatchAnalysisSeason(Number(event.target.value))}
+                  className="rounded-lg border border-slate-600 bg-slate-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                >
+                  {MATCH_ANALYSIS_AVAILABLE_SEASONS.map((seasonValue) => (
+                    <option key={`analysis-season-${seasonValue}`} value={seasonValue}>
+                      {seasonValue}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
             {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
               <button
                 key={`quick-metric-${metric.key}`}
@@ -1428,17 +1485,22 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               </p>
             </div>
           </div>
-          <div className="mt-3 grid gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => setShowSeasonRows((currentValue) => !currentValue)}
-              className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-2 text-left text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
-            >
-              {showSeasonRows ? "Dölj omgångslista" : "Visa omgångslista"}
-            </button>
-          </div>
+          {mode === "round" && (
+            <div className="mt-3 grid gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setShowSeasonRows((currentValue) => !currentValue)}
+                className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-2 text-left text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+              >
+                {showSeasonRows ? "Dölj omgångslista" : "Visa omgångslista"}
+              </button>
+            </div>
+          )}
 
-          {mode === "round" && matchAnalysisViewMode === "round" && comparisonRowA && comparisonRowB && (
+          {mode === "round" &&
+            effectiveMatchAnalysisViewMode === "round" &&
+            comparisonRowA &&
+            comparisonRowB && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför två omgångar</h3>
@@ -1584,7 +1646,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {matchAnalysisViewMode === "season-average" && (
+          {effectiveMatchAnalysisViewMode === "season-average" && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -1618,11 +1680,87 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </button>
                 </div>
               </div>
+              {mode === "combined" && (
+                <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-950/50 p-3">
+                  <div className="flex flex-wrap items-end gap-3">
+                    <label className="flex min-w-[150px] flex-col gap-1 text-xs text-slate-300">
+                      Hemma/Borta
+                      <select
+                        value={seasonVenueFilter}
+                        onChange={(event) =>
+                          setSeasonVenueFilter(event.target.value as "all" | "home" | "away")
+                        }
+                        className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                      >
+                        <option value="all">Alla matcher</option>
+                        <option value="home">Endast hemma</option>
+                        <option value="away">Endast borta</option>
+                      </select>
+                    </label>
+                    <label className="flex min-w-[220px] flex-1 flex-col gap-1 text-xs text-slate-300">
+                      Sök motståndare
+                      <input
+                        type="search"
+                        value={seasonOpponentSearch}
+                        onChange={(event) => setSeasonOpponentSearch(event.target.value)}
+                        list="season-opponent-options"
+                        placeholder="T.ex. Sirius, Malmö, AIK"
+                        className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none placeholder:text-slate-500 focus:border-blue-400"
+                      />
+                      <datalist id="season-opponent-options">
+                        {seasonOpponentOptions.map((opponent) => (
+                          <option key={`season-opponent-option-${opponent}`} value={opponent} />
+                        ))}
+                      </datalist>
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSeasonVenueFilter("all");
+                        setSeasonOpponentSearch("");
+                      }}
+                      disabled={!seasonFiltersActive}
+                      className="rounded-lg border border-slate-600 bg-slate-900/80 px-3 py-1.5 text-xs text-slate-200 transition-colors hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      Nollställ filter
+                    </button>
+                  </div>
+                  <p className="mt-2 text-[11px] text-slate-400">{seasonFilterSummary}</p>
+                </div>
+              )}
               <p className="mt-2 text-xs text-slate-500">
                 {seasonComparisonMode === "full"
-                  ? "Visar säsongssnitt för samtliga tillgängliga matcher i respektive säsong."
-                  : `Visar endast ${playedSeasonPairCount} matchpar: 2026 spelade omgångar mot motsvarande matcher 2025.`}
+                  ? `Visar säsongssnitt för urvalet (${seasonRowsForSelectedFilters2026.length} matcher 2026, ${seasonRowsForSelectedFilters2025.length} matcher 2025).`
+                  : `Visar endast ${seasonComparisonSelectedPairCount} matchpar: 2026 spelade omgångar mot motsvarande matcher 2025 i nuvarande filter.`}
               </p>
+              {mode === "combined" && (
+                <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-4">
+                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                    <p className="text-slate-400">Matcher i urval 2026</p>
+                    <p className="mt-1 text-base font-semibold text-white">
+                      {seasonRowsForSelectedFilters2026.length}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                    <p className="text-slate-400">Matcher i urval 2025</p>
+                    <p className="mt-1 text-base font-semibold text-white">
+                      {seasonRowsForSelectedFilters2025.length}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                    <p className="text-slate-400">Parade matcher</p>
+                    <p className="mt-1 text-base font-semibold text-white">
+                      {seasonComparisonSelectedPairCount}
+                    </p>
+                  </div>
+                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                    <p className="text-slate-400">Totalt i filter</p>
+                    <p className="mt-1 text-base font-semibold text-white">
+                      {seasonAvailableRowsCount}
+                    </p>
+                  </div>
+                </div>
+              )}
               <div className="mt-2">
                 <button
                   type="button"
@@ -1632,6 +1770,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   {showSeasonComparisonPeriods ? "Dölj perioddetaljer" : "Visa perioddetaljer"}
                 </button>
               </div>
+              {seasonAvailableRowsCount === 0 && (
+                <p className="mt-2 text-xs text-rose-300">
+                  Inga matcher matchar nuvarande filter. Justera filter för att se säsongsjämförelsen.
+                </p>
+              )}
               {seasonComparisonMode === "played" && playedSeasonPairCount > 0 && (
                 <div className="mt-2 rounded-lg border border-slate-700/60 bg-slate-950/60 px-3 py-2 text-[11px] text-slate-300">
                   <p className="font-medium text-slate-200">Parade matcher (2026 mot 2025)</p>
@@ -1721,9 +1864,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     <select
                       value={seasonViewRoundA}
                       onChange={(event) => setSeasonViewRoundA(event.target.value)}
+                      disabled={seasonRowsForSelectedFilters2026.length === 0}
                       className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
-                      {seasonRows2026.map((row) => (
+                      {seasonRowsForSelectedFilters2026.map((row) => (
                         <option key={`season-view-a-${row.key}`} value={row.key}>
                           Omg {row.gameweek} ({row.opponent})
                         </option>
@@ -1735,9 +1879,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     <select
                       value={seasonViewRoundB}
                       onChange={(event) => setSeasonViewRoundB(event.target.value)}
+                      disabled={seasonRowsForSelectedFilters2025.length === 0}
                       className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
-                      {seasonRows2025.map((row) => (
+                      {seasonRowsForSelectedFilters2025.map((row) => (
                         <option key={`season-view-b-${row.key}`} value={row.key}>
                           Omg {row.gameweek} ({row.opponent})
                         </option>
@@ -1817,7 +1962,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {matchAnalysisViewMode === "round" && roundVsSeasonRow && (
+          {effectiveMatchAnalysisViewMode === "round" && roundVsSeasonRow && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför vald omgång</h3>
@@ -2071,7 +2216,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {showSeasonRows && (
+          {mode === "round" && showSeasonRows && (
             <div className="mt-4 grid gap-3 sm:hidden">
               <p className="text-[11px] text-slate-500">
                 Kompakt lista: visar vald säsong. Full tabell finns på större skärm.
@@ -2143,7 +2288,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {showSeasonRows && (
+          {mode === "round" && showSeasonRows && (
             <div className="mt-4 hidden overflow-x-auto sm:block">
               <table className="min-w-[900px] table-fixed border-separate border-spacing-0 text-xs">
                 <thead>
