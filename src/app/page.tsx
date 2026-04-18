@@ -20,7 +20,7 @@ export default function Home() {
 
       <main className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
         <Link
-          href="/matchstatistik"
+          href="/matchstatistik/kombinerat"
           className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
         >
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20 text-blue-300">

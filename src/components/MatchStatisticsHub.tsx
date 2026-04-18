@@ -551,13 +551,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const current = mode === "combined" ? combinedOverview : roundOverview;
 
   const navItems = [
-    { href: "/matchstatistik", label: "Kombinerat", active: mode === "combined" },
-    ...sortedMatches.map((item) => ({
-      href: `/matchstatistik/omgang/${item.gameweek}`,
-      label: `Omgång ${item.gameweek}`,
-      active: mode === "round" && round === item.gameweek,
-    })),
+    { href: "/matchstatistik", label: "Översikt", active: false },
+    { href: "/matchstatistik/kombinerat", label: "Kombinerat", active: mode === "combined" },
+    { href: "/matchstatistik/omgang", label: "Omgångar", active: mode === "round" },
   ];
+  const currentRoundIndex =
+    mode === "round" && typeof round === "number"
+      ? sortedMatches.findIndex((item) => item.gameweek === round)
+      : -1;
+  const previousRound = currentRoundIndex > 0 ? sortedMatches[currentRoundIndex - 1] : null;
+  const nextRound =
+    currentRoundIndex >= 0 && currentRoundIndex < sortedMatches.length - 1
+      ? sortedMatches[currentRoundIndex + 1]
+      : null;
   const selectedTrendMetric =
     TREND_METRIC_OPTIONS.find((metric) => metric.key === selectedTrendMetricKey) ??
     TREND_METRIC_OPTIONS[0];
@@ -930,6 +936,31 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           >
             🏠 Huvudsida
           </Link>
+          {mode === "round" && typeof round === "number" && (
+            <div className="ml-auto flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/60 px-2 py-1">
+              {previousRound ? (
+                <Link
+                  href={`/matchstatistik/omgang/${previousRound.gameweek}`}
+                  className="rounded-md border border-slate-600 px-2 py-1 text-[11px] text-slate-200 hover:border-slate-500 hover:text-white"
+                >
+                  ← Omg {previousRound.gameweek}
+                </Link>
+              ) : (
+                <span className="px-2 py-1 text-[11px] text-slate-500">←</span>
+              )}
+              <span className="text-[11px] text-slate-300">Nu: Omg {round}</span>
+              {nextRound ? (
+                <Link
+                  href={`/matchstatistik/omgang/${nextRound.gameweek}`}
+                  className="rounded-md border border-slate-600 px-2 py-1 text-[11px] text-slate-200 hover:border-slate-500 hover:text-white"
+                >
+                  Omg {nextRound.gameweek} →
+                </Link>
+              ) : (
+                <span className="px-2 py-1 text-[11px] text-slate-500">→</span>
+              )}
+            </div>
+          )}
         </div>
       </header>
 

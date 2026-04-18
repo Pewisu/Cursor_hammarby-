@@ -465,7 +465,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
               🏠 Huvudsida
             </Link>
             <Link
-              href="/matchstatistik"
+              href="/matchstatistik/kombinerat"
               className="inline-flex text-slate-300 hover:text-white"
             >
               ← Till matchstatistik
