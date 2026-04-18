@@ -465,16 +465,16 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
               🏠 Huvudsida
             </Link>
             <Link
-              href="/matchstatistik/kombinerat"
+              href="/matchstatistik"
               className="inline-flex text-slate-300 hover:text-white"
             >
               ← Till matchstatistik
             </Link>
             <Link
-              href="/lopdata/trender"
+              href="/spelarstatistik"
               className="inline-flex text-blue-300 hover:text-blue-200"
             >
-              Öppna spelartrender över tid →
+              Till spelarstatistik →
             </Link>
           </div>
         </div>

@@ -27,10 +27,10 @@ export default function MatchStatisticsRoundsIndexPage() {
               ← Matchstatistik översikt
             </Link>
             <Link
-              href="/matchstatistik/kombinerat"
+              href="/matchstatistik/sasong"
               className="rounded-lg border border-blue-500/40 bg-blue-500/10 px-3 py-1.5 text-xs text-blue-200 hover:border-blue-400"
             >
-              Kombinerad vy
+              Säsongsstatistik
             </Link>
           </div>
         </div>

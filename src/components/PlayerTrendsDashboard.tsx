@@ -468,11 +468,11 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
           >
             🏠 Huvudsida
           </Link>
-          <Link href="/lopdata" className="text-slate-300 hover:text-white">
-            ← Till löpdatasidan
+          <Link href="/spelarstatistik" className="text-slate-300 hover:text-white">
+            ← Till spelarstatistik
           </Link>
-          <Link href="/matchstatistik/kombinerat" className="text-slate-400 hover:text-slate-200">
-            Till översikten
+          <Link href="/matchstatistik" className="text-slate-400 hover:text-slate-200">
+            Till matchstatistik
           </Link>
         </div>
       </header>

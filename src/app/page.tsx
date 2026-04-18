@@ -12,15 +12,15 @@ export default function Home() {
             Välj vad du vill analysera
           </h1>
           <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
-            Här hittar du tre olika vyer: matchstatistik med undernavigering,
-            Hammarbys löpdata och individuella spelartrender över tid.
+            Börja med område och gå sedan vidare till rätt undersida: matchstatistik
+            för lagets prestationer eller spelarstatistik för individdata.
           </p>
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
+      <main className="mx-auto grid max-w-5xl gap-6 px-4 py-8 md:grid-cols-2">
         <Link
-          href="/matchstatistik/kombinerat"
+          href="/matchstatistik"
           className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
         >
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/20 text-blue-300">
@@ -28,8 +28,8 @@ export default function Home() {
           </div>
           <h2 className="text-xl font-semibold text-white">Matchstatistik</h2>
           <p className="mt-2 text-sm text-slate-300">
-            Kombinerad översikt samt omgång för omgång med resultat, xG, skott
-            och lagjämförelser.
+            Översikt med tydliga ingångar till säsongsstatistik och
+            omgångsstatistik.
           </p>
           <p className="mt-4 text-sm font-medium text-blue-300 group-hover:text-blue-200">
             Öppna matchstatistik →
@@ -37,36 +37,19 @@ export default function Home() {
         </Link>
 
         <Link
-          href="/lopdata"
-          className="group rounded-2xl border border-green-500/30 bg-slate-800/80 p-6 transition-colors hover:border-green-400/60 hover:bg-slate-800"
-        >
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/20 text-green-300">
-            🏃
-          </div>
-          <h2 className="text-xl font-semibold text-white">Löpdata</h2>
-          <p className="mt-2 text-sm text-slate-300">
-            Löpsträcka, tempo och maxhastighet per spelare och match för
-            Hammarby.
-          </p>
-          <p className="mt-4 text-sm font-medium text-green-300 group-hover:text-green-200">
-            Öppna löpdata →
-          </p>
-        </Link>
-
-        <Link
-          href="/lopdata/trender"
+          href="/spelarstatistik"
           className="group rounded-2xl border border-purple-500/30 bg-slate-800/80 p-6 transition-colors hover:border-purple-400/60 hover:bg-slate-800"
         >
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/20 text-purple-300">
             📈
           </div>
-          <h2 className="text-xl font-semibold text-white">Spelartrender</h2>
+          <h2 className="text-xl font-semibold text-white">Spelarstatistik</h2>
           <p className="mt-2 text-sm text-slate-300">
-            Följ spelare över tid med valbara parametrar och filtrering per
-            omgång.
+            Gå vidare till löpdata per spelare eller spelartrender över tid
+            med valbara KPI:er.
           </p>
           <p className="mt-4 text-sm font-medium text-purple-300 group-hover:text-purple-200">
-            Öppna spelartrender →
+            Öppna spelarstatistik →
           </p>
         </Link>
       </main>

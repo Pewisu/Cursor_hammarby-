@@ -574,7 +574,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
   const navItems = [
     { href: "/matchstatistik", label: "Översikt", active: false },
-    { href: "/matchstatistik/kombinerat", label: "Kombinerat", active: mode === "combined" },
+    { href: "/matchstatistik/sasong", label: "Säsong", active: mode === "combined" },
     { href: "/matchstatistik/omgang", label: "Omgångar", active: mode === "round" },
   ];
   const currentRoundIndex =
@@ -998,11 +998,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </Link>
           ))}
           <span className="mx-1 text-slate-600">•</span>
-          <Link href="/lopdata" className="text-xs text-green-300 hover:text-green-200">
-            Löpdata
-          </Link>
-          <Link href="/lopdata/trender" className="text-xs text-purple-300 hover:text-purple-200">
-            Spelartrender
+          <Link href="/spelarstatistik" className="text-xs text-purple-300 hover:text-purple-200">
+            Spelarstatistik
           </Link>
           <Link
             href="/"
