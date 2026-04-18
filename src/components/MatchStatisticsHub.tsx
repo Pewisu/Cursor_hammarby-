@@ -135,6 +135,7 @@ const MATCH_ANALYSIS_AVAILABLE_SEASONS = Array.from(
 ).sort((a, b) => a - b);
 const DEFAULT_MATCH_ANALYSIS_SEASON =
   MATCH_ANALYSIS_AVAILABLE_SEASONS[MATCH_ANALYSIS_AVAILABLE_SEASONS.length - 1] ?? 2026;
+const PREFERRED_ROUND_FOCUS_SEASON = 2026;
 
 function formatDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -631,7 +632,21 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         deltaFromPrevious: previous ? row.value - previous.value : null,
       };
     });
-  const seasonRows = matchAnalysisRows.filter((row) => row.season === selectedMatchAnalysisSeason);
+  const preferredFocusSeasonRows = matchAnalysisRows.filter(
+    (row) => row.season === PREFERRED_ROUND_FOCUS_SEASON
+  );
+  const fallbackFocusSeasonRows = matchAnalysisRows.filter(
+    (row) => row.season === selectedMatchAnalysisSeason
+  );
+  const defaultRoundFocusRow =
+    preferredFocusSeasonRows[preferredFocusSeasonRows.length - 1] ??
+    fallbackFocusSeasonRows[fallbackFocusSeasonRows.length - 1] ??
+    null;
+  const effectiveSelectedSeason =
+    matchAnalysisViewMode === "round" && defaultRoundFocusRow
+      ? defaultRoundFocusRow.season
+      : selectedMatchAnalysisSeason;
+  const seasonRows = matchAnalysisRows.filter((row) => row.season === effectiveSelectedSeason);
   const fallbackRoundAKey = seasonRows[0]?.key ?? "";
   const fallbackRoundBKey = seasonRows[seasonRows.length - 1]?.key ?? "";
   const effectiveComparisonRoundA = seasonRows.some((row) => row.key === comparisonRoundA)
@@ -642,7 +657,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     : fallbackRoundBKey;
   const effectiveRoundVsSeasonRound = seasonRows.some((row) => row.key === roundVsSeasonRound)
     ? roundVsSeasonRound
-    : fallbackRoundBKey;
+    : matchAnalysisViewMode === "round" && defaultRoundFocusRow && seasonRows.length > 0
+      ? defaultRoundFocusRow.key
+      : fallbackRoundBKey;
 
   const latestMatchAnalysisRow = seasonRows[seasonRows.length - 1] ?? null;
   const matchAnalysisAverage =
