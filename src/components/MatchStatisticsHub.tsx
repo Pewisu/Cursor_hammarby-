@@ -105,6 +105,7 @@ type MatchAnalysisAverage = {
 
 type SeasonComparisonMode = "full" | "played";
 type MatchAnalysisViewMode = "round" | "season-average";
+type HistoricalComparisonMode = "recommended" | "any";
 
 type OverviewData = {
   id: string;
@@ -548,6 +549,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [selectedSingleRoundComparisonMode, setSelectedSingleRoundComparisonMode] = useState<
     "season-average" | "previous-season-match"
   >("season-average");
+  const [historicalComparisonMode, setHistoricalComparisonMode] =
+    useState<HistoricalComparisonMode>("recommended");
   const [seasonViewRoundA, setSeasonViewRoundA] = useState<string>("");
   const [seasonViewRoundB, setSeasonViewRoundB] = useState<string>("");
   const [comparisonRoundA, setComparisonRoundA] = useState<string>("");
@@ -555,6 +558,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
   const [selectedHistoricalComparisonKey, setSelectedHistoricalComparisonKey] =
     useState<string>("none");
+  const [historicalComparisonSelectionType, setHistoricalComparisonSelectionType] = useState<
+    "recommended" | "all"
+  >("recommended");
 
   const roundOverview =
     mode === "round"
@@ -870,21 +876,29 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       : [];
   const recommendedHistoricalKey =
     (strictHistoricalCandidates[0] ?? fallbackHistoricalCandidates[0])?.key ?? null;
-  const historicalComparisonCandidates: HistoricalComparisonCandidate[] = allPreviousSeasonCandidates.map((row) => ({
-    key: row.key,
-    label: `S${row.season} Omg ${row.gameweek} (${row.opponent})`,
-    context: row.isHome ? "Hemma" : "Borta",
-    isRecommended: row.key === recommendedHistoricalKey,
-  }));
+  const historicalComparisonCandidates: HistoricalComparisonCandidate[] =
+    allPreviousSeasonCandidates.map((row) => ({
+      key: row.key,
+      label: `S${row.season} Omg ${row.gameweek} (${row.opponent})`,
+      context: row.isHome ? "Hemma" : "Borta",
+      isRecommended: row.key === recommendedHistoricalKey,
+    }));
+  const recommendedHistoricalCandidates = historicalComparisonCandidates.filter(
+    (candidate) => candidate.isRecommended
+  );
+  const selectableHistoricalCandidates =
+    historicalComparisonMode === "recommended" && recommendedHistoricalCandidates.length > 0
+      ? recommendedHistoricalCandidates
+      : historicalComparisonCandidates;
 
   const effectiveHistoricalComparisonKey =
-    historicalComparisonCandidates.length === 0
+    selectableHistoricalCandidates.length === 0
       ? "none"
-      : historicalComparisonCandidates.some(
+      : selectableHistoricalCandidates.some(
             (candidate) => candidate.key === selectedHistoricalComparisonKey
           )
         ? selectedHistoricalComparisonKey
-        : historicalComparisonCandidates[0].key;
+        : selectableHistoricalCandidates[0].key;
   const historicalComparisonRow =
     effectiveHistoricalComparisonKey === "none"
       ? null
@@ -1427,7 +1441,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </button>
           </div>
 
-          {matchAnalysisViewMode === "round" && comparisonRowA && comparisonRowB && (
+          {mode === "round" && matchAnalysisViewMode === "round" && comparisonRowA && comparisonRowB && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför två omgångar</h3>
