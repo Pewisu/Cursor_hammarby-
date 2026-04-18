@@ -86,6 +86,7 @@ type HistoricalComparisonCandidate = {
   key: string;
   label: string;
   context: string;
+  isRecommended: boolean;
 };
 
 type SeasonVsSeasonPeriodRow = {
@@ -807,14 +808,17 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             : normalizeOpponentName(row.opponent) === normalizeOpponentName(roundVsSeasonRow.opponent);
         })
       : [];
-  const historicalComparisonCandidates: HistoricalComparisonCandidate[] = (
-    strictHistoricalCandidates.length > 0
-      ? strictHistoricalCandidates
-      : fallbackHistoricalCandidates
-  ).map((row) => ({
+  const allPreviousSeasonCandidates =
+    roundVsSeasonRow && previousSeason
+      ? matchAnalysisRows.filter((row) => row.season === previousSeason)
+      : [];
+  const recommendedHistoricalKey =
+    (strictHistoricalCandidates[0] ?? fallbackHistoricalCandidates[0])?.key ?? null;
+  const historicalComparisonCandidates: HistoricalComparisonCandidate[] = allPreviousSeasonCandidates.map((row) => ({
     key: row.key,
     label: `S${row.season} Omg ${row.gameweek} (${row.opponent})`,
     context: row.isHome ? "Hemma" : "Borta",
+    isRecommended: row.key === recommendedHistoricalKey,
   }));
 
   const effectiveHistoricalComparisonKey =
@@ -1003,14 +1007,33 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
-          <h2 className="text-lg font-semibold text-white">Nyckeltal</h2>
+          <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Jämförelse per lag med fokus på målproduktion, passningsspel och defensiv disciplin.
+            Värdena visar totalen för det valda urvalet. I kombinerat läge är det summerat över
+            alla spelade omgångar.
           </p>
+          {mode === "combined" && (
+            <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-xs text-slate-300">
+              <p>
+                Per omgång (snitt):{" "}
+                <span className="font-semibold text-slate-100">
+                  {current.subtitle.match(/Omgång/g)?.length ?? 1}
+                </span>{" "}
+                spelade omgångar i urvalet.
+              </p>
+              <p className="mt-1 text-slate-400">
+                Exempel: Passningar = total i urvalet, medan passningsprocent visas som procent.
+              </p>
+            </div>
+          )}
           <div className="mt-5 space-y-4">
             {current.stats.map((stat) => {
               const leftWidth = getBarWidth(stat.home, stat.away);
               const rightWidth = 100 - leftWidth;
+              const roundsInView = mode === "combined" ? Math.max(sortedMatches.length, 1) : 1;
+              const perRoundHome = stat.home / roundsInView;
+              const perRoundAway = stat.away / roundsInView;
+              const showPerRound = mode === "combined" && stat.format !== "percent";
               return (
                 <div key={stat.key}>
                   <div className="mb-1.5 flex items-center justify-between text-sm">
@@ -1040,6 +1063,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       }}
                     />
                   </div>
+                  {showPerRound && (
+                    <p className="mt-1 text-[11px] text-slate-500">
+                      Snitt/omgång: {current.leftTeam}{" "}
+                      {formatCompactValue(perRoundHome, stat.format)} • {current.rightTeam}{" "}
+                      {formatCompactValue(perRoundAway, stat.format)}
+                    </p>
+                  )}
                 </div>
               );
             })}
@@ -1631,7 +1661,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
                       <option value="season-average">Säsongssnitt</option>
-                      <option value="previous-season-match">Motsvarande match {previousSeason ?? ""}</option>
+                      <option value="previous-season-match">
+                        Match från säsong 2025
+                      </option>
                     </select>
                   </label>
                   <label className="flex items-center gap-2 text-xs text-slate-300">
