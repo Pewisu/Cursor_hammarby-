@@ -531,6 +531,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   );
   const [showSeasonRows, setShowSeasonRows] = useState<boolean>(false);
   const [seasonComparisonMode, setSeasonComparisonMode] = useState<"full" | "played">("played");
+  const [showSeasonComparisonPeriods, setShowSeasonComparisonPeriods] = useState<boolean>(false);
   const [comparisonRoundA, setComparisonRoundA] = useState<string>("");
   const [comparisonRoundB, setComparisonRoundB] = useState<string>("");
   const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
@@ -1554,6 +1555,15 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 ? "Visar säsongssnitt för samtliga tillgängliga matcher i respektive säsong."
                 : `Visar endast ${playedSeasonPairCount} matchpar: 2026 spelade omgångar mot motsvarande matcher 2025.`}
             </p>
+            <div className="mt-2">
+              <button
+                type="button"
+                onClick={() => setShowSeasonComparisonPeriods((currentValue) => !currentValue)}
+                className="rounded-lg border border-slate-600 bg-slate-950/70 px-3 py-1.5 text-xs text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+              >
+                {showSeasonComparisonPeriods ? "Dölj perioddetaljer" : "Visa perioddetaljer"}
+              </button>
+            </div>
             {seasonComparisonMode === "played" && playedSeasonPairCount > 0 && (
               <div className="mt-2 rounded-lg border border-slate-700/60 bg-slate-950/60 px-3 py-2 text-[11px] text-slate-300">
                 <p className="font-medium text-slate-200">Parade matcher (2026 mot 2025)</p>
@@ -1607,28 +1617,30 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </p>
               </div>
             </div>
-            <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
-              {activeSeasonComparisonPeriodRows.map((periodRow) => (
-                <div
-                  key={`season-compare-period-${periodRow.label}`}
-                  className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
-                >
-                  <p className="text-slate-500">{periodRow.label}</p>
-                  <p className="text-slate-300">
-                    {formatMatchAnalysisValue(periodRow.seasonAValue, selectedMatchAnalysisMetric)} vs{" "}
-                    {formatMatchAnalysisValue(periodRow.seasonBValue, selectedMatchAnalysisMetric)}
-                  </p>
-                  <p
-                    className={`font-semibold ${getMatchAnalysisDeltaTone(
-                      periodRow.delta,
-                      selectedMatchAnalysisMetric.direction
-                    )}`}
+            {showSeasonComparisonPeriods && (
+              <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
+                {activeSeasonComparisonPeriodRows.map((periodRow) => (
+                  <div
+                    key={`season-compare-period-${periodRow.label}`}
+                    className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
                   >
-                    {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
-                  </p>
-                </div>
-              ))}
-            </div>
+                    <p className="text-slate-500">{periodRow.label}</p>
+                    <p className="text-slate-300">
+                      {formatMatchAnalysisValue(periodRow.seasonAValue, selectedMatchAnalysisMetric)} vs{" "}
+                      {formatMatchAnalysisValue(periodRow.seasonBValue, selectedMatchAnalysisMetric)}
+                    </p>
+                    <p
+                      className={`font-semibold ${getMatchAnalysisDeltaTone(
+                        periodRow.delta,
+                        selectedMatchAnalysisMetric.direction
+                      )}`}
+                    >
+                      {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {roundVsSeasonRow && (
