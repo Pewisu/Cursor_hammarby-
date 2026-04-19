@@ -79,11 +79,13 @@ type ComparisonPeriodRow = {
   delta: number;
 };
 
-type RoundVsSeasonPeriodRow = {
+type RoundVsDualSeasonPeriodRow = {
   label: string;
   roundValue: number;
-  seasonValue: number;
-  delta: number;
+  season2026Value: number | null;
+  season2025Value: number | null;
+  deltaVs2026: number | null;
+  deltaVs2025: number | null;
 };
 
 type HistoricalComparisonCandidate = {
@@ -124,6 +126,35 @@ type OverviewData = {
 
 type HighlightTone = "cyan" | "emerald" | "amber" | "violet";
 
+type PlaystyleLensDefinition = {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  tone: HighlightTone;
+  primaryMetricKey: MatchAnalysisMetricKey;
+  secondaryMetricKey?: MatchAnalysisMetricKey;
+};
+
+type PlaystyleMetricSnapshot = {
+  metric: MatchAnalysisMetricDefinition;
+  currentValue: number;
+  average2026: number | null;
+  average2025: number | null;
+  deltaVs2026: number | null;
+  deltaVs2025: number | null;
+};
+
+type PlaystyleProfileCard = {
+  id: string;
+  title: string;
+  icon: string;
+  description: string;
+  tone: HighlightTone;
+  primary: PlaystyleMetricSnapshot;
+  secondary: PlaystyleMetricSnapshot | null;
+};
+
 const HIGHLIGHT_TONE_STYLES: Record<
   HighlightTone,
   { border: string; bg: string; text: string; chip: string }
@@ -153,6 +184,75 @@ const HIGHLIGHT_TONE_STYLES: Record<
     chip: "bg-violet-500/20 text-violet-100",
   },
 };
+
+const MATCH_ANALYSIS_METRIC_DEFINITION_BY_KEY = new Map(
+  hammarbyMatchAnalysisMetricDefinitions.map((metric) => [metric.key, metric] as const)
+);
+
+const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
+  {
+    id: "control",
+    title: "Kontrollspel",
+    icon: "🧭",
+    description: "Hur väl Hammarby styr matchbilden med boll och etablering.",
+    tone: "violet",
+    primaryMetricKey: "ball_possession_pct",
+    secondaryMetricKey: "num_possessions_final_third",
+  },
+  {
+    id: "penetration",
+    title: "Genombrottshot",
+    icon: "⚡",
+    description: "Hur ofta laget kommer till farliga ytor och skapar framåthot.",
+    tone: "amber",
+    primaryMetricKey: "num_box_entries",
+    secondaryMetricKey: "xt",
+  },
+  {
+    id: "pressing",
+    title: "Press & återerövring",
+    icon: "🔁",
+    description: "Intensitet i återerövring och press på motståndaren.",
+    tone: "emerald",
+    primaryMetricKey: "num_recoveries_att_half",
+    secondaryMetricKey: "ppda",
+  },
+  {
+    id: "defensive-balance",
+    title: "Defensiv balans",
+    icon: "🛡️",
+    description: "Hur väl laget begränsar motståndarens chanskvalitet.",
+    tone: "cyan",
+    primaryMetricKey: "opp_np_xg",
+    secondaryMetricKey: "defensive_action_height_m",
+  },
+];
+
+const MATCH_ANALYSIS_ROUND_BY_KEY = new Map(
+  hammarbyMatchAnalysisRounds.map((roundRow) => [roundRow.key, roundRow] as const)
+);
+
+const MATCH_ANALYSIS_SEASON_METRIC_AVERAGES = new Map<
+  number,
+  Partial<Record<MatchAnalysisMetricKey, number>>
+>(
+  Array.from(new Set(hammarbyMatchAnalysisRounds.map((row) => row.season)))
+    .sort((a, b) => a - b)
+    .map((season) => {
+      const seasonRows = hammarbyMatchAnalysisRounds.filter((row) => row.season === season);
+      const averagesByMetric: Partial<Record<MatchAnalysisMetricKey, number>> = {};
+      if (seasonRows.length === 0) {
+        return [season, averagesByMetric] as const;
+      }
+
+      for (const metric of hammarbyMatchAnalysisMetricDefinitions) {
+        averagesByMetric[metric.key] =
+          seasonRows.reduce((sum, row) => sum + row.metrics[metric.key].value, 0) /
+          seasonRows.length;
+      }
+      return [season, averagesByMetric] as const;
+    })
+);
 
 function getRoundHighlightCards(roundData: HammarbyRoundHighlight) {
   return roundData.players.map((player, index) => {
@@ -235,6 +335,18 @@ function formatCompactValue(
   return value.toLocaleString("sv-SE", {
     maximumFractionDigits: 0,
   });
+}
+
+function getRelativeMetricBarWidth(
+  value: number,
+  comparisonValues: number[]
+): string {
+  const maxReference = Math.max(
+    ...comparisonValues.map((entry) => Math.max(entry, 0)),
+    Number.EPSILON
+  );
+  const width = (Math.max(value, 0) / maxReference) * 100;
+  return `${Math.min(100, Math.max(width, 8))}%`;
 }
 
 function formatMatchAnalysisValue(
@@ -619,8 +731,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   >("season-average");
   const [seasonVenueFilter, setSeasonVenueFilter] = useState<"all" | "home" | "away">("all");
   const [seasonOpponentSearch, setSeasonOpponentSearch] = useState<string>("");
-  const [historicalComparisonMode, setHistoricalComparisonMode] =
-    useState<HistoricalComparisonMode>("recommended");
+  const [historicalComparisonMode] = useState<HistoricalComparisonMode>("recommended");
   const [seasonViewRoundA, setSeasonViewRoundA] = useState<string>("");
   const [seasonViewRoundB, setSeasonViewRoundB] = useState<string>("");
   const [comparisonRoundA, setComparisonRoundA] = useState<string>("");
@@ -966,17 +1077,95 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         }))
       : [];
   const roundVsSeasonRow = seasonRows.find((row) => row.key === effectiveRoundVsSeasonRound) ?? null;
+  const selectedRoundData = roundVsSeasonRow
+    ? MATCH_ANALYSIS_ROUND_BY_KEY.get(roundVsSeasonRow.key) ?? null
+    : null;
+  const selectedRoundMetricValue = (metricKey: MatchAnalysisMetricKey): number | null =>
+    selectedRoundData ? selectedRoundData.metrics[metricKey].value : null;
+  const seasonAverageForMetric = (
+    season: number,
+    metricKey: MatchAnalysisMetricKey
+  ): number | null =>
+    MATCH_ANALYSIS_SEASON_METRIC_AVERAGES.get(season)?.[metricKey] ?? null;
+  const buildPlaystyleSnapshot = (metricKey: MatchAnalysisMetricKey): PlaystyleMetricSnapshot | null => {
+    const metricDefinition = MATCH_ANALYSIS_METRIC_DEFINITION_BY_KEY.get(metricKey);
+    const currentValue = selectedRoundMetricValue(metricKey);
+    if (!metricDefinition || currentValue === null) {
+      return null;
+    }
+
+    const average2026 = seasonAverageForMetric(2026, metricKey);
+    const average2025 = seasonAverageForMetric(2025, metricKey);
+
+    return {
+      metric: metricDefinition,
+      currentValue,
+      average2026,
+      average2025,
+      deltaVs2026: average2026 === null ? null : currentValue - average2026,
+      deltaVs2025: average2025 === null ? null : currentValue - average2025,
+    };
+  };
+  const playstyleProfiles: PlaystyleProfileCard[] =
+    mode === "round" && effectiveMatchAnalysisViewMode === "round" && selectedRoundData
+      ? PLAYSTYLE_LENS_DEFINITIONS.flatMap((lens) => {
+          const primarySnapshot = buildPlaystyleSnapshot(lens.primaryMetricKey);
+          if (!primarySnapshot) return [];
+
+          const secondarySnapshot = lens.secondaryMetricKey
+            ? buildPlaystyleSnapshot(lens.secondaryMetricKey)
+            : null;
+
+          return [
+            {
+              id: lens.id,
+              title: lens.title,
+              icon: lens.icon,
+              description: lens.description,
+              tone: lens.tone,
+              primary: primarySnapshot,
+              secondary: secondarySnapshot,
+            },
+          ];
+        })
+      : [];
+  const matchAnalysisAverage2026 = averageMatchAnalysisRows(seasonRows2026);
+  const matchAnalysisAverage2025 = averageMatchAnalysisRows(seasonRows2025);
+  const roundVsSeasonAverage2026Delta =
+    roundVsSeasonRow && matchAnalysisAverage2026
+      ? roundVsSeasonRow.value - matchAnalysisAverage2026.value
+      : null;
+  const roundVsSeasonAverage2025Delta =
+    roundVsSeasonRow && matchAnalysisAverage2025
+      ? roundVsSeasonRow.value - matchAnalysisAverage2025.value
+      : null;
+  const roundVsDualSeasonPeriodRows: RoundVsDualSeasonPeriodRow[] = roundVsSeasonRow
+    ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => {
+        const period2026 = matchAnalysisAverage2026?.periods[index] ?? null;
+        const period2025 = matchAnalysisAverage2025?.periods[index] ?? null;
+        return {
+          label,
+          roundValue: roundVsSeasonRow.periods[index],
+          season2026Value: period2026,
+          season2025Value: period2025,
+          deltaVs2026: period2026 === null ? null : roundVsSeasonRow.periods[index] - period2026,
+          deltaVs2025: period2025 === null ? null : roundVsSeasonRow.periods[index] - period2025,
+        };
+      })
+    : [];
+  const formatDeltaWithMeaning = (
+    value: number | null,
+    metric: MatchAnalysisMetricDefinition
+  ): string => {
+    if (value === null) return "–";
+    return `${formatMatchAnalysisDelta(value, metric)} (${getMatchAnalysisDeltaMeaning(
+      value,
+      metric.direction
+    )})`;
+  };
   const roundVsSeasonDelta = roundVsSeasonRow
     ? roundVsSeasonRow.value - matchAnalysisAverage
     : 0;
-  const roundVsSeasonPeriodRows: RoundVsSeasonPeriodRow[] = roundVsSeasonRow
-    ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
-        label,
-        roundValue: roundVsSeasonRow.periods[index],
-        seasonValue: averagePeriodValues[index],
-        delta: roundVsSeasonRow.periods[index] - averagePeriodValues[index],
-      }))
-    : [];
   const previousSeason = roundVsSeasonRow ? roundVsSeasonRow.season - 1 : null;
   const strictHistoricalCandidates =
     roundVsSeasonRow && previousSeason
@@ -1254,6 +1443,173 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           </section>
         )}
+
+        {mode === "round" &&
+          effectiveMatchAnalysisViewMode === "round" &&
+          selectedRoundData &&
+          playstyleProfiles.length > 0 && (
+            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-lg font-semibold text-white">
+                    Spelstil & spelsätt som stack ut (omgång {roundVsSeasonRow?.gameweek})
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Profilkort som visar hur matchen skiljde sig mot säsongssnitt 2026 och 2025.
+                  </p>
+                </div>
+                <a
+                  href={selectedRoundData.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+                >
+                  Matchanalyskälla
+                </a>
+              </div>
+              <div className="mt-4 grid gap-3 lg:grid-cols-2">
+                {playstyleProfiles.map((profile) => {
+                  const tone = HIGHLIGHT_TONE_STYLES[profile.tone];
+                  const renderSnapshot = (
+                    snapshot: PlaystyleMetricSnapshot,
+                    snapshotLabel: string
+                  ) => {
+                    const comparisonValues = [
+                      snapshot.currentValue,
+                      snapshot.average2026 ?? 0,
+                      snapshot.average2025 ?? 0,
+                    ];
+                    return (
+                      <div className="rounded-lg border border-slate-700/60 bg-slate-950/60 p-3">
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
+                          {snapshotLabel}
+                        </p>
+                        <p className={`mt-1 text-sm font-semibold ${tone.text}`}>
+                          {snapshot.metric.label}
+                        </p>
+                        <div className="mt-2 space-y-2 text-[11px]">
+                          <div>
+                            <div className="mb-1 flex items-center justify-between text-slate-300">
+                              <span>Vald match</span>
+                              <span className="font-semibold text-white">
+                                {formatMatchAnalysisValue(snapshot.currentValue, snapshot.metric)}
+                              </span>
+                            </div>
+                            <div className="h-1.5 rounded-full bg-slate-800">
+                              <div
+                                className="h-1.5 rounded-full bg-blue-400"
+                                style={{
+                                  width: getRelativeMetricBarWidth(
+                                    snapshot.currentValue,
+                                    comparisonValues
+                                  ),
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="mb-1 flex items-center justify-between text-slate-300">
+                              <span>Snitt 2026</span>
+                              <span className="font-semibold text-white">
+                                {snapshot.average2026 === null
+                                  ? "–"
+                                  : formatMatchAnalysisValue(snapshot.average2026, snapshot.metric)}
+                              </span>
+                            </div>
+                            <div className="h-1.5 rounded-full bg-slate-800">
+                              <div
+                                className="h-1.5 rounded-full bg-emerald-400"
+                                style={{
+                                  width: getRelativeMetricBarWidth(
+                                    snapshot.average2026 ?? 0,
+                                    comparisonValues
+                                  ),
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="mb-1 flex items-center justify-between text-slate-300">
+                              <span>Snitt 2025</span>
+                              <span className="font-semibold text-white">
+                                {snapshot.average2025 === null
+                                  ? "–"
+                                  : formatMatchAnalysisValue(snapshot.average2025, snapshot.metric)}
+                              </span>
+                            </div>
+                            <div className="h-1.5 rounded-full bg-slate-800">
+                              <div
+                                className="h-1.5 rounded-full bg-amber-400"
+                                style={{
+                                  width: getRelativeMetricBarWidth(
+                                    snapshot.average2025 ?? 0,
+                                    comparisonValues
+                                  ),
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-3 grid gap-2 text-[11px] sm:grid-cols-2">
+                          <div className="rounded border border-slate-700/60 bg-slate-900/70 px-2 py-1.5">
+                            <p className="text-slate-500">Δ vs 2026</p>
+                            <p
+                              className={`font-semibold ${
+                                snapshot.deltaVs2026 === null
+                                  ? "text-slate-300"
+                                  : getMatchAnalysisDeltaTone(
+                                      snapshot.deltaVs2026,
+                                      snapshot.metric.direction
+                                    )
+                              }`}
+                            >
+                              {formatDeltaWithMeaning(snapshot.deltaVs2026, snapshot.metric)}
+                            </p>
+                          </div>
+                          <div className="rounded border border-slate-700/60 bg-slate-900/70 px-2 py-1.5">
+                            <p className="text-slate-500">Δ vs 2025</p>
+                            <p
+                              className={`font-semibold ${
+                                snapshot.deltaVs2025 === null
+                                  ? "text-slate-300"
+                                  : getMatchAnalysisDeltaTone(
+                                      snapshot.deltaVs2025,
+                                      snapshot.metric.direction
+                                    )
+                              }`}
+                            >
+                              {formatDeltaWithMeaning(snapshot.deltaVs2025, snapshot.metric)}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  };
+
+                  return (
+                    <article
+                      key={`playstyle-${profile.id}`}
+                      className={`rounded-xl border p-4 ${tone.border} ${tone.bg}`}
+                    >
+                      <div className="flex items-start justify-between gap-2">
+                        <p className={`text-sm font-semibold ${tone.text}`}>
+                          {profile.icon} {profile.title}
+                        </p>
+                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${tone.chip}`}>
+                          Matchprofil
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs text-slate-300">{profile.description}</p>
+                      <div className="mt-3 space-y-3">
+                        {renderSnapshot(profile.primary, "Primär KPI")}
+                        {profile.secondary && renderSnapshot(profile.secondary, "Stöd-KPI")}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
@@ -2272,7 +2628,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </div>
               ) : (
                 <>
-                  <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
+                  <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-4">
                     <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
                       <p className="text-slate-400">Vald omgång</p>
                       <p className="mt-1 text-base font-semibold text-white">
@@ -2280,13 +2636,61 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       </p>
                     </div>
                     <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                      <p className="text-slate-400">Säsongssnitt</p>
+                      <p className="text-slate-400">Säsongssnitt 2026</p>
                       <p className="mt-1 text-base font-semibold text-white">
-                        {formatMatchAnalysisValue(matchAnalysisAverage, selectedMatchAnalysisMetric)}
+                        {matchAnalysisAverage2026
+                          ? formatMatchAnalysisValue(
+                              matchAnalysisAverage2026.value,
+                              selectedMatchAnalysisMetric
+                            )
+                          : "–"}
+                      </p>
+                      <p
+                        className={`mt-1 text-[11px] ${
+                          roundVsSeasonAverage2026Delta === null
+                            ? "text-slate-400"
+                            : getMatchAnalysisDeltaTone(
+                                roundVsSeasonAverage2026Delta,
+                                selectedMatchAnalysisMetric.direction
+                              )
+                        }`}
+                      >
+                        Δ:{" "}
+                        {formatDeltaWithMeaning(
+                          roundVsSeasonAverage2026Delta,
+                          selectedMatchAnalysisMetric
+                        )}
                       </p>
                     </div>
                     <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                      <p className="text-slate-400">Skillnad (omgång - snitt)</p>
+                      <p className="text-slate-400">Säsongssnitt 2025</p>
+                      <p className="mt-1 text-base font-semibold text-white">
+                        {matchAnalysisAverage2025
+                          ? formatMatchAnalysisValue(
+                              matchAnalysisAverage2025.value,
+                              selectedMatchAnalysisMetric
+                            )
+                          : "–"}
+                      </p>
+                      <p
+                        className={`mt-1 text-[11px] ${
+                          roundVsSeasonAverage2025Delta === null
+                            ? "text-slate-400"
+                            : getMatchAnalysisDeltaTone(
+                                roundVsSeasonAverage2025Delta,
+                                selectedMatchAnalysisMetric.direction
+                              )
+                        }`}
+                      >
+                        Δ:{" "}
+                        {formatDeltaWithMeaning(
+                          roundVsSeasonAverage2025Delta,
+                          selectedMatchAnalysisMetric
+                        )}
+                      </p>
+                    </div>
+                    <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
+                      <p className="text-slate-400">Skillnad (omgång - aktivt snitt)</p>
                       <p
                         className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
                           roundVsSeasonDelta,
@@ -2304,8 +2708,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     </div>
                   </div>
 
-                  <div className="mt-3 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
-                    {roundVsSeasonPeriodRows.map((periodRow) => (
+                  <div className="mt-3 grid grid-cols-1 gap-2 text-[11px] sm:grid-cols-2">
+                    {roundVsDualSeasonPeriodRows.map((periodRow) => (
                       <div
                         key={`round-vs-season-${periodRow.label}`}
                         className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
@@ -2315,26 +2719,59 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           {formatMatchAnalysisValue(
                             periodRow.roundValue,
                             selectedMatchAnalysisMetric
-                          )}{" "}
-                          vs{" "}
-                          {formatMatchAnalysisValue(
-                            periodRow.seasonValue,
-                            selectedMatchAnalysisMetric
                           )}
                         </p>
-                        <p
-                          className={`font-semibold ${getMatchAnalysisDeltaTone(
-                            periodRow.delta,
-                            selectedMatchAnalysisMetric.direction
-                          )}`}
-                        >
-                          {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
+                        <p className="mt-0.5 text-slate-400">
+                          2026:{" "}
+                          {periodRow.season2026Value === null
+                            ? "–"
+                            : formatMatchAnalysisValue(
+                                periodRow.season2026Value,
+                                selectedMatchAnalysisMetric
+                              )}
+                          {" • "}2025:{" "}
+                          {periodRow.season2025Value === null
+                            ? "–"
+                            : formatMatchAnalysisValue(
+                                periodRow.season2025Value,
+                                selectedMatchAnalysisMetric
+                              )}
+                        </p>
+                        <p className="mt-0.5 text-[10px] text-slate-500">
+                          Δ vs 2026:{" "}
+                          <span
+                            className={
+                              periodRow.deltaVs2026 === null
+                                ? "text-slate-400"
+                                : getMatchAnalysisDeltaTone(
+                                    periodRow.deltaVs2026,
+                                    selectedMatchAnalysisMetric.direction
+                                  )
+                            }
+                          >
+                            {formatDeltaWithMeaning(
+                              periodRow.deltaVs2026,
+                              selectedMatchAnalysisMetric
+                            )}
+                          </span>
                         </p>
                         <p className="text-[10px] text-slate-500">
-                          {getMatchAnalysisDeltaMeaning(
-                            periodRow.delta,
-                            selectedMatchAnalysisMetric.direction
-                          )}
+                          Δ vs 2025:{" "}
+                          <span
+                            className={
+                              periodRow.deltaVs2025 === null
+                                ? "text-slate-400"
+                                : getMatchAnalysisDeltaTone(
+                                    periodRow.deltaVs2025,
+                                    selectedMatchAnalysisMetric.direction
+                                  )
+                            }
+                          >
+                            {formatDeltaWithMeaning(
+                              periodRow.deltaVs2025,
+                              selectedMatchAnalysisMetric
+                            )}
+                          </span>
                         </p>
                       </div>
                     ))}
