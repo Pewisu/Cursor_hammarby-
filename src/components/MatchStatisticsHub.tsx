@@ -242,7 +242,14 @@ const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
   },
 ];
 
-const ROUND_FOCUS_METRICS_COUNT = 6;
+const ROUND_FOCUS_PRIORITY_METRICS: MatchAnalysisMetricKey[] = [
+  "ball_possession_pct",
+  "num_possessions_final_third",
+  "num_box_entries",
+  "num_recoveries_att_half",
+  "ppda",
+  "np_xg",
+];
 
 const STANDOUT_REFERENCE_DEFINITIONS: Record<
   HammarbyRoundHighlightCategory,
@@ -1260,26 +1267,25 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       : [];
   const hammarbyFocusRoundKpiCards =
     mode === "round" && effectiveMatchAnalysisViewMode === "round" && selectedRoundData
-      ? hammarbyMatchAnalysisMetricDefinitions
-          .filter(
-            (metric) =>
-              !metric.label.toLocaleLowerCase("sv-SE").startsWith("motst.") &&
-              !metric.key.startsWith("opp_")
-          )
-          .slice(0, ROUND_FOCUS_METRICS_COUNT)
-          .map((metric) => {
+      ? ROUND_FOCUS_PRIORITY_METRICS.flatMap((metricKey) => {
+          const metric = MATCH_ANALYSIS_METRIC_DEFINITION_BY_KEY.get(metricKey);
+          if (!metric) {
+            return [];
+          }
             const matchValue = selectedRoundData.metrics[metric.key].value;
             const season2026Value = seasonAverageForMetric(2026, metric.key);
             const season2025Value = seasonAverageForMetric(2025, metric.key);
 
-            return {
+          return [
+            {
               metric,
               matchValue,
               season2026Value,
               season2025Value,
               deltaVs2026: season2026Value === null ? null : matchValue - season2026Value,
               deltaVs2025: season2025Value === null ? null : matchValue - season2025Value,
-            };
+            },
+          ];
           })
       : [];
   const matchAnalysisAverage2026 = averageMatchAnalysisRows(seasonRows2026);
