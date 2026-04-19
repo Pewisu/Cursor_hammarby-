@@ -15,8 +15,14 @@ import {
 } from "@/lib/hammarbyMatchAnalysisData";
 import {
   hammarbyRoundPlayerHighlights,
+  type HammarbyRoundHighlightCategory,
   type HammarbyRoundHighlight,
+  type HammarbyRoundHighlightPlayer,
 } from "@/lib/hammarbyRoundPlayerHighlightsData";
+import {
+  hammarbyPlayerTrendMatches,
+  type PlayerTrendMetrics,
+} from "@/lib/hammarbyPlayerTrendData";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -155,6 +161,23 @@ type PlaystyleProfileCard = {
   secondary: PlaystyleMetricSnapshot | null;
 };
 
+type StandoutReferenceMetricKey = "xA" | "xG" | "recoveries" | "passes";
+
+type StandoutReferenceDefinition = {
+  key: StandoutReferenceMetricKey;
+  label: string;
+  decimals: number;
+};
+
+type StandoutReferenceRow = {
+  playerId: number;
+  playerName: string;
+  roleName: string;
+  matchValue: number;
+  season2026Average: number;
+  season2025Average: number | null;
+};
+
 const HIGHLIGHT_TONE_STYLES: Record<
   HighlightTone,
   { border: string; bg: string; text: string; chip: string }
@@ -227,6 +250,32 @@ const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
     secondaryMetricKey: "defensive_action_height_m",
   },
 ];
+
+const STANDOUT_REFERENCE_DEFINITIONS: Record<
+  HammarbyRoundHighlightCategory,
+  StandoutReferenceDefinition
+> = {
+  creative: {
+    key: "xA",
+    label: "xA",
+    decimals: 2,
+  },
+  finishing: {
+    key: "xG",
+    label: "xG",
+    decimals: 2,
+  },
+  recoveries: {
+    key: "recoveries",
+    label: "Återerövringar",
+    decimals: 0,
+  },
+  distribution: {
+    key: "passes",
+    label: "Passningar",
+    decimals: 0,
+  },
+};
 
 const MATCH_ANALYSIS_ROUND_BY_KEY = new Map(
   hammarbyMatchAnalysisRounds.map((roundRow) => [roundRow.key, roundRow] as const)
@@ -347,6 +396,13 @@ function getRelativeMetricBarWidth(
   );
   const width = (Math.max(value, 0) / maxReference) * 100;
   return `${Math.min(100, Math.max(width, 8))}%`;
+}
+
+function formatStandoutReferenceValue(value: number, decimals: number): string {
+  return value.toLocaleString("sv-SE", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  });
 }
 
 function formatMatchAnalysisValue(
@@ -794,6 +850,95 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     hammarbyMatchAnalysisMetricDefinitions.find(
       (metric) => metric.key === selectedMatchAnalysisMetricKey
     ) ?? hammarbyMatchAnalysisMetricDefinitions[0];
+  const playerTrendRoundRows =
+    mode === "round" && typeof round === "number"
+      ? hammarbyPlayerTrendMatches.find((match) => match.gameweek === round)?.players ?? []
+      : [];
+  const playerTrendRowsWithMinutes = playerTrendRoundRows.filter((player) => player.minutes > 0);
+
+  const primaryStatToTrendMetric: Record<
+    HammarbyRoundHighlightPlayer["primaryStatLabel"],
+    keyof PlayerTrendMetrics | null
+  > = {
+    Nyckelpassningar: "keyPasses",
+    xG: "xG",
+    Återerövringar: "recoveries",
+    Passningar: "passes",
+  };
+
+  const secondaryStatToTrendMetric: Record<
+    HammarbyRoundHighlightPlayer["secondaryStatLabel"],
+    keyof PlayerTrendMetrics | null
+  > = {
+    xA: "xA",
+    "Skott på mål": "shotsOnTarget",
+    "Vunna defensiva dueller": "defensiveDuels",
+    "Lyckade passningar": "passes",
+  };
+
+  const buildStandoutReferenceRows = (
+    player: HammarbyRoundHighlightPlayer,
+    metricKey: keyof PlayerTrendMetrics | null
+  ): Array<{
+    playerId: number;
+    playerName: string;
+    roleName: string;
+    value: number;
+    rank: number;
+    isHighlighted: boolean;
+  }> => {
+    if (!metricKey || playerTrendRowsWithMinutes.length === 0) return [];
+    const values = playerTrendRowsWithMinutes.map((trendPlayer) => {
+      const value = trendPlayer.metrics[metricKey];
+      return {
+        playerId: trendPlayer.playerId,
+        playerName: trendPlayer.playerName,
+        roleName: trendPlayer.roleName,
+        value: typeof value === "number" ? value : 0,
+      };
+    });
+    const sorted = values
+      .filter((entry) => entry.value > 0)
+      .sort((a, b) => b.value - a.value);
+    const playerIndex = sorted.findIndex((entry) => entry.playerId === player.playerId);
+    return sorted.slice(0, 5).map((entry, index) => ({
+      ...entry,
+      rank: index + 1,
+      isHighlighted: playerIndex >= 5 ? entry.playerId === player.playerId : false,
+    }));
+  };
+
+  const standoutReferenceCards =
+    mode === "round" && standoutPlayersForRound
+      ? standoutPlayersForRound.players.map((player) => {
+          const primaryMetricKey = primaryStatToTrendMetric[player.primaryStatLabel];
+          const secondaryMetricKey = secondaryStatToTrendMetric[player.secondaryStatLabel];
+          const primaryRows = buildStandoutReferenceRows(player, primaryMetricKey);
+          const secondaryRows = buildStandoutReferenceRows(player, secondaryMetricKey);
+          const seasonAverageRows = playerTrendRowsWithMinutes;
+          const primarySeasonAverage =
+            primaryMetricKey && seasonAverageRows.length > 0
+              ? seasonAverageRows.reduce((sum, row) => sum + row.metrics[primaryMetricKey], 0) /
+                seasonAverageRows.length
+              : null;
+          const secondarySeasonAverage =
+            secondaryMetricKey && seasonAverageRows.length > 0
+              ? seasonAverageRows.reduce((sum, row) => sum + row.metrics[secondaryMetricKey], 0) /
+                seasonAverageRows.length
+              : null;
+
+          return {
+            playerId: player.playerId,
+            playerName: player.name,
+            primaryStatLabel: player.primaryStatLabel,
+            secondaryStatLabel: player.secondaryStatLabel,
+            primaryRows,
+            secondaryRows,
+            primarySeasonAverage,
+            secondarySeasonAverage,
+          };
+        })
+      : [];
   const matchAnalysisRows: MatchAnalysisRoundRow[] = hammarbyMatchAnalysisRounds
     .map((roundData) => {
       const metricSample = roundData.metrics[selectedMatchAnalysisMetric.key];
