@@ -13,6 +13,10 @@ import {
   type MatchAnalysisMetricDefinition,
   type MatchAnalysisMetricKey,
 } from "@/lib/hammarbyMatchAnalysisData";
+import {
+  hammarbyRoundPlayerHighlights,
+  type HammarbyRoundHighlight,
+} from "@/lib/hammarbyRoundPlayerHighlightsData";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -117,6 +121,69 @@ type OverviewData = {
   sourceUrl?: string;
   stats: StatRow[];
 };
+
+type HighlightTone = "cyan" | "emerald" | "amber" | "violet";
+
+const HIGHLIGHT_TONE_STYLES: Record<
+  HighlightTone,
+  { border: string; bg: string; text: string; chip: string }
+> = {
+  cyan: {
+    border: "border-cyan-500/40",
+    bg: "bg-cyan-500/10",
+    text: "text-cyan-200",
+    chip: "bg-cyan-500/20 text-cyan-100",
+  },
+  emerald: {
+    border: "border-emerald-500/40",
+    bg: "bg-emerald-500/10",
+    text: "text-emerald-200",
+    chip: "bg-emerald-500/20 text-emerald-100",
+  },
+  amber: {
+    border: "border-amber-500/40",
+    bg: "bg-amber-500/10",
+    text: "text-amber-200",
+    chip: "bg-amber-500/20 text-amber-100",
+  },
+  violet: {
+    border: "border-violet-500/40",
+    bg: "bg-violet-500/10",
+    text: "text-violet-200",
+    chip: "bg-violet-500/20 text-violet-100",
+  },
+};
+
+function getRoundHighlightCards(roundData: HammarbyRoundHighlight) {
+  return roundData.players.map((player, index) => {
+    const toneByCategory: Record<
+      HammarbyRoundHighlight["players"][number]["category"],
+      HighlightTone
+    > = {
+      creative: "violet",
+      finishing: "amber",
+      recoveries: "emerald",
+      distribution: "cyan",
+    };
+
+    return {
+      id: `${player.category}-${player.playerId}-${index}`,
+      title: player.badge,
+      icon:
+        player.category === "creative"
+          ? "🪄"
+          : player.category === "finishing"
+            ? "🎯"
+            : player.category === "recoveries"
+              ? "🛡️"
+              : "🧠",
+      tone: toneByCategory[player.category],
+      player,
+      metricLabel: `${player.primaryStatLabel} / ${player.secondaryStatLabel}`,
+      metricValue: `${player.primaryStatValue} ${player.primaryStatLabel.toLowerCase()} • ${player.secondaryStatValue} ${player.secondaryStatLabel.toLowerCase()}`,
+    };
+  });
+}
 
 const TREND_METRIC_OPTIONS: TrendMetricOption[] = [
   { key: "possessionPercent", label: "Bollinnehav", format: "percent" },
@@ -569,6 +636,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           return selectedRound ? buildRoundOverview(selectedRound) : null;
         })()
       : null;
+  const standoutPlayersForRound =
+    mode === "round" && typeof round === "number"
+      ? hammarbyRoundPlayerHighlights.find((entry) => entry.gameweek === round) ?? null
+      : null;
+  const standoutPlayerCards = standoutPlayersForRound
+    ? getRoundHighlightCards(standoutPlayersForRound)
+    : [];
   const combinedOverview = mode === "combined" ? buildCombinedOverview(sortedMatches) : null;
   const current = mode === "combined" ? combinedOverview : roundOverview;
   const effectiveMatchAnalysisViewMode: MatchAnalysisViewMode =
@@ -1126,6 +1200,60 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             <p className="text-xs text-slate-500">Andel av boll</p>
           </div>
         </section>
+
+        {mode === "round" && standoutPlayersForRound && (
+          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold text-white">
+                  Standout-spelare (Hammarby, omgång {standoutPlayersForRound.gameweek})
+                </h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  Lyfter spelare som utmärkte sig i olika roller i matchen.
+                </p>
+              </div>
+              <a
+                href={standoutPlayersForRound.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+              >
+                Datakälla
+              </a>
+            </div>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {standoutPlayerCards.map((card) => {
+                const tone = HIGHLIGHT_TONE_STYLES[card.tone];
+                return (
+                  <article
+                    key={`standout-${card.id}`}
+                    className={`rounded-xl border p-3 ${tone.border} ${tone.bg}`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <p className={`text-xs font-semibold uppercase tracking-wide ${tone.text}`}>
+                        {card.icon} {card.title}
+                      </p>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${tone.chip}`}
+                      >
+                        {card.player.badge}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-base font-semibold text-white">{card.player.name}</p>
+                    <p className="text-xs text-slate-400">{card.player.roleName}</p>
+                    <p className="mt-2 text-[11px] text-slate-300">
+                      {card.metricLabel}: <span className="font-semibold text-slate-100">{card.metricValue}</span>
+                    </p>
+                    <p className="mt-1 text-[11px] text-slate-400">
+                      {card.player.minutesOnField} min • {card.player.secondaryStatLabel}:{" "}
+                      {card.player.secondaryStatValue}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
