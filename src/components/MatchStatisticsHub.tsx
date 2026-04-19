@@ -85,15 +85,6 @@ type ComparisonPeriodRow = {
   delta: number;
 };
 
-type RoundVsDualSeasonPeriodRow = {
-  label: string;
-  roundValue: number;
-  season2026Value: number | null;
-  season2025Value: number | null;
-  deltaVs2026: number | null;
-  deltaVs2025: number | null;
-};
-
 type HistoricalComparisonCandidate = {
   key: string;
   label: string;
@@ -250,6 +241,8 @@ const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
     secondaryMetricKey: "defensive_action_height_m",
   },
 ];
+
+const ROUND_FOCUS_METRICS_COUNT = 6;
 
 const STANDOUT_REFERENCE_DEFINITIONS: Record<
   HammarbyRoundHighlightCategory,
@@ -1212,15 +1205,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const comparisonRowB = seasonRows.find((row) => row.key === effectiveComparisonRoundB) ?? null;
   const comparisonDelta =
     comparisonRowA && comparisonRowB ? comparisonRowB.value - comparisonRowA.value : 0;
-  const comparisonPeriodRows: ComparisonPeriodRow[] =
-    comparisonRowA && comparisonRowB
-      ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
-          label,
-          roundAValue: comparisonRowA.periods[index],
-          roundBValue: comparisonRowB.periods[index],
-          delta: comparisonRowB.periods[index] - comparisonRowA.periods[index],
-        }))
-      : [];
   const roundVsSeasonRow = seasonRows.find((row) => row.key === effectiveRoundVsSeasonRound) ?? null;
   const selectedRoundData = roundVsSeasonRow
     ? MATCH_ANALYSIS_ROUND_BY_KEY.get(roundVsSeasonRow.key) ?? null
@@ -1274,6 +1258,30 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           ];
         })
       : [];
+  const hammarbyFocusRoundKpiCards =
+    mode === "round" && effectiveMatchAnalysisViewMode === "round" && selectedRoundData
+      ? hammarbyMatchAnalysisMetricDefinitions
+          .filter(
+            (metric) =>
+              !metric.label.toLocaleLowerCase("sv-SE").startsWith("motst.") &&
+              !metric.key.startsWith("opp_")
+          )
+          .slice(0, ROUND_FOCUS_METRICS_COUNT)
+          .map((metric) => {
+            const matchValue = selectedRoundData.metrics[metric.key].value;
+            const season2026Value = seasonAverageForMetric(2026, metric.key);
+            const season2025Value = seasonAverageForMetric(2025, metric.key);
+
+            return {
+              metric,
+              matchValue,
+              season2026Value,
+              season2025Value,
+              deltaVs2026: season2026Value === null ? null : matchValue - season2026Value,
+              deltaVs2025: season2025Value === null ? null : matchValue - season2025Value,
+            };
+          })
+      : [];
   const matchAnalysisAverage2026 = averageMatchAnalysisRows(seasonRows2026);
   const matchAnalysisAverage2025 = averageMatchAnalysisRows(seasonRows2025);
   const roundVsSeasonAverage2026Delta =
@@ -1284,20 +1292,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     roundVsSeasonRow && matchAnalysisAverage2025
       ? roundVsSeasonRow.value - matchAnalysisAverage2025.value
       : null;
-  const roundVsDualSeasonPeriodRows: RoundVsDualSeasonPeriodRow[] = roundVsSeasonRow
-    ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => {
-        const period2026 = matchAnalysisAverage2026?.periods[index] ?? null;
-        const period2025 = matchAnalysisAverage2025?.periods[index] ?? null;
-        return {
-          label,
-          roundValue: roundVsSeasonRow.periods[index],
-          season2026Value: period2026,
-          season2025Value: period2025,
-          deltaVs2026: period2026 === null ? null : roundVsSeasonRow.periods[index] - period2026,
-          deltaVs2025: period2025 === null ? null : roundVsSeasonRow.periods[index] - period2025,
-        };
-      })
-    : [];
   const formatDeltaWithMeaning = (
     value: number | null,
     metric: MatchAnalysisMetricDefinition
@@ -1365,15 +1359,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     effectiveHistoricalComparisonKey === "none"
       ? null
       : matchAnalysisRows.find((row) => row.key === effectiveHistoricalComparisonKey) ?? null;
-  const historicalComparisonPeriodRows: ComparisonPeriodRow[] =
-    roundVsSeasonRow && historicalComparisonRow
-      ? MATCH_ANALYSIS_PERIOD_LABELS.map((label, index) => ({
-          label,
-          roundAValue: historicalComparisonRow.periods[index],
-          roundBValue: roundVsSeasonRow.periods[index],
-          delta: roundVsSeasonRow.periods[index] - historicalComparisonRow.periods[index],
-        }))
-      : [];
   const hasPreviousMatchComparison =
     selectedMatchAnalysisSeason === 2026 &&
     previousSeason !== null &&
@@ -2054,21 +2039,82 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </select>
               </label>
             )}
-            {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
-              <button
-                key={`quick-metric-${metric.key}`}
-                type="button"
-                onClick={() => setSelectedMatchAnalysisMetricKey(metric.key)}
-                className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-                  metric.key === selectedMatchAnalysisMetricKey
-                    ? "border-blue-500/40 bg-blue-500/20 text-blue-100"
-                    : "border-slate-700 bg-slate-900/60 text-slate-300 hover:border-slate-500 hover:text-white"
-                }`}
-              >
-                {metric.label}
-              </button>
-            ))}
           </div>
+
+          {hammarbyFocusRoundKpiCards.length > 0 && roundVsSeasonRow && (
+            <div className="mt-4 rounded-xl border border-blue-500/25 bg-slate-900/60 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="text-sm font-semibold text-blue-100">
+                    Hammarby KPI-översikt (omgång {roundVsSeasonRow.gameweek})
+                  </h3>
+                  <p className="mt-1 text-xs text-slate-400">
+                    Snabb överblick av Hammarbys mest centrala matchanalys-KPI:er mot snitt 2026
+                    och 2025.
+                  </p>
+                </div>
+                <a
+                  href={selectedRoundData?.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-slate-600 bg-slate-950/70 px-2 py-1 text-[11px] text-slate-200 hover:border-slate-500 hover:text-white"
+                >
+                  Öppna matchanalys
+                </a>
+              </div>
+              <div className="mt-3 grid gap-2 text-[11px] sm:grid-cols-2 xl:grid-cols-3">
+                {hammarbyFocusRoundKpiCards.map((card) => (
+                  <article
+                    key={`focus-kpi-${card.metric.key}`}
+                    className="rounded-lg border border-slate-700/60 bg-slate-950/70 px-3 py-2"
+                  >
+                    <p className="text-slate-300">{card.metric.label}</p>
+                    <p className="mt-1 text-base font-semibold text-white">
+                      {formatMatchAnalysisValue(card.matchValue, card.metric)}
+                    </p>
+                    <p className="mt-1 text-slate-500">
+                      2026:{" "}
+                      {card.season2026Value === null
+                        ? "–"
+                        : formatMatchAnalysisValue(card.season2026Value, card.metric)}
+                    </p>
+                    <p className="text-slate-500">
+                      2025:{" "}
+                      {card.season2025Value === null
+                        ? "–"
+                        : formatMatchAnalysisValue(card.season2025Value, card.metric)}
+                    </p>
+                    <div className="mt-1 space-y-0.5">
+                      <p
+                        className={
+                          card.deltaVs2026 === null
+                            ? "text-slate-400"
+                            : getMatchAnalysisDeltaTone(
+                                card.deltaVs2026,
+                                card.metric.direction
+                              )
+                        }
+                      >
+                        Δ vs 2026: {formatDeltaWithMeaning(card.deltaVs2026, card.metric)}
+                      </p>
+                      <p
+                        className={
+                          card.deltaVs2025 === null
+                            ? "text-slate-400"
+                            : getMatchAnalysisDeltaTone(
+                                card.deltaVs2025,
+                                card.metric.direction
+                              )
+                        }
+                      >
+                        Δ vs 2025: {formatDeltaWithMeaning(card.deltaVs2025, card.metric)}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
 
           <div className="mt-4 grid gap-3 text-xs text-slate-300 md:grid-cols-4">
             <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
@@ -2133,24 +2179,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför två omgångar</h3>
-                <label className="flex items-center gap-2 text-xs text-slate-300">
-                  Byt KPI här
-                  <select
-                    value={selectedMatchAnalysisMetricKey}
-                    onChange={(event) =>
-                      setSelectedMatchAnalysisMetricKey(
-                        event.target.value as MatchAnalysisMetricKey
-                      )
-                    }
-                    className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
-                  >
-                    {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
-                      <option key={`comparison-kpi-${metric.key}`} value={metric.key}>
-                        {metric.label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
               </div>
               <p className="mt-2 text-xs text-slate-400">
                 Snabbt sätt att se skillnad mot säsongsnivån.
@@ -2229,49 +2257,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </div>
               </div>
 
-              {comparisonPeriodRows.length > 0 && (
-                <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/70 p-3">
-                  <p className="text-xs text-slate-400">
-                    Periodskillnad (Omgång {comparisonRowA.gameweek} → Omgång{" "}
-                    {comparisonRowB.gameweek})
-                  </p>
-                  <div className="mt-2 grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-3">
-                    {comparisonPeriodRows.map((periodRow) => (
-                      <div
-                        key={`comparison-period-${periodRow.label}`}
-                        className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
-                      >
-                        <p className="text-slate-500">{periodRow.label}</p>
-                        <p className="text-slate-300">
-                          {formatMatchAnalysisValue(
-                            periodRow.roundAValue,
-                            selectedMatchAnalysisMetric
-                          )}{" "}
-                          →{" "}
-                          {formatMatchAnalysisValue(
-                            periodRow.roundBValue,
-                            selectedMatchAnalysisMetric
-                          )}
-                        </p>
-                        <p
-                          className={`font-semibold ${getMatchAnalysisDeltaTone(
-                            periodRow.delta,
-                            selectedMatchAnalysisMetric.direction
-                          )}`}
-                        >
-                          {formatMatchAnalysisDelta(periodRow.delta, selectedMatchAnalysisMetric)}
-                        </p>
-                        <p className="text-[10px] text-slate-500">
-                          {getMatchAnalysisDeltaMeaning(
-                            periodRow.delta,
-                            selectedMatchAnalysisMetric.direction
-                          )}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
@@ -2627,24 +2612,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       </option>
                     </select>
                   </label>
-                  <label className="flex items-center gap-2 text-xs text-slate-300">
-                    Byt KPI här
-                    <select
-                      value={selectedMatchAnalysisMetricKey}
-                      onChange={(event) =>
-                        setSelectedMatchAnalysisMetricKey(
-                          event.target.value as MatchAnalysisMetricKey
-                        )
-                      }
-                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
-                    >
-                      {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
-                        <option key={`round-vs-season-kpi-${metric.key}`} value={metric.key}>
-                          {metric.label}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
                 </div>
               </div>
               <p className="mt-2 text-xs text-slate-500">
@@ -2721,46 +2688,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                                 selectedMatchAnalysisMetric.direction
                               )}
                             </p>
-                          </div>
-                        </div>
-                      )}
-                      {historicalComparisonRow && historicalComparisonPeriodRows.length > 0 && (
-                        <div className="mt-3 rounded border border-slate-700/60 bg-slate-950/60 p-2 text-[11px]">
-                          <p className="text-slate-500">
-                            Perioder: {roundVsSeasonRow.sourceMatchName} vs{" "}
-                            {historicalComparisonRow.sourceMatchName}
-                          </p>
-                          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-3">
-                            {historicalComparisonPeriodRows.map((periodRow) => (
-                              <div
-                                key={`historical-period-${periodRow.label}`}
-                                className="rounded border border-slate-700/60 bg-slate-900/70 px-2 py-1.5"
-                              >
-                                <p className="text-slate-500">{periodRow.label}</p>
-                                <p className="text-slate-300">
-                                  {formatMatchAnalysisValue(
-                                    periodRow.roundAValue,
-                                    selectedMatchAnalysisMetric
-                                  )}{" "}
-                                  vs{" "}
-                                  {formatMatchAnalysisValue(
-                                    periodRow.roundBValue,
-                                    selectedMatchAnalysisMetric
-                                  )}
-                                </p>
-                                <p
-                                  className={`font-semibold ${getMatchAnalysisDeltaTone(
-                                    periodRow.delta,
-                                    selectedMatchAnalysisMetric.direction
-                                  )}`}
-                                >
-                                  {formatMatchAnalysisDelta(
-                                    periodRow.delta,
-                                    selectedMatchAnalysisMetric
-                                  )}
-                                </p>
-                              </div>
-                            ))}
                           </div>
                         </div>
                       )}
@@ -2853,74 +2780,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     </div>
                   </div>
 
-                  <div className="mt-3 grid grid-cols-1 gap-2 text-[11px] sm:grid-cols-2">
-                    {roundVsDualSeasonPeriodRows.map((periodRow) => (
-                      <div
-                        key={`round-vs-season-${periodRow.label}`}
-                        className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
-                      >
-                        <p className="text-slate-500">{periodRow.label}</p>
-                        <p className="text-slate-300">
-                          {formatMatchAnalysisValue(
-                            periodRow.roundValue,
-                            selectedMatchAnalysisMetric
-                          )}
-                        </p>
-                        <p className="mt-0.5 text-slate-400">
-                          2026:{" "}
-                          {periodRow.season2026Value === null
-                            ? "–"
-                            : formatMatchAnalysisValue(
-                                periodRow.season2026Value,
-                                selectedMatchAnalysisMetric
-                              )}
-                          {" • "}2025:{" "}
-                          {periodRow.season2025Value === null
-                            ? "–"
-                            : formatMatchAnalysisValue(
-                                periodRow.season2025Value,
-                                selectedMatchAnalysisMetric
-                              )}
-                        </p>
-                        <p className="mt-0.5 text-[10px] text-slate-500">
-                          Δ vs 2026:{" "}
-                          <span
-                            className={
-                              periodRow.deltaVs2026 === null
-                                ? "text-slate-400"
-                                : getMatchAnalysisDeltaTone(
-                                    periodRow.deltaVs2026,
-                                    selectedMatchAnalysisMetric.direction
-                                  )
-                            }
-                          >
-                            {formatDeltaWithMeaning(
-                              periodRow.deltaVs2026,
-                              selectedMatchAnalysisMetric
-                            )}
-                          </span>
-                        </p>
-                        <p className="text-[10px] text-slate-500">
-                          Δ vs 2025:{" "}
-                          <span
-                            className={
-                              periodRow.deltaVs2025 === null
-                                ? "text-slate-400"
-                                : getMatchAnalysisDeltaTone(
-                                    periodRow.deltaVs2025,
-                                    selectedMatchAnalysisMetric.direction
-                                  )
-                            }
-                          >
-                            {formatDeltaWithMeaning(
-                              periodRow.deltaVs2025,
-                              selectedMatchAnalysisMetric
-                            )}
-                          </span>
-                        </p>
-                      </div>
-                    ))}
-                  </div>
                 </>
               )}
             </div>
