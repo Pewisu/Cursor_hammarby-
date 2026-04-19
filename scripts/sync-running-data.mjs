@@ -2,43 +2,78 @@ import fs from "node:fs";
 import path from "node:path";
 
 const API_BASE = "https://bolldata.se/api";
+const ALLSVENSKAN_GQL_URI = "https://gql.sportomedia.se/graphql";
 const SEASON = "2026";
+const ALLSVENSKAN_LEAGUE_NAME = "allsvenskan";
+const ALLSVENSKAN_SEASON_START_YEAR = Number(SEASON);
 const DEFAULT_MATCH_ID = Number(process.env.MATCH_ID ?? "6529847");
 const DEFAULT_MATCH_SLUG = process.env.MATCH_SLUG ?? "hammarby-mot-orgryte-is";
+const DEFAULT_BOLLDATA_MATCH_API_ID = Number(process.env.BOLLDATA_MATCH_API_ID ?? "1700");
 const TARGET_TEAM_NAME = "Hammarby";
+const BOLLDATA_PLAYER_STATS_ENDPOINT = "matches/player/stats";
 const OUT_PATH = path.resolve(process.cwd(), "src/lib/hammarbyRunningData.ts");
 const SHOULD_WRITE = process.argv.includes("--write");
+const BOLLDATA_MINUTES_KEYS = ["minutesOnField", "minutesPlayed", "minutes"];
+const MINUTE_OUT_SENTINEL = 999999;
 
-const PLAYER_DISTANCE_KEYS = [
-  "distanceMeters",
-  "distance_covered_m",
-  "distanceCoveredMeters",
-  "distanceCovered",
-  "distance",
-  "runDistance",
-  "totalDistance",
-];
-
-const PLAYER_SPEED_KEYS = [
-  "maxSpeedKmh",
-  "topSpeedKmh",
-  "topSpeed",
-  "maxSpeed",
-  "peakSpeed",
-];
-
-const PLAYER_MINUTES_KEYS = ["minutesOnField", "minutesPlayed", "minutes"];
-
-const PLAYER_RUNNING_ENDPOINTS = [
-  "matches/player/running/stats",
-  "matches/running/player/stats",
-  "matches/player/physical/stats",
-  "matches/player/gps/stats",
-  "matches/player/tracking/stats",
-  "matches/player/load/stats",
-  // Fallback in case running values are added here later.
-  "matches/player/stats",
-];
+const LINEUPS_QUERY = `query lineups(
+  $id: Int!
+  $configLeagueName: String!
+  $configSeasonStartYear: Int!
+) {
+  lineups(
+    id: $id
+    configLeagueName: $configLeagueName
+    configSeasonStartYear: $configSeasonStartYear
+  ) {
+    homeTeam {
+      abbrv
+      starting {
+        id
+        displayName
+        givenName
+        surName
+        shirtNumber
+        maxSpeed
+        distance
+        positionText
+      }
+      substitutes {
+        id
+        displayName
+        givenName
+        surName
+        shirtNumber
+        maxSpeed
+        distance
+        positionText
+      }
+    }
+    visitingTeam {
+      abbrv
+      starting {
+        id
+        displayName
+        givenName
+        surName
+        shirtNumber
+        maxSpeed
+        distance
+        positionText
+      }
+      substitutes {
+        id
+        displayName
+        givenName
+        surName
+        shirtNumber
+        maxSpeed
+        distance
+        positionText
+      }
+    }
+  }
+}`;
 
 function toNumber(value) {
   if (value === null || value === undefined || value === "") return null;
@@ -52,6 +87,31 @@ function getFirstNumericValue(source, keys) {
     if (value !== null) return value;
   }
   return null;
+}
+
+function normalizeNameForLookup(value) {
+  return String(value ?? "")
+    .toLocaleLowerCase("sv-SE")
+    .normalize("NFKD")
+    .replace(/\p{Diacritic}/gu, "")
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+function buildNameLookupKeys(displayName, firstName, lastName) {
+  const keys = new Set();
+  const normalizedDisplay = normalizeNameForLookup(displayName);
+  const normalizedFirst = normalizeNameForLookup(firstName);
+  const normalizedLast = normalizeNameForLookup(lastName);
+  const normalizedFull = normalizeNameForLookup(`${firstName ?? ""} ${lastName ?? ""}`);
+
+  if (normalizedDisplay) keys.add(normalizedDisplay);
+  if (normalizedFull) keys.add(normalizedFull);
+  if (normalizedLast) keys.add(normalizedLast);
+  if (normalizedFirst && normalizedLast) {
+    keys.add(`${normalizedFirst[0]}${normalizedLast}`);
+  }
+
+  return keys;
 }
 
 function extractArrayLiteral(fileContents, exportName) {
@@ -104,7 +164,11 @@ function parseDurationToMinutes(totalTimeValue, fallbackMinutes) {
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url, { headers: { "Content-Type": "application/json" } });
+  const response = await fetch(url, {
+    headers: {
+      Accept: "application/ld+json",
+    },
+  });
   if (!response.ok) return null;
   return response.json();
 }
@@ -114,48 +178,190 @@ async function fetchCollection(endpoint, id) {
   return payload?.["hydra:member"] ?? [];
 }
 
-function normalizeRunningPlayerRows(rows) {
+function mapPositionName(positionText) {
+  const normalized = normalizeNameForLookup(positionText);
+  if (!normalized) return "Unknown";
+  if (normalized.includes("goal")) return "Målvakt";
+  if (normalized.includes("back") || normalized.includes("def")) return "Back";
+  if (normalized.includes("mid")) return "Mittfältare";
+  if (normalized.includes("forw") || normalized.includes("striker") || normalized.includes("anfall")) {
+    return "Anfallare";
+  }
+  return positionText;
+}
+
+async function fetchAllsvenskanLineups(matchId) {
+  const response = await fetch(ALLSVENSKAN_GQL_URI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: LINEUPS_QUERY,
+      variables: {
+        id: matchId,
+        configLeagueName: ALLSVENSKAN_LEAGUE_NAME,
+        configSeasonStartYear: ALLSVENSKAN_SEASON_START_YEAR,
+      },
+    }),
+  });
+
+  if (!response.ok) return null;
+
+  const payload = await response.json();
+  if (payload?.errors?.length) {
+    return null;
+  }
+  return payload?.data?.lineups ?? null;
+}
+
+function normalizeAllsvenskanLineupRows(rows) {
+  return rows
+    .map((player) => {
+      return {
+        name: player?.displayName ?? "Unknown",
+        firstName: player?.givenName ?? "",
+        lastName: player?.surName ?? "",
+        shirtNumber: toNumber(player?.shirtNumber) ?? -1,
+        position: mapPositionName(player?.positionText),
+        distanceMeters: toNumber(player?.distance),
+        maxSpeedKmh: toNumber(player?.maxSpeed),
+      };
+    })
+    .filter((row) => row.shirtNumber !== -1);
+}
+
+function resolveMinutesPlayed(row, matchDurationMinutes) {
+  const explicitMinutes = getFirstNumericValue(row, BOLLDATA_MINUTES_KEYS);
+  if (explicitMinutes !== null) return Number(explicitMinutes.toFixed(2));
+
+  const minuteIn = toNumber(row?.minuteIn);
+  const minuteOutRaw = toNumber(row?.minuteOut);
+  const minuteOut =
+    minuteOutRaw !== null && minuteOutRaw < MINUTE_OUT_SENTINEL
+      ? minuteOutRaw
+      : matchDurationMinutes;
+  const hasPlayed = Boolean(row?.lineup) || Boolean(row?.substitutionsIn);
+  if (!hasPlayed || minuteIn === null || minuteOut === null || minuteOut < minuteIn) {
+    return null;
+  }
+
+  return Number(Math.max(minuteOut - minuteIn, 0).toFixed(2));
+}
+
+function normalizeBolldataMinutesRows(rows, matchDurationMinutes) {
   return rows
     .map((row) => {
       const player = row?.PlayerTeam?.player ?? {};
       const teamName = row?.PlayerTeam?.Team?.Name ?? "";
-      const distanceMeters = getFirstNumericValue(row, PLAYER_DISTANCE_KEYS);
-      const maxSpeedKmh = getFirstNumericValue(row, PLAYER_SPEED_KEYS);
-      const minutesPlayed = getFirstNumericValue(row, PLAYER_MINUTES_KEYS);
       return {
         teamName,
-        name: player.Name ?? "Unknown",
-        shirtNumber:
-          toNumber(player.number) ??
-          toNumber(player.shirtNumber) ??
-          toNumber(player.shirtNo) ??
-          -1,
-        position: player.roleName ?? "Unknown",
-        distanceMeters,
-        maxSpeedKmh,
-        minutesPlayed,
+        displayName: player?.Name ?? "",
+        firstName: player?.firstName ?? "",
+        lastName: player?.lastName ?? "",
+        minutesPlayed: resolveMinutesPlayed(row, matchDurationMinutes),
       };
     })
     .filter((row) => row.teamName === TARGET_TEAM_NAME);
 }
 
-function hasUsefulRunningMetrics(rows) {
-  const withDistance = rows.filter((row) => row.distanceMeters !== null).length;
-  const withSpeed = rows.filter((row) => row.maxSpeedKmh !== null).length;
-  const withMinutes = rows.filter((row) => row.minutesPlayed !== null).length;
-  return withDistance >= 8 && withSpeed >= 8 && withMinutes >= 8;
+function scoreNameMatch(lineupPlayer, bolldataPlayer) {
+  const lineupDisplay = normalizeNameForLookup(lineupPlayer.name);
+  const lineupFull = normalizeNameForLookup(
+    `${lineupPlayer.firstName ?? ""} ${lineupPlayer.lastName ?? ""}`
+  );
+  const lineupLast = normalizeNameForLookup(lineupPlayer.lastName);
+  const lineupFirst = normalizeNameForLookup(lineupPlayer.firstName);
+
+  const bolldataDisplay = normalizeNameForLookup(bolldataPlayer.displayName);
+  const bolldataFull = normalizeNameForLookup(
+    `${bolldataPlayer.firstName ?? ""} ${bolldataPlayer.lastName ?? ""}`
+  );
+  const bolldataLast = normalizeNameForLookup(bolldataPlayer.lastName);
+  const bolldataFirst = normalizeNameForLookup(bolldataPlayer.firstName);
+
+  let score = 0;
+  if (lineupDisplay && lineupDisplay === bolldataDisplay) score += 8;
+  if (lineupFull && lineupFull === bolldataFull) score += 6;
+  if (lineupLast && lineupLast === bolldataLast) score += 4;
+  if (lineupFirst && bolldataFirst && lineupFirst === bolldataFirst) score += 2;
+  if (
+    lineupFirst &&
+    bolldataFirst &&
+    lineupFirst[0] &&
+    bolldataFirst[0] &&
+    lineupFirst[0] === bolldataFirst[0]
+  ) {
+    score += 1;
+  }
+  return score;
 }
 
-async function resolveRunningRows(matchApiId) {
-  for (const endpoint of PLAYER_RUNNING_ENDPOINTS) {
-    const rows = await fetchCollection(endpoint, matchApiId);
-    if (rows.length === 0) continue;
-    const normalized = normalizeRunningPlayerRows(rows);
-    if (hasUsefulRunningMetrics(normalized)) {
-      return { endpoint, rows: normalized };
+function mergeRunningWithMinutes(allsvenskanRows, bolldataRows) {
+  const keyToBolldataIndices = new Map();
+  bolldataRows.forEach((row, index) => {
+    for (const key of buildNameLookupKeys(row.displayName, row.firstName, row.lastName)) {
+      const existing = keyToBolldataIndices.get(key);
+      if (existing) existing.push(index);
+      else keyToBolldataIndices.set(key, [index]);
     }
-  }
-  return null;
+  });
+
+  const usedBolldataIndices = new Set();
+  const unmatched = [];
+
+  const merged = allsvenskanRows.map((lineupPlayer) => {
+    const candidateIndices = new Set();
+    for (const key of buildNameLookupKeys(
+      lineupPlayer.name,
+      lineupPlayer.firstName,
+      lineupPlayer.lastName
+    )) {
+      const indices = keyToBolldataIndices.get(key);
+      if (!indices) continue;
+      indices.forEach((index) => candidateIndices.add(index));
+    }
+
+    let bestIndex = null;
+    let bestScore = -1;
+
+    for (const index of candidateIndices) {
+      if (usedBolldataIndices.has(index)) continue;
+      const score = scoreNameMatch(lineupPlayer, bolldataRows[index]);
+      if (score > bestScore) {
+        bestScore = score;
+        bestIndex = index;
+      }
+    }
+
+    if (bestIndex === null) {
+      for (let index = 0; index < bolldataRows.length; index += 1) {
+        if (usedBolldataIndices.has(index)) continue;
+        const score = scoreNameMatch(lineupPlayer, bolldataRows[index]);
+        if (score > bestScore) {
+          bestScore = score;
+          bestIndex = index;
+        }
+      }
+    }
+
+    if (bestIndex !== null && bestScore > 0) {
+      usedBolldataIndices.add(bestIndex);
+      return {
+        ...lineupPlayer,
+        minutesPlayed: bolldataRows[bestIndex].minutesPlayed,
+      };
+    }
+
+    unmatched.push(lineupPlayer.name);
+    return {
+      ...lineupPlayer,
+      minutesPlayed: null,
+    };
+  });
+
+  return { merged, unmatched };
 }
 
 function buildTypeScriptFile(serializedMatches) {
@@ -215,14 +421,16 @@ async function main() {
   }
 
   const seasonMatches = seasonMatchesPayload["hydra:member"] ?? [];
-  const targetMatch = seasonMatches.find((match) => {
-    const name = String(match?.Name ?? "").toLocaleLowerCase("sv-SE");
-    return (
-      name.includes("hammarby") &&
-      (name.includes("örgryte") || name.includes("orgryte")) &&
-      Number(match?.gameweek) === 3
-    );
-  });
+  const targetMatch =
+    seasonMatches.find((match) => Number(match?.id) === DEFAULT_BOLLDATA_MATCH_API_ID) ??
+    seasonMatches.find((match) => {
+      const name = String(match?.Name ?? "").toLocaleLowerCase("sv-SE");
+      return (
+        name.includes("hammarby") &&
+        (name.includes("örgryte") || name.includes("orgryte")) &&
+        Number(match?.gameweek) === 3
+      );
+    });
 
   if (!targetMatch) {
     console.log("No Hammarby vs Örgryte match found in current API season list.");
@@ -236,15 +444,60 @@ async function main() {
     process.exit(0);
   }
 
-  const runningData = await resolveRunningRows(targetMatch.id);
-  if (!runningData) {
+  const { homeTeam, awayTeam } = parseTeamsFromMatchName(targetMatch.Name);
+  const hammarbyWasHome = homeTeam === TARGET_TEAM_NAME;
+
+  const fallbackMatchDurationMinutes = parseDurationToMinutes(targetMatch.totalTime, 90);
+  const bolldataPlayerRows = await fetchCollection(BOLLDATA_PLAYER_STATS_ENDPOINT, targetMatch.id);
+  if (bolldataPlayerRows.length === 0) {
+    console.log(`No bolldata player stats found for match ${targetMatch.id}.`);
+    process.exit(0);
+  }
+
+  const bolldataMinutesRows = normalizeBolldataMinutesRows(
+    bolldataPlayerRows,
+    fallbackMatchDurationMinutes
+  );
+  if (bolldataMinutesRows.length < 8) {
     console.log(
-      `Match ${targetMatch.id} is played but running metrics are not exposed yet on known API endpoints.`
+      `Bolldata player minutes are too sparse (${bolldataMinutesRows.length} Hammarby rows). Aborting sync.`
     );
     process.exit(0);
   }
 
-  const players = runningData.rows
+  const allsvenskanLineups = await fetchAllsvenskanLineups(DEFAULT_MATCH_ID);
+  if (!allsvenskanLineups) {
+    console.log(
+      `Could not fetch lineups/running data from ${ALLSVENSKAN_GQL_URI} for match ${DEFAULT_MATCH_ID}.`
+    );
+    process.exit(0);
+  }
+
+  const lineupTeam = hammarbyWasHome ? allsvenskanLineups?.homeTeam : allsvenskanLineups?.visitingTeam;
+  const allsvenskanRows = normalizeAllsvenskanLineupRows([
+    ...(lineupTeam?.starting ?? []),
+    ...(lineupTeam?.substitutes ?? []),
+  ]);
+  const allsvenskanRunningRows = allsvenskanRows.filter(
+    (row) =>
+      row.distanceMeters !== null &&
+      row.maxSpeedKmh !== null &&
+      row.distanceMeters > 0 &&
+      row.maxSpeedKmh > 0
+  );
+
+  if (allsvenskanRunningRows.length < 8) {
+    console.log(
+      `Allsvenskan running data is too sparse (${allsvenskanRunningRows.length} players with distance/speed).`
+    );
+    process.exit(0);
+  }
+
+  const { merged: mergedRows, unmatched } = mergeRunningWithMinutes(
+    allsvenskanRunningRows,
+    bolldataMinutesRows
+  );
+  const players = mergedRows
     .filter(
       (row) =>
         row.distanceMeters !== null &&
@@ -266,8 +519,16 @@ async function main() {
     })
     .sort((a, b) => b.distanceMeters - a.distanceMeters);
 
+  if (unmatched.length > 0) {
+    console.log(
+      `Warning: could not confidently map bolldata minutes for: ${unmatched.join(", ")}`
+    );
+  }
+
   if (players.length < 8) {
-    console.log("Running data exists but too sparse for a reliable import. Aborting sync.");
+    console.log(
+      `Merged running data exists but too sparse after minute matching (${players.length} players).`
+    );
     process.exit(0);
   }
 
@@ -283,7 +544,6 @@ async function main() {
   );
   const matchDurationMinutes = parseDurationToMinutes(targetMatch.totalTime, fallbackMatchDuration);
 
-  const { homeTeam, awayTeam } = parseTeamsFromMatchName(targetMatch.Name);
   const nextMatch = {
     matchId: DEFAULT_MATCH_ID,
     round: `Omgång ${targetMatch.gameweek}`,
@@ -312,10 +572,7 @@ async function main() {
   fs.writeFileSync(OUT_PATH, buildTypeScriptFile(mergedMatches), "utf8");
 
   console.log(
-    `Synced running data for match ${nextMatch.round} via ${runningData.endpoint} to ${path.relative(
-      process.cwd(),
-      OUT_PATH
-    )}`
+    `Synced running data for ${nextMatch.round} using Allsvenskan (distance/speed) + bolldata (minutes) to ${path.relative(process.cwd(), OUT_PATH)}`
   );
 }
 
