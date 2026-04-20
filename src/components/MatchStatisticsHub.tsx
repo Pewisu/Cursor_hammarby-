@@ -492,6 +492,21 @@ function formatRelativeOutcomeDelta(value: number): string {
   })}%`;
 }
 
+function getStandoutBadgeLabel(insight: TeamStandoutInsight): string {
+  const trendWord = insight.isPositive ? "över snitt" : "under snitt";
+  if (insight.emphasis === "high") {
+    return `${insight.isPositive ? "Kraftigt" : "Tydligt"} ${trendWord} ${insight.referenceSeason}`;
+  }
+  if (insight.emphasis === "medium") {
+    return `${insight.isPositive ? "Över" : "Under"} snitt ${insight.referenceSeason}`;
+  }
+  return `${insight.isPositive ? "Svagt över" : "Svagt under"} snitt ${insight.referenceSeason}`;
+}
+
+function getStandoutOutcomeLabel(insight: TeamStandoutInsight): string {
+  return insight.isPositive ? "Positiv standout" : "Negativ standout";
+}
+
 function formatMatchAnalysisValue(
   value: number,
   metric: MatchAnalysisMetricDefinition
@@ -1811,15 +1826,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           {insight.theme}
                         </p>
                         <span className="rounded-full border border-slate-600/80 bg-slate-950/60 px-2 py-0.5 text-[10px] text-slate-300">
-                          {insight.emphasis === "high"
-                            ? "Extremt utslag"
-                            : insight.emphasis === "medium"
-                              ? "Tydligt utslag"
-                              : "Noterbart"}
+                          {getStandoutBadgeLabel(insight)}
                         </span>
                       </div>
                       <p className="mt-1 text-sm font-semibold text-white">{insight.metric.label}</p>
                       <p className="mt-1 text-[11px] text-slate-300">{insight.narrative}</p>
+                      <p
+                        className={`mt-1 text-[11px] font-semibold ${
+                          insight.isPositive ? "text-emerald-300" : "text-rose-300"
+                        }`}
+                      >
+                        {getStandoutOutcomeLabel(insight)}
+                      </p>
                       <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
                         <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
                           <p className="text-slate-500">Vald omgång</p>
@@ -1844,7 +1862,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       </p>
                       <p className="mt-0.5 text-[11px] text-slate-300">
                         Utslag: {formatRelativeOutcomeDelta(insight.relativeDelta)}{" "}
-                        {insight.relativeDelta >= 0 ? "bättre" : "svagare"} mot snitt{" "}
+                        {insight.relativeDelta >= 0 ? "starkare än" : "svagare än"} snitt{" "}
                         {insight.referenceSeason}
                       </p>
                     </article>
