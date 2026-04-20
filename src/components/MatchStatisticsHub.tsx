@@ -152,6 +152,21 @@ type PlaystyleProfileCard = {
   secondary: PlaystyleMetricSnapshot | null;
 };
 
+type TeamStandoutInsight = {
+  id: string;
+  metric: MatchAnalysisMetricDefinition;
+  theme: string;
+  narrative: string;
+  matchValue: number;
+  referenceSeason: 2025 | 2026;
+  referenceValue: number;
+  rawDelta: number;
+  relativeDelta: number;
+  isPositive: boolean;
+  emphasis: "high" | "medium" | "low";
+  score: number;
+};
+
 type StandoutReferenceMetricKey = "xA" | "xG" | "recoveries" | "passes";
 
 type StandoutReferenceDefinition = {
@@ -241,6 +256,71 @@ const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
     secondaryMetricKey: "defensive_action_height_m",
   },
 ];
+
+const TEAM_STANDOUT_COPY_BY_METRIC: Partial<
+  Record<MatchAnalysisMetricKey, { theme: string; narrative: string }>
+> = {
+  np_xg: {
+    theme: "Output",
+    narrative: "Hammarby skapade hög chanskvalitet i avsluten",
+  },
+  np_xg_per_shot: {
+    theme: "Output",
+    narrative: "Avsluten höll hög kvalitet per försök",
+  },
+  ball_possession_pct: {
+    theme: "Kontrollspel",
+    narrative: "Laget drev matchbilden med boll",
+  },
+  num_possessions_final_third: {
+    theme: "Chance creation",
+    narrative: "Hammarby etablerade spelet högt och ofta",
+  },
+  num_box_entries: {
+    theme: "Chance creation",
+    narrative: "Laget kom in i boxen i hög frekvens",
+  },
+  xt: {
+    theme: "Attacking threat",
+    narrative: "Anfallen gav tydligt framåthot",
+  },
+  xt_within_10s_after_recovery: {
+    theme: "Attacking transition",
+    narrative: "Omställningarna efter bollvinst var särskilt vassa",
+  },
+  num_recoveries_att_half: {
+    theme: "Press & återerövring",
+    narrative: "Hammarby vann tillbaka boll högt upp",
+  },
+  ppda: {
+    theme: "Press & återerövring",
+    narrative: "Pressintensiteten var tydlig i matchen",
+  },
+  defensive_action_height_m: {
+    theme: "Defensiv höjd",
+    narrative: "Laget försvarade högt och aggressivt",
+  },
+  opp_num_box_entries: {
+    theme: "Defensiv kontroll",
+    narrative: "Motståndaren begränsades i boxinträden",
+  },
+  opp_np_xg: {
+    theme: "Defensiv kontroll",
+    narrative: "Motståndaren hölls nere i xG",
+  },
+  opp_np_xg_per_shot: {
+    theme: "Defensiv kontroll",
+    narrative: "Motståndarens avslut blev lågkvalitativa",
+  },
+  opp_xt: {
+    theme: "Defensiv kontroll",
+    narrative: "Motståndarens hotvärde bromsades effektivt",
+  },
+  time_to_defensive_action_after_loss_att_half_s: {
+    theme: "Återpress",
+    narrative: "Laget agerade snabbt defensivt efter bolltapp",
+  },
+};
 
 const ROUND_FOCUS_PRIORITY_METRICS: MatchAnalysisMetricKey[] = [
   "ball_possession_pct",
@@ -403,6 +483,13 @@ function formatStandoutReferenceValue(value: number, decimals: number): string {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   });
+}
+
+function formatRelativeOutcomeDelta(value: number): string {
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+  return `${sign}${Math.abs(value * 100).toLocaleString("sv-SE", {
+    maximumFractionDigits: 0,
+  })}%`;
 }
 
 function formatMatchAnalysisValue(
@@ -1272,9 +1359,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           if (!metric) {
             return [];
           }
-            const matchValue = selectedRoundData.metrics[metric.key].value;
-            const season2026Value = seasonAverageForMetric(2026, metric.key);
-            const season2025Value = seasonAverageForMetric(2025, metric.key);
+          const matchValue = selectedRoundData.metrics[metric.key].value;
+          const season2026Value = seasonAverageForMetric(2026, metric.key);
+          const season2025Value = seasonAverageForMetric(2025, metric.key);
 
           return [
             {
@@ -1286,8 +1373,90 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               deltaVs2025: season2025Value === null ? null : matchValue - season2025Value,
             },
           ];
-          })
+        })
       : [];
+  const teamStandoutInsights =
+    mode === "round" && effectiveMatchAnalysisViewMode === "round" && selectedRoundData
+      ? hammarbyMatchAnalysisMetricDefinitions
+          .flatMap((metric) => {
+            const currentValue = selectedRoundData.metrics[metric.key].value;
+            const seasonReferences = [
+              seasonAverageForMetric(2026, metric.key) === null
+                ? null
+                : ({ season: 2026 as const, value: seasonAverageForMetric(2026, metric.key)! } as const),
+              seasonAverageForMetric(2025, metric.key) === null
+                ? null
+                : ({ season: 2025 as const, value: seasonAverageForMetric(2025, metric.key)! } as const),
+            ].filter((entry): entry is { season: 2025 | 2026; value: number } => entry !== null);
+            if (seasonReferences.length === 0) return [];
+
+            const strongestReference = seasonReferences
+              .map((reference) => {
+                const rawDelta = currentValue - reference.value;
+                const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
+                const denominator = Math.max(
+                  Math.abs(reference.value),
+                  metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
+                );
+                const relativeDelta = directedDelta / denominator;
+                return {
+                  referenceSeason: reference.season,
+                  referenceValue: reference.value,
+                  rawDelta,
+                  relativeDelta,
+                  score: Math.abs(relativeDelta),
+                };
+              })
+              .sort((left, right) => right.score - left.score)[0];
+
+            const copy = TEAM_STANDOUT_COPY_BY_METRIC[metric.key] ?? {
+              theme: "Lagnivå",
+              narrative: "Matchbilden påverkades tydligt i den här KPI:n",
+            };
+
+            const emphasis: TeamStandoutInsight["emphasis"] =
+              strongestReference.score >= 0.35
+                ? "high"
+                : strongestReference.score >= 0.2
+                  ? "medium"
+                  : "low";
+
+            return [
+              {
+                id: `${metric.key}-${strongestReference.referenceSeason}`,
+                metric,
+                theme: copy.theme,
+                narrative: copy.narrative,
+                matchValue: currentValue,
+                referenceSeason: strongestReference.referenceSeason,
+                referenceValue: strongestReference.referenceValue,
+                rawDelta: strongestReference.rawDelta,
+                relativeDelta: strongestReference.relativeDelta,
+                isPositive: strongestReference.relativeDelta > 0,
+                emphasis,
+                score: strongestReference.score,
+              } satisfies TeamStandoutInsight,
+            ];
+          })
+          .sort((left, right) => right.score - left.score)
+      : [];
+  const positiveTeamStandoutInsights = teamStandoutInsights.filter(
+    (insight) => insight.isPositive && insight.relativeDelta >= 0.05
+  );
+  const teamStandoutTargetCount =
+    positiveTeamStandoutInsights.length >= 6
+      ? 6
+      : positiveTeamStandoutInsights.length >= 5
+        ? 5
+        : positiveTeamStandoutInsights.length >= 4
+          ? 4
+          : positiveTeamStandoutInsights.length >= 3
+            ? 3
+            : 2;
+  const visibleTeamStandoutInsights =
+    positiveTeamStandoutInsights.length >= 2
+      ? positiveTeamStandoutInsights.slice(0, teamStandoutTargetCount)
+      : teamStandoutInsights.slice(0, Math.min(2, teamStandoutInsights.length));
   const matchAnalysisAverage2026 = averageMatchAnalysisRows(seasonRows2026);
   const matchAnalysisAverage2025 = averageMatchAnalysisRows(seasonRows2025);
   const roundVsSeasonAverage2026Delta =
@@ -1579,6 +1748,92 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           </section>
         )}
+
+        {mode === "round" &&
+          effectiveMatchAnalysisViewMode === "round" &&
+          selectedRoundData &&
+          visibleTeamStandoutInsights.length > 0 && (
+            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-lg font-semibold text-white">
+                    Lagets standout i omgången (det som stack ut)
+                  </h2>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Visar de tydligaste utslagen mot säsongssnitt. Vanligtvis visas 2 punkter,
+                    men fler när matchbilden sticker ut tydligt.
+                  </p>
+                </div>
+                <a
+                  href={selectedRoundData.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+                >
+                  Matchanalyskälla
+                </a>
+              </div>
+              <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                {visibleTeamStandoutInsights.map((insight) => {
+                  const toneClass = insight.isPositive
+                    ? insight.emphasis === "high"
+                      ? "border-emerald-400/50 bg-emerald-500/10"
+                      : insight.emphasis === "medium"
+                        ? "border-emerald-500/35 bg-emerald-500/5"
+                        : "border-emerald-600/25 bg-emerald-500/5"
+                    : "border-rose-500/35 bg-rose-500/10";
+                  return (
+                    <article
+                      key={`team-standout-${insight.id}`}
+                      className={`rounded-xl border p-3 ${toneClass}`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                          {insight.theme}
+                        </p>
+                        <span className="rounded-full border border-slate-600/80 bg-slate-950/60 px-2 py-0.5 text-[10px] text-slate-300">
+                          {insight.emphasis === "high"
+                            ? "Extremt utslag"
+                            : insight.emphasis === "medium"
+                              ? "Tydligt utslag"
+                              : "Noterbart"}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm font-semibold text-white">{insight.metric.label}</p>
+                      <p className="mt-1 text-[11px] text-slate-300">{insight.narrative}</p>
+                      <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
+                        <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
+                          <p className="text-slate-500">Vald omgång</p>
+                          <p className="font-semibold text-white">
+                            {formatMatchAnalysisValue(insight.matchValue, insight.metric)}
+                          </p>
+                        </div>
+                        <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
+                          <p className="text-slate-500">Snitt {insight.referenceSeason}</p>
+                          <p className="font-semibold text-white">
+                            {formatMatchAnalysisValue(insight.referenceValue, insight.metric)}
+                          </p>
+                        </div>
+                      </div>
+                      <p
+                        className={`mt-2 text-[11px] font-semibold ${getMatchAnalysisDeltaTone(
+                          insight.rawDelta,
+                          insight.metric.direction
+                        )}`}
+                      >
+                        Δ: {formatDeltaWithMeaning(insight.rawDelta, insight.metric)}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-slate-300">
+                        Utslag: {formatRelativeOutcomeDelta(insight.relativeDelta)}{" "}
+                        {insight.relativeDelta >= 0 ? "bättre" : "svagare"} mot snitt{" "}
+                        {insight.referenceSeason}
+                      </p>
+                    </article>
+                  );
+                })}
+              </div>
+            </section>
+          )}
 
         {mode === "round" &&
           effectiveMatchAnalysisViewMode === "round" &&
