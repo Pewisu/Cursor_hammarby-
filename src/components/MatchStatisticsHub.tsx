@@ -1440,23 +1440,41 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           })
           .sort((left, right) => right.score - left.score)
       : [];
-  const positiveTeamStandoutInsights = teamStandoutInsights.filter(
-    (insight) => insight.isPositive && insight.relativeDelta >= 0.05
+  const notableTeamStandoutInsights = teamStandoutInsights.filter(
+    (insight) => Math.abs(insight.relativeDelta) >= 0.05
+  );
+  const positiveTeamStandoutInsights = notableTeamStandoutInsights.filter(
+    (insight) => insight.relativeDelta > 0
+  );
+  const negativeTeamStandoutInsights = notableTeamStandoutInsights.filter(
+    (insight) => insight.relativeDelta < 0
   );
   const teamStandoutTargetCount =
-    positiveTeamStandoutInsights.length >= 6
+    notableTeamStandoutInsights.length >= 6
       ? 6
-      : positiveTeamStandoutInsights.length >= 5
+      : notableTeamStandoutInsights.length >= 5
         ? 5
-        : positiveTeamStandoutInsights.length >= 4
+        : notableTeamStandoutInsights.length >= 4
           ? 4
-          : positiveTeamStandoutInsights.length >= 3
-            ? 3
-            : 2;
-  const visibleTeamStandoutInsights =
-    positiveTeamStandoutInsights.length >= 2
-      ? positiveTeamStandoutInsights.slice(0, teamStandoutTargetCount)
-      : teamStandoutInsights.slice(0, Math.min(2, teamStandoutInsights.length));
+          : 3;
+  const visibleTeamStandoutInsights = (() => {
+    if (notableTeamStandoutInsights.length === 0) {
+      return teamStandoutInsights.slice(0, Math.min(3, teamStandoutInsights.length));
+    }
+
+    if (positiveTeamStandoutInsights.length > 0 && negativeTeamStandoutInsights.length > 0) {
+      const firstPositive = positiveTeamStandoutInsights[0];
+      const firstNegative = negativeTeamStandoutInsights[0];
+      const selected = [firstPositive, firstNegative];
+      const selectedIds = new Set(selected.map((insight) => insight.id));
+      const remainingInsights = notableTeamStandoutInsights.filter(
+        (insight) => !selectedIds.has(insight.id)
+      );
+      return [...selected, ...remainingInsights].slice(0, teamStandoutTargetCount);
+    }
+
+    return notableTeamStandoutInsights.slice(0, teamStandoutTargetCount);
+  })();
   const matchAnalysisAverage2026 = averageMatchAnalysisRows(seasonRows2026);
   const matchAnalysisAverage2025 = averageMatchAnalysisRows(seasonRows2025);
   const roundVsSeasonAverage2026Delta =
@@ -1760,8 +1778,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     Lagets standout i omgången (det som stack ut)
                   </h2>
                   <p className="mt-1 text-sm text-slate-400">
-                    Visar de tydligaste utslagen mot säsongssnitt. Vanligtvis visas 2 punkter,
-                    men fler när matchbilden sticker ut tydligt.
+                    Visar de tydligaste utslagen mot säsongssnitt, med balans mellan positiva och
+                    negativa signaler. Vanligtvis visas minst 3 punkter, men fler när matchbilden
+                    sticker ut tydligt.
                   </p>
                 </div>
                 <a
