@@ -500,5 +500,164 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "metersPerMinute": 135.64
       }
     ]
+  },
+  {
+    "matchId": 6529853,
+    "round": "Omgång 4",
+    "date": "22 april 2026",
+    "sourceUrl": "https://allsvenskan.se/matcher/2026/6529853/hammarby-mot-halmstads-bk",
+    "homeTeam": "Hammarby",
+    "awayTeam": "Halmstads BK",
+    "hammarbyWasHome": true,
+    "matchDurationMinutes": 94.38,
+    "hammarbyTeamDistanceMeters": 126740,
+    "hammarbyTeamMinutes": 1038.18,
+    "hammarbyTopSpeedKmh": 32.63,
+    "players": [
+      {
+        "name": "Hampus Skoglund",
+        "shirtNumber": 2,
+        "position": "Back",
+        "distanceMeters": 13024,
+        "maxSpeedKmh": 32.63,
+        "minutesPlayed": 94.38,
+        "metersPerMinute": 138
+      },
+      {
+        "name": "Noah Persson",
+        "shirtNumber": 16,
+        "position": "Anfallare",
+        "distanceMeters": 13023,
+        "maxSpeedKmh": 30.41,
+        "minutesPlayed": 94.38,
+        "metersPerMinute": 137.98
+      },
+      {
+        "name": "Markus Karlsson",
+        "shirtNumber": 8,
+        "position": "Mittfältare",
+        "distanceMeters": 12696,
+        "maxSpeedKmh": 27.57,
+        "minutesPlayed": 94.38,
+        "metersPerMinute": 134.52
+      },
+      {
+        "name": "Paulos Abraham",
+        "shirtNumber": 7,
+        "position": "Anfallare",
+        "distanceMeters": 12150,
+        "maxSpeedKmh": 29.1,
+        "minutesPlayed": 85.97,
+        "metersPerMinute": 141.33
+      },
+      {
+        "name": "Frederik Winther",
+        "shirtNumber": 3,
+        "position": "Back",
+        "distanceMeters": 12120,
+        "maxSpeedKmh": 29.96,
+        "minutesPlayed": 94.38,
+        "metersPerMinute": 128.42
+      },
+      {
+        "name": "Victor Eriksson",
+        "shirtNumber": 4,
+        "position": "Back",
+        "distanceMeters": 11223,
+        "maxSpeedKmh": 30.8,
+        "minutesPlayed": 94.38,
+        "metersPerMinute": 118.91
+      },
+      {
+        "name": "Nahir Besara",
+        "shirtNumber": 20,
+        "position": "Mittfältare",
+        "distanceMeters": 10235,
+        "maxSpeedKmh": 28.14,
+        "minutesPlayed": 85.8,
+        "metersPerMinute": 119.29
+      },
+      {
+        "name": "Victor Lind",
+        "shirtNumber": 9,
+        "position": "Anfallare",
+        "distanceMeters": 8692,
+        "maxSpeedKmh": 31.27,
+        "minutesPlayed": 68.23,
+        "metersPerMinute": 127.39
+      },
+      {
+        "name": "Oscar Johansson",
+        "shirtNumber": 11,
+        "position": "Mittfältare",
+        "distanceMeters": 8083,
+        "maxSpeedKmh": 29.37,
+        "minutesPlayed": 55.77,
+        "metersPerMinute": 144.93
+      },
+      {
+        "name": "Oliver Jordan Hagen",
+        "shirtNumber": 15,
+        "position": "Anfallare",
+        "distanceMeters": 6795,
+        "maxSpeedKmh": 32.32,
+        "minutesPlayed": 55.77,
+        "metersPerMinute": 121.84
+      },
+      {
+        "name": "Warner Hahn",
+        "shirtNumber": 1,
+        "position": "Målvakt",
+        "distanceMeters": 4760,
+        "maxSpeedKmh": 23.62,
+        "minutesPlayed": 94.38,
+        "metersPerMinute": 50.43
+      },
+      {
+        "name": "Frank Junior Adjei",
+        "shirtNumber": 28,
+        "position": "Mittfältare",
+        "distanceMeters": 4354,
+        "maxSpeedKmh": 31.72,
+        "minutesPlayed": 38.61,
+        "metersPerMinute": 112.77
+      },
+      {
+        "name": "Montader Madjed",
+        "shirtNumber": 26,
+        "position": "Anfallare",
+        "distanceMeters": 4110,
+        "maxSpeedKmh": 28.02,
+        "minutesPlayed": 38.61,
+        "metersPerMinute": 106.45
+      },
+      {
+        "name": "Nikola Vasic",
+        "shirtNumber": 19,
+        "position": "Anfallare",
+        "distanceMeters": 3291,
+        "maxSpeedKmh": 28.77,
+        "minutesPlayed": 26.15,
+        "metersPerMinute": 125.85
+      },
+      {
+        "name": "Wilson Lindberg",
+        "shirtNumber": 22,
+        "position": "Mittfältare",
+        "distanceMeters": 1169,
+        "maxSpeedKmh": 25.45,
+        "minutesPlayed": 8.58,
+        "metersPerMinute": 136.25
+      },
+      {
+        "name": "Oscar Steinke Brånby",
+        "shirtNumber": 31,
+        "position": "Back",
+        "distanceMeters": 1015,
+        "maxSpeedKmh": 28.34,
+        "minutesPlayed": 8.41,
+        "metersPerMinute": 120.69
+      }
+    ]
   }
 ];

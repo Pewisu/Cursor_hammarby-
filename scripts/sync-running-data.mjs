@@ -75,6 +75,35 @@ const LINEUPS_QUERY = `query lineups(
   }
 }`;
 
+const MATCH_DETAILS_QUERY = `query match(
+  $id: Int!
+  $configLeagueName: String!
+  $configSeasonStartYear: Int!
+) {
+  match(
+    id: $id
+    configLeagueName: $configLeagueName
+    configSeasonStartYear: $configSeasonStartYear
+  ) {
+    match {
+      startDate
+      status
+      round
+      homeTeamName
+      visitingTeamName
+      matchEvents {
+        type
+        gameTime
+        minuteWithStoppageTime
+        teamName
+        byHomeTeam
+        inPlayerName
+        outPlayerName
+      }
+    }
+  }
+}`;
+
 function toNumber(value) {
   if (value === null || value === undefined || value === "") return null;
   const numeric = Number(value);
@@ -112,6 +141,69 @@ function buildNameLookupKeys(displayName, firstName, lastName) {
   }
 
   return keys;
+}
+
+function isHammarbyTeamName(value) {
+  return normalizeNameForLookup(value).includes("hammarby");
+}
+
+function splitNameParts(name) {
+  const normalized = normalizeNameForLookup(name);
+  if (!normalized) return { normalized: "", first: "", last: "" };
+  const rawParts = String(name)
+    .trim()
+    .split(/\s+/)
+    .map((part) => normalizeNameForLookup(part))
+    .filter(Boolean);
+  return {
+    normalized,
+    first: rawParts[0] ?? "",
+    last: rawParts[rawParts.length - 1] ?? "",
+  };
+}
+
+function scoreLineupNameAgainstEvent(lineupPlayer, eventPlayerName) {
+  if (!eventPlayerName) return 0;
+  const eventParts = splitNameParts(eventPlayerName);
+  if (!eventParts.normalized) return 0;
+
+  const lineupDisplay = normalizeNameForLookup(lineupPlayer.name);
+  const lineupFull = normalizeNameForLookup(
+    `${lineupPlayer.firstName ?? ""} ${lineupPlayer.lastName ?? ""}`
+  );
+  const lineupParts = splitNameParts(`${lineupPlayer.firstName ?? ""} ${lineupPlayer.lastName ?? ""}`);
+  const displayParts = splitNameParts(lineupPlayer.name);
+  const lineupFirst = lineupParts.first || displayParts.first;
+  const lineupLast = lineupParts.last || displayParts.last;
+
+  let score = 0;
+  if (lineupDisplay && lineupDisplay === eventParts.normalized) score += 10;
+  if (lineupFull && lineupFull === eventParts.normalized) score += 8;
+  if (lineupLast && lineupLast === eventParts.last) score += 5;
+  if (lineupFirst && lineupFirst === eventParts.first) score += 3;
+  if (
+    lineupFirst &&
+    eventParts.first &&
+    lineupFirst[0] &&
+    eventParts.first[0] &&
+    lineupFirst[0] === eventParts.first[0]
+  ) {
+    score += 1;
+  }
+  return score;
+}
+
+function resolveLineupPlayerByEventName(eventPlayerName, lineupRows) {
+  let bestScore = -1;
+  let bestRow = null;
+  for (const lineupRow of lineupRows) {
+    const score = scoreLineupNameAgainstEvent(lineupRow, eventPlayerName);
+    if (score > bestScore) {
+      bestScore = score;
+      bestRow = lineupRow;
+    }
+  }
+  return bestScore > 0 ? bestRow : null;
 }
 
 function extractArrayLiteral(fileContents, exportName) {
@@ -216,20 +308,56 @@ async function fetchAllsvenskanLineups(matchId) {
   return payload?.data?.lineups ?? null;
 }
 
-function normalizeAllsvenskanLineupRows(rows) {
-  return rows
-    .map((player) => {
-      return {
-        name: player?.displayName ?? "Unknown",
-        firstName: player?.givenName ?? "",
-        lastName: player?.surName ?? "",
-        shirtNumber: toNumber(player?.shirtNumber) ?? -1,
-        position: mapPositionName(player?.positionText),
-        distanceMeters: toNumber(player?.distance),
-        maxSpeedKmh: toNumber(player?.maxSpeed),
-      };
-    })
-    .filter((row) => row.shirtNumber !== -1);
+async function fetchAllsvenskanMatchDetails(matchId) {
+  const response = await fetch(ALLSVENSKAN_GQL_URI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: MATCH_DETAILS_QUERY,
+      variables: {
+        id: matchId,
+        configLeagueName: ALLSVENSKAN_LEAGUE_NAME,
+        configSeasonStartYear: ALLSVENSKAN_SEASON_START_YEAR,
+      },
+    }),
+  });
+  if (!response.ok) return null;
+  const payload = await response.json();
+  if (payload?.errors?.length) return null;
+  return payload?.data?.match?.match ?? null;
+}
+
+function deriveDurationFromAllsvenskanEvents(matchDetails, fallbackMinutes) {
+  const events = matchDetails?.matchEvents ?? [];
+  const maxGameTimeSeconds = Math.max(
+    0,
+    ...events.map((event) => toNumber(event?.gameTime) ?? 0)
+  );
+  if (maxGameTimeSeconds <= 0) return fallbackMinutes;
+  return Number((maxGameTimeSeconds / 60).toFixed(2));
+}
+
+function normalizeAllsvenskanLineupRows(startingRows, substituteRows) {
+  const normalizeRows = (rows, isStarter, startIndex) =>
+    rows.map((player, index) => ({
+      lineupIndex: startIndex + index,
+      isStarter,
+      name: player?.displayName ?? "Unknown",
+      firstName: player?.givenName ?? "",
+      lastName: player?.surName ?? "",
+      shirtNumber: toNumber(player?.shirtNumber) ?? -1,
+      position: mapPositionName(player?.positionText),
+      distanceMeters: toNumber(player?.distance),
+      maxSpeedKmh: toNumber(player?.maxSpeed),
+    }));
+
+  return [
+    ...normalizeRows(startingRows, true, 0),
+    ...normalizeRows(substituteRows, false, startingRows.length),
+  ].filter((row) => row.shirtNumber !== -1);
 }
 
 function resolveMinutesPlayed(row, matchDurationMinutes) {
@@ -364,6 +492,55 @@ function mergeRunningWithMinutes(allsvenskanRows, bolldataRows) {
   return { merged, unmatched };
 }
 
+function deriveMinutesFromAllsvenskanSubstitutions({
+  lineupTeam,
+  lineupRows,
+  matchDetails,
+  matchDurationMinutes,
+  hammarbyWasHome,
+}) {
+  const starterShirts = new Set(
+    (lineupTeam?.starting ?? [])
+      .map((player) => toNumber(player?.shirtNumber))
+      .filter((value) => value !== null)
+  );
+  const minutesByShirt = new Map(
+    lineupRows.map((row) => [
+      row.shirtNumber,
+      starterShirts.has(row.shirtNumber) ? matchDurationMinutes : 0,
+    ])
+  );
+  const substitutionEvents = (matchDetails?.matchEvents ?? [])
+    .filter(
+      (event) =>
+        event?.type === "SUBSTITUTION" &&
+        (event.byHomeTeam === hammarbyWasHome || isHammarbyTeamName(event.teamName))
+    )
+    .sort((left, right) => (toNumber(left?.gameTime) ?? 0) - (toNumber(right?.gameTime) ?? 0));
+
+  for (const event of substitutionEvents) {
+    const minute = Number(((toNumber(event?.gameTime) ?? 0) / 60).toFixed(2));
+    if (minute <= 0) continue;
+
+    const outPlayer = resolveLineupPlayerByEventName(event.outPlayerName, lineupRows);
+    if (outPlayer) {
+      const previous = minutesByShirt.get(outPlayer.shirtNumber) ?? matchDurationMinutes;
+      minutesByShirt.set(outPlayer.shirtNumber, Math.min(previous, minute));
+    }
+
+    const inPlayer = resolveLineupPlayerByEventName(event.inPlayerName, lineupRows);
+    if (inPlayer) {
+      const previous = minutesByShirt.get(inPlayer.shirtNumber) ?? 0;
+      minutesByShirt.set(
+        inPlayer.shirtNumber,
+        Math.max(previous, Number((matchDurationMinutes - minute).toFixed(2)))
+      );
+    }
+  }
+
+  return minutesByShirt;
+}
+
 function buildTypeScriptFile(serializedMatches) {
   return `export interface RunningPlayerStat {
   name: string;
@@ -416,53 +593,62 @@ async function main() {
   const seasonMatchesPayload = await fetchJson(
     `${API_BASE}/matches?season_name=${encodeURIComponent(SEASON)}`
   );
-  if (!seasonMatchesPayload) {
-    throw new Error("Could not fetch matches from bolldata API.");
-  }
-
-  const seasonMatches = seasonMatchesPayload["hydra:member"] ?? [];
+  const seasonMatches = seasonMatchesPayload?.["hydra:member"] ?? [];
   const targetMatch =
     seasonMatches.find((match) => Number(match?.id) === DEFAULT_BOLLDATA_MATCH_API_ID) ??
     seasonMatches.find((match) => {
       const name = String(match?.Name ?? "").toLocaleLowerCase("sv-SE");
       return (
         name.includes("hammarby") &&
-        (name.includes("örgryte") || name.includes("orgryte")) &&
-        Number(match?.gameweek) === 3
+        Number(match?.gameweek) >= 1
       );
     });
-
-  if (!targetMatch) {
-    console.log("No Hammarby vs Örgryte match found in current API season list.");
+  const allsvenskanMatchDetails = await fetchAllsvenskanMatchDetails(DEFAULT_MATCH_ID);
+  if (!allsvenskanMatchDetails) {
+    console.log(
+      `Could not fetch match metadata from ${ALLSVENSKAN_GQL_URI} for match ${DEFAULT_MATCH_ID}.`
+    );
     process.exit(0);
   }
-
-  if (!targetMatch.isPlayed) {
+  if (!targetMatch && allsvenskanMatchDetails.status !== "FINISHED") {
+    console.log(
+      `Match ${DEFAULT_MATCH_ID} is not finished yet (${allsvenskanMatchDetails.status}). No running sync performed.`
+    );
+    process.exit(0);
+  }
+  if (targetMatch && !targetMatch.isPlayed) {
     console.log(
       `Match ${targetMatch.id} (${targetMatch.Name}) is not marked as played yet. No running sync performed.`
     );
     process.exit(0);
   }
 
-  const { homeTeam, awayTeam } = parseTeamsFromMatchName(targetMatch.Name);
-  const hammarbyWasHome = homeTeam === TARGET_TEAM_NAME;
+  const fallbackTeams = {
+    homeTeam: allsvenskanMatchDetails.homeTeamName ?? "Hammarby",
+    awayTeam: allsvenskanMatchDetails.visitingTeamName ?? "Okänd",
+  };
+  const { homeTeam, awayTeam } = targetMatch
+    ? parseTeamsFromMatchName(targetMatch.Name)
+    : fallbackTeams;
+  const hammarbyWasHome = isHammarbyTeamName(homeTeam);
 
-  const fallbackMatchDurationMinutes = parseDurationToMinutes(targetMatch.totalTime, 90);
-  const bolldataPlayerRows = await fetchCollection(BOLLDATA_PLAYER_STATS_ENDPOINT, targetMatch.id);
-  if (bolldataPlayerRows.length === 0) {
-    console.log(`No bolldata player stats found for match ${targetMatch.id}.`);
-    process.exit(0);
-  }
-
-  const bolldataMinutesRows = normalizeBolldataMinutesRows(
-    bolldataPlayerRows,
-    fallbackMatchDurationMinutes
+  const bolldataFallbackDuration = targetMatch
+    ? parseDurationToMinutes(targetMatch.totalTime, 90)
+    : 90;
+  const fallbackMatchDurationMinutes = deriveDurationFromAllsvenskanEvents(
+    allsvenskanMatchDetails,
+    bolldataFallbackDuration
   );
-  if (bolldataMinutesRows.length < 8) {
-    console.log(
-      `Bolldata player minutes are too sparse (${bolldataMinutesRows.length} Hammarby rows). Aborting sync.`
-    );
-    process.exit(0);
+
+  let bolldataMinutesRows = [];
+  if (targetMatch?.id) {
+    const bolldataPlayerRows = await fetchCollection(BOLLDATA_PLAYER_STATS_ENDPOINT, targetMatch.id);
+    if (bolldataPlayerRows.length > 0) {
+      bolldataMinutesRows = normalizeBolldataMinutesRows(
+        bolldataPlayerRows,
+        fallbackMatchDurationMinutes
+      );
+    }
   }
 
   const allsvenskanLineups = await fetchAllsvenskanLineups(DEFAULT_MATCH_ID);
@@ -474,10 +660,10 @@ async function main() {
   }
 
   const lineupTeam = hammarbyWasHome ? allsvenskanLineups?.homeTeam : allsvenskanLineups?.visitingTeam;
-  const allsvenskanRows = normalizeAllsvenskanLineupRows([
-    ...(lineupTeam?.starting ?? []),
-    ...(lineupTeam?.substitutes ?? []),
-  ]);
+  const allsvenskanRows = normalizeAllsvenskanLineupRows(
+    lineupTeam?.starting ?? [],
+    lineupTeam?.substitutes ?? []
+  );
   const allsvenskanRunningRows = allsvenskanRows.filter(
     (row) =>
       row.distanceMeters !== null &&
@@ -493,35 +679,66 @@ async function main() {
     process.exit(0);
   }
 
-  const { merged: mergedRows, unmatched } = mergeRunningWithMinutes(
-    allsvenskanRunningRows,
-    bolldataMinutesRows
-  );
-  const players = mergedRows
-    .filter(
-      (row) =>
-        row.distanceMeters !== null &&
-        row.maxSpeedKmh !== null &&
-        row.minutesPlayed !== null &&
-        row.minutesPlayed > 0
-    )
-    .map((row) => {
-      const metersPerMinute = row.distanceMeters / row.minutesPlayed;
-      return {
-        name: row.name,
-        shirtNumber: row.shirtNumber,
-        position: row.position,
-        distanceMeters: Number(row.distanceMeters.toFixed(0)),
-        maxSpeedKmh: Number(row.maxSpeedKmh.toFixed(2)),
-        minutesPlayed: Number(row.minutesPlayed.toFixed(2)),
-        metersPerMinute: Number(metersPerMinute.toFixed(2)),
-      };
-    })
-    .sort((a, b) => b.distanceMeters - a.distanceMeters);
+  const useBolldataMinutes = bolldataMinutesRows.length >= 8;
+  let players = [];
+  let unmatched = [];
+
+  if (useBolldataMinutes) {
+    const mergedResult = mergeRunningWithMinutes(allsvenskanRunningRows, bolldataMinutesRows);
+    unmatched = mergedResult.unmatched;
+    players = mergedResult.merged
+      .filter(
+        (row) =>
+          row.distanceMeters !== null &&
+          row.maxSpeedKmh !== null &&
+          row.minutesPlayed !== null &&
+          row.minutesPlayed > 0
+      )
+      .map((row) => {
+        const metersPerMinute = row.distanceMeters / row.minutesPlayed;
+        return {
+          name: row.name,
+          shirtNumber: row.shirtNumber,
+          position: row.position,
+          distanceMeters: Number(row.distanceMeters.toFixed(0)),
+          maxSpeedKmh: Number(row.maxSpeedKmh.toFixed(2)),
+          minutesPlayed: Number(row.minutesPlayed.toFixed(2)),
+          metersPerMinute: Number(metersPerMinute.toFixed(2)),
+        };
+      })
+      .sort((a, b) => b.distanceMeters - a.distanceMeters);
+  } else {
+    const minutesByShirt = deriveMinutesFromAllsvenskanSubstitutions({
+      lineupTeam,
+      lineupRows: allsvenskanRows,
+      matchDetails: allsvenskanMatchDetails,
+      matchDurationMinutes: fallbackMatchDurationMinutes,
+      hammarbyWasHome,
+    });
+    players = allsvenskanRunningRows
+      .map((row) => {
+        const minutesPlayed = minutesByShirt.get(row.shirtNumber) ?? 0;
+        if (minutesPlayed <= 0 || row.distanceMeters === null || row.maxSpeedKmh === null) return null;
+        return {
+          name: row.name,
+          shirtNumber: row.shirtNumber,
+          position: row.position,
+          distanceMeters: Number(row.distanceMeters.toFixed(0)),
+          maxSpeedKmh: Number(row.maxSpeedKmh.toFixed(2)),
+          minutesPlayed: Number(minutesPlayed.toFixed(2)),
+          metersPerMinute: Number((row.distanceMeters / minutesPlayed).toFixed(2)),
+        };
+      })
+      .filter(Boolean)
+      .sort((a, b) => b.distanceMeters - a.distanceMeters);
+    unmatched = allsvenskanRunningRows
+      .filter((row) => (minutesByShirt.get(row.shirtNumber) ?? 0) <= 0)
+      .map((row) => row.name);
+  }
 
   if (unmatched.length > 0) {
     console.log(
-      `Warning: could not confidently map bolldata minutes for: ${unmatched.join(", ")}`
+      `Warning: could not confidently map minutes for: ${unmatched.join(", ")}`
     );
   }
 
@@ -542,16 +759,18 @@ async function main() {
   const fallbackMatchDuration = Number(
     Math.max(...players.map((player) => player.minutesPlayed)).toFixed(2)
   );
-  const matchDurationMinutes = parseDurationToMinutes(targetMatch.totalTime, fallbackMatchDuration);
+  const matchDurationMinutes = targetMatch
+    ? parseDurationToMinutes(targetMatch.totalTime, fallbackMatchDuration)
+    : fallbackMatchDurationMinutes;
 
   const nextMatch = {
     matchId: DEFAULT_MATCH_ID,
-    round: `Omgång ${targetMatch.gameweek}`,
-    date: formatDateSv(targetMatch.Date),
+    round: `Omgång ${targetMatch?.gameweek ?? allsvenskanMatchDetails.round}`,
+    date: formatDateSv(targetMatch?.Date ?? allsvenskanMatchDetails.startDate),
     sourceUrl: `https://allsvenskan.se/matcher/${SEASON}/${DEFAULT_MATCH_ID}/${DEFAULT_MATCH_SLUG}`,
     homeTeam,
     awayTeam,
-    hammarbyWasHome: homeTeam === TARGET_TEAM_NAME,
+    hammarbyWasHome: isHammarbyTeamName(homeTeam),
     matchDurationMinutes,
     hammarbyTeamDistanceMeters,
     hammarbyTeamMinutes,
@@ -572,7 +791,7 @@ async function main() {
   fs.writeFileSync(OUT_PATH, buildTypeScriptFile(mergedMatches), "utf8");
 
   console.log(
-    `Synced running data for ${nextMatch.round} using Allsvenskan (distance/speed) + bolldata (minutes) to ${path.relative(process.cwd(), OUT_PATH)}`
+    `Synced running data for ${nextMatch.round} using Allsvenskan (distance/speed) + ${useBolldataMinutes ? "bolldata" : "Allsvenskan substitutions"} (minutes) to ${path.relative(process.cwd(), OUT_PATH)}`
   );
 }
 
