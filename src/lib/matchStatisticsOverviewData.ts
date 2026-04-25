@@ -15,7 +15,7 @@ export interface TeamRoundStats {
 }
 
 export interface RoundMatchStats {
-  key: "omgang-1" | "omgang-2" | "omgang-3";
+  key: "omgang-1" | "omgang-2" | "omgang-3" | "omgang-4";
   gameweek: number;
   date: string;
   matchName: string;
@@ -136,6 +136,44 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       corners: 6,
       fouls: 9,
       yellowCards: 1,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-4",
+    gameweek: 4,
+    date: "2026-04-22",
+    matchName: "Hammarby - Halmstad, 1-1",
+    sourceUrl:
+      "https://bolldata.se/allsvenskan/matcher/2026/2026-04-22/hammarby-halmstad-1-1",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 1,
+      xg: 2.308,
+      shots: 21,
+      shotsOnTarget: 3,
+      possessionPercent: 74,
+      passes: 752,
+      passesSuccessful: 652,
+      touchesInBox: 35,
+      corners: 9,
+      fouls: 13,
+      yellowCards: 2,
+      redCards: 0,
+    },
+    opponent: {
+      teamName: "Halmstad",
+      goals: 1,
+      xg: 2.166,
+      shots: 8,
+      shotsOnTarget: 3,
+      possessionPercent: 26,
+      passes: 207,
+      passesSuccessful: 150,
+      touchesInBox: 11,
+      corners: 0,
+      fouls: 14,
+      yellowCards: 3,
       redCards: 0,
     },
   },
