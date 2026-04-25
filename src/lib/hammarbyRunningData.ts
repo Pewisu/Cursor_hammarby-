@@ -507,11 +507,11 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
     "date": "22 april 2026",
     "sourceUrl": "https://allsvenskan.se/matcher/2026/6529853/hammarby-mot-halmstads-bk",
     "homeTeam": "Hammarby",
-    "awayTeam": "Halmstads BK",
+    "awayTeam": "Halmstad",
     "hammarbyWasHome": true,
-    "matchDurationMinutes": 94.38,
+    "matchDurationMinutes": 98,
     "hammarbyTeamDistanceMeters": 126740,
-    "hammarbyTeamMinutes": 1038.18,
+    "hammarbyTeamMinutes": 1077,
     "hammarbyTopSpeedKmh": 32.63,
     "players": [
       {
@@ -520,8 +520,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 13024,
         "maxSpeedKmh": 32.63,
-        "minutesPlayed": 94.38,
-        "metersPerMinute": 138
+        "minutesPlayed": 98,
+        "metersPerMinute": 132.9
       },
       {
         "name": "Noah Persson",
@@ -529,8 +529,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 13023,
         "maxSpeedKmh": 30.41,
-        "minutesPlayed": 94.38,
-        "metersPerMinute": 137.98
+        "minutesPlayed": 98,
+        "metersPerMinute": 132.89
       },
       {
         "name": "Markus Karlsson",
@@ -538,8 +538,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 12696,
         "maxSpeedKmh": 27.57,
-        "minutesPlayed": 94.38,
-        "metersPerMinute": 134.52
+        "minutesPlayed": 98,
+        "metersPerMinute": 129.55
       },
       {
         "name": "Paulos Abraham",
@@ -547,8 +547,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 12150,
         "maxSpeedKmh": 29.1,
-        "minutesPlayed": 85.97,
-        "metersPerMinute": 141.33
+        "minutesPlayed": 89,
+        "metersPerMinute": 136.52
       },
       {
         "name": "Frederik Winther",
@@ -556,8 +556,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 12120,
         "maxSpeedKmh": 29.96,
-        "minutesPlayed": 94.38,
-        "metersPerMinute": 128.42
+        "minutesPlayed": 98,
+        "metersPerMinute": 123.67
       },
       {
         "name": "Victor Eriksson",
@@ -565,8 +565,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 11223,
         "maxSpeedKmh": 30.8,
-        "minutesPlayed": 94.38,
-        "metersPerMinute": 118.91
+        "minutesPlayed": 98,
+        "metersPerMinute": 114.52
       },
       {
         "name": "Nahir Besara",
@@ -574,8 +574,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 10235,
         "maxSpeedKmh": 28.14,
-        "minutesPlayed": 85.8,
-        "metersPerMinute": 119.29
+        "minutesPlayed": 89,
+        "metersPerMinute": 115
       },
       {
         "name": "Victor Lind",
@@ -583,8 +583,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 8692,
         "maxSpeedKmh": 31.27,
-        "minutesPlayed": 68.23,
-        "metersPerMinute": 127.39
+        "minutesPlayed": 71,
+        "metersPerMinute": 122.42
       },
       {
         "name": "Oscar Johansson",
@@ -592,8 +592,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 8083,
         "maxSpeedKmh": 29.37,
-        "minutesPlayed": 55.77,
-        "metersPerMinute": 144.93
+        "minutesPlayed": 59,
+        "metersPerMinute": 137
       },
       {
         "name": "Oliver Jordan Hagen",
@@ -601,8 +601,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 6795,
         "maxSpeedKmh": 32.32,
-        "minutesPlayed": 55.77,
-        "metersPerMinute": 121.84
+        "minutesPlayed": 59,
+        "metersPerMinute": 115.17
       },
       {
         "name": "Warner Hahn",
@@ -610,8 +610,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Målvakt",
         "distanceMeters": 4760,
         "maxSpeedKmh": 23.62,
-        "minutesPlayed": 94.38,
-        "metersPerMinute": 50.43
+        "minutesPlayed": 98,
+        "metersPerMinute": 48.57
       },
       {
         "name": "Frank Junior Adjei",
@@ -619,8 +619,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 4354,
         "maxSpeedKmh": 31.72,
-        "minutesPlayed": 38.61,
-        "metersPerMinute": 112.77
+        "minutesPlayed": 39,
+        "metersPerMinute": 111.64
       },
       {
         "name": "Montader Madjed",
@@ -628,8 +628,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 4110,
         "maxSpeedKmh": 28.02,
-        "minutesPlayed": 38.61,
-        "metersPerMinute": 106.45
+        "minutesPlayed": 39,
+        "metersPerMinute": 105.38
       },
       {
         "name": "Nikola Vasic",
@@ -637,8 +637,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 3291,
         "maxSpeedKmh": 28.77,
-        "minutesPlayed": 26.15,
-        "metersPerMinute": 125.85
+        "minutesPlayed": 26,
+        "metersPerMinute": 126.58
       },
       {
         "name": "Wilson Lindberg",
@@ -646,8 +646,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 1169,
         "maxSpeedKmh": 25.45,
-        "minutesPlayed": 8.58,
-        "metersPerMinute": 136.25
+        "minutesPlayed": 9,
+        "metersPerMinute": 129.89
       },
       {
         "name": "Oscar Steinke Brånby",
@@ -655,8 +655,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 1015,
         "maxSpeedKmh": 28.34,
-        "minutesPlayed": 8.41,
-        "metersPerMinute": 120.69
+        "minutesPlayed": 9,
+        "metersPerMinute": 112.78
       }
     ]
   }
