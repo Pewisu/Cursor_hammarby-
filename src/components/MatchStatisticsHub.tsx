@@ -158,13 +158,33 @@ type TeamStandoutInsight = {
   theme: string;
   narrative: string;
   matchValue: number;
-  referenceSeason: 2025 | 2026;
-  referenceValue: number;
-  rawDelta: number;
-  relativeDelta: number;
+  season2026Value: number | null;
+  season2025Value: number | null;
+  deltaVs2026: number | null;
+  deltaVs2025: number | null;
+  relativeVs2026: number | null;
+  relativeVs2025: number | null;
+  isPositiveVs2026: boolean | null;
+  isPositiveVs2025: boolean | null;
+  selectedReferenceSeason: 2025 | 2026;
+  selectedReferenceValue: number;
+  selectedRawDelta: number;
+  selectedRelativeDelta: number;
   isPositive: boolean;
   emphasis: "high" | "medium" | "low";
   score: number;
+};
+
+type MatchShotStandoutCard = {
+  id: "shots" | "shots-on-target";
+  label: string;
+  matchValue: number;
+  season2026Average: number | null;
+  season2025Average: number | null;
+  deltaVs2026: number | null;
+  deltaVs2025: number | null;
+  isPositive: boolean;
+  summary: string;
 };
 
 type StandoutReferenceMetricKey = "xA" | "xG" | "recoveries" | "passes";
@@ -492,19 +512,92 @@ function formatRelativeOutcomeDelta(value: number): string {
   })}%`;
 }
 
+function computeRelativeOutcomeDelta(
+  rawDelta: number,
+  metric: MatchAnalysisMetricDefinition,
+  referenceValue: number
+): number {
+  const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
+  const denominator = Math.max(
+    Math.abs(referenceValue),
+    metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
+  );
+  return directedDelta / denominator;
+}
+
+function getSimpleDeltaTone(value: number | null): string {
+  if (value === null || value === 0) return "text-slate-300";
+  return value > 0 ? "text-green-300" : "text-rose-300";
+}
+
+function formatSimpleDelta(value: number | null, decimals = 0): string {
+  if (value === null) return "–";
+  const sign = value > 0 ? "+" : value < 0 ? "-" : "";
+  return `${sign}${Math.abs(value).toLocaleString("sv-SE", {
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals,
+  })}`;
+}
+
+function formatShotsValue(value: number): string {
+  return value.toLocaleString("sv-SE", {
+    maximumFractionDigits: 0,
+  });
+}
+
+function getDominantStandoutReference(
+  insight: TeamStandoutInsight
+): { season: 2025 | 2026; relative: number; isPositive: boolean } | null {
+  const candidates = [
+    insight.relativeVs2026 === null || insight.isPositiveVs2026 === null
+      ? null
+      : {
+          season: 2026 as const,
+          relative: insight.relativeVs2026,
+          isPositive: insight.isPositiveVs2026,
+        },
+    insight.relativeVs2025 === null || insight.isPositiveVs2025 === null
+      ? null
+      : {
+          season: 2025 as const,
+          relative: insight.relativeVs2025,
+          isPositive: insight.isPositiveVs2025,
+        },
+  ].filter(
+    (
+      candidate
+    ): candidate is { season: 2025 | 2026; relative: number; isPositive: boolean } =>
+      candidate !== null
+  );
+  if (candidates.length === 0) return null;
+  return candidates.sort((left, right) => {
+    const byMagnitude = Math.abs(right.relative) - Math.abs(left.relative);
+    if (byMagnitude !== 0) return byMagnitude;
+    return right.season - left.season;
+  })[0];
+}
+
 function getStandoutBadgeLabel(insight: TeamStandoutInsight): string {
-  const trendWord = insight.isPositive ? "över snitt" : "under snitt";
+  const dominantReference = getDominantStandoutReference(insight);
+  if (!dominantReference) return "Jämförelse saknas";
+  const trendWord = dominantReference.isPositive ? "över snitt" : "under snitt";
   if (insight.emphasis === "high") {
-    return `${insight.isPositive ? "Kraftigt" : "Tydligt"} ${trendWord} ${insight.referenceSeason}`;
+    return `${dominantReference.isPositive ? "Kraftigt" : "Tydligt"} ${trendWord} ${dominantReference.season}`;
   }
   if (insight.emphasis === "medium") {
-    return `${insight.isPositive ? "Över" : "Under"} snitt ${insight.referenceSeason}`;
+    return `${dominantReference.isPositive ? "Över" : "Under"} snitt ${dominantReference.season}`;
   }
-  return `${insight.isPositive ? "Svagt över" : "Svagt under"} snitt ${insight.referenceSeason}`;
+  return `${dominantReference.isPositive ? "Svagt över" : "Svagt under"} snitt ${dominantReference.season}`;
 }
 
 function getStandoutOutcomeLabel(insight: TeamStandoutInsight): string {
-  return insight.isPositive ? "Positiv standout" : "Negativ standout";
+  const positiveCount = Number(insight.isPositiveVs2026) + Number(insight.isPositiveVs2025);
+  const availableCount =
+    Number(insight.isPositiveVs2026 !== null) + Number(insight.isPositiveVs2025 !== null);
+  if (availableCount === 0) return "Standout";
+  if (positiveCount === availableCount) return "Positiv standout";
+  if (positiveCount === 0) return "Negativ standout";
+  return "Blandad standout";
 }
 
 function formatMatchAnalysisValue(
@@ -870,6 +963,9 @@ function buildCombinedOverview(items: RoundMatchStats[]): OverviewData | null {
 export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubProps) {
   const sourceRounds = rounds ?? hammarbyRoundMatchStats;
   const sortedMatches = [...sourceRounds].sort((a, b) => a.gameweek - b.gameweek);
+  const [selectedTeamStandoutReferenceSeason, setSelectedTeamStandoutReferenceSeason] = useState<
+    2025 | 2026
+  >(2026);
   const [selectedTrendMetricKey, setSelectedTrendMetricKey] =
     useState<TrendMetricKey>("possessionPercent");
   const [selectedMatchAnalysisMetricKey, setSelectedMatchAnalysisMetricKey] =
@@ -898,13 +994,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [selectedHistoricalComparisonKey, setSelectedHistoricalComparisonKey] =
     useState<string>("none");
 
-  const roundOverview =
-    mode === "round"
-      ? (() => {
-          const selectedRound = sortedMatches.find((item) => item.gameweek === round);
-          return selectedRound ? buildRoundOverview(selectedRound) : null;
-        })()
+  const selectedRoundMatch =
+    mode === "round" && typeof round === "number"
+      ? sortedMatches.find((item) => item.gameweek === round) ?? null
       : null;
+  const roundOverview = mode === "round" && selectedRoundMatch ? buildRoundOverview(selectedRoundMatch) : null;
   const standoutPlayersForRound =
     mode === "round" && typeof round === "number"
       ? hammarbyRoundPlayerHighlights.find((entry) => entry.gameweek === round) ?? null
@@ -1395,74 +1489,139 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       ? hammarbyMatchAnalysisMetricDefinitions
           .flatMap((metric) => {
             const currentValue = selectedRoundData.metrics[metric.key].value;
-            const seasonReferences = [
-              seasonAverageForMetric(2026, metric.key) === null
-                ? null
-                : ({ season: 2026 as const, value: seasonAverageForMetric(2026, metric.key)! } as const),
-              seasonAverageForMetric(2025, metric.key) === null
-                ? null
-                : ({ season: 2025 as const, value: seasonAverageForMetric(2025, metric.key)! } as const),
-            ].filter((entry): entry is { season: 2025 | 2026; value: number } => entry !== null);
-            if (seasonReferences.length === 0) return [];
+            const season2026Value = seasonAverageForMetric(2026, metric.key);
+            const season2025Value = seasonAverageForMetric(2025, metric.key);
+            if (season2026Value === null && season2025Value === null) return [];
 
-            const strongestReference = seasonReferences
-              .map((reference) => {
-                const rawDelta = currentValue - reference.value;
-                const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
-                const denominator = Math.max(
-                  Math.abs(reference.value),
-                  metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
-                );
-                const relativeDelta = directedDelta / denominator;
-                return {
-                  referenceSeason: reference.season,
-                  referenceValue: reference.value,
-                  rawDelta,
-                  relativeDelta,
-                  score: Math.abs(relativeDelta),
-                };
-              })
-              .sort((left, right) => right.score - left.score)[0];
+            const deltaVs2026 = season2026Value === null ? null : currentValue - season2026Value;
+            const deltaVs2025 = season2025Value === null ? null : currentValue - season2025Value;
+            const relativeVs2026 =
+              deltaVs2026 === null || season2026Value === null
+                ? null
+                : computeRelativeOutcomeDelta(deltaVs2026, metric, season2026Value);
+            const relativeVs2025 =
+              deltaVs2025 === null || season2025Value === null
+                ? null
+                : computeRelativeOutcomeDelta(deltaVs2025, metric, season2025Value);
+            const isPositiveVs2026 = relativeVs2026 === null ? null : relativeVs2026 >= 0;
+            const isPositiveVs2025 = relativeVs2025 === null ? null : relativeVs2025 >= 0;
+
+            const selectedRawDelta =
+              selectedTeamStandoutReferenceSeason === 2026
+                ? deltaVs2026 ?? deltaVs2025 ?? 0
+                : deltaVs2025 ?? deltaVs2026 ?? 0;
+            const selectedRelativeDelta =
+              selectedTeamStandoutReferenceSeason === 2026
+                ? relativeVs2026 ?? relativeVs2025 ?? 0
+                : relativeVs2025 ?? relativeVs2026 ?? 0;
+            const selectedIsPositive =
+              selectedTeamStandoutReferenceSeason === 2026
+                ? isPositiveVs2026 ?? isPositiveVs2025 ?? true
+                : isPositiveVs2025 ?? isPositiveVs2026 ?? true;
+            const selectedReferenceValue =
+              selectedTeamStandoutReferenceSeason === 2026
+                ? season2026Value ?? season2025Value ?? currentValue
+                : season2025Value ?? season2026Value ?? currentValue;
 
             const copy = TEAM_STANDOUT_COPY_BY_METRIC[metric.key] ?? {
               theme: "Lagnivå",
               narrative: "Matchbilden påverkades tydligt i den här KPI:n",
             };
 
+            const score = Math.abs(selectedRelativeDelta);
             const emphasis: TeamStandoutInsight["emphasis"] =
-              strongestReference.score >= 0.35
-                ? "high"
-                : strongestReference.score >= 0.2
-                  ? "medium"
-                  : "low";
+              score >= 0.35 ? "high" : score >= 0.2 ? "medium" : "low";
 
             return [
               {
-                id: `${metric.key}-${strongestReference.referenceSeason}`,
+                id: `${metric.key}-${selectedTeamStandoutReferenceSeason}`,
                 metric,
                 theme: copy.theme,
                 narrative: copy.narrative,
                 matchValue: currentValue,
-                referenceSeason: strongestReference.referenceSeason,
-                referenceValue: strongestReference.referenceValue,
-                rawDelta: strongestReference.rawDelta,
-                relativeDelta: strongestReference.relativeDelta,
-                isPositive: strongestReference.relativeDelta > 0,
+                season2026Value,
+                season2025Value,
+                deltaVs2026,
+                deltaVs2025,
+                relativeVs2026,
+                relativeVs2025,
+                isPositiveVs2026,
+                isPositiveVs2025,
+                selectedReferenceSeason: selectedTeamStandoutReferenceSeason,
+                selectedReferenceValue,
+                selectedRawDelta,
+                selectedRelativeDelta,
+                isPositive: selectedIsPositive,
                 emphasis,
-                score: strongestReference.score,
+                score,
               } satisfies TeamStandoutInsight,
             ];
           })
           .sort((left, right) => right.score - left.score)
       : [];
+  const seasonAverageForRoundOverviewMetric = (
+    season: 2025 | 2026,
+    metricKey: "shots" | "shotsOnTarget"
+  ): number | null => {
+    const seasonMatches = sourceRounds.filter((match) => match.date.startsWith(`${season}-`));
+    if (seasonMatches.length === 0) return null;
+    const total = seasonMatches.reduce((sum, match) => sum + match.hammarby[metricKey], 0);
+    return total / seasonMatches.length;
+  };
+  const matchShotStandoutCards: MatchShotStandoutCard[] =
+    mode === "round" && effectiveMatchAnalysisViewMode === "round" && selectedRoundMatch
+      ? ([
+          {
+            id: "shots",
+            label: "Skott",
+            matchValue: selectedRoundMatch.hammarby.shots,
+            season2026Average: seasonAverageForRoundOverviewMetric(2026, "shots"),
+            season2025Average: seasonAverageForRoundOverviewMetric(2025, "shotsOnTarget"),
+          },
+          {
+            id: "shots-on-target",
+            label: "Skott på mål",
+            matchValue: selectedRoundMatch.hammarby.shotsOnTarget,
+            season2026Average: seasonAverageForRoundOverviewMetric(2026, "shotsOnTarget"),
+            season2025Average: seasonAverageForRoundOverviewMetric(2025, "shotsOnTarget"),
+          },
+        ] satisfies Array<
+          Omit<
+            MatchShotStandoutCard,
+            "deltaVs2026" | "deltaVs2025" | "isPositive" | "summary"
+          >
+        >).map((card) => {
+          const selectedAverage =
+            selectedTeamStandoutReferenceSeason === 2026
+              ? card.season2026Average ?? card.season2025Average
+              : card.season2025Average ?? card.season2026Average;
+          const selectedDelta =
+            selectedAverage === null ? null : card.matchValue - selectedAverage;
+          const summary =
+            selectedDelta === null
+              ? `Saknar säsongssnitt ${selectedTeamStandoutReferenceSeason} för jämförelse just nu.`
+              : selectedDelta >= 0
+                ? `${formatSimpleDelta(selectedDelta)} över snitt ${selectedTeamStandoutReferenceSeason}.`
+                : `${formatSimpleDelta(selectedDelta)} under snitt ${selectedTeamStandoutReferenceSeason}.`;
+          return {
+            ...card,
+            deltaVs2026:
+              card.season2026Average === null ? null : card.matchValue - card.season2026Average,
+            deltaVs2025:
+              card.season2025Average === null ? null : card.matchValue - card.season2025Average,
+            isPositive: selectedDelta === null ? true : selectedDelta >= 0,
+            summary,
+          };
+        })
+      : [];
   const notableTeamStandoutInsights = teamStandoutInsights.filter(
-    (insight) => Math.abs(insight.relativeDelta) >= 0.05
+    (insight) => Math.abs(insight.selectedRelativeDelta) >= 0.05
   );
   const positiveTeamStandoutInsights = notableTeamStandoutInsights.filter(
-    (insight) => insight.relativeDelta > 0
+    (insight) => insight.selectedRelativeDelta > 0
   );
   const negativeTeamStandoutInsights = notableTeamStandoutInsights.filter(
-    (insight) => insight.relativeDelta < 0
+    (insight) => insight.selectedRelativeDelta < 0
   );
   const teamStandoutTargetCount =
     notableTeamStandoutInsights.length >= 6
@@ -1838,7 +1997,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       >
                         {getStandoutOutcomeLabel(insight)}
                       </p>
-                      <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
+                      <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-3">
                         <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
                           <p className="text-slate-500">Vald omgång</p>
                           <p className="font-semibold text-white">
@@ -1846,25 +2005,56 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           </p>
                         </div>
                         <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                          <p className="text-slate-500">Snitt {insight.referenceSeason}</p>
+                          <p className="text-slate-500">Snitt 2026</p>
                           <p className="font-semibold text-white">
-                            {formatMatchAnalysisValue(insight.referenceValue, insight.metric)}
+                            {insight.season2026Value === null
+                              ? "–"
+                              : formatMatchAnalysisValue(insight.season2026Value, insight.metric)}
+                          </p>
+                        </div>
+                        <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
+                          <p className="text-slate-500">Snitt 2025</p>
+                          <p className="font-semibold text-white">
+                            {insight.season2025Value === null
+                              ? "–"
+                              : formatMatchAnalysisValue(insight.season2025Value, insight.metric)}
                           </p>
                         </div>
                       </div>
-                      <p
-                        className={`mt-2 text-[11px] font-semibold ${getMatchAnalysisDeltaTone(
-                          insight.rawDelta,
-                          insight.metric.direction
-                        )}`}
-                      >
-                        Δ: {formatDeltaWithMeaning(insight.rawDelta, insight.metric)}
-                      </p>
-                      <p className="mt-0.5 text-[11px] text-slate-300">
-                        Utslag: {formatRelativeOutcomeDelta(insight.relativeDelta)}{" "}
-                        {insight.relativeDelta >= 0 ? "starkare än" : "svagare än"} snitt{" "}
-                        {insight.referenceSeason}
-                      </p>
+                      <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
+                        <div className="rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5">
+                          <p className="text-slate-500">Δ vs 2026</p>
+                          <p
+                            className={`font-semibold ${getMatchAnalysisDeltaTone(
+                              insight.deltaVs2026 ?? 0,
+                              insight.metric.direction
+                            )}`}
+                          >
+                            {formatDeltaWithMeaning(insight.deltaVs2026, insight.metric)}
+                          </p>
+                          {insight.relativeVs2026 !== null && (
+                            <p className="text-slate-400">
+                              Utslag {formatRelativeOutcomeDelta(insight.relativeVs2026)}
+                            </p>
+                          )}
+                        </div>
+                        <div className="rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5">
+                          <p className="text-slate-500">Δ vs 2025</p>
+                          <p
+                            className={`font-semibold ${getMatchAnalysisDeltaTone(
+                              insight.deltaVs2025 ?? 0,
+                              insight.metric.direction
+                            )}`}
+                          >
+                            {formatDeltaWithMeaning(insight.deltaVs2025, insight.metric)}
+                          </p>
+                          {insight.relativeVs2025 !== null && (
+                            <p className="text-slate-400">
+                              Utslag {formatRelativeOutcomeDelta(insight.relativeVs2025)}
+                            </p>
+                          )}
+                        </div>
+                      </div>
                     </article>
                   );
                 })}
