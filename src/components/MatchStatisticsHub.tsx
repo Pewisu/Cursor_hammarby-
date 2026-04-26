@@ -158,10 +158,14 @@ type TeamStandoutInsight = {
   theme: string;
   narrative: string;
   matchValue: number;
-  referenceSeason: 2025 | 2026;
-  referenceValue: number;
-  rawDelta: number;
-  relativeDelta: number;
+  primaryReferenceSeason: 2025 | 2026;
+  primaryReferenceValue: number;
+  primaryRawDelta: number;
+  primaryRelativeDelta: number;
+  secondaryReferenceSeason: 2025 | 2026 | null;
+  secondaryReferenceValue: number | null;
+  secondaryRawDelta: number | null;
+  secondaryRelativeDelta: number | null;
   isPositive: boolean;
   emphasis: "high" | "medium" | "low";
   score: number;
@@ -492,19 +496,34 @@ function formatRelativeOutcomeDelta(value: number): string {
   })}%`;
 }
 
+function computeDirectedRelativeDelta(
+  rawDelta: number,
+  referenceValue: number,
+  metric: MatchAnalysisMetricDefinition
+): number {
+  const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
+  const denominator = Math.max(
+    Math.abs(referenceValue),
+    metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
+  );
+  return directedDelta / denominator;
+}
+
 function getStandoutBadgeLabel(insight: TeamStandoutInsight): string {
   const trendWord = insight.isPositive ? "över snitt" : "under snitt";
   if (insight.emphasis === "high") {
-    return `${insight.isPositive ? "Kraftigt" : "Tydligt"} ${trendWord} ${insight.referenceSeason}`;
+    return `${insight.isPositive ? "Kraftigt" : "Tydligt"} ${trendWord} ${insight.primaryReferenceSeason}`;
   }
   if (insight.emphasis === "medium") {
-    return `${insight.isPositive ? "Över" : "Under"} snitt ${insight.referenceSeason}`;
+    return `${insight.isPositive ? "Över" : "Under"} snitt ${insight.primaryReferenceSeason}`;
   }
-  return `${insight.isPositive ? "Svagt över" : "Svagt under"} snitt ${insight.referenceSeason}`;
+  return `${insight.isPositive ? "Svagt över" : "Svagt under"} snitt ${insight.primaryReferenceSeason}`;
 }
 
 function getStandoutOutcomeLabel(insight: TeamStandoutInsight): string {
-  return insight.isPositive ? "Positiv standout" : "Negativ standout";
+  return insight.isPositive
+    ? `Positiv standout vs snitt ${insight.primaryReferenceSeason}`
+    : `Negativ standout vs snitt ${insight.primaryReferenceSeason}`;
 }
 
 function formatMatchAnalysisValue(
@@ -1395,34 +1414,39 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       ? hammarbyMatchAnalysisMetricDefinitions
           .flatMap((metric) => {
             const currentValue = selectedRoundData.metrics[metric.key].value;
-            const seasonReferences = [
-              seasonAverageForMetric(2026, metric.key) === null
+            const season2026Value = seasonAverageForMetric(2026, metric.key);
+            const season2025Value = seasonAverageForMetric(2025, metric.key);
+            const primaryReferenceSeason: 2025 | 2026 =
+              season2026Value !== null ? 2026 : 2025;
+            const primaryReferenceValue =
+              primaryReferenceSeason === 2026 ? season2026Value : season2025Value;
+            if (primaryReferenceValue === null) return [];
+            const secondaryReferenceSeason =
+              primaryReferenceSeason === 2026
+                ? season2025Value === null
+                  ? null
+                  : (2025 as const)
+                : season2026Value === null
+                  ? null
+                  : (2026 as const);
+            const secondaryReferenceValue =
+              secondaryReferenceSeason === 2025
+                ? season2025Value
+                : secondaryReferenceSeason === 2026
+                  ? season2026Value
+                  : null;
+            const primaryRawDelta = currentValue - primaryReferenceValue;
+            const primaryRelativeDelta = computeDirectedRelativeDelta(
+              primaryRawDelta,
+              primaryReferenceValue,
+              metric
+            );
+            const secondaryRawDelta =
+              secondaryReferenceValue === null ? null : currentValue - secondaryReferenceValue;
+            const secondaryRelativeDelta =
+              secondaryRawDelta === null || secondaryReferenceValue === null
                 ? null
-                : ({ season: 2026 as const, value: seasonAverageForMetric(2026, metric.key)! } as const),
-              seasonAverageForMetric(2025, metric.key) === null
-                ? null
-                : ({ season: 2025 as const, value: seasonAverageForMetric(2025, metric.key)! } as const),
-            ].filter((entry): entry is { season: 2025 | 2026; value: number } => entry !== null);
-            if (seasonReferences.length === 0) return [];
-
-            const strongestReference = seasonReferences
-              .map((reference) => {
-                const rawDelta = currentValue - reference.value;
-                const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
-                const denominator = Math.max(
-                  Math.abs(reference.value),
-                  metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
-                );
-                const relativeDelta = directedDelta / denominator;
-                return {
-                  referenceSeason: reference.season,
-                  referenceValue: reference.value,
-                  rawDelta,
-                  relativeDelta,
-                  score: Math.abs(relativeDelta),
-                };
-              })
-              .sort((left, right) => right.score - left.score)[0];
+                : computeDirectedRelativeDelta(secondaryRawDelta, secondaryReferenceValue, metric);
 
             const copy = TEAM_STANDOUT_COPY_BY_METRIC[metric.key] ?? {
               theme: "Lagnivå",
@@ -1430,39 +1454,43 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             };
 
             const emphasis: TeamStandoutInsight["emphasis"] =
-              strongestReference.score >= 0.35
+              Math.abs(primaryRelativeDelta) >= 0.35
                 ? "high"
-                : strongestReference.score >= 0.2
+                : Math.abs(primaryRelativeDelta) >= 0.2
                   ? "medium"
                   : "low";
 
             return [
               {
-                id: `${metric.key}-${strongestReference.referenceSeason}`,
+                id: `${metric.key}-${primaryReferenceSeason}`,
                 metric,
                 theme: copy.theme,
                 narrative: copy.narrative,
                 matchValue: currentValue,
-                referenceSeason: strongestReference.referenceSeason,
-                referenceValue: strongestReference.referenceValue,
-                rawDelta: strongestReference.rawDelta,
-                relativeDelta: strongestReference.relativeDelta,
-                isPositive: strongestReference.relativeDelta > 0,
+                primaryReferenceSeason,
+                primaryReferenceValue,
+                primaryRawDelta,
+                primaryRelativeDelta,
+                secondaryReferenceSeason,
+                secondaryReferenceValue,
+                secondaryRawDelta,
+                secondaryRelativeDelta,
+                isPositive: primaryRelativeDelta > 0,
                 emphasis,
-                score: strongestReference.score,
+                score: Math.abs(primaryRelativeDelta),
               } satisfies TeamStandoutInsight,
             ];
           })
           .sort((left, right) => right.score - left.score)
       : [];
   const notableTeamStandoutInsights = teamStandoutInsights.filter(
-    (insight) => Math.abs(insight.relativeDelta) >= 0.05
+    (insight) => Math.abs(insight.primaryRelativeDelta) >= 0.05
   );
   const positiveTeamStandoutInsights = notableTeamStandoutInsights.filter(
-    (insight) => insight.relativeDelta > 0
+    (insight) => insight.primaryRelativeDelta > 0
   );
   const negativeTeamStandoutInsights = notableTeamStandoutInsights.filter(
-    (insight) => insight.relativeDelta < 0
+    (insight) => insight.primaryRelativeDelta < 0
   );
   const teamStandoutTargetCount =
     notableTeamStandoutInsights.length >= 6
@@ -1793,9 +1821,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     Lagets standout i omgången (det som stack ut)
                   </h2>
                   <p className="mt-1 text-sm text-slate-400">
-                    Visar de tydligaste utslagen mot säsongssnitt, med balans mellan positiva och
-                    negativa signaler. Vanligtvis visas minst 3 punkter, men fler när matchbilden
-                    sticker ut tydligt.
+                    Primärt jämfört mot snitt 2026 (mest relevant), med kompakt sekundär jämförelse
+                    mot snitt 2025 när data finns. Visar alltid balans mellan positiva och negativa
+                    signaler.
                   </p>
                 </div>
                 <a
@@ -1846,25 +1874,37 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           </p>
                         </div>
                         <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                          <p className="text-slate-500">Snitt {insight.referenceSeason}</p>
+                          <p className="text-slate-500">Snitt {insight.primaryReferenceSeason}</p>
                           <p className="font-semibold text-white">
-                            {formatMatchAnalysisValue(insight.referenceValue, insight.metric)}
+                            {formatMatchAnalysisValue(insight.primaryReferenceValue, insight.metric)}
                           </p>
                         </div>
                       </div>
                       <p
                         className={`mt-2 text-[11px] font-semibold ${getMatchAnalysisDeltaTone(
-                          insight.rawDelta,
+                          insight.primaryRawDelta,
                           insight.metric.direction
                         )}`}
                       >
-                        Δ: {formatDeltaWithMeaning(insight.rawDelta, insight.metric)}
+                        Δ vs {insight.primaryReferenceSeason}:{" "}
+                        {formatDeltaWithMeaning(insight.primaryRawDelta, insight.metric)}
                       </p>
                       <p className="mt-0.5 text-[11px] text-slate-300">
-                        Utslag: {formatRelativeOutcomeDelta(insight.relativeDelta)}{" "}
-                        {insight.relativeDelta >= 0 ? "starkare än" : "svagare än"} snitt{" "}
-                        {insight.referenceSeason}
+                        Utslag mot snitt {insight.primaryReferenceSeason}:{" "}
+                        {formatRelativeOutcomeDelta(insight.primaryRelativeDelta)} (
+                        {insight.primaryRelativeDelta >= 0 ? "positivt" : "negativt"})
                       </p>
+                      {insight.secondaryReferenceSeason !== null &&
+                        insight.secondaryReferenceValue !== null &&
+                        insight.secondaryRawDelta !== null &&
+                        insight.secondaryRelativeDelta !== null && (
+                          <p className="mt-1 text-[11px] text-slate-400">
+                            Sekundärt mot snitt {insight.secondaryReferenceSeason}:{" "}
+                            {formatMatchAnalysisValue(insight.secondaryReferenceValue, insight.metric)} • Δ{" "}
+                            {formatDeltaWithMeaning(insight.secondaryRawDelta, insight.metric)} • utslag{" "}
+                            {formatRelativeOutcomeDelta(insight.secondaryRelativeDelta)}
+                          </p>
+                        )}
                     </article>
                   );
                 })}
