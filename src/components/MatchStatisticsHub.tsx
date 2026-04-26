@@ -887,6 +887,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [selectedSingleRoundComparisonMode, setSelectedSingleRoundComparisonMode] = useState<
     "season-average" | "previous-season-match"
   >("season-average");
+  const [selectedTeamStandoutReferenceSeason, setSelectedTeamStandoutReferenceSeason] = useState<
+    2025 | 2026
+  >(2026);
   const [seasonVenueFilter, setSeasonVenueFilter] = useState<"all" | "home" | "away">("all");
   const [seasonOpponentSearch, setSeasonOpponentSearch] = useState<string>("");
   const [historicalComparisonMode] = useState<HistoricalComparisonMode>("recommended");
@@ -1395,34 +1398,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       ? hammarbyMatchAnalysisMetricDefinitions
           .flatMap((metric) => {
             const currentValue = selectedRoundData.metrics[metric.key].value;
-            const seasonReferences = [
-              seasonAverageForMetric(2026, metric.key) === null
-                ? null
-                : ({ season: 2026 as const, value: seasonAverageForMetric(2026, metric.key)! } as const),
-              seasonAverageForMetric(2025, metric.key) === null
-                ? null
-                : ({ season: 2025 as const, value: seasonAverageForMetric(2025, metric.key)! } as const),
-            ].filter((entry): entry is { season: 2025 | 2026; value: number } => entry !== null);
-            if (seasonReferences.length === 0) return [];
-
-            const strongestReference = seasonReferences
-              .map((reference) => {
-                const rawDelta = currentValue - reference.value;
-                const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
-                const denominator = Math.max(
-                  Math.abs(reference.value),
-                  metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
-                );
-                const relativeDelta = directedDelta / denominator;
-                return {
-                  referenceSeason: reference.season,
-                  referenceValue: reference.value,
-                  rawDelta,
-                  relativeDelta,
-                  score: Math.abs(relativeDelta),
-                };
-              })
-              .sort((left, right) => right.score - left.score)[0];
+            const referenceValue = seasonAverageForMetric(
+              selectedTeamStandoutReferenceSeason,
+              metric.key
+            );
+            if (referenceValue === null) return [];
+            const rawDelta = currentValue - referenceValue;
+            const directedDelta = metric.direction === "higher" ? rawDelta : -rawDelta;
+            const denominator = Math.max(
+              Math.abs(referenceValue),
+              metric.format === "percent" ? 0.05 : metric.format === "decimal" ? 0.2 : 1
+            );
+            const relativeDelta = directedDelta / denominator;
+            const score = Math.abs(relativeDelta);
 
             const copy = TEAM_STANDOUT_COPY_BY_METRIC[metric.key] ?? {
               theme: "Lagnivå",
@@ -1430,26 +1418,26 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             };
 
             const emphasis: TeamStandoutInsight["emphasis"] =
-              strongestReference.score >= 0.35
+              score >= 0.35
                 ? "high"
-                : strongestReference.score >= 0.2
+                : score >= 0.2
                   ? "medium"
                   : "low";
 
             return [
               {
-                id: `${metric.key}-${strongestReference.referenceSeason}`,
+                id: `${metric.key}-${selectedTeamStandoutReferenceSeason}`,
                 metric,
                 theme: copy.theme,
                 narrative: copy.narrative,
                 matchValue: currentValue,
-                referenceSeason: strongestReference.referenceSeason,
-                referenceValue: strongestReference.referenceValue,
-                rawDelta: strongestReference.rawDelta,
-                relativeDelta: strongestReference.relativeDelta,
-                isPositive: strongestReference.relativeDelta > 0,
+                referenceSeason: selectedTeamStandoutReferenceSeason,
+                referenceValue,
+                rawDelta,
+                relativeDelta,
+                isPositive: relativeDelta > 0,
                 emphasis,
-                score: strongestReference.score,
+                score,
               } satisfies TeamStandoutInsight,
             ];
           })
@@ -1793,19 +1781,36 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     Lagets standout i omgången (det som stack ut)
                   </h2>
                   <p className="mt-1 text-sm text-slate-400">
-                    Visar de tydligaste utslagen mot säsongssnitt, med balans mellan positiva och
-                    negativa signaler. Vanligtvis visas minst 3 punkter, men fler när matchbilden
-                    sticker ut tydligt.
+                    Visar de tydligaste utslagen mot valt säsongssnitt med balans mellan positiva och
+                    negativa signaler.
                   </p>
                 </div>
-                <a
-                  href={selectedRoundData.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
-                >
-                  Matchanalyskälla
-                </a>
+                <div className="flex flex-wrap items-center gap-2">
+                  <div className="rounded-lg border border-slate-700/70 bg-slate-950/50 p-1">
+                    {([2026, 2025] as const).map((season) => (
+                      <button
+                        key={`team-standout-season-${season}`}
+                        type="button"
+                        onClick={() => setSelectedTeamStandoutReferenceSeason(season)}
+                        className={`rounded-md px-2.5 py-1 text-[11px] transition-colors ${
+                          selectedTeamStandoutReferenceSeason === season
+                            ? "bg-blue-500/20 text-blue-100"
+                            : "text-slate-300 hover:bg-slate-800"
+                        }`}
+                      >
+                        Snitt {season}
+                      </button>
+                    ))}
+                  </div>
+                  <a
+                    href={selectedRoundData.sourceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+                  >
+                    Matchanalyskälla
+                  </a>
+                </div>
               </div>
               <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                 {visibleTeamStandoutInsights.map((insight) => {
