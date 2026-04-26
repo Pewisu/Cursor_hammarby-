@@ -617,10 +617,15 @@ async function main() {
     process.exit(0);
   }
   if (targetMatch && !targetMatch.isPlayed) {
+    if (allsvenskanMatchDetails.status !== "FINISHED") {
+      console.log(
+        `Match ${targetMatch.id} (${targetMatch.Name}) is not marked as played yet and Allsvenskan status is ${allsvenskanMatchDetails.status}. No running sync performed.`
+      );
+      process.exit(0);
+    }
     console.log(
-      `Match ${targetMatch.id} (${targetMatch.Name}) is not marked as played yet. No running sync performed.`
+      `Match ${targetMatch.id} (${targetMatch.Name}) is not marked as played in bolldata yet, continuing with Allsvenskan fallback.`
     );
-    process.exit(0);
   }
 
   const fallbackTeams = {
