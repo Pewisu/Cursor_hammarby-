@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   hammarbyRoundMatchStats,
   type RoundMatchStats,
@@ -993,6 +993,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
   const [selectedHistoricalComparisonKey, setSelectedHistoricalComparisonKey] =
     useState<string>("none");
+
+  useEffect(() => {
+    if (mode !== "round" || typeof round !== "number") return;
+    setRoundVsSeasonRound((currentValue) => {
+      const targetRound = hammarbyMatchAnalysisRounds.find(
+        (row) => row.season === PREFERRED_ROUND_FOCUS_SEASON && row.gameweek === round
+      );
+      if (targetRound) {
+        return targetRound.key;
+      }
+      return currentValue;
+    });
+  }, [mode, round]);
 
   const selectedRoundMatch =
     mode === "round" && typeof round === "number"
