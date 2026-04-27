@@ -9,12 +9,15 @@ export const MATCH_ANALYSIS_PERIOD_LABELS = [
 
 export type MatchAnalysisMetricKey =
   | "ball_possession_pct"
+  | "field_tilt"
+  | "np_shots"
   | "num_possessions_final_third"
   | "num_box_entries"
   | "xt_within_10s_after_recovery"
   | "num_recoveries_att_half"
   | "ppda"
   | "defensive_action_height_m"
+  | "opp_np_shots"
   | "opp_num_box_entries"
   | "time_to_defensive_action_after_loss_att_half_s"
   | "xt"
@@ -38,6 +41,20 @@ export const hammarbyMatchAnalysisMetricDefinitions: MatchAnalysisMetricDefiniti
     label: "Bollinnehav",
     format: "percent",
     decimals: 1,
+    direction: "higher",
+  },
+  {
+    key: "field_tilt",
+    label: "Field Tilt",
+    format: "percent",
+    decimals: 1,
+    direction: "higher",
+  },
+  {
+    key: "np_shots",
+    label: "Avslut",
+    format: "number",
+    decimals: 0,
     direction: "higher",
   },
   {
@@ -81,6 +98,13 @@ export const hammarbyMatchAnalysisMetricDefinitions: MatchAnalysisMetricDefiniti
     format: "decimal",
     decimals: 2,
     direction: "higher",
+  },
+  {
+    key: "opp_np_shots",
+    label: "Motst. avslut",
+    format: "number",
+    decimals: 0,
+    direction: "lower",
   },
   {
     key: "opp_num_box_entries",

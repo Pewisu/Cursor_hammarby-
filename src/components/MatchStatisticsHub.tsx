@@ -288,6 +288,10 @@ const TEAM_STANDOUT_COPY_BY_METRIC: Partial<
     theme: "Output",
     narrative: "Avsluten höll hög kvalitet per försök",
   },
+  field_tilt: {
+    theme: "Territoriell kontroll",
+    narrative: "Hammarby drev andelen avslut i matchbilden",
+  },
   ball_possession_pct: {
     theme: "Kontrollspel",
     narrative: "Laget drev matchbilden med boll",
@@ -343,7 +347,7 @@ const TEAM_STANDOUT_COPY_BY_METRIC: Partial<
 };
 
 const ROUND_FOCUS_PRIORITY_METRICS: MatchAnalysisMetricKey[] = [
-  "ball_possession_pct",
+  "field_tilt",
   "num_possessions_final_third",
   "num_box_entries",
   "num_recoveries_att_half",

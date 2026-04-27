@@ -27,6 +27,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.37
         ]
       },
+      "field_tilt": {
+        "value": 0.782608695652174,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          1,
+          1,
+          0.3333333333333333,
+          1,
+          0.4
+        ]
+      },
+      "np_shots": {
+        "value": 18,
+        "seasonAverage": 12.64,
+        "periods": [
+          4,
+          3,
+          3,
+          1,
+          5,
+          2
+        ]
+      },
       "num_possessions_final_third": {
         "value": 47,
         "seasonAverage": 48.73,
@@ -97,6 +121,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           51.03,
           43.69,
           46.36
+        ]
+      },
+      "opp_np_shots": {
+        "value": 5,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          0,
+          0,
+          2,
+          0,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -221,6 +257,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.6
         ]
       },
+      "field_tilt": {
+        "value": 0.6206896551724138,
+        "seasonAverage": 1,
+        "periods": [
+          0.25,
+          0,
+          0.8,
+          1,
+          0.2,
+          0.75
+        ]
+      },
+      "np_shots": {
+        "value": 18,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          0,
+          4,
+          3,
+          1,
+          9
+        ]
+      },
       "num_possessions_final_third": {
         "value": 51,
         "seasonAverage": 48.73,
@@ -291,6 +351,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           33.28,
           27.49,
           48.86
+        ]
+      },
+      "opp_np_shots": {
+        "value": 11,
+        "seasonAverage": 0,
+        "periods": [
+          3,
+          0,
+          1,
+          0,
+          4,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -415,6 +487,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.66
         ]
       },
+      "field_tilt": {
+        "value": 0.7058823529411765,
+        "seasonAverage": 1,
+        "periods": [
+          0,
+          0.6666666666666666,
+          1,
+          0.75,
+          1,
+          0.6666666666666666
+        ]
+      },
+      "np_shots": {
+        "value": 12,
+        "seasonAverage": 12.64,
+        "periods": [
+          0,
+          2,
+          3,
+          3,
+          2,
+          2
+        ]
+      },
       "num_possessions_final_third": {
         "value": 59,
         "seasonAverage": 48.73,
@@ -485,6 +581,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           53.74,
           45.28,
           53.04
+        ]
+      },
+      "opp_np_shots": {
+        "value": 5,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          1,
+          0,
+          1,
+          0,
+          1
         ]
       },
       "opp_num_box_entries": {
@@ -609,6 +717,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.72
         ]
       },
+      "field_tilt": {
+        "value": 0.5,
+        "seasonAverage": 1,
+        "periods": [
+          0.6666666666666666,
+          0.8333333333333334,
+          0.5,
+          0.3333333333333333,
+          0,
+          0.3333333333333333
+        ]
+      },
+      "np_shots": {
+        "value": 14,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          5,
+          4,
+          2,
+          0,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 52,
         "seasonAverage": 48.73,
@@ -679,6 +811,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           41.73,
           56.52,
           36.17
+        ]
+      },
+      "opp_np_shots": {
+        "value": 14,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          1,
+          4,
+          4,
+          2,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -803,6 +947,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.37
         ]
       },
+      "field_tilt": {
+        "value": 0.5714285714285714,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          0.25,
+          0.6666666666666666,
+          0.5,
+          1,
+          0.25
+        ]
+      },
+      "np_shots": {
+        "value": 12,
+        "seasonAverage": 12.64,
+        "periods": [
+          4,
+          1,
+          2,
+          2,
+          2,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 49,
         "seasonAverage": 48.73,
@@ -873,6 +1041,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           51.19,
           45.68,
           44.14
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          3,
+          1,
+          2,
+          0,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -997,6 +1177,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.54
         ]
       },
+      "field_tilt": {
+        "value": 0.48148148148148145,
+        "seasonAverage": 1,
+        "periods": [
+          0.75,
+          0,
+          0.4,
+          1,
+          0.5,
+          0.4444444444444444
+        ]
+      },
+      "np_shots": {
+        "value": 13,
+        "seasonAverage": 12.64,
+        "periods": [
+          3,
+          0,
+          2,
+          3,
+          1,
+          4
+        ]
+      },
       "num_possessions_final_third": {
         "value": 57,
         "seasonAverage": 48.73,
@@ -1067,6 +1271,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           51.02,
           51.2,
           48.65
+        ]
+      },
+      "opp_np_shots": {
+        "value": 14,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          4,
+          3,
+          0,
+          1,
+          5
         ]
       },
       "opp_num_box_entries": {
@@ -1191,6 +1407,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.77
         ]
       },
+      "field_tilt": {
+        "value": 0.72,
+        "seasonAverage": 1,
+        "periods": [
+          0.6666666666666666,
+          0.8571428571428571,
+          0.8333333333333334,
+          1,
+          0,
+          0.6666666666666666
+        ]
+      },
+      "np_shots": {
+        "value": 18,
+        "seasonAverage": 12.64,
+        "periods": [
+          4,
+          6,
+          5,
+          1,
+          0,
+          2
+        ]
+      },
       "num_possessions_final_third": {
         "value": 57,
         "seasonAverage": 48.73,
@@ -1261,6 +1501,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           43.91,
           37.31,
           42.62
+        ]
+      },
+      "opp_np_shots": {
+        "value": 7,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          1,
+          1,
+          0,
+          2,
+          1
         ]
       },
       "opp_num_box_entries": {
@@ -1385,6 +1637,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.72
         ]
       },
+      "field_tilt": {
+        "value": 0.7037037037037037,
+        "seasonAverage": 1,
+        "periods": [
+          0.5,
+          1,
+          1,
+          0.625,
+          1,
+          0.5714285714285714
+        ]
+      },
+      "np_shots": {
+        "value": 19,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          2,
+          4,
+          5,
+          2,
+          4
+        ]
+      },
       "num_possessions_final_third": {
         "value": 65,
         "seasonAverage": 48.73,
@@ -1455,6 +1731,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           37.45,
           53.03,
           46.61
+        ]
+      },
+      "opp_np_shots": {
+        "value": 8,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          0,
+          0,
+          3,
+          0,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -1579,6 +1867,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.58
         ]
       },
+      "field_tilt": {
+        "value": 0.6153846153846154,
+        "seasonAverage": 1,
+        "periods": [
+          0.6666666666666666,
+          1,
+          0.3333333333333333,
+          0.6,
+          0.4,
+          0.75
+        ]
+      },
+      "np_shots": {
+        "value": 16,
+        "seasonAverage": 12.64,
+        "periods": [
+          4,
+          3,
+          1,
+          3,
+          2,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 59,
         "seasonAverage": 48.73,
@@ -1649,6 +1961,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           40.11,
           29.05,
           41.87
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          0,
+          2,
+          2,
+          3,
+          1
         ]
       },
       "opp_num_box_entries": {
@@ -1773,6 +2097,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.5
         ]
       },
+      "field_tilt": {
+        "value": 0.38095238095238093,
+        "seasonAverage": 1,
+        "periods": [
+          0.5,
+          0,
+          0,
+          0.5,
+          0.5,
+          0.2
+        ]
+      },
+      "np_shots": {
+        "value": 8,
+        "seasonAverage": 12.64,
+        "periods": [
+          3,
+          0,
+          0,
+          2,
+          2,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 52,
         "seasonAverage": 48.73,
@@ -1843,6 +2191,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           37.66,
           34.32,
           36.88
+        ]
+      },
+      "opp_np_shots": {
+        "value": 13,
+        "seasonAverage": 0,
+        "periods": [
+          3,
+          0,
+          2,
+          2,
+          2,
+          4
         ]
       },
       "opp_num_box_entries": {
@@ -1967,6 +2327,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.6
         ]
       },
+      "field_tilt": {
+        "value": 0.7567567567567568,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          0.7142857142857143,
+          0.7777777777777778,
+          1,
+          0.4,
+          0.6
+        ]
+      },
+      "np_shots": {
+        "value": 28,
+        "seasonAverage": 12.64,
+        "periods": [
+          4,
+          5,
+          7,
+          7,
+          2,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 61,
         "seasonAverage": 48.73,
@@ -2037,6 +2421,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           55.55,
           51.02,
           27.02
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          2,
+          2,
+          0,
+          3,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -2161,6 +2557,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.39
         ]
       },
+      "field_tilt": {
+        "value": 0.5416666666666666,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          0.5,
+          0.6666666666666666,
+          0.5,
+          0.8,
+          0
+        ]
+      },
+      "np_shots": {
+        "value": 13,
+        "seasonAverage": 12.64,
+        "periods": [
+          3,
+          2,
+          2,
+          2,
+          4,
+          0
+        ]
+      },
       "num_possessions_final_third": {
         "value": 65,
         "seasonAverage": 48.73,
@@ -2231,6 +2651,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           36.07,
           36.49,
           35.73
+        ]
+      },
+      "opp_np_shots": {
+        "value": 11,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          2,
+          1,
+          2,
+          1,
+          5
         ]
       },
       "opp_num_box_entries": {
@@ -2355,6 +2787,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.67
         ]
       },
+      "field_tilt": {
+        "value": 0.7241379310344828,
+        "seasonAverage": 1,
+        "periods": [
+          0.3333333333333333,
+          0.3333333333333333,
+          0.8888888888888888,
+          0.8,
+          0.5,
+          1
+        ]
+      },
+      "np_shots": {
+        "value": 21,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          1,
+          8,
+          4,
+          2,
+          5
+        ]
+      },
       "num_possessions_final_third": {
         "value": 64,
         "seasonAverage": 48.73,
@@ -2425,6 +2881,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           41.32,
           40.27,
           45.76
+        ]
+      },
+      "opp_np_shots": {
+        "value": 8,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          2,
+          1,
+          1,
+          2,
+          0
         ]
       },
       "opp_num_box_entries": {
@@ -2549,6 +3017,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.75
         ]
       },
+      "field_tilt": {
+        "value": 0.8571428571428571,
+        "seasonAverage": 1,
+        "periods": [
+          0.75,
+          1,
+          1,
+          0.5,
+          0.6666666666666666,
+          1
+        ]
+      },
+      "np_shots": {
+        "value": 30,
+        "seasonAverage": 12.64,
+        "periods": [
+          3,
+          6,
+          9,
+          2,
+          4,
+          6
+        ]
+      },
       "num_possessions_final_third": {
         "value": 63,
         "seasonAverage": 48.73,
@@ -2619,6 +3111,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           43.18,
           46.88,
           57.08
+        ]
+      },
+      "opp_np_shots": {
+        "value": 5,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          0,
+          0,
+          2,
+          2,
+          0
         ]
       },
       "opp_num_box_entries": {
@@ -2743,6 +3247,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.8
         ]
       },
+      "field_tilt": {
+        "value": 0.6428571428571429,
+        "seasonAverage": 1,
+        "periods": [
+          0.25,
+          0.6,
+          0.5714285714285714,
+          0.5,
+          1,
+          1
+        ]
+      },
+      "np_shots": {
+        "value": 18,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          3,
+          4,
+          2,
+          2,
+          6
+        ]
+      },
       "num_possessions_final_third": {
         "value": 74,
         "seasonAverage": 48.73,
@@ -2813,6 +3341,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           51.26,
           39.8,
           56.74
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          3,
+          2,
+          3,
+          2,
+          0,
+          0
         ]
       },
       "opp_num_box_entries": {
@@ -2937,6 +3477,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.68
         ]
       },
+      "field_tilt": {
+        "value": 0.25,
+        "seasonAverage": 1,
+        "periods": [
+          0,
+          0,
+          1,
+          0.5,
+          0.2857142857142857,
+          0.14285714285714285
+        ]
+      },
+      "np_shots": {
+        "value": 7,
+        "seasonAverage": 12.64,
+        "periods": [
+          0,
+          0,
+          2,
+          2,
+          2,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 32,
         "seasonAverage": 48.73,
@@ -3007,6 +3571,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           34.59,
           38.09,
           28.9
+        ]
+      },
+      "opp_np_shots": {
+        "value": 21,
+        "seasonAverage": 0,
+        "periods": [
+          3,
+          5,
+          0,
+          2,
+          5,
+          6
         ]
       },
       "opp_num_box_entries": {
@@ -3131,6 +3707,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.51
         ]
       },
+      "field_tilt": {
+        "value": 0.6666666666666666,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          0.8333333333333334,
+          0.3333333333333333,
+          0.7142857142857143,
+          1,
+          0.3333333333333333
+        ]
+      },
+      "np_shots": {
+        "value": 18,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          5,
+          2,
+          5,
+          4,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 58,
         "seasonAverage": 48.73,
@@ -3201,6 +3801,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           30.61,
           49.96,
           41.16
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          1,
+          4,
+          2,
+          0,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -3325,6 +3937,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.61
         ]
       },
+      "field_tilt": {
+        "value": 0.625,
+        "seasonAverage": 1,
+        "periods": [
+          0.4,
+          0.9,
+          0.75,
+          0.3333333333333333,
+          0.6,
+          0.4
+        ]
+      },
+      "np_shots": {
+        "value": 20,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          9,
+          3,
+          1,
+          3,
+          2
+        ]
+      },
       "num_possessions_final_third": {
         "value": 61,
         "seasonAverage": 48.73,
@@ -3395,6 +4031,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           52.36,
           37.42,
           46.99
+        ]
+      },
+      "opp_np_shots": {
+        "value": 12,
+        "seasonAverage": 0,
+        "periods": [
+          3,
+          1,
+          1,
+          2,
+          2,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -3519,6 +4167,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.51
         ]
       },
+      "field_tilt": {
+        "value": 0.625,
+        "seasonAverage": 1,
+        "periods": [
+          0,
+          1,
+          0.75,
+          1,
+          0.5,
+          0
+        ]
+      },
+      "np_shots": {
+        "value": 10,
+        "seasonAverage": 12.64,
+        "periods": [
+          0,
+          3,
+          3,
+          3,
+          1,
+          0
+        ]
+      },
       "num_possessions_final_third": {
         "value": 53,
         "seasonAverage": 48.73,
@@ -3589,6 +4261,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           32.48,
           35.24,
           52.38
+        ]
+      },
+      "opp_np_shots": {
+        "value": 6,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          0,
+          1,
+          0,
+          1,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -3713,6 +4397,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.49
         ]
       },
+      "field_tilt": {
+        "value": 0.625,
+        "seasonAverage": 1,
+        "periods": [
+          0.5,
+          0.75,
+          0.6,
+          0.8,
+          1,
+          0.2
+        ]
+      },
+      "np_shots": {
+        "value": 15,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          3,
+          3,
+          4,
+          3,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 60,
         "seasonAverage": 48.73,
@@ -3783,6 +4491,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           36.38,
           49.41,
           38.2
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          1,
+          2,
+          1,
+          0,
+          4
         ]
       },
       "opp_num_box_entries": {
@@ -3907,6 +4627,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.66
         ]
       },
+      "field_tilt": {
+        "value": 0.5555555555555556,
+        "seasonAverage": 1,
+        "periods": [
+          0.5,
+          0.25,
+          0.875,
+          0.125,
+          1,
+          0.7272727272727273
+        ]
+      },
+      "np_shots": {
+        "value": 20,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          1,
+          7,
+          1,
+          1,
+          8
+        ]
+      },
       "num_possessions_final_third": {
         "value": 63,
         "seasonAverage": 48.73,
@@ -3977,6 +4721,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           36.92,
           18.9,
           47.55
+        ]
+      },
+      "opp_np_shots": {
+        "value": 16,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          3,
+          1,
+          7,
+          0,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -4101,6 +4857,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.55
         ]
       },
+      "field_tilt": {
+        "value": 0.6538461538461539,
+        "seasonAverage": 1,
+        "periods": [
+          0.6666666666666666,
+          0.75,
+          0.75,
+          1,
+          0.8,
+          0.4444444444444444
+        ]
+      },
+      "np_shots": {
+        "value": 17,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          3,
+          3,
+          1,
+          4,
+          4
+        ]
+      },
       "num_possessions_final_third": {
         "value": 49,
         "seasonAverage": 48.73,
@@ -4171,6 +4951,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           44.38,
           47.87,
           43.34
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          1,
+          1,
+          0,
+          1,
+          5
         ]
       },
       "opp_num_box_entries": {
@@ -4295,6 +5087,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.22
         ]
       },
+      "field_tilt": {
+        "value": 0.5909090909090909,
+        "seasonAverage": 1,
+        "periods": [
+          0.75,
+          0,
+          0.6666666666666666,
+          0.8333333333333334,
+          1,
+          0
+        ]
+      },
+      "np_shots": {
+        "value": 13,
+        "seasonAverage": 12.64,
+        "periods": [
+          3,
+          0,
+          2,
+          5,
+          3,
+          0
+        ]
+      },
       "num_possessions_final_third": {
         "value": 39,
         "seasonAverage": 48.73,
@@ -4365,6 +5181,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           37.98,
           34.55,
           36.04
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          3,
+          1,
+          1,
+          0,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -4489,6 +5317,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.56
         ]
       },
+      "field_tilt": {
+        "value": 0.7058823529411765,
+        "seasonAverage": 1,
+        "periods": [
+          0.3333333333333333,
+          0.8,
+          0.75,
+          0.8333333333333334,
+          1,
+          0.625
+        ]
+      },
+      "np_shots": {
+        "value": 24,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          4,
+          3,
+          5,
+          5,
+          5
+        ]
+      },
       "num_possessions_final_third": {
         "value": 59,
         "seasonAverage": 48.73,
@@ -4559,6 +5411,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           49.59,
           32.81,
           36.2
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          4,
+          1,
+          1,
+          1,
+          0,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -4683,6 +5547,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.82
         ]
       },
+      "field_tilt": {
+        "value": 0.6875,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          1,
+          1,
+          0.25,
+          0,
+          0.7777777777777778
+        ]
+      },
+      "np_shots": {
+        "value": 11,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          1,
+          1,
+          1,
+          0,
+          7
+        ]
+      },
       "num_possessions_final_third": {
         "value": 60,
         "seasonAverage": 48.73,
@@ -4753,6 +5641,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           43.52,
           43.75,
           54.04
+        ]
+      },
+      "opp_np_shots": {
+        "value": 5,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          0,
+          0,
+          3,
+          0,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -4877,6 +5777,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.43
         ]
       },
+      "field_tilt": {
+        "value": 0.6538461538461539,
+        "seasonAverage": 1,
+        "periods": [
+          0.3333333333333333,
+          1,
+          0.5,
+          0.8888888888888888,
+          1,
+          0.375
+        ]
+      },
+      "np_shots": {
+        "value": 17,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          3,
+          1,
+          8,
+          1,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 52,
         "seasonAverage": 48.73,
@@ -4947,6 +5871,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           35.29,
           46.1,
           33.88
+        ]
+      },
+      "opp_np_shots": {
+        "value": 9,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          0,
+          1,
+          1,
+          0,
+          5
         ]
       },
       "opp_num_box_entries": {
@@ -5071,6 +6007,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.63
         ]
       },
+      "field_tilt": {
+        "value": 0.5454545454545454,
+        "seasonAverage": 1,
+        "periods": [
+          0.5,
+          1,
+          0.42857142857142855,
+          0.6666666666666666,
+          0.5,
+          0.6
+        ]
+      },
+      "np_shots": {
+        "value": 12,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          1,
+          3,
+          2,
+          1,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 57,
         "seasonAverage": 48.73,
@@ -5141,6 +6101,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           46.94,
           45.99,
           42.72
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          0,
+          4,
+          1,
+          1,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -5265,6 +6237,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.44
         ]
       },
+      "field_tilt": {
+        "value": 0.5185185185185185,
+        "seasonAverage": 1,
+        "periods": [
+          0.5,
+          0.6666666666666666,
+          1,
+          0.5714285714285714,
+          0.25,
+          0.3333333333333333
+        ]
+      },
+      "np_shots": {
+        "value": 14,
+        "seasonAverage": 12.64,
+        "periods": [
+          1,
+          4,
+          2,
+          4,
+          1,
+          2
+        ]
+      },
       "num_possessions_final_third": {
         "value": 45,
         "seasonAverage": 48.73,
@@ -5335,6 +6331,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           38.01,
           31.35,
           43.17
+        ]
+      },
+      "opp_np_shots": {
+        "value": 13,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          2,
+          0,
+          3,
+          3,
+          4
         ]
       },
       "opp_num_box_entries": {
@@ -5459,6 +6467,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.66
         ]
       },
+      "field_tilt": {
+        "value": 0.5454545454545454,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          1,
+          0.25,
+          0.8,
+          0.5,
+          0
+        ]
+      },
+      "np_shots": {
+        "value": 12,
+        "seasonAverage": 12.64,
+        "periods": [
+          2,
+          2,
+          1,
+          4,
+          3,
+          0
+        ]
+      },
       "num_possessions_final_third": {
         "value": 58,
         "seasonAverage": 48.73,
@@ -5529,6 +6561,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           38.02,
           30.4,
           41.56
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          0,
+          3,
+          1,
+          3,
+          3
         ]
       },
       "opp_num_box_entries": {
@@ -5653,6 +6697,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.69
         ]
       },
+      "field_tilt": {
+        "value": 0.7916666666666666,
+        "seasonAverage": 1,
+        "periods": [
+          0.75,
+          1,
+          1,
+          0.625,
+          0.6666666666666666,
+          1
+        ]
+      },
+      "np_shots": {
+        "value": 19,
+        "seasonAverage": 12.64,
+        "periods": [
+          3,
+          3,
+          4,
+          5,
+          2,
+          2
+        ]
+      },
       "num_possessions_final_third": {
         "value": 49,
         "seasonAverage": 48.73,
@@ -5723,6 +6791,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           38.67,
           38.41,
           39.65
+        ]
+      },
+      "opp_np_shots": {
+        "value": 5,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          0,
+          0,
+          3,
+          1,
+          0
         ]
       },
       "opp_num_box_entries": {
@@ -5847,6 +6927,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.48
         ]
       },
+      "field_tilt": {
+        "value": 0.5333333333333333,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          1,
+          0.6666666666666666,
+          0.42857142857142855,
+          0.3333333333333333,
+          0.14285714285714285
+        ]
+      },
+      "np_shots": {
+        "value": 16,
+        "seasonAverage": 12.1,
+        "periods": [
+          6,
+          1,
+          4,
+          3,
+          1,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 52,
         "seasonAverage": 46.74,
@@ -5917,6 +7021,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           40.08,
           50.29,
           45.03
+        ]
+      },
+      "opp_np_shots": {
+        "value": 14,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          0,
+          2,
+          4,
+          2,
+          6
         ]
       },
       "opp_num_box_entries": {
@@ -6041,6 +7157,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.79
         ]
       },
+      "field_tilt": {
+        "value": 0.6666666666666666,
+        "seasonAverage": 1,
+        "periods": [
+          0.6,
+          1,
+          0.5,
+          0.6666666666666666,
+          0.6,
+          0.75
+        ]
+      },
+      "np_shots": {
+        "value": 16,
+        "seasonAverage": 12.1,
+        "periods": [
+          3,
+          3,
+          2,
+          2,
+          3,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 57,
         "seasonAverage": 46.74,
@@ -6111,6 +7251,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           40.08,
           40.39,
           42.83
+        ]
+      },
+      "opp_np_shots": {
+        "value": 8,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          0,
+          2,
+          1,
+          2,
+          1
         ]
       },
       "opp_num_box_entries": {
@@ -6235,6 +7387,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.55
         ]
       },
+      "field_tilt": {
+        "value": 0.7272727272727273,
+        "seasonAverage": 1,
+        "periods": [
+          0.4444444444444444,
+          0.8571428571428571,
+          0.5714285714285714,
+          0.8333333333333334,
+          0.9090909090909091,
+          0.75
+        ]
+      },
+      "np_shots": {
+        "value": 32,
+        "seasonAverage": 12.1,
+        "periods": [
+          4,
+          6,
+          4,
+          5,
+          10,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 57,
         "seasonAverage": 46.74,
@@ -6305,6 +7481,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           56.18,
           52.17,
           43.32
+        ]
+      },
+      "opp_np_shots": {
+        "value": 12,
+        "seasonAverage": 0,
+        "periods": [
+          5,
+          1,
+          3,
+          1,
+          1,
+          1
         ]
       },
       "opp_num_box_entries": {
@@ -6429,6 +7617,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.66
         ]
       },
+      "field_tilt": {
+        "value": 0.7241379310344828,
+        "seasonAverage": 1,
+        "periods": [
+          0,
+          1,
+          0.6,
+          1,
+          0.8,
+          0.6
+        ]
+      },
+      "np_shots": {
+        "value": 21,
+        "seasonAverage": 12.1,
+        "periods": [
+          0,
+          4,
+          3,
+          7,
+          4,
+          3
+        ]
+      },
       "num_possessions_final_third": {
         "value": 62,
         "seasonAverage": 46.74,
@@ -6499,6 +7711,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           53.35,
           41.06,
           35.53
+        ]
+      },
+      "opp_np_shots": {
+        "value": 8,
+        "seasonAverage": 0,
+        "periods": [
+          3,
+          0,
+          2,
+          0,
+          1,
+          2
         ]
       },
       "opp_num_box_entries": {
@@ -6623,6 +7847,30 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0.66
         ]
       },
+      "field_tilt": {
+        "value": 0.7,
+        "seasonAverage": 1,
+        "periods": [
+          0,
+          0.8,
+          1,
+          1,
+          0.5,
+          0.3333333333333333
+        ]
+      },
+      "np_shots": {
+        "value": 14,
+        "seasonAverage": 12.1,
+        "periods": [
+          0,
+          4,
+          5,
+          3,
+          1,
+          1
+        ]
+      },
       "num_possessions_final_third": {
         "value": 54,
         "seasonAverage": 46.74,
@@ -6693,6 +7941,18 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           36.02,
           38.92,
           42.98
+        ]
+      },
+      "opp_np_shots": {
+        "value": 6,
+        "seasonAverage": 0,
+        "periods": [
+          2,
+          1,
+          0,
+          0,
+          1,
+          2
         ]
       },
       "opp_num_box_entries": {

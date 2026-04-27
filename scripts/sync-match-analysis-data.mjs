@@ -11,12 +11,15 @@ const MATCH_LIST_URL = `${BASE_URL}/page-data/matcher-resultat/page-data.json`;
 
 const METRIC_KEYS = [
   "ball_possession_pct",
+  "field_tilt",
+  "np_shots",
   "num_possessions_final_third",
   "num_box_entries",
   "xt_within_10s_after_recovery",
   "num_recoveries_att_half",
   "ppda",
   "defensive_action_height_m",
+  "opp_np_shots",
   "opp_num_box_entries",
   "time_to_defensive_action_after_loss_att_half_s",
   "xt",
@@ -198,14 +201,37 @@ async function main() {
     const matchValues = trends?.match_values?.[hammarbyTeamId]?.["0"] ?? {};
     const matchTrendsByTeam = trends?.match_trends?.[hammarbyTeamId] ?? {};
     const seasonAverage = trends?.season_avg ?? {};
+    const hammarbyNpShots = toNumber(matchValues.np_shots);
+    const opponentNpShots = toNumber(matchValues.opp_np_shots);
+    const totalNpShots = hammarbyNpShots + opponentNpShots;
+    const fieldTiltValue = totalNpShots > 0 ? hammarbyNpShots / totalNpShots : 0;
+
+    const seasonAverageNpShots = toNumber(seasonAverage.np_shots);
+    const seasonAverageOppNpShots = toNumber(seasonAverage.opp_np_shots);
+    const seasonAverageTotalNpShots = seasonAverageNpShots + seasonAverageOppNpShots;
+    const fieldTiltSeasonAverage =
+      seasonAverageTotalNpShots > 0 ? seasonAverageNpShots / seasonAverageTotalNpShots : 0;
+
+    const fieldTiltPeriods = [];
+    for (let slot = 0; slot < 6; slot += 1) {
+      const trendSlot = matchTrendsByTeam?.[String(slot)]?.[0] ?? {};
+      const slotNpShots = toNumber(trendSlot.np_shots);
+      const slotOppNpShots = toNumber(trendSlot.opp_np_shots);
+      const slotTotalNpShots = slotNpShots + slotOppNpShots;
+      fieldTiltPeriods.push(slotTotalNpShots > 0 ? slotNpShots / slotTotalNpShots : 0);
+    }
 
     const metrics = Object.fromEntries(
       METRIC_KEYS.map((key) => [
         key,
         {
-          value: toNumber(matchValues[key]),
-          seasonAverage: toNumber(seasonAverage[key]),
-          periods: buildPeriods(matchTrendsByTeam, key),
+          value: key === "field_tilt" ? fieldTiltValue : toNumber(matchValues[key]),
+          seasonAverage:
+            key === "field_tilt" ? fieldTiltSeasonAverage : toNumber(seasonAverage[key]),
+          periods:
+            key === "field_tilt"
+              ? fieldTiltPeriods
+              : buildPeriods(matchTrendsByTeam, key),
         },
       ])
     );
