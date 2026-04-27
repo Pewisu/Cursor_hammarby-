@@ -48,6 +48,8 @@ type PositiveRoundStandout = {
   minutes: number;
   matchValue: number;
   seasonAverage: number;
+  rawMatchValue: number;
+  rawSeasonAverage: number;
   delta: number;
   relativeDelta: number;
 };
@@ -208,6 +210,20 @@ function relativeDeltaFloor(metric: TrendMetricOption): number {
   if (metric.unit === "%") return 5;
   if (metric.unit === "xG") return 0.2;
   return 1;
+}
+
+function shouldNormalizePer90(metric: TrendMetricOption): boolean {
+  return metric.unit === "st";
+}
+
+function normalizeValueForStandout(
+  value: number,
+  minutes: number,
+  metric: TrendMetricOption
+): number {
+  if (!shouldNormalizePer90(metric)) return value;
+  if (minutes <= 0) return 0;
+  return (value / minutes) * 90;
 }
 
 function getPositiveStandoutBadge(relativeDelta: number): string {
@@ -407,12 +423,19 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
     if (!selectedRoundMatch) return [];
 
     const valuesByPlayer = new Map<number, number[]>();
+    const rawValuesByPlayer = new Map<number, number[]>();
     for (const match of matches) {
       for (const player of match.players) {
         if (player.minutes <= 0) continue;
-        const values = valuesByPlayer.get(player.playerId) ?? [];
-        values.push(player.metrics[selectedMetricKey]);
-        valuesByPlayer.set(player.playerId, values);
+        const normalizedValues = valuesByPlayer.get(player.playerId) ?? [];
+        const rawValues = rawValuesByPlayer.get(player.playerId) ?? [];
+        const rawMetricValue = player.metrics[selectedMetricKey];
+        normalizedValues.push(
+          normalizeValueForStandout(rawMetricValue, player.minutes, selectedMetric)
+        );
+        rawValues.push(rawMetricValue);
+        valuesByPlayer.set(player.playerId, normalizedValues);
+        rawValuesByPlayer.set(player.playerId, rawValues);
       }
     }
 
@@ -424,10 +447,14 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
       })
       .flatMap((player) => {
         const history = valuesByPlayer.get(player.playerId);
-        if (!history || history.length === 0) return [];
+        const rawHistory = rawValuesByPlayer.get(player.playerId);
+        if (!history || history.length === 0 || !rawHistory || rawHistory.length === 0) return [];
         const seasonAverage =
           history.reduce((sum, value) => sum + value, 0) / Math.max(history.length, 1);
-        const matchValue = player.metrics[selectedMetricKey];
+        const rawSeasonAverage =
+          rawHistory.reduce((sum, value) => sum + value, 0) / Math.max(rawHistory.length, 1);
+        const rawMatchValue = player.metrics[selectedMetricKey];
+        const matchValue = normalizeValueForStandout(rawMatchValue, player.minutes, selectedMetric);
         const delta = matchValue - seasonAverage;
         if (delta <= 0) return [];
         const relativeDelta =
@@ -440,6 +467,8 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
             minutes: player.minutes,
             matchValue,
             seasonAverage,
+            rawMatchValue,
+            rawSeasonAverage,
             delta,
             relativeDelta,
           },
@@ -655,6 +684,10 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                 Jämför spelare i vald omgång mot deras eget säsongssnitt i{" "}
                 <span className="font-semibold text-slate-200">{selectedMetric.label}</span>.
               </p>
+              <p className="mt-1 text-xs text-slate-500">
+                För räkneparametrar (st) visas standout-jämförelsen i per 90 min för att göra
+                minuter och roller mer jämförbara.
+              </p>
             </div>
             <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-300">
               {selectedRoundMatch ? `Omgång ${selectedRoundMatch.gameweek}` : "Välj en enskild omgång"}
@@ -688,16 +721,32 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                   </p>
                   <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
                     <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                      <p className="text-slate-500">Vald omgång</p>
+                      <p className="text-slate-500">
+                        {shouldNormalizePer90(selectedMetric) ? "Vald omgång (per 90)" : "Vald omgång"}
+                      </p>
                       <p className="font-semibold text-white">
                         {formatMetricValue(player.matchValue, selectedMetric)}
                       </p>
+                      {shouldNormalizePer90(selectedMetric) && (
+                        <p className="mt-0.5 text-slate-400">
+                          Råvärde: {formatMetricValue(player.rawMatchValue, selectedMetric)}
+                        </p>
+                      )}
                     </div>
                     <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                      <p className="text-slate-500">Eget snitt 2026</p>
+                      <p className="text-slate-500">
+                        {shouldNormalizePer90(selectedMetric)
+                          ? "Eget snitt 2026 (per 90)"
+                          : "Eget snitt 2026"}
+                      </p>
                       <p className="font-semibold text-white">
                         {formatMetricValue(player.seasonAverage, selectedMetric)}
                       </p>
+                      {shouldNormalizePer90(selectedMetric) && (
+                        <p className="mt-0.5 text-slate-400">
+                          Råsnitt: {formatMetricValue(player.rawSeasonAverage, selectedMetric)}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <p className="mt-2 text-[11px] font-semibold text-emerald-300">
