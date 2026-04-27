@@ -668,9 +668,9 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
     "homeTeam": "Djurgården",
     "awayTeam": "Hammarby",
     "hammarbyWasHome": false,
-    "matchDurationMinutes": 98.67,
+    "matchDurationMinutes": 100,
     "hammarbyTeamDistanceMeters": 124216,
-    "hammarbyTeamMinutes": 1085.37,
+    "hammarbyTeamMinutes": 1099,
     "hammarbyTopSpeedKmh": 33.58,
     "players": [
       {
@@ -679,8 +679,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 13499,
         "maxSpeedKmh": 30.12,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 136.81
+        "minutesPlayed": 100,
+        "metersPerMinute": 134.99
       },
       {
         "name": "Oscar Johansson",
@@ -688,8 +688,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 12845,
         "maxSpeedKmh": 30.7,
-        "minutesPlayed": 97.43,
-        "metersPerMinute": 131.84
+        "minutesPlayed": 99,
+        "metersPerMinute": 129.75
       },
       {
         "name": "Hampus Skoglund",
@@ -697,8 +697,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 12468,
         "maxSpeedKmh": 30.29,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 126.36
+        "minutesPlayed": 100,
+        "metersPerMinute": 124.68
       },
       {
         "name": "Markus Karlsson",
@@ -706,8 +706,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 12327,
         "maxSpeedKmh": 28.57,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 124.93
+        "minutesPlayed": 100,
+        "metersPerMinute": 123.27
       },
       {
         "name": "Frederik Winther",
@@ -715,8 +715,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 11918,
         "maxSpeedKmh": 30.78,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 120.79
+        "minutesPlayed": 100,
+        "metersPerMinute": 119.18
       },
       {
         "name": "Ibrahima Fofana",
@@ -724,8 +724,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 11764,
         "maxSpeedKmh": 30.79,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 119.23
+        "minutesPlayed": 100,
+        "metersPerMinute": 117.64
       },
       {
         "name": "Nahir Besara",
@@ -733,8 +733,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 10906,
         "maxSpeedKmh": 28.18,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 110.53
+        "minutesPlayed": 100,
+        "metersPerMinute": 109.06
       },
       {
         "name": "Victor Eriksson",
@@ -742,8 +742,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Back",
         "distanceMeters": 10720,
         "maxSpeedKmh": 33.58,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 108.64
+        "minutesPlayed": 100,
+        "metersPerMinute": 107.2
       },
       {
         "name": "Victor Lind",
@@ -751,8 +751,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 8790,
         "maxSpeedKmh": 30.86,
-        "minutesPlayed": 69.08,
-        "metersPerMinute": 127.24
+        "minutesPlayed": 70,
+        "metersPerMinute": 125.57
       },
       {
         "name": "Montader Madjed",
@@ -760,8 +760,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 8467,
         "maxSpeedKmh": 27.97,
-        "minutesPlayed": 83.02,
-        "metersPerMinute": 101.99
+        "minutesPlayed": 84,
+        "metersPerMinute": 100.8
       },
       {
         "name": "Warner Hahn",
@@ -769,8 +769,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Målvakt",
         "distanceMeters": 5107,
         "maxSpeedKmh": 25.36,
-        "minutesPlayed": 98.67,
-        "metersPerMinute": 51.76
+        "minutesPlayed": 100,
+        "metersPerMinute": 51.07
       },
       {
         "name": "Noah Persson",
@@ -778,8 +778,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 3390,
         "maxSpeedKmh": 30.17,
-        "minutesPlayed": 29.59,
-        "metersPerMinute": 114.57
+        "minutesPlayed": 29,
+        "metersPerMinute": 116.9
       },
       {
         "name": "Oliver Jordan Hagen",
@@ -787,8 +787,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Anfallare",
         "distanceMeters": 1938,
         "maxSpeedKmh": 28.74,
-        "minutesPlayed": 15.65,
-        "metersPerMinute": 123.83
+        "minutesPlayed": 16,
+        "metersPerMinute": 121.13
       },
       {
         "name": "Frank Junior Adjei",
@@ -796,8 +796,8 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "position": "Mittfältare",
         "distanceMeters": 77,
         "maxSpeedKmh": 13.9,
-        "minutesPlayed": 1.24,
-        "metersPerMinute": 62.1
+        "minutesPlayed": 1,
+        "metersPerMinute": 77
       }
     ]
   }
