@@ -448,7 +448,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
               Hammarby IF
             </p>
             <h1 className="text-xl font-bold text-white">
-              Löpdata per spelare (2 matcher)
+              Löpdata per spelare ({matches.length} matcher)
             </h1>
           </div>
           <div className="hidden text-right text-xs text-slate-400 md:block">

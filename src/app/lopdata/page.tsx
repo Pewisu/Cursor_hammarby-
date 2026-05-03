@@ -5,7 +5,7 @@ import { hammarbyRunningMatches } from "@/lib/hammarbyRunningData";
 export const metadata: Metadata = {
   title: "Hammarby löpdata | Allsvenskan 2026",
   description:
-    "Löpmeter, maxhastighet och löpmeter per spelad minut för Hammarby-spelare i två Allsvenska matcher.",
+    "Löpmeter, maxhastighet och löpmeter per spelad minut för Hammarby-spelare i Allsvenskan 2026.",
 };
 
 export default function RunningDataPage() {
