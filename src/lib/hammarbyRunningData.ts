@@ -932,13 +932,31 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "metersPerMinute": 124.38
       },
       {
+        "name": "Wilson Lindberg Uhrström",
+        "shirtNumber": 22,
+        "position": "Mittfältare",
+        "distanceMeters": 1415,
+        "maxSpeedKmh": 31.35,
+        "minutesPlayed": 8,
+        "metersPerMinute": 176.88
+      },
+      {
+        "name": "Nikola Vasić",
+        "shirtNumber": 19,
+        "position": "Anfallare",
+        "distanceMeters": 1008,
+        "maxSpeedKmh": 25.98,
+        "minutesPlayed": 8,
+        "metersPerMinute": 126
+      },
+      {
         "name": "Dennis Collander",
         "shirtNumber": 14,
         "position": "Mittfältare",
-        "distanceMeters": 662,
+        "distanceMeters": 746,
         "maxSpeedKmh": 32.69,
         "minutesPlayed": 5,
-        "metersPerMinute": 132.4
+        "metersPerMinute": 149.2
       }
     ]
   }

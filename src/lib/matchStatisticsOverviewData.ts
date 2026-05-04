@@ -15,7 +15,7 @@ export interface TeamRoundStats {
 }
 
 export interface RoundMatchStats {
-  key: "omgang-1" | "omgang-2" | "omgang-3" | "omgang-4" | "omgang-5";
+  key: "omgang-1" | "omgang-2" | "omgang-3" | "omgang-4" | "omgang-5" | "omgang-6";
   gameweek: number;
   date: string;
   matchName: string;
@@ -212,6 +212,44 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       corners: 1,
       fouls: 20,
       yellowCards: 1,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-6",
+    gameweek: 6,
+    date: "2026-05-03",
+    matchName: "Hammarby - Västerås SK, 3-0",
+    sourceUrl:
+      "https://bolldata.se/allsvenskan/matcher/2026/2026-05-03/hammarby-vasteras-sk-3-0",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 3,
+      xg: 2.118,
+      shots: 32,
+      shotsOnTarget: 8,
+      possessionPercent: 64,
+      passes: 565,
+      passesSuccessful: 468,
+      touchesInBox: 46,
+      corners: 7,
+      fouls: 10,
+      yellowCards: 1,
+      redCards: 0,
+    },
+    opponent: {
+      teamName: "Västerås SK",
+      goals: 0,
+      xg: 0.5849,
+      shots: 5,
+      shotsOnTarget: 0,
+      possessionPercent: 36,
+      passes: 352,
+      passesSuccessful: 280,
+      touchesInBox: 8,
+      corners: 0,
+      fouls: 14,
+      yellowCards: 2,
       redCards: 0,
     },
   },
