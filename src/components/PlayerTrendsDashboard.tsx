@@ -41,19 +41,17 @@ type PlayerSeries = {
   points: SeriesPoint[];
 };
 
-type RoundStandout = {
+type PositiveRoundStandout = {
   playerId: number;
   playerName: string;
   roleName: string;
   minutes: number;
-  direction: "positive" | "negative";
   matchValue: number;
   seasonAverage: number;
   rawMatchValue: number;
   rawSeasonAverage: number;
   delta: number;
   relativeDelta: number;
-  absoluteRelativeDelta: number;
 };
 
 const MAX_SELECTED_PLAYERS = 5;
@@ -228,16 +226,10 @@ function normalizeValueForStandout(
   return (value / minutes) * 90;
 }
 
-function getRoundStandoutBadge(standout: RoundStandout): string {
-  const magnitude = standout.absoluteRelativeDelta;
-  if (standout.direction === "positive") {
-    if (magnitude >= 0.35) return "Kraftigt över eget snitt";
-    if (magnitude >= 0.2) return "Över eget snitt";
-    return "Svagt över eget snitt";
-  }
-  if (magnitude >= 0.35) return "Kraftigt under eget snitt";
-  if (magnitude >= 0.2) return "Under eget snitt";
-  return "Svagt under eget snitt";
+function getPositiveStandoutBadge(relativeDelta: number): string {
+  if (relativeDelta >= 0.35) return "Kraftigt över eget snitt";
+  if (relativeDelta >= 0.2) return "Över eget snitt";
+  return "Svagt över eget snitt";
 }
 
 function formatMatchLabel(match: PlayerTrendMatch): string {
@@ -427,7 +419,7 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
       .slice(0, 5);
   }, [latestMatch, minMinutes, selectedMetricKey, selectedRole]);
 
-  const roundStandouts = useMemo<RoundStandout[]>(() => {
+  const positiveRoundStandouts = useMemo<PositiveRoundStandout[]>(() => {
     if (!selectedRoundMatch) return [];
 
     const valuesByPlayer = new Map<number, number[]>();
@@ -464,72 +456,27 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
         const rawMatchValue = player.metrics[selectedMetricKey];
         const matchValue = normalizeValueForStandout(rawMatchValue, player.minutes, selectedMetric);
         const delta = matchValue - seasonAverage;
-        const magnitudeThreshold = 0.12;
+        if (delta <= 0) return [];
         const relativeDelta =
           delta / Math.max(Math.abs(seasonAverage), relativeDeltaFloor(selectedMetric));
-        const absoluteRelativeDelta = Math.abs(relativeDelta);
-        if (absoluteRelativeDelta < magnitudeThreshold) return [];
         return [
           {
             playerId: player.playerId,
             playerName: player.playerName,
             roleName: normalizeRole(player.playerName, player.roleName),
             minutes: player.minutes,
-            direction: delta >= 0 ? "positive" : "negative",
             matchValue,
             seasonAverage,
             rawMatchValue,
             rawSeasonAverage,
             delta,
             relativeDelta,
-            absoluteRelativeDelta,
           },
         ];
       })
-      .sort((left, right) => right.absoluteRelativeDelta - left.absoluteRelativeDelta)
-      .slice(0, 8);
+      .sort((left, right) => right.relativeDelta - left.relativeDelta)
+      .slice(0, 5);
   }, [matches, minMinutes, selectedMetric, selectedMetricKey, selectedRole, selectedRoundMatch]);
-
-  const positiveRoundStandouts = useMemo(
-    () =>
-      roundStandouts
-        .filter((player) => player.direction === "positive")
-        .slice(0, 4),
-    [roundStandouts]
-  );
-
-  const negativeRoundStandouts = useMemo(
-    () =>
-      roundStandouts
-        .filter((player) => player.direction === "negative")
-        .slice(0, 4),
-    [roundStandouts]
-  );
-
-  const prioritizedRoundStandouts = useMemo(() => {
-    const combined: RoundStandout[] = [];
-    const maxCards = 6;
-    const pairCount = Math.max(
-      Math.min(positiveRoundStandouts.length, negativeRoundStandouts.length, 3),
-      0
-    );
-
-    for (let index = 0; index < pairCount; index += 1) {
-      combined.push(positiveRoundStandouts[index], negativeRoundStandouts[index]);
-    }
-
-    const remaining = [
-      ...positiveRoundStandouts.slice(pairCount),
-      ...negativeRoundStandouts.slice(pairCount),
-    ].sort((left, right) => right.absoluteRelativeDelta - left.absoluteRelativeDelta);
-
-    for (const standout of remaining) {
-      if (combined.length >= maxCards) break;
-      combined.push(standout);
-    }
-
-    return combined;
-  }, [negativeRoundStandouts, positiveRoundStandouts]);
 
   const trendRows = useMemo(() => {
     return series
@@ -730,7 +677,9 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-white">Spelar-standout i omgången</h2>
+              <h2 className="text-lg font-semibold text-white">
+                Positiva standout-spelare i omgången
+              </h2>
               <p className="mt-1 text-sm text-slate-400">
                 Jämför spelare i vald omgång mot deras eget säsongssnitt i{" "}
                 <span className="font-semibold text-slate-200">{selectedMetric.label}</span>.
@@ -739,56 +688,32 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                 För räkneparametrar (st) visas standout-jämförelsen i per 90 min för att göra
                 minuter och roller mer jämförbara.
               </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Sektionen lyfter både positiva och negativa utslag för att ge en tydlig helhetsbild
-                av omgången.
-              </p>
             </div>
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-300">
-                {selectedRoundMatch
-                  ? `Omgång ${selectedRoundMatch.gameweek}`
-                  : "Välj en enskild omgång"}
-              </div>
-              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-1 text-[10px] text-emerald-200">
-                Positivt utslag
-              </span>
-              <span className="rounded-full border border-rose-500/40 bg-rose-500/10 px-2 py-1 text-[10px] text-rose-200">
-                Negativt utslag
-              </span>
+            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-300">
+              {selectedRoundMatch ? `Omgång ${selectedRoundMatch.gameweek}` : "Välj en enskild omgång"}
             </div>
           </div>
           {!selectedRoundMatch && (
             <p className="mt-3 text-sm text-slate-400">
-              Välj en specifik omgång för att se vilka spelare som stack ut mest.
+              Välj en specifik omgång för att se vilka spelare som stack ut positivt.
             </p>
           )}
-          {selectedRoundMatch && prioritizedRoundStandouts.length === 0 && (
+          {selectedRoundMatch && positiveRoundStandouts.length === 0 && (
             <p className="mt-3 text-sm text-slate-400">
-              Inga tydliga standout-utslag för nuvarande filter i den omgången.
+              Inga tydliga positiva standout-spelare för nuvarande filter i den omgången.
             </p>
           )}
-          {selectedRoundMatch && prioritizedRoundStandouts.length > 0 && (
+          {selectedRoundMatch && positiveRoundStandouts.length > 0 && (
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-              {prioritizedRoundStandouts.map((player) => {
-                const isPositive = player.direction === "positive";
-                const toneClasses = isPositive
-                  ? "border-emerald-500/30 bg-emerald-500/5"
-                  : "border-rose-500/30 bg-rose-500/5";
-                const badgeClasses = isPositive
-                  ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
-                  : "border-rose-400/30 bg-rose-500/10 text-rose-200";
-                const deltaClasses = isPositive ? "text-emerald-300" : "text-rose-300";
-                const sign = player.delta >= 0 ? "+" : "-";
-                return (
+              {positiveRoundStandouts.map((player) => (
                 <article
-                  key={`${player.direction}-standout-${player.playerId}`}
-                  className={`rounded-xl border p-3 ${toneClasses}`}
+                  key={`positive-standout-${player.playerId}`}
+                  className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <p className="text-sm font-semibold text-white">{player.playerName}</p>
-                    <span className={`rounded-full border px-2 py-0.5 text-[10px] ${badgeClasses}`}>
-                      {getRoundStandoutBadge(player)}
+                    <span className="rounded-full border border-emerald-400/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] text-emerald-200">
+                      {getPositiveStandoutBadge(player.relativeDelta)}
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-slate-400">
@@ -824,21 +749,18 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
                       )}
                     </div>
                   </div>
-                  <p className={`mt-2 text-[11px] font-semibold ${deltaClasses}`}>
-                    Δ: {sign}
-                    {formatMetricCompact(Math.abs(player.delta), selectedMetric)}
+                  <p className="mt-2 text-[11px] font-semibold text-emerald-300">
+                    Δ: +{formatMetricCompact(player.delta, selectedMetric)}
                     {selectedMetric.unit === "%" ? "%" : selectedMetric.unit === "st" ? " st" : ""}
                   </p>
                   <p className="text-[11px] text-slate-300">
-                    Utslag: {sign}
-                    {Math.abs(player.relativeDelta * 100).toLocaleString("sv-SE", {
+                    Utslag: +{Math.abs(player.relativeDelta * 100).toLocaleString("sv-SE", {
                       maximumFractionDigits: 0,
                     })}
                     %
                   </p>
                 </article>
-                );
-              })}
+              ))}
             </div>
           )}
         </section>

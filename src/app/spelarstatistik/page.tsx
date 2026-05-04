@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Spelarstatistik | Hammarby 2026",
   description:
-    "Översiktssida för spelarstatistik med tydliga val mellan löpdata och spelartrender över tid.",
+    "Översiktssida för spelarstatistik med tydliga val mellan standout i omgång, löpdata och spelartrender över tid.",
 };
 
 export default function PlayerStatisticsRoutePage() {
@@ -23,7 +23,23 @@ export default function PlayerStatisticsRoutePage() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-3">
+          <Link
+            href="/spelarstatistik/omgangsstandout"
+            className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-500/20 text-sky-300">
+              ⭐
+            </div>
+            <h2 className="text-xl font-semibold text-white">Standout i omgång</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Ny sektion med spelare som sticker ut mest i vald omgång, både positivt och negativt.
+            </p>
+            <p className="mt-4 text-sm font-medium text-sky-300 group-hover:text-sky-200">
+              Öppna standout →
+            </p>
+          </Link>
+
           <Link
             href="/lopdata"
             className="group rounded-2xl border border-green-500/30 bg-slate-800/80 p-6 transition-colors hover:border-green-400/60 hover:bg-slate-800"
