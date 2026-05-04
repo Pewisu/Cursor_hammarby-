@@ -8052,5 +8052,235 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       }
     }
+  },
+  {
+    "key": "2026-gw-6",
+    "season": 2026,
+    "competition": "Allsvenskan 2026",
+    "gameweek": 6,
+    "date": "2026-05-03",
+    "matchName": "Hammarby - Västerås SK, 3-0",
+    "opponent": "Västerås SK",
+    "opponentTeamId": 6727,
+    "isHome": true,
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-05-03-14-00-hammarby-v-ster-s-sk-fk",
+    "metrics": {
+      "ball_possession_pct": {
+        "value": 0.65,
+        "seasonAverage": 0.5,
+        "periods": [
+          0.64,
+          0.64,
+          0.78,
+          0.71,
+          0.65,
+          0.5
+        ]
+      },
+      "field_tilt": {
+        "value": 0.8648648648648649,
+        "seasonAverage": 1,
+        "periods": [
+          0.75,
+          0.75,
+          1,
+          1,
+          0.875,
+          0.7142857142857143
+        ]
+      },
+      "np_shots": {
+        "value": 32,
+        "seasonAverage": 12.29,
+        "periods": [
+          3,
+          3,
+          3,
+          11,
+          7,
+          5
+        ]
+      },
+      "num_possessions_final_third": {
+        "value": 58,
+        "seasonAverage": 46.77,
+        "periods": [
+          9,
+          8,
+          8,
+          10,
+          11,
+          12
+        ]
+      },
+      "num_box_entries": {
+        "value": 18,
+        "seasonAverage": 8.1,
+        "periods": [
+          5,
+          2,
+          1,
+          4,
+          2,
+          4
+        ]
+      },
+      "xt_within_10s_after_recovery": {
+        "value": 0.99,
+        "seasonAverage": 0.66,
+        "periods": [
+          0.2,
+          0.21,
+          0.05,
+          0.27,
+          0.11,
+          0.15
+        ]
+      },
+      "num_recoveries_att_half": {
+        "value": 15,
+        "seasonAverage": 8.12,
+        "periods": [
+          3,
+          3,
+          1,
+          6,
+          2,
+          0
+        ]
+      },
+      "ppda": {
+        "value": 4.41,
+        "seasonAverage": 5.63,
+        "periods": [
+          5.27,
+          4.3,
+          7.5,
+          1.95,
+          5.44,
+          6.78
+        ]
+      },
+      "defensive_action_height_m": {
+        "value": 47,
+        "seasonAverage": 41.7,
+        "periods": [
+          45.35,
+          43.77,
+          37.8,
+          59.96,
+          46.26,
+          41.15
+        ]
+      },
+      "opp_np_shots": {
+        "value": 5,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          1,
+          0,
+          0,
+          1,
+          2
+        ]
+      },
+      "opp_num_box_entries": {
+        "value": 3,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          0,
+          0,
+          0,
+          1,
+          1
+        ]
+      },
+      "time_to_defensive_action_after_loss_att_half_s": {
+        "value": 3.9100000858306885,
+        "seasonAverage": 5.97,
+        "periods": [
+          5.35,
+          2.96,
+          2.91,
+          2.27,
+          2.77,
+          6.51
+        ]
+      },
+      "xt": {
+        "value": 2.37,
+        "seasonAverage": 1.42,
+        "periods": [
+          0.27,
+          0.22,
+          0.35,
+          0.76,
+          0.37,
+          0.4
+        ]
+      },
+      "opp_xt": {
+        "value": 0.58,
+        "seasonAverage": 0,
+        "periods": [
+          0.12,
+          0.1,
+          0.02,
+          0.03,
+          0.14,
+          0.17
+        ]
+      },
+      "np_xg": {
+        "value": 2.12,
+        "seasonAverage": 1.34,
+        "periods": [
+          0.12,
+          0.06,
+          0.22,
+          0.77,
+          0.46,
+          0.49
+        ]
+      },
+      "opp_np_xg": {
+        "value": 0.58,
+        "seasonAverage": 0,
+        "periods": [
+          0.34,
+          0.01,
+          0,
+          0,
+          0.16,
+          0.08
+        ]
+      },
+      "np_xg_per_shot": {
+        "value": 0.07,
+        "seasonAverage": 0.11,
+        "periods": [
+          0.04,
+          0.02,
+          0.07,
+          0.07,
+          0.07,
+          0.1
+        ]
+      },
+      "opp_np_xg_per_shot": {
+        "value": 0.12,
+        "seasonAverage": 0,
+        "periods": [
+          0.34,
+          0.01,
+          0,
+          0,
+          0.16,
+          0.04
+        ]
+      }
+    }
   }
 ];
