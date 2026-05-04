@@ -476,6 +476,12 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
             >
               Till spelarstatistik →
             </Link>
+            <Link
+              href="/spelarstatistik/omgangsstandout"
+              className="inline-flex text-sky-300 hover:text-sky-200"
+            >
+              Till standout i omgång →
+            </Link>
           </div>
         </div>
       </header>

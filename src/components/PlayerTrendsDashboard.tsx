@@ -575,6 +575,12 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
           <Link href="/spelarstatistik" className="text-slate-300 hover:text-white">
             ← Till spelarstatistik
           </Link>
+          <Link
+            href="/spelarstatistik/omgangsstandout"
+            className="text-sky-300 hover:text-sky-200"
+          >
+            Till standout i omgång →
+          </Link>
           <Link href="/matchstatistik" className="text-slate-400 hover:text-slate-200">
             Till matchstatistik
           </Link>

@@ -18,7 +18,7 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="mx-auto grid max-w-5xl gap-6 px-4 py-8 md:grid-cols-2">
+      <main className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
         <Link
           href="/matchstatistik"
           className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
@@ -45,11 +45,28 @@ export default function Home() {
           </div>
           <h2 className="text-xl font-semibold text-white">Spelarstatistik</h2>
           <p className="mt-2 text-sm text-slate-300">
-            Gå vidare till löpdata per spelare eller spelartrender över tid
-            med valbara KPI:er.
+            Gå vidare till standout i omgång, löpdata per spelare eller
+            spelartrender över tid med valbara KPI:er.
           </p>
           <p className="mt-4 text-sm font-medium text-purple-300 group-hover:text-purple-200">
             Öppna spelarstatistik →
+          </p>
+        </Link>
+
+        <Link
+          href="/spelarstatistik/omgangsstandout"
+          className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-500/20 text-sky-300">
+            ⭐
+          </div>
+          <h2 className="text-xl font-semibold text-white">Standout i omgång</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Snabbväg till ny vy som lyfter vilka spelare som sticker ut mest
+            positivt och negativt i vald omgång.
+          </p>
+          <p className="mt-4 text-sm font-medium text-sky-300 group-hover:text-sky-200">
+            Öppna standout →
           </p>
         </Link>
       </main>
