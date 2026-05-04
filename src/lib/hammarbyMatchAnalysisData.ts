@@ -45,7 +45,7 @@ export const hammarbyMatchAnalysisMetricDefinitions: MatchAnalysisMetricDefiniti
   },
   {
     key: "field_tilt",
-    label: "Field Tilt",
+    label: "Field Tilt (Twelve)",
     format: "percent",
     decimals: 1,
     direction: "higher",

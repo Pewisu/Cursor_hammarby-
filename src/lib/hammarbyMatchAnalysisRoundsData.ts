@@ -8078,15 +8078,15 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       },
       "field_tilt": {
-        "value": 0.8648648648648649,
-        "seasonAverage": 1,
+        "value": 0.83,
+        "seasonAverage": 0.83,
         "periods": [
-          0.75,
-          0.75,
-          1,
-          1,
-          0.875,
-          0.7142857142857143
+          0.83,
+          0.83,
+          0.83,
+          0.83,
+          0.83,
+          0.83
         ]
       },
       "np_shots": {
