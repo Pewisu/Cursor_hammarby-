@@ -224,7 +224,7 @@ export function PlayerRoundStandoutsDashboard({
     matches[matches.length - 1]?.gameweek ?? "all"
   );
   const [selectedRole, setSelectedRole] = useState("Alla");
-  const [minMinutes, setMinMinutes] = useState(30);
+  const [minMinutes, setMinMinutes] = useState(1);
 
   const gameweekOptions = useMemo(
     () =>
@@ -352,6 +352,25 @@ export function PlayerRoundStandoutsDashboard({
 
     return combined;
   }, [negativeRoundStandouts, positiveRoundStandouts]);
+
+  const fallbackRoundLeaders = useMemo(() => {
+    if (!selectedRoundMatch) return [];
+    return selectedRoundMatch.players
+      .filter((player) => player.minutes >= minMinutes)
+      .filter((player) => {
+        const normalizedRole = normalizeRole(player.playerName, player.roleName);
+        return selectedRole === "Alla" || normalizedRole === selectedRole;
+      })
+      .sort((left, right) => right.metrics[selectedMetricKey] - left.metrics[selectedMetricKey])
+      .slice(0, 6)
+      .map((player) => ({
+        playerId: player.playerId,
+        playerName: player.playerName,
+        roleName: normalizeRole(player.playerName, player.roleName),
+        minutes: player.minutes,
+        value: player.metrics[selectedMetricKey],
+      }));
+  }, [minMinutes, selectedMetricKey, selectedRole, selectedRoundMatch]);
 
   return (
     <div className="min-h-screen bg-[#0f172a]">
@@ -502,9 +521,34 @@ export function PlayerRoundStandoutsDashboard({
           )}
 
           {selectedRoundMatch && prioritizedRoundStandouts.length === 0 && (
-            <p className="mt-3 text-sm text-slate-400">
-              Inga tydliga standout-utslag for nuvarande filter i den omgangen.
-            </p>
+            <div className="mt-3 space-y-3">
+              <p className="text-sm text-slate-400">
+                Inga tydliga standout-utslag för nuvarande filter i den omgången.
+              </p>
+              {fallbackRoundLeaders.length > 0 && (
+                <div className="rounded-xl border border-slate-700/70 bg-slate-900/50 p-3">
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
+                    Högsta utfall i omgången ({selectedMetric.shortLabel})
+                  </p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {fallbackRoundLeaders.map((leader) => (
+                      <article
+                        key={`fallback-${leader.playerId}`}
+                        className="rounded-lg border border-slate-700/70 bg-slate-950/60 px-3 py-2"
+                      >
+                        <p className="text-sm font-semibold text-white">{leader.playerName}</p>
+                        <p className="mt-0.5 text-[11px] text-slate-400">
+                          {roleLabel(leader.roleName)} • {leader.minutes} min
+                        </p>
+                        <p className="mt-1 text-xs font-semibold text-sky-300">
+                          {formatMetricValue(leader.value, selectedMetric)}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {selectedRoundMatch && prioritizedRoundStandouts.length > 0 && (
