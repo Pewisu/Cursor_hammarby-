@@ -245,7 +245,7 @@ const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
     icon: "🧭",
     description: "Hur väl Hammarby styr matchbilden med boll och etablering.",
     tone: "violet",
-    primaryMetricKey: "ball_possession_pct",
+    primaryMetricKey: "field_tilt",
     secondaryMetricKey: "num_possessions_final_third",
   },
   {
@@ -264,7 +264,7 @@ const PLAYSTYLE_LENS_DEFINITIONS: PlaystyleLensDefinition[] = [
     description: "Intensitet i återerövring och press på motståndaren.",
     tone: "emerald",
     primaryMetricKey: "num_recoveries_att_half",
-    secondaryMetricKey: "ppda",
+    secondaryMetricKey: "xt_within_10s_after_recovery",
   },
   {
     id: "defensive-balance",
@@ -450,7 +450,7 @@ const TREND_METRIC_OPTIONS: TrendMetricOption[] = [
   { key: "goals", label: "Mål", format: "number" },
 ];
 
-const DEFAULT_MATCH_ANALYSIS_METRIC_KEY: MatchAnalysisMetricKey = "ball_possession_pct";
+const DEFAULT_MATCH_ANALYSIS_METRIC_KEY: MatchAnalysisMetricKey = "field_tilt";
 const MATCH_ANALYSIS_AVAILABLE_SEASONS = Array.from(
   new Set(hammarbyMatchAnalysisRounds.map((row) => row.season))
 ).sort((a, b) => a - b);
@@ -1969,9 +1969,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     Lagets standout i omgången (det som stack ut)
                   </h2>
                   <p className="mt-1 text-sm text-slate-400">
-                    Visar de tydligaste utslagen mot säsongssnitt, med balans mellan positiva och
-                    negativa signaler. Vanligtvis visas minst 3 punkter, men fler när matchbilden
-                    sticker ut tydligt.
+                    Kompletterar KPI-översikten ovan med korta insikter om vad som verkligen stack
+                    ut i matchbilden. Vanligtvis visas minst 3 punkter, med balans mellan positivt
+                    och negativt.
                   </p>
                 </div>
                 <a
@@ -2038,39 +2038,59 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           </p>
                         </div>
                       </div>
-                      <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
-                        <div className="rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5">
-                          <p className="text-slate-500">Δ vs 2026</p>
+                      <div className="mt-2 rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5 text-[11px]">
+                        <p className="text-slate-500">Skillnad mot säsongssnitt</p>
+                        <div className="mt-1 grid gap-2 sm:grid-cols-2">
                           <p
-                            className={`font-semibold ${getMatchAnalysisDeltaTone(
-                              insight.deltaVs2026 ?? 0,
-                              insight.metric.direction
-                            )}`}
+                            className={
+                              insight.deltaVs2026 === null
+                                ? "text-slate-400"
+                                : getMatchAnalysisDeltaTone(
+                                    insight.deltaVs2026,
+                                    insight.metric.direction
+                                  )
+                            }
                           >
-                            {formatDeltaWithMeaning(insight.deltaVs2026, insight.metric)}
+                            2026: {formatDeltaWithMeaning(insight.deltaVs2026, insight.metric)}
+                            {insight.relativeVs2026 !== null && (
+                              <span className="ml-1 text-slate-400">
+                                ({formatRelativeOutcomeDelta(insight.relativeVs2026)})
+                              </span>
+                            )}
                           </p>
-                          {insight.relativeVs2026 !== null && (
-                            <p className="text-slate-400">
-                              Utslag {formatRelativeOutcomeDelta(insight.relativeVs2026)}
-                            </p>
-                          )}
-                        </div>
-                        <div className="rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5">
-                          <p className="text-slate-500">Δ vs 2025</p>
                           <p
-                            className={`font-semibold ${getMatchAnalysisDeltaTone(
-                              insight.deltaVs2025 ?? 0,
-                              insight.metric.direction
-                            )}`}
+                            className={
+                              insight.deltaVs2025 === null
+                                ? "text-slate-400"
+                                : getMatchAnalysisDeltaTone(
+                                    insight.deltaVs2025,
+                                    insight.metric.direction
+                                  )
+                            }
                           >
-                            {formatDeltaWithMeaning(insight.deltaVs2025, insight.metric)}
+                            2025: {formatDeltaWithMeaning(insight.deltaVs2025, insight.metric)}
+                            {insight.relativeVs2025 !== null && (
+                              <span className="ml-1 text-slate-400">
+                                ({formatRelativeOutcomeDelta(insight.relativeVs2025)})
+                              </span>
+                            )}
                           </p>
-                          {insight.relativeVs2025 !== null && (
-                            <p className="text-slate-400">
-                              Utslag {formatRelativeOutcomeDelta(insight.relativeVs2025)}
-                            </p>
-                          )}
                         </div>
+                      </div>
+                      <div className="mt-2 rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5 text-[11px]">
+                        <p className="text-slate-500">Aktiv referens</p>
+                        <p
+                          className={`font-semibold ${getMatchAnalysisDeltaTone(
+                            insight.selectedRawDelta,
+                            insight.metric.direction
+                          )}`}
+                        >
+                          Snitt {insight.selectedReferenceSeason}:{" "}
+                          {formatDeltaWithMeaning(insight.selectedRawDelta, insight.metric)}
+                        </p>
+                        <p className="text-slate-400">
+                          Utslag {formatRelativeOutcomeDelta(insight.selectedRelativeDelta)}
+                        </p>
                       </div>
                     </article>
                   );
@@ -2554,8 +2574,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     Hammarby KPI-översikt (omgång {roundVsSeasonRow.gameweek})
                   </h3>
                   <p className="mt-1 text-xs text-slate-400">
-                    Snabb överblick av Hammarbys mest centrala matchanalys-KPI:er mot snitt 2026
-                    och 2025.
+                    Snabb överblick av omgångens viktigaste KPI:er (inkl. Field Tilt) mot snitt
+                    2026 och 2025.
                   </p>
                 </div>
                 <a
