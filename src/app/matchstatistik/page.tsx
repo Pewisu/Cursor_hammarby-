@@ -20,6 +20,14 @@ export default function MatchStatisticsRoutePage() {
             Välj mellan säsongsnivå och omgångsnivå. All matchanalys är uppdelad för att göra
             flödet tydligare.
           </p>
+          <div className="mt-4">
+            <Link
+              href="/matchstatistik/kommande"
+              className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 hover:border-emerald-400 hover:text-emerald-100"
+            >
+              🧭 Nytt: Kommande motståndare (start omgång 7)
+            </Link>
+          </div>
         </div>
       </header>
 
