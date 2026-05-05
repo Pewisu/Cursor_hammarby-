@@ -24,6 +24,13 @@ export interface GlossaryTerm {
   explanation: string;
 }
 
+export interface StyleProfileSignal {
+  label: string;
+  value: string;
+  score: number;
+  explanation: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   fixture: string;
@@ -37,6 +44,7 @@ export interface UpcomingOpponentReport {
     tone: "emerald" | "amber" | "blue";
   }[];
   opponentStyle: string[];
+  styleProfile: StyleProfileSignal[];
   rankedMetrics: RankedComparisonMetric[];
   goalWindows: GoalWindowComparison[];
   goalTypeNotes: GoalTypeNote[];
@@ -88,6 +96,38 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "De går ofta via kantspel och inlägg.",
       "De använder många långa passningar framåt.",
       "De vinner tillbaka boll snabbt ibland, men får sällan bra utdelning direkt efter bollvinst.",
+    ],
+    styleProfile: [
+      {
+        label: "Kant- och inläggsfokus",
+        value: "52% av boxinträden via inlägg (Twelve)",
+        score: 86,
+        explanation: "IFK söker ofta sista passet från kanten in i boxen.",
+      },
+      {
+        label: "Uppspel från målvakt",
+        value: "56% buildup från målvaktsstart (Twelve)",
+        score: 72,
+        explanation: "De försöker ofta spela sig ur första pressen innan längre passning.",
+      },
+      {
+        label: "Låg försvarshöjd",
+        value: "Defensiv aktionhöjd 38,69 m (Twelve)",
+        score: 28,
+        explanation: "De försvarar ofta nära eget mål i längre perioder.",
+      },
+      {
+        label: "Direkt/långt i nästa fas",
+        value: "Långa pass + genomskärare: 1:a i serien",
+        score: 82,
+        explanation: "När yta öppnas går de tidigt framåt med längre bollar.",
+      },
+      {
+        label: "Omställningshot efter bollvinst",
+        value: "xG inom 10 sek efter bollvinst: 0,08 (Twelve)",
+        score: 22,
+        explanation: "De vinner boll men skapar sällan riktigt farliga lägen direkt.",
+      },
     ],
     rankedMetrics: [
       {
