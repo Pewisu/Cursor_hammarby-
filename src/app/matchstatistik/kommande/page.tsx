@@ -72,6 +72,20 @@ export default function UpcomingOpponentsPage() {
               {report.oneLineSummary}
             </p>
 
+            <article className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/80 p-4">
+              <h3 className="text-sm font-semibold text-white">
+                Snabböversikt (30 sekunder)
+              </h3>
+              <ul className="mt-2 space-y-2 text-sm text-slate-200">
+                {report.mobileTakeaways.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span className="mt-1 text-emerald-300">•</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
             <div className="mt-4 grid gap-3 lg:grid-cols-3">
               {report.quickStatusCards.map((card) => (
                 <article
@@ -86,8 +100,10 @@ export default function UpcomingOpponentsPage() {
               ))}
             </div>
 
-            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
-              <h3 className="text-sm font-semibold text-white">Så spelar IFK Göteborg</h3>
+            <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-white">
+                Så spelar IFK Göteborg (visa)
+              </summary>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {report.opponentStyle.map((item) => (
                   <li key={item} className="flex gap-2">
@@ -96,12 +112,12 @@ export default function UpcomingOpponentsPage() {
                   </li>
                 ))}
               </ul>
-            </article>
+            </details>
 
-            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
-              <h3 className="text-sm font-semibold text-white">
-                Snabb jämförelse: Hammarby vs IFK
-              </h3>
+            <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-white">
+                Snabb jämförelse: Hammarby vs IFK (visa)
+              </summary>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
                 {report.comparisonCards.map((card) => (
                   <div
@@ -123,12 +139,12 @@ export default function UpcomingOpponentsPage() {
                   </div>
                 ))}
               </div>
-            </article>
+            </details>
 
-            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
-              <h3 className="text-sm font-semibold text-white">
-                När i matchen bör Hammarby trycka?
-              </h3>
+            <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-white">
+                När i matchen bör Hammarby trycka? (visa)
+              </summary>
               <p className="mt-1 text-xs text-slate-400">
                 Hammarbys gjorda mål jämfört med IFK:s insläppta mål per tidsfönster.
               </p>
@@ -150,12 +166,12 @@ export default function UpcomingOpponentsPage() {
                   </div>
                 ))}
               </div>
-            </article>
+            </details>
 
-            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
-              <h3 className="text-sm font-semibold text-white">
-                Målprofil att ta med till matchplanen
-              </h3>
+            <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-white">
+                Målprofil att ta med till matchplanen (visa)
+              </summary>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
                 {report.goalTypeNotes.map((note) => (
                   <div
@@ -170,7 +186,7 @@ export default function UpcomingOpponentsPage() {
                   </div>
                 ))}
               </div>
-            </article>
+            </details>
 
             <div className="mt-6 grid gap-4 lg:grid-cols-3">
               <article className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
