@@ -72,20 +72,6 @@ export default function UpcomingOpponentsPage() {
               {report.oneLineSummary}
             </p>
 
-            <article className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/80 p-4">
-              <h3 className="text-sm font-semibold text-white">
-                Snabböversikt (30 sekunder)
-              </h3>
-              <ul className="mt-2 space-y-2 text-sm text-slate-200">
-                {report.mobileTakeaways.map((point) => (
-                  <li key={point} className="flex gap-2">
-                    <span className="mt-1 text-emerald-300">•</span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-
             <div className="mt-4 grid gap-3 lg:grid-cols-3">
               {report.quickStatusCards.map((card) => (
                 <article
@@ -237,6 +223,20 @@ export default function UpcomingOpponentsPage() {
                 </ul>
               </article>
             </div>
+
+            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-900/80 p-4">
+              <h3 className="text-sm font-semibold text-white">
+                Sammanfattning (30 sekunder)
+              </h3>
+              <ul className="mt-2 space-y-2 text-sm text-slate-200">
+                {report.mobileTakeaways.map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <span className="mt-1 text-emerald-300">•</span>
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
 
             <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-white">
