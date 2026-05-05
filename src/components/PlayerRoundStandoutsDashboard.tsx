@@ -12,25 +12,30 @@ type TrendMetricKey = keyof PlayerTrendMetrics;
 type TrendMetricOption = {
   key: TrendMetricKey;
   label: string;
-  shortLabel: string;
+  cardLabel: string;
   description: string;
   unit: "" | "%" | "st" | "xG";
   decimals: number;
 };
 
-type RoundStandout = {
+type MetricPlayerSnapshot = {
   playerId: number;
   playerName: string;
   roleName: string;
   minutes: number;
-  direction: "positive" | "negative";
   matchValue: number;
   seasonAverage: number;
   rawMatchValue: number;
   rawSeasonAverage: number;
   delta: number;
   relativeDelta: number;
-  absoluteRelativeDelta: number;
+};
+
+type RoundMetricSummary = {
+  metric: TrendMetricOption;
+  leader: MetricPlayerSnapshot | null;
+  mostPositive: MetricPlayerSnapshot | null;
+  mostNegative: MetricPlayerSnapshot | null;
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -51,7 +56,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "passAccuracy",
     label: "Passningsprocent",
-    shortLabel: "Pass%",
+    cardLabel: "Pass%",
     description: "Visar hur trygg spelaren är i uppbyggnadsfasen.",
     unit: "%",
     decimals: 1,
@@ -59,23 +64,15 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "passesToFinalThird",
     label: "Passningar till sista tredjedelen",
-    shortLabel: "PST",
+    cardLabel: "PST",
     description: "Hur mycket spelaren bidrar till att flytta spelet framåt.",
     unit: "st",
     decimals: 0,
   },
   {
-    key: "finalThirdPassAccuracy",
-    label: "Lyckade passningar till sista tredjedelen",
-    shortLabel: "PST%",
-    description: "Kvalitet i avgörande passningar framåt i planen.",
-    unit: "%",
-    decimals: 1,
-  },
-  {
     key: "keyPasses",
     label: "Nyckelpassningar",
-    shortLabel: "NP",
+    cardLabel: "NP",
     description: "Passningar som leder till avslut.",
     unit: "st",
     decimals: 0,
@@ -83,7 +80,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "xA",
     label: "xA (förväntade assister)",
-    shortLabel: "xA",
+    cardLabel: "xA",
     description: "Hur bra målchanser spelaren skapar.",
     unit: "xG",
     decimals: 2,
@@ -91,7 +88,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "xG",
     label: "xG (förväntade mål)",
-    shortLabel: "xG",
+    cardLabel: "xG",
     description: "Kvaliteten på spelarens egna målchanser.",
     unit: "xG",
     decimals: 2,
@@ -99,7 +96,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "shotsOnTarget",
     label: "Skott på mål",
-    shortLabel: "SPM",
+    cardLabel: "SPM",
     description: "Direkt hot mot mål.",
     unit: "st",
     decimals: 0,
@@ -107,7 +104,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "touchesInBox",
     label: "Bollkontakter i box",
-    shortLabel: "BiB",
+    cardLabel: "BiB",
     description: "Hur ofta spelaren kommer till farliga ytor.",
     unit: "st",
     decimals: 0,
@@ -115,7 +112,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "dribbleSuccess",
     label: "Lyckade dribblingar",
-    shortLabel: "Dribb%",
+    cardLabel: "Dribb%",
     description: "Förmåga att slå sin motståndare 1 mot 1.",
     unit: "%",
     decimals: 1,
@@ -123,7 +120,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "defensiveDuelWinRate",
     label: "Vunna defensiva dueller",
-    shortLabel: "DefDuell%",
+    cardLabel: "DefDuell%",
     description: "Defensiv styrka i närkamper.",
     unit: "%",
     decimals: 1,
@@ -131,7 +128,7 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "aerialDuelWinRate",
     label: "Vunna luftdueller",
-    shortLabel: "Luft%",
+    cardLabel: "Luft%",
     description: "Styrka i spelet i luften.",
     unit: "%",
     decimals: 1,
@@ -139,11 +136,20 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
   {
     key: "recoveries",
     label: "Återerövringar",
-    shortLabel: "AE",
+    cardLabel: "ÅE",
     description: "Hur ofta spelaren vinner tillbaka bollen.",
     unit: "st",
     decimals: 0,
   },
+];
+
+const FEATURED_METRICS: TrendMetricKey[] = [
+  "passAccuracy",
+  "keyPasses",
+  "xA",
+  "xG",
+  "recoveries",
+  "shotsOnTarget",
 ];
 
 function roleLabel(roleName: string): string {
@@ -201,9 +207,9 @@ function normalizeValueForStandout(
   return (value / minutes) * 90;
 }
 
-function getRoundStandoutBadge(standout: RoundStandout): string {
-  const magnitude = standout.absoluteRelativeDelta;
-  if (standout.direction === "positive") {
+function getDeltaBadge(snapshot: MetricPlayerSnapshot): string {
+  const magnitude = Math.abs(snapshot.relativeDelta);
+  if (snapshot.delta >= 0) {
     if (magnitude >= 0.35) return "Kraftigt över eget snitt";
     if (magnitude >= 0.2) return "Över eget snitt";
     return "Svagt över eget snitt";
@@ -218,10 +224,8 @@ export function PlayerRoundStandoutsDashboard({
 }: {
   matches: PlayerTrendMatch[];
 }) {
-  const [selectedMetricKey, setSelectedMetricKey] =
-    useState<TrendMetricKey>("passAccuracy");
-  const [selectedGameweek, setSelectedGameweek] = useState<number | "all">(
-    matches[matches.length - 1]?.gameweek ?? "all"
+  const [selectedGameweek, setSelectedGameweek] = useState<number>(
+    matches[matches.length - 1]?.gameweek ?? matches[0]?.gameweek ?? 1
   );
   const [selectedRole, setSelectedRole] = useState("Alla");
   const [minMinutes, setMinMinutes] = useState(1);
@@ -234,8 +238,6 @@ export function PlayerRoundStandoutsDashboard({
     [matches]
   );
 
-  const selectedMetric = metricByKey(selectedMetricKey);
-
   const roleOptions = useMemo(() => {
     const roles = new Set(
       matches
@@ -246,131 +248,87 @@ export function PlayerRoundStandoutsDashboard({
   }, [matches]);
 
   const selectedRoundMatch = useMemo(() => {
-    if (selectedGameweek === "all") {
-      return null;
-    }
     return matches.find((match) => match.gameweek === selectedGameweek) ?? null;
   }, [matches, selectedGameweek]);
 
-  const roundStandouts = useMemo<RoundStandout[]>(() => {
+  const roundMetricSummaries = useMemo<RoundMetricSummary[]>(() => {
     if (!selectedRoundMatch) return [];
+    return FEATURED_METRICS.map((metricKey) => {
+      const metric = metricByKey(metricKey);
+      const valuesByPlayer = new Map<number, number[]>();
+      const rawValuesByPlayer = new Map<number, number[]>();
 
-    const valuesByPlayer = new Map<number, number[]>();
-    const rawValuesByPlayer = new Map<number, number[]>();
-    for (const match of matches) {
-      for (const player of match.players) {
-        if (player.minutes <= 0) continue;
-        const normalizedValues = valuesByPlayer.get(player.playerId) ?? [];
-        const rawValues = rawValuesByPlayer.get(player.playerId) ?? [];
-        const rawMetricValue = player.metrics[selectedMetricKey];
-        normalizedValues.push(
-          normalizeValueForStandout(rawMetricValue, player.minutes, selectedMetric)
-        );
-        rawValues.push(rawMetricValue);
-        valuesByPlayer.set(player.playerId, normalizedValues);
-        rawValuesByPlayer.set(player.playerId, rawValues);
-      }
-    }
-
-    return selectedRoundMatch.players
-      .filter((player) => player.minutes >= minMinutes)
-      .filter((player) => {
-        const normalizedRole = normalizeRole(player.playerName, player.roleName);
-        return selectedRole === "Alla" || normalizedRole === selectedRole;
-      })
-      .flatMap((player) => {
-        const history = valuesByPlayer.get(player.playerId);
-        const rawHistory = rawValuesByPlayer.get(player.playerId);
-        if (!history || history.length === 0 || !rawHistory || rawHistory.length === 0) {
-          return [];
+      for (const match of matches) {
+        for (const player of match.players) {
+          if (player.minutes <= 0) continue;
+          const normalizedValues = valuesByPlayer.get(player.playerId) ?? [];
+          const rawValues = rawValuesByPlayer.get(player.playerId) ?? [];
+          const rawMetricValue = player.metrics[metricKey];
+          normalizedValues.push(
+            normalizeValueForStandout(rawMetricValue, player.minutes, metric)
+          );
+          rawValues.push(rawMetricValue);
+          valuesByPlayer.set(player.playerId, normalizedValues);
+          rawValuesByPlayer.set(player.playerId, rawValues);
         }
-        const seasonAverage =
-          history.reduce((sum, value) => sum + value, 0) / Math.max(history.length, 1);
-        const rawSeasonAverage =
-          rawHistory.reduce((sum, value) => sum + value, 0) /
-          Math.max(rawHistory.length, 1);
-        const rawMatchValue = player.metrics[selectedMetricKey];
-        const matchValue = normalizeValueForStandout(
-          rawMatchValue,
-          player.minutes,
-          selectedMetric
-        );
-        const delta = matchValue - seasonAverage;
-        const relativeDelta =
-          delta / Math.max(Math.abs(seasonAverage), relativeDeltaFloor(selectedMetric));
-        const absoluteRelativeDelta = Math.abs(relativeDelta);
-        if (absoluteRelativeDelta < 0.12) return [];
-        return [
-          {
-            playerId: player.playerId,
-            playerName: player.playerName,
-            roleName: normalizeRole(player.playerName, player.roleName),
-            minutes: player.minutes,
-            direction: delta >= 0 ? "positive" : "negative",
-            matchValue,
-            seasonAverage,
-            rawMatchValue,
-            rawSeasonAverage,
-            delta,
-            relativeDelta,
-            absoluteRelativeDelta,
-          },
-        ];
-      })
-      .sort((left, right) => right.absoluteRelativeDelta - left.absoluteRelativeDelta)
-      .slice(0, 8);
-  }, [matches, minMinutes, selectedMetric, selectedMetricKey, selectedRole, selectedRoundMatch]);
+      }
 
-  const positiveRoundStandouts = useMemo(
-    () => roundStandouts.filter((player) => player.direction === "positive").slice(0, 4),
-    [roundStandouts]
-  );
+      const snapshots = selectedRoundMatch.players
+        .filter((player) => player.minutes >= minMinutes)
+        .filter((player) => {
+          const normalizedRole = normalizeRole(player.playerName, player.roleName);
+          return selectedRole === "Alla" || normalizedRole === selectedRole;
+        })
+        .flatMap((player): MetricPlayerSnapshot[] => {
+          const history = valuesByPlayer.get(player.playerId);
+          const rawHistory = rawValuesByPlayer.get(player.playerId);
+          if (!history || history.length === 0 || !rawHistory || rawHistory.length === 0) {
+            return [];
+          }
+          const seasonAverage =
+            history.reduce((sum, value) => sum + value, 0) / Math.max(history.length, 1);
+          const rawSeasonAverage =
+            rawHistory.reduce((sum, value) => sum + value, 0) /
+            Math.max(rawHistory.length, 1);
+          const rawMatchValue = player.metrics[metricKey];
+          const matchValue = normalizeValueForStandout(rawMatchValue, player.minutes, metric);
+          const delta = matchValue - seasonAverage;
+          const relativeDelta =
+            delta / Math.max(Math.abs(seasonAverage), relativeDeltaFloor(metric));
+          return [
+            {
+              playerId: player.playerId,
+              playerName: player.playerName,
+              roleName: normalizeRole(player.playerName, player.roleName),
+              minutes: player.minutes,
+              matchValue,
+              seasonAverage,
+              rawMatchValue,
+              rawSeasonAverage,
+              delta,
+              relativeDelta,
+            },
+          ];
+        });
 
-  const negativeRoundStandouts = useMemo(
-    () => roundStandouts.filter((player) => player.direction === "negative").slice(0, 4),
-    [roundStandouts]
-  );
+      const byMatchValue = [...snapshots].sort(
+        (left, right) => right.matchValue - left.matchValue
+      );
+      const byRelativeHigh = [...snapshots].sort(
+        (left, right) => right.relativeDelta - left.relativeDelta
+      );
+      const byRelativeLow = [...snapshots].sort(
+        (left, right) => left.relativeDelta - right.relativeDelta
+      );
 
-  const prioritizedRoundStandouts = useMemo(() => {
-    const combined: RoundStandout[] = [];
-    const maxCards = 6;
-    const pairCount = Math.min(positiveRoundStandouts.length, negativeRoundStandouts.length, 3);
-
-    for (let index = 0; index < pairCount; index += 1) {
-      combined.push(positiveRoundStandouts[index], negativeRoundStandouts[index]);
-    }
-
-    const remaining = [
-      ...positiveRoundStandouts.slice(pairCount),
-      ...negativeRoundStandouts.slice(pairCount),
-    ].sort((left, right) => right.absoluteRelativeDelta - left.absoluteRelativeDelta);
-
-    for (const standout of remaining) {
-      if (combined.length >= maxCards) break;
-      combined.push(standout);
-    }
-
-    return combined;
-  }, [negativeRoundStandouts, positiveRoundStandouts]);
-
-  const fallbackRoundLeaders = useMemo(() => {
-    if (!selectedRoundMatch) return [];
-    return selectedRoundMatch.players
-      .filter((player) => player.minutes >= minMinutes)
-      .filter((player) => {
-        const normalizedRole = normalizeRole(player.playerName, player.roleName);
-        return selectedRole === "Alla" || normalizedRole === selectedRole;
-      })
-      .sort((left, right) => right.metrics[selectedMetricKey] - left.metrics[selectedMetricKey])
-      .slice(0, 6)
-      .map((player) => ({
-        playerId: player.playerId,
-        playerName: player.playerName,
-        roleName: normalizeRole(player.playerName, player.roleName),
-        minutes: player.minutes,
-        value: player.metrics[selectedMetricKey],
-      }));
-  }, [minMinutes, selectedMetricKey, selectedRole, selectedRoundMatch]);
+      return {
+        metric,
+        leader: byMatchValue[0] ?? null,
+        mostPositive: byRelativeHigh[0] ?? null,
+        mostNegative: byRelativeLow[0] ?? null,
+      };
+    });
+  }, [matches, minMinutes, selectedRole, selectedRoundMatch]);
 
   return (
     <div className="min-h-screen bg-[#0f172a]">
@@ -407,42 +365,23 @@ export function PlayerRoundStandoutsDashboard({
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <h2 className="text-lg font-semibold text-white">Filter för omgångens standout</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Vyn är separat från spelartrender och fokuserar bara på vilka spelare som stack ut
-            mest i vald omgång.
+            Fast nyckeltalspaket för omgången. Vi visar vem som var bäst i varje nyckeltal och
+            vem som låg mest över/under eget snitt.
           </p>
 
-          <div className="mt-4 grid gap-4 lg:grid-cols-4">
+          <div className="mt-4 grid gap-4 lg:grid-cols-3">
             <label className="flex flex-col gap-1 text-sm text-slate-300">
               Omgång
               <select
                 value={selectedGameweek}
                 onChange={(event) => {
-                  const nextValue = event.target.value;
-                  setSelectedGameweek(nextValue === "all" ? "all" : Number(nextValue));
+                  setSelectedGameweek(Number(event.target.value));
                 }}
                 className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-sky-400"
               >
                 {gameweekOptions.map((gameweek) => (
                   <option key={gameweek} value={gameweek}>
                     Omgång {gameweek}
-                  </option>
-                ))}
-                {gameweekOptions.length > 1 && <option value="all">Alla omgångar</option>}
-              </select>
-            </label>
-
-            <label className="flex flex-col gap-1 text-sm text-slate-300">
-              Parameter
-              <select
-                value={selectedMetricKey}
-                onChange={(event) =>
-                  setSelectedMetricKey(event.target.value as TrendMetricKey)
-                }
-                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
-              >
-                {METRIC_OPTIONS.map((metric) => (
-                  <option key={metric.key} value={metric.key}>
-                    {metric.label}
                   </option>
                 ))}
               </select>
@@ -479,31 +418,28 @@ export function PlayerRoundStandoutsDashboard({
           </div>
 
           <div className="mt-4 rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-xs text-slate-300">
-            <strong className="text-slate-100">{selectedMetric.label}:</strong>{" "}
-            {selectedMetric.description}
+            <strong className="text-slate-100">Nyckeltal:</strong>{" "}
+            {FEATURED_METRICS.map((key) => metricByKey(key).cardLabel).join(" · ")}
           </div>
           <div className="mt-2 rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-xs text-slate-300">
-            For rakneparametrar (st) visas standout-jamforelsen i per 90 min.
+            För räkneparametrar (st) normaliseras jämförelsen till per 90 för rättvisare bild.
           </div>
         </section>
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-white">Standout-spelare i vald omgang</h2>
+              <h2 className="text-lg font-semibold text-white">Bäst per nyckeltal i omgången</h2>
               <p className="mt-1 text-sm text-slate-400">
-                Jamfor spelare i vald omgang mot deras eget snitt i{" "}
-                <span className="font-semibold text-slate-200">{selectedMetric.label}</span>.
-              </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Visar bade positiva och negativa utslag for en tydlig helhetsbild.
+                Varje kort visar omgångens bästa spelare i nyckeltalet samt mest positiva och
+                negativa utslag jämfört med eget snitt.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
               <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-300">
                 {selectedRoundMatch
-                  ? `Omgang ${selectedRoundMatch.gameweek} - ${selectedMetric.shortLabel}`
-                  : "Valj en enskild omgang"}
+                  ? `Omgång ${selectedRoundMatch.gameweek}`
+                  : "Ingen omgång vald"}
               </div>
               <span className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-1 text-[10px] text-emerald-200">
                 Positivt
@@ -514,118 +450,98 @@ export function PlayerRoundStandoutsDashboard({
             </div>
           </div>
 
-          {!selectedRoundMatch && (
-            <p className="mt-3 text-sm text-slate-400">
-              Valt "Alla omgangar". Valj en specifik omgang for att visa standout-spelare.
-            </p>
-          )}
+          <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {roundMetricSummaries.map((summary) => {
+              const leader = summary.leader;
+              const showPer90 = shouldNormalizePer90(summary.metric);
+              return (
+                <article
+                  key={summary.metric.key}
+                  className="rounded-xl border border-slate-700/70 bg-slate-900/50 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-white">{summary.metric.label}</p>
+                      <p className="mt-0.5 text-[11px] text-slate-400">{summary.metric.description}</p>
+                    </div>
+                    <span className="rounded-full border border-slate-600 bg-slate-800/80 px-2 py-0.5 text-[10px] text-slate-200">
+                      {summary.metric.cardLabel}
+                    </span>
+                  </div>
 
-          {selectedRoundMatch && prioritizedRoundStandouts.length === 0 && (
-            <div className="mt-3 space-y-3">
-              <p className="text-sm text-slate-400">
-                Inga tydliga standout-utslag för nuvarande filter i den omgången.
-              </p>
-              {fallbackRoundLeaders.length > 0 && (
-                <div className="rounded-xl border border-slate-700/70 bg-slate-900/50 p-3">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-300">
-                    Högsta utfall i omgången ({selectedMetric.shortLabel})
-                  </p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {fallbackRoundLeaders.map((leader) => (
-                      <article
-                        key={`fallback-${leader.playerId}`}
-                        className="rounded-lg border border-slate-700/70 bg-slate-950/60 px-3 py-2"
-                      >
-                        <p className="text-sm font-semibold text-white">{leader.playerName}</p>
-                        <p className="mt-0.5 text-[11px] text-slate-400">
+                  {!leader && (
+                    <p className="mt-3 text-xs text-slate-400">
+                      Ingen spelare matchar filtren för detta nyckeltal i vald omgång.
+                    </p>
+                  )}
+
+                  {leader && (
+                    <>
+                      <div className="mt-3 rounded-lg border border-slate-700/70 bg-slate-950/60 p-3">
+                        <p className="text-[11px] uppercase tracking-[0.14em] text-slate-400">
+                          Bäst i omgången
+                        </p>
+                        <p className="mt-1 text-sm font-semibold text-white">
+                          {leader.playerName}
+                        </p>
+                        <p className="text-[11px] text-slate-400">
                           {roleLabel(leader.roleName)} • {leader.minutes} min
                         </p>
-                        <p className="mt-1 text-xs font-semibold text-sky-300">
-                          {formatMetricValue(leader.value, selectedMetric)}
+                        <p className="mt-1 text-sm font-semibold text-sky-300">
+                          {formatMetricValue(leader.matchValue, summary.metric)}
                         </p>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
+                        {showPer90 && (
+                          <p className="text-[11px] text-slate-400">
+                            Råvärde: {formatMetricValue(leader.rawMatchValue, summary.metric)}
+                          </p>
+                        )}
+                        <p className="mt-2 text-[11px] text-slate-300">
+                          Eget snitt 2026: {formatMetricValue(leader.seasonAverage, summary.metric)}
+                        </p>
+                        <p className="text-[11px] font-semibold text-emerald-300">
+                          {getDeltaBadge(leader)}
+                        </p>
+                      </div>
 
-          {selectedRoundMatch && prioritizedRoundStandouts.length > 0 && (
-            <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-              {prioritizedRoundStandouts.map((player) => {
-                const isPositive = player.direction === "positive";
-                const toneClasses = isPositive
-                  ? "border-emerald-500/30 bg-emerald-500/5"
-                  : "border-rose-500/30 bg-rose-500/5";
-                const badgeClasses = isPositive
-                  ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200"
-                  : "border-rose-400/30 bg-rose-500/10 text-rose-200";
-                const deltaClasses = isPositive ? "text-emerald-300" : "text-rose-300";
-                const sign = player.delta >= 0 ? "+" : "-";
-                return (
-                  <article
-                    key={`${player.direction}-standout-${player.playerId}`}
-                    className={`rounded-xl border p-3 ${toneClasses}`}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <p className="text-sm font-semibold text-white">{player.playerName}</p>
-                      <span className={`rounded-full border px-2 py-0.5 text-[10px] ${badgeClasses}`}>
-                        {getRoundStandoutBadge(player)}
-                      </span>
-                    </div>
-                    <p className="mt-1 text-xs text-slate-400">
-                      {roleLabel(player.roleName)} • {player.minutes} min
-                    </p>
-                    <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-2">
-                      <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                        <p className="text-slate-500">
-                          {shouldNormalizePer90(selectedMetric)
-                            ? "Vald omgång (per 90)"
-                            : "Vald omgång"}
-                        </p>
-                        <p className="font-semibold text-white">
-                          {formatMetricValue(player.matchValue, selectedMetric)}
-                        </p>
-                        {shouldNormalizePer90(selectedMetric) && (
-                          <p className="mt-0.5 text-slate-400">
-                            Råvärde: {formatMetricValue(player.rawMatchValue, selectedMetric)}
+                      <div className="mt-2 grid gap-2">
+                        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 px-3 py-2">
+                          <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-200">
+                            Mest över snitt
                           </p>
-                        )}
-                      </div>
-                      <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                        <p className="text-slate-500">
-                          {shouldNormalizePer90(selectedMetric)
-                            ? "Eget snitt 2026 (per 90)"
-                            : "Eget snitt 2026"}
-                        </p>
-                        <p className="font-semibold text-white">
-                          {formatMetricValue(player.seasonAverage, selectedMetric)}
-                        </p>
-                        {shouldNormalizePer90(selectedMetric) && (
-                          <p className="mt-0.5 text-slate-400">
-                            Råsnitt: {formatMetricValue(player.rawSeasonAverage, selectedMetric)}
+                          {summary.mostPositive ? (
+                            <p className="mt-0.5 text-xs text-white">
+                              {summary.mostPositive.playerName} (+{Math.abs(
+                                summary.mostPositive.relativeDelta * 100
+                              ).toLocaleString("sv-SE", { maximumFractionDigits: 0 })}
+                              %)
+                            </p>
+                          ) : (
+                            <p className="mt-0.5 text-xs text-slate-400">Ingen data</p>
+                          )}
+                        </div>
+
+                        <div className="rounded-lg border border-rose-500/30 bg-rose-500/5 px-3 py-2">
+                          <p className="text-[10px] uppercase tracking-[0.12em] text-rose-200">
+                            Mest under snitt
                           </p>
-                        )}
+                          {summary.mostNegative ? (
+                            <p className="mt-0.5 text-xs text-white">
+                              {summary.mostNegative.playerName} (-{Math.abs(
+                                summary.mostNegative.relativeDelta * 100
+                              ).toLocaleString("sv-SE", { maximumFractionDigits: 0 })}
+                              %)
+                            </p>
+                          ) : (
+                            <p className="mt-0.5 text-xs text-slate-400">Ingen data</p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                    <p className={`mt-2 text-[11px] font-semibold ${deltaClasses}`}>
-                      Δ: {sign}
-                      {formatMetricCompact(Math.abs(player.delta), selectedMetric)}
-                      {selectedMetric.unit === "%" ? "%" : selectedMetric.unit === "st" ? " st" : ""}
-                    </p>
-                    <p className="text-[11px] text-slate-300">
-                      Utslag: {sign}
-                      {Math.abs(player.relativeDelta * 100).toLocaleString("sv-SE", {
-                        maximumFractionDigits: 0,
-                      })}
-                      %
-                    </p>
-                  </article>
-                );
-              })}
-            </div>
-          )}
+                    </>
+                  )}
+                </article>
+              );
+            })}
+          </div>
         </section>
       </main>
     </div>
