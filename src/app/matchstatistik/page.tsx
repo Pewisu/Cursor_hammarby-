@@ -56,6 +56,23 @@ export default function MatchStatisticsRoutePage() {
               Öppna omgångsstatistik →
             </p>
           </Link>
+
+          <Link
+            href="/matchstatistik/kommande"
+            className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800 md:col-span-2"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
+              🧭
+            </div>
+            <h2 className="text-xl font-semibold text-white">Kommande motståndare</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Taktisk scouting med fokus på nästa omgång: styrkor, sårbarheter, spelstil
+              och konkret matchplan för Hammarby.
+            </p>
+            <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
+              Öppna motståndaranalys →
+            </p>
+          </Link>
         </div>
 
         <div className="mt-8 rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5">
