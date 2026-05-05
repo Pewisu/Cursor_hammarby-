@@ -24,17 +24,12 @@ type MetricPlayerSnapshot = {
   roleName: string;
   minutes: number;
   matchValue: number;
-  seasonAverage: number;
   rawMatchValue: number;
-  rawSeasonAverage: number;
-  delta: number;
-  relativeDelta: number;
 };
 
 type RoundMetricSummary = {
   metric: TrendMetricOption;
   leader: MetricPlayerSnapshot | null;
-  seasonLeader: MetricPlayerSnapshot | null;
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -179,19 +174,6 @@ function formatMetricValue(value: number, metric: TrendMetricOption): string {
   return `${formatted} ${metric.unit}`;
 }
 
-function formatMetricCompact(value: number, metric: TrendMetricOption): string {
-  return value.toLocaleString("sv-SE", {
-    minimumFractionDigits: metric.decimals,
-    maximumFractionDigits: metric.decimals,
-  });
-}
-
-function relativeDeltaFloor(metric: TrendMetricOption): number {
-  if (metric.unit === "%") return 5;
-  if (metric.unit === "xG") return 0.2;
-  return 1;
-}
-
 function shouldNormalizePer90(metric: TrendMetricOption): boolean {
   return metric.unit === "st";
 }
@@ -242,24 +224,6 @@ export function PlayerRoundStandoutsDashboard({
     if (!selectedRoundMatch) return [];
     return FEATURED_METRICS.map((metricKey) => {
       const metric = metricByKey(metricKey);
-      const valuesByPlayer = new Map<number, number[]>();
-      const rawValuesByPlayer = new Map<number, number[]>();
-
-      for (const match of matches) {
-        for (const player of match.players) {
-          if (player.minutes <= 0) continue;
-          const normalizedValues = valuesByPlayer.get(player.playerId) ?? [];
-          const rawValues = rawValuesByPlayer.get(player.playerId) ?? [];
-          const rawMetricValue = player.metrics[metricKey];
-          normalizedValues.push(
-            normalizeValueForStandout(rawMetricValue, player.minutes, metric)
-          );
-          rawValues.push(rawMetricValue);
-          valuesByPlayer.set(player.playerId, normalizedValues);
-          rawValuesByPlayer.set(player.playerId, rawValues);
-        }
-      }
-
       const snapshots = selectedRoundMatch.players
         .filter((player) => player.minutes >= minMinutes)
         .filter((player) => {
@@ -267,21 +231,8 @@ export function PlayerRoundStandoutsDashboard({
           return selectedRole === "Alla" || normalizedRole === selectedRole;
         })
         .flatMap((player): MetricPlayerSnapshot[] => {
-          const history = valuesByPlayer.get(player.playerId);
-          const rawHistory = rawValuesByPlayer.get(player.playerId);
-          if (!history || history.length === 0 || !rawHistory || rawHistory.length === 0) {
-            return [];
-          }
-          const seasonAverage =
-            history.reduce((sum, value) => sum + value, 0) / Math.max(history.length, 1);
-          const rawSeasonAverage =
-            rawHistory.reduce((sum, value) => sum + value, 0) /
-            Math.max(rawHistory.length, 1);
           const rawMatchValue = player.metrics[metricKey];
           const matchValue = normalizeValueForStandout(rawMatchValue, player.minutes, metric);
-          const delta = matchValue - seasonAverage;
-          const relativeDelta =
-            delta / Math.max(Math.abs(seasonAverage), relativeDeltaFloor(metric));
           return [
             {
               playerId: player.playerId,
@@ -289,11 +240,7 @@ export function PlayerRoundStandoutsDashboard({
               roleName: normalizeRole(player.playerName, player.roleName),
               minutes: player.minutes,
               matchValue,
-              seasonAverage,
               rawMatchValue,
-              rawSeasonAverage,
-              delta,
-              relativeDelta,
             },
           ];
         });
@@ -301,35 +248,9 @@ export function PlayerRoundStandoutsDashboard({
       const byMatchValue = [...snapshots].sort(
         (left, right) => right.matchValue - left.matchValue
       );
-      const seasonLeaderSource = matches
-        .flatMap((match) => match.players)
-        .filter((player) => player.minutes > 0)
-        .filter((player) => {
-          const normalizedRole = normalizeRole(player.playerName, player.roleName);
-          return selectedRole === "Alla" || normalizedRole === selectedRole;
-        })
-        .map((player): MetricPlayerSnapshot => {
-          const rawMatchValue = player.metrics[metricKey];
-          const matchValue = normalizeValueForStandout(rawMatchValue, player.minutes, metric);
-          return {
-            playerId: player.playerId,
-            playerName: player.playerName,
-            roleName: normalizeRole(player.playerName, player.roleName),
-            minutes: player.minutes,
-            matchValue,
-            seasonAverage: matchValue,
-            rawMatchValue,
-            rawSeasonAverage: rawMatchValue,
-            delta: 0,
-            relativeDelta: 0,
-          };
-        })
-        .sort((left, right) => right.matchValue - left.matchValue)[0] ?? null;
-
       return {
         metric,
         leader: byMatchValue[0] ?? null,
-        seasonLeader: seasonLeaderSource,
       };
     });
   }, [matches, minMinutes, selectedRole, selectedRoundMatch]);
@@ -369,8 +290,8 @@ export function PlayerRoundStandoutsDashboard({
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <h2 className="text-lg font-semibold text-white">Filter för omgångens standout</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Fast nyckeltalspaket för omgången. Vi visar vem som var bäst i varje nyckeltal och
-            vem som låg mest över/under eget snitt.
+            Fast nyckeltalspaket för omgången. Vi visar vem som var bäst i varje nyckeltal i
+            den valda matchen.
           </p>
 
           <div className="mt-4 grid gap-4 lg:grid-cols-3">
@@ -435,8 +356,7 @@ export function PlayerRoundStandoutsDashboard({
             <div>
               <h2 className="text-lg font-semibold text-white">Bäst per nyckeltal i omgången</h2>
               <p className="mt-1 text-sm text-slate-400">
-                Varje kort visar omgångens bästa spelare i nyckeltalet samt säsongens bästa
-                referenspunkt i samma nyckeltal.
+                Varje kort visar omgångens bästa spelare i nyckeltalet.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -445,9 +365,6 @@ export function PlayerRoundStandoutsDashboard({
                   ? `Omgång ${selectedRoundMatch.gameweek}`
                   : "Ingen omgång vald"}
               </div>
-              <span className="rounded-full border border-sky-500/40 bg-sky-500/10 px-2 py-1 text-[10px] text-sky-200">
-                Referens: bäst säsong
-              </span>
             </div>
           </div>
 
@@ -497,22 +414,6 @@ export function PlayerRoundStandoutsDashboard({
                           </p>
                         )}
                       </div>
-
-                      {summary.seasonLeader && (
-                        <div className="mt-2 rounded-lg border border-sky-500/30 bg-sky-500/5 px-3 py-2">
-                          <p className="text-[10px] uppercase tracking-[0.12em] text-sky-200">
-                            Bäst i säsongen (referens)
-                          </p>
-                          <p className="mt-0.5 text-xs text-white">
-                            {summary.seasonLeader.playerName} (
-                            {formatMetricValue(summary.seasonLeader.matchValue, summary.metric)})
-                          </p>
-                          <p className="mt-0.5 text-[11px] text-slate-400">
-                            {roleLabel(summary.seasonLeader.roleName)} •{" "}
-                            {summary.seasonLeader.minutes} min
-                          </p>
-                        </div>
-                      )}
                     </>
                   )}
                 </article>
