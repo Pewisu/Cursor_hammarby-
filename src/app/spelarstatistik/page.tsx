@@ -17,7 +17,8 @@ export default function PlayerStatisticsRoutePage() {
             Välj vad du vill följa
           </h1>
           <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
-            Här hittar du individfokus: löpdata per spelare och spelartrender över tid.
+            Här hittar du individfokus i tre vyer: standout i omgång, löpdata per spelare
+            och spelartrender över tid.
           </p>
         </div>
       </header>
