@@ -90,6 +90,28 @@ export default function UpcomingOpponentsPage() {
               <summary className="cursor-pointer text-sm font-semibold text-white">
                 Så spelar IFK Göteborg (visa)
               </summary>
+              <div className="mt-3 space-y-2">
+                {report.styleProfile.map((signal) => (
+                  <div
+                    key={signal.label}
+                    className="rounded-lg border border-slate-700/60 bg-slate-900/60 p-3"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                        {signal.label}
+                      </p>
+                      <span className="text-xs text-emerald-300">{signal.value}</span>
+                    </div>
+                    <div className="mt-2 h-1.5 rounded-full bg-slate-800">
+                      <div
+                        className="h-1.5 rounded-full bg-emerald-400"
+                        style={{ width: `${signal.score}%` }}
+                      />
+                    </div>
+                    <p className="mt-2 text-xs text-slate-400">{signal.explanation}</p>
+                  </div>
+                ))}
+              </div>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {report.opponentStyle.map((item) => (
                   <li key={item} className="flex gap-2">
