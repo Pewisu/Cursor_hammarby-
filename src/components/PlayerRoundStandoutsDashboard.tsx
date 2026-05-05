@@ -34,8 +34,7 @@ type MetricPlayerSnapshot = {
 type RoundMetricSummary = {
   metric: TrendMetricOption;
   leader: MetricPlayerSnapshot | null;
-  mostPositive: MetricPlayerSnapshot | null;
-  mostNegative: MetricPlayerSnapshot | null;
+  seasonLeader: MetricPlayerSnapshot | null;
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -207,18 +206,6 @@ function normalizeValueForStandout(
   return (value / minutes) * 90;
 }
 
-function getDeltaBadge(snapshot: MetricPlayerSnapshot): string {
-  const magnitude = Math.abs(snapshot.relativeDelta);
-  if (snapshot.delta >= 0) {
-    if (magnitude >= 0.35) return "Kraftigt över eget snitt";
-    if (magnitude >= 0.2) return "Över eget snitt";
-    return "Svagt över eget snitt";
-  }
-  if (magnitude >= 0.35) return "Kraftigt under eget snitt";
-  if (magnitude >= 0.2) return "Under eget snitt";
-  return "Svagt under eget snitt";
-}
-
 export function PlayerRoundStandoutsDashboard({
   matches,
 }: {
@@ -314,18 +301,35 @@ export function PlayerRoundStandoutsDashboard({
       const byMatchValue = [...snapshots].sort(
         (left, right) => right.matchValue - left.matchValue
       );
-      const byRelativeHigh = [...snapshots].sort(
-        (left, right) => right.relativeDelta - left.relativeDelta
-      );
-      const byRelativeLow = [...snapshots].sort(
-        (left, right) => left.relativeDelta - right.relativeDelta
-      );
+      const seasonLeaderSource = matches
+        .flatMap((match) => match.players)
+        .filter((player) => player.minutes > 0)
+        .filter((player) => {
+          const normalizedRole = normalizeRole(player.playerName, player.roleName);
+          return selectedRole === "Alla" || normalizedRole === selectedRole;
+        })
+        .map((player): MetricPlayerSnapshot => {
+          const rawMatchValue = player.metrics[metricKey];
+          const matchValue = normalizeValueForStandout(rawMatchValue, player.minutes, metric);
+          return {
+            playerId: player.playerId,
+            playerName: player.playerName,
+            roleName: normalizeRole(player.playerName, player.roleName),
+            minutes: player.minutes,
+            matchValue,
+            seasonAverage: matchValue,
+            rawMatchValue,
+            rawSeasonAverage: rawMatchValue,
+            delta: 0,
+            relativeDelta: 0,
+          };
+        })
+        .sort((left, right) => right.matchValue - left.matchValue)[0] ?? null;
 
       return {
         metric,
         leader: byMatchValue[0] ?? null,
-        mostPositive: byRelativeHigh[0] ?? null,
-        mostNegative: byRelativeLow[0] ?? null,
+        seasonLeader: seasonLeaderSource,
       };
     });
   }, [matches, minMinutes, selectedRole, selectedRoundMatch]);
@@ -431,8 +435,8 @@ export function PlayerRoundStandoutsDashboard({
             <div>
               <h2 className="text-lg font-semibold text-white">Bäst per nyckeltal i omgången</h2>
               <p className="mt-1 text-sm text-slate-400">
-                Varje kort visar omgångens bästa spelare i nyckeltalet samt mest positiva och
-                negativa utslag jämfört med eget snitt.
+                Varje kort visar omgångens bästa spelare i nyckeltalet samt säsongens bästa
+                referenspunkt i samma nyckeltal.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -441,11 +445,8 @@ export function PlayerRoundStandoutsDashboard({
                   ? `Omgång ${selectedRoundMatch.gameweek}`
                   : "Ingen omgång vald"}
               </div>
-              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/10 px-2 py-1 text-[10px] text-emerald-200">
-                Positivt
-              </span>
-              <span className="rounded-full border border-rose-500/40 bg-rose-500/10 px-2 py-1 text-[10px] text-rose-200">
-                Negativt
+              <span className="rounded-full border border-sky-500/40 bg-sky-500/10 px-2 py-1 text-[10px] text-sky-200">
+                Referens: bäst säsong
               </span>
             </div>
           </div>
@@ -495,47 +496,23 @@ export function PlayerRoundStandoutsDashboard({
                             Råvärde: {formatMetricValue(leader.rawMatchValue, summary.metric)}
                           </p>
                         )}
-                        <p className="mt-2 text-[11px] text-slate-300">
-                          Eget snitt 2026: {formatMetricValue(leader.seasonAverage, summary.metric)}
-                        </p>
-                        <p className="text-[11px] font-semibold text-emerald-300">
-                          {getDeltaBadge(leader)}
-                        </p>
                       </div>
 
-                      <div className="mt-2 grid gap-2">
-                        <div className="rounded-lg border border-emerald-500/30 bg-emerald-500/5 px-3 py-2">
-                          <p className="text-[10px] uppercase tracking-[0.12em] text-emerald-200">
-                            Mest över snitt
+                      {summary.seasonLeader && (
+                        <div className="mt-2 rounded-lg border border-sky-500/30 bg-sky-500/5 px-3 py-2">
+                          <p className="text-[10px] uppercase tracking-[0.12em] text-sky-200">
+                            Bäst i säsongen (referens)
                           </p>
-                          {summary.mostPositive ? (
-                            <p className="mt-0.5 text-xs text-white">
-                              {summary.mostPositive.playerName} (+{Math.abs(
-                                summary.mostPositive.relativeDelta * 100
-                              ).toLocaleString("sv-SE", { maximumFractionDigits: 0 })}
-                              %)
-                            </p>
-                          ) : (
-                            <p className="mt-0.5 text-xs text-slate-400">Ingen data</p>
-                          )}
-                        </div>
-
-                        <div className="rounded-lg border border-rose-500/30 bg-rose-500/5 px-3 py-2">
-                          <p className="text-[10px] uppercase tracking-[0.12em] text-rose-200">
-                            Mest under snitt
+                          <p className="mt-0.5 text-xs text-white">
+                            {summary.seasonLeader.playerName} (
+                            {formatMetricValue(summary.seasonLeader.matchValue, summary.metric)})
                           </p>
-                          {summary.mostNegative ? (
-                            <p className="mt-0.5 text-xs text-white">
-                              {summary.mostNegative.playerName} (-{Math.abs(
-                                summary.mostNegative.relativeDelta * 100
-                              ).toLocaleString("sv-SE", { maximumFractionDigits: 0 })}
-                              %)
-                            </p>
-                          ) : (
-                            <p className="mt-0.5 text-xs text-slate-400">Ingen data</p>
-                          )}
+                          <p className="mt-0.5 text-[11px] text-slate-400">
+                            {roleLabel(summary.seasonLeader.roleName)} •{" "}
+                            {summary.seasonLeader.minutes} min
+                          </p>
                         </div>
-                      </div>
+                      )}
                     </>
                   )}
                 </article>
