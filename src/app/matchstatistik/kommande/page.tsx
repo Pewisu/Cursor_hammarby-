@@ -135,11 +135,11 @@ export default function UpcomingOpponentsPage() {
                         IFK: {metric.opponentValue}
                       </span>
                     </div>
-                    <div className="mt-2 flex flex-wrap gap-2 text-xs">
-                      <span className="rounded bg-emerald-500/15 px-2 py-1 text-emerald-200">
+                    <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                      <span className="justify-self-start rounded bg-emerald-500/15 px-2 py-1 text-emerald-200">
                         HIF rank: {metric.hammarbyRank}
                       </span>
-                      <span className="rounded bg-amber-500/15 px-2 py-1 text-amber-200">
+                      <span className="justify-self-end rounded bg-amber-500/15 px-2 py-1 text-amber-200">
                         IFK rank: {metric.opponentRank}
                       </span>
                     </div>
