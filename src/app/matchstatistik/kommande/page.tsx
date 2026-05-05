@@ -116,26 +116,34 @@ export default function UpcomingOpponentsPage() {
 
             <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-white">
-                Snabb jämförelse: Hammarby vs IFK (visa)
+                Nyckeltal med Allsvensk ranking (visa)
               </summary>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
-                {report.comparisonCards.map((card) => (
+                {report.rankedMetrics.map((metric) => (
                   <div
-                    key={card.title}
+                    key={metric.label}
                     className="rounded-lg border border-slate-700/60 bg-slate-900/60 p-3"
                   >
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-300">
-                      {card.title}
+                      {metric.label}
                     </p>
                     <div className="mt-2 flex items-center justify-between gap-3 text-sm">
                       <span className="rounded-md bg-emerald-500/15 px-2 py-1 text-emerald-200">
-                        HIF: {card.hammarby}
+                        HIF: {metric.hammarbyValue}
                       </span>
                       <span className="rounded-md bg-amber-500/15 px-2 py-1 text-amber-200">
-                        IFK: {card.opponent}
+                        IFK: {metric.opponentValue}
                       </span>
                     </div>
-                    <p className="mt-2 text-xs text-slate-400">{card.insight}</p>
+                    <div className="mt-2 flex flex-wrap gap-2 text-xs">
+                      <span className="rounded bg-emerald-500/15 px-2 py-1 text-emerald-200">
+                        HIF rank: {metric.hammarbyRank}
+                      </span>
+                      <span className="rounded bg-amber-500/15 px-2 py-1 text-amber-200">
+                        IFK rank: {metric.opponentRank}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs text-slate-400">{metric.note}</p>
                   </div>
                 ))}
               </div>
@@ -229,6 +237,22 @@ export default function UpcomingOpponentsPage() {
                 </ul>
               </article>
             </div>
+
+            <details className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-white">
+                Ordlista (visa)
+              </summary>
+              <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                {report.glossary.map((item) => (
+                  <li key={item.term} className="rounded-lg border border-slate-700/60 bg-slate-900/60 p-3">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                      {item.term}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-400">{item.explanation}</p>
+                  </li>
+                ))}
+              </ul>
+            </details>
 
             <article className="mt-4 rounded-xl border border-slate-700/60 bg-slate-950/50 p-4">
               <h3 className="text-sm font-semibold text-white">Datakällor</h3>
