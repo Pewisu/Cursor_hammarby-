@@ -59,6 +59,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Tryck efter paus: IFK har släppt in 5 mål i minut 61-75.",
       "Attackera boxen: IFK har släppt in 14/14 mål inne i straffområdet.",
       "Hammarby skapar klart fler lägen: 14,17 vs 8,67 målchanser per 90.",
+      "Bollinnehav i serien: Hammarby 1:a av 16, IFK Göteborg 6:a av 16.",
       "IFK spelar ofta långt tidigt, så Hammarby måste ha bra balans bakåt.",
     ],
     dataSources: [
