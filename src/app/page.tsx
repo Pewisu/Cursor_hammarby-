@@ -37,6 +37,23 @@ export default function Home() {
         </Link>
 
         <Link
+          href="/matchstatistik/kommande"
+          className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
+            🧠
+          </div>
+          <h2 className="text-xl font-semibold text-white">Kommande motståndare</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Taktisk scouting med omgångsfokus, start i omgång 7 mot IFK
+            Göteborg, och tydlig jämförelse mot hur Hammarby spelar.
+          </p>
+          <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
+            Öppna motståndaranalys →
+          </p>
+        </Link>
+
+        <Link
           href="/spelarstatistik"
           className="group rounded-2xl border border-purple-500/30 bg-slate-800/80 p-6 transition-colors hover:border-purple-400/60 hover:bg-slate-800"
         >
