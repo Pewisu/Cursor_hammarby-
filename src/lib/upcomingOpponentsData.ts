@@ -1,176 +1,163 @@
-export interface OpponentComparisonMetric {
-  label: string;
+export interface ComparisonCard {
+  title: string;
   hammarby: string;
   opponent: string;
+  insight: string;
+}
+
+export interface GoalWindowComparison {
+  window: string;
+  hammarbyGoals: number;
+  opponentConcededGoals: number;
+}
+
+export interface GoalTypeNote {
+  label: string;
+  value: string;
   interpretation: string;
-}
-
-export interface TacticalKeyPoint {
-  title: string;
-  detail: string;
-}
-
-export interface TacticalPlan {
-  inPossession: TacticalKeyPoint[];
-  defensivePlay: TacticalKeyPoint[];
-  gameManagement: TacticalKeyPoint[];
 }
 
 export interface UpcomingOpponentReport {
   round: number;
   fixture: string;
   dateLabel: string;
-  context: string;
+  oneLineSummary: string;
   dataSources: string[];
-  statusSnapshot: {
-    hammarby: string;
-    opponent: string;
+  quickStatusCards: {
+    title: string;
+    body: string;
+    tone: "emerald" | "amber" | "blue";
+  }[];
+  opponentStyle: string[];
+  comparisonCards: ComparisonCard[];
+  goalWindows: GoalWindowComparison[];
+  goalTypeNotes: GoalTypeNote[];
+  hammarbyPlan: {
+    withBall: string[];
+    withoutBall: string[];
+    matchManagement: string[];
   };
-  opponentIdentity: string[];
-  strengths: string[];
-  vulnerabilities: string[];
-  keyMetrics: OpponentComparisonMetric[];
-  tacticalPlanForHammarby: TacticalPlan;
-  expectedMatchPicture: string[];
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 7,
     fixture: "Hammarby - IFK Göteborg",
-    dateLabel: "Förhandsrapport efter 6 spelade omgångar",
-    context:
-      "Startpunkt för kommande motståndare: omgång 7 mot IFK Göteborg. Underlaget kombinerar Twelve-rapporten för IFK Göteborg (uppdaterad 2026-05-05) och ligavärden från bolldata.se/lagdata.",
+    dateLabel: "Förhandsanalys efter 6 omgångar",
+    oneLineSummary:
+      "Kort version: Hammarby skapar klart mer, IFK släpper in mycket i egen box och tappar ofta matchen efter paus.",
     dataSources: [
       "Twelve: IFK Göteborg Season Report 2026 (uppdaterad 5 maj 2026)",
-      "Bolldata lagdata: tabell, xG/xGA, passningar, målchanser, skott på mål, långa passningar/genomskärare",
+      "Bolldata: tabell, xG/xGA, skott på mål, skapade målchanser, måltyper och insläppta mål per matchminut",
     ],
-    statusSnapshot: {
-      hammarby:
-        "2:a i tabellen: 11p, 16-5 i målskillnad. Ligatopp i bollinnehav (63,5%), nyckelpassningar (5,0/90), skapade målchanser (14,17/90) och skott på mål (6,83/90).",
-      opponent:
-        "16:e i tabellen: 3p, 4-14 i målskillnad. Underliggande data bättre än utfall (xP 1,42/match men poäng 0,50/match), vilket pekar på underprestation men tydliga strukturella problem i båda boxarna.",
-    },
-    opponentIdentity: [
-      "Presspel: balanserat till aktivt utan boll (PPDA 5,13; relativt hög defensiv intensitet) men med låg aktionhöjd (38,69 m) vilket gör att de ofta försvarar närmare eget mål.",
-      "Anfallsspel: mer uppbyggnad än ren direkthet, med tydligt kant- och inläggsfokus (0,52 inlägg per sista tredjedelsinnehav; 52% av boxinträden via inlägg).",
-      "Passningsprofil: hög totalvolym men låg effektivitet framåt jämfört med Hammarby (P% 67,3 för framåtpassningar vs 77,2 för Hammarby).",
-      "Transitioner: återerövrar ofta snabbt efter bolltapp, men skapar själva svag kvalitet i offensiv transition (xG inom 10 sek efter bollvinst: 0,08).",
-    ],
-    strengths: [
-      "Vinner defensiva dueller i hög grad (68%, topp i serien) och kan stoppa framfart i första duellen.",
-      "Har många progressiva passningar (71,83/90) och hög andel långa passningar/genomskärare (57,0/90), vilket kan flytta boll snabbt till kant.",
-      "Skapar trots svag målproduktion en okej mängd chanser (52 skapade chanser, 8,67/90) och 12,50 np-skott/match enligt Twelve.",
-    ],
-    vulnerabilities: [
-      "Kraftig differens mellan skapad kvalitet och faktisk utdelning: np xG 1,26 men np mål 0,67 (Twelve), samt 4 gjorda mål på 6 matcher i lagdatan.",
-      "Släpper in klart fler mål än underliggande kvalitet antyder (14 insläppta, xGA 8,07) vilket tyder på problem i boxförsvar/bestraffning av misstag.",
-      "Låg bollsäkerhet i offensiv transition över tid (lägst i Twelve på possessions retained after 5s och xT/xG inom 10 sek).",
-      "Defensiv aktionhöjd nära eget mål (15:e nivå i rapporten) gör dem sårbara för etablerat tryck och många återkommande inlägg/andrabollar.",
-    ],
-    keyMetrics: [
+    quickStatusCards: [
       {
-        label: "Tabell / målskillnad",
-        hammarby: "11p, 16-5 (+11)",
-        opponent: "3p, 4-14 (-10)",
-        interpretation:
-          "Stor resultatskillnad efter sex omgångar, trots att IFK:s underliggande siffror inte är lika dåliga som tabellen.",
+        title: "Hammarby just nu",
+        body: "2:a i tabellen (11p), 16-5 i målskillnad. Topplag i chansskapande och skott på mål.",
+        tone: "emerald",
       },
       {
-        label: "xG & xGA (lagdata)",
-        hammarby: "xG 12,86 / xGA 6,68",
-        opponent: "xG 8,32 / xGA 8,07",
-        interpretation:
-          "Hammarby skapar väsentligt mer totalt, men IFK:s xGA är inte katastrofal i relation till deras insläppta mål.",
+        title: "IFK Göteborg just nu",
+        body: "16:e plats (3p), 4-14 i mål. Klart svag utdelning framåt och hög belastning i eget straffområde.",
+        tone: "amber",
       },
       {
-        label: "Skott på mål / match",
-        hammarby: "6,83",
-        opponent: "4,67",
-        interpretation:
-          "Hammarby får fler avslut på mål och bör kunna omvandla tryck till konkret hot oftare.",
+        title: "Nyckelfönster i matchen",
+        body: "IFK har släppt in 5 av 14 mål i minut 61-75. Där är Hammarby också som starkast offensivt.",
+        tone: "blue",
       },
+    ],
+    opponentStyle: [
+      "IFK pressar periodvis aktivt men försvarar ofta lågt (låg defensiv aktionhöjd).",
+      "De söker ofta kantvägen: många inlägg och vertikala/långa passningar.",
+      "Mycket boll i vissa matcher, men sämre kvalitet i sista tredjedelen än topplagen.",
+      "Snabb återerövring finns, men deras offensiva transition ger låg utdelning.",
+    ],
+    comparisonCards: [
       {
-        label: "Skapade målchanser /90",
+        title: "Skapade målchanser /90",
         hammarby: "14,17",
         opponent: "8,67",
-        interpretation:
-          "Hammarby producerar betydligt mer chansvolym; nyckeln blir att hålla tempot uppe tills IFK:s låga block tappar kompakthet.",
+        insight: "Hammarby skapar betydligt fler bra situationer över tid.",
       },
       {
-        label: "Nyckelpassningar /90",
-        hammarby: "5,00",
-        opponent: "3,17",
-        interpretation:
-          "Hammarby har tydligare kreativ output centralt och i halvrum, IFK mer beroende av kantinlägg.",
+        title: "Skott på mål / match",
+        hammarby: "6,83",
+        opponent: "4,67",
+        insight: "Hammarby får oftare träff på mål och tvingar fler räddningar.",
       },
       {
-        label: "Passningsprocent",
+        title: "xG / xGA",
+        hammarby: "12,86 / 6,68",
+        opponent: "8,32 / 8,07",
+        insight: "Hammarby har starkare total balans mellan skapade och tillåtna chanser.",
+      },
+      {
+        title: "Målchanser emot (totalt)",
+        hammarby: "36",
+        opponent: "55",
+        insight: "IFK tillåter mycket i egen boxzon och runt boxen.",
+      },
+      {
+        title: "Passningsprocent",
         hammarby: "86,6%",
         opponent: "81,9%",
-        interpretation:
-          "Hammarby har högre kontroll i possession. IFK kan pressas till sämre beslut om Hammarby håller högt återerövringstryck.",
+        insight: "Hammarby har tydligare kontroll i etablerat spel.",
       },
       {
-        label: "Långa passningar + genomskärare /90",
+        title: "Långa pass + genomskärare /90",
         hammarby: "40,67",
         opponent: "57,00",
-        interpretation:
-          "IFK söker oftare längre och mer vertikala lösningar, särskilt för att nå ytor bakom ytterback och tidiga inläggslägen.",
+        insight: "IFK går oftare tidigt framåt med längre bollar.",
       },
     ],
-    tacticalPlanForHammarby: {
-      inPossession: [
-        {
-          title: "Överbelasta halvrum före inlägg",
-          detail:
-            "IFK försvarar ofta lågt och tätt i boxlinje. Hammarby bör skapa 3v2 i halvrum för att dra isär första linjen och sedan hitta cutbacks snarare än tidiga lyft mot mittbackarna.",
-        },
-        {
-          title: "Skifta snabbt sida mot deras låga aktionhöjd",
-          detail:
-            "När IFK sjunker nära eget mål uppstår yta i bortre korridor. Snabba diagonala förflyttningar via centralt nav kan ge isolerade 1v1 för Hammarbys ytter.",
-        },
-        {
-          title: "Håll hög rytm i andrafas",
-          detail:
-            "Efter första avslut/inlägg: direkt återvinning och nytt inspel innan IFK hinner organisera om. Det angriper deras svaghet i långvarigt boxförsvar.",
-        },
+    goalWindows: [
+      { window: "0-15", hammarbyGoals: 1, opponentConcededGoals: 1 },
+      { window: "16-30", hammarbyGoals: 2, opponentConcededGoals: 2 },
+      { window: "31-45+", hammarbyGoals: 3, opponentConcededGoals: 2 },
+      { window: "46-60", hammarbyGoals: 3, opponentConcededGoals: 1 },
+      { window: "61-75", hammarbyGoals: 4, opponentConcededGoals: 5 },
+      { window: "76-90+", hammarbyGoals: 3, opponentConcededGoals: 3 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Hur IFK släpper in mål",
+        value: "14/14 i boxen",
+        interpretation: "Allt insläppt har kommit inne i straffområdet.",
+      },
+      {
+        label: "Fasta bakåt (IFK)",
+        value: "0 frispark, 0 hörna, 0 straff",
+        interpretation:
+          "De har främst blivit straffade i öppet spel, inte på klassiska fasta situationer.",
+      },
+      {
+        label: "Nickmål bakåt (IFK)",
+        value: "4",
+        interpretation: "Luftdueller och inläggsboxen är en tydlig riskzon för IFK.",
+      },
+      {
+        label: "IFK:s mål framåt",
+        value: "4 totalt (1 frispark, 1 nick)",
+        interpretation: "Låg målproduktion och få spelmål över sex matcher.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Spela igenom halvrum och attackera cutback-ytan snarare än tidiga höga inlägg.",
+        "Byt sida snabbt för att flytta deras låga block i sidled.",
+        "Tryck på andraboll efter avslut — IFK har släppt in mycket i egen box.",
       ],
-      defensivePlay: [
-        {
-          title: "Stoppa tidiga inlägg",
-          detail:
-            "IFK:s tydligaste väg in i boxen är via kant och inlägg. Prioritera att styra utåt med understöd och blockera inläggsfot tidigt.",
-        },
-        {
-          title: "Säkra restförsvar mot långa första pass",
-          detail:
-            "Eftersom IFK spelar många långa/vertikala pass måste Hammarby ha rätt avstånd mellan mittback och sexa direkt vid bolltapp.",
-        },
-        {
-          title: "Pressa uppspel på triggers",
-          detail:
-            "Vid passning bak till mittback/målvakt: gå med koordinerad pressvåg för att tvinga IFK till längre och mindre precisa framåtpassningar.",
-        },
+      withoutBall: [
+        "Stoppa tidiga inlägg från kant direkt vid källan.",
+        "Säkra restförsvar mot deras långa första pass efter bollvinst.",
+        "Trigga samlad press på bakåtpass till mittback/målvakt.",
       ],
-      gameManagement: [
-        {
-          title: "Var tålmodig trots låga ytor",
-          detail:
-            "IFK:s resultatrad kan leda till tidig frustration hos motståndare. Hammarby ska fortsätta mata kvalitet i sista tredjedelen istället för att forcera distansavslut.",
-        },
-        {
-          title: "Öka tempot efter 55-60 minuter",
-          detail:
-            "Om matchen är jämn: byt in fart och djupledshot när IFK:s låga block börjar tappa synk i sidled, särskilt efter många försvarsaktioner i egen box.",
-        },
+      matchManagement: [
+        "Höj tempot tydligt runt minut 55-75 (IFK:s svagaste period defensivt).",
+        "Byt in fart tidigt i andra halvlek om matchen står och väger.",
+        "Behåll tålamodet: Hammarbys volymspel ger oftast utdelning över 90 minuter.",
       ],
     },
-    expectedMatchPicture: [
-      "Hammarby väntas äga boll och territorium, medan IFK försöker balansera mellan lägre block och selektivt högre press.",
-      "Matchens nyckel blir om Hammarby omvandlar stort possessionsövertag till tillräckligt många avslut från centrala ytor i boxen.",
-      "Om IFK får många ostörda inlägg eller tidiga långa uppspel kan de skapa hot trots lägre total kvalitet.",
-    ],
   },
 ];

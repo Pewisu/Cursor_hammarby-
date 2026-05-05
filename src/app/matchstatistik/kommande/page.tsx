@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 };
 
 export default function UpcomingOpponentsPage() {
+  const toneStyles: Record<"emerald" | "amber" | "blue", string> = {
+    emerald: "border-emerald-500/25 bg-emerald-500/10",
+    amber: "border-amber-500/25 bg-amber-500/10",
+    blue: "border-sky-500/25 bg-sky-500/10",
+  };
+
   return (
     <div className="min-h-screen bg-[#0f172a]">
       <header className="border-b border-slate-700/50 bg-[#0f172a]/80">
@@ -62,98 +68,120 @@ export default function UpcomingOpponentsPage() {
               </span>
             </div>
 
-            <p className="mt-4 text-sm text-slate-300">{report.context}</p>
+            <p className="mt-4 text-sm font-medium text-slate-100">
+              {report.oneLineSummary}
+            </p>
 
-            <div className="mt-4 grid gap-4 lg:grid-cols-2">
-              <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
-                <p className="text-xs uppercase tracking-wide text-emerald-300">
-                  Hammarby just nu
-                </p>
-                <p className="mt-2 text-sm text-slate-100">
-                  {report.statusSnapshot.hammarby}
-                </p>
+            <div className="mt-4 grid gap-3 lg:grid-cols-3">
+              {report.quickStatusCards.map((card) => (
+                <article
+                  key={card.title}
+                  className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
+                >
+                  <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
+                    {card.title}
+                  </p>
+                  <p className="mt-2 text-sm text-slate-100">{card.body}</p>
+                </article>
+              ))}
+            </div>
+
+            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <h3 className="text-sm font-semibold text-white">Så spelar IFK Göteborg</h3>
+              <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                {report.opponentStyle.map((item) => (
+                  <li key={item} className="flex gap-2">
+                    <span className="mt-1 text-emerald-300">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+
+            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <h3 className="text-sm font-semibold text-white">
+                Snabb jämförelse: Hammarby vs IFK
+              </h3>
+              <div className="mt-3 grid gap-3 md:grid-cols-2">
+                {report.comparisonCards.map((card) => (
+                  <div
+                    key={card.title}
+                    className="rounded-lg border border-slate-700/60 bg-slate-900/60 p-3"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-wide text-slate-300">
+                      {card.title}
+                    </p>
+                    <div className="mt-2 flex items-center justify-between gap-3 text-sm">
+                      <span className="rounded-md bg-emerald-500/15 px-2 py-1 text-emerald-200">
+                        HIF: {card.hammarby}
+                      </span>
+                      <span className="rounded-md bg-amber-500/15 px-2 py-1 text-amber-200">
+                        IFK: {card.opponent}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs text-slate-400">{card.insight}</p>
+                  </div>
+                ))}
               </div>
-              <div className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-4">
-                <p className="text-xs uppercase tracking-wide text-amber-300">
-                  IFK Göteborg just nu
-                </p>
-                <p className="mt-2 text-sm text-slate-100">
-                  {report.statusSnapshot.opponent}
-                </p>
+            </article>
+
+            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <h3 className="text-sm font-semibold text-white">
+                När i matchen bör Hammarby trycka?
+              </h3>
+              <p className="mt-1 text-xs text-slate-400">
+                Hammarbys gjorda mål jämfört med IFK:s insläppta mål per tidsfönster.
+              </p>
+              <div className="mt-3 grid gap-2">
+                {report.goalWindows.map((window) => (
+                  <div
+                    key={window.window}
+                    className="flex items-center justify-between rounded-lg border border-slate-700/60 bg-slate-900/60 px-3 py-2 text-sm"
+                  >
+                    <span className="font-medium text-white">{window.window}</span>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="rounded bg-emerald-500/15 px-2 py-1 text-emerald-200">
+                        HIF mål: {window.hammarbyGoals}
+                      </span>
+                      <span className="rounded bg-amber-500/15 px-2 py-1 text-amber-200">
+                        IFK insläppta: {window.opponentConcededGoals}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </div>
+            </article>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-3">
-              <article className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 lg:col-span-1">
-                <h3 className="text-sm font-semibold text-white">Så spelar motståndaren</h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                  {report.opponentIdentity.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-1 text-emerald-300">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-
-              <article className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 lg:col-span-1">
-                <h3 className="text-sm font-semibold text-white">Styrkor att respektera</h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                  {report.strengths.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-1 text-green-300">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-
-              <article className="rounded-xl border border-slate-700/60 bg-slate-800/40 p-4 lg:col-span-1">
-                <h3 className="text-sm font-semibold text-white">Sårbarheter att attackera</h3>
-                <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                  {report.vulnerabilities.map((item) => (
-                    <li key={item} className="flex gap-2">
-                      <span className="mt-1 text-rose-300">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            </div>
-
-            <div className="mt-6 overflow-hidden rounded-xl border border-slate-700/60">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-slate-800/80 text-slate-200">
-                  <tr>
-                    <th className="px-3 py-2">Mätpunkt</th>
-                    <th className="px-3 py-2">Hammarby</th>
-                    <th className="px-3 py-2">IFK Göteborg</th>
-                    <th className="px-3 py-2">Tolkning</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {report.keyMetrics.map((metric) => (
-                    <tr key={metric.label} className="border-t border-slate-700/50">
-                      <td className="px-3 py-2 font-medium text-white">{metric.label}</td>
-                      <td className="px-3 py-2 text-emerald-200">{metric.hammarby}</td>
-                      <td className="px-3 py-2 text-amber-200">{metric.opponent}</td>
-                      <td className="px-3 py-2 text-slate-300">{metric.interpretation}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
+              <h3 className="text-sm font-semibold text-white">
+                Målprofil att ta med till matchplanen
+              </h3>
+              <div className="mt-3 grid gap-3 md:grid-cols-2">
+                {report.goalTypeNotes.map((note) => (
+                  <div
+                    key={note.label}
+                    className="rounded-lg border border-slate-700/60 bg-slate-900/60 p-3"
+                  >
+                    <p className="text-xs uppercase tracking-wide text-slate-300">
+                      {note.label}
+                    </p>
+                    <p className="mt-1 text-base font-semibold text-white">{note.value}</p>
+                    <p className="mt-1 text-xs text-slate-400">{note.interpretation}</p>
+                  </div>
+                ))}
+              </div>
+            </article>
 
             <div className="mt-6 grid gap-4 lg:grid-cols-3">
               <article className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
                 <h3 className="text-sm font-semibold text-emerald-200">
                   Hammarby med boll
                 </h3>
-                <ul className="mt-3 space-y-3 text-sm text-slate-200">
-                  {report.tacticalPlanForHammarby.inPossession.map((point) => (
-                    <li key={point.title}>
-                      <p className="font-medium text-white">{point.title}</p>
-                      <p className="mt-1 text-slate-300">{point.detail}</p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-200">
+                  {report.hammarbyPlan.withBall.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <span className="mt-1 text-emerald-300">•</span>
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
@@ -163,11 +191,11 @@ export default function UpcomingOpponentsPage() {
                 <h3 className="text-sm font-semibold text-cyan-200">
                   Hammarby utan boll
                 </h3>
-                <ul className="mt-3 space-y-3 text-sm text-slate-200">
-                  {report.tacticalPlanForHammarby.defensivePlay.map((point) => (
-                    <li key={point.title}>
-                      <p className="font-medium text-white">{point.title}</p>
-                      <p className="mt-1 text-slate-300">{point.detail}</p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-200">
+                  {report.hammarbyPlan.withoutBall.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <span className="mt-1 text-cyan-300">•</span>
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
@@ -175,28 +203,16 @@ export default function UpcomingOpponentsPage() {
 
               <article className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-4">
                 <h3 className="text-sm font-semibold text-violet-200">Matchmanagement</h3>
-                <ul className="mt-3 space-y-3 text-sm text-slate-200">
-                  {report.tacticalPlanForHammarby.gameManagement.map((point) => (
-                    <li key={point.title}>
-                      <p className="font-medium text-white">{point.title}</p>
-                      <p className="mt-1 text-slate-300">{point.detail}</p>
+                <ul className="mt-3 space-y-2 text-sm text-slate-200">
+                  {report.hammarbyPlan.matchManagement.map((point) => (
+                    <li key={point} className="flex gap-2">
+                      <span className="mt-1 text-violet-300">•</span>
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
               </article>
             </div>
-
-            <article className="mt-6 rounded-xl border border-slate-700/60 bg-slate-800/40 p-4">
-              <h3 className="text-sm font-semibold text-white">Förväntad matchbild</h3>
-              <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                {report.expectedMatchPicture.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-1 text-emerald-300">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
 
             <article className="mt-4 rounded-xl border border-slate-700/60 bg-slate-950/50 p-4">
               <h3 className="text-sm font-semibold text-white">Datakällor</h3>
