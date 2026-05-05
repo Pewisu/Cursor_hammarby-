@@ -483,6 +483,25 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
       </header>
 
       <main className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8">
+        <section className="rounded-2xl border border-sky-500/30 bg-sky-500/5 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.14em] text-sky-300">
+                Ny egen sida
+              </p>
+              <p className="text-sm text-slate-100">
+                Positiva/negativa standout-spelare per omgång finns nu i en separat vy.
+              </p>
+            </div>
+            <Link
+              href="/spelarstatistik/omgangsstandout"
+              className="rounded-md border border-sky-400/40 bg-sky-400/10 px-3 py-1.5 text-xs font-medium text-sky-200 hover:border-sky-300 hover:text-sky-100"
+            >
+              Öppna standout-sidan →
+            </Link>
+          </div>
+        </section>
+
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <h2 className="text-lg font-semibold text-white">
             Parametrar och urval
