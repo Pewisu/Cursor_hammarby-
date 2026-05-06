@@ -58,6 +58,18 @@ function getSpiderLabelDy(angle: number) {
   return 3;
 }
 
+function buildSpiderAxisId(round: number, label: string) {
+  const normalized = label
+    .toLowerCase()
+    .replace(/å/g, "a")
+    .replace(/ä/g, "a")
+    .replace(/ö/g, "o")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return `spider-r${round}-${normalized}`;
+}
+
 export default function UpcomingOpponentsPage() {
   const toneStyles: Record<"emerald" | "amber" | "blue", string> = {
     emerald: "border-emerald-500/30 bg-emerald-500/10",
@@ -200,6 +212,9 @@ export default function UpcomingOpponentsPage() {
               <p className="mt-1 text-xs text-slate-400">
                 Axlar från Bolldatas lagjämförelse för Allsvenskan 2026 efter 6 omgångar.
               </p>
+              <p className="mt-1 text-xs text-emerald-200/85">
+                Tryck på etiketter/punkter i spindeln eller knapparna nedan för att hoppa till respektive mätvärde.
+              </p>
               <article className="mt-3 rounded-lg border border-slate-600/60 bg-white/5 p-3">
                 <div className="overflow-x-auto">
                   <svg
@@ -208,17 +223,26 @@ export default function UpcomingOpponentsPage() {
                     role="img"
                     aria-label="Radarjämförelse mellan Hammarby och IFK Göteborg"
                   >
-                    {ringPolygons.map((points, index) => (
-                      <polygon
-                        key={`ring-${SPIDER_RING_STEPS[index]}`}
-                        points={points}
-                        fill="none"
-                        stroke="rgba(148, 163, 184, 0.35)"
-                        strokeWidth={1}
-                      />
-                    ))}
+                    {ringPolygons.map((points, index) => {
+                      const isOuterRing = index === ringPolygons.length - 1;
+
+                      return (
+                        <polygon
+                          key={`ring-${SPIDER_RING_STEPS[index]}`}
+                          points={points}
+                          fill={isOuterRing ? "rgba(250, 204, 21, 0.05)" : "none"}
+                          stroke={
+                            isOuterRing
+                              ? "rgba(250, 204, 21, 0.85)"
+                              : "rgba(148, 163, 184, 0.35)"
+                          }
+                          strokeWidth={isOuterRing ? 2 : 1}
+                        />
+                      );
+                    })}
 
                     {report.spiderComparison.map((axis, index) => {
+                      const axisId = buildSpiderAxisId(report.round, axis.label);
                       const outerPoint = getSpiderPoint(index, axisCount, 100, SPIDER_RADIUS);
                       const labelPoint = getSpiderPoint(
                         index,
@@ -237,16 +261,25 @@ export default function UpcomingOpponentsPage() {
                             stroke="rgba(148, 163, 184, 0.35)"
                             strokeWidth={1}
                           />
-                          <text
-                            x={labelPoint.x}
-                            y={labelPoint.y}
-                            fontSize={9}
-                            fill="rgb(203 213 225)"
-                            textAnchor={getSpiderLabelAnchor(labelPoint.angle)}
-                            dy={getSpiderLabelDy(labelPoint.angle)}
-                          >
-                            {spiderShortLabels[axis.label] ?? axis.label}
-                          </text>
+                          <a href={`#${axisId}`}>
+                            <circle
+                              cx={outerPoint.x}
+                              cy={outerPoint.y}
+                              r={6}
+                              fill="transparent"
+                            />
+                            <text
+                              x={labelPoint.x}
+                              y={labelPoint.y}
+                              fontSize={9}
+                              fill="rgb(203 213 225)"
+                              textAnchor={getSpiderLabelAnchor(labelPoint.angle)}
+                              dy={getSpiderLabelDy(labelPoint.angle)}
+                              style={{ cursor: "pointer" }}
+                            >
+                              {spiderShortLabels[axis.label] ?? axis.label}
+                            </text>
+                          </a>
                         </g>
                       );
                     })}
@@ -264,24 +297,30 @@ export default function UpcomingOpponentsPage() {
                       strokeWidth={2}
                     />
 
-                    {opponentPoints.map((point, index) => (
-                      <circle
-                        key={`ifk-point-${report.spiderComparison[index].label}`}
-                        cx={point.x}
-                        cy={point.y}
-                        r={2.5}
-                        fill="rgb(253 224 71)"
-                      />
-                    ))}
-                    {hammarbyPoints.map((point, index) => (
-                      <circle
-                        key={`hif-point-${report.spiderComparison[index].label}`}
-                        cx={point.x}
-                        cy={point.y}
-                        r={2.5}
-                        fill="rgb(52 211 153)"
-                      />
-                    ))}
+                    {report.spiderComparison.map((axis, index) => {
+                      const axisId = buildSpiderAxisId(report.round, axis.label);
+                      const opponentPoint = opponentPoints[index];
+                      const hammarbyPoint = hammarbyPoints[index];
+
+                      return (
+                        <a href={`#${axisId}`} key={`axis-points-${axis.label}`}>
+                          <circle
+                            cx={opponentPoint.x}
+                            cy={opponentPoint.y}
+                            r={2.5}
+                            fill="rgb(253 224 71)"
+                            style={{ cursor: "pointer" }}
+                          />
+                          <circle
+                            cx={hammarbyPoint.x}
+                            cy={hammarbyPoint.y}
+                            r={2.5}
+                            fill="rgb(52 211 153)"
+                            style={{ cursor: "pointer" }}
+                          />
+                        </a>
+                      );
+                    })}
                   </svg>
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-300">
@@ -295,11 +334,25 @@ export default function UpcomingOpponentsPage() {
                   </div>
                 </div>
               </article>
+              <div className="mt-3 overflow-x-auto pb-1">
+                <div className="flex min-w-max items-center gap-2">
+                  {report.spiderComparison.map((axis) => (
+                    <a
+                      key={`chip-${axis.label}`}
+                      href={`#${buildSpiderAxisId(report.round, axis.label)}`}
+                      className="rounded border border-slate-500/50 bg-slate-700/30 px-2 py-1 text-[11px] text-slate-200 hover:border-emerald-300/60 hover:text-white"
+                    >
+                      {spiderShortLabels[axis.label] ?? axis.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
               <div className="mt-3 grid gap-2 md:grid-cols-2">
                 {report.spiderComparison.map((axis) => (
                   <div
                     key={axis.label}
-                    className="rounded-lg border border-slate-600/60 bg-white/5 p-2.5"
+                    id={buildSpiderAxisId(report.round, axis.label)}
+                    className="scroll-mt-24 rounded-lg border border-slate-600/60 bg-white/5 p-2.5"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-200">
