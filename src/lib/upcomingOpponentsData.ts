@@ -93,7 +93,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         title: "IFK Göteborg just nu",
-        body: "16:e i tabellen (3p), 4-14 i mål. Låg utdelning framåt och många lägen emot.",
+        body: "15:e i tabellen (3p), 4-14 i mål. Låg utdelning framåt och många lägen emot.",
         tone: "amber",
       },
       {
