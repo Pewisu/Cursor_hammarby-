@@ -31,6 +31,15 @@ export interface StyleProfileSignal {
   explanation: string;
 }
 
+export interface SpiderComparisonAxis {
+  label: string;
+  hammarbyValue: string;
+  opponentValue: string;
+  hammarbyScore: number;
+  opponentScore: number;
+  note: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   fixture: string;
@@ -45,6 +54,7 @@ export interface UpcomingOpponentReport {
   }[];
   opponentStyle: string[];
   styleProfile: StyleProfileSignal[];
+  spiderComparison: SpiderComparisonAxis[];
   rankedMetrics: RankedComparisonMetric[];
   goalWindows: GoalWindowComparison[];
   goalTypeNotes: GoalTypeNote[];
@@ -73,6 +83,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dataSources: [
       "Twelve: IFK Göteborg Season Report 2026 (uppdaterad 5 maj 2026)",
       "Bolldata: tabell, xG/xGA, skott på mål, målchanser, måltyper och tidsfönster för insläppta mål",
+      "Bolldata Jämför lag (spider): lagprestation IFK Göteborg vs Hammarby, Allsvenskan 2026",
     ],
     quickStatusCards: [
       {
@@ -127,6 +138,96 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         value: "xG inom 10 sek efter bollvinst: 0,08 (Twelve)",
         score: 22,
         explanation: "De vinner boll men skapar sällan riktigt farliga lägen direkt.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "Lyckade anfallsaktioner / match",
+        hammarbyValue: "28,2",
+        opponentValue: "21,7",
+        hammarbyScore: 100,
+        opponentScore: 77,
+        note: "Hammarby ligger tydligt högre i offensiv produktion per match.",
+      },
+      {
+        label: "Mål / match",
+        hammarbyValue: "2,67",
+        opponentValue: "0,67",
+        hammarbyScore: 100,
+        opponentScore: 25,
+        note: "Stor skillnad i faktisk utdelning efter sex omgångar.",
+      },
+      {
+        label: "xG / match",
+        hammarbyValue: "2,14",
+        opponentValue: "1,39",
+        hammarbyScore: 100,
+        opponentScore: 65,
+        note: "Hammarby skapar mer chanskvalitet i öppet spel över tid.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "21,83",
+        opponentValue: "12,67",
+        hammarbyScore: 100,
+        opponentScore: 58,
+        note: "Hammarby kommer oftare till avslutslägen.",
+      },
+      {
+        label: "Skott på mål / match",
+        hammarbyValue: "6,83",
+        opponentValue: "4,67",
+        hammarbyScore: 100,
+        opponentScore: 68,
+        note: "Hammarby träffar mål oftare och tvingar fler räddningar.",
+      },
+      {
+        label: "Lyckade defensiva aktioner / match",
+        hammarbyValue: "82,0",
+        opponentValue: "107,7",
+        hammarbyScore: 76,
+        opponentScore: 100,
+        note: "IFK försvarar mer, vilket ofta hänger ihop med längre perioder utan boll.",
+      },
+      {
+        label: "Duellvinster / match",
+        hammarbyValue: "89,8",
+        opponentValue: "80,8",
+        hammarbyScore: 100,
+        opponentScore: 90,
+        note: "Hammarby vinner fler dueller totalt, men IFK ligger nära.",
+      },
+      {
+        label: "Återerövringar / match",
+        hammarbyValue: "96,0",
+        opponentValue: "86,8",
+        hammarbyScore: 100,
+        opponentScore: 90,
+        note: "Hammarby vinner tillbaka boll något oftare över 90 minuter.",
+      },
+      {
+        label: "Hållna nollor (%)",
+        hammarbyValue: "33%",
+        opponentValue: "0%",
+        hammarbyScore: 100,
+        opponentScore: 0,
+        note: "Defensiv utväxling skiljer lagen tydligt i säsongsinledningen.",
+      },
+      {
+        label: "Bollinnehav (%)",
+        hammarbyValue: "63,5%",
+        opponentValue: "53,3%",
+        hammarbyScore: 100,
+        opponentScore: 84,
+        note: "Båda lag kan ha boll, men Hammarby styr matchtempot mer.",
+      },
+      {
+        label: "Framåtpassningar / match",
+        hammarbyValue: "192,7",
+        opponentValue: "145,2",
+        hammarbyScore: 100,
+        opponentScore: 75,
+        note: "Hammarby flyttar spelet framåt oftare per match.",
       },
     ],
     rankedMetrics: [

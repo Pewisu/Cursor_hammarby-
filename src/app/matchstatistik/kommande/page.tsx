@@ -124,6 +124,62 @@ export default function UpcomingOpponentsPage() {
 
             <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                Spindel-jämförelse Hammarby vs IFK (Bolldata) (visa)
+              </summary>
+              <p className="mt-1 text-xs text-slate-400">
+                Axlar från Bolldatas lagjämförelse för Allsvenskan 2026 efter 6 omgångar.
+              </p>
+              <div className="mt-3 space-y-3">
+                {report.spiderComparison.map((axis) => (
+                  <article
+                    key={axis.label}
+                    className="rounded-lg border border-slate-600/60 bg-white/5 p-3"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                        {axis.label}
+                      </p>
+                      <div className="flex items-center gap-2 text-[11px]">
+                        <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 text-emerald-100">
+                          HIF: {axis.hammarbyValue}
+                        </span>
+                        <span className="rounded border border-amber-400/30 bg-amber-400/10 px-1.5 py-0.5 text-amber-100">
+                          IFK: {axis.opponentValue}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2 space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <span className="w-8 text-[11px] font-semibold text-emerald-200">
+                          HIF
+                        </span>
+                        <div className="h-1.5 flex-1 rounded-full bg-slate-700/55">
+                          <div
+                            className="h-1.5 rounded-full bg-emerald-400"
+                            style={{ width: `${axis.hammarbyScore}%` }}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="w-8 text-[11px] font-semibold text-amber-200">
+                          IFK
+                        </span>
+                        <div className="h-1.5 flex-1 rounded-full bg-slate-700/55">
+                          <div
+                            className="h-1.5 rounded-full bg-amber-300"
+                            style={{ width: `${axis.opponentScore}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-xs text-slate-400">{axis.note}</p>
+                  </article>
+                ))}
+              </div>
+            </details>
+
+            <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Nyckeltal med Allsvensk ranking (visa)
               </summary>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
