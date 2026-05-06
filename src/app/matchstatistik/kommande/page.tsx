@@ -8,6 +8,56 @@ export const metadata: Metadata = {
     "Taktisk förhandsanalys av kommande motståndare med datadriven jämförelse mot Hammarby.",
 };
 
+const SPIDER_CENTER_X = 190;
+const SPIDER_CENTER_Y = 165;
+const SPIDER_RADIUS = 110;
+const SPIDER_LABEL_RADIUS = 132;
+const SPIDER_RING_STEPS = [20, 40, 60, 80, 100];
+
+const spiderShortLabels: Record<string, string> = {
+  "Lyckade anfallsaktioner / match": "Anfallsaktioner",
+  "Mål / match": "Mål",
+  "xG / match": "xG",
+  "Avslut / match": "Avslut",
+  "Skott på mål / match": "Skott på mål",
+  "Lyckade defensiva aktioner / match": "Def. aktioner",
+  "Duellvinster / match": "Duellvinster",
+  "Återerövringar / match": "Återerövringar",
+  "Hållna nollor (%)": "Hållna nollor",
+  "Bollinnehav (%)": "Bollinnehav",
+  "Framåtpassningar / match": "Framåtpassningar",
+};
+
+function getSpiderPoint(
+  index: number,
+  total: number,
+  score: number,
+  radius: number,
+) {
+  const angle = -Math.PI / 2 + (index / total) * Math.PI * 2;
+  const scaledRadius = (score / 100) * radius;
+
+  return {
+    x: SPIDER_CENTER_X + Math.cos(angle) * scaledRadius,
+    y: SPIDER_CENTER_Y + Math.sin(angle) * scaledRadius,
+    angle,
+  };
+}
+
+function getSpiderLabelAnchor(angle: number): "start" | "middle" | "end" {
+  const cosValue = Math.cos(angle);
+  if (cosValue > 0.35) return "start";
+  if (cosValue < -0.35) return "end";
+  return "middle";
+}
+
+function getSpiderLabelDy(angle: number) {
+  const sinValue = Math.sin(angle);
+  if (sinValue < -0.6) return -6;
+  if (sinValue > 0.6) return 10;
+  return 3;
+}
+
 export default function UpcomingOpponentsPage() {
   const toneStyles: Record<"emerald" | "amber" | "blue", string> = {
     emerald: "border-emerald-500/30 bg-emerald-500/10",
@@ -48,11 +98,32 @@ export default function UpcomingOpponentsPage() {
       </header>
 
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8">
-        {upcomingOpponents.map((report) => (
-          <section
-            key={`${report.round}-${report.fixture}`}
-            className="rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6"
-          >
+        {upcomingOpponents.map((report) => {
+          const axisCount = report.spiderComparison.length;
+          const ringPolygons = SPIDER_RING_STEPS.map((step) =>
+            report.spiderComparison
+              .map((_, index) => getSpiderPoint(index, axisCount, step, SPIDER_RADIUS))
+              .map((point) => `${point.x},${point.y}`)
+              .join(" "),
+          );
+          const hammarbyPoints = report.spiderComparison.map((axis, index) =>
+            getSpiderPoint(index, axisCount, axis.hammarbyScore, SPIDER_RADIUS),
+          );
+          const opponentPoints = report.spiderComparison.map((axis, index) =>
+            getSpiderPoint(index, axisCount, axis.opponentScore, SPIDER_RADIUS),
+          );
+          const hammarbyPolygonPoints = hammarbyPoints
+            .map((point) => `${point.x},${point.y}`)
+            .join(" ");
+          const opponentPolygonPoints = opponentPoints
+            .map((point) => `${point.x},${point.y}`)
+            .join(" ");
+
+          return (
+            <section
+              key={`${report.round}-${report.fixture}`}
+              className="rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6"
+            >
             <div className="flex flex-wrap items-start justify-between gap-3 border-b border-emerald-800/45 pb-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/90">
@@ -129,51 +200,122 @@ export default function UpcomingOpponentsPage() {
               <p className="mt-1 text-xs text-slate-400">
                 Axlar från Bolldatas lagjämförelse för Allsvenskan 2026 efter 6 omgångar.
               </p>
-              <div className="mt-3 space-y-3">
+              <article className="mt-3 rounded-lg border border-slate-600/60 bg-white/5 p-3">
+                <div className="overflow-x-auto">
+                  <svg
+                    viewBox="0 0 380 340"
+                    className="mx-auto h-[320px] w-full min-w-[320px]"
+                    role="img"
+                    aria-label="Radarjämförelse mellan Hammarby och IFK Göteborg"
+                  >
+                    {ringPolygons.map((points, index) => (
+                      <polygon
+                        key={`ring-${SPIDER_RING_STEPS[index]}`}
+                        points={points}
+                        fill="none"
+                        stroke="rgba(148, 163, 184, 0.35)"
+                        strokeWidth={1}
+                      />
+                    ))}
+
+                    {report.spiderComparison.map((axis, index) => {
+                      const outerPoint = getSpiderPoint(index, axisCount, 100, SPIDER_RADIUS);
+                      const labelPoint = getSpiderPoint(
+                        index,
+                        axisCount,
+                        100,
+                        SPIDER_LABEL_RADIUS,
+                      );
+
+                      return (
+                        <g key={axis.label}>
+                          <line
+                            x1={SPIDER_CENTER_X}
+                            y1={SPIDER_CENTER_Y}
+                            x2={outerPoint.x}
+                            y2={outerPoint.y}
+                            stroke="rgba(148, 163, 184, 0.35)"
+                            strokeWidth={1}
+                          />
+                          <text
+                            x={labelPoint.x}
+                            y={labelPoint.y}
+                            fontSize={9}
+                            fill="rgb(203 213 225)"
+                            textAnchor={getSpiderLabelAnchor(labelPoint.angle)}
+                            dy={getSpiderLabelDy(labelPoint.angle)}
+                          >
+                            {spiderShortLabels[axis.label] ?? axis.label}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    <polygon
+                      points={opponentPolygonPoints}
+                      fill="rgba(251, 191, 36, 0.18)"
+                      stroke="rgba(253, 224, 71, 0.9)"
+                      strokeWidth={2}
+                    />
+                    <polygon
+                      points={hammarbyPolygonPoints}
+                      fill="rgba(16, 185, 129, 0.2)"
+                      stroke="rgba(52, 211, 153, 0.95)"
+                      strokeWidth={2}
+                    />
+
+                    {opponentPoints.map((point, index) => (
+                      <circle
+                        key={`ifk-point-${report.spiderComparison[index].label}`}
+                        cx={point.x}
+                        cy={point.y}
+                        r={2.5}
+                        fill="rgb(253 224 71)"
+                      />
+                    ))}
+                    {hammarbyPoints.map((point, index) => (
+                      <circle
+                        key={`hif-point-${report.spiderComparison[index].label}`}
+                        cx={point.x}
+                        cy={point.y}
+                        r={2.5}
+                        fill="rgb(52 211 153)"
+                      />
+                    ))}
+                  </svg>
+                </div>
+                <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-300">
+                  <div className="inline-flex items-center gap-1.5 rounded border border-emerald-500/30 bg-emerald-500/10 px-2 py-1">
+                    <span className="h-2 w-2 rounded-full bg-emerald-300" />
+                    Hammarby
+                  </div>
+                  <div className="inline-flex items-center gap-1.5 rounded border border-amber-400/35 bg-amber-400/10 px-2 py-1">
+                    <span className="h-2 w-2 rounded-full bg-amber-300" />
+                    IFK Göteborg
+                  </div>
+                </div>
+              </article>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
                 {report.spiderComparison.map((axis) => (
-                  <article
+                  <div
                     key={axis.label}
-                    className="rounded-lg border border-slate-600/60 bg-white/5 p-3"
+                    className="rounded-lg border border-slate-600/60 bg-white/5 p-2.5"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                      <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-200">
                         {axis.label}
                       </p>
-                      <div className="flex items-center gap-2 text-[11px]">
+                      <div className="flex items-center gap-1.5 text-[11px]">
                         <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 text-emerald-100">
-                          HIF: {axis.hammarbyValue}
+                          HIF {axis.hammarbyValue}
                         </span>
                         <span className="rounded border border-amber-400/30 bg-amber-400/10 px-1.5 py-0.5 text-amber-100">
-                          IFK: {axis.opponentValue}
+                          IFK {axis.opponentValue}
                         </span>
                       </div>
                     </div>
-                    <div className="mt-2 space-y-1.5">
-                      <div className="flex items-center gap-2">
-                        <span className="w-8 text-[11px] font-semibold text-emerald-200">
-                          HIF
-                        </span>
-                        <div className="h-1.5 flex-1 rounded-full bg-slate-700/55">
-                          <div
-                            className="h-1.5 rounded-full bg-emerald-400"
-                            style={{ width: `${axis.hammarbyScore}%` }}
-                          />
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-8 text-[11px] font-semibold text-amber-200">
-                          IFK
-                        </span>
-                        <div className="h-1.5 flex-1 rounded-full bg-slate-700/55">
-                          <div
-                            className="h-1.5 rounded-full bg-amber-300"
-                            style={{ width: `${axis.opponentScore}%` }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <p className="mt-2 text-xs text-slate-400">{axis.note}</p>
-                  </article>
+                    <p className="mt-1 text-xs text-slate-400">{axis.note}</p>
+                  </div>
                 ))}
               </div>
             </details>
@@ -340,8 +482,9 @@ export default function UpcomingOpponentsPage() {
                 ))}
               </ul>
             </article>
-          </section>
-        ))}
+            </section>
+          );
+        })}
       </main>
     </div>
   );
