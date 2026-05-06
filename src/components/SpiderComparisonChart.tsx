@@ -127,9 +127,9 @@ export default function SpiderComparisonChart({ axes }: SpiderComparisonChartPro
                 <polygon
                   key={`ring-${SPIDER_RING_STEPS[index]}`}
                   points={points}
-                  fill={isOuterRing ? "rgba(250, 204, 21, 0.05)" : "none"}
+                  fill={isOuterRing ? "rgba(248, 250, 252, 0.04)" : "none"}
                   stroke={
-                    isOuterRing ? "rgba(250, 204, 21, 0.85)" : "rgba(148, 163, 184, 0.35)"
+                    isOuterRing ? "rgba(241, 245, 249, 0.85)" : "rgba(148, 163, 184, 0.35)"
                   }
                   strokeWidth={isOuterRing ? 2 : 1}
                 />
