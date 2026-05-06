@@ -12,12 +12,12 @@ export default function UpcomingOpponentsPage() {
   const toneStyles: Record<"emerald" | "amber" | "blue", string> = {
     emerald: "border-emerald-500/30 bg-emerald-500/10",
     amber: "border-amber-400/30 bg-amber-400/10",
-    blue: "border-slate-500/40 bg-slate-700/25",
+    blue: "border-slate-400/40 bg-slate-600/30",
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0f0d]">
-      <header className="border-b border-emerald-900/40 bg-[#0a0f0d]/90">
+    <div className="min-h-screen bg-[#13231d]">
+      <header className="border-b border-emerald-800/45 bg-[#163028]/90">
         <div className="mx-auto max-w-6xl px-4 py-8">
           <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/90">
             Matchplan
@@ -33,7 +33,7 @@ export default function UpcomingOpponentsPage() {
           <div className="mt-4 flex flex-wrap gap-2">
             <Link
               href="/matchstatistik"
-              className="rounded-lg border border-slate-600/80 bg-black/30 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-400 hover:text-white"
+              className="rounded-lg border border-slate-500/75 bg-slate-900/35 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-300 hover:text-white"
             >
               ← Matchstatistik översikt
             </Link>
@@ -51,9 +51,9 @@ export default function UpcomingOpponentsPage() {
         {upcomingOpponents.map((report) => (
           <section
             key={`${report.round}-${report.fixture}`}
-            className="rounded-2xl border border-emerald-900/35 bg-[#111816] p-5 md:p-6"
+            className="rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6"
           >
-            <div className="flex flex-wrap items-start justify-between gap-3 border-b border-emerald-950/60 pb-4">
+            <div className="flex flex-wrap items-start justify-between gap-3 border-b border-emerald-800/45 pb-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/90">
                   Omgång {report.round}
@@ -86,7 +86,7 @@ export default function UpcomingOpponentsPage() {
               ))}
             </div>
 
-            <details className="mt-6 rounded-xl border border-emerald-950/70 bg-[#0d1312]/90 p-4">
+            <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Så spelar IFK Göteborg (visa)
               </summary>
@@ -94,7 +94,7 @@ export default function UpcomingOpponentsPage() {
                 {report.styleProfile.map((signal) => (
                   <div
                     key={signal.label}
-                    className="rounded-lg border border-slate-700/60 bg-black/25 p-3"
+                    className="rounded-lg border border-slate-600/60 bg-white/5 p-3"
                   >
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
@@ -102,7 +102,7 @@ export default function UpcomingOpponentsPage() {
                       </p>
                       <span className="text-xs text-amber-200">{signal.value}</span>
                     </div>
-                    <div className="mt-2 h-1.5 rounded-full bg-slate-700/70">
+                    <div className="mt-2 h-1.5 rounded-full bg-slate-700/55">
                       <div
                         className="h-1.5 rounded-full bg-emerald-400"
                         style={{ width: `${signal.score}%` }}
@@ -122,7 +122,7 @@ export default function UpcomingOpponentsPage() {
               </ul>
             </details>
 
-            <details className="mt-6 rounded-xl border border-emerald-950/70 bg-[#0d1312]/90 p-4">
+            <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Nyckeltal med Allsvensk ranking (visa)
               </summary>
@@ -130,7 +130,7 @@ export default function UpcomingOpponentsPage() {
                 {report.rankedMetrics.map((metric) => (
                   <div
                     key={metric.label}
-                    className="rounded-lg border border-slate-700/60 bg-black/25 p-3"
+                    className="rounded-lg border border-slate-600/60 bg-white/5 p-3"
                   >
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-300">
                       {metric.label}
@@ -157,7 +157,7 @@ export default function UpcomingOpponentsPage() {
               </div>
             </details>
 
-            <details className="mt-6 rounded-xl border border-emerald-950/70 bg-[#0d1312]/90 p-4">
+            <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 När i matchen bör Hammarby trycka? (visa)
               </summary>
@@ -168,7 +168,7 @@ export default function UpcomingOpponentsPage() {
                 {report.goalWindows.map((window) => (
                   <div
                     key={window.window}
-                    className="flex items-center justify-between rounded-lg border border-slate-700/60 bg-black/25 px-3 py-2 text-sm"
+                    className="flex items-center justify-between rounded-lg border border-slate-600/60 bg-white/5 px-3 py-2 text-sm"
                   >
                     <span className="font-medium text-slate-100">{window.window}</span>
                     <div className="flex items-center gap-2 text-xs">
@@ -184,7 +184,7 @@ export default function UpcomingOpponentsPage() {
               </div>
             </details>
 
-            <details className="mt-6 rounded-xl border border-emerald-950/70 bg-[#0d1312]/90 p-4">
+            <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Målprofil att ta med till matchplanen (visa)
               </summary>
@@ -192,7 +192,7 @@ export default function UpcomingOpponentsPage() {
                 {report.goalTypeNotes.map((note) => (
                   <div
                     key={note.label}
-                    className="rounded-lg border border-slate-700/60 bg-black/25 p-3"
+                    className="rounded-lg border border-slate-600/60 bg-white/5 p-3"
                   >
                     <p className="text-xs uppercase tracking-wide text-slate-300">
                       {note.label}
@@ -260,13 +260,13 @@ export default function UpcomingOpponentsPage() {
               </ul>
             </article>
 
-            <details className="mt-6 rounded-xl border border-emerald-950/70 bg-[#0d1312]/90 p-4">
+            <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Ordlista (visa)
               </summary>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {report.glossary.map((item) => (
-                  <li key={item.term} className="rounded-lg border border-slate-700/60 bg-black/25 p-3">
+                  <li key={item.term} className="rounded-lg border border-slate-600/60 bg-white/5 p-3">
                     <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
                       {item.term}
                     </p>
@@ -276,7 +276,7 @@ export default function UpcomingOpponentsPage() {
               </ul>
             </details>
 
-            <article className="mt-4 rounded-xl border border-slate-700/70 bg-black/35 p-4">
+            <article className="mt-4 rounded-xl border border-slate-600/70 bg-slate-900/35 p-4">
               <h3 className="text-sm font-semibold text-slate-100">Datakällor</h3>
               <ul className="mt-2 space-y-1 text-xs text-slate-400">
                 {report.dataSources.map((source) => (
