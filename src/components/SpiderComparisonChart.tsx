@@ -120,21 +120,15 @@ export default function SpiderComparisonChart({ axes }: SpiderComparisonChartPro
             role="img"
             aria-label="Radarjämförelse mellan Hammarby och IFK Göteborg"
           >
-            {ringPolygons.map((points, index) => {
-              const isOuterRing = index === ringPolygons.length - 1;
-
-              return (
-                <polygon
-                  key={`ring-${SPIDER_RING_STEPS[index]}`}
-                  points={points}
-                  fill={isOuterRing ? "rgba(248, 250, 252, 0.04)" : "none"}
-                  stroke={
-                    isOuterRing ? "rgba(241, 245, 249, 0.85)" : "rgba(148, 163, 184, 0.35)"
-                  }
-                  strokeWidth={isOuterRing ? 2 : 1}
-                />
-              );
-            })}
+            {ringPolygons.map((points, index) => (
+              <polygon
+                key={`ring-${SPIDER_RING_STEPS[index]}`}
+                points={points}
+                fill="none"
+                stroke="rgba(148, 163, 184, 0.35)"
+                strokeWidth={1}
+              />
+            ))}
 
             {axes.map((axis, index) => {
               const outerPoint = getSpiderPoint(index, axisCount, 100, SPIDER_RADIUS);
@@ -148,7 +142,7 @@ export default function SpiderComparisonChart({ axes }: SpiderComparisonChartPro
                     y1={SPIDER_CENTER_Y}
                     x2={outerPoint.x}
                     y2={outerPoint.y}
-                    stroke={isActive ? "rgba(250, 204, 21, 0.7)" : "rgba(148, 163, 184, 0.35)"}
+                    stroke={isActive ? "rgba(241, 245, 249, 0.75)" : "rgba(148, 163, 184, 0.35)"}
                     strokeWidth={isActive ? 1.5 : 1}
                   />
                   <circle
@@ -214,6 +208,13 @@ export default function SpiderComparisonChart({ axes }: SpiderComparisonChartPro
                 </g>
               );
             })}
+
+            <polygon
+              points={ringPolygons[ringPolygons.length - 1]}
+              fill="none"
+              stroke="rgb(248 250 252)"
+              strokeWidth={2.6}
+            />
           </svg>
         </div>
 
