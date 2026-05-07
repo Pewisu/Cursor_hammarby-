@@ -2085,7 +2085,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {mode === "round" && standoutPlayersForRound && (
-          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h2 className="text-lg font-semibold text-white">
@@ -2142,7 +2142,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
           visibleTeamStandoutInsights.length > 0 && (
-            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white">
@@ -2283,7 +2283,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
           playstyleProfiles.length > 0 && (
-            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white">
@@ -2446,7 +2446,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </section>
           )}
 
-        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-slate-400">
             Värdena visar totalen för det valda urvalet. I kombinerat läge är det summerat över
@@ -2516,7 +2516,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         </section>
 
-        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-white">
@@ -2672,7 +2672,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         </section>
 
-        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-white">
