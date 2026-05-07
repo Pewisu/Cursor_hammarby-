@@ -483,6 +483,19 @@ const HISTORICAL_POINTS_PACE_BASELINES: Array<{
     finalPoints: 54,
   },
 ];
+// Faktiska poäng efter omgång (Hammarby) från "Omgång för omgång i Allsvenskan 2024".
+const HISTORICAL_2024_POINTS_BY_ROUND: Record<number, number> = {
+  1: 3,
+  2: 3,
+  3: 6,
+  4: 6,
+  5: 6,
+  6: 9,
+  7: 9,
+  8: 12,
+  9: 12,
+  10: 15,
+};
 
 function formatDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -1108,6 +1121,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     season2025Baseline === null ? null : season2025Baseline.pointsPerRound * comparisonRound;
   const season2024Baseline =
     HISTORICAL_POINTS_PACE_BASELINES.find((item) => item.seasonLabel === "2024") ?? null;
+  const season2024ActualPointsThroughRound = HISTORICAL_2024_POINTS_BY_ROUND[comparisonRound] ?? null;
   const season2024EstimatedPointsThroughRound =
     season2024Baseline === null ? null : season2024Baseline.pointsPerRound * comparisonRound;
   const pointsComparisonRows: PointsComparisonRow[] = [
@@ -1137,7 +1151,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     {
       seasonLabel: "2024",
       pointsAfterRoundText:
-        season2024EstimatedPointsThroughRound === null
+        season2024ActualPointsThroughRound !== null
+          ? `${season2024ActualPointsThroughRound} p`
+          : season2024EstimatedPointsThroughRound === null
           ? "–"
           : `≈ ${season2024EstimatedPointsThroughRound.toLocaleString("sv-SE", {
               maximumFractionDigits: 1,
@@ -1147,7 +1163,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       note:
         season2024Baseline === null
           ? "Saknar referensdata"
-          : `Slutade på ${season2024Baseline.finalPoints} poäng`,
+          : season2024ActualPointsThroughRound !== null
+            ? `Faktisk poäng efter omgång ${comparisonRound} (Omgång för omgång i Allsvenskan 2024)`
+            : `Slutade på ${season2024Baseline.finalPoints} poäng`,
     },
   ];
   const effectiveMatchAnalysisViewMode: MatchAnalysisViewMode =
