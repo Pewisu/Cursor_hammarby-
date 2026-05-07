@@ -10,6 +10,7 @@ import {
   MATCH_ANALYSIS_PERIOD_LABELS,
   hammarbyMatchAnalysisMetricDefinitions,
   hammarbyMatchAnalysisRounds,
+  type HammarbyMatchAnalysisRound,
   type MatchAnalysisMetricDefinition,
   type MatchAnalysisMetricKey,
 } from "@/lib/hammarbyMatchAnalysisData";
@@ -588,7 +589,7 @@ function getScoreFromMatchName(matchName: string): { homeGoals: number; awayGoal
   };
 }
 
-function getPointsFromMatchAnalysisRound(row: MatchAnalysisRoundRow): number | null {
+function getPointsFromMatchAnalysisRound(row: HammarbyMatchAnalysisRound): number | null {
   const score = getScoreFromMatchName(row.matchName);
   if (!score) return null;
   const goalsFor = row.isHome ? score.homeGoals : score.awayGoals;
