@@ -109,6 +109,7 @@ type MatchAnalysisAverage = {
 type PointsComparisonRow = {
   seasonLabel: string;
   pointsAfterRoundText: string;
+  pointsPerRoundText: string;
   seasonAverageText: string;
   note: string;
 };
@@ -1147,6 +1148,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     {
       seasonLabel: "2026",
       pointsAfterRoundText: `${season2026PointsThroughRound} p`,
+      pointsPerRoundText: formatPointsPerRound(season2026PointsPerRound),
       seasonAverageText: `≈ ${Math.round(season2026ProjectedPoints)} p`,
       note: `Prognos baserad på ${formatPointsPerRound(season2026PointsPerRound)} p/omg`,
     },
@@ -1159,6 +1161,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           : `≈ ${season2025EstimatedPointsThroughRound.toLocaleString("sv-SE", {
               maximumFractionDigits: 1,
             })} p`,
+      pointsPerRoundText:
+        season2025Baseline === null ? "–" : formatPointsPerRound(season2025Baseline.pointsPerRound),
       seasonAverageText:
         season2025Baseline === null ? "–" : `${season2025Baseline.finalPoints} p`,
       note:
@@ -1176,6 +1180,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           : `≈ ${season2024EstimatedPointsThroughRound.toLocaleString("sv-SE", {
               maximumFractionDigits: 1,
             })} p`,
+      pointsPerRoundText:
+        season2024Baseline === null ? "–" : formatPointsPerRound(season2024Baseline.pointsPerRound),
       seasonAverageText:
         season2024Baseline === null ? "–" : `${season2024Baseline.finalPoints} p`,
       note:
@@ -2071,7 +2077,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               <div>
                 <h2 className="text-base font-semibold text-white md:text-lg">Poängsnitt & poängprognos</h2>
                 <p className="mt-1 text-xs text-slate-400 md:text-sm">
-                  Komprimerad jämförelse: poäng efter vald omgång och snitt per säsong.
+                  Komprimerad jämförelse: poäng efter vald omgång, poängsnitt och säsongssnitt.
                 </p>
               </div>
               <span className="rounded-md border border-slate-600/70 bg-slate-900/60 px-2 py-1 text-[11px] text-slate-300">
@@ -2084,6 +2090,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   <tr className="border-b border-slate-700/60 text-slate-400">
                     <th className="px-2 py-2 font-medium">Säsong</th>
                     <th className="px-2 py-2 font-medium">Efter omg {comparisonRound}</th>
+                    <th className="px-2 py-2 font-medium">Poängsnitt</th>
                     <th className="px-2 py-2 font-medium">Snitt per säsong</th>
                   </tr>
                 </thead>
@@ -2095,6 +2102,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     >
                       <td className="px-2 py-2 font-semibold text-white">{row.seasonLabel}</td>
                       <td className="px-2 py-2">{row.pointsAfterRoundText}</td>
+                      <td className="px-2 py-2">{row.pointsPerRoundText}</td>
                       <td className="px-2 py-2">{row.seasonAverageText}</td>
                     </tr>
                   ))}
@@ -2109,7 +2117,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               ))}
             </div>
             <p className="mt-2 text-[11px] text-slate-500">
-              ≈ markerar prognosnivå för pågående säsong eller fallback när exakt omgångsvärde saknas.
+              2026-poängsnittet räknas på faktisk poäng hittills; 2025/2024 använder slutligt
+              säsongssnitt per omgång. ≈ markerar prognos/fallback.
             </p>
           </section>
         )}
