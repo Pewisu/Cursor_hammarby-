@@ -105,6 +105,13 @@ type MatchAnalysisAverage = {
   matches: number;
 };
 
+type PointsPaceRow = {
+  seasonLabel: string;
+  pointsPerRound: number;
+  projectedPoints: number;
+  note: string;
+};
+
 
 type SeasonComparisonMode = "full" | "played";
 type MatchAnalysisViewMode = "round" | "season-average";
@@ -457,6 +464,23 @@ const MATCH_ANALYSIS_AVAILABLE_SEASONS = Array.from(
 const DEFAULT_MATCH_ANALYSIS_SEASON =
   MATCH_ANALYSIS_AVAILABLE_SEASONS[MATCH_ANALYSIS_AVAILABLE_SEASONS.length - 1] ?? 2026;
 const PREFERRED_ROUND_FOCUS_SEASON = 2026;
+const ALLSVENSKAN_TOTAL_ROUNDS = 30;
+const HISTORICAL_POINTS_PACE_BASELINES: Array<{
+  seasonLabel: string;
+  pointsPerRound: number;
+  finalPoints: number;
+}> = [
+  {
+    seasonLabel: "2025",
+    pointsPerRound: 2.07,
+    finalPoints: 62,
+  },
+  {
+    seasonLabel: "2024",
+    pointsPerRound: 1.8,
+    finalPoints: 54,
+  },
+];
 
 function formatDate(date: string): string {
   const [year, month, day] = date.split("-");
@@ -541,6 +565,19 @@ function formatSimpleDelta(value: number | null, decimals = 0): string {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
   })}`;
+}
+
+function getMatchPoints(goalsFor: number, goalsAgainst: number): number {
+  if (goalsFor > goalsAgainst) return 3;
+  if (goalsFor === goalsAgainst) return 1;
+  return 0;
+}
+
+function formatPointsPerRound(value: number): string {
+  return value.toLocaleString("sv-SE", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 }
 
 function formatShotsValue(value: number): string {
@@ -1025,6 +1062,28 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     : [];
   const combinedOverview = mode === "combined" ? buildCombinedOverview(sortedMatches) : null;
   const current = mode === "combined" ? combinedOverview : roundOverview;
+  const season2026Points = sortedMatches.reduce(
+    (sum, match) => sum + getMatchPoints(match.hammarby.goals, match.opponent.goals),
+    0
+  );
+  const season2026RoundsPlayed = sortedMatches.length;
+  const season2026PointsPerRound =
+    season2026RoundsPlayed > 0 ? season2026Points / season2026RoundsPlayed : 0;
+  const season2026ProjectedPoints = season2026PointsPerRound * ALLSVENSKAN_TOTAL_ROUNDS;
+  const pointsPaceRows: PointsPaceRow[] = [
+    {
+      seasonLabel: "2026 (hittills)",
+      pointsPerRound: season2026PointsPerRound,
+      projectedPoints: season2026ProjectedPoints,
+      note: `${season2026Points} poäng på ${season2026RoundsPlayed} omgångar`,
+    },
+    ...HISTORICAL_POINTS_PACE_BASELINES.map((item) => ({
+      seasonLabel: item.seasonLabel,
+      pointsPerRound: item.pointsPerRound,
+      projectedPoints: item.finalPoints,
+      note: `${item.finalPoints} poäng i sluttabellen`,
+    })),
+  ];
   const effectiveMatchAnalysisViewMode: MatchAnalysisViewMode =
     mode === "combined" ? "season-average" : matchAnalysisViewMode;
 
@@ -1903,6 +1962,40 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             <p className="text-xs text-slate-500">Andel av boll</p>
           </div>
         </section>
+
+        {mode === "round" && (
+          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div>
+                <h2 className="text-lg font-semibold text-white">Poängsnitt & poängprognos</h2>
+                <p className="mt-1 text-sm text-slate-400">
+                  Jämför Hammarbys poäng per omgång i 2026 mot utfallet 2025 och 2024.
+                </p>
+              </div>
+              <span className="rounded-md border border-slate-600/70 bg-slate-900/60 px-3 py-1 text-xs text-slate-300">
+                Prognos baserad på 30 omgångar
+              </span>
+            </div>
+            <div className="mt-4 grid gap-3 md:grid-cols-3">
+              {pointsPaceRows.map((row) => (
+                <article
+                  key={`points-pace-${row.seasonLabel}`}
+                  className="rounded-xl border border-slate-700/60 bg-slate-900/60 p-4"
+                >
+                  <p className="text-xs uppercase tracking-wide text-slate-400">{row.seasonLabel}</p>
+                  <p className="mt-2 text-2xl font-semibold text-white">
+                    {formatPointsPerRound(row.pointsPerRound)}
+                  </p>
+                  <p className="text-xs text-slate-400">poäng per omgång</p>
+                  <p className="mt-3 text-sm font-medium text-blue-200">
+                    ≈ {Math.round(row.projectedPoints)} poäng över 30 omgångar
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">{row.note}</p>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         {mode === "round" && standoutPlayersForRound && (
           <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
