@@ -83,7 +83,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     oneLineSummary:
       "Kort version: Hammarby driver tempot och skapar flest lägen i serien, men Mjällby är ett topplag i omställningshot och i att bära boll in i box.",
     mobileTakeaways: [
-      "Hammarby är 2:a i tabellen (14p), Mjällby 5:a (13p) efter 7 omgångar.",
+      "Hammarby är 2:a i tabellen (14p), Mjällby 6:a (13p) efter 7 omgångar.",
       "Mjällby har släppt in alla sina mål i boxen (8 av 8).",
       "Hammarby toppar serien i avslut, skott på mål och bollinnehav per match.",
       "Mjällby är stabila i försvarsspelet men mer sårbara i defensiva omställningar.",
@@ -112,7 +112,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         title: "Mjällby just nu",
-        body: "5:a i tabellen (13p), 12-8 i mål. Jämna prestationer, starka i spelvändningar och boxattacker.",
+        body: "6:a i tabellen (13p), 12-8 i mål. Jämna prestationer, starka i spelvändningar och boxattacker.",
         tone: "amber",
       },
       {
@@ -255,7 +255,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         hammarbyValue: "2,43",
         hammarbyRank: "2:a av 16",
         opponentValue: "1,71",
-        opponentRank: "5:a av 16",
+        opponentRank: "6:a av 16",
         note: "Två topplag i produktion, men Hammarby ligger högre.",
       },
       {
