@@ -15,7 +15,14 @@ export interface TeamRoundStats {
 }
 
 export interface RoundMatchStats {
-  key: "omgang-1" | "omgang-2" | "omgang-3" | "omgang-4" | "omgang-5" | "omgang-6";
+  key:
+    | "omgang-1"
+    | "omgang-2"
+    | "omgang-3"
+    | "omgang-4"
+    | "omgang-5"
+    | "omgang-6"
+    | "omgang-7";
   gameweek: number;
   date: string;
   matchName: string;
@@ -249,6 +256,44 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       touchesInBox: 8,
       corners: 0,
       fouls: 14,
+      yellowCards: 2,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-7",
+    gameweek: 7,
+    date: "2026-05-09",
+    matchName: "IFK Göteborg - Hammarby, 0-1",
+    sourceUrl:
+      "https://bolldata.se/allsvenskan/matcher/2026/2026-05-09/ifk-goteborg-hammarby-0-1",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 1,
+      xg: 1.755,
+      shots: 13,
+      shotsOnTarget: 4,
+      possessionPercent: 55,
+      passes: 434,
+      passesSuccessful: 357,
+      touchesInBox: 18,
+      corners: 5,
+      fouls: 9,
+      yellowCards: 0,
+      redCards: 0,
+    },
+    opponent: {
+      teamName: "IFK Göteborg",
+      goals: 0,
+      xg: 1.327,
+      shots: 7,
+      shotsOnTarget: 1,
+      possessionPercent: 45,
+      passes: 360,
+      passesSuccessful: 264,
+      touchesInBox: 19,
+      corners: 4,
+      fouls: 20,
       yellowCards: 2,
       redCards: 0,
     },
