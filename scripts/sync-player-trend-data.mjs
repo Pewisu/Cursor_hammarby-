@@ -24,6 +24,15 @@ function toNumber(value, decimals = 3) {
   return Number(numeric.toFixed(decimals));
 }
 
+function pickNumber(...values) {
+  for (const value of values) {
+    if (value !== null && value !== undefined) {
+      return Number(value);
+    }
+  }
+  return 0;
+}
+
 async function fetchJson(url) {
   const response = await fetch(url, {
     headers: { "Content-Type": "application/json" },
@@ -40,6 +49,10 @@ function buildTypeScriptFile(serializedMatches) {
   passAccuracy: number;
   forwardPasses: number;
   forwardPassAccuracy: number;
+  passesToPenaltyArea: number;
+  passesToPenaltyAreaAccuracy: number;
+  crosses: number;
+  crossAccuracy: number;
   passesToFinalThird: number;
   finalThirdPassAccuracy: number;
   keyPasses: number;
@@ -120,6 +133,20 @@ async function main() {
             forwardPassAccuracy: pct(
               row.successfulForwardPasses ?? 0,
               row.forwardPasses ?? 0
+            ),
+            passesToPenaltyArea: row.passesToPenaltyArea ?? 0,
+            passesToPenaltyAreaAccuracy: pct(
+              row.successfulPassesToPenaltyArea ?? 0,
+              row.passesToPenaltyArea ?? 0
+            ),
+            crosses: pickNumber(row.crosses, row.cross, row.totalCrosses),
+            crossAccuracy: pct(
+              pickNumber(
+                row.successfulCrosses,
+                row.crossesSuccessful,
+                row.accurateCrosses
+              ),
+              pickNumber(row.crosses, row.cross, row.totalCrosses)
             ),
             passesToFinalThird: row.passesToFinalThird ?? 0,
             finalThirdPassAccuracy: pct(
