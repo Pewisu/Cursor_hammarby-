@@ -84,6 +84,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Kort version: Hammarby driver tempot och skapar flest lägen i serien, men Mjällby är ett topplag i omställningshot och i att bära boll in i box.",
     mobileTakeaways: [
       "Hammarby är 2:a i tabellen (14p), Mjällby 6:a (13p) efter 7 omgångar.",
+      "Hammarby och Sirius delar förstaplatsen i gjorda mål (17), men Hammarby har en match mer spelad.",
       "Mjällby har släppt in alla sina mål i boxen (8 av 8).",
       "Hammarby toppar serien i avslut, skott på mål och bollinnehav per match.",
       "Mjällby är stabila i försvarsspelet men mer sårbara i defensiva omställningar.",
@@ -107,7 +108,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "2:a i tabellen (14p), 17-5 i mål. Serieetta i flera offensiva volymmått per match.",
+        body: "2:a i tabellen (14p), 17-5 i mål. Delad etta i gjorda mål med Sirius (17 vardera).",
         tone: "emerald",
       },
       {
@@ -169,12 +170,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         note: "Båda lag ligger högt i serien, men Hammarby har högst volym hittills.",
       },
       {
-        label: "Mål / match",
-        hammarbyValue: "2,43",
-        opponentValue: "1,71",
-        hammarbyScore: 86,
-        opponentScore: 61,
-        note: "Hammarby ligger högre i målproduktion per match, men Mjällby är fortfarande topp-5.",
+        label: "Gjorda mål (totalt)",
+        hammarbyValue: "17",
+        opponentValue: "12",
+        hammarbyScore: 100,
+        opponentScore: 71,
+        note: "Hammarby delar serieledningen i gjorda mål med Sirius (17), men med en match mer spelad.",
       },
       {
         label: "xG / match",
@@ -251,12 +252,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     ],
     rankedMetrics: [
       {
-        label: "Mål / match",
-        hammarbyValue: "2,43",
-        hammarbyRank: "2:a av 16",
-        opponentValue: "1,71",
-        opponentRank: "6:a av 16",
-        note: "Två topplag i produktion, men Hammarby ligger högre.",
+        label: "Gjorda mål (totalt)",
+        hammarbyValue: "17",
+        hammarbyRank: "1:a av 16 (delad med Sirius)",
+        opponentValue: "12",
+        opponentRank: "3:a av 16",
+        note: "Hammarby och Sirius delar förstaplatsen i gjorda mål; Mjällby jagar bakom den duon.",
       },
       {
         label: "xG / match",

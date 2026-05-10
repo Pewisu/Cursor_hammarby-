@@ -12,6 +12,7 @@ const SPIDER_RING_STEPS = [20, 40, 60, 80, 100];
 const spiderShortLabels: Record<string, string> = {
   "Lyckade anfallsaktioner / match": "Anfallsaktioner",
   "Mål / match": "Mål",
+  "Gjorda mål (totalt)": "Gjorda mål",
   "xG / match": "xG",
   "Avslut / match": "Avslut",
   "Skott på mål / match": "Skott på mål",
