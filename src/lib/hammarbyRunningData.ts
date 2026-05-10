@@ -941,5 +941,164 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "metersPerMinute": 132.4
       }
     ]
+  },
+  {
+    "matchId": 6529878,
+    "round": "Omgång 7",
+    "date": "9 maj 2026",
+    "sourceUrl": "https://allsvenskan.se/matcher/2026/6529878/ifk-goteborg-mot-hammarby",
+    "homeTeam": "IFK Göteborg",
+    "awayTeam": "Hammarby",
+    "hammarbyWasHome": false,
+    "matchDurationMinutes": 97.4,
+    "hammarbyTeamDistanceMeters": 122727,
+    "hammarbyTeamMinutes": 1071.4,
+    "hammarbyTopSpeedKmh": 33.25,
+    "players": [
+      {
+        "name": "Markus Karlsson",
+        "shirtNumber": 8,
+        "position": "Mittfältare",
+        "distanceMeters": 12811,
+        "maxSpeedKmh": 30.5,
+        "minutesPlayed": 97.4,
+        "metersPerMinute": 131.53
+      },
+      {
+        "name": "Hampus Skoglund",
+        "shirtNumber": 2,
+        "position": "Back",
+        "distanceMeters": 12266,
+        "maxSpeedKmh": 30.57,
+        "minutesPlayed": 97.4,
+        "metersPerMinute": 125.93
+      },
+      {
+        "name": "Frank Junior Adjei",
+        "shirtNumber": 28,
+        "position": "Mittfältare",
+        "distanceMeters": 12201,
+        "maxSpeedKmh": 31.08,
+        "minutesPlayed": 97.4,
+        "metersPerMinute": 125.27
+      },
+      {
+        "name": "Frederik Winther",
+        "shirtNumber": 3,
+        "position": "Back",
+        "distanceMeters": 11223,
+        "maxSpeedKmh": 30.84,
+        "minutesPlayed": 97.4,
+        "metersPerMinute": 115.23
+      },
+      {
+        "name": "Victor Eriksson",
+        "shirtNumber": 4,
+        "position": "Back",
+        "distanceMeters": 10798,
+        "maxSpeedKmh": 33.25,
+        "minutesPlayed": 97.4,
+        "metersPerMinute": 110.86
+      },
+      {
+        "name": "Noah Persson",
+        "shirtNumber": 16,
+        "position": "Anfallare",
+        "distanceMeters": 10228,
+        "maxSpeedKmh": 28.65,
+        "minutesPlayed": 81.53,
+        "metersPerMinute": 125.45
+      },
+      {
+        "name": "Victor Lind",
+        "shirtNumber": 9,
+        "position": "Anfallare",
+        "distanceMeters": 9096,
+        "maxSpeedKmh": 30.43,
+        "minutesPlayed": 73.15,
+        "metersPerMinute": 124.35
+      },
+      {
+        "name": "Nahir Besara",
+        "shirtNumber": 20,
+        "position": "Mittfältare",
+        "distanceMeters": 8585,
+        "maxSpeedKmh": 29.79,
+        "minutesPlayed": 73.17,
+        "metersPerMinute": 117.33
+      },
+      {
+        "name": "Paulos Abraham",
+        "shirtNumber": 7,
+        "position": "Anfallare",
+        "distanceMeters": 8488,
+        "maxSpeedKmh": 29.35,
+        "minutesPlayed": 60.43,
+        "metersPerMinute": 140.46
+      },
+      {
+        "name": "Montader Madjed",
+        "shirtNumber": 26,
+        "position": "Anfallare",
+        "distanceMeters": 8388,
+        "maxSpeedKmh": 30.27,
+        "minutesPlayed": 81.65,
+        "metersPerMinute": 102.73
+      },
+      {
+        "name": "Warner Hahn",
+        "shirtNumber": 1,
+        "position": "Målvakt",
+        "distanceMeters": 4849,
+        "maxSpeedKmh": 23.14,
+        "minutesPlayed": 97.4,
+        "metersPerMinute": 49.78
+      },
+      {
+        "name": "Nikola Vasic",
+        "shirtNumber": 19,
+        "position": "Anfallare",
+        "distanceMeters": 4483,
+        "maxSpeedKmh": 30.46,
+        "minutesPlayed": 36.97,
+        "metersPerMinute": 121.26
+      },
+      {
+        "name": "Oscar Johansson",
+        "shirtNumber": 11,
+        "position": "Mittfältare",
+        "distanceMeters": 2997,
+        "maxSpeedKmh": 31.63,
+        "minutesPlayed": 24.23,
+        "metersPerMinute": 123.69
+      },
+      {
+        "name": "Oscar Steinke Brånby",
+        "shirtNumber": 31,
+        "position": "Back",
+        "distanceMeters": 2717,
+        "maxSpeedKmh": 32.75,
+        "minutesPlayed": 24.25,
+        "metersPerMinute": 112.04
+      },
+      {
+        "name": "Oliver Jordan Hagen",
+        "shirtNumber": 15,
+        "position": "Anfallare",
+        "distanceMeters": 1881,
+        "maxSpeedKmh": 28.59,
+        "minutesPlayed": 15.75,
+        "metersPerMinute": 119.43
+      },
+      {
+        "name": "Ibrahima Fofana",
+        "shirtNumber": 17,
+        "position": "Mittfältare",
+        "distanceMeters": 1716,
+        "maxSpeedKmh": 31.39,
+        "minutesPlayed": 15.87,
+        "metersPerMinute": 108.13
+      }
+    ]
   }
 ];
