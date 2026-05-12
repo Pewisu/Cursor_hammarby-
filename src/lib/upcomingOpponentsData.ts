@@ -46,6 +46,36 @@ export interface CupSpecialSection {
   tacticalKeys: string[];
 }
 
+export interface HeadToHeadSummaryCard {
+  title: string;
+  value: string;
+  note: string;
+  tone: "emerald" | "amber" | "blue";
+}
+
+export interface HeadToHeadMeeting {
+  date: string;
+  fixture: string;
+  result: string;
+  venue: "home" | "away";
+  outcome: "win" | "draw" | "loss";
+  hammarbyGoals: number;
+  opponentGoals: number;
+  hammarbyXg: number;
+  opponentXg: number;
+  hammarbyShots: number;
+  opponentShots: number;
+  sourceUrl: string;
+}
+
+export interface HeadToHeadSection {
+  sampleSize: number;
+  description: string;
+  summaryCards: HeadToHeadSummaryCard[];
+  trendBullets: string[];
+  matches: HeadToHeadMeeting[];
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -55,6 +85,7 @@ export interface UpcomingOpponentReport {
   mobileTakeaways: string[];
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
+  headToHead?: HeadToHeadSection;
   quickStatusCards: {
     title: string;
     body: string;
@@ -94,6 +125,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Twelve Insights: How did Mjällby perform this season? (hämtad 10 maj 2026)",
       "Bolldata: tabell + match-/lagstatistik för Hammarby och Mjällby efter 7 spelade omgångar",
       "Bolldata målhändelser: minutfönster och måltyper via matches/goals för spelade matcher",
+      "Bolldata: senaste 10 inbördes Allsvenska möten (matches + matches/team/stats), hämtad 12 maj 2026",
     ],
     cupSpecial: {
       title: "Cupspecial: vad som brukar avgöra i den här typen av match",
@@ -103,6 +135,178 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Säkra upp bakom boll direkt efter egna avslut för att stänga Mjällbys kontringslägen.",
         "Tvinga Mjällby ut i ytor där de måste slå inlägg - de är farligare när de får bära in bollen centralt.",
         "Tryck hårt i början av andra halvlek där Mjällby släppt in flest mål hittills (46-60).",
+      ],
+    },
+    headToHead: {
+      sampleSize: 10,
+      description:
+        "Senaste 10 inbördes Allsvenska möten visar både resultattrend och underliggande matchbild (xG + avslut).",
+      summaryCards: [
+        {
+          title: "Resultatrad (senaste 10)",
+          value: "5V-1O-4F",
+          note: "Hammarby leder målskillnaden med 16-10 totalt över dessa möten.",
+          tone: "emerald",
+        },
+        {
+          title: "Målprofil",
+          value: "2,6 mål/match",
+          note: "7 av 10 matcher gick över 2,5 mål. Båda lagen gjorde mål i 2 av 10.",
+          tone: "amber",
+        },
+        {
+          title: "Underliggande trend",
+          value: "xG 2,03-1,09",
+          note: "Hammarby har högre xG och fler avslut i snitt (15,6-10,3) i perioden.",
+          tone: "blue",
+        },
+      ],
+      trendBullets: [
+        "Hammarby har hållit nollan i 6 av de senaste 10 inbördes mötena.",
+        "Hammarby skapade högre xG än Mjällby i 8 av de senaste 10 mötena.",
+        "Endast 2 av de senaste 10 matcherna hade mål från båda lagen.",
+      ],
+      matches: [
+        {
+          date: "2026-04-04",
+          fixture: "Hammarby - Mjällby",
+          result: "3-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 0,
+          hammarbyXg: 1.8,
+          opponentXg: 0.74,
+          hammarbyShots: 16,
+          opponentShots: 14,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-04-04/hammarby-mjallby-3-0",
+        },
+        {
+          date: "2025-05-22",
+          fixture: "Hammarby - Mjällby",
+          result: "1-2",
+          venue: "home",
+          outcome: "loss",
+          hammarbyGoals: 1,
+          opponentGoals: 2,
+          hammarbyXg: 1.89,
+          opponentXg: 1.09,
+          hammarbyShots: 28,
+          opponentShots: 9,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-05-22/hammarby-mjallby-1-2",
+        },
+        {
+          date: "2025-04-18",
+          fixture: "Mjällby - Hammarby",
+          result: "3-1",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 1,
+          opponentGoals: 3,
+          hammarbyXg: 1.69,
+          opponentXg: 1.19,
+          hammarbyShots: 14,
+          opponentShots: 14,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-04-18/mjallby-hammarby-3-1",
+        },
+        {
+          date: "2024-07-28",
+          fixture: "Hammarby - Mjällby",
+          result: "3-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 0,
+          hammarbyXg: 2.63,
+          opponentXg: 0.67,
+          hammarbyShots: 15,
+          opponentShots: 7,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2024/2024-07-28/hammarby-mjallby-3-0",
+        },
+        {
+          date: "2024-05-15",
+          fixture: "Mjällby - Hammarby",
+          result: "3-0",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 0,
+          opponentGoals: 3,
+          hammarbyXg: 0.38,
+          opponentXg: 2.08,
+          hammarbyShots: 8,
+          opponentShots: 14,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2024/2024-05-15/mjallby-hammarby-3-0",
+        },
+        {
+          date: "2023-08-27",
+          fixture: "Mjällby - Hammarby",
+          result: "0-3",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 0,
+          hammarbyXg: 1.22,
+          opponentXg: 1.51,
+          hammarbyShots: 15,
+          opponentShots: 10,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2023/2023-08-27/mjallby-hammarby-0-3",
+        },
+        {
+          date: "2023-05-09",
+          fixture: "Hammarby - Mjällby",
+          result: "0-0",
+          venue: "home",
+          outcome: "draw",
+          hammarbyGoals: 0,
+          opponentGoals: 0,
+          hammarbyXg: 0.96,
+          opponentXg: 0.49,
+          hammarbyShots: 13,
+          opponentShots: 7,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2023/2023-05-09/hammarby-mjallby-0-0",
+        },
+        {
+          date: "2022-10-16",
+          fixture: "Mjällby - Hammarby",
+          result: "0-3",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 0,
+          hammarbyXg: 2.72,
+          opponentXg: 0.44,
+          hammarbyShots: 13,
+          opponentShots: 8,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2022/2022-10-16/mjallby-hammarby-0-3",
+        },
+        {
+          date: "2022-04-15",
+          fixture: "Hammarby - Mjällby",
+          result: "2-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 0,
+          hammarbyXg: 3.17,
+          opponentXg: 0.16,
+          hammarbyShots: 17,
+          opponentShots: 3,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2022/2022-04-15/hammarby-mjallby-2-0",
+        },
+        {
+          date: "2021-11-01",
+          fixture: "Mjällby - Hammarby",
+          result: "2-0",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 0,
+          opponentGoals: 2,
+          hammarbyXg: 3.85,
+          opponentXg: 2.51,
+          hammarbyShots: 17,
+          opponentShots: 17,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2021/2021-11-01/mjallby-hammarby-2-0",
+        },
       ],
     },
     quickStatusCards: [
