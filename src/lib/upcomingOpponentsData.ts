@@ -79,14 +79,15 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     round: 8,
     roundLabel: "Omgång 8",
     fixture: "Hammarby - Malmö FF",
-    dateLabel: "Inför 17 maj 2026 · uppdaterad med Bolldata lagdata",
+    dateLabel: "Inför 17 maj 2026 · uppdaterad med Bolldata lagdata + Twelve season report",
     oneLineSummary:
-      "Kort version: Hammarby leder många offensiva lagdata-mått i serien, medan Malmö FF är mer ojämna men fortfarande ett lag med tydlig offensiv kapacitet.",
+      "Kort version: Hammarby leder många offensiva lagdata-mått i serien, medan Twelve pekar på Malmö FF:s låga försvarshöjd och svaga defensiva transitionspel som tydliga angreppspunkter.",
     mobileTakeaways: [
       "Hammarby är 2:a i tabellen (14p), Malmö FF 7:a (10p) efter 7 omgångar.",
       "Hammarby är 1:a i avslut/match och bollinnehav, samt 2:a i skott på mål/match.",
       "Malmö FF har 12 gjorda och 11 insläppta mål hittills (målskillnad +1).",
       "Hammarby producerar högre xG per match (2,09) än Malmö FF (1,45).",
+      "Twelve: Malmö försvarar djupt (defensive action height 39,2 m) och återerövrar sällan inom 5 sekunder (9%).",
       "Malmö FF släpper in flest mål i tidig och sen matchfas (0-15 och 46-60).",
       "Nyckel till matchen: tryck i högt tempo och tvinga Malmö att försvara längre sekvenser utan boll.",
     ],
@@ -94,6 +95,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 14 maj 2026)",
       "Bolldata API: matches + matches/team/stats för Allsvenskan 2026",
       "Bolldata API: matches/goals för minutfönster och målprofil",
+      "Twelve season report: https://reports.twelve.football/reports/malm%C3%B6-ff-season-report-BnBVWBA525.pdf (14 maj 2026)",
     ],
     quickStatusCards: [
       {
@@ -103,7 +105,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         title: "Malmö FF just nu",
-        body: "7:a i tabellen (10p), 12-11 i mål. Har offensiv kapacitet men lägre stabilitet än topplagen hittills.",
+        body: "7:a i tabellen (10p), 12-11 i mål. Twelve visar låg försvarshöjd och svag defensiv transition.",
         tone: "amber",
       },
       {
@@ -113,41 +115,41 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
     ],
     opponentStyle: [
-      "Malmö FF ligger i det övre mittskiktet i offensiva volymmått men klart under Hammarby i skapad volym per match.",
-      "Lagets bollinnehav är relativt högt (50,3%), men inte tillräckligt för att styra matcher lika tydligt som Hammarby.",
-      "De producerar fler defensiva aktioner än Hammarby per match, vilket ofta tyder på mer försvarstid.",
-      "Malmö kan straffa misstag, men deras lagdata visar större variation i prestation från match till match.",
+      "Twelve beskriver Malmö som ett lag med låg blockhöjd och passivare försvarsarbete i stora delar av matcherna.",
+      "I anfall växlar Malmö mellan längre bollar och bollbärande inträden i box snarare än tydlig inläggsprofil.",
+      "Defensiva transitionsiffror i Twelve (bland annat recoveries within 5s på 9%) pekar på sårbarhet direkt efter bolltapp.",
+      "Malmö kan ändå skapa volym i etablerat spel, men lagets totala prestationskurva är mer ojämn än Hammarbys.",
     ],
     styleProfile: [
       {
-        label: "Offensiv volym",
-        value: "22,00 lyckade anfallsaktioner/match",
-        score: 80,
-        explanation: "Bra nivå, men tydligt bakom Hammarbys 27,43 i samma mått.",
+        label: "Försvarshöjd (Twelve)",
+        value: "39,2 m defensive action height",
+        score: 30,
+        explanation: "Låg blockhöjd enligt Twelve och mer försvar nära eget mål än toppkonkurrenterna.",
       },
       {
-        label: "Chance quality",
-        value: "xG 1,45/match",
+        label: "Defensiv transition (Twelve)",
+        value: "Recoveries within 5s: 9%",
+        score: 25,
+        explanation: "Återerövrar sällan snabbt efter bolltapp, vilket öppnar fönster för motståndaren.",
+      },
+      {
+        label: "Direkthetsprofil (Twelve)",
+        value: "Long ball 15% · field tilt 49%",
+        score: 54,
+        explanation: "Malmö spelar relativt direkt men utan att dominera territoriet lika tydligt.",
+      },
+      {
+        label: "Offensiv output (Bolldata)",
+        value: "xG 1,45 · 14,00 avslut/match",
         score: 66,
-        explanation: "Malmö skapar kvalitativa lägen, men inte i samma frekvens som Hammarby (2,09).",
+        explanation: "Malmö har en fungerande offensiv men ligger klart under Hammarbys volym och chansnivå.",
       },
       {
-        label: "Defensiv arbetsmängd",
-        value: "83,57 lyckade defensiva aktioner/match",
-        score: 83,
-        explanation: "Hög arbetsmängd utan boll; Malmö behöver ofta försvara fler sekvenser än Hammarby.",
-      },
-      {
-        label: "Bollkontroll",
-        value: "50,3% bollinnehav",
-        score: 81,
-        explanation: "Ett bollskickligt lag, men med lägre kontroll än seriens mest dominerande lag.",
-      },
-      {
-        label: "Vertikal passningsvolym",
-        value: "139,71 framåtpassningar/match",
-        score: 76,
-        explanation: "De spelar framåt, men med lägre tempo och volym jämfört med Hammarby.",
+        label: "Motståndarhot (Twelve)",
+        value: "Opp. np xG 1,62",
+        score: 32,
+        explanation: "Twelve markerar att Malmö släpper till för många kvalitativa chanser mot eget mål.",
       },
     ],
     spiderComparison: [
