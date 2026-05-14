@@ -46,6 +46,36 @@ export interface CupSpecialSection {
   tacticalKeys: string[];
 }
 
+export interface HeadToHeadSummaryCard {
+  title: string;
+  value: string;
+  note: string;
+  tone: "emerald" | "amber" | "blue";
+}
+
+export interface HeadToHeadMeeting {
+  date: string;
+  fixture: string;
+  result: string;
+  venue: "home" | "away";
+  outcome: "win" | "draw" | "loss";
+  hammarbyGoals: number;
+  opponentGoals: number;
+  hammarbyXg: number;
+  opponentXg: number;
+  hammarbyShots: number;
+  opponentShots: number;
+  sourceUrl: string;
+}
+
+export interface HeadToHeadSection {
+  sampleSize: number;
+  description: string;
+  summaryCards: HeadToHeadSummaryCard[];
+  trendBullets: string[];
+  matches: HeadToHeadMeeting[];
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -55,6 +85,7 @@ export interface UpcomingOpponentReport {
   mobileTakeaways: string[];
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
+  headToHead?: HeadToHeadSection;
   quickStatusCards: {
     title: string;
     body: string;
@@ -95,8 +126,181 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 14 maj 2026)",
       "Bolldata API: matches + matches/team/stats för Allsvenskan 2026",
       "Bolldata API: matches/goals för minutfönster och målprofil",
+      "Bolldata API: senaste 10 inbördes möten Hammarby-Malmö (matches + matches/team/stats), hämtad 14 maj 2026",
       "Twelve season report: https://reports.twelve.football/reports/malm%C3%B6-ff-season-report-BnBVWBA525.pdf (14 maj 2026)",
     ],
+    headToHead: {
+      sampleSize: 10,
+      description:
+        "Senaste 10 inbördes Allsvenska möten mellan Hammarby och Malmö FF, med resultat + underliggande matchdata.",
+      summaryCards: [
+        {
+          title: "Resultatrad (senaste 10)",
+          value: "3V-3O-4F",
+          note: "Malmö leder målskillnaden 16-14 över perioden, men Hammarby har vunnit 2 av de 3 senaste.",
+          tone: "amber",
+        },
+        {
+          title: "Målprofil",
+          value: "3,0 mål/match",
+          note: "6 av 10 matcher gick över 2,5 mål. Båda lagen gjorde mål i 6 av 10.",
+          tone: "blue",
+        },
+        {
+          title: "Underliggande trend",
+          value: "xG 0,98-1,66",
+          note: "Malmö har högre snitt-xG och fler avslut i perioden (14,1 mot 10,3).",
+          tone: "amber",
+        },
+      ],
+      trendBullets: [
+        "Hammarby har tagit 7 av de 9 senaste poängen mot Malmö (2 segrar, 1 oavgjord).",
+        "Malmö har högre xG än Hammarby i 7 av de senaste 10 inbördes mötena.",
+        "Hammarby har hållit nollan i 3 av de senaste 10 mötena.",
+      ],
+      matches: [
+        {
+          date: "2025-10-27",
+          fixture: "Malmö FF - Hammarby",
+          result: "1-3",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 1,
+          hammarbyXg: 1.17,
+          opponentXg: 1.6,
+          hammarbyShots: 14,
+          opponentShots: 13,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-10-27/malmo-ff-hammarby-1-3",
+        },
+        {
+          date: "2025-04-23",
+          fixture: "Hammarby - Malmö FF",
+          result: "2-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 0,
+          hammarbyXg: 0.93,
+          opponentXg: 0.65,
+          hammarbyShots: 12,
+          opponentShots: 9,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-04-23/hammarby-malmo-ff-2-0",
+        },
+        {
+          date: "2024-11-02",
+          fixture: "Hammarby - Malmö FF",
+          result: "2-2",
+          venue: "home",
+          outcome: "draw",
+          hammarbyGoals: 2,
+          opponentGoals: 2,
+          hammarbyXg: 2,
+          opponentXg: 0.74,
+          hammarbyShots: 13,
+          opponentShots: 10,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2024/2024-11-02/hammarby-malmo-ff-2-2",
+        },
+        {
+          date: "2024-04-07",
+          fixture: "Malmö FF - Hammarby",
+          result: "2-0",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 0,
+          opponentGoals: 2,
+          hammarbyXg: 0.35,
+          opponentXg: 2.52,
+          hammarbyShots: 6,
+          opponentShots: 23,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2024/2024-04-07/malmo-ff-hammarby-2-0",
+        },
+        {
+          date: "2023-09-17",
+          fixture: "Hammarby - Malmö FF",
+          result: "1-3",
+          venue: "home",
+          outcome: "loss",
+          hammarbyGoals: 1,
+          opponentGoals: 3,
+          hammarbyXg: 1.02,
+          opponentXg: 1.48,
+          hammarbyShots: 13,
+          opponentShots: 9,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2023/2023-09-17/hammarby-malmo-ff-1-3",
+        },
+        {
+          date: "2023-04-30",
+          fixture: "Malmö FF - Hammarby",
+          result: "4-2",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 2,
+          opponentGoals: 4,
+          hammarbyXg: 1.02,
+          opponentXg: 2.2,
+          hammarbyShots: 13,
+          opponentShots: 16,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2023/2023-04-30/malmo-ff-hammarby-4-2",
+        },
+        {
+          date: "2022-10-01",
+          fixture: "Malmö FF - Hammarby",
+          result: "0-0",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 0,
+          opponentGoals: 0,
+          hammarbyXg: 0.47,
+          opponentXg: 0.9,
+          hammarbyShots: 8,
+          opponentShots: 10,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2022/2022-10-01/malmo-ff-hammarby-0-0",
+        },
+        {
+          date: "2022-05-02",
+          fixture: "Hammarby - Malmö FF",
+          result: "0-0",
+          venue: "home",
+          outcome: "draw",
+          hammarbyGoals: 0,
+          opponentGoals: 0,
+          hammarbyXg: 0.34,
+          opponentXg: 0.46,
+          hammarbyShots: 8,
+          opponentShots: 4,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2022/2022-05-02/hammarby-malmo-ff-0-0",
+        },
+        {
+          date: "2021-08-29",
+          fixture: "Hammarby - Malmö FF",
+          result: "2-1",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 1,
+          hammarbyXg: 1.74,
+          opponentXg: 2.88,
+          hammarbyShots: 11,
+          opponentShots: 27,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2021/2021-08-29/hammarby-malmo-ff-2-1",
+        },
+        {
+          date: "2021-04-10",
+          fixture: "Malmö FF - Hammarby",
+          result: "3-2",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 2,
+          opponentGoals: 3,
+          hammarbyXg: 0.8,
+          opponentXg: 3.17,
+          hammarbyShots: 5,
+          opponentShots: 20,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2021/2021-04-10/malmo-ff-hammarby-3-2",
+        },
+      ],
+    },
     quickStatusCards: [
       {
         title: "Hammarby just nu",

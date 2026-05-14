@@ -9,11 +9,46 @@ export const metadata: Metadata = {
     "Taktisk förhandsanalys av kommande motståndare med datadriven jämförelse mot Hammarby.",
 };
 
+const numberFormatter = new Intl.NumberFormat("sv-SE", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
+function formatShortDate(dateValue: string) {
+  const parsedDate = new Date(`${dateValue}T12:00:00Z`);
+  if (Number.isNaN(parsedDate.getTime())) {
+    return dateValue;
+  }
+  return new Intl.DateTimeFormat("sv-SE", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(parsedDate);
+}
+
+function formatDecimal(value: number) {
+  return numberFormatter.format(value);
+}
+
 export default function UpcomingOpponentsPage() {
   const toneStyles: Record<"emerald" | "amber" | "blue", string> = {
     emerald: "border-emerald-500/30 bg-emerald-500/10",
     amber: "border-amber-400/30 bg-amber-400/10",
     blue: "border-slate-400/40 bg-slate-600/30",
+  };
+  const outcomeStyles: Record<"win" | "draw" | "loss", string> = {
+    win: "border-emerald-500/35 bg-emerald-500/15 text-emerald-100",
+    draw: "border-slate-400/40 bg-slate-500/15 text-slate-100",
+    loss: "border-rose-500/35 bg-rose-500/15 text-rose-100",
+  };
+  const outcomeLabels: Record<"win" | "draw" | "loss", string> = {
+    win: "HIF-seger",
+    draw: "Oavgjort",
+    loss: "HIF-förlust",
+  };
+  const venueLabels: Record<"home" | "away", string> = {
+    home: "Hemma",
+    away: "Borta",
   };
   const getOpponentName = (fixture: string) =>
     fixture
@@ -191,6 +226,96 @@ export default function UpcomingOpponentsPage() {
                 ))}
               </div>
             </details>
+
+            {report.headToHead && (
+              <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
+                <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                  Inbördes möten: senaste {report.headToHead.sampleSize} (visa)
+                </summary>
+                <p className="mt-2 text-sm text-slate-300">{report.headToHead.description}</p>
+
+                <div className="mt-3 grid gap-3 lg:grid-cols-3">
+                  {report.headToHead.summaryCards.map((card) => (
+                    <article
+                      key={card.title}
+                      className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
+                        {card.title}
+                      </p>
+                      <p className="mt-2 text-lg font-semibold text-slate-100">{card.value}</p>
+                      <p className="mt-1 text-xs text-slate-300">{card.note}</p>
+                    </article>
+                  ))}
+                </div>
+
+                <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                  {report.headToHead.trendBullets.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="mt-1 text-emerald-300">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-4 overflow-x-auto">
+                  <table className="min-w-full text-left text-xs text-slate-200">
+                    <thead>
+                      <tr className="border-b border-slate-600/70 text-[11px] uppercase tracking-wide text-slate-300">
+                        <th className="px-2 py-2">Datum</th>
+                        <th className="px-2 py-2">Match</th>
+                        <th className="px-2 py-2">Utfall</th>
+                        <th className="px-2 py-2">xG (HIF-Malmö)</th>
+                        <th className="px-2 py-2">Avslut (HIF-Malmö)</th>
+                        <th className="px-2 py-2">Källa</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {report.headToHead.matches.map((meeting) => (
+                        <tr
+                          key={`${meeting.date}-${meeting.fixture}`}
+                          className="border-b border-slate-700/55 align-top"
+                        >
+                          <td className="px-2 py-2">
+                            <p>{formatShortDate(meeting.date)}</p>
+                            <p className="text-[11px] text-slate-400">{venueLabels[meeting.venue]}</p>
+                          </td>
+                          <td className="px-2 py-2">
+                            <p>{meeting.fixture}</p>
+                            <p className="text-[11px] text-slate-400">
+                              Slutresultat: {meeting.result} (HIF {meeting.hammarbyGoals}-{meeting.opponentGoals})
+                            </p>
+                          </td>
+                          <td className="px-2 py-2">
+                            <span
+                              className={`inline-flex rounded border px-2 py-0.5 text-[11px] ${outcomeStyles[meeting.outcome]}`}
+                            >
+                              {outcomeLabels[meeting.outcome]}
+                            </span>
+                          </td>
+                          <td className="px-2 py-2">
+                            {formatDecimal(meeting.hammarbyXg)}-{formatDecimal(meeting.opponentXg)}
+                          </td>
+                          <td className="px-2 py-2">
+                            {meeting.hammarbyShots}-{meeting.opponentShots}
+                          </td>
+                          <td className="px-2 py-2">
+                            <a
+                              href={meeting.sourceUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-emerald-200 underline decoration-emerald-400/70 underline-offset-2 hover:text-emerald-100"
+                            >
+                              Bolldata
+                            </a>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </details>
+            )}
 
                   <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                     <summary className="cursor-pointer text-sm font-semibold text-slate-100">
