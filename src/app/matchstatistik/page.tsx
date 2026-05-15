@@ -67,7 +67,7 @@ export default function MatchStatisticsRoutePage() {
 
           <Link
             href="/matchstatistik/kommande"
-            className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800 md:col-span-2"
+            className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
           >
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
               🧭
@@ -79,6 +79,23 @@ export default function MatchStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
               Öppna motståndaranalys →
+            </p>
+          </Link>
+
+          <Link
+            href="/matchstatistik/hammarby-vs-htff"
+            className="group rounded-2xl border border-amber-400/30 bg-slate-800/80 p-6 transition-colors hover:border-amber-300/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-amber-400/20 text-amber-300">
+              🔄
+            </div>
+            <h2 className="text-xl font-semibold text-white">Hammarby vs HTFF</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Intern jämförelse mellan A-laget och talanglagets spelstil och nyckeltal
+              från Twelve Football 2026.
+            </p>
+            <p className="mt-4 text-sm font-medium text-amber-300 group-hover:text-amber-200">
+              Öppna intern jämförelse →
             </p>
           </Link>
         </div>
