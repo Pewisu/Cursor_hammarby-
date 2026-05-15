@@ -230,7 +230,7 @@ export default function UpcomingOpponentsPage() {
             {report.headToHead && (
               <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                 <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                  Inbördes möten: senaste {report.headToHead.sampleSize} (visa)
+                  Tidigare möten: senaste {report.headToHead.sampleSize} (visa)
                 </summary>
                 <p className="mt-2 text-sm text-slate-300">{report.headToHead.description}</p>
 
@@ -265,8 +265,8 @@ export default function UpcomingOpponentsPage() {
                         <th className="px-2 py-2">Datum</th>
                         <th className="px-2 py-2">Match</th>
                         <th className="px-2 py-2">Utfall</th>
-                        <th className="px-2 py-2">xG (HIF-Malmö)</th>
-                        <th className="px-2 py-2">Avslut (HIF-Malmö)</th>
+                        <th className="px-2 py-2">xG (HIF-{opponentName})</th>
+                        <th className="px-2 py-2">Avslut (HIF-{opponentName})</th>
                         <th className="px-2 py-2">Källa</th>
                       </tr>
                     </thead>
