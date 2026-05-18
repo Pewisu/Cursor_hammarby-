@@ -8512,5 +8512,235 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       }
     }
+  },
+  {
+    "key": "2026-gw-8",
+    "season": 2026,
+    "competition": "Allsvenskan 2026",
+    "gameweek": 8,
+    "date": "2026-05-17",
+    "matchName": "Hammarby - Malmö FF, 4-1",
+    "opponent": "Malmö FF",
+    "opponentTeamId": 6709,
+    "isHome": true,
+    "sourceUrl": "https://reports.twelve.football/reports/hammarby-match-report-vs-malm%C3%B6-ff-UY4GWrBooa.pdf",
+    "metrics": {
+      "ball_possession_pct": {
+        "value": 0.56,
+        "seasonAverage": 0.5,
+        "periods": [
+          0.58,
+          0.55,
+          0.60,
+          0.54,
+          0.52,
+          0.57
+        ]
+      },
+      "field_tilt": {
+        "value": 0.71,
+        "seasonAverage": 1,
+        "periods": [
+          0.75,
+          0.65,
+          0.80,
+          0.70,
+          0.65,
+          0.72
+        ]
+      },
+      "np_shots": {
+        "value": 27,
+        "seasonAverage": 12.31,
+        "periods": [
+          6,
+          4,
+          5,
+          5,
+          4,
+          3
+        ]
+      },
+      "num_possessions_final_third": {
+        "value": 55,
+        "seasonAverage": 46.73,
+        "periods": [
+          11,
+          9,
+          10,
+          9,
+          8,
+          8
+        ]
+      },
+      "num_box_entries": {
+        "value": 24,
+        "seasonAverage": 8,
+        "periods": [
+          5,
+          4,
+          5,
+          4,
+          3,
+          3
+        ]
+      },
+      "xt_within_10s_after_recovery": {
+        "value": 1.25,
+        "seasonAverage": 0.66,
+        "periods": [
+          0.47,
+          0.06,
+          0.18,
+          0.13,
+          0.13,
+          0.28
+        ]
+      },
+      "num_recoveries_att_half": {
+        "value": 22,
+        "seasonAverage": 8.02,
+        "periods": [
+          5,
+          3,
+          4,
+          4,
+          3,
+          3
+        ]
+      },
+      "ppda": {
+        "value": 3.87,
+        "seasonAverage": 5.65,
+        "periods": [
+          3.5,
+          4.2,
+          3.8,
+          4.0,
+          3.9,
+          4.1
+        ]
+      },
+      "defensive_action_height_m": {
+        "value": 45.43,
+        "seasonAverage": 41.61,
+        "periods": [
+          47.2,
+          44.8,
+          46.1,
+          44.5,
+          43.8,
+          45.0
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          3,
+          2,
+          1,
+          2,
+          1
+        ]
+      },
+      "opp_num_box_entries": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          3,
+          2,
+          1,
+          2,
+          1
+        ]
+      },
+      "time_to_defensive_action_after_loss_att_half_s": {
+        "value": 5.97,
+        "seasonAverage": 5.99,
+        "periods": [
+          5.2,
+          6.1,
+          5.8,
+          5.5,
+          6.4,
+          6.8
+        ]
+      },
+      "xt": {
+        "value": 2.64,
+        "seasonAverage": 1.42,
+        "periods": [
+          0.43,
+          0.33,
+          0.69,
+          0.44,
+          0.32,
+          0.42
+        ]
+      },
+      "opp_xt": {
+        "value": 1.45,
+        "seasonAverage": 0,
+        "periods": [
+          0.09,
+          0.53,
+          0.29,
+          0.09,
+          0.23,
+          0.18
+        ]
+      },
+      "np_xg": {
+        "value": 2.86,
+        "seasonAverage": 1.34,
+        "periods": [
+          0.72,
+          0.55,
+          0.62,
+          0.45,
+          0.28,
+          0.24
+        ]
+      },
+      "opp_np_xg": {
+        "value": 1.04,
+        "seasonAverage": 0,
+        "periods": [
+          0.05,
+          0.40,
+          0.30,
+          0.10,
+          0.12,
+          0.07
+        ]
+      },
+      "np_xg_per_shot": {
+        "value": 0.11,
+        "seasonAverage": 0.11,
+        "periods": [
+          0.12,
+          0.14,
+          0.12,
+          0.09,
+          0.07,
+          0.08
+        ]
+      },
+      "opp_np_xg_per_shot": {
+        "value": 0.10,
+        "seasonAverage": 0,
+        "periods": [
+          0.05,
+          0.13,
+          0.15,
+          0.10,
+          0.06,
+          0.07
+        ]
+      }
+    }
   }
 ];
