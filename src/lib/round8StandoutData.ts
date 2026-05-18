@@ -87,7 +87,7 @@ export const round8Standout: StandoutPlayerData = {
   ],
   tacticalNotes: [
     "Besara spelade som tia bakom Abraham och styrde Hammarbys kreativitet centralt – exakt den roll som beskrivs i positionsprofilen.",
-    "Heatmap visar extrem aktivitet i höger halvrum och centralt i motståndarens 16-meterslinje – precis där GAIS släpper in mål.",
+    "Heatmap visar extrem aktivitet i höger halvrum och centralt i motståndarens 16-meterslinje – zoner där Malmö FF var som svagast.",
     "Skapade 8 chanser (lika med de bästa i hela Allsvenskan en enskild omgång) och hade direkt inblandning i alla 4 mål.",
     "xGOT 2,36 (= förväntad målvärde baserat på var skotten träffade) visar att Besara inte bara sköt ofta utan placerade bollen med precision.",
     "Trots hög offensiv output (9 skott) behöll passningstrygghet – 82% precision under en match där han sökte riskpassningar konstant.",
