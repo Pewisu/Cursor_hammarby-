@@ -914,16 +914,17 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           position: "Centralt mittfält (dubbelankare)",
           formation: "CDM + CDM",
           requiredQualities: [
-            "Hammarbys spel: Passningsvolym och precision (86%+) – kontrollera tempot och styra matchbilden",
             "Hammarbys spel: Counterpress – omedelbar press vid bolltapp (vi återerövrar inom 5s, 14% av gångerna)",
-            "Hammarbys spel: Framåtpassning – starta anfall snabbt, bryta linjer vertikalt",
-            "Hammarbys spel: Progressiva passningar – driva bollen framåt genom mittfältet",
             "Mot GAIS: Andrabollsvinst – GAIS 55+ långa bollar landar här. Vinner vi andrabollen vinner vi matchen.",
             "Mot GAIS: Täcka djupled – hindra GAIS centrala löpare vid omställningar",
-            "Komplementärt par: en motor (volym, framåt), en ankare (recoveries, täckande)",
+            "PASSNINGSROLL 1 (motorn): Hög volym (60+ passningar/match), kort-kort-kort för att sätta tempot. Styr cirkulationen, flyttar bollen sidledes snabbt och bestämmer rytmen. Hög precision (88%+) – FÅR INTE tappa enkla bollar mot GAIS counterpress.",
+            "PASSNINGSROLL 1 (motorn): Progressiva passningar – driva bollen framåt vertikalt genom mittfältet med linjebrytande passnignar när ytan öppnas.",
+            "PASSNINGSROLL 2 (ankaret): Positionell disciplin – säkra mittfältet och vara det trygga utspelsalternativet vid press. Enklare passningsval men felfri.",
+            "PASSNINGSROLL 2 (ankaret): Recoveries och duellvinster – förstöra GAIS omställningar och vinna andrabollen. Passningen EFTER bollvinsten: snabb, säker, framåtriktad.",
+            "Komplementärt par: motorn dikterar tempot med boll, ankaret skyddar utan boll. Tillsammans skapar de 86%+ passprecision och 77+ progressiva passningar/match.",
           ],
           reasoning:
-            "Dubbelankaret ÄR Hammarbys spelstil. Det är härifrån vi kontrollerar matchen med 61% bollinnehav och 86% passningsprecision. Mot GAIS tillkommer en extra uppgift: vinna andrabollen vid deras direktspel. Det laget som äger mittfältet äger matchen.",
+            "Dubbelankaret ÄR Hammarbys spelstil. Det är härifrån vi kontrollerar matchen med 61% bollinnehav. Passningstypen avgör: motorn ska vara den som aldrig tappar bollen och styr tempot (tänk metronompassare), ankaret ska vara den som vinner duellen och sedan spelar den enkla framåtpassningen som startar anfallet. Mot GAIS är andrabollsvinsterna lika viktiga som passningarna.",
         },
         {
           position: "Offensiv mittfältare (tia)",
@@ -931,12 +932,16 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           requiredQualities: [
             "Hammarbys spel: Kreativitet och nyckelpassningar (5+/match) – hjärtat i vår chansskapning",
             "Hammarbys spel: xA-produktion – den sista passningen som öppnar låst försvar",
-            "Hammarbys spel: Pressarbete bakåt – ledande i counterpressfasen",
             "Hammarbys spel: Tempo-accelerator – styra NÄR vi ökar rytmen i anfallet",
+            "PASSNINGSTYP: Linjebrytare – passningar MELLAN motståndarens linjer, inte runt dem. Måste kunna hitta fickor mellan GAIS mittfält och backlinje.",
+            "PASSNINGSTYP: Sista passningen in i box – passningar till straffområdet med precision och timing. xA-kvalitet i varje passningsval.",
+            "PRESSROLL: Första triggern i mittfältspressen – positionerar sig mellan GAIS mittfält och backlinje för att skugga deras centrala uppspelsspelare.",
+            "PRESSROLL: Stänger centrala passningsvägar – tvingar GAIS att slå lång (det vill vi, för våra CB:ar vinner luftduellerna).",
+            "PRESSROLL: Vid bolltapp i anfallszon – OMEDELBAR counterpress. Tian ska vara först på bollen inom 2-3 sekunder, antingen vinna den eller fördröja GAIS omställning.",
             "Mot GAIS: Hitta mellanrum i kompakt försvar (GAIS xGA 0,86 – svårt att bryta igenom)",
           ],
           reasoning:
-            "Tian är Hammarbys matchvinnare i etablerat anfall. Mot GAIS kompakta block (xGA 0,86/match) är det denna position som måste avgöra med passningar mellan linjerna. Vår höga nyckelpassningsfrekvens (5,38/match, 1:a i ligan) levereras härifrån.",
+            "Tian har en dubbelroll: MED BOLL är hen matchvinnaren som levererar nyckelpassningar mellan linjerna (5,38/match, 1:a i ligan). UTAN BOLL är hen presstriggern som stänger GAIS centrala framspelsmöjligheter och tvingar dem att slå lång – direkt in i våra luftdominerande CB:ar. Mot GAIS kompakta block (xGA 0,86) krävs en spelare som ser passningar ingen annan ser OCH jobbar lika hårt utan boll.",
         },
         {
           position: "Högerytter / halvrum",
