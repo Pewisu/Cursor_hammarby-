@@ -2035,6 +2035,33 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </div>
+        {mode === "round" && round === 8 && (
+          <div className="border-t border-slate-700/40 bg-[#0f172a]/95">
+            <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
+              <a
+                href="#matchgenomgang"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
+              >
+                <span>📊</span>
+                <span>Matchgenomgång</span>
+              </a>
+              <a
+                href="#matchens-spelare"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors hover:border-amber-300/60 hover:bg-amber-400/20"
+              >
+                <span>⭐</span>
+                <span>Omgångens spelare</span>
+              </a>
+              <a
+                href="#prediction-vs-outcome"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+              >
+                <span>🎯</span>
+                <span>Analys vs Utfall</span>
+              </a>
+            </div>
+          </div>
+        )}
       </header>
 
       <main className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-8">
@@ -2075,49 +2102,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         </section>
 
-        {mode === "round" && round === 8 && (
-          <section className="grid gap-3 md:grid-cols-3">
-            <a
-              href="#matchgenomgang"
-              className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-5 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
-            >
-              <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/20 text-blue-300 text-lg">
-                📊
-              </div>
-              <h3 className="text-sm font-semibold text-white">Matchgenomgång</h3>
-              <p className="mt-1 text-xs text-slate-400">
-                Nyckeltal, KPI-jämförelse och matchanalys (Twelve + Bolldata).
-              </p>
-              <p className="mt-2 text-xs font-medium text-blue-300 group-hover:text-blue-200">↓ Scrolla</p>
-            </a>
-            <a
-              href="#matchens-spelare"
-              className="group rounded-2xl border border-amber-400/30 bg-slate-800/80 p-5 transition-colors hover:border-amber-300/60 hover:bg-slate-800"
-            >
-              <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-400/20 text-amber-300 text-lg">
-                ⭐
-              </div>
-              <h3 className="text-sm font-semibold text-white">Omgångens spelare</h3>
-              <p className="mt-1 text-xs text-slate-400">
-                Nahir Besara – 9.8 i betyg, hattrick, 8 skapade chanser.
-              </p>
-              <p className="mt-2 text-xs font-medium text-amber-300 group-hover:text-amber-200">↓ Scrolla</p>
-            </a>
-            <a
-              href="#prediction-vs-outcome"
-              className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-5 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
-            >
-              <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300 text-lg">
-                🎯
-              </div>
-              <h3 className="text-sm font-semibold text-white">Analys vs Utfall</h3>
-              <p className="mt-1 text-xs text-slate-400">
-                Stämde förhandsanalysen? 91% träffsäkerhet.
-              </p>
-              <p className="mt-2 text-xs font-medium text-emerald-300 group-hover:text-emerald-200">↓ Scrolla</p>
-            </a>
-          </section>
-        )}
 
         {mode === "round" && (
           <section id="matchgenomgang" className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4 md:p-5">
