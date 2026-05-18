@@ -104,6 +104,23 @@ const MATCH_DETAILS_QUERY = `query match(
   }
 }`;
 
+const MATCH_STATS_QUERY = `query matchStats(
+  $id: Int!
+  $configLeagueName: String!
+  $configSeasonStartYear: Int!
+) {
+  matchStats(
+    id: $id
+    configLeagueName: $configLeagueName
+    configSeasonStartYear: $configSeasonStartYear
+  ) {
+    totalStats {
+      homeTeamDistance
+      visitingTeamDistance
+    }
+  }
+}`;
+
 function toNumber(value) {
   if (value === null || value === undefined || value === "") return null;
   const numeric = Number(value);
@@ -328,6 +345,28 @@ async function fetchAllsvenskanMatchDetails(matchId) {
   const payload = await response.json();
   if (payload?.errors?.length) return null;
   return payload?.data?.match?.match ?? null;
+}
+
+async function fetchAllsvenskanMatchStats(matchId) {
+  const response = await fetch(ALLSVENSKAN_GQL_URI, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: MATCH_STATS_QUERY,
+      variables: {
+        id: matchId,
+        configLeagueName: ALLSVENSKAN_LEAGUE_NAME,
+        configSeasonStartYear: ALLSVENSKAN_SEASON_START_YEAR,
+      },
+    }),
+  });
+  if (!response.ok) return null;
+  const payload = await response.json();
+  if (payload?.errors?.length) return null;
+  return payload?.data?.matchStats ?? null;
 }
 
 function deriveDurationFromAllsvenskanEvents(matchDetails, fallbackMinutes) {
@@ -610,6 +649,7 @@ async function main() {
     );
     process.exit(0);
   }
+  const allsvenskanMatchStats = await fetchAllsvenskanMatchStats(DEFAULT_MATCH_ID);
   if (!targetMatch && allsvenskanMatchDetails.status !== "FINISHED") {
     console.log(
       `Match ${DEFAULT_MATCH_ID} is not finished yet (${allsvenskanMatchDetails.status}). No running sync performed.`
@@ -754,7 +794,13 @@ async function main() {
     process.exit(0);
   }
 
-  const hammarbyTeamDistanceMeters = players.reduce((sum, player) => sum + player.distanceMeters, 0);
+  const officialTeamDistanceMeters = toNumber(
+    hammarbyWasHome
+      ? allsvenskanMatchStats?.totalStats?.homeTeamDistance
+      : allsvenskanMatchStats?.totalStats?.visitingTeamDistance
+  );
+  const hammarbyTeamDistanceMeters =
+    officialTeamDistanceMeters ?? players.reduce((sum, player) => sum + player.distanceMeters, 0);
   const hammarbyTeamMinutes = Number(
     players.reduce((sum, player) => sum + player.minutesPlayed, 0).toFixed(2)
   );
