@@ -1110,7 +1110,7 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
     "awayTeam": "Malmö FF",
     "hammarbyWasHome": true,
     "matchDurationMinutes": 94,
-    "hammarbyTeamDistanceMeters": 123810,
+    "hammarbyTeamDistanceMeters": 123291,
     "hammarbyTeamMinutes": 1034,
     "hammarbyTopSpeedKmh": 33.03,
     "players": [
