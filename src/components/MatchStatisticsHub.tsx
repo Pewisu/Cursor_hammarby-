@@ -24,6 +24,8 @@ import {
   hammarbyPlayerTrendMatches,
   type PlayerTrendMetrics,
 } from "@/lib/hammarbyPlayerTrendData";
+import PredictionVsOutcome from "@/components/PredictionVsOutcome";
+import { round8PredictionVsOutcome } from "@/lib/predictionVsOutcomeData";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -3717,6 +3719,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </section>
+
+        {mode === "round" && round === 8 && (
+          <PredictionVsOutcome {...round8PredictionVsOutcome} />
+        )}
 
         <footer className="rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5 text-xs leading-relaxed text-slate-400">
           <p>
