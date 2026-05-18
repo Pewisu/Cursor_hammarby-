@@ -26,6 +26,8 @@ import {
 } from "@/lib/hammarbyPlayerTrendData";
 import PredictionVsOutcome from "@/components/PredictionVsOutcome";
 import { round8PredictionVsOutcome } from "@/lib/predictionVsOutcomeData";
+import StandoutPlayerCard from "@/components/StandoutPlayerCard";
+import { round8Standout } from "@/lib/round8StandoutData";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -3719,6 +3721,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </section>
+
+        {mode === "round" && round === 8 && (
+          <StandoutPlayerCard player={round8Standout} />
+        )}
 
         {mode === "round" && round === 8 && (
           <PredictionVsOutcome {...round8PredictionVsOutcome} />
