@@ -420,6 +420,88 @@ export default function UpcomingOpponentsPage() {
               </ul>
             </article>
 
+            {report.squadRecommendation && (
+              <details className="mt-6 rounded-xl border border-cyan-500/35 bg-[#142d2d]/90 p-4">
+                <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                  Rekommenderad uppställning & positionsprofiler (visa)
+                </summary>
+                <div className="mt-3 rounded-lg border border-cyan-500/25 bg-cyan-500/8 px-3 py-2">
+                  <div className="flex items-center gap-3">
+                    <span className="rounded-full border border-cyan-400/40 bg-cyan-500/15 px-3 py-1 text-sm font-bold text-cyan-100">
+                      {report.squadRecommendation.formation}
+                    </span>
+                    <p className="text-xs text-slate-300">{report.squadRecommendation.formationReasoning}</p>
+                  </div>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {report.squadRecommendation.positions.map((pos) => (
+                    <div
+                      key={pos.position}
+                      className="rounded-xl border border-slate-600/50 bg-slate-900/40 p-4"
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <span className="rounded border border-cyan-400/35 bg-cyan-500/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-cyan-200">
+                            {pos.formation}
+                          </span>
+                          <h4 className="text-sm font-semibold text-slate-100">{pos.position}</h4>
+                        </div>
+                        <div className="flex flex-wrap gap-1">
+                          {pos.bestFit.map((player) => (
+                            <span
+                              key={player}
+                              className="rounded-full border border-emerald-500/35 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-100"
+                            >
+                              {player}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="mt-3 grid gap-3 md:grid-cols-2">
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            Kravprofil mot {opponentName}
+                          </p>
+                          <ul className="mt-1.5 space-y-1">
+                            {pos.requiredQualities.map((q) => (
+                              <li key={q} className="flex gap-1.5 text-xs text-slate-300">
+                                <span className="mt-0.5 text-cyan-300">›</span>
+                                <span>{q}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                            Varför dessa spelare
+                          </p>
+                          <p className="mt-1.5 text-xs text-slate-300">{pos.reasoning}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {report.squadRecommendation.rotationNotes.length > 0 && (
+                  <div className="mt-4 rounded-lg border border-amber-400/30 bg-amber-400/8 p-3">
+                    <p className="text-[10px] font-semibold uppercase tracking-wide text-amber-200">
+                      Rotations- och inhoppsplan
+                    </p>
+                    <ul className="mt-2 space-y-1.5">
+                      {report.squadRecommendation.rotationNotes.map((note) => (
+                        <li key={note} className="flex gap-1.5 text-xs text-slate-300">
+                          <span className="mt-0.5 text-amber-300">↻</span>
+                          <span>{note}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </details>
+            )}
+
             <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Ordlista (visa)
