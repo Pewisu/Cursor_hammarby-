@@ -89,7 +89,7 @@ export default function UpcomingOpponentsPage() {
       </header>
 
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8">
-        {upcomingOpponents.map((report) => {
+        {upcomingOpponents.filter((r) => !r.hidden).map((report) => {
           const opponentName = getOpponentName(report.fixture);
           return (
             <section
@@ -447,16 +447,18 @@ export default function UpcomingOpponentsPage() {
                           </span>
                           <h4 className="text-sm font-semibold text-slate-100">{pos.position}</h4>
                         </div>
-                        <div className="flex flex-wrap gap-1">
-                          {pos.bestFit.map((player) => (
-                            <span
-                              key={player}
-                              className="rounded-full border border-emerald-500/35 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-100"
-                            >
-                              {player}
-                            </span>
-                          ))}
-                        </div>
+                        {pos.bestFit && pos.bestFit.length > 0 && (
+                          <div className="flex flex-wrap gap-1">
+                            {pos.bestFit.map((player) => (
+                              <span
+                                key={player}
+                                className="rounded-full border border-emerald-500/35 bg-emerald-500/15 px-2.5 py-0.5 text-xs font-medium text-emerald-100"
+                              >
+                                {player}
+                              </span>
+                            ))}
+                          </div>
+                        )}
                       </div>
 
                       <div className="mt-3 grid gap-3 md:grid-cols-2">
@@ -475,7 +477,7 @@ export default function UpcomingOpponentsPage() {
                         </div>
                         <div>
                           <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
-                            Varför dessa spelare
+                            Taktisk motivering
                           </p>
                           <p className="mt-1.5 text-xs text-slate-300">{pos.reasoning}</p>
                         </div>

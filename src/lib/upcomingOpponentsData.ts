@@ -80,7 +80,7 @@ export interface PositionProfile {
   position: string;
   formation: string;
   requiredQualities: string[];
-  bestFit: string[];
+  bestFit?: string[];
   reasoning: string;
 }
 
@@ -97,6 +97,7 @@ export interface UpcomingOpponentReport {
   fixture: string;
   dateLabel: string;
   oneLineSummary: string;
+  hidden?: boolean;
   mobileTakeaways: string[];
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
@@ -125,6 +126,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 8,
     roundLabel: "Omgång 8",
+    hidden: true,
     fixture: "Hammarby - Malmö FF",
     dateLabel: "Inför 17 maj 2026 · uppdaterad med Bolldata lagdata + Twelve season report",
     oneLineSummary:
@@ -855,127 +857,133 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     squadRecommendation: {
       formation: "4-2-3-1",
       formationReasoning:
-        "Mot GAIS direktspel med långa bollar krävs stabil mittbackslinje (2 CB + 2 CDM) som vinner andrabollen, plus bredd i omställningar via kanterna. 4-2-3-1 ger kontroll i mitten och explosivitet framåt.",
+        "Hammarbys spelstil kräver högt bollinnehav (61%), intensiv press (PPDA 3,94) och volym i avslut (21,5/match). 4-2-3-1 bibehåller vår identitet – kontroll via mittfältet, bredd via backarna, kreativitet centralt – samtidigt som dubbelankaret skyddar mot GAIS direkta omställningar.",
       positions: [
         {
           position: "Målvakt",
           formation: "MV",
           requiredQualities: [
-            "Bra fotarbete för uppspel under GAIS press",
-            "Stark i luften – GAIS slår många långa bollar",
-            "Snabb positionering vid omställningar",
+            "Hammarbys spel: Starkt fotarbete för att starta uppspel och aktivera backlinjen i vår possessionsbaserade modell",
+            "Hammarbys spel: Snabb distribution – vi vill bygga direkt efter räddning, inte slå lång",
+            "Mot GAIS: Dominant i luften – GAIS slår 55+ långa bollar/match rakt in i boxen",
+            "Mot GAIS: Positionering vid snabba omställningar (de söker djupled direkt efter bollvinst)",
           ],
-          bestFit: ["W. Hahn"],
           reasoning:
-            "Hahn har varit given hela säsongen och bidrar till uppspelet. Trygg under press och stark i boxen vid inlägg/långa bollar.",
+            "Målvakten är första länken i vårt uppbyggnadsspel. Mot GAIS behöver hen dessutom hantera luftbombning och snabba kontringar – men uppspelet får aldrig kompromissas.",
         },
         {
           position: "Högerback",
           formation: "HB",
           requiredQualities: [
-            "Offensiv kraft för att ge bredd i anfallsfasen",
-            "Defensiv disciplin vid GAIS omställningar",
-            "God löpkapacitet – bortamatch kräver fler sprints",
+            "Hammarbys spel: Offensiv bredd – ge bredd i anfallsfasen, överlappa och skapa 2v1 på kanten",
+            "Hammarbys spel: Passningstrygghet (85%+) – stödja bollcirkulation under press",
+            "Hammarbys spel: Löpkapacitet 10+ km – vår höga press kräver fysisk uthållighet",
+            "Mot GAIS: Defensiv disciplin vid omställningar – inte hamna i obalans efter egna framstötar",
           ],
-          bestFit: ["H. Skoglund"],
           reasoning:
-            "Skoglund har 7 starter av 8 (7,0 km/match+). Stark passningstrygghet (84%+) och bidrar offensivt. Avgörande i omställningsfasen.",
+            "I Hammarbys system är backarna offensiva nycklar som ger bredd. Mot GAIS kontringar gäller det att inte bli fångad för högt – men vi ska INTE offra offensiv bredd av rädsla.",
         },
         {
           position: "Mittbackar (2)",
           formation: "MB + MB",
           requiredQualities: [
-            "Dominant i luften – GAIS använder långa bollar (55,75/match)",
-            "Snabb omställning bakåt vid kontrar",
-            "Bra bollspelande för att bygga spelet under press",
-            "Stark i defensiva dueller (67%+ vinstprocent)",
+            "Hammarbys spel: Bollspelande centralbeck – starta anfall bakifrån med progressiva passningar",
+            "Hammarbys spel: Mod att driva bollen framåt när GAIS pressar (spela sig ur press)",
+            "Hammarbys spel: Hög startposition – stödja vår höga press utan att tappa djup",
+            "Mot GAIS: Dominant i luftdueller – vinna förstaduellen vid GAIS 55+ långa bollar/match",
+            "Mot GAIS: Snabb omställning bakåt vid kontringar (GAIS söker djupled direkt)",
+            "Ena CB: framåtpassare och linjebrytare. Andra CB: positionell säkring.",
           ],
-          bestFit: ["F. Winther", "V. Eriksson"],
           reasoning:
-            "Winther–Eriksson har startat alla 8 matcher tillsammans. Winther stark i luften och framåtpassning (79% framåt), Eriksson vinner 70%+ defensiva dueller. Kompletterande par.",
+            "Hammarbys CB:ar är uppbyggnadens startpunkt – det är viktigare än någonsin att de vågar spela framåt under GAIS press. MEN de måste samtidigt vinna luftduellerna som kommer varje gång GAIS får bollen.",
         },
         {
           position: "Vänsterback",
           formation: "VB",
           requiredQualities: [
-            "Offensiv hotpunkt – GAIS halvrum på den sidan kan exponeras",
-            "Hög löpkapacitet för att hänga med i GAIS direkta omställningar",
-            "God crossförmåga vid etablerat anfall",
+            "Hammarbys spel: Offensiv push – bredd i vänsterhalvrum och inlägg vid etablerat anfall",
+            "Hammarbys spel: Bollsäkerhet – bidra i uppbyggnaden och cirkulationen",
+            "Hammarbys spel: Löpkapacitet – understödja pressen och täcka stor yta",
+            "Mot GAIS: Defensiv pålitlighet – GAIS högeryta kan exploateras vid omställningar",
+            "Mot GAIS: Timing i framstötar – undvik att bli fångad i obalans vid deras kontringar",
           ],
-          bestFit: ["T. Tekie", "O. Hagen"],
           reasoning:
-            "Tekie har startat senaste 3, Hagen har kommit in som energiinjektion. Tekie ger defensiv trygghet mot GAIS kontrande ytterspel; Hagen ger mer offensiv punch vid behov.",
+            "Samma princip som högerbacken: vår modell kräver offensiv bredd via backarna. Balansen mot GAIS kontringshot avgörs av timing och löpkapacitet, inte av att sitta kvar.",
         },
         {
-          position: "Centralt mittfält (2 – dubbelankare)",
+          position: "Centralt mittfält (dubbelankare)",
           formation: "CDM + CDM",
           requiredQualities: [
-            "Exceptionell andrabollsvinst – avgörande mot GAIS långa bollar",
-            "Counterpressförmåga (hög recovery-rate)",
-            "Framåtpassning under press för att starta omställningar",
-            "Hög passningsvolym och precision (86%+)",
+            "Hammarbys spel: Passningsvolym och precision (86%+) – kontrollera tempot och styra matchbilden",
+            "Hammarbys spel: Counterpress – omedelbar press vid bolltapp (vi återerövrar inom 5s, 14% av gångerna)",
+            "Hammarbys spel: Framåtpassning – starta anfall snabbt, bryta linjer vertikalt",
+            "Hammarbys spel: Progressiva passningar – driva bollen framåt genom mittfältet",
+            "Mot GAIS: Andrabollsvinst – GAIS 55+ långa bollar landar här. Vinner vi andrabollen vinner vi matchen.",
+            "Mot GAIS: Täcka djupled – hindra GAIS centrala löpare vid omställningar",
+            "Komplementärt par: en motor (volym, framåt), en ankare (recoveries, täckande)",
           ],
-          bestFit: ["M. Karlsson", "O. Johansson"],
           reasoning:
-            "Karlsson är lagets motor (90 min i 7/8 matcher, 62+ passningar/match, 85%+ precision). Johansson Schellhas ger recoveries och defensiv balans. Dubbelankaret skyddar mot GAIS direktspel.",
+            "Dubbelankaret ÄR Hammarbys spelstil. Det är härifrån vi kontrollerar matchen med 61% bollinnehav och 86% passningsprecision. Mot GAIS tillkommer en extra uppgift: vinna andrabollen vid deras direktspel. Det laget som äger mittfältet äger matchen.",
         },
         {
-          position: "Offensiv mittfältare (central – etta)",
+          position: "Offensiv mittfältare (tia)",
           formation: "AM",
           requiredQualities: [
-            "Kreativitet i trångt utrymme – GAIS kompakt defensiv",
-            "Nyckelpassningar (5+ per match idealt)",
-            "xA-produktion – avgörande för att bryta ner lågt block",
-            "Press bakåt vid bolltapp – bidra i counterpress",
+            "Hammarbys spel: Kreativitet och nyckelpassningar (5+/match) – hjärtat i vår chansskapning",
+            "Hammarbys spel: xA-produktion – den sista passningen som öppnar låst försvar",
+            "Hammarbys spel: Pressarbete bakåt – ledande i counterpressfasen",
+            "Hammarbys spel: Tempo-accelerator – styra NÄR vi ökar rytmen i anfallet",
+            "Mot GAIS: Hitta mellanrum i kompakt försvar (GAIS xGA 0,86 – svårt att bryta igenom)",
           ],
-          bestFit: ["N. Besara"],
           reasoning:
-            "Besara är kapten och lagets kreativa nav: 5,38 nyckelpassningar/match (1:a i ligan), stark xA-produktion och ledare i pressspelet. Matchavgörande mot kompakta lag.",
+            "Tian är Hammarbys matchvinnare i etablerat anfall. Mot GAIS kompakta block (xGA 0,86/match) är det denna position som måste avgöra med passningar mellan linjerna. Vår höga nyckelpassningsfrekvens (5,38/match, 1:a i ligan) levereras härifrån.",
         },
         {
           position: "Högerytter / halvrum",
-          formation: "RW/RAM",
+          formation: "RW",
           requiredQualities: [
-            "Dribblingsförmåga för att bryta 1v1 mot GAIS vänsterback",
-            "Mål- och avslutshot (xG-bidrag)",
-            "Löpningar i djupled vid omställningar",
-            "Arbetskapacitet utan boll",
+            "Hammarbys spel: Dribbling och 1v1-kapacitet – bryta motståndarens struktur",
+            "Hammarbys spel: Avslut och xG-bidrag – vi skjuter 21,5 gånger/match, kanter ska bidra",
+            "Hammarbys spel: Pressarbete högt upp – första pressmomentet börjar med yttrarna",
+            "Mot GAIS: Löpningar i djupled – exploatera ytan bakom GAIS höga försvarslinje",
+            "Mot GAIS: Ta sig IN i boxen (7 av 9 GAIS-insläppta mål = inifrån straffområdet)",
           ],
-          bestFit: ["M. Madjed", "P. Abraham"],
           reasoning:
-            "Madjed har hög dribblingsfrekvens och hotpunkt i halvrum. Abraham ger explosivitet och xG-hot. Båda startat senaste matcherna. Madjed start, Abraham som energiinjektion 60+ min.",
+            "Hammarbys yttersspel handlar om att penetrera boxen – inte bara slå inlägg. Mot GAIS höga linje skapas extra utrymme bakom för djupledslöpningar. Kombinera det med vår 1v1-dribbling och avslutsvolym.",
         },
         {
           position: "Vänsterytter / halvrum",
-          formation: "LW/LAM",
+          formation: "LW",
           requiredQualities: [
-            "Tempo och carries för att utnyttja ytan bakom GAIS höga press",
-            "Skottförmåga från halvrum (GAIS släpper in centralt)",
-            "Pressarbete bakåt – skydda vänsterback vid GAIS omställningar",
+            "Hammarbys spel: Tempo och carries – driva bollen framåt och skapa tempoväxlingar",
+            "Hammarbys spel: Bidra i uppbyggnaden – passningskvalitet för att delta i bollcirkulation",
+            "Hammarbys spel: Press bakåt – del av första pressfasen, stänga ner motståndarens uppspel",
+            "Mot GAIS: Exploatera ytan bakom deras höga press via snabba carries",
+            "Mot GAIS: Skottförmåga från halvrum – GAIS släpper in mål centralt",
           ],
-          bestFit: ["F. Adjei", "N. Persson"],
           reasoning:
-            "Adjei har visat explosivitet i omställningar och stark løpkapacitet. Persson ger mer kontroll och passningskvalitet. Mot GAIS direktspel kan Adjei utnyttja öppna ytor bättre.",
+            "GAIS pressar högt – det skapar ytor bakom som passar Hammarbys tempoväxlingar perfekt. Vänsteryttern ska kunna både delta i vår kontrollerade uppbyggnad OCH explodera i omställningar bakom GAIS linje.",
         },
         {
           position: "Anfallare (ensam spets)",
           formation: "ST",
           requiredQualities: [
-            "Stark i duellspel – vinna nickdueller vid GAIS uppspel",
-            "Intelligent rörelse i boxen (GAIS släpper in 7/9 mål inifrån box)",
-            "Hold-up-spel för att binda mittbackar och skapa yta för löpare",
-            "Konverteringsförmåga – göra mål på halvlägen",
+            "Hammarbys spel: Hold-up och samband – binda mittbackar och skapa yta för framrusande mittfältare/ytter",
+            "Hammarbys spel: Intelligent rörelse i boxen – vi skapar 27+ boxberöringar/match, spetsen ska vara mottagare",
+            "Hammarbys spel: Pressarbete – anfallaren leder pressmomentet högt upp",
+            "Hammarbys spel: Konverteringsförmåga – vi skapar 2,28 xG/match, spetsen ska leverera mål",
+            "Mot GAIS: Löpningar i djupled – utnyttja ytan bakom GAIS höga presslinje",
+            "Mot GAIS: Klinisk avslutning – GAIS xGA 0,86 innebär att vi får färre premium-lägen än vanligt",
           ],
-          bestFit: ["P. Abraham", "V. Lind", "M. Kaboré"],
           reasoning:
-            "Abraham föredras vid start med sin rörelse och xG-produktion. Lind stark som hold-up-spets om vi behöver kontroll. Kaboré ger fysik och luftstyrka – användbar mot GAIS långa bollar vid inhoppet.",
+            "I Hammarbys system ska anfallaren vara involverad i uppspelet, pressa först och leverera mål. Mot GAIS låga xGA (0,86) kan lägena bli färre – klinisk avslutning och rörelse bakom deras höga linje blir extra avgörande.",
         },
       ],
       rotationNotes: [
-        "Kaboré som inhoppare 60+ min för att utnyttja GAIS uttrötade backlinje med fysik och löpningar i djupled.",
-        "Hagen in som vänsterback/ytter om Tekie tappar energi – ger offensiv push i slutfasen.",
-        "Persson som ersättning centralt i andra halvlek om tempot sjunker – trygg bollcirkulation.",
-        "V. Lind som alternativ till Abraham om vi behöver mer hold-up och kontroll 70+ min.",
+        "Inhoppare 60+ (spets): fysisk profil för att utnyttja GAIS uttrötade backlinje – luftstyrka och djupledslöpningar.",
+        "Inhoppare mittfält: bollsäker profil som bibehåller vårt tempo och kontroll sista 20 min vid ledning.",
+        "Inhoppare kant: explosiv profil som kan avgöra 1v1 mot trötta backar – GAIS farligast 46-60, efteråt tappar de energi.",
+        "Vid oavgjort sent: överväg öka bredd med en extra offensiv kantspelare – tvinga GAIS att försvara mer yta.",
       ],
     },
     glossary: [
