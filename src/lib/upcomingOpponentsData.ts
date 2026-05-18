@@ -76,6 +76,21 @@ export interface HeadToHeadSection {
   matches: HeadToHeadMeeting[];
 }
 
+export interface PositionProfile {
+  position: string;
+  formation: string;
+  requiredQualities: string[];
+  bestFit: string[];
+  reasoning: string;
+}
+
+export interface SquadRecommendation {
+  formation: string;
+  formationReasoning: string;
+  positions: PositionProfile[];
+  rotationNotes: string[];
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -102,6 +117,7 @@ export interface UpcomingOpponentReport {
     withoutBall: string[];
     matchManagement: string[];
   };
+  squadRecommendation?: SquadRecommendation;
   glossary: GlossaryTerm[];
 }
 
@@ -834,6 +850,132 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Håll nollan i 2H: GAIS gör 8 av 10 mål i andra halvlek (4 st i 46-60). Extra fokus efter paus.",
         "Vid oavgjort vid paus: tryck direkt 46-60 när GAIS historiskt slår till. Vinn tempokampen.",
         "GAIS konverterar dåligt (8,2%) – vid ledning: tvinga dem att skjuta från sämre lägen och lita på målvakten.",
+      ],
+    },
+    squadRecommendation: {
+      formation: "4-2-3-1",
+      formationReasoning:
+        "Mot GAIS direktspel med långa bollar krävs stabil mittbackslinje (2 CB + 2 CDM) som vinner andrabollen, plus bredd i omställningar via kanterna. 4-2-3-1 ger kontroll i mitten och explosivitet framåt.",
+      positions: [
+        {
+          position: "Målvakt",
+          formation: "MV",
+          requiredQualities: [
+            "Bra fotarbete för uppspel under GAIS press",
+            "Stark i luften – GAIS slår många långa bollar",
+            "Snabb positionering vid omställningar",
+          ],
+          bestFit: ["W. Hahn"],
+          reasoning:
+            "Hahn har varit given hela säsongen och bidrar till uppspelet. Trygg under press och stark i boxen vid inlägg/långa bollar.",
+        },
+        {
+          position: "Högerback",
+          formation: "HB",
+          requiredQualities: [
+            "Offensiv kraft för att ge bredd i anfallsfasen",
+            "Defensiv disciplin vid GAIS omställningar",
+            "God löpkapacitet – bortamatch kräver fler sprints",
+          ],
+          bestFit: ["H. Skoglund"],
+          reasoning:
+            "Skoglund har 7 starter av 8 (7,0 km/match+). Stark passningstrygghet (84%+) och bidrar offensivt. Avgörande i omställningsfasen.",
+        },
+        {
+          position: "Mittbackar (2)",
+          formation: "MB + MB",
+          requiredQualities: [
+            "Dominant i luften – GAIS använder långa bollar (55,75/match)",
+            "Snabb omställning bakåt vid kontrar",
+            "Bra bollspelande för att bygga spelet under press",
+            "Stark i defensiva dueller (67%+ vinstprocent)",
+          ],
+          bestFit: ["F. Winther", "V. Eriksson"],
+          reasoning:
+            "Winther–Eriksson har startat alla 8 matcher tillsammans. Winther stark i luften och framåtpassning (79% framåt), Eriksson vinner 70%+ defensiva dueller. Kompletterande par.",
+        },
+        {
+          position: "Vänsterback",
+          formation: "VB",
+          requiredQualities: [
+            "Offensiv hotpunkt – GAIS halvrum på den sidan kan exponeras",
+            "Hög löpkapacitet för att hänga med i GAIS direkta omställningar",
+            "God crossförmåga vid etablerat anfall",
+          ],
+          bestFit: ["T. Tekie", "O. Hagen"],
+          reasoning:
+            "Tekie har startat senaste 3, Hagen har kommit in som energiinjektion. Tekie ger defensiv trygghet mot GAIS kontrande ytterspel; Hagen ger mer offensiv punch vid behov.",
+        },
+        {
+          position: "Centralt mittfält (2 – dubbelankare)",
+          formation: "CDM + CDM",
+          requiredQualities: [
+            "Exceptionell andrabollsvinst – avgörande mot GAIS långa bollar",
+            "Counterpressförmåga (hög recovery-rate)",
+            "Framåtpassning under press för att starta omställningar",
+            "Hög passningsvolym och precision (86%+)",
+          ],
+          bestFit: ["M. Karlsson", "O. Johansson"],
+          reasoning:
+            "Karlsson är lagets motor (90 min i 7/8 matcher, 62+ passningar/match, 85%+ precision). Johansson Schellhas ger recoveries och defensiv balans. Dubbelankaret skyddar mot GAIS direktspel.",
+        },
+        {
+          position: "Offensiv mittfältare (central – etta)",
+          formation: "AM",
+          requiredQualities: [
+            "Kreativitet i trångt utrymme – GAIS kompakt defensiv",
+            "Nyckelpassningar (5+ per match idealt)",
+            "xA-produktion – avgörande för att bryta ner lågt block",
+            "Press bakåt vid bolltapp – bidra i counterpress",
+          ],
+          bestFit: ["N. Besara"],
+          reasoning:
+            "Besara är kapten och lagets kreativa nav: 5,38 nyckelpassningar/match (1:a i ligan), stark xA-produktion och ledare i pressspelet. Matchavgörande mot kompakta lag.",
+        },
+        {
+          position: "Högerytter / halvrum",
+          formation: "RW/RAM",
+          requiredQualities: [
+            "Dribblingsförmåga för att bryta 1v1 mot GAIS vänsterback",
+            "Mål- och avslutshot (xG-bidrag)",
+            "Löpningar i djupled vid omställningar",
+            "Arbetskapacitet utan boll",
+          ],
+          bestFit: ["M. Madjed", "P. Abraham"],
+          reasoning:
+            "Madjed har hög dribblingsfrekvens och hotpunkt i halvrum. Abraham ger explosivitet och xG-hot. Båda startat senaste matcherna. Madjed start, Abraham som energiinjektion 60+ min.",
+        },
+        {
+          position: "Vänsterytter / halvrum",
+          formation: "LW/LAM",
+          requiredQualities: [
+            "Tempo och carries för att utnyttja ytan bakom GAIS höga press",
+            "Skottförmåga från halvrum (GAIS släpper in centralt)",
+            "Pressarbete bakåt – skydda vänsterback vid GAIS omställningar",
+          ],
+          bestFit: ["F. Adjei", "N. Persson"],
+          reasoning:
+            "Adjei har visat explosivitet i omställningar och stark løpkapacitet. Persson ger mer kontroll och passningskvalitet. Mot GAIS direktspel kan Adjei utnyttja öppna ytor bättre.",
+        },
+        {
+          position: "Anfallare (ensam spets)",
+          formation: "ST",
+          requiredQualities: [
+            "Stark i duellspel – vinna nickdueller vid GAIS uppspel",
+            "Intelligent rörelse i boxen (GAIS släpper in 7/9 mål inifrån box)",
+            "Hold-up-spel för att binda mittbackar och skapa yta för löpare",
+            "Konverteringsförmåga – göra mål på halvlägen",
+          ],
+          bestFit: ["P. Abraham", "V. Lind", "M. Kaboré"],
+          reasoning:
+            "Abraham föredras vid start med sin rörelse och xG-produktion. Lind stark som hold-up-spets om vi behöver kontroll. Kaboré ger fysik och luftstyrka – användbar mot GAIS långa bollar vid inhoppet.",
+        },
+      ],
+      rotationNotes: [
+        "Kaboré som inhoppare 60+ min för att utnyttja GAIS uttrötade backlinje med fysik och löpningar i djupled.",
+        "Hagen in som vänsterback/ytter om Tekie tappar energi – ger offensiv push i slutfasen.",
+        "Persson som ersättning centralt i andra halvlek om tempot sjunker – trygg bollcirkulation.",
+        "V. Lind som alternativ till Abraham om vi behöver mer hold-up och kontroll 70+ min.",
       ],
     },
     glossary: [
