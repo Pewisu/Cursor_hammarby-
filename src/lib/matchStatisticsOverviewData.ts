@@ -22,7 +22,9 @@ export interface RoundMatchStats {
     | "omgang-4"
     | "omgang-5"
     | "omgang-6"
-    | "omgang-7";
+    | "omgang-7"
+    | "omgang-8"
+    | "omgang-15";
   gameweek: number;
   date: string;
   matchName: string;
@@ -294,6 +296,82 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       touchesInBox: 19,
       corners: 4,
       fouls: 20,
+      yellowCards: 2,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-8",
+    gameweek: 8,
+    date: "2026-05-17",
+    matchName: "Hammarby - Malmö FF, 4-1",
+    sourceUrl:
+      "https://bolldata.se/allsvenskan/matcher/2026/2026-05-17/hammarby-malmo-ff-4-1",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 4,
+      xg: 3.62,
+      shots: 28,
+      shotsOnTarget: 10,
+      possessionPercent: 53,
+      passes: 476,
+      passesSuccessful: 413,
+      touchesInBox: 47,
+      corners: 10,
+      fouls: 12,
+      yellowCards: 0,
+      redCards: 0,
+    },
+    opponent: {
+      teamName: "Malmö FF",
+      goals: 1,
+      xg: 1.04,
+      shots: 10,
+      shotsOnTarget: 2,
+      possessionPercent: 47,
+      passes: 447,
+      passesSuccessful: 386,
+      touchesInBox: 19,
+      corners: 3,
+      fouls: 16,
+      yellowCards: 2,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-15",
+    gameweek: 15,
+    date: "2026-05-20",
+    matchName: "GAIS - Hammarby, 2-0",
+    sourceUrl:
+      "https://bolldata.se/allsvenskan/matcher/2026/2026-05-20/gais-hammarby-2-0",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 0,
+      xg: 1.97,
+      shots: 16,
+      shotsOnTarget: 3,
+      possessionPercent: 61,
+      passes: 654,
+      passesSuccessful: 565,
+      touchesInBox: 27,
+      corners: 3,
+      fouls: 11,
+      yellowCards: 1,
+      redCards: 1,
+    },
+    opponent: {
+      teamName: "GAIS",
+      goals: 2,
+      xg: 2.64,
+      shots: 16,
+      shotsOnTarget: 7,
+      possessionPercent: 39,
+      passes: 370,
+      passesSuccessful: 288,
+      touchesInBox: 18,
+      corners: 2,
+      fouls: 15,
       yellowCards: 2,
       redCards: 0,
     },
