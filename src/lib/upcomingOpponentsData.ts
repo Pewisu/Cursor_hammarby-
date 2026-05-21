@@ -76,12 +76,28 @@ export interface HeadToHeadSection {
   matches: HeadToHeadMeeting[];
 }
 
+export interface PositionProfile {
+  position: string;
+  formation: string;
+  requiredQualities: string[];
+  bestFit?: string[];
+  reasoning: string;
+}
+
+export interface SquadRecommendation {
+  formation: string;
+  formationReasoning: string;
+  positions: PositionProfile[];
+  rotationNotes: string[];
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
   fixture: string;
   dateLabel: string;
   oneLineSummary: string;
+  hidden?: boolean;
   mobileTakeaways: string[];
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
@@ -102,6 +118,7 @@ export interface UpcomingOpponentReport {
     withoutBall: string[];
     matchManagement: string[];
   };
+  squadRecommendation?: SquadRecommendation;
   glossary: GlossaryTerm[];
 }
 
@@ -109,6 +126,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 8,
     roundLabel: "Omgång 8",
+    hidden: true,
     fixture: "Hammarby - Malmö FF",
     dateLabel: "Inför 17 maj 2026 · uppdaterad med Bolldata lagdata + Twelve season report",
     oneLineSummary:
@@ -568,6 +586,436 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "Lagdata",
         explanation:
           "Säsongsbaserade lagmått från Bolldata (volym, effektivitet och ranking) som används för jämförelser i den här sidan.",
+      },
+    ],
+  },
+  {
+    round: 9,
+    roundLabel: "Omgång 9",
+    fixture: "GAIS - Hammarby",
+    dateLabel: "Inför 22 maj 2026 · uppdaterad med Bolldata lagdata + Twelve season insight",
+    oneLineSummary:
+      "Kort version: GAIS är det mest undervärderade laget i tabellen – 3:a i xP-tabellen (14 xP) men bara 9:a i poäng (9p). Högt press, direkt spel och extremt låg xGA (0,86/match) gör dem till en farligare motståndare än tabellen visar.",
+    mobileTakeaways: [
+      "Hammarby 2:a (17p), GAIS 9:a (9p) – men GAIS 3:a i xP-tabellen (14 xP).",
+      "GAIS är obesegrade i senaste 5 matcherna (2V-3O).",
+      "GAIS har ligans 4:e bästa xGA (6,87 totalt, 0,86/match) – svåra att göra mål på.",
+      "GAIS spelar högt press och direkt med flest långa bollar/genomskärare i ligan (55,75/match).",
+      "Twelve: GAIS counterpressar aggressivt och slår snabbt via omställningar.",
+      "GAIS gör 4 av 10 mål i perioden 46-60 – farligast direkt efter paus.",
+      "Nyckel: kontrollera bollinnehavet, undvik att spela rakt in i deras omställningsspel och dominera tempot.",
+    ],
+    dataSources: [
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 18 maj 2026)",
+      "Bolldata API: matches + matches/team/stats för Allsvenskan 2026",
+      "Bolldata API: matches/goals för minutfönster och målprofil",
+      "Twelve season insight: https://reports.twelve.football/insights/how-did-gais-perform-this-season-wQ59nfcYST.pdf (18 maj 2026)",
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a (17p), 21-6 i mål. 3V-2O senaste 5. Ligans starkaste offensiv (18,24 xG) och bästa hemmalag (13p, +16).",
+        tone: "emerald",
+      },
+      {
+        title: "GAIS just nu",
+        body: "9:a (9p) men 3:a i xP (14!). 2V-3O senaste 5 (obesegrade). Ligans 4:e bästa defensiv per xGA.",
+        tone: "amber",
+      },
+      {
+        title: "Varning: xP-gap",
+        body: "GAIS har +5 mer xP än faktiska poäng. De förtjänar fler poäng – deras prestationer har varit starka.",
+        tone: "blue",
+      },
+    ],
+    opponentStyle: [
+      "Twelve beskriver GAIS som ett högt pressande lag med intensiv press – tvingar motståndare till få passningar per defensiv aktion.",
+      "I anfall lutar GAIS kraftigt mot långa bollar och direktspel – 2:a i ligan i långa passningar/genomskärare (55,75/match).",
+      "GAIS counterpressar aggressivt och söker omställningar direkt efter bollvinst – effektiva i transition.",
+      "Penetrationen är balanserad mellan carries och inlägg – varken extremt bred eller extremt central.",
+      "Defensivt har GAIS ligans 4:e lägsta xGA (0,86/match) vilket visar genuin defensiv kvalitet.",
+    ],
+    styleProfile: [
+      {
+        label: "Presshöjd (Twelve)",
+        value: "Högt press med intensiv pressing",
+        score: 82,
+        explanation: "GAIS pressar högt och aggressivt – liknar Hammarbys egen spelstil i detta avseende.",
+      },
+      {
+        label: "Direkthet (Bolldata)",
+        value: "55,75 långa bollar+genomskärare/match (2:a i ligan)",
+        score: 88,
+        explanation: "GAIS spelar extremt direkt med flest långa bollar i ligan efter IFK Göteborg.",
+      },
+      {
+        label: "Omställningshot (Twelve)",
+        value: "Counter attack-profil i offensiv transition",
+        score: 78,
+        explanation: "Twelve pekar på en tydlig kontrings-/omställningsprofil – snabba vertikala attacker efter bollvinst.",
+      },
+      {
+        label: "Defensiv kvalitet (Bolldata)",
+        value: "xGA 0,86/match (4:e bäst i ligan)",
+        score: 75,
+        explanation: "Trots låg tabelplacering håller GAIS en genuin defensiv kvalitet per underliggande data.",
+      },
+      {
+        label: "Offensiv output (Bolldata)",
+        value: "xG 1,64/match · 13,75 avslut/match",
+        score: 58,
+        explanation: "Medelmåttig offensiv volym men skapar bra chanser per skott. Konverterar bara 8,2% av sina skott.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "Avslut / match",
+        hammarbyValue: "21,50",
+        opponentValue: "13,75",
+        hammarbyScore: 100,
+        opponentScore: 64,
+        note: "Hammarby skjuter avsevärt mer – GAIS förlitar sig på färre men mer kvalitativa chanser.",
+      },
+      {
+        label: "xG / match",
+        hammarbyValue: "2,28",
+        opponentValue: "1,64",
+        hammarbyScore: 95,
+        opponentScore: 72,
+        note: "Hammarby skapar fortfarande klart fler förväntade mål per match.",
+      },
+      {
+        label: "Skott på mål / match",
+        hammarbyValue: "7,00",
+        opponentValue: "5,13",
+        hammarbyScore: 100,
+        opponentScore: 73,
+        note: "Hammarby når mål oftare, GAIS ligger i övre halvan.",
+      },
+      {
+        label: "Bollinnehav (%)",
+        hammarbyValue: "61,1%",
+        opponentValue: "51,8%",
+        hammarbyScore: 100,
+        opponentScore: 85,
+        note: "Hammarby dominerar bollen, GAIS ligger runt ligasnittet.",
+      },
+      {
+        label: "Nyckelpassningar / match",
+        hammarbyValue: "5,38",
+        opponentValue: "4,38",
+        hammarbyScore: 100,
+        opponentScore: 81,
+        note: "Hammarby etta, GAIS trea – båda lagen skapar mycket via passningsspel.",
+      },
+      {
+        label: "Progressiva passningar / match",
+        hammarbyValue: "77,75",
+        opponentValue: "79,75",
+        hammarbyScore: 95,
+        opponentScore: 97,
+        note: "GAIS faktiskt 2:a i ligan i progressiva passningar – driver bollen framåt ofta.",
+      },
+      {
+        label: "Långa bollar + genomskärare / match",
+        hammarbyValue: "42,00",
+        opponentValue: "55,75",
+        hammarbyScore: 53,
+        opponentScore: 100,
+        note: "GAIS spelar avsevärt fler långa bollar. En tydlig stilskillnad.",
+      },
+      {
+        label: "xGA / match",
+        hammarbyValue: "1,13",
+        opponentValue: "0,86",
+        hammarbyScore: 80,
+        opponentScore: 100,
+        note: "GAIS släpper till LÄGRE xG emot per match – starkare defensiv underliggande data.",
+      },
+      {
+        label: "Framåtpassningar (%))",
+        hammarbyValue: "76,9%",
+        opponentValue: "70,3%",
+        hammarbyScore: 100,
+        opponentScore: 78,
+        note: "Hammarby har högre precision i framåtpassningar.",
+      },
+      {
+        label: "Gjorda mål (totalt)",
+        hammarbyValue: "21",
+        opponentValue: "10",
+        hammarbyScore: 100,
+        opponentScore: 48,
+        note: "Hammarby gör mer än dubbelt så många mål – GAIS konverterar svagt (8,2%).",
+      },
+      {
+        label: "Konverteringsgrad (%)",
+        hammarbyValue: "11,6%",
+        opponentValue: "8,2%",
+        hammarbyScore: 82,
+        opponentScore: 58,
+        note: "GAIS tar inte tillvara på sina chanser – har vunnit mer xP än poäng.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,28",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "1,64",
+        opponentRank: "4:a av 16",
+        note: "Hammarby skapar mest xG per match, GAIS ligger överraskande högt.",
+      },
+      {
+        label: "xGA / match",
+        hammarbyValue: "1,13",
+        hammarbyRank: "4:a av 16",
+        opponentValue: "0,86",
+        opponentRank: "2:a av 16",
+        note: "GAIS är bättre defensivt per xGA – en potentiell utmaning.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "21,50",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "13,75",
+        opponentRank: "6:a av 16",
+        note: "Hammarbys volymfördel är markant. GAIS skjuter mer sällan.",
+      },
+      {
+        label: "Bollinnehav",
+        hammarbyValue: "61,1%",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "51,8%",
+        opponentRank: "6:a av 16",
+        note: "Hammarby dominerar bollinnehavet som vanligt.",
+      },
+      {
+        label: "Progressiva passningar / match",
+        hammarbyValue: "77,75",
+        hammarbyRank: "3:a av 16",
+        opponentValue: "79,75",
+        opponentRank: "2:a av 16",
+        note: "GAIS ligger faktiskt före Hammarby i progressiva passningar.",
+      },
+      {
+        label: "xP-tabell",
+        hammarbyValue: "16 xP",
+        hammarbyRank: "2:a av 16",
+        opponentValue: "14 xP",
+        opponentRank: "3:a av 16",
+        note: "GAIS 3:a i xP-tabellen – har presterat på en nivå som förtjänar 14 poäng.",
+      },
+    ],
+    goalWindows: [
+      { window: "0-15", hammarbyGoals: 2, opponentConcededGoals: 0 },
+      { window: "16-30", hammarbyGoals: 3, opponentConcededGoals: 2 },
+      { window: "31-45+", hammarbyGoals: 4, opponentConcededGoals: 2 },
+      { window: "46-60", hammarbyGoals: 3, opponentConcededGoals: 1 },
+      { window: "61-75", hammarbyGoals: 5, opponentConcededGoals: 2 },
+      { window: "76-90+", hammarbyGoals: 4, opponentConcededGoals: 2 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Hur GAIS släpper in mål",
+        value: "7 av 9 inifrån boxen",
+        interpretation: "Majoriteten av insläppta mål kommer från positioner inne i straffområdet.",
+      },
+      {
+        label: "GAIS insläppta (period)",
+        value: "4 av 9 i andra halvlek",
+        interpretation: "Relativt jämnt fördelat men GAIS släpper in 2 i 16-30 och 2 i 31-45+.",
+      },
+      {
+        label: "GAIS svaga konvertering",
+        value: "8,2% konverteringsgrad",
+        interpretation: "GAIS skapar chanser (xG 1,64) men konverterar sämst bland topp-xG-lagen. Frustration kan uppstå.",
+      },
+      {
+        label: "GAIS mål framåt – starkt i 2H",
+        value: "8 av 10 mål i andra halvlek",
+        interpretation: "GAIS gör 4 mål i 46-60 och totalt 8 av 10 i 2H. De starkaste efter paus.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Använd bollinnehavet (61%) för att trötta ut GAIS höga press – cirkulera tålmodigt och lura fram öppningar.",
+        "Attackera centralt – GAIS släpper in 7 av 9 mål inifrån boxen. Använd halvrumslöpningar.",
+        "Utnyttja passningstempot (86% träffsäkerhet) för att spela sig förbi GAIS press innan de hinner ställa om.",
+      ],
+      withoutBall: [
+        "Blockera GAIS långa bollar (55,75/match) – stå högt men med djup bakom mittfältet för att fånga andrabollen.",
+        "GAIS omställningsspel är deras främsta hot – undvik onödiga bolltapp i anfallshalvan.",
+        "Pressa GAIS uppspel direkt – de vill slå lång snabbt efter bollvinst. Stör den första passningen.",
+      ],
+      matchManagement: [
+        "Håll nollan i 2H: GAIS gör 8 av 10 mål i andra halvlek (4 st i 46-60). Extra fokus efter paus.",
+        "Vid oavgjort vid paus: tryck direkt 46-60 när GAIS historiskt slår till. Vinn tempokampen.",
+        "GAIS konverterar dåligt (8,2%) – vid ledning: tvinga dem att skjuta från sämre lägen och lita på målvakten.",
+      ],
+    },
+    squadRecommendation: {
+      formation: "4-2-3-1",
+      formationReasoning:
+        "Hammarbys spelstil kräver högt bollinnehav (61%), intensiv press (PPDA 3,94) och volym i avslut (21,5/match). 4-2-3-1 bibehåller vår identitet – kontroll via mittfältet, bredd via backarna, kreativitet centralt – samtidigt som dubbelankaret skyddar mot GAIS direkta omställningar.",
+      positions: [
+        {
+          position: "Målvakt",
+          formation: "MV",
+          requiredQualities: [
+            "Hammarbys spel: Starkt fotarbete för att starta uppspel och aktivera backlinjen i vår possessionsbaserade modell",
+            "Hammarbys spel: Snabb distribution – vi vill bygga direkt efter räddning, inte slå lång",
+            "Mot GAIS: Dominant i luften – GAIS slår 55+ långa bollar/match rakt in i boxen",
+            "Mot GAIS: Positionering vid snabba omställningar (de söker djupled direkt efter bollvinst)",
+          ],
+          reasoning:
+            "Målvakten är första länken i vårt uppbyggnadsspel. Mot GAIS behöver hen dessutom hantera luftbombning och snabba kontringar – men uppspelet får aldrig kompromissas.",
+        },
+        {
+          position: "Högerback",
+          formation: "HB",
+          requiredQualities: [
+            "Hammarbys spel: Offensiv bredd – ge bredd i anfallsfasen, överlappa och skapa 2v1 på kanten",
+            "Hammarbys spel: Passningstrygghet (85%+) – stödja bollcirkulation under press",
+            "Hammarbys spel: Löpkapacitet 10+ km – vår höga press kräver fysisk uthållighet",
+            "Mot GAIS: Defensiv disciplin vid omställningar – inte hamna i obalans efter egna framstötar",
+          ],
+          reasoning:
+            "I Hammarbys system är backarna offensiva nycklar som ger bredd. Mot GAIS kontringar gäller det att inte bli fångad för högt – men vi ska INTE offra offensiv bredd av rädsla.",
+        },
+        {
+          position: "Mittbackar (2)",
+          formation: "MB + MB",
+          requiredQualities: [
+            "Hammarbys spel: Bollspelande centralbeck – starta anfall bakifrån med progressiva passningar",
+            "Hammarbys spel: Mod att driva bollen framåt när GAIS pressar (spela sig ur press)",
+            "Hammarbys spel: Hög startposition – stödja vår höga press utan att tappa djup",
+            "Mot GAIS: Dominant i luftdueller – vinna förstaduellen vid GAIS 55+ långa bollar/match",
+            "Mot GAIS: Snabb omställning bakåt vid kontringar (GAIS söker djupled direkt)",
+            "Ena CB: framåtpassare och linjebrytare. Andra CB: positionell säkring.",
+          ],
+          reasoning:
+            "Hammarbys CB:ar är uppbyggnadens startpunkt – det är viktigare än någonsin att de vågar spela framåt under GAIS press. MEN de måste samtidigt vinna luftduellerna som kommer varje gång GAIS får bollen.",
+        },
+        {
+          position: "Vänsterback",
+          formation: "VB",
+          requiredQualities: [
+            "Hammarbys spel: Offensiv push – bredd i vänsterhalvrum och inlägg vid etablerat anfall",
+            "Hammarbys spel: Bollsäkerhet – bidra i uppbyggnaden och cirkulationen",
+            "Hammarbys spel: Löpkapacitet – understödja pressen och täcka stor yta",
+            "Mot GAIS: Defensiv pålitlighet – GAIS högeryta kan exploateras vid omställningar",
+            "Mot GAIS: Timing i framstötar – undvik att bli fångad i obalans vid deras kontringar",
+          ],
+          reasoning:
+            "Samma princip som högerbacken: vår modell kräver offensiv bredd via backarna. Balansen mot GAIS kontringshot avgörs av timing och löpkapacitet, inte av att sitta kvar.",
+        },
+        {
+          position: "Centralt mittfält (dubbelankare)",
+          formation: "CDM + CDM",
+          requiredQualities: [
+            "Hammarbys spel: Counterpress – omedelbar press vid bolltapp (vi återerövrar inom 5s, 14% av gångerna)",
+            "Mot GAIS: Andrabollsvinst – GAIS 55+ långa bollar landar här. Vinner vi andrabollen vinner vi matchen.",
+            "Mot GAIS: Täcka djupled – hindra GAIS centrala löpare vid omställningar",
+            "PASSNINGSROLL 1 (motorn): Hög volym (60+ passningar/match), kort-kort-kort för att sätta tempot. Styr cirkulationen, flyttar bollen sidledes snabbt och bestämmer rytmen. Hög precision (88%+) – FÅR INTE tappa enkla bollar mot GAIS counterpress.",
+            "PASSNINGSROLL 1 (motorn): Progressiva passningar – driva bollen framåt vertikalt genom mittfältet med linjebrytande passnignar när ytan öppnas.",
+            "PASSNINGSROLL 2 (ankaret): Positionell disciplin – säkra mittfältet och vara det trygga utspelsalternativet vid press. Enklare passningsval men felfri.",
+            "PASSNINGSROLL 2 (ankaret): Recoveries och duellvinster – förstöra GAIS omställningar och vinna andrabollen. Passningen EFTER bollvinsten: snabb, säker, framåtriktad.",
+            "Komplementärt par: motorn dikterar tempot med boll, ankaret skyddar utan boll. Tillsammans skapar de 86%+ passprecision och 77+ progressiva passningar/match.",
+          ],
+          reasoning:
+            "Dubbelankaret ÄR Hammarbys spelstil. Det är härifrån vi kontrollerar matchen med 61% bollinnehav. Passningstypen avgör: motorn ska vara den som aldrig tappar bollen och styr tempot (tänk metronompassare), ankaret ska vara den som vinner duellen och sedan spelar den enkla framåtpassningen som startar anfallet. Mot GAIS är andrabollsvinsterna lika viktiga som passningarna.",
+        },
+        {
+          position: "Offensiv mittfältare (tia)",
+          formation: "AM",
+          requiredQualities: [
+            "Hammarbys spel: Kreativitet och nyckelpassningar (5+/match) – hjärtat i vår chansskapning",
+            "Hammarbys spel: xA-produktion – den sista passningen som öppnar låst försvar",
+            "Hammarbys spel: Tempo-accelerator – styra NÄR vi ökar rytmen i anfallet",
+            "PASSNINGSTYP: Linjebrytare – passningar MELLAN motståndarens linjer, inte runt dem. Måste kunna hitta fickor mellan GAIS mittfält och backlinje.",
+            "PASSNINGSTYP: Sista passningen in i box – passningar till straffområdet med precision och timing. xA-kvalitet i varje passningsval.",
+            "PRESSROLL: Första triggern i mittfältspressen – positionerar sig mellan GAIS mittfält och backlinje för att skugga deras centrala uppspelsspelare.",
+            "PRESSROLL: Stänger centrala passningsvägar – tvingar GAIS att slå lång (det vill vi, för våra CB:ar vinner luftduellerna).",
+            "PRESSROLL: Vid bolltapp i anfallszon – OMEDELBAR counterpress. Tian ska vara först på bollen inom 2-3 sekunder, antingen vinna den eller fördröja GAIS omställning.",
+            "Mot GAIS: Hitta mellanrum i kompakt försvar (GAIS xGA 0,86 – svårt att bryta igenom)",
+          ],
+          reasoning:
+            "Tian har en dubbelroll: MED BOLL är hen matchvinnaren som levererar nyckelpassningar mellan linjerna (5,38/match, 1:a i ligan). UTAN BOLL är hen presstriggern som stänger GAIS centrala framspelsmöjligheter och tvingar dem att slå lång – direkt in i våra luftdominerande CB:ar. Mot GAIS kompakta block (xGA 0,86) krävs en spelare som ser passningar ingen annan ser OCH jobbar lika hårt utan boll.",
+        },
+        {
+          position: "Högerytter / halvrum",
+          formation: "RW",
+          requiredQualities: [
+            "Hammarbys spel: Dribbling och 1v1-kapacitet – bryta motståndarens struktur",
+            "Hammarbys spel: Avslut och xG-bidrag – vi skjuter 21,5 gånger/match, kanter ska bidra",
+            "Hammarbys spel: Pressarbete högt upp – första pressmomentet börjar med yttrarna",
+            "Mot GAIS: Löpningar i djupled – exploatera ytan bakom GAIS höga försvarslinje",
+            "Mot GAIS: Ta sig IN i boxen (7 av 9 GAIS-insläppta mål = inifrån straffområdet)",
+          ],
+          reasoning:
+            "Hammarbys yttersspel handlar om att penetrera boxen – inte bara slå inlägg. Mot GAIS höga linje skapas extra utrymme bakom för djupledslöpningar. Kombinera det med vår 1v1-dribbling och avslutsvolym.",
+        },
+        {
+          position: "Vänsterytter / halvrum",
+          formation: "LW",
+          requiredQualities: [
+            "Hammarbys spel: Tempo och carries – driva bollen framåt och skapa tempoväxlingar",
+            "Hammarbys spel: Bidra i uppbyggnaden – passningskvalitet för att delta i bollcirkulation",
+            "Hammarbys spel: Press bakåt – del av första pressfasen, stänga ner motståndarens uppspel",
+            "Mot GAIS: Exploatera ytan bakom deras höga press via snabba carries",
+            "Mot GAIS: Skottförmåga från halvrum – GAIS släpper in mål centralt",
+          ],
+          reasoning:
+            "GAIS pressar högt – det skapar ytor bakom som passar Hammarbys tempoväxlingar perfekt. Vänsteryttern ska kunna både delta i vår kontrollerade uppbyggnad OCH explodera i omställningar bakom GAIS linje.",
+        },
+        {
+          position: "Anfallare (ensam spets)",
+          formation: "ST",
+          requiredQualities: [
+            "Hammarbys spel: Hold-up och samband – binda mittbackar och skapa yta för framrusande mittfältare/ytter",
+            "Hammarbys spel: Intelligent rörelse i boxen – vi skapar 27+ boxberöringar/match, spetsen ska vara mottagare",
+            "Hammarbys spel: Pressarbete – anfallaren leder pressmomentet högt upp",
+            "Hammarbys spel: Konverteringsförmåga – vi skapar 2,28 xG/match, spetsen ska leverera mål",
+            "Mot GAIS: Löpningar i djupled – utnyttja ytan bakom GAIS höga presslinje",
+            "Mot GAIS: Klinisk avslutning – GAIS xGA 0,86 innebär att vi får färre premium-lägen än vanligt",
+          ],
+          reasoning:
+            "I Hammarbys system ska anfallaren vara involverad i uppspelet, pressa först och leverera mål. Mot GAIS låga xGA (0,86) kan lägena bli färre – klinisk avslutning och rörelse bakom deras höga linje blir extra avgörande.",
+        },
+      ],
+      rotationNotes: [
+        "Inhoppare 60+ (spets): fysisk profil för att utnyttja GAIS uttrötade backlinje – luftstyrka och djupledslöpningar.",
+        "Inhoppare mittfält: bollsäker profil som bibehåller vårt tempo och kontroll sista 20 min vid ledning.",
+        "Inhoppare kant: explosiv profil som kan avgöra 1v1 mot trötta backar – GAIS farligast 46-60, efteråt tappar de energi.",
+        "Vid oavgjort sent: överväg öka bredd med en extra offensiv kantspelare – tvinga GAIS att försvara mer yta.",
+      ],
+    },
+    glossary: [
+      {
+        term: "xP (Expected Points)",
+        explanation:
+          "Förväntade poäng baserat på xG-modellen. GAIS 14 xP vs 9 faktiska visar att de förtjänat fler poäng.",
+      },
+      {
+        term: "Counterpress",
+        explanation:
+          "Att omedelbart pressa efter bolltapp för att snabbt återerövra. Både Hammarby och GAIS gör detta.",
+      },
+      {
+        term: "Progressiva passningar",
+        explanation:
+          "Passningar som driver bollen framåt minst 10 meter mot motståndarens mål.",
+      },
+      {
+        term: "Genomskärare",
+        explanation:
+          "Passning som bryter genom motståndarens försvarslinje – ofta en djupled bakom backlinje.",
+      },
+      {
+        term: "Konverteringsgrad",
+        explanation:
+          "Andel avslut som blir mål. GAIS 8,2% indikerar att de slösar chanser.",
       },
     ],
   },
