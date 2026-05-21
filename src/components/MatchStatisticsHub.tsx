@@ -26,6 +26,7 @@ import {
 } from "@/lib/hammarbyPlayerTrendData";
 import PredictionVsOutcome from "@/components/PredictionVsOutcome";
 import { round8PredictionVsOutcome } from "@/lib/predictionVsOutcomeData";
+import { round9PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9Data";
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
 
@@ -2035,7 +2036,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </div>
-        {mode === "round" && round === 8 && (
+        {mode === "round" && (round === 8 || round === 15) && (
           <div className="border-t border-slate-700/40 bg-[#0f172a]/95">
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
               <a
@@ -2045,19 +2046,25 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <span>📊</span>
                 <span>Matchgenomgång</span>
               </a>
-              <a
-                href="#matchens-spelare"
-                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors hover:border-amber-300/60 hover:bg-amber-400/20"
-              >
-                <span>⭐</span>
-                <span>Omgångens spelare</span>
-              </a>
+              {round === 8 && (
+                <a
+                  href="#matchens-spelare"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors hover:border-amber-300/60 hover:bg-amber-400/20"
+                >
+                  <span>⭐</span>
+                  <span>Omgångens spelare</span>
+                </a>
+              )}
               <a
                 href="#prediction-vs-outcome"
-                className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+                  round === 15
+                    ? "border-rose-500/30 bg-rose-500/10 text-rose-200 hover:border-rose-400/60 hover:bg-rose-500/20"
+                    : "border-emerald-500/30 bg-emerald-500/10 text-emerald-200 hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                }`}
               >
-                <span>🎯</span>
-                <span>Analys vs Utfall</span>
+                <span>{round === 15 ? "❌" : "🎯"}</span>
+                <span>{round === 15 ? "Vad gick fel?" : "Analys vs Utfall"}</span>
               </a>
             </div>
           </div>
@@ -2065,7 +2072,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       </header>
 
       <main className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-8">
-        <section className="grid gap-4 md:grid-cols-4">
+        <section id="matchgenomgang" className="grid gap-4 md:grid-cols-4">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
             <p className="text-xs text-slate-400">{current.leftTeam}</p>
             <p className="mt-2 text-3xl font-semibold text-white">
@@ -2102,9 +2109,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         </section>
 
-
         {mode === "round" && (
-          <section id="matchgenomgang" className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4 md:p-5">
+          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4 md:p-5">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <h2 className="text-base font-semibold text-white md:text-lg">Poängsnitt & poängprognos</h2>
@@ -3759,6 +3765,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         {mode === "round" && round === 8 && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round8PredictionVsOutcome} />
+          </div>
+        )}
+
+        {mode === "round" && round === 15 && (
+          <div id="prediction-vs-outcome">
+            <PredictionVsOutcome {...round9PredictionVsOutcome} />
           </div>
         )}
 
