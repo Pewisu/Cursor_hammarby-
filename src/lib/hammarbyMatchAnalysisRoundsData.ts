@@ -6941,7 +6941,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 16,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           6,
           1,
@@ -6953,7 +6953,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 52,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           13,
           7,
@@ -6965,7 +6965,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_box_entries": {
         "value": 10,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           3,
           1,
@@ -6977,7 +6977,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 1.08,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.14,
           0.13,
@@ -6989,7 +6989,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 21,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           5,
           2,
@@ -7001,7 +7001,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 3.19,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           2.9,
           2.65,
@@ -7013,7 +7013,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 49.26,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           59.43,
           55.45,
@@ -7049,7 +7049,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 5.440000057220459,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           5.28,
           5.42,
@@ -7061,7 +7061,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 1.11,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.37,
           0.1,
@@ -7085,7 +7085,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 1.8,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
           0.61,
           0.07,
@@ -7171,7 +7171,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 16,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           3,
           3,
@@ -7183,7 +7183,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 57,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           9,
           14,
@@ -7195,7 +7195,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_box_entries": {
         "value": 13,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           1,
           3,
@@ -7207,7 +7207,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 0.74,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.08,
           0.16,
@@ -7219,7 +7219,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 8,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           1,
           1,
@@ -7231,7 +7231,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 3.57,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           7,
           3,
@@ -7243,7 +7243,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 40.09,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           29.58,
           52.94,
@@ -7279,7 +7279,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 5.300000190734863,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           4.56,
           5.42,
@@ -7291,7 +7291,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 1.81,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.16,
           0.29,
@@ -7315,7 +7315,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 1.41,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
           0.51,
           0.1,
@@ -7401,7 +7401,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 32,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           4,
           6,
@@ -7413,7 +7413,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 57,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           8,
           9,
@@ -7425,7 +7425,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_box_entries": {
         "value": 20,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           2,
           4,
@@ -7437,7 +7437,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 1.24,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.12,
           0.17,
@@ -7449,7 +7449,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 16,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           3,
           1,
@@ -7461,7 +7461,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 3.86,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           4.5,
           4,
@@ -7473,7 +7473,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 51.66,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           47.51,
           47.58,
@@ -7509,7 +7509,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 8.920000076293945,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           11.53,
           6.05,
@@ -7521,7 +7521,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 2.89,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.3,
           0.52,
@@ -7545,7 +7545,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 4.36,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
           0.13,
           1.16,
@@ -7631,7 +7631,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 21,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           0,
           4,
@@ -7643,7 +7643,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 62,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           8,
           11,
@@ -7655,7 +7655,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_box_entries": {
         "value": 9,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           0,
           2,
@@ -7667,7 +7667,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 0.78,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.11,
           0.13,
@@ -7679,7 +7679,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 12,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           3,
           3,
@@ -7691,7 +7691,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 2.4,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           2.75,
           2.88,
@@ -7703,7 +7703,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 46.41,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           46.9,
           52.11,
@@ -7739,7 +7739,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 3.690000057220459,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           3.24,
           0.28,
@@ -7751,7 +7751,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 2.35,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.24,
           0.43,
@@ -7775,7 +7775,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 2.31,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
           0,
           0.23,
@@ -7861,7 +7861,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 14,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           0,
           4,
@@ -7873,7 +7873,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 54,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           5,
           9,
@@ -7885,7 +7885,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_box_entries": {
         "value": 8,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           0,
           1,
@@ -7897,7 +7897,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 0.79,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.03,
           0.16,
@@ -7909,7 +7909,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 11,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           1,
           2,
@@ -7921,7 +7921,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 5,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           15.75,
           3.71,
@@ -7933,7 +7933,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 43.05,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           36.14,
           44.88,
@@ -7969,7 +7969,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 6.570000171661377,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           9.77,
           8.94,
@@ -7981,7 +7981,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 1.68,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.05,
           0.35,
@@ -8005,7 +8005,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 0.87,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
           0,
           0.13,
@@ -8091,7 +8091,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 32,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           3,
           3,
@@ -8103,19 +8103,19 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 59,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           9,
           8,
           8,
-          10,
+          11,
           11,
           12
         ]
       },
       "num_box_entries": {
         "value": 18,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           5,
           2,
@@ -8127,7 +8127,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 0.99,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.2,
           0.21,
@@ -8139,7 +8139,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 15,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           3,
           3,
@@ -8151,7 +8151,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 4.41,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           5.27,
           4.3,
@@ -8163,11 +8163,11 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 47.56,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           45.35,
-          43.77,
-          37.8,
+          45.15,
+          40.83,
           59.96,
           46.26,
           41.15
@@ -8199,7 +8199,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 3.9100000858306885,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           5.35,
           2.96,
@@ -8211,7 +8211,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 2.38,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.27,
           0.22,
@@ -8226,7 +8226,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         "seasonAverage": 0,
         "periods": [
           0.12,
-          0.1,
+          0.04,
           0.02,
           0.03,
           0.14,
@@ -8235,11 +8235,11 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 2.13,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
-          0.12,
+          0.14,
           0.06,
-          0.22,
+          0.21,
           0.77,
           0.46,
           0.49
@@ -8250,7 +8250,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         "seasonAverage": 0,
         "periods": [
           0.34,
-          0.01,
+          0,
           0,
           0,
           0.16,
@@ -8261,7 +8261,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         "value": 0.07,
         "seasonAverage": 0.11,
         "periods": [
-          0.04,
+          0.05,
           0.02,
           0.07,
           0.07,
@@ -8274,7 +8274,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         "seasonAverage": 0,
         "periods": [
           0.34,
-          0.01,
+          0,
           0,
           0,
           0.16,
@@ -8321,7 +8321,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_shots": {
         "value": 13,
-        "seasonAverage": 12.31,
+        "seasonAverage": 12.75,
         "periods": [
           2,
           4,
@@ -8333,7 +8333,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_possessions_final_third": {
         "value": 51,
-        "seasonAverage": 46.73,
+        "seasonAverage": 46.94,
         "periods": [
           10,
           7,
@@ -8345,7 +8345,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_box_entries": {
         "value": 9,
-        "seasonAverage": 8,
+        "seasonAverage": 8.41,
         "periods": [
           2,
           3,
@@ -8357,7 +8357,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt_within_10s_after_recovery": {
         "value": 0.59,
-        "seasonAverage": 0.66,
+        "seasonAverage": 0.67,
         "periods": [
           0.14,
           0.09,
@@ -8369,7 +8369,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "num_recoveries_att_half": {
         "value": 7,
-        "seasonAverage": 8.02,
+        "seasonAverage": 7.94,
         "periods": [
           2,
           1,
@@ -8381,7 +8381,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "ppda": {
         "value": 5.15,
-        "seasonAverage": 5.65,
+        "seasonAverage": 5.81,
         "periods": [
           5.44,
           4,
@@ -8393,7 +8393,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "defensive_action_height_m": {
         "value": 40.11,
-        "seasonAverage": 41.61,
+        "seasonAverage": 41.4,
         "periods": [
           40.74,
           42,
@@ -8429,7 +8429,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "time_to_defensive_action_after_loss_att_half_s": {
         "value": 5.579999923706055,
-        "seasonAverage": 5.99,
+        "seasonAverage": 6.15,
         "periods": [
           4.23,
           0,
@@ -8441,7 +8441,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "xt": {
         "value": 2.01,
-        "seasonAverage": 1.42,
+        "seasonAverage": 1.47,
         "periods": [
           0.31,
           0.37,
@@ -8452,7 +8452,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       },
       "opp_xt": {
-        "value": 1.27,
+        "value": 1.28,
         "seasonAverage": 0,
         "periods": [
           0.1,
@@ -8465,7 +8465,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       },
       "np_xg": {
         "value": 1.76,
-        "seasonAverage": 1.34,
+        "seasonAverage": 1.42,
         "periods": [
           0.38,
           0.35,
@@ -8476,7 +8476,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       },
       "opp_np_xg": {
-        "value": 1.33,
+        "value": 1.34,
         "seasonAverage": 0,
         "periods": [
           0.07,
@@ -8484,7 +8484,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0,
           0.09,
           0.58,
-          0.58
+          0.59
         ]
       },
       "np_xg_per_shot": {
@@ -8508,7 +8508,7 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
           0,
           0.09,
           0.29,
-          0.19
+          0.2
         ]
       }
     }
@@ -8523,58 +8523,684 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
     "opponent": "Malmö FF",
     "opponentTeamId": 6709,
     "isHome": true,
-    "sourceUrl": "https://reports.twelve.football/reports/hammarby-match-report-vs-malm%C3%B6-ff-UY4GWrBooa.pdf",
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-05-17-14-00-hammarby-malm-ff",
     "metrics": {
-      "ball_possession_pct": { "value": 0.56, "seasonAverage": 0.5, "periods": [0.58, 0.55, 0.60, 0.54, 0.52, 0.57] },
-      "field_tilt": { "value": 0.71, "seasonAverage": 1, "periods": [0.75, 0.65, 0.80, 0.70, 0.65, 0.72] },
-      "np_shots": { "value": 27, "seasonAverage": 12.31, "periods": [6, 4, 5, 5, 4, 3] },
-      "num_possessions_final_third": { "value": 55, "seasonAverage": 46.73, "periods": [11, 9, 10, 9, 8, 8] },
-      "num_box_entries": { "value": 24, "seasonAverage": 8, "periods": [5, 4, 5, 4, 3, 3] },
-      "xt_within_10s_after_recovery": { "value": 1.25, "seasonAverage": 0.66, "periods": [0.47, 0.06, 0.18, 0.13, 0.13, 0.28] },
-      "num_recoveries_att_half": { "value": 22, "seasonAverage": 8.02, "periods": [5, 3, 4, 4, 3, 3] },
-      "ppda": { "value": 3.87, "seasonAverage": 5.65, "periods": [3.5, 4.2, 3.8, 4.0, 3.9, 4.1] },
-      "defensive_action_height_m": { "value": 45.43, "seasonAverage": 41.61, "periods": [47.2, 44.8, 46.1, 44.5, 43.8, 45.0] },
-      "opp_np_shots": { "value": 10, "seasonAverage": 0, "periods": [1, 3, 2, 1, 2, 1] },
-      "opp_num_box_entries": { "value": 10, "seasonAverage": 0, "periods": [1, 3, 2, 1, 2, 1] },
-      "time_to_defensive_action_after_loss_att_half_s": { "value": 5.97, "seasonAverage": 5.99, "periods": [5.2, 6.1, 5.8, 5.5, 6.4, 6.8] },
-      "xt": { "value": 2.64, "seasonAverage": 1.42, "periods": [0.43, 0.33, 0.69, 0.44, 0.32, 0.42] },
-      "opp_xt": { "value": 1.45, "seasonAverage": 0, "periods": [0.09, 0.53, 0.29, 0.09, 0.23, 0.18] },
-      "np_xg": { "value": 2.86, "seasonAverage": 1.34, "periods": [0.72, 0.55, 0.62, 0.45, 0.28, 0.24] },
-      "opp_np_xg": { "value": 1.04, "seasonAverage": 0, "periods": [0.05, 0.40, 0.30, 0.10, 0.12, 0.07] },
-      "np_xg_per_shot": { "value": 0.11, "seasonAverage": 0.11, "periods": [0.12, 0.14, 0.12, 0.09, 0.07, 0.08] },
-      "opp_np_xg_per_shot": { "value": 0.10, "seasonAverage": 0, "periods": [0.05, 0.13, 0.15, 0.10, 0.06, 0.07] }
+      "ball_possession_pct": {
+        "value": 0.55,
+        "seasonAverage": 0.5,
+        "periods": [
+          0.67,
+          0.45,
+          0.64,
+          0.58,
+          0.4,
+          0.55
+        ]
+      },
+      "field_tilt": {
+        "value": 0.7368421052631579,
+        "seasonAverage": 1,
+        "periods": [
+          0.8333333333333334,
+          0.4,
+          0.8571428571428571,
+          1,
+          0.375,
+          1
+        ]
+      },
+      "np_shots": {
+        "value": 28,
+        "seasonAverage": 12.75,
+        "periods": [
+          5,
+          2,
+          6,
+          6,
+          3,
+          6
+        ]
+      },
+      "num_possessions_final_third": {
+        "value": 58,
+        "seasonAverage": 46.94,
+        "periods": [
+          12,
+          6,
+          11,
+          14,
+          7,
+          8
+        ]
+      },
+      "num_box_entries": {
+        "value": 27,
+        "seasonAverage": 8.41,
+        "periods": [
+          5,
+          3,
+          5,
+          5,
+          3,
+          6
+        ]
+      },
+      "xt_within_10s_after_recovery": {
+        "value": 1.25,
+        "seasonAverage": 0.67,
+        "periods": [
+          0.47,
+          0.06,
+          0.18,
+          0.13,
+          0.13,
+          0.28
+        ]
+      },
+      "num_recoveries_att_half": {
+        "value": 12,
+        "seasonAverage": 7.94,
+        "periods": [
+          6,
+          0,
+          1,
+          1,
+          1,
+          3
+        ]
+      },
+      "ppda": {
+        "value": 3.87,
+        "seasonAverage": 5.81,
+        "periods": [
+          2.44,
+          4.93,
+          2.8,
+          4.17,
+          3.5,
+          5.43
+        ]
+      },
+      "defensive_action_height_m": {
+        "value": 45.43,
+        "seasonAverage": 41.4,
+        "periods": [
+          51.04,
+          40.01,
+          38.89,
+          51.33,
+          46.32,
+          45.72
+        ]
+      },
+      "opp_np_shots": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          3,
+          1,
+          0,
+          5,
+          0
+        ]
+      },
+      "opp_num_box_entries": {
+        "value": 10,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          5,
+          1,
+          0,
+          3,
+          0
+        ]
+      },
+      "time_to_defensive_action_after_loss_att_half_s": {
+        "value": 5.96999979019165,
+        "seasonAverage": 6.15,
+        "periods": [
+          6.55,
+          3.43,
+          6.05,
+          8.31,
+          2.94,
+          9.8
+        ]
+      },
+      "xt": {
+        "value": 2.64,
+        "seasonAverage": 1.47,
+        "periods": [
+          0.43,
+          0.33,
+          0.69,
+          0.44,
+          0.32,
+          0.42
+        ]
+      },
+      "opp_xt": {
+        "value": 1.47,
+        "seasonAverage": 0,
+        "periods": [
+          0.13,
+          0.53,
+          0.29,
+          0.09,
+          0.25,
+          0.18
+        ]
+      },
+      "np_xg": {
+        "value": 3.18,
+        "seasonAverage": 1.42,
+        "periods": [
+          0.45,
+          0.16,
+          0.86,
+          0.19,
+          0.43,
+          1.1
+        ]
+      },
+      "opp_np_xg": {
+        "value": 1.04,
+        "seasonAverage": 0,
+        "periods": [
+          0.12,
+          0.38,
+          0.42,
+          0,
+          0.12,
+          0
+        ]
+      },
+      "np_xg_per_shot": {
+        "value": 0.11,
+        "seasonAverage": 0.11,
+        "periods": [
+          0.09,
+          0.08,
+          0.14,
+          0.03,
+          0.14,
+          0.18
+        ]
+      },
+      "opp_np_xg_per_shot": {
+        "value": 0.1,
+        "seasonAverage": 0,
+        "periods": [
+          0.12,
+          0.13,
+          0.42,
+          0,
+          0.02,
+          0
+        ]
+      }
     }
   },
   {
-    "key": "2026-gw-15",
+    "key": "2026-gw-9",
     "season": 2026,
     "competition": "Allsvenskan 2026",
-    "gameweek": 15,
+    "gameweek": 9,
     "date": "2026-05-20",
     "matchName": "GAIS - Hammarby, 2-0",
     "opponent": "GAIS",
-    "opponentTeamId": null,
+    "opponentTeamId": 6732,
     "isHome": false,
-    "sourceUrl": "https://reports.twelve.football/reports/hammarby-match-report-vs-gais-wiWEP2gYDk.pdf",
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-05-20-19-00-gais-hammarby",
     "metrics": {
-      "ball_possession_pct": { "value": 0.64, "seasonAverage": 0.5, "periods": [0.65, 0.62, 0.68, 0.60, 0.64, 0.63] },
-      "field_tilt": { "value": 0.60, "seasonAverage": 1, "periods": [0.60, 0.55, 0.65, 0.60, 0.55, 0.62] },
-      "np_shots": { "value": 16, "seasonAverage": 12.31, "periods": [3, 2, 3, 4, 2, 2] },
-      "num_possessions_final_third": { "value": 45, "seasonAverage": 46.73, "periods": [8, 6, 7, 8, 6, 10] },
-      "num_box_entries": { "value": 15, "seasonAverage": 8, "periods": [3, 2, 3, 3, 2, 2] },
-      "xt_within_10s_after_recovery": { "value": 0.86, "seasonAverage": 0.66, "periods": [0.26, 0.11, 0.15, 0.12, 0.07, 0.15] },
-      "num_recoveries_att_half": { "value": 12, "seasonAverage": 8.02, "periods": [3, 2, 2, 2, 1, 2] },
-      "ppda": { "value": 3.82, "seasonAverage": 5.65, "periods": [4.0, 3.5, 3.8, 4.2, 3.5, 3.6] },
-      "defensive_action_height_m": { "value": 42.55, "seasonAverage": 41.61, "periods": [44.0, 43.0, 42.5, 43.5, 41.0, 41.0] },
-      "opp_np_shots": { "value": 16, "seasonAverage": 0, "periods": [2, 3, 2, 3, 2, 4] },
-      "opp_num_box_entries": { "value": 13, "seasonAverage": 0, "periods": [2, 3, 2, 3, 1, 2] },
-      "time_to_defensive_action_after_loss_att_half_s": { "value": 6.16, "seasonAverage": 5.99, "periods": [5.5, 7.0, 6.0, 6.5, 5.8, 6.75] },
-      "xt": { "value": 1.80, "seasonAverage": 1.42, "periods": [0.21, 0.05, 0.34, 0.57, 0.13, 0.49] },
-      "opp_xt": { "value": 1.72, "seasonAverage": 0, "periods": [0.12, 0.30, 0.19, 0.60, 0.06, 0.40] },
-      "np_xg": { "value": 1.97, "seasonAverage": 1.34, "periods": [0.30, 0.15, 0.40, 0.55, 0.20, 0.37] },
-      "opp_np_xg": { "value": 2.64, "seasonAverage": 0, "periods": [0.10, 0.35, 0.20, 0.70, 0.05, 1.24] },
-      "np_xg_per_shot": { "value": 0.12, "seasonAverage": 0.11, "periods": [0.10, 0.08, 0.13, 0.14, 0.10, 0.19] },
-      "opp_np_xg_per_shot": { "value": 0.17, "seasonAverage": 0, "periods": [0.05, 0.12, 0.10, 0.23, 0.03, 0.31] }
+      "ball_possession_pct": {
+        "value": 0.64,
+        "seasonAverage": 0.5,
+        "periods": [
+          0.68,
+          0.54,
+          0.74,
+          0.57,
+          0.63,
+          0.66
+        ]
+      },
+      "field_tilt": {
+        "value": 0.5,
+        "seasonAverage": 1,
+        "periods": [
+          1,
+          0.25,
+          0.8,
+          0.45454545454545453,
+          1,
+          0.25
+        ]
+      },
+      "np_shots": {
+        "value": 16,
+        "seasonAverage": 12.75,
+        "periods": [
+          3,
+          1,
+          4,
+          5,
+          1,
+          2
+        ]
+      },
+      "num_possessions_final_third": {
+        "value": 57,
+        "seasonAverage": 46.93,
+        "periods": [
+          13,
+          6,
+          7,
+          8,
+          9,
+          14
+        ]
+      },
+      "num_box_entries": {
+        "value": 13,
+        "seasonAverage": 8.41,
+        "periods": [
+          3,
+          2,
+          2,
+          4,
+          0,
+          2
+        ]
+      },
+      "xt_within_10s_after_recovery": {
+        "value": 0.86,
+        "seasonAverage": 0.67,
+        "periods": [
+          0.26,
+          0.11,
+          0.15,
+          0.12,
+          0.07,
+          0.14
+        ]
+      },
+      "num_recoveries_att_half": {
+        "value": 13,
+        "seasonAverage": 7.94,
+        "periods": [
+          6,
+          2,
+          1,
+          0,
+          1,
+          3
+        ]
+      },
+      "ppda": {
+        "value": 3.82,
+        "seasonAverage": 5.81,
+        "periods": [
+          2.94,
+          9.17,
+          2.93,
+          3.83,
+          9.75,
+          2.48
+        ]
+      },
+      "defensive_action_height_m": {
+        "value": 42.55,
+        "seasonAverage": 41.4,
+        "periods": [
+          53.05,
+          36.85,
+          42.25,
+          35.73,
+          35.21,
+          48.68
+        ]
+      },
+      "opp_np_shots": {
+        "value": 16,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          3,
+          1,
+          6,
+          0,
+          6
+        ]
+      },
+      "opp_num_box_entries": {
+        "value": 11,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          4,
+          1,
+          3,
+          0,
+          2
+        ]
+      },
+      "time_to_defensive_action_after_loss_att_half_s": {
+        "value": 5.849999904632568,
+        "seasonAverage": 6.15,
+        "periods": [
+          6.52,
+          6.45,
+          6.02,
+          9.08,
+          3.16,
+          2.92
+        ]
+      },
+      "xt": {
+        "value": 1.8,
+        "seasonAverage": 1.47,
+        "periods": [
+          0.21,
+          0.05,
+          0.34,
+          0.57,
+          0.13,
+          0.49
+        ]
+      },
+      "opp_xt": {
+        "value": 1.72,
+        "seasonAverage": 0,
+        "periods": [
+          0.12,
+          0.3,
+          0.19,
+          0.62,
+          0.06,
+          0.42
+        ]
+      },
+      "np_xg": {
+        "value": 1.97,
+        "seasonAverage": 1.42,
+        "periods": [
+          0.38,
+          0.05,
+          0.6,
+          0.77,
+          0.02,
+          0.14
+        ]
+      },
+      "opp_np_xg": {
+        "value": 2.64,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          0.33,
+          0.16,
+          0.81,
+          0,
+          1.35
+        ]
+      },
+      "np_xg_per_shot": {
+        "value": 0.12,
+        "seasonAverage": 0.11,
+        "periods": [
+          0.13,
+          0.05,
+          0.15,
+          0.15,
+          0.02,
+          0.07
+        ]
+      },
+      "opp_np_xg_per_shot": {
+        "value": 0.17,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          0.11,
+          0.16,
+          0.14,
+          0,
+          0.22
+        ]
+      }
+    }
+  },
+  {
+    "key": "2026-gw-10",
+    "season": 2026,
+    "competition": "Allsvenskan 2026",
+    "gameweek": 10,
+    "date": "2026-05-24",
+    "matchName": "Hammarby - AIK, 1-2",
+    "opponent": "AIK",
+    "opponentTeamId": 6716,
+    "isHome": true,
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-05-24-14-00-hammarby-aik",
+    "metrics": {
+      "ball_possession_pct": {
+        "value": 0.53,
+        "seasonAverage": 0.5,
+        "periods": [
+          0.67,
+          0.41,
+          0.66,
+          0.36,
+          0.48,
+          0.62
+        ]
+      },
+      "field_tilt": {
+        "value": 0.6206896551724138,
+        "seasonAverage": 1,
+        "periods": [
+          0.8571428571428571,
+          0.5,
+          1,
+          0.5,
+          0.5,
+          0.42857142857142855
+        ]
+      },
+      "np_shots": {
+        "value": 18,
+        "seasonAverage": 12.75,
+        "periods": [
+          6,
+          2,
+          2,
+          3,
+          1,
+          3
+        ]
+      },
+      "num_possessions_final_third": {
+        "value": 49,
+        "seasonAverage": 46.94,
+        "periods": [
+          13,
+          6,
+          11,
+          6,
+          5,
+          7
+        ]
+      },
+      "num_box_entries": {
+        "value": 7,
+        "seasonAverage": 8.41,
+        "periods": [
+          1,
+          1,
+          2,
+          0,
+          1,
+          2
+        ]
+      },
+      "xt_within_10s_after_recovery": {
+        "value": 0.76,
+        "seasonAverage": 0.67,
+        "periods": [
+          0.27,
+          0.19,
+          0.09,
+          0.03,
+          0.07,
+          0.11
+        ]
+      },
+      "num_recoveries_att_half": {
+        "value": 8,
+        "seasonAverage": 7.94,
+        "periods": [
+          2,
+          2,
+          2,
+          0,
+          1,
+          1
+        ]
+      },
+      "ppda": {
+        "value": 6.76,
+        "seasonAverage": 5.81,
+        "periods": [
+          3.54,
+          6.64,
+          14.33,
+          16,
+          6,
+          5.29
+        ]
+      },
+      "defensive_action_height_m": {
+        "value": 43.26,
+        "seasonAverage": 41.4,
+        "periods": [
+          47.39,
+          46.25,
+          36.4,
+          34.44,
+          54.31,
+          40.08
+        ]
+      },
+      "opp_np_shots": {
+        "value": 11,
+        "seasonAverage": 0,
+        "periods": [
+          1,
+          2,
+          0,
+          3,
+          1,
+          4
+        ]
+      },
+      "opp_num_box_entries": {
+        "value": 3,
+        "seasonAverage": 0,
+        "periods": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ]
+      },
+      "time_to_defensive_action_after_loss_att_half_s": {
+        "value": 7.429999828338623,
+        "seasonAverage": 6.15,
+        "periods": [
+          3.8,
+          19.08,
+          7.43,
+          10.47,
+          14.65,
+          9.48
+        ]
+      },
+      "xt": {
+        "value": 1.4,
+        "seasonAverage": 1.47,
+        "periods": [
+          0.26,
+          0.19,
+          0.25,
+          0.12,
+          0.1,
+          0.48
+        ]
+      },
+      "opp_xt": {
+        "value": 0.83,
+        "seasonAverage": 0,
+        "periods": [
+          0.22,
+          0.12,
+          0.04,
+          0.2,
+          0.01,
+          0.24
+        ]
+      },
+      "np_xg": {
+        "value": 2.03,
+        "seasonAverage": 1.42,
+        "periods": [
+          0.32,
+          0.3,
+          0.16,
+          0.27,
+          0.44,
+          0.5
+        ]
+      },
+      "opp_np_xg": {
+        "value": 1.42,
+        "seasonAverage": 0,
+        "periods": [
+          0.07,
+          0.01,
+          0,
+          0.94,
+          0.04,
+          0.3
+        ]
+      },
+      "np_xg_per_shot": {
+        "value": 0.11,
+        "seasonAverage": 0.11,
+        "periods": [
+          0.05,
+          0.15,
+          0.08,
+          0.09,
+          0.44,
+          0.17
+        ]
+      },
+      "opp_np_xg_per_shot": {
+        "value": 0.13,
+        "seasonAverage": 0,
+        "periods": [
+          0.07,
+          0,
+          0,
+          0.31,
+          0.04,
+          0.08
+        ]
+      }
     }
   }
 ];
