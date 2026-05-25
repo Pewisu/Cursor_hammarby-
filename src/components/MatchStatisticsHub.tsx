@@ -3769,6 +3769,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         )}
 
+        {mode === "round" && round === 9 && (
+          <div id="prediction-vs-outcome">
+            <PredictionVsOutcome {...round9AikPredictionVsOutcome} />
+          </div>
+        )}
+
         {mode === "round" && round === 15 && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round9PredictionVsOutcome} />
