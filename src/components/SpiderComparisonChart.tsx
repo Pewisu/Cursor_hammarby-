@@ -3,10 +3,10 @@
 import { useMemo, useState } from "react";
 import type { SpiderComparisonAxis } from "@/lib/upcomingOpponentsData";
 
-const SPIDER_CENTER_X = 190;
+const SPIDER_CENTER_X = 210;
 const SPIDER_CENTER_Y = 165;
-const SPIDER_RADIUS = 110;
-const SPIDER_LABEL_RADIUS = 132;
+const SPIDER_RADIUS = 105;
+const SPIDER_LABEL_RADIUS = 126;
 const SPIDER_RING_STEPS = [20, 40, 60, 80, 100];
 
 const spiderShortLabels: Record<string, string> = {
@@ -22,6 +22,15 @@ const spiderShortLabels: Record<string, string> = {
   "Hållna nollor (%)": "Hållna nollor",
   "Bollinnehav (%)": "Bollinnehav",
   "Framåtpassningar / match": "Framåtpassningar",
+  "Field tilt (%)": "Field tilt",
+  "PPDA (press)": "PPDA",
+  "Boxberöringar / match": "Boxberör.",
+  "HQ-skott / match": "HQ-skott",
+  "Turnovers / match": "Turnovers",
+  "Progressiva passningar / match": "Prog. pass",
+  "Konverteringsgrad": "Konvertering",
+  "xGA / match": "xGA",
+  "Nyckelpassningar / match": "Nyckelpn.",
 };
 
 function getSpiderPoint(index: number, total: number, score: number, radius: number) {
@@ -117,8 +126,8 @@ export default function SpiderComparisonChart({ axes, opponentLabel = "Motstånd
 
         <div className="mt-2 overflow-x-auto">
           <svg
-            viewBox="0 0 380 340"
-            className="mx-auto h-[320px] w-full min-w-[320px]"
+            viewBox="0 0 420 340"
+            className="mx-auto h-[320px] w-full min-w-[300px]"
             role="img"
             aria-label={`Radarjämförelse mellan Hammarby och ${opponentLabel}`}
           >

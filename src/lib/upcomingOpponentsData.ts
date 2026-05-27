@@ -1333,7 +1333,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "~17p, 22-10 i mål. 5V-2O-3L senaste 10 (inkl. GAIS-förlust och AIK-derby). Bästa försvaret i ligan (10 insläppta).",
+        body: "~17p, 22-10 i mål. 5V-2O-3L senaste 10 (inkl. GAIS-förlust och AIK-derby). Starkt försvar (1,0 insläppta/match).",
         tone: "emerald",
       },
       {
