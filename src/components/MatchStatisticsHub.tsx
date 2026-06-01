@@ -28,6 +28,7 @@ import PredictionVsOutcome from "@/components/PredictionVsOutcome";
 import { round8PredictionVsOutcome } from "@/lib/predictionVsOutcomeData";
 import { round9PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9Data";
 import { round9AikPredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9AikData";
+import { round10PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound10Data";
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
 
@@ -3772,6 +3773,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         {mode === "round" && round === 9 && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round9AikPredictionVsOutcome} />
+          </div>
+        )}
+
+        {mode === "round" && round === 10 && (
+          <div id="prediction-vs-outcome">
+            <PredictionVsOutcome {...round10PredictionVsOutcome} />
           </div>
         )}
 
