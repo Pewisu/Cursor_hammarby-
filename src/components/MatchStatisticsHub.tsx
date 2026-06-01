@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   hammarbyRoundMatchStats,
   type RoundMatchStats,
@@ -1112,6 +1112,52 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       ? sortedMatches.find((item) => item.gameweek === round) ?? null
       : null;
   const roundOverview = mode === "round" && selectedRoundMatch ? buildRoundOverview(selectedRoundMatch) : null;
+
+  const matchRankItems = useMemo(() => {
+    if (mode !== "round" || typeof round !== "number") return [];
+    const currentAnalysis = hammarbyMatchAnalysisRounds.find(
+      (r) => r.season === 2026 && r.gameweek === round
+    );
+    if (!currentAnalysis) return [];
+    const season2026Rows = hammarbyMatchAnalysisRounds.filter(
+      (r) => r.season === 2026
+    );
+    if (season2026Rows.length < 2) return [];
+
+    const items = hammarbyMatchAnalysisMetricDefinitions
+      .map((def) => {
+        const current = currentAnalysis.metrics[def.key];
+        if (!current || current.value === 0) return null;
+        const allValues = season2026Rows
+          .map((r) => r.metrics[def.key]?.value ?? null)
+          .filter((v): v is number => v !== null && v !== 0);
+        if (allValues.length < 2) return null;
+        const sorted = [...allValues].sort((a, b) =>
+          def.direction === "higher" ? b - a : a - b
+        );
+        const rank = sorted.indexOf(current.value) + 1;
+        const total = sorted.length;
+        const tone: "green" | "red" | "neutral" =
+          rank <= Math.ceil(total * 0.25) ? "green" : rank >= Math.ceil(total * 0.75) ? "red" : "neutral";
+        return {
+          label: def.label,
+          value: current.value,
+          rank,
+          total,
+          isBest: rank === 1,
+          isWorst: rank === total,
+          format: def.format,
+          decimals: def.decimals,
+          tone,
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => item !== null);
+
+    const worst = items.filter((i) => i.tone === "red").sort((a, b) => (b.rank / b.total) - (a.rank / a.total));
+    const best = items.filter((i) => i.tone === "green").sort((a, b) => (a.rank / a.total) - (b.rank / b.total));
+    const neutral = items.filter((i) => i.tone === "neutral");
+    return [...worst, ...neutral, ...best];
+  }, [mode, round]);
   const standoutPlayersForRound =
     mode === "round" && typeof round === "number"
       ? hammarbyRoundPlayerHighlights.find((entry) => entry.gameweek === round) ?? null
@@ -2525,6 +2571,51 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </section>
           )}
 
+        {mode === "round" && matchRankItems.length > 0 && (
+          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-5">
+            <h2 className="text-base font-semibold text-white">Matchranking (Twelve)</h2>
+            <p className="mt-1 text-xs text-slate-400">
+              Hur matchens nyckeltal rankas mot alla Hammarbys matcher 2026.
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {matchRankItems.map((item) => (
+                <div
+                  key={item.label}
+                  className={`rounded-lg border px-3 py-2 ${
+                    item.tone === "red"
+                      ? "border-rose-500/40 bg-rose-500/10"
+                      : item.tone === "green"
+                        ? "border-emerald-500/40 bg-emerald-500/10"
+                        : "border-slate-600/50 bg-slate-900/50"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-[11px] text-slate-400">{item.label}</p>
+                    <span
+                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                        item.tone === "red"
+                          ? "bg-rose-500/20 text-rose-200"
+                          : item.tone === "green"
+                            ? "bg-emerald-500/20 text-emerald-200"
+                            : "bg-slate-700/50 text-slate-300"
+                      }`}
+                    >
+                      {item.rank}/{item.total}
+                    </span>
+                  </div>
+                  <p className={`mt-1 text-sm font-semibold ${
+                    item.tone === "red" ? "text-rose-100" : item.tone === "green" ? "text-emerald-100" : "text-slate-100"
+                  }`}>
+                    {item.format === "percent" ? `${(item.value * 100).toFixed(item.decimals)}%` : item.value.toFixed(item.decimals)}
+                    {item.isWorst && <span className="ml-1 text-[10px] text-rose-300">Sämst</span>}
+                    {item.isBest && <span className="ml-1 text-[10px] text-emerald-300">Bäst</span>}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-slate-400">
@@ -2956,7 +3047,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {mode === "round" &&
+          {mode !== "round" &&
             effectiveMatchAnalysisViewMode === "round" &&
             comparisonRowA &&
             comparisonRowB && (
@@ -3044,7 +3135,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {effectiveMatchAnalysisViewMode === "season-average" && (
+          {mode !== "round" && effectiveMatchAnalysisViewMode === "season-average" && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
@@ -3360,7 +3451,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          {effectiveMatchAnalysisViewMode === "round" && roundVsSeasonRow && (
+          {mode !== "round" && effectiveMatchAnalysisViewMode === "round" && roundVsSeasonRow && (
             <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför vald omgång</h3>
