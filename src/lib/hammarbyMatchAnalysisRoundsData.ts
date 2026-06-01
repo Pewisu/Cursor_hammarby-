@@ -9202,5 +9202,145 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       }
     }
+  },
+  {
+    "key": "2026-gw-10",
+    "season": 2026,
+    "competition": "Allsvenskan 2026",
+    "gameweek": 10,
+    "date": "2026-05-31",
+    "matchName": "BK Häcken - Hammarby, 3-2",
+    "opponent": "BK Häcken",
+    "opponentTeamId": null,
+    "isHome": false,
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-05-31-14-00-hacken-hammarby",
+    "metrics": {
+      "ball_possession_pct": {
+        "value": 0.55,
+        "seasonAverage": 0.5,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "field_tilt": {
+        "value": 0.62,
+        "seasonAverage": 1,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "np_shots": {
+        "value": 16,
+        "seasonAverage": 12.75,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "num_possessions_final_third": {
+        "value": 0,
+        "seasonAverage": 46.94,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "num_box_entries": {
+        "value": 0,
+        "seasonAverage": 8.41,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "xt_within_10s_after_recovery": {
+        "value": 0.88,
+        "seasonAverage": 0.67,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "num_recoveries_att_half": {
+        "value": 0,
+        "seasonAverage": 7.94,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "ppda": {
+        "value": 3.91,
+        "seasonAverage": 5.81,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "defensive_action_height_m": {
+        "value": 46.43,
+        "seasonAverage": 41.4,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "opp_np_shots": {
+        "value": 19,
+        "seasonAverage": 0,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "opp_num_box_entries": {
+        "value": 0,
+        "seasonAverage": 0,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "time_to_defensive_action_after_loss_att_half_s": {
+        "value": 7.36,
+        "seasonAverage": 6.15,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "xt": {
+        "value": 1.93,
+        "seasonAverage": 1.47,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "opp_xt": {
+        "value": 2.11,
+        "seasonAverage": 0,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "np_xg": {
+        "value": 1.94,
+        "seasonAverage": 1.42,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "opp_np_xg": {
+        "value": 2.95,
+        "seasonAverage": 0,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "np_xg_per_shot": {
+        "value": 0.12,
+        "seasonAverage": 0.11,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      },
+      "opp_np_xg_per_shot": {
+        "value": 0.16,
+        "seasonAverage": 0,
+        "periods": [
+          0, 0, 0, 0, 0, 0
+        ]
+      }
+    }
   }
 ];

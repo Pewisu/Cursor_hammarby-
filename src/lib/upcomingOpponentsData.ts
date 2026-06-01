@@ -1312,6 +1312,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 10,
     roundLabel: "Omgång 10",
+    hidden: true,
     fixture: "BK Häcken - Hammarby",
     dateLabel: "Inför 31 maj 2026 · uppdaterad med Twelve season reports + Bolldata lagdata",
     oneLineSummary:
