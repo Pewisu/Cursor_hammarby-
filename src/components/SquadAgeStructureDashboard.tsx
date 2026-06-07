@@ -153,7 +153,7 @@ export function SquadAgeStructureDashboard({
               Spelarstatistik
             </Link>
             <span className="text-slate-600">/</span>
-            <span className="text-emerald-200">Truppens åldersstruktur</span>
+            <span className="text-emerald-200">Truppsammansättning</span>
           </nav>
 
           <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-end">
@@ -162,12 +162,12 @@ export function SquadAgeStructureDashboard({
                 Hammarby IF · Bolldata Trupper {season.label}
               </p>
               <h1 className="mt-3 max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                Truppens åldersstruktur
+                Truppsammansättning
               </h1>
               <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                Se vilka åldrar Hammarby har i truppen, när spelarna är födda
-                och hur mycket speltid varje åldersband faktiskt får. Vyn
-                jämför truppsammansättning med minutansvar.
+                Egen vy för Hammarbys trupp: vilka spelare som finns i
+                truppen, när de är födda och hur mycket speltid varje
+                åldersband faktiskt får.
               </p>
             </div>
 

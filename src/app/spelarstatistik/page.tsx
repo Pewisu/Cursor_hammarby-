@@ -61,14 +61,14 @@ export default function PlayerStatisticsRoutePage() {
           </Link>
 
           <Link
-            href="/spelarstatistik/trupp-aldersstruktur"
+            href="/truppsammansattning"
             className="group rounded-2xl border border-teal-500/30 bg-slate-800/80 p-6 transition-colors hover:border-teal-400/60 hover:bg-slate-800"
           >
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300">
               🧬
             </div>
             <h2 className="text-xl font-semibold text-white">
-              Truppens åldersstruktur
+              Truppsammansättning
             </h2>
             <p className="mt-2 text-sm text-slate-300">
               Se Hammarbys 2026-trupp per födelseår, åldersband och faktisk

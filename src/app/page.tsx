@@ -90,6 +90,23 @@ export default function Home() {
         </Link>
 
         <Link
+          href="/truppsammansattning"
+          className="group rounded-2xl border border-teal-500/30 bg-slate-800/80 p-6 transition-colors hover:border-teal-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300">
+            🧬
+          </div>
+          <h2 className="text-xl font-semibold text-white">Truppsammansättning</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Egen vy för Hammarbys 2026-trupp med födelseår, åldersband och
+            speltid.
+          </p>
+          <p className="mt-4 text-sm font-medium text-teal-300 group-hover:text-teal-200">
+            Öppna truppsammansättning →
+          </p>
+        </Link>
+
+        <Link
           href="/spelarstatistik/omgangsstandout"
           className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800"
         >
