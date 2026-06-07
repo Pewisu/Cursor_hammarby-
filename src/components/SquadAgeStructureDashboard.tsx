@@ -243,67 +243,132 @@ export function SquadAgeStructureDashboard({
             </div>
 
             <div className="mt-6 space-y-4">
-              {bandSummaries.map((band) => (
-                <button
-                  key={band.key}
-                  type="button"
-                  onClick={() => setSelectedBand(band.key)}
-                  className={`w-full rounded-2xl border p-4 text-left transition-colors ${
-                    selectedBand === band.key
-                      ? "border-emerald-300 bg-emerald-400/10"
-                      : "border-slate-800 bg-slate-950/35 hover:border-slate-600"
-                  }`}
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div className="flex items-center gap-3">
-                      <span
-                        className="h-3 w-3 rounded-full"
-                        style={{ backgroundColor: band.color }}
-                      />
-                      <div>
-                        <p className="font-semibold text-white">{band.label}</p>
-                        <p className="text-xs text-slate-500">{band.description}</p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-slate-300">
-                      {band.playerCount} spelare · {formatMinutes(band.minutes)}
-                    </p>
-                  </div>
+              {bandSummaries.map((band) => {
+                const isExpanded = selectedBand === band.key;
+                const bandPlayers = sortPlayers(band.players, "minutes");
 
-                  <div className="mt-4 grid gap-3 md:grid-cols-2">
-                    <div>
-                      <div className="mb-1 flex justify-between text-xs text-slate-400">
-                        <span>Truppandel</span>
-                        <span>{formatPercentage(band.playerShare)}</span>
+                return (
+                  <article
+                    key={band.key}
+                    className={`rounded-2xl border p-4 transition-colors ${
+                      isExpanded
+                        ? "border-emerald-300 bg-emerald-400/10"
+                        : "border-slate-800 bg-slate-950/35"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setSelectedBand(isExpanded ? "all" : band.key)}
+                      className="w-full text-left"
+                      aria-expanded={isExpanded}
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <span
+                            className="h-3 w-3 rounded-full"
+                            style={{ backgroundColor: band.color }}
+                          />
+                          <div>
+                            <p className="font-semibold text-white">{band.label}</p>
+                            <p className="text-xs text-slate-500">{band.description}</p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-slate-300">
+                          {band.playerCount} spelare · {formatMinutes(band.minutes)}
+                        </p>
                       </div>
-                      <div className="h-3 overflow-hidden rounded-full bg-slate-800">
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${band.playerShare}%`,
-                            backgroundColor: band.color,
-                          }}
-                        />
+
+                      <div className="mt-4 grid gap-3 md:grid-cols-2">
+                        <div>
+                          <div className="mb-1 flex justify-between text-xs text-slate-400">
+                            <span>Truppandel</span>
+                            <span>{formatPercentage(band.playerShare)}</span>
+                          </div>
+                          <div className="h-3 overflow-hidden rounded-full bg-slate-800">
+                            <div
+                              className="h-full rounded-full"
+                              style={{
+                                width: `${band.playerShare}%`,
+                                backgroundColor: band.color,
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="mb-1 flex justify-between text-xs text-slate-400">
+                            <span>Minutandel</span>
+                            <span>{formatPercentage(band.minuteShare)}</span>
+                          </div>
+                          <div className="h-3 overflow-hidden rounded-full bg-slate-800">
+                            <div
+                              className="h-full rounded-full"
+                              style={{
+                                width: `${band.minuteShare}%`,
+                                backgroundColor: band.color,
+                              }}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div>
-                      <div className="mb-1 flex justify-between text-xs text-slate-400">
-                        <span>Minutandel</span>
-                        <span>{formatPercentage(band.minuteShare)}</span>
+
+                      <p className="mt-3 text-xs font-semibold text-emerald-200">
+                        {isExpanded ? "Dölj spelare" : "Visa spelare i åldersbandet"} →
+                      </p>
+                    </button>
+
+                    {isExpanded && (
+                      <div className="mt-4 border-t border-emerald-300/20 pt-4">
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200/80">
+                          Spelare i {band.label}
+                        </p>
+                        <div className="grid gap-3 md:grid-cols-2">
+                          {bandPlayers.map((player) => (
+                            <article
+                              key={`${band.key}-${player.playerId}`}
+                              className="rounded-2xl border border-slate-800 bg-slate-950/55 p-3"
+                            >
+                              <div className="flex items-start justify-between gap-3">
+                                <div>
+                                  <h3 className="font-semibold text-white">
+                                    {player.name}
+                                  </h3>
+                                  <p className="mt-1 text-xs text-slate-500">
+                                    {roleLabels[player.roleName]} · född{" "}
+                                    {formatDate(player.birthDate)}
+                                  </p>
+                                </div>
+                                <span className="rounded-full bg-emerald-400/15 px-2.5 py-1 text-xs font-black text-emerald-200">
+                                  {player.minutes.toLocaleString("sv-SE")} min
+                                </span>
+                              </div>
+                              <dl className="mt-3 grid grid-cols-3 gap-2 text-xs">
+                                <div className="rounded-xl bg-slate-900/70 p-2">
+                                  <dt className="text-slate-500">Ålder</dt>
+                                  <dd className="mt-1 font-semibold text-white">
+                                    {player.age}
+                                  </dd>
+                                </div>
+                                <div className="rounded-xl bg-slate-900/70 p-2">
+                                  <dt className="text-slate-500">SM</dt>
+                                  <dd className="mt-1 font-semibold text-white">
+                                    {player.matches}
+                                  </dd>
+                                </div>
+                                <div className="rounded-xl bg-slate-900/70 p-2">
+                                  <dt className="text-slate-500">Starter</dt>
+                                  <dd className="mt-1 font-semibold text-white">
+                                    {player.starts}
+                                  </dd>
+                                </div>
+                              </dl>
+                            </article>
+                          ))}
+                        </div>
                       </div>
-                      <div className="h-3 overflow-hidden rounded-full bg-slate-800">
-                        <div
-                          className="h-full rounded-full"
-                          style={{
-                            width: `${band.minuteShare}%`,
-                            backgroundColor: band.color,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </button>
-              ))}
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
 
