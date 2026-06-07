@@ -32,7 +32,7 @@ export default function MatchStatisticsRoutePage() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Link
             href="/matchstatistik/sasong"
             className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
@@ -46,6 +46,25 @@ export default function MatchStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-blue-300 group-hover:text-blue-200">
               Öppna säsongsstatistik →
+            </p>
+          </Link>
+
+          <Link
+            href="/spelarstatistik/speltid-alderskategori"
+            className="group rounded-2xl border border-green-500/30 bg-slate-800/80 p-6 transition-colors hover:border-green-400/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/20 text-green-300">
+              🧩
+            </div>
+            <h2 className="text-xl font-semibold text-white">
+              Speltid per ålderskategori
+            </h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Gå till jämförelsen av Hammarbys U23-U18-minuter och seniorandel
+              över 2024, 2025 och 2026.
+            </p>
+            <p className="mt-4 text-sm font-medium text-green-300 group-hover:text-green-200">
+              Öppna åldersanalys →
             </p>
           </Link>
 
