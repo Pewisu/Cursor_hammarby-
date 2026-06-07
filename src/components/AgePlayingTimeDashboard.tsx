@@ -9,7 +9,15 @@ import {
   type HammarbyAgePlayingTimeSeason,
 } from "@/lib/hammarbyAgePlayingTimeData";
 
-type AgeBucketKey = "u18" | "age19" | "age20" | "age21" | "age22" | "age23" | "age24Plus";
+type AgeBucketKey =
+  | "u18"
+  | "age19"
+  | "age20"
+  | "age21"
+  | "age22"
+  | "age23"
+  | "peak"
+  | "twilight";
 
 type AgeBucket = {
   key: AgeBucketKey;
@@ -54,10 +62,15 @@ const bucketMeta: Record<
     description: "Sista talangåret i U23-måttet",
     color: "#fb923c",
   },
-  age24Plus: {
-    label: "24+",
-    description: "Etablerad seniorålder",
-    color: "#64748b",
+  peak: {
+    label: "Peak 24-29",
+    description: "Senioråren där spelare ofta är som mest produktiva",
+    color: "#94a3b8",
+  },
+  twilight: {
+    label: "Twilight 30+",
+    description: "Rutinerade veteranminuter",
+    color: "#475569",
   },
 };
 
@@ -99,7 +112,7 @@ function formatDelta(value: number) {
 }
 
 function buildBuckets(season: HammarbyAgePlayingTimeSeason): AgeBucket[] {
-  const { thresholds, totalAvailableMinutes } = season;
+  const { seniorBreakdown, thresholds, totalAvailableMinutes } = season;
   const rawBuckets: { key: AgeBucketKey; minutes: number }[] = [
     { key: "u18", minutes: thresholds.u18.minutes },
     { key: "age19", minutes: thresholds.u19.minutes - thresholds.u18.minutes },
@@ -107,7 +120,8 @@ function buildBuckets(season: HammarbyAgePlayingTimeSeason): AgeBucket[] {
     { key: "age21", minutes: thresholds.u21.minutes - thresholds.u20.minutes },
     { key: "age22", minutes: thresholds.u22.minutes - thresholds.u21.minutes },
     { key: "age23", minutes: thresholds.u23.minutes - thresholds.u22.minutes },
-    { key: "age24Plus", minutes: totalAvailableMinutes - thresholds.u23.minutes },
+    { key: "peak", minutes: seniorBreakdown.peak.minutes },
+    { key: "twilight", minutes: seniorBreakdown.twilight.minutes },
   ];
 
   return rawBuckets.map(({ key, minutes }) => ({
@@ -124,6 +138,107 @@ function rankLabel(rank: number, teams: number) {
 
 function miniBarWidth(percentage: number) {
   return `${Math.max(percentage, percentage > 0 ? 0.8 : 0)}%`;
+}
+
+function bucketBarLabel(bucket: AgeBucket) {
+  if (bucket.key === "peak") return "Peak";
+  if (bucket.key === "twilight") return "30+";
+  return bucket.label;
+}
+
+function AverageAgeSection({
+  seasons,
+}: {
+  seasons: HammarbyAgePlayingTimeSeason[];
+}) {
+  const maxAge = Math.max(
+    ...seasons.flatMap((season) => [
+      season.averageAge.totalSquad,
+      season.averageAge.startingEleven,
+      season.averageAge.bench,
+      season.averageAge.substitutions,
+    ])
+  );
+  const rows = [
+    {
+      key: "totalSquad",
+      label: "Truppsnitt",
+      description: "Alla matchtruppsminuter i Bolldatas snittålder.",
+    },
+    {
+      key: "startingEleven",
+      label: "Startelva",
+      description: "Åldern i laget som startar matcherna.",
+    },
+    {
+      key: "bench",
+      label: "Bänk",
+      description: "Hur ung eller rutinerad reservkraften är.",
+    },
+    {
+      key: "substitutions",
+      label: "Inbyten",
+      description: "Åldersprofilen på minuterna som kommer från bänken.",
+    },
+  ] as const;
+
+  return (
+    <section className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5 shadow-2xl shadow-slate-950/20">
+      <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
+            Snittålder
+          </p>
+          <h2 className="mt-3 text-2xl font-black text-white">
+            Hur gammal är matchtruppen?
+          </h2>
+          <p className="mt-3 text-sm leading-6 text-slate-400">
+            Här syns samma säsonger som i speltiden, men med Bolldatas
+            snittålder uppdelad på total trupp, startelva, bänk och inbyten.
+            Det visar om Hammarby blir yngre i talangminuterna eller i hela
+            matchtruppens sammansättning.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {rows.map((row) => (
+            <div key={row.key} className="rounded-2xl bg-slate-950/45 p-4">
+              <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <h3 className="font-semibold text-white">{row.label}</h3>
+                  <p className="mt-1 text-xs text-slate-500">{row.description}</p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                {seasons.map((season) => {
+                  const value = season.averageAge[row.key];
+                  return (
+                    <div
+                      key={`${row.key}-${season.label}`}
+                      className="grid grid-cols-[3.5rem_1fr_3.5rem] items-center gap-3 text-sm"
+                    >
+                      <span className="font-semibold text-slate-300">
+                        {season.label}
+                      </span>
+                      <div className="h-2.5 overflow-hidden rounded-full bg-slate-800">
+                        <div
+                          className="h-full rounded-full bg-emerald-300"
+                          style={{ width: `${(value / maxAge) * 100}%` }}
+                        />
+                      </div>
+                      <span className="text-right font-semibold text-white">
+                        {formatAge(value)}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function TrendLineChart({
@@ -284,7 +399,10 @@ export function AgePlayingTimeDashboard({
     seasons.find((season) => season.label === selectedSeasonLabel) ?? seasons[0];
   const firstSeason = seasons[0];
   const selectedBuckets = useMemo(() => buildBuckets(selectedSeason), [selectedSeason]);
-  const selectedSeniorBucket = selectedBuckets.find((bucket) => bucket.key === "age24Plus");
+  const selectedPeakBucket = selectedBuckets.find((bucket) => bucket.key === "peak");
+  const selectedTwilightBucket = selectedBuckets.find(
+    (bucket) => bucket.key === "twilight"
+  );
   const selectedDominantBucket = [...selectedBuckets].sort(
     (a, b) => b.minutes - a.minutes
   )[0];
@@ -321,9 +439,9 @@ export function AgePlayingTimeDashboard({
               </h1>
               <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
                 Jämför hur Hammarbys minuter fördelas mellan unga spelare och
-                etablerad seniorålder under 2024, 2025 och 2026. Vyn bygger på
-                Bolldatas kumulativa U23-U18-mått och bryter ned dem i tydliga
-                ålderslager.
+                etablerad seniorålder under 2024, 2025 och 2026. Vyn bryter
+                ned Bolldatas U23-U18-mått och delar dessutom 24+ i Peak
+                24-29 och Twilight 30+.
               </p>
             </div>
 
@@ -378,9 +496,11 @@ export function AgePlayingTimeDashboard({
               )} till ${formatPercentage(selectedSeason.thresholds.u21.percentage)}`,
             },
             {
-              label: `24+ ${selectedSeason.label}`,
-              value: formatPercentage(selectedSeniorBucket?.percentage ?? 0),
-              caption: `${formatMinutes(selectedSeniorBucket?.minutes ?? 0)} av totalen`,
+              label: `Peak 24-29 ${selectedSeason.label}`,
+              value: formatPercentage(selectedPeakBucket?.percentage ?? 0),
+              caption: `${formatMinutes(selectedPeakBucket?.minutes ?? 0)} · twilight ${formatPercentage(
+                selectedTwilightBucket?.percentage ?? 0
+              )}`,
             },
             {
               label: `Snittålder ${selectedSeason.label}`,
@@ -407,7 +527,8 @@ export function AgePlayingTimeDashboard({
                   Fördelning av minuter per ålderslager
                 </h2>
                 <p className="mt-1 text-sm text-slate-400">
-                  Härledda lager från Bolldatas U23-U18-tabeller.
+                  Unga lager från Bolldata och faktisk 24+ split via spelarnas
+                  födelsedatum och matchminuter.
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -457,7 +578,7 @@ export function AgePlayingTimeDashboard({
                         >
                           {bucket.percentage >= 7 && (
                             <span className="absolute inset-0 flex items-center justify-center text-xs font-black text-slate-950">
-                              {bucket.label}
+                              {bucketBarLabel(bucket)}
                             </span>
                           )}
                         </div>
@@ -495,8 +616,8 @@ export function AgePlayingTimeDashboard({
               Den största delen av Hammarbys spelminuter i vald säsong finns i
               ålderslagret {selectedDominantBucket?.label}, med{" "}
               {formatPercentage(selectedDominantBucket?.percentage ?? 0)} av
-              totalen. Det gör skiftet mellan talangexponering och etablerad
-              seniorstomme lätt att jämföra säsong för säsong.
+              totalen. Peak visar seniorer 24-29 år, medan Twilight visar 30+
+              och gör den äldre delen av truppen mer läsbar.
             </p>
 
             <dl className="mt-6 grid grid-cols-2 gap-3">
@@ -519,6 +640,24 @@ export function AgePlayingTimeDashboard({
                 </dd>
               </div>
               <div className="rounded-2xl bg-slate-950/40 p-4">
+                <dt className="text-xs text-emerald-200/70">Peak 24-29</dt>
+                <dd className="mt-1 text-2xl font-black text-white">
+                  {formatPercentage(selectedPeakBucket?.percentage ?? 0)}
+                </dd>
+                <dd className="mt-1 text-xs text-slate-300">
+                  {formatMinutes(selectedPeakBucket?.minutes ?? 0)}
+                </dd>
+              </div>
+              <div className="rounded-2xl bg-slate-950/40 p-4">
+                <dt className="text-xs text-emerald-200/70">Twilight 30+</dt>
+                <dd className="mt-1 text-2xl font-black text-white">
+                  {formatPercentage(selectedTwilightBucket?.percentage ?? 0)}
+                </dd>
+                <dd className="mt-1 text-xs text-slate-300">
+                  {formatMinutes(selectedTwilightBucket?.minutes ?? 0)}
+                </dd>
+              </div>
+              <div className="rounded-2xl bg-slate-950/40 p-4">
                 <dt className="text-xs text-emerald-200/70">Snittålder</dt>
                 <dd className="mt-1 text-2xl font-black text-white">
                   {formatAge(selectedSeason.averageAge.totalSquad)}
@@ -537,6 +676,8 @@ export function AgePlayingTimeDashboard({
             </dl>
           </div>
         </section>
+
+        <AverageAgeSection seasons={seasons} />
 
         <TrendLineChart seasons={seasons} selectedThreshold={selectedThreshold} />
 
@@ -640,7 +781,9 @@ export function AgePlayingTimeDashboard({
                 Bolldata publicerar måtten som kumulativa minuter: U23 inkluderar
                 alla spelare under 23, U22 är en delmängd av U23 och så vidare.
                 Ålderslagren i dashboarden räknas därför fram genom differensen
-                mellan intilliggande gränser.
+                mellan intilliggande gränser. Peak 24-29 och Twilight 30+ är
+                beräknade från Bolldatas matchspelardata med födelsedatum,
+                säsongsår och spelade minuter.
               </p>
             </div>
             <div className="grid gap-3 md:grid-cols-3">

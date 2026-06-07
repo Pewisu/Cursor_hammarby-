@@ -16,6 +16,17 @@ export type AverageAgeMetric = {
   teams: number;
 };
 
+export type SeniorAgeBreakdown = {
+  peak: {
+    minutes: number;
+    ageRange: "24-29";
+  };
+  twilight: {
+    minutes: number;
+    ageRange: "30+";
+  };
+};
+
 export type HammarbyAgePlayingTimeSeason = {
   season: 2024 | 2025 | 2026;
   label: string;
@@ -24,6 +35,7 @@ export type HammarbyAgePlayingTimeSeason = {
   totalAvailableMinutes: number;
   sourceUrl: string;
   thresholds: Record<AgeThresholdKey, AgeThresholdMetric>;
+  seniorBreakdown: SeniorAgeBreakdown;
   averageAge: AverageAgeMetric;
 };
 
@@ -61,6 +73,10 @@ export const hammarbyAgePlayingTimeSeasons: HammarbyAgePlayingTimeSeason[] = [
       u19: { minutes: 2621, percentage: 8.1, rank: 3, teams: 16 },
       u18: { minutes: 1929, percentage: 5.9, rank: 2, teams: 16 },
     },
+    seniorBreakdown: {
+      peak: { minutes: 13032, ageRange: "24-29" },
+      twilight: { minutes: 5200, ageRange: "30+" },
+    },
     averageAge: {
       totalSquad: 23.2,
       startingEleven: 23.5,
@@ -85,6 +101,10 @@ export const hammarbyAgePlayingTimeSeasons: HammarbyAgePlayingTimeSeason[] = [
       u19: { minutes: 922, percentage: 2.8, rank: 11, teams: 16 },
       u18: { minutes: 441, percentage: 1.4, rank: 9, teams: 16 },
     },
+    seniorBreakdown: {
+      peak: { minutes: 11717, ageRange: "24-29" },
+      twilight: { minutes: 6828, ageRange: "30+" },
+    },
     averageAge: {
       totalSquad: 23.8,
       startingEleven: 24.4,
@@ -108,6 +128,10 @@ export const hammarbyAgePlayingTimeSeasons: HammarbyAgePlayingTimeSeason[] = [
       u20: { minutes: 508, percentage: 4.3, rank: 13, teams: 16 },
       u19: { minutes: 4, percentage: 0.0, rank: 14, teams: 16 },
       u18: { minutes: 0, percentage: 0.0, rank: 13, teams: 16 },
+    },
+    seniorBreakdown: {
+      peak: { minutes: 3851, ageRange: "24-29" },
+      twilight: { minutes: 2758, ageRange: "30+" },
     },
     averageAge: {
       totalSquad: 23.9,
