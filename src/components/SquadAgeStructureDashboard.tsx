@@ -104,6 +104,28 @@ function sortPlayers(players: HammarbySquadPlayer[], sortKey: SortKey) {
   });
 }
 
+function combinedMinuteShare(
+  summaries: BandSummary[],
+  keys: SquadAgeBandKey[]
+) {
+  return summaries
+    .filter((summary) => keys.includes(summary.key))
+    .reduce((sum, summary) => sum + summary.minuteShare, 0);
+}
+
+function combinedMinutes(summaries: BandSummary[], keys: SquadAgeBandKey[]) {
+  return summaries
+    .filter((summary) => keys.includes(summary.key))
+    .reduce((sum, summary) => sum + summary.minutes, 0);
+}
+
+function deltaLabel(value: number, suffix = "") {
+  const prefix = value > 0 ? "+" : "";
+  return `${prefix}${value.toLocaleString("sv-SE", {
+    maximumFractionDigits: 1,
+  })}${suffix}`;
+}
+
 export function SquadAgeStructureDashboard({
   seasons,
 }: {
@@ -149,6 +171,14 @@ export function SquadAgeStructureDashboard({
       minutesWeightedAge: weightedAverageAge(seasonRow.players),
     };
   });
+  const firstComparison = seasonComparisons[0];
+  const latestComparison = seasonComparisons[seasonComparisons.length - 1];
+  const squadSizeDelta =
+    latestComparison.season.players.length - firstComparison.season.players.length;
+  const activePlayersDelta =
+    latestComparison.activePlayers.length - firstComparison.activePlayers.length;
+  const weightedAgeDelta =
+    latestComparison.minutesWeightedAge - firstComparison.minutesWeightedAge;
 
   const visiblePlayers = useMemo(() => {
     const filtered = season.players.filter((player) => {
@@ -204,6 +234,155 @@ export function SquadAgeStructureDashboard({
       </header>
 
       <main className="mx-auto max-w-7xl space-y-8 px-4 py-8 md:py-10">
+        <section className="rounded-3xl border border-emerald-400/20 bg-slate-900/80 p-5 shadow-2xl shadow-slate-950/25">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">
+                Överblick 2024-2026
+              </p>
+              <h2 className="mt-2 text-2xl font-black text-white">
+                Säsongerna jämförda innan djupdyket
+              </h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-400">
+                Här syns den stora rörelsen direkt: färre spelare i truppen,
+                färre aktiva med minuter och en äldre minutprofil.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              {
+                label: "Truppstorlek",
+                value: `${firstComparison.season.players.length} → ${latestComparison.season.players.length}`,
+                delta: deltaLabel(squadSizeDelta, " spelare"),
+              },
+              {
+                label: "Spelare med minuter",
+                value: `${firstComparison.activePlayers.length} → ${latestComparison.activePlayers.length}`,
+                delta: deltaLabel(activePlayersDelta, " spelare"),
+              },
+              {
+                label: "Minutviktad ålder",
+                value: `${formatAge(firstComparison.minutesWeightedAge)} → ${formatAge(
+                  latestComparison.minutesWeightedAge
+                )}`,
+                delta: deltaLabel(weightedAgeDelta, " år"),
+              },
+            ].map((card) => (
+              <article
+                key={card.label}
+                className="rounded-2xl border border-slate-800 bg-slate-950/45 p-4"
+              >
+                <p className="text-xs text-slate-500">{card.label}</p>
+                <p className="mt-1 text-2xl font-black text-white">{card.value}</p>
+                <p className="mt-1 text-sm font-semibold text-emerald-200">
+                  {card.delta} sedan 2024
+                </p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
+            {seasonComparisons.map((comparison) => {
+              const u23Minutes = combinedMinutes(comparison.summaries, [
+                "u18",
+                "u19u21",
+                "u22u23",
+              ]);
+              const u23Share = combinedMinuteShare(comparison.summaries, [
+                "u18",
+                "u19u21",
+                "u22u23",
+              ]);
+              const peakShare = combinedMinuteShare(comparison.summaries, ["peak"]);
+              const twilightShare = combinedMinuteShare(comparison.summaries, [
+                "twilight",
+              ]);
+
+              return (
+                <article
+                  key={`${comparison.season.label}-top-comparison`}
+                  className={`rounded-2xl border p-4 ${
+                    comparison.season.label === selectedSeasonLabel
+                      ? "border-emerald-300 bg-emerald-400/10"
+                      : "border-slate-800 bg-slate-950/35"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="text-2xl font-black text-white">
+                        {comparison.season.label}
+                      </h3>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {comparison.season.status}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSelectedSeasonLabel(comparison.season.label);
+                        setSelectedBand("all");
+                      }}
+                      className="rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs font-semibold text-slate-200 hover:border-emerald-300/70"
+                    >
+                      Välj
+                    </button>
+                  </div>
+
+                  <div className="mt-4 flex h-3 overflow-hidden rounded-full bg-slate-800">
+                    {comparison.summaries.map((summary) => (
+                      <div
+                        key={`${comparison.season.label}-${summary.key}-bar`}
+                        style={{
+                          width: `${summary.minuteShare}%`,
+                          backgroundColor: summary.color,
+                        }}
+                        title={`${summary.label}: ${formatPercentage(
+                          summary.minuteShare
+                        )}`}
+                      />
+                    ))}
+                  </div>
+
+                  <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">Trupp / aktiv</dt>
+                      <dd className="mt-1 font-semibold text-white">
+                        {comparison.season.players.length} /{" "}
+                        {comparison.activePlayers.length}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">Ålder</dt>
+                      <dd className="mt-1 font-semibold text-white">
+                        {formatAge(comparison.squadAverageAge)} ·{" "}
+                        {formatAge(comparison.minutesWeightedAge)}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">U23-minuter</dt>
+                      <dd className="mt-1 font-semibold text-white">
+                        {formatPercentage(u23Share)}
+                      </dd>
+                      <dd className="mt-1 text-xs text-slate-500">
+                        {formatMinutes(u23Minutes)}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">Peak / 30+</dt>
+                      <dd className="mt-1 font-semibold text-white">
+                        {formatPercentage(peakShare)} /{" "}
+                        {formatPercentage(twilightShare)}
+                      </dd>
+                    </div>
+                  </dl>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
         <section className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-4">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
@@ -266,103 +445,6 @@ export function SquadAgeStructureDashboard({
               <p className="mt-2 text-sm text-emerald-200">{card.caption}</p>
             </article>
           ))}
-        </section>
-
-        <section className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
-          <div className="flex flex-wrap items-start justify-between gap-4">
-            <div>
-              <h2 className="text-xl font-bold text-white">Jämför truppsammansättning</h2>
-              <p className="mt-1 text-sm text-slate-400">
-                2024, 2025 och 2026 sida vid sida: storlek, ålder och vilka
-                åldersband som bär minuterna.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-4 lg:grid-cols-3">
-            {seasonComparisons.map((comparison) => {
-              const topBand = [...comparison.summaries].sort(
-                (a, b) => b.minuteShare - a.minuteShare
-              )[0];
-              return (
-                <article
-                  key={comparison.season.label}
-                  className={`rounded-2xl border p-4 ${
-                    comparison.season.label === selectedSeasonLabel
-                      ? "border-emerald-300 bg-emerald-400/10"
-                      : "border-slate-800 bg-slate-950/35"
-                  }`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h3 className="text-2xl font-black text-white">
-                        {comparison.season.label}
-                      </h3>
-                      <p className="mt-1 text-xs text-slate-500">
-                        {comparison.season.status}
-                      </p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedSeasonLabel(comparison.season.label);
-                        setSelectedBand("all");
-                      }}
-                      className="rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs font-semibold text-slate-200 hover:border-emerald-300/70"
-                    >
-                      Visa
-                    </button>
-                  </div>
-
-                  <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                    <div className="rounded-xl bg-slate-900/70 p-3">
-                      <dt className="text-xs text-slate-500">Trupp</dt>
-                      <dd className="mt-1 font-semibold text-white">
-                        {comparison.season.players.length} spelare
-                      </dd>
-                    </div>
-                    <div className="rounded-xl bg-slate-900/70 p-3">
-                      <dt className="text-xs text-slate-500">Med minuter</dt>
-                      <dd className="mt-1 font-semibold text-white">
-                        {comparison.activePlayers.length}
-                      </dd>
-                    </div>
-                    <div className="rounded-xl bg-slate-900/70 p-3">
-                      <dt className="text-xs text-slate-500">Snittålder</dt>
-                      <dd className="mt-1 font-semibold text-white">
-                        {formatAge(comparison.squadAverageAge)}
-                      </dd>
-                    </div>
-                    <div className="rounded-xl bg-slate-900/70 p-3">
-                      <dt className="text-xs text-slate-500">Minutviktad</dt>
-                      <dd className="mt-1 font-semibold text-white">
-                        {formatAge(comparison.minutesWeightedAge)}
-                      </dd>
-                    </div>
-                  </dl>
-
-                  <div className="mt-4">
-                    <div className="mb-1 flex justify-between text-xs text-slate-400">
-                      <span>{topBand.label}</span>
-                      <span>{formatPercentage(topBand.minuteShare)}</span>
-                    </div>
-                    <div className="h-2.5 overflow-hidden rounded-full bg-slate-800">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${topBand.minuteShare}%`,
-                          backgroundColor: topBand.color,
-                        }}
-                      />
-                    </div>
-                    <p className="mt-2 text-xs text-slate-500">
-                      Största minutbärande åldersband · {formatMinutes(topBand.minutes)}
-                    </p>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
         </section>
 
         <section className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
