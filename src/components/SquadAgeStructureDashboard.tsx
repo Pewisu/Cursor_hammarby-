@@ -149,10 +149,6 @@ export function SquadAgeStructureDashboard({
               Start
             </Link>
             <span className="text-slate-600">/</span>
-            <Link href="/spelarstatistik" className="transition-colors hover:text-white">
-              Spelarstatistik
-            </Link>
-            <span className="text-slate-600">/</span>
             <span className="text-emerald-200">Truppsammansättning</span>
           </nav>
 
