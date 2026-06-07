@@ -126,7 +126,16 @@ function miniBarWidth(percentage: number) {
   return `${Math.max(percentage, percentage > 0 ? 0.8 : 0)}%`;
 }
 
-function TrendLineChart({ seasons }: { seasons: HammarbyAgePlayingTimeSeason[] }) {
+function TrendLineChart({
+  seasons,
+  selectedThreshold,
+}: {
+  seasons: HammarbyAgePlayingTimeSeason[];
+  selectedThreshold: AgeThresholdKey;
+}) {
+  const displayedLineKeys = lineKeys.includes(selectedThreshold)
+    ? lineKeys
+    : [...lineKeys, selectedThreshold];
   const width = 640;
   const height = 240;
   const paddingX = 56;
@@ -135,7 +144,7 @@ function TrendLineChart({ seasons }: { seasons: HammarbyAgePlayingTimeSeason[] }
     Math.ceil(
       Math.max(
         ...seasons.flatMap((season) =>
-          lineKeys.map((key) => season.thresholds[key].percentage)
+          displayedLineKeys.map((key) => season.thresholds[key].percentage)
         )
       ) / 10
     ) *
@@ -154,14 +163,18 @@ function TrendLineChart({ seasons }: { seasons: HammarbyAgePlayingTimeSeason[] }
         <div>
           <h2 className="text-lg font-semibold text-white">Utveckling i talangminuter</h2>
           <p className="mt-1 text-sm text-slate-400">
-            Kumulativ andel av Hammarbys totala spelminuter.
+            Kumulativ andel av Hammarbys totala spelminuter. Valt mått markeras.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          {lineKeys.map((key) => (
+          {displayedLineKeys.map((key) => (
             <span
               key={key}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-950/50 px-3 py-1 text-xs text-slate-200"
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs ${
+                key === selectedThreshold
+                  ? "border-white bg-white text-slate-950"
+                  : "border-slate-700 bg-slate-950/50 text-slate-200"
+              }`}
             >
               <span
                 className="h-2.5 w-2.5 rounded-full"
@@ -200,7 +213,7 @@ function TrendLineChart({ seasons }: { seasons: HammarbyAgePlayingTimeSeason[] }
           </g>
         ))}
 
-        {lineKeys.map((key) => {
+        {displayedLineKeys.map((key) => {
           const points = seasons.map((season, index) => ({
             x: xForIndex(index),
             y: yForValue(season.thresholds[key].percentage),
@@ -219,7 +232,8 @@ function TrendLineChart({ seasons }: { seasons: HammarbyAgePlayingTimeSeason[] }
                 stroke={thresholdColors[key]}
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="4"
+                strokeOpacity={key === selectedThreshold ? 1 : 0.55}
+                strokeWidth={key === selectedThreshold ? "5" : "3"}
               />
               {points.map((point) => (
                 <g key={`${key}-${point.season}`}>
@@ -517,7 +531,7 @@ export function AgePlayingTimeDashboard({
           </div>
         </section>
 
-        <TrendLineChart seasons={seasons} />
+        <TrendLineChart seasons={seasons} selectedThreshold={selectedThreshold} />
 
         <section className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
