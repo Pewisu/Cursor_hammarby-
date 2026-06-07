@@ -285,8 +285,7 @@ export function AgePlayingTimeDashboard({
   const latestSeason = seasons[seasons.length - 1];
   const firstSeason = seasons[0];
   const selectedBuckets = useMemo(() => buildBuckets(selectedSeason), [selectedSeason]);
-  const latestBuckets = useMemo(() => buildBuckets(latestSeason), [latestSeason]);
-  const latestSeniorBucket = latestBuckets.find((bucket) => bucket.key === "age24Plus");
+  const selectedSeniorBucket = selectedBuckets.find((bucket) => bucket.key === "age24Plus");
   const selectedDominantBucket = [...selectedBuckets].sort(
     (a, b) => b.minutes - a.minutes
   )[0];
@@ -332,19 +331,23 @@ export function AgePlayingTimeDashboard({
             <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-emerald-950/30 backdrop-blur">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-sm text-slate-400">Aktuell läsning</p>
+                  <p className="text-sm text-slate-400">Vald säsong · {selectedSeason.label}</p>
                   <p className="mt-1 text-3xl font-black text-white">
-                    {formatPercentage(latestSeason.thresholds.u23.percentage)}
+                    {formatPercentage(selectedSeason.thresholds.u23.percentage)}
                   </p>
                 </div>
                 <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-semibold text-emerald-200">
-                  {rankLabel(latestSeason.thresholds.u23.rank, latestSeason.thresholds.u23.teams)}
+                  {rankLabel(
+                    selectedSeason.thresholds.u23.rank,
+                    selectedSeason.thresholds.u23.teams
+                  )}
                 </span>
               </div>
               <p className="mt-4 text-sm leading-6 text-slate-300">
-                Hammarby ligger fortsatt högt i U23-minuter 2026, men U21-andelen
+                Hammarbys U23-andel för {selectedSeason.label} är{" "}
+                {formatPercentage(selectedSeason.thresholds.u23.percentage)}. U21-andelen
                 är {formatDelta(
-                  latestSeason.thresholds.u21.percentage -
+                  selectedSeason.thresholds.u21.percentage -
                     firstSeason.thresholds.u21.percentage
                 )}{" "}
                 jämfört med 2024.
@@ -358,9 +361,12 @@ export function AgePlayingTimeDashboard({
         <section className="grid gap-4 md:grid-cols-4">
           {[
             {
-              label: "U23-andel 2026",
-              value: formatPercentage(latestSeason.thresholds.u23.percentage),
-              caption: rankLabel(latestSeason.thresholds.u23.rank, latestSeason.thresholds.u23.teams),
+              label: `U23-andel ${selectedSeason.label}`,
+              value: formatPercentage(selectedSeason.thresholds.u23.percentage),
+              caption: rankLabel(
+                selectedSeason.thresholds.u23.rank,
+                selectedSeason.thresholds.u23.teams
+              ),
             },
             {
               label: "U21-skifte 2024-2026",
@@ -371,14 +377,14 @@ export function AgePlayingTimeDashboard({
               caption: "från 31,4% till 11,5%",
             },
             {
-              label: "24+ 2026",
-              value: formatPercentage(latestSeniorBucket?.percentage ?? 0),
-              caption: `${formatMinutes(latestSeniorBucket?.minutes ?? 0)} av totalen`,
+              label: `24+ ${selectedSeason.label}`,
+              value: formatPercentage(selectedSeniorBucket?.percentage ?? 0),
+              caption: `${formatMinutes(selectedSeniorBucket?.minutes ?? 0)} av totalen`,
             },
             {
-              label: "Snittålder 2026",
-              value: formatAge(latestSeason.averageAge.totalSquad),
-              caption: rankLabel(latestSeason.averageAge.rank, latestSeason.averageAge.teams),
+              label: `Snittålder ${selectedSeason.label}`,
+              value: formatAge(selectedSeason.averageAge.totalSquad),
+              caption: rankLabel(selectedSeason.averageAge.rank, selectedSeason.averageAge.teams),
             },
           ].map((card) => (
             <article
