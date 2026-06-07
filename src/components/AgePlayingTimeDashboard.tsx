@@ -194,7 +194,7 @@ function AverageAgeSection({
           </h2>
           <p className="mt-3 text-sm leading-6 text-slate-400">
             Här syns samma säsonger som i speltiden, men med Bolldatas
-            snittålder uppdelad på total trupp, startelva, bänk och inbyten.
+            snittålder uppdelad på total trupp, startelva, bänk och inbytta.
             Det visar om Hammarby blir yngre i talangminuterna eller i hela
             matchtruppens sammansättning.
           </p>
