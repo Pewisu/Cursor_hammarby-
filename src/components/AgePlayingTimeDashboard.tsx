@@ -177,7 +177,7 @@ function AverageAgeSection({
     },
     {
       key: "substitutions",
-      label: "Inbyten",
+      label: "Inbytta",
       description: "Åldersprofilen på minuterna som kommer från bänken.",
     },
   ] as const;
