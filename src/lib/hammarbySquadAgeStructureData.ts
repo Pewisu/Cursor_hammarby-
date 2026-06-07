@@ -1,6 +1,6 @@
 export type SquadAgeBandKey = "u18" | "u19u21" | "u22u23" | "peak" | "twilight";
 
-export type SquadPlayerRole = "Goalkeeper" | "Defender" | "Midfielder" | "Forward";
+export type SquadPlayerRole = "Goalkeeper" | "Defender" | "Midfielder" | "Forward" | "Unknown";
 
 export type HammarbySquadPlayer = {
   playerId: number;
@@ -41,41 +41,11 @@ export type HammarbySquadAgeStructureSeason = {
 };
 
 export const squadAgeBandDefinitions: SquadAgeBandDefinition[] = [
-  {
-    key: "u18",
-    label: "U18",
-    shortLabel: "U18",
-    description: "Akademi- och juniorålder.",
-    color: "#7dd3fc",
-  },
-  {
-    key: "u19u21",
-    label: "U19-U21",
-    shortLabel: "19-21",
-    description: "Talangåren där spelare börjar närma sig seniorrotation.",
-    color: "#22c55e",
-  },
-  {
-    key: "u22u23",
-    label: "U22-U23",
-    shortLabel: "22-23",
-    description: "Sista utvecklingssteget innan peak-åren.",
-    color: "#facc15",
-  },
-  {
-    key: "peak",
-    label: "Peak 24-29",
-    shortLabel: "Peak",
-    description: "Senioråren där truppen oftast bör bära mest minuter.",
-    color: "#fb923c",
-  },
-  {
-    key: "twilight",
-    label: "Twilight 30+",
-    shortLabel: "30+",
-    description: "Rutinerade spelare och veteranminuter.",
-    color: "#64748b",
-  },
+  { key: "u18", label: "U18", shortLabel: "U18", description: "Akademi- och juniorålder.", color: "#7dd3fc" },
+  { key: "u19u21", label: "U19-U21", shortLabel: "19-21", description: "Talangåren där spelare börjar närma sig seniorrotation.", color: "#22c55e" },
+  { key: "u22u23", label: "U22-U23", shortLabel: "22-23", description: "Sista utvecklingssteget innan peak-åren.", color: "#facc15" },
+  { key: "peak", label: "Peak 24-29", shortLabel: "Peak", description: "Senioråren där truppen oftast bör bära mest minuter.", color: "#fb923c" },
+  { key: "twilight", label: "Twilight 30+", shortLabel: "30+", description: "Rutinerade spelare och veteranminuter.", color: "#64748b" },
 ];
 
 export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[] = [
@@ -761,6 +731,8 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "birthYear": 2006,
         "age": 18,
         "ageBand": "u18",
+        "roleName": "Unknown",
+        "roleCode": "NA",
         "minutes": 0,
         "matches": 0,
         "starts": 0,
@@ -1225,6 +1197,8 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "birthYear": 2006,
         "age": 19,
         "ageBand": "u19u21",
+        "roleName": "Unknown",
+        "roleCode": "NA",
         "minutes": 108,
         "matches": 6,
         "starts": 1,
@@ -1817,6 +1791,4 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
   }
 ];
 
-export const hammarbySquadAgeStructure2026 = hammarbySquadAgeStructureSeasons.find(
-  (season) => season.season === 2026
-) ?? hammarbySquadAgeStructureSeasons[hammarbySquadAgeStructureSeasons.length - 1];
+export const hammarbySquadAgeStructure2026 = hammarbySquadAgeStructureSeasons.find((season) => season.season === 2026) ?? hammarbySquadAgeStructureSeasons[hammarbySquadAgeStructureSeasons.length - 1];

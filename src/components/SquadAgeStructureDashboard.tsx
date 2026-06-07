@@ -31,6 +31,7 @@ const roleLabels: Record<SquadPlayerRole, string> = {
   Defender: "Försvarare",
   Midfielder: "Mittfältare",
   Forward: "Anfallare",
+  Unknown: "Okänd",
 };
 
 function formatMinutes(minutes: number) {
