@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { SquadAgeStructureDashboard } from "@/components/SquadAgeStructureDashboard";
-import { hammarbySquadAgeStructure2026 } from "@/lib/hammarbySquadAgeStructureData";
+import { hammarbySquadAgeStructureSeasons } from "@/lib/hammarbySquadAgeStructureData";
 
 export const metadata: Metadata = {
   title: "Truppens åldersstruktur | Hammarby 2026",
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function SquadAgeStructurePage() {
-  return <SquadAgeStructureDashboard season={hammarbySquadAgeStructure2026} />;
+  return <SquadAgeStructureDashboard seasons={hammarbySquadAgeStructureSeasons} />;
 }
