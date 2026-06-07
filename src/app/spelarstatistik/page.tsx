@@ -24,7 +24,7 @@ export default function PlayerStatisticsRoutePage() {
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
           <Link
             href="/spelarstatistik/omgangsstandout"
             className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800"
@@ -57,6 +57,25 @@ export default function PlayerStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
               Öppna åldersanalys →
+            </p>
+          </Link>
+
+          <Link
+            href="/spelarstatistik/trupp-aldersstruktur"
+            className="group rounded-2xl border border-teal-500/30 bg-slate-800/80 p-6 transition-colors hover:border-teal-400/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-teal-500/20 text-teal-300">
+              🧬
+            </div>
+            <h2 className="text-xl font-semibold text-white">
+              Truppens åldersstruktur
+            </h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Se Hammarbys 2026-trupp per födelseår, åldersband och faktisk
+              speltid.
+            </p>
+            <p className="mt-4 text-sm font-medium text-teal-300 group-hover:text-teal-200">
+              Öppna truppanalys →
             </p>
           </Link>
 
