@@ -733,7 +733,41 @@ export function AgePlayingTimeDashboard({
                 Minuter, andel och ranking för Hammarby per åldersgräns.
               </p>
             </div>
-            <div className="overflow-x-auto">
+            <div className="space-y-3 p-4 md:hidden">
+              {ageThresholdOrder.map((key) => (
+                <article
+                  key={key}
+                  className="rounded-2xl border border-slate-800 bg-slate-950/45 p-4"
+                >
+                  <h3 className="font-semibold text-white">{ageThresholdLabels[key]}</h3>
+                  <div className="mt-3 space-y-3">
+                    {seasons.map((season) => {
+                      const metric = season.thresholds[key];
+                      return (
+                        <div
+                          key={`${season.label}-${key}-mobile`}
+                          className="rounded-xl bg-slate-900/70 p-3"
+                        >
+                          <div className="flex items-center justify-between gap-3">
+                            <span className="text-sm font-semibold text-slate-300">
+                              {season.label}
+                            </span>
+                            <span className="text-lg font-black text-white">
+                              {formatPercentage(metric.percentage)}
+                            </span>
+                          </div>
+                          <div className="mt-1 flex items-center justify-between gap-3 text-xs text-slate-400">
+                            <span>{formatMinutes(metric.minutes)}</span>
+                            <span>{rankLabel(metric.rank, metric.teams)}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </article>
+              ))}
+            </div>
+            <div className="hidden overflow-x-auto md:block">
               <table className="w-full min-w-[760px] text-left text-sm">
                 <thead className="bg-slate-950/70 text-xs uppercase tracking-[0.18em] text-slate-500">
                   <tr>

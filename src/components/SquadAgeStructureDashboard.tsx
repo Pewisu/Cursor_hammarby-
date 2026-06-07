@@ -407,7 +407,67 @@ export function SquadAgeStructureDashboard({
             ))}
           </div>
 
-          <div className="mt-5 overflow-x-auto">
+          <div className="mt-5 space-y-3 md:hidden">
+            {visiblePlayers.map((player) => {
+              const band = getBandMeta(player.ageBand);
+              return (
+                <article
+                  key={`${player.playerId}-mobile`}
+                  className="rounded-2xl border border-slate-800 bg-slate-950/45 p-4"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 className="font-semibold text-white">{player.name}</h3>
+                      <p className="mt-1 text-xs text-slate-500">
+                        {player.firstName} {player.lastName}
+                      </p>
+                    </div>
+                    <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-sm font-black text-emerald-200">
+                      {player.minutes.toLocaleString("sv-SE")} min
+                    </span>
+                  </div>
+
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <span className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs text-slate-200">
+                      <span
+                        className="h-2 w-2 rounded-full"
+                        style={{ backgroundColor: band.color }}
+                      />
+                      {band.label}
+                    </span>
+                    <span className="rounded-full border border-slate-700 bg-slate-900/70 px-3 py-1 text-xs text-slate-300">
+                      {roleLabels[player.roleName]}
+                    </span>
+                  </div>
+
+                  <dl className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">Född</dt>
+                      <dd className="mt-1 font-semibold text-white">
+                        {formatDate(player.birthDate)}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">Ålder</dt>
+                      <dd className="mt-1 font-semibold text-white">{player.age}</dd>
+                    </div>
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">SM / starter</dt>
+                      <dd className="mt-1 font-semibold text-white">
+                        {player.matches} / {player.starts}
+                      </dd>
+                    </div>
+                    <div className="rounded-xl bg-slate-900/70 p-3">
+                      <dt className="text-xs text-slate-500">Inbytta</dt>
+                      <dd className="mt-1 font-semibold text-white">{player.subbedIn}</dd>
+                    </div>
+                  </dl>
+                </article>
+              );
+            })}
+          </div>
+
+          <div className="mt-5 hidden overflow-x-auto md:block">
             <table className="w-full min-w-[920px] text-left text-sm">
               <thead className="bg-slate-950/70 text-xs uppercase tracking-[0.16em] text-slate-500">
                 <tr>
