@@ -282,7 +282,6 @@ export function AgePlayingTimeDashboard({
 
   const selectedSeason =
     seasons.find((season) => season.label === selectedSeasonLabel) ?? seasons[0];
-  const latestSeason = seasons[seasons.length - 1];
   const firstSeason = seasons[0];
   const selectedBuckets = useMemo(() => buildBuckets(selectedSeason), [selectedSeason]);
   const selectedSeniorBucket = selectedBuckets.find((bucket) => bucket.key === "age24Plus");
@@ -369,12 +368,14 @@ export function AgePlayingTimeDashboard({
               ),
             },
             {
-              label: "U21-skifte 2024-2026",
+              label: `U21-utv. 2024-${selectedSeason.label}`,
               value: formatDelta(
-                latestSeason.thresholds.u21.percentage -
+                selectedSeason.thresholds.u21.percentage -
                   firstSeason.thresholds.u21.percentage
               ),
-              caption: "från 31,4% till 11,5%",
+              caption: `från ${formatPercentage(
+                firstSeason.thresholds.u21.percentage
+              )} till ${formatPercentage(selectedSeason.thresholds.u21.percentage)}`,
             },
             {
               label: `24+ ${selectedSeason.label}`,
