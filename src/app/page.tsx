@@ -71,6 +71,25 @@ export default function Home() {
         </Link>
 
         <Link
+          href="/spelarstatistik/speltid-alderskategori"
+          className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
+            🧩
+          </div>
+          <h2 className="text-xl font-semibold text-white">
+            Speltid per ålderskategori
+          </h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Följ hur Hammarbys minuter skiftar mellan U23-U18 och seniorålder
+            över 2024, 2025 och 2026.
+          </p>
+          <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
+            Öppna åldersanalys →
+          </p>
+        </Link>
+
+        <Link
           href="/spelarstatistik/omgangsstandout"
           className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800"
         >
