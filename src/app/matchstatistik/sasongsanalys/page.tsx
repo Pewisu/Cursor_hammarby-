@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { CSSProperties, ReactNode } from "react";
 import {
   bolldataSpiderMetrics,
   season2026LeagueMetrics,
@@ -59,6 +60,56 @@ const center = 165;
 const radius = 112;
 const labelRadius = 132;
 
+const creamSlideStyle: CSSProperties = {
+  backgroundColor: "#f7f8ef",
+  backgroundImage:
+    "radial-gradient(circle at 1px 1px, rgba(12, 64, 38, 0.055) 1px, transparent 0)",
+  backgroundSize: "18px 18px",
+};
+
+const darkSlideStyle: CSSProperties = {
+  backgroundColor: "#07351f",
+  backgroundImage:
+    "radial-gradient(circle at 20% 10%, rgba(250, 204, 21, 0.16), transparent 18%), radial-gradient(circle at 80% 20%, rgba(34, 197, 94, 0.2), transparent 22%), radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.045) 1px, transparent 0)",
+  backgroundSize: "auto, auto, 18px 18px",
+};
+
+function SlideShell({
+  eyebrow,
+  title,
+  children,
+  dark = false,
+}: {
+  eyebrow: string;
+  title: string;
+  children: ReactNode;
+  dark?: boolean;
+}) {
+  return (
+    <section
+      className={`overflow-hidden rounded-[28px] border p-5 shadow-xl md:p-8 ${
+        dark
+          ? "border-emerald-900/80 text-white shadow-emerald-950/30"
+          : "border-stone-200 text-[#12351f] shadow-stone-300/40"
+      }`}
+      style={dark ? darkSlideStyle : creamSlideStyle}
+    >
+      <div className="mb-6 flex items-center gap-3">
+        <span className="h-8 w-1 rounded-full bg-[#d6a51d]" />
+        <div>
+          <p className={`text-xs font-black uppercase tracking-[0.22em] ${dark ? "text-amber-200" : "text-[#d6a51d]"}`}>
+            {eyebrow}
+          </p>
+          <h2 className={`mt-1 text-2xl font-black uppercase tracking-tight md:text-3xl ${dark ? "text-white" : "text-[#0b3b22]"}`}>
+            {title}
+          </h2>
+        </div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
 function rankScore(rank: number, total: number) {
   return ((total - rank + 1) / total) * 100;
 }
@@ -108,16 +159,19 @@ function RadarChart({
   const axisCount = metrics.length;
 
   return (
-    <div className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-4 shadow-2xl shadow-slate-950/30">
+    <div className="rounded-3xl border border-stone-200 bg-white/80 p-4 shadow-lg shadow-stone-300/30">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-300">Spindeldiagram</p>
-          <h3 className="mt-1 text-2xl font-black text-white">{title}</h3>
-          <p className="mt-1 text-sm text-slate-400">Ligarang omräknat till 0-100.</p>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#d6a51d]">Spindeldiagram</p>
+          <h3 className="mt-1 text-2xl font-black text-[#0b3b22]">{title}</h3>
+          <p className="mt-1 text-sm text-stone-600">Ligarang omräknat till 0-100.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {seasons.map((season) => (
-            <span key={season} className={`rounded-full border px-2.5 py-1 text-xs ${seasonStyles[season].chip}`}>
+            <span
+              key={season}
+              className="rounded-full border border-stone-200 bg-white px-2.5 py-1 text-xs font-bold text-[#0b3b22]"
+            >
               {season}
             </span>
           ))}
@@ -130,8 +184,8 @@ function RadarChart({
             <polygon
               key={score}
               points={polygonPoints(Array(axisCount).fill(score))}
-              fill={score === 100 ? "rgba(15, 23, 42, 0.8)" : "none"}
-              stroke={score === 100 ? "rgba(226, 232, 240, 0.75)" : "rgba(148, 163, 184, 0.28)"}
+              fill={score === 100 ? "rgba(255, 255, 255, 0.72)" : "none"}
+              stroke={score === 100 ? "rgba(12, 64, 38, 0.5)" : "rgba(87, 83, 78, 0.22)"}
               strokeWidth={score === 100 ? 1.6 : 1}
             />
           ))}
@@ -147,16 +201,16 @@ function RadarChart({
                   y1={center}
                   x2={outerPoint.x}
                   y2={outerPoint.y}
-                  stroke="rgba(148, 163, 184, 0.3)"
+                  stroke="rgba(12, 64, 38, 0.22)"
                 />
                 <text
                   x={textPoint.x}
                   y={textPoint.y}
                   textAnchor={labelAnchor(textPoint.angle)}
                   dy={labelDy(textPoint.angle)}
-                  fill="rgb(203 213 225)"
+                  fill="#0b3b22"
                   fontSize="9"
-                  fontWeight="600"
+                  fontWeight="800"
                 >
                   {metric.shortLabel}
                 </text>
@@ -185,12 +239,12 @@ function RadarChart({
 
       <div className="mt-3 grid gap-2 sm:grid-cols-3">
         {seasons.map((season) => (
-          <div key={season} className="rounded-2xl border border-slate-700/70 bg-white/[0.03] p-3">
+          <div key={season} className="rounded-2xl border border-stone-200 bg-white/80 p-3">
             <div className="flex items-center gap-2">
               <span className={`h-2.5 w-2.5 rounded-full ${seasonStyles[season].dot}`} />
-              <span className={`text-sm font-semibold ${seasonStyles[season].text}`}>{season}</span>
+              <span className="text-sm font-black text-[#0b3b22]">{season}</span>
             </div>
-            <p className="mt-1 text-xs text-slate-400">
+            <p className="mt-1 text-xs text-stone-600">
               Yta nära ytterkant betyder topprank i Allsvenskan den säsongen.
             </p>
           </div>
@@ -206,13 +260,13 @@ function MetricBar({ value, rank, total }: { value: string; rank: number; total:
   return (
     <div>
       <div className="flex items-center justify-between gap-3 text-xs">
-        <span className="font-semibold text-white">{value}</span>
-        <span className="text-slate-400">
+        <span className="font-black text-[#0b3b22]">{value}</span>
+        <span className="rounded-full bg-[#f4e7b1] px-2 py-0.5 font-bold text-[#705410]">
           {rank}/{total}
         </span>
       </div>
-      <div className="mt-2 h-2 rounded-full bg-slate-700">
-        <div className="h-2 rounded-full bg-gradient-to-r from-emerald-400 to-sky-400" style={{ width: `${width}%` }} />
+      <div className="mt-2 h-2 rounded-full bg-stone-200">
+        <div className="h-2 rounded-full bg-gradient-to-r from-[#0b7a3a] to-[#d6a51d]" style={{ width: `${width}%` }} />
       </div>
     </div>
   );
@@ -223,159 +277,159 @@ export default function HammarbySeasonAnalysisPage() {
   const mainWarning = season2026LeagueMetrics.find((metric) => metric.id === "opp-np-xg");
 
   return (
-    <div className="min-h-screen bg-[#0f172a] text-slate-100">
-      <header className="border-b border-slate-700/50 bg-[radial-gradient(circle_at_top_left,_rgba(16,185,129,0.22),_transparent_34%),#0f172a]">
-        <div className="mx-auto max-w-7xl px-4 py-8">
-          <Link href="/matchstatistik" className="text-sm font-medium text-emerald-300 hover:text-emerald-200">
+    <div className="min-h-screen bg-[#dfe4d7] text-[#12351f]">
+      <header className="px-3 py-4 md:px-6 md:py-8">
+        <div
+          className="mx-auto overflow-hidden rounded-[30px] border border-emerald-950/60 px-5 py-7 text-white shadow-2xl shadow-emerald-950/30 md:max-w-7xl md:px-10 md:py-12"
+          style={darkSlideStyle}
+        >
+          <Link href="/matchstatistik" className="text-sm font-bold text-amber-200 hover:text-amber-100">
             ← Till matchstatistik
           </Link>
-          <div className="mt-8 grid gap-6 lg:grid-cols-[1.4fr_0.8fr] lg:items-end">
-            <div>
-              <p className="text-xs uppercase tracking-[0.28em] text-emerald-300">Twelve + Bolldata</p>
-              <h1 className="mt-3 max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                Hammarby 2026: bäst tryck i serien, men inte bäst balans.
-              </h1>
-              <p className="mt-5 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                En visuell berättelse för att förklara säsongen hittills: först mot Allsvenskan 2026,
-                sedan mot Hammarbys 2024 och 2025.
-              </p>
+          <div className="mx-auto mt-6 max-w-5xl text-center">
+            <p className="text-[11px] font-black uppercase tracking-[0.32em] text-amber-200">
+              Säsongsanalys · Twelve + Bolldata
+            </p>
+            <div className="mx-auto mt-6 flex h-28 w-28 flex-col items-center justify-center rounded-full border-4 border-amber-300/80 bg-[#0b4a2a] shadow-xl shadow-black/20">
+              <span className="text-3xl font-black leading-none text-white">HIF</span>
+              <span className="mt-1 text-sm font-black tracking-[0.24em] text-amber-200">2026</span>
             </div>
-            <div className="rounded-3xl border border-emerald-400/30 bg-emerald-400/10 p-5">
-              <p className="text-sm font-semibold text-emerald-100">Kort slutsats</p>
-              <p className="mt-2 text-2xl font-black text-white">Offensiven är 2025+.</p>
-              <p className="mt-2 text-sm leading-6 text-emerald-50/90">
-                Defensiva chanskvaliteten emot är inte 2025: {mainWarning?.valueLabel} motståndar-xG per match och
-                rank {mainWarning?.rank}/{mainWarning?.total}.
-              </p>
+            <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-black uppercase leading-[0.95] tracking-tight text-white md:text-6xl">
+              Bäst tryck i serien.
+              <span className="block text-amber-200">Inte bäst balans.</span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-3xl text-base leading-7 text-emerald-50/90 md:text-lg">
+              En pitchvänlig berättelse om Hammarbys 2026 hittills: först jämfört med Allsvenskan,
+              sedan mot Hammarbys 2024 och 2025.
+            </p>
+            <div className="mx-auto mt-7 grid max-w-3xl gap-3 text-left md:grid-cols-3">
+              <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-amber-200">Offensiv</p>
+                <p className="mt-1 text-2xl font-black">2025+</p>
+              </div>
+              <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-amber-200">Varningslampa</p>
+                <p className="mt-1 text-2xl font-black">{mainWarning?.valueLabel} xG emot</p>
+              </div>
+              <div className="rounded-2xl border border-white/15 bg-white/10 p-4">
+                <p className="text-xs font-bold uppercase tracking-wide text-amber-200">Liga</p>
+                <p className="mt-1 text-2xl font-black">Rank {mainWarning?.rank}/{mainWarning?.total}</p>
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl space-y-10 px-4 py-10">
-        <section className="grid gap-4 md:grid-cols-3">
-          {seasonHeadlines.map((season) => (
-            <article key={season.season} className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
-              <div className="flex items-center justify-between gap-3">
-                <h2 className={`text-xl font-black ${seasonStyles[season.season].text}`}>{season.label}</h2>
-                <span className={`rounded-full border px-2 py-1 text-xs ${seasonStyles[season.season].chip}`}>
-                  {season.leaguePosition}
-                </span>
-              </div>
-              <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
-                <div className="rounded-2xl bg-white/[0.04] p-3">
-                  <p className="text-slate-400">Matcher</p>
-                  <p className="mt-1 text-2xl font-black text-white">{season.matches}</p>
+      <main className="mx-auto max-w-7xl space-y-5 px-3 pb-8 md:px-6">
+        <SlideShell eyebrow="Från 2024 till nuläget" title="Säsongerna i en bild">
+          <div className="grid gap-4 md:grid-cols-3">
+            {seasonHeadlines.map((season) => (
+              <article key={season.season} className="rounded-2xl border border-stone-200 bg-white/80 p-5 shadow-sm">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-2xl font-black text-[#0b3b22]">{season.label}</h3>
+                  <span className="rounded-full border border-[#d6a51d]/40 bg-[#f8edbd] px-2 py-1 text-xs font-black text-[#73540b]">
+                    {season.leaguePosition}
+                  </span>
                 </div>
-                <div className="rounded-2xl bg-white/[0.04] p-3">
-                  <p className="text-slate-400">Poäng/match</p>
-                  <p className="mt-1 text-2xl font-black text-white">{season.pointsPerMatch.toFixed(2)}</p>
+                <div className="mt-5 grid grid-cols-2 gap-3 text-sm">
+                  {[
+                    ["Matcher", season.matches],
+                    ["Poäng/match", season.pointsPerMatch.toFixed(2)],
+                    ["Rad", season.record],
+                    ["Mål", `${season.goalsFor}-${season.goalsAgainst}`],
+                  ].map(([label, value]) => (
+                    <div key={label} className="rounded-2xl border border-stone-200 bg-[#f7f8ef] p-3">
+                      <p className="text-xs font-bold uppercase tracking-wide text-stone-500">{label}</p>
+                      <p className="mt-1 text-2xl font-black text-[#0b3b22]">{value}</p>
+                    </div>
+                  ))}
                 </div>
-                <div className="rounded-2xl bg-white/[0.04] p-3">
-                  <p className="text-slate-400">Rad</p>
-                  <p className="mt-1 text-2xl font-black text-white">{season.record}</p>
-                </div>
-                <div className="rounded-2xl bg-white/[0.04] p-3">
-                  <p className="text-slate-400">Mål</p>
-                  <p className="mt-1 text-2xl font-black text-white">
-                    {season.goalsFor}-{season.goalsAgainst}
-                  </p>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-6 text-slate-300">{season.shortRead}</p>
-            </article>
-          ))}
-        </section>
+                <p className="mt-4 text-sm leading-6 text-stone-700">{season.shortRead}</p>
+              </article>
+            ))}
+          </div>
+        </SlideShell>
 
-        <section className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-sky-300">Mot Allsvenskan 2026</p>
-              <h2 className="mt-1 text-2xl font-black text-white">Det mesta i spelet är toppklass</h2>
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-300">
-                Ligarank gör storyn enkel: lågt ranknummer är bäst. 2026 är Hammarby etta i xG, avslut,
-                territorium, boxnärvaro och press, men poängsnitt och xG emot släpar.
-              </p>
-            </div>
-            <div className="rounded-2xl border border-amber-300/30 bg-amber-300/10 px-4 py-3 text-sm text-amber-100">
+        <SlideShell eyebrow="Mot Allsvenskan 2026" title="Det mesta i spelet är toppklass">
+          <div className="grid gap-5 lg:grid-cols-[1fr_0.45fr]">
+            <p className="text-base leading-7 text-stone-700">
+              Ligarank gör storyn enkel: lågt ranknummer är bäst. 2026 är Hammarby etta i xG,
+              avslut, territorium, boxnärvaro och press, men poängsnitt och xG emot släpar.
+            </p>
+            <div className="rounded-2xl border border-[#d6a51d]/35 bg-[#fbf1c4] p-4 text-sm font-semibold leading-6 text-[#664d0b]">
               Varningen: spelövertag räcker inte när motståndarna får för bra chanser.
             </div>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {season2026LeagueMetrics.map((metric) => (
-              <article key={metric.id} className="rounded-2xl border border-slate-700/60 bg-white/[0.035] p-4">
+              <article key={metric.id} className="rounded-2xl border border-stone-200 bg-white/90 p-4 shadow-sm">
                 <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-sm font-bold text-white">{metric.label}</h3>
-                  <span className="rounded-full border border-slate-600 px-2 py-0.5 text-[11px] text-slate-300">
+                  <h3 className="text-sm font-black text-[#0b3b22]">{metric.label}</h3>
+                  <span className="rounded-full border border-stone-200 bg-[#f7f8ef] px-2 py-0.5 text-[11px] font-bold text-stone-600">
                     {metric.source}
                   </span>
                 </div>
                 <div className="mt-4">
                   <MetricBar value={metric.valueLabel} rank={metric.rank} total={metric.total} />
                 </div>
-                <p className="mt-3 text-xs leading-5 text-slate-400">{metric.explanation}</p>
+                <p className="mt-3 text-xs leading-5 text-stone-600">{metric.explanation}</p>
               </article>
             ))}
           </div>
-        </section>
+        </SlideShell>
 
-        <section className="grid gap-5 xl:grid-cols-2">
-          <RadarChart
-            title="TWELVE: SPELIDENTITET"
-            metrics={twelveIdentityMetrics}
-            getValue={(metric, season) => (metric as SeasonIdentityMetric).values[season]}
-          />
-          <RadarChart
-            title="BOLLDATA: SPINDELDATA"
-            metrics={bolldataSpiderMetrics}
-            getValue={(metric, season) => (metric as BolldataSpiderMetric).values[season]}
-          />
-        </section>
+        <SlideShell eyebrow="Spindeldiagram från två källor" title="Samma story, två datalinser">
+          <div className="grid gap-5 xl:grid-cols-2">
+            <RadarChart
+              title="TWELVE: SPELIDENTITET"
+              metrics={twelveIdentityMetrics}
+              getValue={(metric, season) => (metric as SeasonIdentityMetric).values[season]}
+            />
+            <RadarChart
+              title="BOLLDATA: SPINDELDATA"
+              metrics={bolldataSpiderMetrics}
+              getValue={(metric, season) => (metric as BolldataSpiderMetric).values[season]}
+            />
+          </div>
+        </SlideShell>
 
-        <section className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-3xl border border-emerald-400/30 bg-emerald-400/10 p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-emerald-200">Berättelsen att visa</p>
-            <h2 className="mt-2 text-2xl font-black text-white">Tre meningar räcker</h2>
-            <ol className="mt-4 space-y-3 text-sm leading-6 text-emerald-50/90">
-              <li>1. Hammarby 2026 trycker ner motståndare mer än någon annan i serien.</li>
-              <li>2. Offensiven har tagit ett tydligt steg från 2024 och ligger minst på 2025-nivå.</li>
-              <li>3. Skillnaden mot 2025 är defensiv balans: motståndarnas xG är för hög.</li>
-            </ol>
+        <SlideShell eyebrow="Så säljer du in analysen" title="Tre meningar räcker">
+          <div className="grid gap-4 lg:grid-cols-3">
+            {[
+              "Hammarby 2026 trycker ner motståndare mer än någon annan i serien.",
+              "Offensiven har tagit ett tydligt steg från 2024 och ligger minst på 2025-nivå.",
+              "Skillnaden mot 2025 är defensiv balans: motståndarnas xG är för hög.",
+            ].map((text, index) => (
+              <div key={text} className="rounded-2xl border border-stone-200 bg-white/90 p-5 shadow-sm">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#d6a51d] text-lg font-black text-white">
+                  {index + 1}
+                </div>
+                <p className="mt-4 text-base font-bold leading-7 text-[#12351f]">{text}</p>
+              </div>
+            ))}
           </div>
 
-          <div className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Så läser man visualiseringen</p>
-            <div className="mt-4 grid gap-3 md:grid-cols-3">
-              <div className="rounded-2xl bg-white/[0.04] p-4">
-                <p className="font-bold text-white">Stor grön yta</p>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  2026 ligger nära toppen i ligan på den axeln.
-                </p>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["Stor grön yta", "2026 ligger nära toppen i ligan på den axeln."],
+              ["Blå linje", "2025 är referensen för komplett Hammarby-balans."],
+              ["Gul linje", "2024 visar hur stort offensivt steg laget tagit."],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-stone-200 bg-[#f7f8ef] p-4">
+                <p className="font-black text-[#0b3b22]">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-stone-600">{body}</p>
               </div>
-              <div className="rounded-2xl bg-white/[0.04] p-4">
-                <p className="font-bold text-white">Blå linje</p>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  2025 är referensen för komplett Hammarby-balans.
-                </p>
-              </div>
-              <div className="rounded-2xl bg-white/[0.04] p-4">
-                <p className="font-bold text-white">Gul linje</p>
-                <p className="mt-2 text-sm leading-6 text-slate-400">
-                  2024 visar hur stort offensivt steg laget tagit.
-                </p>
-              </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </SlideShell>
 
-        <section className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
-          <h2 className="text-xl font-black text-white">Detaljrader för presentation</h2>
-          <div className="mt-4 overflow-x-auto">
+        <SlideShell eyebrow="Detaljrader" title="För den som vill fråga mer">
+          <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white/80">
             <table className="min-w-full text-left text-sm">
-              <thead className="text-xs uppercase tracking-wide text-slate-400">
+              <thead className="bg-[#0b3b22] text-xs uppercase tracking-wide text-amber-100">
                 <tr>
-                  <th className="py-3 pr-4">Mått</th>
+                  <th className="py-3 pl-4 pr-4">Mått</th>
                   {seasons.map((season) => (
                     <th key={season} className="py-3 pr-4">
                       {season}
@@ -384,37 +438,38 @@ export default function HammarbySeasonAnalysisPage() {
                   <th className="py-3 pr-4">Tolkning</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800">
+              <tbody className="divide-y divide-stone-200">
                 {twelveIdentityMetrics.map((metric) => (
                   <tr key={metric.id}>
-                    <td className="py-3 pr-4 font-semibold text-white">{metric.label}</td>
+                    <td className="py-3 pl-4 pr-4 font-black text-[#0b3b22]">{metric.label}</td>
                     {seasons.map((season) => {
                       const value = metric.values[season];
                       return (
-                        <td key={season} className="py-3 pr-4 text-slate-300">
+                        <td key={season} className="py-3 pr-4 text-stone-700">
                           {value.valueLabel} · {value.rank}/{value.total}
                         </td>
                       );
                     })}
-                    <td className="max-w-md py-3 pr-4 text-slate-400">{metric.explanation}</td>
+                    <td className="max-w-md py-3 pr-4 text-stone-600">{metric.explanation}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </section>
+        </SlideShell>
 
-        <section className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-5">
-          <h2 className="text-lg font-black text-white">Källor</h2>
-          <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-400">
+        <SlideShell eyebrow="Källor" title="Underlaget bakom decket">
+          <ul className="grid gap-3 text-sm leading-6 text-stone-700 md:grid-cols-3">
             {sourceNotes.map((note) => (
-              <li key={note}>{note}</li>
+              <li key={note} className="rounded-2xl border border-stone-200 bg-white/80 p-4">
+                {note}
+              </li>
             ))}
           </ul>
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-4 text-xs font-semibold text-stone-500">
             Hammarby 2026 avser läget efter {headline2026.matches} matcher i hämtat underlag.
           </p>
-        </section>
+        </SlideShell>
       </main>
     </div>
   );
