@@ -20,7 +20,13 @@ export default function MatchStatisticsRoutePage() {
             Välj mellan säsongsnivå och omgångsnivå. All matchanalys är uppdelad för att göra
             flödet tydligare.
           </p>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link
+              href="/matchstatistik/sasongsanalys"
+              className="inline-flex items-center gap-2 rounded-lg border border-amber-300/50 bg-emerald-500/15 px-3 py-1.5 text-xs font-bold text-amber-100 hover:border-amber-200 hover:text-amber-50"
+            >
+              ⭐ Säsongsanalys 2026
+            </Link>
             <Link
               href="/matchstatistik/kommande"
               className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 hover:border-emerald-400 hover:text-emerald-100"
@@ -33,6 +39,32 @@ export default function MatchStatisticsRoutePage() {
 
       <main className="mx-auto max-w-6xl px-4 py-8">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Link
+            href="/matchstatistik/sasongsanalys"
+            className="group overflow-hidden rounded-[28px] border border-amber-300/40 bg-[#07351f] p-6 shadow-2xl shadow-emerald-950/30 transition-colors hover:border-amber-200/70 md:col-span-2 lg:col-span-3"
+          >
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div className="max-w-3xl">
+                <p className="text-xs font-black uppercase tracking-[0.28em] text-amber-200">
+                  Entrypoint · Ny presentation
+                </p>
+                <h2 className="mt-3 text-3xl font-black uppercase leading-tight text-white md:text-4xl">
+                  Hammarby 2026: säsongsanalys i pitchdeck-stil
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-emerald-50/90 md:text-base">
+                  Den visuella huvudingången för Hammarby 2026 mot Allsvenskan,
+                  samt jämförelse med 2024 och 2025 via Twelve och bolldata.
+                </p>
+              </div>
+              <div className="shrink-0 rounded-2xl border border-white/15 bg-white/10 px-5 py-4 text-left md:text-center">
+                <p className="text-xs font-bold uppercase tracking-wide text-amber-200">Öppna</p>
+                <p className="mt-1 text-lg font-black text-white group-hover:text-amber-100">
+                  Säsongsanalys →
+                </p>
+              </div>
+            </div>
+          </Link>
+
           <Link
             href="/matchstatistik/sasong"
             className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
