@@ -409,7 +409,7 @@ export const goalPatternInsights: GoalPatternInsight[] = [
   {
     id: "scored-location",
     title: "Var görs målen?",
-    question: "Är 2024 en långskottsförklaring?",
+    question: "Plats för gjorda mål",
     takeaway:
       "Nej, inte som huvudförklaring. 2024 hade 19% mål utanför boxen, men 2025 var högre med 22%. 2026 ligger nära samma profil men med ännu större boxandel.",
     values: {
@@ -430,7 +430,7 @@ export const goalPatternInsights: GoalPatternInsight[] = [
   {
     id: "set-pieces-for",
     title: "Hur görs målen?",
-    question: "Vad skiljer 2026 framåt?",
+    question: "Måltyper framåt",
     takeaway:
       "2026 har fått mycket från hörnor tidigt, men nästan inget från nickmål eller frisparkar jämfört med 2024/2025.",
     values: {
@@ -451,7 +451,7 @@ export const goalPatternInsights: GoalPatternInsight[] = [
   {
     id: "scored-timing",
     title: "När görs målen?",
-    question: "Finns samma andrahalvlekskraft?",
+    question: "Timing för gjorda mål",
     takeaway:
       "Alla tre säsonger gör Hammarby fler mål efter paus. 2026 är mer jämn hittills, medan 2025 hade tydligast tryck i andra halvlek.",
     values: {
@@ -472,7 +472,7 @@ export const goalPatternInsights: GoalPatternInsight[] = [
   {
     id: "conceded-location",
     title: "Var släpps målen in?",
-    question: "Är problemet distansskott emot?",
+    question: "Plats för insläppta mål",
     takeaway:
       "Nej. 2026 liknar 2024: nästan alla insläppta kommer i boxen. Det matchar Twelve-bilden att motståndarnas chanser är för högkvalitativa.",
     values: {
@@ -493,7 +493,7 @@ export const goalPatternInsights: GoalPatternInsight[] = [
   {
     id: "set-pieces-against",
     title: "Hur släpps målen in?",
-    question: "Är fasta situationer huvudproblemet?",
+    question: "Måltyper bakåt",
     takeaway:
       "2026 har inte samma fasta-situation-volym bakåt som 2025. Den större signalen är att öppna spel-lägen i boxen blir för farliga.",
     values: {
@@ -514,7 +514,7 @@ export const goalPatternInsights: GoalPatternInsight[] = [
   {
     id: "conceded-timing",
     title: "När släpps målen in?",
-    question: "Vad är konkret annorlunda 2026?",
+    question: "Timing för insläppta mål",
     takeaway:
       "Starterna sticker ut: 2026 har redan släppt 3 mål första 15 minuterna på 11 matcher. 2024 släppte bara 1 där på hela säsongen.",
     values: {
