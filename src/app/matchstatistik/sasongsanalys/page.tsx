@@ -436,9 +436,9 @@ function GoalPatternCard({ insight }: { insight: GoalPatternInsight }) {
         ))}
       </div>
 
-      <div className="mt-4 rounded-2xl border border-[#d6a51d]/35 bg-[#fbf1c4] p-4">
+      <div className="mt-4 overflow-hidden rounded-2xl border border-[#d6a51d]/35 bg-[#fff4c7] p-4">
         <p className="text-xs font-black uppercase tracking-wide text-[#705410]">Tolkning</p>
-        <p className="mt-1 text-sm font-semibold leading-6 text-[#12351f]">{insight.takeaway}</p>
+        <p className="mt-2 break-words text-sm font-semibold leading-7 text-[#12351f]">{insight.takeaway}</p>
       </div>
     </article>
   );
