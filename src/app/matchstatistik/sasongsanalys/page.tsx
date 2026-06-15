@@ -111,7 +111,7 @@ function RadarChart({
     <div className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-4 shadow-2xl shadow-slate-950/30">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.2em] text-emerald-300">{title}</p>
+          <p className="text-xs font-semibold tracking-[0.2em] text-emerald-300">{title}</p>
           <h3 className="mt-1 text-xl font-semibold text-white">Spindel: ligarang omräknat till 0-100</h3>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -321,12 +321,12 @@ export default function HammarbySeasonAnalysisPage() {
 
         <section className="grid gap-5 xl:grid-cols-2">
           <RadarChart
-            title="Twelve-spelidentitet"
+            title="TWELVE: SPELIDENTITET"
             metrics={twelveIdentityMetrics}
             getValue={(metric, season) => (metric as SeasonIdentityMetric).values[season]}
           />
           <RadarChart
-            title="Bolldata-spindel"
+            title="BOLLDATA: SPINDELDATA"
             metrics={bolldataSpiderMetrics}
             getValue={(metric, season) => (metric as BolldataSpiderMetric).values[season]}
           />
