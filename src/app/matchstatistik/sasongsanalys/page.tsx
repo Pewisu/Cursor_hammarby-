@@ -343,7 +343,12 @@ function GraphicMetricComparison({ metric }: { metric: SeasonIdentityMetric }) {
           const isBest = season === bestSeason;
 
           return (
-            <div key={season} className="rounded-2xl border border-stone-200 bg-[#f7f8ef] p-3">
+            <div
+              key={season}
+              className={`rounded-2xl border bg-[#f7f8ef] p-3 ${
+                isBest ? "border-[#0b7a3a] ring-2 ring-emerald-100" : "border-stone-200"
+              }`}
+            >
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
                   <span
@@ -382,7 +387,7 @@ function GraphicMetricComparison({ metric }: { metric: SeasonIdentityMetric }) {
         {deltas.map((delta) => (
           <div
             key={delta.label}
-            className={`rounded-2xl border px-3 py-2 text-sm ${
+            className={`rounded-2xl border px-4 py-3 text-base ${
               delta.tone === "better"
                 ? "border-emerald-200 bg-emerald-50 text-emerald-900"
                 : delta.tone === "worse"
@@ -391,7 +396,7 @@ function GraphicMetricComparison({ metric }: { metric: SeasonIdentityMetric }) {
             }`}
           >
             <p className="text-xs font-black uppercase tracking-wide">{delta.label}</p>
-            <p className="mt-0.5 font-black">
+            <p className="mt-1 text-lg font-black">
               {delta.value} · {delta.tone === "better" ? "bättre" : delta.tone === "worse" ? "sämre" : "jämnt"}
             </p>
           </div>
