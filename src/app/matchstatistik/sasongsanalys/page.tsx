@@ -111,8 +111,9 @@ function RadarChart({
     <div className="rounded-3xl border border-slate-700/70 bg-slate-900/70 p-4 shadow-2xl shadow-slate-950/30">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-semibold tracking-[0.2em] text-emerald-300">{title}</p>
-          <h3 className="mt-1 text-xl font-semibold text-white">Spindel: ligarang omräknat till 0-100</h3>
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-300">Spindeldiagram</p>
+          <h3 className="mt-1 text-2xl font-black text-white">{title}</h3>
+          <p className="mt-1 text-sm text-slate-400">Ligarang omräknat till 0-100.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           {seasons.map((season) => (
