@@ -272,6 +272,135 @@ function MetricBar({ value, rank, total }: { value: string; rank: number; total:
   );
 }
 
+function rawSeasonScore(metric: SeasonIdentityMetric, season: SeasonKey) {
+  const values = seasons.map((seasonKey) => metric.values[seasonKey].value);
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const current = metric.values[season].value;
+
+  if (max === min) return 100;
+
+  const relative =
+    metric.direction === "higher"
+      ? (current - min) / (max - min)
+      : (max - current) / (max - min);
+
+  return 28 + relative * 72;
+}
+
+function getBestSeason(metric: SeasonIdentityMetric) {
+  return seasons.reduce((bestSeason, currentSeason) => {
+    const bestValue = metric.values[bestSeason].value;
+    const currentValue = metric.values[currentSeason].value;
+
+    if (metric.direction === "higher") {
+      return currentValue > bestValue ? currentSeason : bestSeason;
+    }
+
+    return currentValue < bestValue ? currentSeason : bestSeason;
+  }, seasons[0]);
+}
+
+function formatDelta(metric: SeasonIdentityMetric, comparisonSeason: SeasonKey) {
+  const delta = metric.values["2026"].value - metric.values[comparisonSeason].value;
+  const isBetter =
+    metric.direction === "higher"
+      ? delta > 0
+      : delta < 0;
+  const isEven = Math.abs(delta) < 0.005;
+  const formattedDelta = Math.abs(delta).toLocaleString("sv-SE", {
+    minimumFractionDigits: Math.abs(delta) >= 10 ? 1 : 2,
+    maximumFractionDigits: Math.abs(delta) >= 10 ? 1 : 2,
+  });
+
+  return {
+    label: `2026 vs ${comparisonSeason}`,
+    value: `${delta >= 0 ? "+" : "-"}${formattedDelta}`,
+    tone: isEven ? "neutral" : isBetter ? "better" : "worse",
+  };
+}
+
+function GraphicMetricComparison({ metric }: { metric: SeasonIdentityMetric }) {
+  const bestSeason = getBestSeason(metric);
+  const deltas = [formatDelta(metric, "2025"), formatDelta(metric, "2024")];
+
+  return (
+    <article className="rounded-3xl border border-stone-200 bg-white/90 p-4 shadow-sm">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h3 className="text-xl font-black text-[#0b3b22]">{metric.label}</h3>
+          <p className="mt-1 max-w-xl text-sm leading-6 text-stone-600">{metric.explanation}</p>
+        </div>
+        <span className="rounded-full border border-[#d6a51d]/40 bg-[#fbf1c4] px-3 py-1 text-xs font-black text-[#705410]">
+          {metric.direction === "higher" ? "Högre är bättre" : "Lägre är bättre"}
+        </span>
+      </div>
+
+      <div className="mt-5 space-y-3">
+        {seasons.map((season) => {
+          const value = metric.values[season];
+          const score = rawSeasonScore(metric, season);
+          const isBest = season === bestSeason;
+
+          return (
+            <div key={season} className="rounded-2xl border border-stone-200 bg-[#f7f8ef] p-3">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span
+                    className="h-3 w-3 rounded-full"
+                    style={{ backgroundColor: seasonStyles[season].stroke }}
+                  />
+                  <span className="text-sm font-black text-[#0b3b22]">{season}</span>
+                  {isBest && (
+                    <span className="rounded-full bg-[#0b7a3a] px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-white">
+                      Bäst nivå
+                    </span>
+                  )}
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-black text-[#0b3b22]">{value.valueLabel}</p>
+                  <p className="text-xs font-bold text-stone-500">
+                    Rank {value.rank}/{value.total}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3 h-3 rounded-full bg-stone-200">
+                <div
+                  className="h-3 rounded-full"
+                  style={{
+                    width: `${score}%`,
+                    backgroundColor: seasonStyles[season].stroke,
+                  }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        {deltas.map((delta) => (
+          <div
+            key={delta.label}
+            className={`rounded-2xl border px-3 py-2 text-sm ${
+              delta.tone === "better"
+                ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                : delta.tone === "worse"
+                  ? "border-amber-200 bg-amber-50 text-amber-900"
+                  : "border-stone-200 bg-stone-50 text-stone-700"
+            }`}
+          >
+            <p className="text-xs font-black uppercase tracking-wide">{delta.label}</p>
+            <p className="mt-0.5 font-black">
+              {delta.value} · {delta.tone === "better" ? "bättre" : delta.tone === "worse" ? "sämre" : "jämnt"}
+            </p>
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+
 export default function HammarbySeasonAnalysisPage() {
   const headline2026 = seasonHeadlines[0];
   const mainWarning = season2026LeagueMetrics.find((metric) => metric.id === "opp-np-xg");
@@ -424,37 +553,24 @@ export default function HammarbySeasonAnalysisPage() {
           </div>
         </SlideShell>
 
-        <SlideShell eyebrow="Detaljrader" title="För den som vill fråga mer">
-          <div className="overflow-x-auto rounded-2xl border border-stone-200 bg-white/80">
-            <table className="min-w-full text-left text-sm">
-              <thead className="bg-[#0b3b22] text-xs uppercase tracking-wide text-amber-100">
-                <tr>
-                  <th className="py-3 pl-4 pr-4">Mått</th>
-                  {seasons.map((season) => (
-                    <th key={season} className="py-3 pr-4">
-                      {season}
-                    </th>
-                  ))}
-                  <th className="py-3 pr-4">Tolkning</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-stone-200">
-                {twelveIdentityMetrics.map((metric) => (
-                  <tr key={metric.id}>
-                    <td className="py-3 pl-4 pr-4 font-black text-[#0b3b22]">{metric.label}</td>
-                    {seasons.map((season) => {
-                      const value = metric.values[season];
-                      return (
-                        <td key={season} className="py-3 pr-4 text-stone-700">
-                          {value.valueLabel} · {value.rank}/{value.total}
-                        </td>
-                      );
-                    })}
-                    <td className="max-w-md py-3 pr-4 text-stone-600">{metric.explanation}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <SlideShell eyebrow="Grafisk jämförelse" title="Se skillnaden per säsong">
+          <div className="mb-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["Färgad stapel", "Visar säsongens råa nivå jämfört med de andra två åren."],
+              ["Rank-badge", "Visar hur Hammarby stod sig mot resten av Allsvenskan samma år."],
+              ["Delta-rutor", "Visar exakt hur 2026 skiljer sig från 2025 och 2024."],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-stone-200 bg-white/80 p-4">
+                <p className="font-black text-[#0b3b22]">{title}</p>
+                <p className="mt-1 text-sm leading-6 text-stone-600">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            {twelveIdentityMetrics.map((metric) => (
+              <GraphicMetricComparison key={metric.id} metric={metric} />
+            ))}
           </div>
         </SlideShell>
 
