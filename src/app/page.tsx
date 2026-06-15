@@ -20,6 +20,23 @@ export default function Home() {
 
       <main className="mx-auto grid max-w-6xl gap-6 px-4 py-8 md:grid-cols-3">
         <Link
+          href="/matchstatistik/sasongsanalys"
+          className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
+        >
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
+            📡
+          </div>
+          <h2 className="text-xl font-semibold text-white">Säsongsanalys 2026</h2>
+          <p className="mt-2 text-sm text-slate-300">
+            Tydlig visuell analys av Hammarby 2026 mot Allsvenskan och mot
+            Hammarbys 2024 och 2025.
+          </p>
+          <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
+            Öppna säsongsanalys →
+          </p>
+        </Link>
+
+        <Link
           href="/matchstatistik"
           className="group rounded-2xl border border-blue-500/30 bg-slate-800/80 p-6 transition-colors hover:border-blue-400/60 hover:bg-slate-800"
         >
