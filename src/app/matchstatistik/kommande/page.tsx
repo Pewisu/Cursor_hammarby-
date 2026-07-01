@@ -277,7 +277,7 @@ export default function UpcomingOpponentsPage() {
                       Spindel-jämförelse Hammarby vs {opponentName} (Bolldata) (visa)
                     </summary>
                     <p className="mt-1 text-xs text-slate-400">
-                      Axlar från Bolldatas lagjämförelse för Allsvenskan 2026 efter 7 omgångar.
+                      Axlar från Bolldatas lagjämförelse för Allsvenskan 2026 hittills.
                     </p>
                     <SpiderComparisonChart axes={report.spiderComparison} opponentLabel={opponentName} />
                   </details>
