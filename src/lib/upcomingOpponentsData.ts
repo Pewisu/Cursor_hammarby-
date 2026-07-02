@@ -1605,19 +1605,21 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel:
       "Inför 5 juli 2026 · uppdaterad med Bolldata lagdata + Twelve säsongrapport + Rydström-special",
     oneLineSummary:
-      "Elfsborg är 3:a (18p) med bara en poäng före Hammarby på 4:e plats (17p) – trots ligans sämsta anfallsvolym (10 skott/match). De lever på disciplinerad defensiv transition (3:a i ligan) och effektivitet framför mål. Hammarby dominerar nästan alla offensiva lagmått (1:a i xG, avslut och bollinnehav) men möter dem med ny huvudtränare Henrik Rydström som ska sätta sin prägel direkt.",
+      "Elfsborg är 3:a (18p) med bara en poäng före Hammarby på 4:e plats (17p) – trots ligans sämsta anfallsvolym (10 skott/match). De lever på disciplinerad defensiv transition (3:a i ligan) och effektivitet framför mål. Hammarby dominerar offensivt i Twelve (1:a i xG, avslut, field tilt och PPDA) men möter dem med ny huvudtränare Henrik Rydström som ska sätta sin prägel direkt.",
     mobileTakeaways: [
       "Elfsborg 3:a (18p), Hammarby 4:a (17p) – en poäng emellan. Sirius leder (28p), Häcken 2:a (20p).",
       "Elfsborg har LIGANS LÄGSTA skottvolym (10,0/match) men håller 1,00 insläppta/match – stark defensiv transition (3:a).",
       "Twelve: Elfsborg 45% bollinnehav, 46% field tilt – reaktivt lag som inte dominerar territorium.",
-      "Hammarby 1:a i xG (2,20/match), avslut (20,1) och bollinnehav (59%) – massiv offensiv fördel.",
+      "Hammarby Twelve: 1:a i xG (2,16), avslut (20,2), field tilt (70%) och PPDA (4,19) – massiv spelmässig fördel.",
       "Elfsborg gör 11 av 16 mål efter paus (46-90+) – farliga i andra halvlek.",
       "Inbördes: HIF 6V-2O-2F senaste 10 möten. Senast 3-0 hemma (nov 2025) och 0-2 borta (maj 2025).",
       "Rydström-debut: ny tränare efter Karlsson. Båda lagen har nya tränare – Hamberg (Elfsborg) vs Rydström (HIF).",
-      "Nyckel: dominera bollen, pressa Elfsborgs låga uppspelsintensitet (PPDA 7,20) och undvik att ge dem omställningar.",
+      "Nyckel: PPDA 4,19 vs 7,20 – pressa Elfsborgs uppspel och dominera field tilt (70% vs 46%).",
     ],
     dataSources: [
-      "Twelve säsongrapport (delad): https://earpiece.twelve.football/shared-reports/96d790ae-d5bb-4f51-8f2c-71b249b0ccdc (1 juli 2026)",
+      "Twelve säsongrapport Elfsborg (delad): https://earpiece.twelve.football/shared-reports/96d790ae-d5bb-4f51-8f2c-71b249b0ccdc (1 juli 2026)",
+      "Twelve säsongrapport Hammarby: https://reports.twelve.football/reports/hammarby-season-report-9FKTw5a6Xg.pdf (1 juli 2026)",
+      "Twelve säsongdata Hammarby 2026: hammarbySeasonAnalysisData.ts (11 omgångar)",
       "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 1 juli 2026)",
       "Bolldata API: matches + team-advanced för Allsvenskan 2026 (11 omgångar)",
       "Bolldata API: goals för minutfönster och målprofil",
@@ -1628,8 +1630,8 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       context:
         "Henrik Rydström tillträdde som Hammarbys huvudtränare i vår 2026 efter Kalle Karlsson, med kontrakt till 2028 och Theo Olsson som assisterande. Rydström kommer senast från Columbus Crew och är känd för tydligt ledarskap, höga träningskrav och strukturerat bollinnehav inom ramen för klubbens spelidé. Elfsborg borta blir ett tidigt riktmärke: kan Rydström få Hammarbys redan dominanta lagdata (ligans bästa xG och avslutsvolym) att omsättas i poäng mot ett lag som bara förlorat en match? Samtidigt har Elfsborg ny manager i Björn Hamberg – två nya tränare som fortfarande formar sina lag.",
       tacticalKeys: [
-        "Rydströms Hammarby bör INTE ändra grundprofilen drastiskt – laget leder redan offensiva lagmått. Fokus på tydligare positionsrotation och beslutsfattande i sista tredjedelen.",
-        "Elfsborg utan boll (45% possession) passar Rydströms possession-filosofi – tvinga dem att försvara långa sekvenser och bryta ner deras defensiva transition.",
+        "Rydströms Hammarby bör INTE ändra grundprofilen drastiskt – Twelve visar 1:a plats i xG, field tilt och PPDA. Fokus på beslutsfattande i sista tredjedelen.",
+        "Elfsborg utan boll (45% possession, Twelve) passar Rydströms filosofi – tvinga dem att försvara långa sekvenser mot våra 70% field tilt.",
         "Risk med tränarbyte: kort förberedelsetid efter Häcken-förlusten (3-2). Rydström måste balansera sin spelmodell mot matchintensitet direkt.",
         "Elfsborgs styrka är defensiv transition (3:a i ligan) – Hammarby får inte tappa boll i farliga lägen. Kontrollera tempot, undvik onödiga risker centralt.",
         "Rydström har erfarenhet av Allsvenskan och europeiskt spel – förväntas höja kraven i matchförberedelse och halvtidssnack. Andra halvlek kan bli avgörande (Elfsborg gör 69% av sina mål efter paus).",
@@ -1822,17 +1824,17 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "4:a (17p), 24-13 i mål efter 11 matcher. Ligans bästa xG (2,20/match) och avslut (20,1/match). Ny tränare Henrik Rydström – Elfsborg blir tidigt test.",
+        body: "4:a (17p), 24-13 i mål. Twelve: 1:a i xG (2,16), PPDA (4,19) och field tilt (70%). Svagare defensivt än 2025 – motst. xG 1,45 (9:e). Rydströms första riktiga test.",
         tone: "emerald",
       },
       {
         title: "Elfsborg just nu",
-        body: "3:a (18p), 4V-6O-1F, 16-11 i mål. Obesegrade i 6 av senaste 7. Lägst skottvolym i ligan (10/match) men effektiva framför mål (1,27 np-mål vs 1,36 np-xG).",
+        body: "3:a (18p), 4V-6O-1F, 16-11 i mål. Twelve: defensiv transition 3:a, men anfall 13:e. PPDA 7,20 – passiv press.",
         tone: "amber",
       },
       {
-        title: "Nyckelkamp: dominans vs disciplin",
-        body: "Hammarbys offensiva överlägsenhet (1:a i xG, avslut, bollinnehav) mot Elfsborgs defensiva transition (3:a i ligan) och lågintensiva press (PPDA 7,20).",
+        title: "Nyckelkamp: press vs disciplin",
+        body: "Hammarbys Twelve-fördelar: PPDA 4,19 (1:a) och field tilt 70% (1:a) mot Elfsborgs defensiva transition (3:a) och PPDA 7,20.",
         tone: "blue",
       },
     ],
@@ -1974,11 +1976,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     rankedMetrics: [
       {
         label: "xG / match",
-        hammarbyValue: "2,20",
+        hammarbyValue: "2,16",
         hammarbyRank: "1:a av 16",
-        opponentValue: "1,43",
-        opponentRank: "9:a av 16",
-        note: "Hammarby skapar mest xG i ligan. Elfsborg genomsnittligt offensivt.",
+        opponentValue: "1,36",
+        opponentRank: "12:e av 16",
+        note: "Twelve: Hammarby skapar klart mest xG. Elfsborg svagt offensivt (13:e i attackfasen).",
       },
       {
         label: "Avslut / match",
@@ -1998,19 +2000,43 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         label: "Defensiv transition (Twelve)",
-        hammarbyValue: "~8:e",
-        hammarbyRank: "~8:e av 16",
-        opponentValue: "3:e",
-        opponentRank: "3:e av 16",
-        note: "Elfsborgs främsta styrka – Hammarby måste undvika bolltapp i farliga lägen.",
+        hammarbyValue: "13,4% recovery within 5s",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "11% recovery within 5s",
+        opponentRank: "3:a av 16 (fasrank)",
+        note: "Hammarby counterpressar bäst i ligan. Elfsborg är starka organiskt men långsammare att återerövra (3:a i fasen).",
       },
       {
         label: "PPDA (press)",
-        hammarbyValue: "~4,2",
-        hammarbyRank: "~1:a av 16",
+        hammarbyValue: "4,19",
+        hammarbyRank: "1:a av 16",
         opponentValue: "7,20",
         opponentRank: "~12:e av 16",
-        note: "Hammarby pressar hårdare. Elfsborgs passiva block ger oss tid att bygga.",
+        note: "Hammarby pressar hårdast i ligan. Elfsborgs passiva block ger oss tid – men de är disciplinerade bakom bollen.",
+      },
+      {
+        label: "Field tilt (Twelve)",
+        hammarbyValue: "69,6%",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "46%",
+        opponentRank: "~10:e av 16",
+        note: "Hammarby dominerar territorium totalt. Elfsborg accepterar att spela på sin planhalva.",
+      },
+      {
+        label: "Boxberöringar (Twelve)",
+        hammarbyValue: "28,82/match",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "15,82/match",
+        opponentRank: "~12:e av 16",
+        note: "Hammarby når boxen nästan dubbelt så ofta per match enligt Twelve.",
+      },
+      {
+        label: "Motst. xG (Twelve)",
+        hammarbyValue: "1,45/match",
+        hammarbyRank: "9:e av 16",
+        opponentValue: "1,25/match",
+        opponentRank: "6:e av 16",
+        note: "Hammarbys defensiva svaghet 2026 – släpper mer än fjolåret. Elfsborg begränsar motståndarchanser väl.",
       },
       {
         label: "Tabellplacering",
@@ -2057,17 +2083,17 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     ],
     hammarbyPlan: {
       withBall: [
-        "Exploatera bollinnehållsfördelen (59% vs 46% bollinnehav). Elfsborg pressar passivt (PPDA 7,20) – bygg lugnt och dra isär deras kompakta block.",
-        "Attackera brett och centralt. Elfsborg har bara 17% final third-to-box – de stänger mittfältet men lämnar ytor om Hammarby byter riktning snabbt.",
-        "Rydström bör utnyttja Hammarbys redan bästa xG i ligan (2,20/match). Fokus på beslutsfattande i sista tredjedelen – skapa 5+ HQ-skott.",
-        "Hammarbys 29 boxberöringar/match mot Elfsborgs 16 – volymfördelen ska skapa tryck. Tålamod tills luckor öppnas.",
-        "Undvik onödiga risker centralt. Elfsborgs defensiva transition (3:a) straffar slarv – spela säkert i uppbyggnaden.",
+        "Exploatera field tilt-fördelen (70% vs 46%). Elfsborg pressar passivt (PPDA 7,20) – bygg lugnt och dra isär deras kompakta block.",
+        "Attackera brett och centralt. Elfsborg når boxen bara 17% av gångerna från sista tredjedelen – deras mittfält stängs, men ytorna öppnas vid snabba riktningsbyten.",
+        "Rydström bör utnyttja Hammarbys Twelve-ledarskap: 1:a i xG (2,16), boxberöringar (28,8/match) och avslut (20,2). Sikta på 4+ HQ-skott.",
+        "Hammarbys 28,8 boxberöringar/match (Twelve) mot Elfsborgs 15,8 – volymfördelen ska skapa tryck. Tålamod tills luckor öppnas.",
+        "Undvik onödiga risker centralt. Elfsborgs defensiva transition (3:a) straffar slarv – men Hammarby har ligans bästa counterpress (13,4% recovery within 5s).",
       ],
       withoutBall: [
-        "Press selektivt, inte desperat. Elfsborg tappar bollen 30,91 gånger/match – men de organiserar sig snabbt (11% recovery within 5s).",
+        "Press med Hammarbys PPDA 4,19 (1:a i ligan) mot Elfsborgs 7,20. Stör uppspelet – Elfsborg tappar bollen 30,91 gånger/match men organiserar sig snabbt (11% recovery within 5s).",
         "Stäng av Zeneli och Östman – deras främsta målskyttar. Östman har 4 mål på 2,21 xG, Zeneli 3 mål.",
         "Elfsborg slår sällan till i första halvlek (5 av 16 mål före paus) – men 11 mål efter paus. Rydström: instruera om halvtidsjusteringar.",
-        "Begränsa Elfsborgs få omställningar. Deras xT (1,24) och xG (1,36) per match är låga – ge dem INGA lätta kontringar.",
+        "Begränsa Elfsborgs få omställningar. Deras xG (1,36) och xT (1,24) per match är låga – ge dem INGA lätta kontringar.",
         "Holmén avstängd – testa att attackera deras alternativa mittbackskombination.",
       ],
       matchManagement: [
@@ -2098,6 +2124,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "xP (expected Points)",
         explanation:
           "Förväntade poäng baserat på matchprestationer. Elfsborg har 1,64 faktiska poäng vs 1,55 xP – marginell överavkastning.",
+      },
+      {
+        term: "Recovery within 5s",
+        explanation:
+          "Andel bollåtervinningar inom 5 sekunder efter bolltapp. Hammarby leder ligan med 13,4%. Elfsborg har 11%.",
       },
       {
         term: "Rydström-special",
