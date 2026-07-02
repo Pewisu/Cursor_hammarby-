@@ -1605,9 +1605,9 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel:
       "Inför 5 juli 2026 · uppdaterad med Bolldata lagdata + Twelve säsongrapport + Rydström-special",
     oneLineSummary:
-      "Elfsborg leder tabellen marginellt (18p) trots ligans sämsta anfallsvolym (10 skott/match) – de lever på disciplinerad defensiv transition (3:a i ligan) och effektivitet framför mål. Hammarby dominerar nästan alla offensiva lagmått (1:a i xG, avslut och bollinnehav) men möter dem med ny huvudtränare Henrik Rydström som ska sätta sin prägel direkt.",
+      "Elfsborg är 3:a (18p) med bara en poäng före Hammarby på 4:e plats (17p) – trots ligans sämsta anfallsvolym (10 skott/match). De lever på disciplinerad defensiv transition (3:a i ligan) och effektivitet framför mål. Hammarby dominerar nästan alla offensiva lagmått (1:a i xG, avslut och bollinnehav) men möter dem med ny huvudtränare Henrik Rydström som ska sätta sin prägel direkt.",
     mobileTakeaways: [
-      "Elfsborg 18p (4V-6O-1F), Hammarby 17p (5V-2O-4F) – jämn toppstrid inför Borås.",
+      "Elfsborg 3:a (18p), Hammarby 4:a (17p) – en poäng emellan. Sirius leder (28p), Häcken 2:a (20p).",
       "Elfsborg har LIGANS LÄGSTA skottvolym (10,0/match) men håller 1,00 insläppta/match – stark defensiv transition (3:a).",
       "Twelve: Elfsborg 45% bollinnehav, 46% field tilt – reaktivt lag som inte dominerar territorium.",
       "Hammarby 1:a i xG (2,20/match), avslut (20,1) och bollinnehav (59%) – massiv offensiv fördel.",
@@ -1822,12 +1822,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "17p, 24-13 i mål efter 11 matcher. Ligans bästa xG (2,20/match) och avslut (20,1/match). Ny tränare Henrik Rydström – Elfsborg blir tidigt test.",
+        body: "4:a (17p), 24-13 i mål efter 11 matcher. Ligans bästa xG (2,20/match) och avslut (20,1/match). Ny tränare Henrik Rydström – Elfsborg blir tidigt test.",
         tone: "emerald",
       },
       {
         title: "Elfsborg just nu",
-        body: "18p (4V-6O-1F), 16-11 i mål. Obesegrade i 6 av senaste 7. Lägst skottvolym i ligan (10/match) men effektiva framför mål (1,27 np-mål vs 1,36 np-xG).",
+        body: "3:a (18p), 4V-6O-1F, 16-11 i mål. Obesegrade i 6 av senaste 7. Lägst skottvolym i ligan (10/match) men effektiva framför mål (1,27 np-mål vs 1,36 np-xG).",
         tone: "amber",
       },
       {
@@ -2013,12 +2013,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         note: "Hammarby pressar hårdare. Elfsborgs passiva block ger oss tid att bygga.",
       },
       {
-        label: "Poäng / match",
-        hammarbyValue: "1,55",
-        hammarbyRank: "~6:e av 16",
-        opponentValue: "1,64",
-        opponentRank: "~5:e av 16",
-        note: "Elfsborg marginellt bättre i tabellen trots sämre underliggande anfallsdata.",
+        label: "Tabellplacering",
+        hammarbyValue: "17p",
+        hammarbyRank: "4:a av 16",
+        opponentValue: "18p",
+        opponentRank: "3:a av 16",
+        note: "Elfsborg en poäng före Hammarby. Sirius leder (28p), Häcken 2:a (20p).",
       },
     ],
     goalWindows: [
