@@ -1611,7 +1611,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Elfsborg har LIGANS LÄGSTA skottvolym (10,0/match) men håller 1,00 insläppta/match – stark defensiv transition (3:a).",
       "Twelve: Elfsborg 45% bollinnehav, 46% field tilt – reaktivt lag som inte dominerar territorium.",
       "Hammarby 1:a i xG (2,20/match), avslut (20,1) och bollinnehav (59%) – massiv offensiv fördel.",
-      "Elfsborg gör 10 av 16 mål efter paus (46-90+) – farliga i andra halvlek.",
+      "Elfsborg gör 11 av 16 mål efter paus (46-90+) – farliga i andra halvlek.",
       "Inbördes: HIF 6V-2O-2F senaste 10 möten. Senast 3-0 hemma (nov 2025) och 0-2 borta (maj 2025).",
       "Rydström-debut: ny tränare efter Karlsson. Båda lagen har nya tränare – Hamberg (Elfsborg) vs Rydström (HIF).",
       "Nyckel: dominera bollen, pressa Elfsborgs låga uppspelsintensitet (PPDA 7,20) och undvik att ge dem omställningar.",
@@ -1632,7 +1632,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Elfsborg utan boll (45% possession) passar Rydströms possession-filosofi – tvinga dem att försvara långa sekvenser och bryta ner deras defensiva transition.",
         "Risk med tränarbyte: kort förberedelsetid efter Häcken-förlusten (3-2). Rydström måste balansera sin spelmodell mot matchintensitet direkt.",
         "Elfsborgs styrka är defensiv transition (3:a i ligan) – Hammarby får inte tappa boll i farliga lägen. Kontrollera tempot, undvik onödiga risker centralt.",
-        "Rydström har erfarenhet av Allsvenskan och europeiskt spel – förväntas höja kraven i matchförberedelse och halvtidssnack. Andra halvlek kan bli avgörande (Elfsborg gör 62% av sina mål efter paus).",
+        "Rydström har erfarenhet av Allsvenskan och europeiskt spel – förväntas höja kraven i matchförberedelse och halvtidssnack. Andra halvlek kan bli avgörande (Elfsborg gör 69% av sina mål efter paus).",
         "Båda tränarna är nya – Hamberg har byggt Elfsborgs disciplinerade mittblock, Rydström ska få Hammarbys offensiva dominans att bita. Den som imponerar taktiskt vinner matchen.",
       ],
     },
@@ -1655,8 +1655,8 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         },
         {
           title: "Borta i Borås totalt",
-          value: "2V-1O-2F senaste 5",
-          note: "Bortamatcherna är jämnare – Elfsborg vann 2-0 (2023) och 2-1 (2022).",
+          value: "1V-2O-2F senaste 5",
+          note: "Bortamatcherna är jämnare – senaste hemmaseger i Borås var 2-0 (2023).",
           tone: "amber",
         },
       ],
@@ -1664,7 +1664,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Hammarby har vunnit 4 av senaste 5 inbördes möten (ett oavgjort 0-0 sep 2024).",
         "Senaste två mötena: totalt 5-0 till Hammarby med underliggande xG-fördel i båda.",
         "Elfsborgs senaste hemmaseger mot HIF: 2-0 i juli 2023.",
-        "Hammarby skapar konsekvent mer – i snitt 15,4 avslut/match vs Elfsborgs 11,8 i de 10 senaste mötena.",
+        "Hammarby skapar konsekvent mer – i snitt 14,6 avslut/match vs Elfsborgs 11,9 i de 10 senaste mötena.",
       ],
       matches: [
         {
@@ -2032,7 +2032,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     goalTypeNotes: [
       {
         label: "Elfsborgs andra halvlek",
-        value: "10 av 16 mål (46-90+)",
+        value: "11 av 16 mål (46-90+)",
         interpretation:
           "Elfsborg vaknar efter paus – Hammarby måste hålla intensiteten hela matchen, inte bara första 45.",
       },
@@ -2057,7 +2057,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     ],
     hammarbyPlan: {
       withBall: [
-        "Exploatera bollinnehållsfördelen (59% vs 46%). Elfsborg pressar passivt (PPDA 7,20) – bygg lugnt och dra isär deras kompakta block.",
+        "Exploatera bollinnehållsfördelen (59% vs 46% bollinnehav). Elfsborg pressar passivt (PPDA 7,20) – bygg lugnt och dra isär deras kompakta block.",
         "Attackera brett och centralt. Elfsborg har bara 17% final third-to-box – de stänger mittfältet men lämnar ytor om Hammarby byter riktning snabbt.",
         "Rydström bör utnyttja Hammarbys redan bästa xG i ligan (2,20/match). Fokus på beslutsfattande i sista tredjedelen – skapa 5+ HQ-skott.",
         "Hammarbys 29 boxberöringar/match mot Elfsborgs 16 – volymfördelen ska skapa tryck. Tålamod tills luckor öppnas.",
@@ -2066,7 +2066,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       withoutBall: [
         "Press selektivt, inte desperat. Elfsborg tappar bollen 30,91 gånger/match – men de organiserar sig snabbt (11% recovery within 5s).",
         "Stäng av Zeneli och Östman – deras främsta målskyttar. Östman har 4 mål på 2,21 xG, Zeneli 3 mål.",
-        "Elfsborg slår sällan till i första halvlek (4 av 16 mål 0-45) – men 10 mål efter paus. Rydström: instruera om halvtidsjusteringar.",
+        "Elfsborg slår sällan till i första halvlek (5 av 16 mål före paus) – men 11 mål efter paus. Rydström: instruera om halvtidsjusteringar.",
         "Begränsa Elfsborgs få omställningar. Deras xT (1,24) och xG (1,36) per match är låga – ge dem INGA lätta kontringar.",
         "Holmén avstängd – testa att attackera deras alternativa mittbackskombination.",
       ],
