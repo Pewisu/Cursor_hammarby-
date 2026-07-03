@@ -91,6 +91,20 @@ export interface SquadRecommendation {
   rotationNotes: string[];
 }
 
+export interface PodcastNarrativeSection {
+  id: string;
+  title: string;
+  onScreen?: string;
+  narrative: string;
+  beats?: string[];
+}
+
+export interface PodcastNarrative {
+  intro: string;
+  sections: PodcastNarrativeSection[];
+  outro?: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -98,6 +112,7 @@ export interface UpcomingOpponentReport {
   dateLabel: string;
   oneLineSummary: string;
   hidden?: boolean;
+  podcastNarrative?: PodcastNarrative;
   mobileTakeaways: string[];
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
@@ -1605,16 +1620,89 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel:
       "Inför 5 juli 2026 · uppdaterad med Bolldata lagdata + Twelve säsongrapport + Rydström-special",
     oneLineSummary:
-      "Elfsborg är 3:a (18p) med bara en poäng före Hammarby på 4:e plats (17p) – trots ligans sämsta anfallsvolym (10 skott/match). De lever på disciplinerad defensiv transition (3:a i ligan) och effektivitet framför mål. Hammarby dominerar offensivt i Twelve (1:a i xG, avslut, field tilt och PPDA) men möter dem med ny huvudtränare Henrik Rydström som ska sätta sin prägel direkt.",
+      "Borta i Borås möter Hammarby ett Elfsborg som ligger en poäng före i tabellen – men skjuter minst i hela Allsvenskan. Vi dominerar lagdata offensivt, de lever på disciplin efter bolltapp. Och så är det Rydströms första riktiga test som Hammarby-tränare.",
+    podcastNarrative: {
+      intro:
+        "Vi går igenom Elfsborg inför omgång elva – borta i Borås den femte juli. Följ med på skärmen om du tittar, annars räcker det att lyssna: varje del börjar med vad du ser, sedan vad du kan säga.",
+      sections: [
+        {
+          id: "hook",
+          title: "1. Inledning – vad handlar matchen om?",
+          onScreen: "Matchrubrik, datum och den korta ingressen högst upp.",
+          narrative:
+            "Det här är en toppmatch i tabellens mitt – men den känns större än så. Elfsborg ligger trea med arton poäng. Hammarby fyra med sjutton. En poäng emellan, med Sirius och Häcken ovanför oss. På pappret ska vi skapa mer – men Elfsborg har bara förlorat en match på elva omgångar. De vinner inte genom att dominera, de vinner genom att vara svåra att bryta ner.",
+        },
+        {
+          id: "status",
+          title: "2. Läget just nu",
+          onScreen: "Tre statuskort: Hammarby, Elfsborg och nyckelkampen press mot disciplin.",
+          narrative:
+            "Titta på de tre korten. Hammarby har tjugofyra gjorda och tretton insläppta – vi leder ligan i förväntade mål, i skott och i hur mycket av spelet vi lägger i deras planhalva. Men vi släpper också mer än vi gjorde förra året defensivt. Elfsborg har sexton gjorda och elva insläppta – färre matcher vunnna, men nästan aldrig slagna. Deras grej är inte anfallsvolym. De skjuter tio gånger per match – sist i hela ligan. Istället är de tredje bäst i defensiv transition: alltså hur snabbt och smart de ställer om när de tappar bollen. Det tredje kortet sammanfattar matchens kärna: vår hårda press mot deras organiserade försvar.",
+          beats: [
+            "Hammarby: offensiv dominans i data, svagare defensivt än 2025.",
+            "Elfsborg: få skott, få förluster, stark efter bolltapp.",
+            "Matchen: kan vi bryta ner ett lag som nästan aldrig imploderar?",
+          ],
+        },
+        {
+          id: "rydstrom",
+          title: "3. Rydström-special",
+          onScreen: "Sektionen Rydström-special med kontext och punktlista.",
+          narrative:
+            "Här blir det personligt. Henrik Rydström tillträdde som Hammarby-tränare i vår efter Kalle Karlsson – kontrakt till tjugohundratjugoåtta, Theo Olsson som assisterande. Han kommer senast från Columbus Crew och är känd för tydligt ledarskap och höga krav. Elfsborg borta är inte vilken match som helst: det är första gången vi verkligen får se om hans modell får våra redan starka lagdata att bli poäng. Samtidigt har Elfsborg ny tränare i Björn Hamberg. Två nya huvudmän, två lag som fortfarande formas. Rydström behöver inte riva upp Hammarbys spel – vi leder redan i xG, field tilt och press. Frågan är beslutsfattandet i sista tredjedelen, och om han hinner lägga om efter Häcken-förlusten. Elfsborg passar hans idé: de vill spela utan boll, vi ska tvinga dem att försvara länge. Men tappa inte bollen dumt centralt – då slår deras omställningsspel till.",
+        },
+        {
+          id: "h2h",
+          title: "4. Inbördes möten",
+          onScreen: "Tabell med senaste tio möten, tre sammanfattningskort och trendpunkter.",
+          narrative:
+            "Scrolla till inbördes möten om du vill ha detaljerna. Kort sagt: Hammarby har vunnit sex, oavgjort två och förlorat två av de senaste tio – sexton mot nio i mål. Vi har tagit poäng i åtta av tio. Senaste två mötena? Tre–noll hemma i november och två–noll borta i maj – båda med tydlig fördel i förväntade mål och i skott. Men kolla det gula kortet: i Borås är det jämnare historiskt. Senaste fem bortamatcherna där är det en seger, två oavgjorda och två förluster. Senaste hemmasegern Elfsborg tog mot oss i Borås var två–noll sommaren tjugotjugotre. Så: vi äger serien nyligen, men Ryavallen ska respekteras.",
+        },
+        {
+          id: "opponent",
+          title: "5. Så spelar Elfsborg",
+          onScreen: "Stapeldiagram per spelstil och punktlistan under.",
+          narrative:
+            "Nu motståndarprofilen. Elfsborg har fyrtiofem procent bollinnehav och fyrtiosex procent field tilt – de jagar inte territorium, de står kompakt och väntar. Deras starkaste fas är defensiv transition: tredje bäst i ligan, och de släpper bara noll komma tjugoett i förväntat mål inom tio sekunder efter att de fått tillbaka bollen. Anfallet är svagt på papper – trettonde av sexton – med ligans lägsta skottvolym. De pressar sällan: PPDA sju komma tjugo betyder att vi får tid att bygga. Nyckelspelare att nämna: Leo Östman fyra mål, Arbër Zeneli tre, Frederik Ihler två. Holmén är avstängd – det kan öppna luckor centralt.",
+        },
+        {
+          id: "data",
+          title: "6. Siffrorna – spindel och nyckeltal",
+          onScreen: "Spindeldiagrammet Bolldata och rutnätet med rankade nyckeltal.",
+          narrative:
+            "Här blir det tydligt visuellt. Spindeldiagrammet från Bolldata: Hammarby sticker ut på anfall – nästan dubbelt så många avslut per match, betydligt högre xG, mer bollinnehav. Elfsborg är starkare på defensiva aktioner per match – logiskt när de försvarar mer. I nyckeltalen med Twelve-ranking ser du samma bild: vi är etta i xG, skott, bollinnehav, field tilt, PPDA och boxberöringar. Elfsborg är tolfte till sextonde på det mesta offensivt, men sexa i hur lite de släpper – motståndarnas xG är bara ett komma tjugofem per match. Det är matchens paradox: vi ska dominera bollen mot ett lag som är byggt för att överleva dominans.",
+          beats: [
+            "Hammarby etta i xG (2,16), avslut (20) och field tilt (70 %).",
+            "Elfsborg sista i skottvolym (10 per match), stark i defensiv transition.",
+            "PPDA 4,19 mot 7,20 – vi pressar, de står lågt.",
+          ],
+        },
+        {
+          id: "timing",
+          title: "7. När ska vi slå till?",
+          onScreen: "Tidsfönster för mål och målprofil-korten.",
+          narrative:
+            "Titta på måltiderna. Elfsborg gör elva av sexton mål efter paus – bara fem före halvtid. De vaknar i andra halvlek, särskilt sent: fyra mål mellan sjuttisex och nittio plus. Hammarby gör mest mellan trettioförsta och sextionde minuten – fem mål strax före paus och fem direkt efter. Det betyder: första halvlek kan kännas frustrerande om vi inte gör mål, men ge inte upp. Och Rydström måste ha halvtidsplanen klar – Elfsborg kommer. Begränsa deras få chanser så räcker det; de skapar sällan men är effektiva när de väl gör det.",
+        },
+        {
+          id: "plan",
+          title: "8. Matchplanen",
+          onScreen: "Tre kolumner: med boll, utan boll och matchmanagement.",
+          narrative:
+            "Avsluta med planen – tre kolumner på skärmen. Med boll: utnyttja att de pressar passivt, bygg lugnt, attackera brett och centralt, och ha tålamod tills blocket spricker. Vi når straffområdet nästan dubbelt så ofta som de – det ska märkas. Utan boll: pressa deras uppspel hårt, stäng av Zeneli och Östman, och ge inga lätta kontringar. De tappar bollen ofta men organiserar sig snabbt. Matchmanagement: det här är ett tålamodsprov – Elfsborg har bara en förlust. Ledning ska utnyttjas, de måste jaga. Oavgjort sent? Stäng defensivt, de är farliga i slutminuterna. Och ja – en seger här sätter tonen för Rydströms höst.",
+        },
+      ],
+      outro:
+        "Sammanfattning på trettio sekunder kommer direkt under manuset om du vill avsluta snabbt. Nu vet du vad som visas – och vad du kan berätta.",
+    },
     mobileTakeaways: [
-      "Elfsborg 3:a (18p), Hammarby 4:a (17p) – en poäng emellan. Sirius leder (28p), Häcken 2:a (20p).",
-      "Elfsborg har LIGANS LÄGSTA skottvolym (10,0/match) men håller 1,00 insläppta/match – stark defensiv transition (3:a).",
-      "Twelve: Elfsborg 45% bollinnehav, 46% field tilt – reaktivt lag som inte dominerar territorium.",
-      "Hammarby Twelve: 1:a i xG (2,16), avslut (20,2), field tilt (70%) och PPDA (4,19) – massiv spelmässig fördel.",
-      "Elfsborg gör 11 av 16 mål efter paus (46-90+) – farliga i andra halvlek.",
-      "Inbördes: HIF 6V-2O-2F senaste 10 möten. Senast 3-0 hemma (nov 2025) och 0-2 borta (maj 2025).",
-      "Rydström-debut: ny tränare efter Karlsson. Båda lagen har nya tränare – Hamberg (Elfsborg) vs Rydström (HIF).",
-      "Nyckel: PPDA 4,19 vs 7,20 – pressa Elfsborgs uppspel och dominera field tilt (70% vs 46%).",
+      "Elfsborg trea, Hammarby fyra – en poäng emellan. Sirius leder, Häcken tvåa.",
+      "Elfsborg skjuter minst i ligan men har bara en förlust på elva matcher.",
+      "Hammarby leder i xG, skott, field tilt och press – Elfsborg i disciplin efter bolltapp.",
+      "Elfsborg gör elva av sexton mål efter paus – andra halvlek avgörande.",
+      "Inbördes: sex–två–två senaste tio. Senast tre–noll hemma och två–noll borta.",
+      "Rydström mot Hamberg – två nya tränare, första riktiga testet för Henrik.",
+      "Nyckeln: pressa uppspelet, dominera territorium, tappa inte bollen dumt centralt.",
     ],
     dataSources: [
       "Twelve säsongrapport Elfsborg (delad): https://earpiece.twelve.football/shared-reports/96d790ae-d5bb-4f51-8f2c-71b249b0ccdc (1 juli 2026)",
@@ -1824,17 +1912,17 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "4:a (17p), 24-13 i mål. Twelve: 1:a i xG (2,16), PPDA (4,19) och field tilt (70%). Svagare defensivt än 2025 – motst. xG 1,45 (9:e). Rydströms första riktiga test.",
+        body: "Fyra i tabellen med sjutton poäng. Tjugofyra gjorda och tretton insläppta. Vi leder ligan i förväntade mål, skott och hur mycket vi spelar i motståndarens planhalva – men släpper mer defensivt än förra året. Rydströms första riktiga test.",
         tone: "emerald",
       },
       {
         title: "Elfsborg just nu",
-        body: "3:a (18p), 4V-6O-1F, 16-11 i mål. Twelve: defensiv transition 3:a, men anfall 13:e. PPDA 7,20 – passiv press.",
+        body: "Trea med arton poäng. Fyra vinster, sex oavgjorda och en förlust. Sexton gjorda och elva insläppta. Skjuter minst i Allsvenskan men är tredje bäst när de ställer om efter bolltapp. Pressar sällan – vi får tid på bollen.",
         tone: "amber",
       },
       {
-        title: "Nyckelkamp: press vs disciplin",
-        body: "Hammarbys Twelve-fördelar: PPDA 4,19 (1:a) och field tilt 70% (1:a) mot Elfsborgs defensiva transition (3:a) och PPDA 7,20.",
+        title: "Matchens kärna",
+        body: "Vår hårda press och territoriedominans mot deras kompakta block och snabba omställning. Kan vi bryta ner ett lag som nästan aldrig förlorar?",
         tone: "blue",
       },
     ],
