@@ -36,6 +36,8 @@ import {
   elfsborgRound11MatchSpider,
   elfsborgRound11MatchStory,
   elfsborgRound11Recap,
+  elfsborgRound11SnapshotPills,
+  elfsborgRound11SnapshotStats,
   elfsborgRound11Takeaways,
 } from "@/lib/elfsborgRound11AnalysisData";
 import { findMatchAnalysisRoundForOverview } from "@/lib/resolveMatchAnalysisRound";
@@ -2211,12 +2213,16 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           <div id="match-recap">
             <MatchRecapSection
               headline={elfsborgRound11Recap.headline}
-              verdict={elfsborgRound11Recap.verdict}
-              subheadline={elfsborgRound11Recap.subheadline}
-              matchResult={elfsborgRound11Recap.matchResult}
+              tagline={elfsborgRound11Recap.tagline}
               dateLabel={elfsborgRound11Recap.dateLabel}
-              bolldataSummary={elfsborgRound11Recap.bolldataSummary}
               opponentLabel="Elfsborg"
+              opponentScore={elfsborgRound11Recap.opponentScore}
+              hammarbyScore={elfsborgRound11Recap.hammarbyScore}
+              opponentXg={elfsborgRound11Recap.opponentXg}
+              hammarbyXg={elfsborgRound11Recap.hammarbyXg}
+              halftimeScore={elfsborgRound11Recap.halftimeScore}
+              snapshotStats={elfsborgRound11SnapshotStats}
+              snapshotPills={elfsborgRound11SnapshotPills}
               matchStory={elfsborgRound11MatchStory}
               goals={elfsborgRound11Goals}
               takeaways={elfsborgRound11Takeaways}
