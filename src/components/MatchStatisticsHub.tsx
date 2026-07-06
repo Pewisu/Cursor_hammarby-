@@ -25,10 +25,19 @@ import {
   type PlayerTrendMetrics,
 } from "@/lib/hammarbyPlayerTrendData";
 import PredictionVsOutcome from "@/components/PredictionVsOutcome";
+import MatchRecapSection from "@/components/MatchRecapSection";
 import { round8PredictionVsOutcome } from "@/lib/predictionVsOutcomeData";
 import { round9PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9Data";
 import { round9AikPredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9AikData";
 import { round10PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound10Data";
+import { round11PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound11Data";
+import {
+  elfsborgRound11Goals,
+  elfsborgRound11MatchSpider,
+  elfsborgRound11Recap,
+  elfsborgRound11Takeaways,
+} from "@/lib/elfsborgRound11AnalysisData";
+import { findMatchAnalysisRoundForOverview } from "@/lib/resolveMatchAnalysisRound";
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
 
@@ -1097,27 +1106,31 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   useEffect(() => {
     if (mode !== "round" || typeof round !== "number") return;
     setRoundVsSeasonRound((currentValue) => {
-      const targetRound = hammarbyMatchAnalysisRounds.find(
-        (row) => row.season === PREFERRED_ROUND_FOCUS_SEASON && row.gameweek === round
-      );
+      const selectedRound = sortedMatches.find((item) => item.gameweek === round);
+      const targetRound = selectedRound
+        ? findMatchAnalysisRoundForOverview(selectedRound, PREFERRED_ROUND_FOCUS_SEASON)
+        : hammarbyMatchAnalysisRounds.find(
+            (row) => row.season === PREFERRED_ROUND_FOCUS_SEASON && row.gameweek === round,
+          );
       if (targetRound) {
         return targetRound.key;
       }
       return currentValue;
     });
-  }, [mode, round]);
+  }, [mode, round, sortedMatches]);
 
   const selectedRoundMatch =
     mode === "round" && typeof round === "number"
       ? sortedMatches.find((item) => item.gameweek === round) ?? null
       : null;
+  const resolvedAnalysisRound = selectedRoundMatch
+    ? findMatchAnalysisRoundForOverview(selectedRoundMatch)
+    : undefined;
   const roundOverview = mode === "round" && selectedRoundMatch ? buildRoundOverview(selectedRoundMatch) : null;
 
   const matchRankItems = useMemo(() => {
     if (mode !== "round" || typeof round !== "number") return [];
-    const currentAnalysis = hammarbyMatchAnalysisRounds.find(
-      (r) => r.season === 2026 && r.gameweek === round
-    );
+    const currentAnalysis = resolvedAnalysisRound;
     if (!currentAnalysis) return [];
     const season2026Rows = hammarbyMatchAnalysisRounds.filter(
       (r) => r.season === 2026
@@ -1157,7 +1170,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     const best = items.filter((i) => i.tone === "green").sort((a, b) => (a.rank / a.total) - (b.rank / b.total));
     const neutral = items.filter((i) => i.tone === "neutral");
     return [...worst, ...neutral, ...best];
-  }, [mode, round]);
+  }, [mode, round, resolvedAnalysisRound]);
   const standoutPlayersForRound =
     mode === "round" && typeof round === "number"
       ? hammarbyRoundPlayerHighlights.find((entry) => entry.gameweek === round) ?? null
@@ -2084,7 +2097,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </div>
-        {mode === "round" && (round === 8 || round === 15) && (
+        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 15) && (
           <div className="border-t border-slate-700/40 bg-[#0f172a]/95">
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
               <a
@@ -2094,6 +2107,15 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <span>📊</span>
                 <span>Matchgenomgång</span>
               </a>
+              {round === 11 && (
+                <a
+                  href="#match-recap"
+                  className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                >
+                  <span>🕸️</span>
+                  <span>Matchanalys</span>
+                </a>
+              )}
               {round === 8 && (
                 <a
                   href="#matchens-spelare"
@@ -3848,6 +3870,29 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </section>
+
+        {mode === "round" && round === 11 && (
+          <div id="match-recap">
+            <MatchRecapSection
+              headline={elfsborgRound11Recap.headline}
+              subheadline={elfsborgRound11Recap.subheadline}
+              matchResult={elfsborgRound11Recap.matchResult}
+              dateLabel={elfsborgRound11Recap.dateLabel}
+              opponentLabel="Elfsborg"
+              goals={elfsborgRound11Goals}
+              takeaways={elfsborgRound11Takeaways}
+              spiderAxes={elfsborgRound11MatchSpider}
+              sourceUrl={elfsborgRound11Recap.sourceUrl}
+              hammarbySourceUrl={elfsborgRound11Recap.hammarbySourceUrl}
+            />
+          </div>
+        )}
+
+        {mode === "round" && round === 11 && (
+          <div id="prediction-vs-outcome">
+            <PredictionVsOutcome {...round11PredictionVsOutcome} />
+          </div>
+        )}
 
         {mode === "round" && round === 8 && (
           <div id="matchens-spelare">
