@@ -133,6 +133,101 @@ type PointsComparisonRow = {
   note: string;
 };
 
+function PointsComparisonSection({
+  comparisonRound,
+  pointsComparisonRows,
+  className,
+  matchContext,
+}: {
+  comparisonRound: number;
+  pointsComparisonRows: PointsComparisonRow[];
+  className?: string;
+  matchContext?: MatchPointsContext | null;
+}) {
+  const deltaPositive = (matchContext?.matchDeltaVsPpg ?? 0) >= 0;
+
+  return (
+    <section
+      id="season-points"
+      className={
+        className ??
+        "rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4 md:p-5"
+      }
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div>
+          <h2 className="text-base font-semibold text-white md:text-lg">Poängsnitt & poängprognos</h2>
+          <p className="mt-1 text-xs text-slate-400 md:text-sm">
+            Komprimerad jämförelse: poäng efter vald omgång, poängsnitt och säsongssnitt.
+          </p>
+        </div>
+        <span className="rounded-md border border-slate-600/70 bg-slate-900/60 px-2 py-1 text-[11px] text-slate-300">
+          Omgång {comparisonRound}
+        </span>
+      </div>
+      <div className="mt-3 overflow-x-auto">
+        <table className="min-w-full text-left text-xs sm:text-sm">
+          <thead>
+            <tr className="border-b border-slate-700/60 text-slate-400">
+              <th className="px-2 py-2 font-medium">Säsong</th>
+              <th className="px-2 py-2 font-medium">Efter omg {comparisonRound}</th>
+              <th className="px-2 py-2 font-medium">Poängsnitt</th>
+              <th className="px-2 py-2 font-medium">Snitt per säsong</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pointsComparisonRows.map((row) => (
+              <tr
+                key={`points-compact-${row.seasonLabel}`}
+                className="border-b border-slate-800/80 text-slate-200 last:border-b-0"
+              >
+                <td className="px-2 py-2 font-semibold text-white">{row.seasonLabel}</td>
+                <td className="px-2 py-2">{row.pointsAfterRoundText}</td>
+                <td className="px-2 py-2">{row.pointsPerRoundText}</td>
+                <td className="px-2 py-2">{row.seasonAverageText}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {matchContext ? (
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-600/40 bg-emerald-500/10 px-4 py-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-emerald-300/90">
+              Denna match vs snitt
+            </p>
+            <p className="mt-0.5 text-xs text-slate-400">
+              Jämfört med {matchContext.seasonPpgBefore.toFixed(2).replace(".", ",")} p/omg före matchen
+            </p>
+          </div>
+          <div className="text-right">
+            <p className="text-2xl font-black text-emerald-100">{matchContext.matchPoints} p</p>
+            <p
+              className={`text-sm font-bold ${
+                deltaPositive ? "text-emerald-300" : "text-amber-300"
+              }`}
+            >
+              {deltaPositive ? "+" : ""}
+              {matchContext.matchDeltaVsPpg.toFixed(2).replace(".", ",")} mot snittet
+            </p>
+          </div>
+        </div>
+      ) : null}
+      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-500">
+        {pointsComparisonRows.map((row) => (
+          <span key={`points-note-${row.seasonLabel}`}>
+            {row.seasonLabel}: {row.note}
+          </span>
+        ))}
+      </div>
+      <p className="mt-2 text-[11px] text-slate-500">
+        2026-poängsnittet räknas på faktisk poäng hittills; 2025/2024 använder slutligt säsongssnitt
+        per omgång. ≈ markerar prognos/fallback.
+      </p>
+    </section>
+  );
+}
+
 
 type SeasonComparisonMode = "full" | "played";
 type MatchAnalysisViewMode = "round" | "season-average";
@@ -2205,11 +2300,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               {round === 11 && (
                 <>
                   <a
-                    href="#match-recap"
+                    href="#season-points"
                     className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/25"
                   >
                     <span>📈</span>
-                    <span>Poäng & match</span>
+                    <span>Poängsnitt</span>
+                  </a>
+                  <a
+                    href="#match-recap"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                  >
+                    <span>⚽</span>
+                    <span>Match</span>
                   </a>
                   <a
                     href="#bolldata-spider"
@@ -2275,7 +2377,16 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           isRound11Dashboard ? "gap-4" : "gap-8"
         }`}
       >
-        {isRound11Dashboard && round11PointsContext && (
+        {mode === "round" && isRound11Dashboard && (
+          <PointsComparisonSection
+            comparisonRound={comparisonRound}
+            pointsComparisonRows={pointsComparisonRows}
+            matchContext={round11PointsContext}
+            className={`${ROUND11_SURFACE} p-4 md:p-5`}
+          />
+        )}
+
+        {isRound11Dashboard && (
           <div id="match-recap" className={ROUND11_SURFACE}>
             <MatchRecapSection
               embedded
@@ -2296,7 +2407,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               spiderAxes={elfsborgRound11MatchSpider}
               sourceUrl={elfsborgRound11Recap.sourceUrl}
               hammarbySourceUrl={elfsborgRound11Recap.hammarbySourceUrl}
-              pointsContext={round11PointsContext}
             />
             <div className="px-5 pb-5 md:px-6" id="prediction-vs-outcome">
               <PredictionVsOutcome embedded {...round11PredictionVsOutcome} />
@@ -2344,55 +2454,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {mode === "round" && !isRound11Dashboard && (
-          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4 md:p-5">
-            <div className="flex flex-wrap items-start justify-between gap-2">
-              <div>
-                <h2 className="text-base font-semibold text-white md:text-lg">Poängsnitt & poängprognos</h2>
-                <p className="mt-1 text-xs text-slate-400 md:text-sm">
-                  Komprimerad jämförelse: poäng efter vald omgång, poängsnitt och säsongssnitt.
-                </p>
-              </div>
-              <span className="rounded-md border border-slate-600/70 bg-slate-900/60 px-2 py-1 text-[11px] text-slate-300">
-                Omgång {comparisonRound}
-              </span>
-            </div>
-            <div className="mt-3 overflow-x-auto">
-              <table className="min-w-full text-left text-xs sm:text-sm">
-                <thead>
-                  <tr className="border-b border-slate-700/60 text-slate-400">
-                    <th className="px-2 py-2 font-medium">Säsong</th>
-                    <th className="px-2 py-2 font-medium">Efter omg {comparisonRound}</th>
-                    <th className="px-2 py-2 font-medium">Poängsnitt</th>
-                    <th className="px-2 py-2 font-medium">Snitt per säsong</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pointsComparisonRows.map((row) => (
-                    <tr
-                      key={`points-compact-${row.seasonLabel}`}
-                      className="border-b border-slate-800/80 text-slate-200 last:border-b-0"
-                    >
-                      <td className="px-2 py-2 font-semibold text-white">{row.seasonLabel}</td>
-                      <td className="px-2 py-2">{row.pointsAfterRoundText}</td>
-                      <td className="px-2 py-2">{row.pointsPerRoundText}</td>
-                      <td className="px-2 py-2">{row.seasonAverageText}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-500">
-              {pointsComparisonRows.map((row) => (
-                <span key={`points-note-${row.seasonLabel}`}>
-                  {row.seasonLabel}: {row.note}
-                </span>
-              ))}
-            </div>
-            <p className="mt-2 text-[11px] text-slate-500">
-              2026-poängsnittet räknas på faktisk poäng hittills; 2025/2024 använder slutligt
-              säsongssnitt per omgång. ≈ markerar prognos/fallback.
-            </p>
-          </section>
+          <PointsComparisonSection
+            comparisonRound={comparisonRound}
+            pointsComparisonRows={pointsComparisonRows}
+          />
         )}
 
         {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && (
