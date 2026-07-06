@@ -15,7 +15,13 @@ export default function Home() {
             Börja med område och gå sedan vidare till rätt undersida: matchstatistik
             för lagets prestationer eller spelarstatistik för individdata.
           </p>
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Link
+              href="/matchstatistik/omgang/11"
+              className="inline-flex items-center gap-2 rounded-full border border-emerald-400/60 bg-emerald-500/20 px-4 py-2 text-sm font-bold text-emerald-100 transition-colors hover:border-emerald-300 hover:bg-emerald-500/30"
+            >
+              ⚽ Senaste match: Elfsborg 1-2 Hammarby →
+            </Link>
             <Link
               href="/matchstatistik/sasongsanalys"
               className="inline-flex items-center gap-2 rounded-full border border-amber-300/50 bg-emerald-500/15 px-4 py-2 text-sm font-bold text-amber-100 transition-colors hover:border-amber-200 hover:bg-emerald-500/25"

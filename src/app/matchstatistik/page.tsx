@@ -22,6 +22,12 @@ export default function MatchStatisticsRoutePage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link
+              href="/matchstatistik/omgang/11"
+              className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/60 bg-emerald-500/20 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/30"
+            >
+              ⚽ Ny: Elfsborg 1-2 Hammarby (omgång 11)
+            </Link>
+            <Link
               href="/matchstatistik/sasongsanalys"
               className="inline-flex items-center gap-2 rounded-lg border border-amber-300/50 bg-emerald-500/15 px-3 py-1.5 text-xs font-bold text-amber-100 hover:border-amber-200 hover:text-amber-50"
             >

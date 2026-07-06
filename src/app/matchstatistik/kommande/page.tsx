@@ -89,6 +89,29 @@ export default function UpcomingOpponentsPage() {
       </header>
 
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8">
+        <section className="rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-5 md:p-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-emerald-300/90">
+                Senaste match · Omgång 11
+              </p>
+              <h2 className="mt-1 text-2xl font-bold text-slate-50">
+                Elfsborg 1-2 Hammarby
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm text-slate-300">
+                Eftermatchsanalys med Bolldata-spindel, målföljd, nyckelinsikter och
+                jämförelse mot förhandsanalysen.
+              </p>
+            </div>
+            <Link
+              href="/matchstatistik/omgang/11"
+              className="shrink-0 rounded-lg border border-emerald-400/50 bg-emerald-500/20 px-4 py-2 text-sm font-semibold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/30"
+            >
+              Öppna matchanalys →
+            </Link>
+          </div>
+        </section>
+
         {upcomingOpponents.filter((r) => !r.hidden).map((report) => {
           const opponentName = getOpponentName(report.fixture);
           return (
