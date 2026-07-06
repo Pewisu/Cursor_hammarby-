@@ -23,6 +23,7 @@ export interface PredictionVsOutcomeProps {
   };
   headline: string;
   subheadline: string;
+  embedded?: boolean;
 }
 
 const verdictConfig = {
@@ -77,6 +78,7 @@ export default function PredictionVsOutcome({
   summaryStats,
   headline,
   subheadline,
+  embedded = false,
 }: PredictionVsOutcomeProps) {
   const [activeFilter, setActiveFilter] = useState<PredictionItem["category"] | "all">("all");
 
@@ -94,7 +96,13 @@ export default function PredictionVsOutcome({
   );
 
   return (
-    <section className="rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6">
+    <section
+      className={
+        embedded
+          ? "border-t border-emerald-800/40 pt-5"
+          : "rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6"
+      }
+    >
       {/* Header */}
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-emerald-800/45 pb-4">
         <div>
