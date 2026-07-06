@@ -77,6 +77,18 @@ const storyToneStyles: Record<
   },
 };
 
+export interface MatchPointsContext {
+  seasonLabel: string;
+  roundNumber: number;
+  matchPoints: number;
+  seasonPointsAfter: number;
+  seasonPpgAfter: number;
+  seasonPpgBefore: number;
+  matchDeltaVsPpg: number;
+  projectedSeasonPoints: number;
+  matchesPlayed: number;
+}
+
 export interface MatchRecapSectionProps {
   headline: string;
   tagline: string;
@@ -95,12 +107,92 @@ export interface MatchRecapSectionProps {
   spiderAxes: SpiderComparisonAxis[];
   sourceUrl: string;
   hammarbySourceUrl?: string;
+  pointsContext?: MatchPointsContext;
+  embedded?: boolean;
 }
 
 function getBarWidth(left: number, right: number): number {
   const total = left + right;
   if (total === 0) return 50;
   return (left / total) * 100;
+}
+
+function PointsContextBar({ points }: { points: MatchPointsContext }) {
+  const deltaPositive = points.matchDeltaVsPpg >= 0;
+  const seasonBenchmark = Math.min(
+    Math.max((points.seasonPpgBefore / 3) * 100, 8),
+    100
+  );
+  const matchBenchmark = Math.min(Math.max((points.matchPoints / 3) * 100, 8), 100);
+
+  return (
+    <div className="border-b border-emerald-800/40 bg-[#0a1f18]/90 px-4 py-4 md:px-6">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-300/80">
+        Säsongsöversikt · {points.seasonLabel} efter omgång {points.roundNumber}
+      </p>
+      <div className="mt-3 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
+        <div>
+          <p className="text-xs text-slate-400">Poängsnitt säsong (hittills)</p>
+          <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <p className="text-4xl font-black text-white">
+              {points.seasonPpgAfter.toFixed(2).replace(".", ",")}
+              <span className="ml-1 text-lg font-semibold text-emerald-200">p/omg</span>
+            </p>
+            <p className="text-lg font-semibold text-slate-300">
+              {points.seasonPointsAfter} p totalt
+            </p>
+          </div>
+          <p className="mt-1 text-xs text-slate-500">
+            Prognos hela säsongen: ≈ {points.projectedSeasonPoints} p · {points.matchesPlayed}{" "}
+            matcher spelade
+          </p>
+        </div>
+        <div className="min-w-[220px] rounded-xl border border-emerald-600/40 bg-emerald-500/10 px-4 py-3">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-emerald-300/90">
+            Denna match vs snitt
+          </p>
+          <div className="mt-1 flex items-baseline justify-between gap-4">
+            <p className="text-3xl font-black text-emerald-100">{points.matchPoints} p</p>
+            <p
+              className={`text-sm font-bold ${
+                deltaPositive ? "text-emerald-300" : "text-amber-300"
+              }`}
+            >
+              {deltaPositive ? "+" : ""}
+              {points.matchDeltaVsPpg.toFixed(2).replace(".", ",")} mot{" "}
+              {points.seasonPpgBefore.toFixed(2).replace(".", ",")} p/omg
+            </p>
+          </div>
+          <div className="mt-3 space-y-2">
+            <div>
+              <div className="mb-1 flex justify-between text-[10px] text-slate-400">
+                <span>Snitt före matchen</span>
+                <span>{points.seasonPpgBefore.toFixed(2).replace(".", ",")} p/omg</span>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-slate-800/80">
+                <div
+                  className="h-full rounded-full bg-slate-500"
+                  style={{ width: `${seasonBenchmark}%` }}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 flex justify-between text-[10px] text-slate-400">
+                <span>Denna match</span>
+                <span>{points.matchPoints} p</span>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-slate-800/80">
+                <div
+                  className={`h-full rounded-full ${deltaPositive ? "bg-emerald-400" : "bg-amber-400"}`}
+                  style={{ width: `${matchBenchmark}%` }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function GoalTimeline({
@@ -215,12 +307,16 @@ export default function MatchRecapSection({
   spiderAxes,
   sourceUrl,
   hammarbySourceUrl,
+  pointsContext,
+  embedded = false,
 }: MatchRecapSectionProps) {
   const sortedGoals = [...goals].sort((a, b) => a.minute - b.minute);
 
-  return (
-    <section className="rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6">
-      <div className="overflow-hidden rounded-2xl border border-emerald-600/30 bg-[#0f241c]">
+  const content = (
+    <>
+      {pointsContext ? <PointsContextBar points={pointsContext} /> : null}
+
+      <div className={embedded ? "" : "overflow-hidden rounded-2xl border border-emerald-600/30 bg-[#0f241c]"}>
         <div className="border-b border-emerald-800/40 px-4 py-3 md:px-6">
           <p className="text-[11px] uppercase tracking-[0.2em] text-emerald-300/90">{dateLabel}</p>
           <h2 className="mt-1 text-lg font-bold text-slate-50 md:text-xl">{headline}</h2>
@@ -266,26 +362,30 @@ export default function MatchRecapSection({
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        <a
-          href="#match-story"
-          className="rounded-lg border border-slate-600/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500"
-        >
-          Så gick matchen
-        </a>
-        <a
-          href="#bolldata-spider"
-          className="rounded-lg border border-emerald-600/40 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-100 hover:border-emerald-500/60"
-        >
-          Bolldata spindel
-        </a>
-        <a
-          href="#match-details"
-          className="rounded-lg border border-slate-600/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500"
-        >
-          Mål & insikter
-        </a>
-        <div className="ml-auto flex gap-2 text-[11px]">
+      <div className={`flex flex-wrap gap-2 ${embedded ? "mt-4 px-4 md:px-6" : "mt-4"}`}>
+        {!embedded ? (
+          <>
+            <a
+              href="#match-story"
+              className="rounded-lg border border-slate-600/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500"
+            >
+              Så gick matchen
+            </a>
+            <a
+              href="#bolldata-spider"
+              className="rounded-lg border border-emerald-600/40 bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-100 hover:border-emerald-500/60"
+            >
+              Bolldata spindel
+            </a>
+            <a
+              href="#match-details"
+              className="rounded-lg border border-slate-600/60 bg-slate-900/50 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500"
+            >
+              Mål & insikter
+            </a>
+          </>
+        ) : null}
+        <div className={`flex gap-2 text-[11px] ${embedded ? "ml-auto" : "ml-auto"}`}>
           <a
             href={sourceUrl}
             target="_blank"
@@ -307,7 +407,14 @@ export default function MatchRecapSection({
         </div>
       </div>
 
-      <details id="match-story" className="mt-5 rounded-xl border border-slate-600/50 bg-slate-900/40">
+      <details
+        id="match-story"
+        className={`mt-5 rounded-xl border ${
+          embedded
+            ? "border-emerald-800/35 bg-[#13231d]/60"
+            : "border-slate-600/50 bg-slate-900/40"
+        }`}
+      >
         <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-slate-100 [&::-webkit-details-marker]:hidden">
           <span className="inline-flex items-center gap-2">
             <span className="text-emerald-300">▸</span>
@@ -347,7 +454,14 @@ export default function MatchRecapSection({
         </div>
       </details>
 
-      <details id="match-details" className="mt-4 rounded-xl border border-slate-600/50 bg-slate-900/40">
+      <details
+        id="match-details"
+        className={`mt-4 rounded-xl border ${
+          embedded
+            ? "border-emerald-800/35 bg-[#13231d]/60"
+            : "border-slate-600/50 bg-slate-900/40"
+        }`}
+      >
         <summary className="cursor-pointer list-none px-4 py-3 text-sm font-semibold text-slate-100 [&::-webkit-details-marker]:hidden">
           <span className="inline-flex items-center gap-2">
             <span className="text-emerald-300">▸</span>
@@ -398,6 +512,16 @@ export default function MatchRecapSection({
           </div>
         </div>
       </details>
+    </>
+  );
+
+  if (embedded) {
+    return content;
+  }
+
+  return (
+    <section className="rounded-2xl border border-emerald-700/35 bg-[#1a2d26] p-5 md:p-6">
+      {content}
     </section>
   );
 }
