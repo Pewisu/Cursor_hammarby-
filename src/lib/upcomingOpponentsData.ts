@@ -1600,7 +1600,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 11,
     roundLabel: "Omgång 11",
-    hidden: false,
+    hidden: true,
     fixture: "IF Elfsborg - Hammarby",
     dateLabel:
       "Inför 5 juli 2026 · uppdaterad med Bolldata lagdata + Twelve säsongrapport + Rydström-special",
