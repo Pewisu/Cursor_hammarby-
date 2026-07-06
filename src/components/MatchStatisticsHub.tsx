@@ -34,6 +34,7 @@ import { round11PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound11Data
 import {
   elfsborgRound11Goals,
   elfsborgRound11MatchSpider,
+  elfsborgRound11MatchStory,
   elfsborgRound11Recap,
   elfsborgRound11Takeaways,
 } from "@/lib/elfsborgRound11AnalysisData";
@@ -2155,6 +2156,24 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 15) && (
           <div className="border-t border-slate-700/40 bg-[#0f172a]/95">
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
+              {round === 11 && (
+                <>
+                  <a
+                    href="#match-recap"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/25"
+                  >
+                    <span>⚽</span>
+                    <span>Matchanalys</span>
+                  </a>
+                  <a
+                    href="#bolldata-spider"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                  >
+                    <span>🕸️</span>
+                    <span>Bolldata spindel</span>
+                  </a>
+                </>
+              )}
               <a
                 href="#matchgenomgang"
                 className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
@@ -2162,15 +2181,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <span>📊</span>
                 <span>Matchgenomgång</span>
               </a>
-              {round === 11 && (
-                <a
-                  href="#match-recap"
-                  className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
-                >
-                  <span>🕸️</span>
-                  <span>Matchanalys</span>
-                </a>
-              )}
               {round === 8 && (
                 <a
                   href="#matchens-spelare"
@@ -2197,6 +2207,32 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
       </header>
 
       <main className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-8">
+        {mode === "round" && round === 11 && (
+          <div id="match-recap">
+            <MatchRecapSection
+              headline={elfsborgRound11Recap.headline}
+              verdict={elfsborgRound11Recap.verdict}
+              subheadline={elfsborgRound11Recap.subheadline}
+              matchResult={elfsborgRound11Recap.matchResult}
+              dateLabel={elfsborgRound11Recap.dateLabel}
+              bolldataSummary={elfsborgRound11Recap.bolldataSummary}
+              opponentLabel="Elfsborg"
+              matchStory={elfsborgRound11MatchStory}
+              goals={elfsborgRound11Goals}
+              takeaways={elfsborgRound11Takeaways}
+              spiderAxes={elfsborgRound11MatchSpider}
+              sourceUrl={elfsborgRound11Recap.sourceUrl}
+              hammarbySourceUrl={elfsborgRound11Recap.hammarbySourceUrl}
+            />
+          </div>
+        )}
+
+        {mode === "round" && round === 11 && (
+          <div id="prediction-vs-outcome">
+            <PredictionVsOutcome {...round11PredictionVsOutcome} />
+          </div>
+        )}
+
         <section id="matchgenomgang" className="grid gap-4 md:grid-cols-4">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
             <p className="text-xs text-slate-400">{current.leftTeam}</p>
@@ -3969,29 +4005,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </section>
-
-        {mode === "round" && round === 11 && (
-          <div id="match-recap">
-            <MatchRecapSection
-              headline={elfsborgRound11Recap.headline}
-              subheadline={elfsborgRound11Recap.subheadline}
-              matchResult={elfsborgRound11Recap.matchResult}
-              dateLabel={elfsborgRound11Recap.dateLabel}
-              opponentLabel="Elfsborg"
-              goals={elfsborgRound11Goals}
-              takeaways={elfsborgRound11Takeaways}
-              spiderAxes={elfsborgRound11MatchSpider}
-              sourceUrl={elfsborgRound11Recap.sourceUrl}
-              hammarbySourceUrl={elfsborgRound11Recap.hammarbySourceUrl}
-            />
-          </div>
-        )}
-
-        {mode === "round" && round === 11 && (
-          <div id="prediction-vs-outcome">
-            <PredictionVsOutcome {...round11PredictionVsOutcome} />
-          </div>
-        )}
 
         {mode === "round" && round === 8 && (
           <div id="matchens-spelare">
