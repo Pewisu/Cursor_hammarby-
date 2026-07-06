@@ -791,6 +791,59 @@ function getBarWidth(left: number, right: number): number {
   return (left / total) * 100;
 }
 
+type MatchRankItem = {
+  label: string;
+  value: number;
+  rank: number;
+  total: number;
+  isBest: boolean;
+  isWorst: boolean;
+  format: "number" | "percent" | "decimal";
+  decimals: number;
+  tone: "green" | "red" | "neutral";
+  standoutScore: number;
+  rankLabel: string | null;
+  isStandout: boolean;
+};
+
+function getRankStandoutScore(rank: number, total: number): number {
+  if (total <= 1) return 0;
+  const midpoint = (total + 1) / 2;
+  return Math.abs(rank - midpoint) / (midpoint - 1);
+}
+
+function getMatchRankLabel(rank: number, total: number): string | null {
+  if (rank === 1) return "Bäst";
+  if (rank === total) return "Sämst";
+  if (rank === 2) return "Näst bäst";
+  if (rank === total - 1) return "Näst sämst";
+  if (rank === 3) return "Topp 3";
+  if (rank === total - 2) return "Botten 3";
+  return null;
+}
+
+function sortMatchRankItems(items: MatchRankItem[]): MatchRankItem[] {
+  return [...items].sort((a, b) => {
+    if (b.standoutScore !== a.standoutScore) {
+      return b.standoutScore - a.standoutScore;
+    }
+    if (a.isStandout !== b.isStandout) {
+      return a.isStandout ? -1 : 1;
+    }
+    if (a.tone !== b.tone) {
+      const toneOrder = { green: 0, red: 1, neutral: 2 } as const;
+      return toneOrder[a.tone] - toneOrder[b.tone];
+    }
+    return a.rank - b.rank;
+  });
+}
+
+function splitMatchRankItems(items: MatchRankItem[]) {
+  const standout = items.filter((item) => item.isStandout);
+  const average = items.filter((item) => !item.isStandout);
+  return { standout, average };
+}
+
 function buildStatRowsFromRound(round: RoundMatchStats): StatRow[] {
   const home = round.hammarby;
   const away = round.opponent;
@@ -1152,6 +1205,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         const total = sorted.length;
         const tone: "green" | "red" | "neutral" =
           rank <= Math.ceil(total * 0.25) ? "green" : rank >= Math.ceil(total * 0.75) ? "red" : "neutral";
+        const standoutScore = getRankStandoutScore(rank, total);
+        const isStandout = tone !== "neutral" || rank <= 3 || rank >= total - 2;
         return {
           label: def.label,
           value: current.value,
@@ -1162,14 +1217,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           format: def.format,
           decimals: def.decimals,
           tone,
-        };
+          standoutScore,
+          rankLabel: getMatchRankLabel(rank, total),
+          isStandout,
+        } satisfies MatchRankItem;
       })
-      .filter((item): item is NonNullable<typeof item> => item !== null);
+      .filter((item): item is MatchRankItem => item !== null);
 
-    const worst = items.filter((i) => i.tone === "red").sort((a, b) => (b.rank / b.total) - (a.rank / a.total));
-    const best = items.filter((i) => i.tone === "green").sort((a, b) => (a.rank / a.total) - (b.rank / b.total));
-    const neutral = items.filter((i) => i.tone === "neutral");
-    return [...worst, ...neutral, ...best];
+    return sortMatchRankItems(items);
   }, [mode, round, resolvedAnalysisRound]);
   const standoutPlayersForRound =
     mode === "round" && typeof round === "number"
@@ -2593,50 +2648,94 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </section>
           )}
 
-        {mode === "round" && matchRankItems.length > 0 && (
-          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-5">
-            <h2 className="text-base font-semibold text-white">Matchranking (Twelve)</h2>
-            <p className="mt-1 text-xs text-slate-400">
-              Hur matchens nyckeltal rankas mot alla Hammarbys matcher 2026.
-            </p>
-            <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {matchRankItems.map((item) => (
-                <div
-                  key={item.label}
-                  className={`rounded-lg border px-3 py-2 ${
+        {mode === "round" && matchRankItems.length > 0 && (() => {
+          const { standout, average } = splitMatchRankItems(matchRankItems);
+          const renderRankCard = (item: MatchRankItem) => (
+            <div
+              key={item.label}
+              className={`rounded-lg border px-3 py-2 ${
+                item.tone === "red"
+                  ? "border-rose-500/40 bg-rose-500/10"
+                  : item.tone === "green"
+                    ? "border-emerald-500/40 bg-emerald-500/10"
+                    : "border-slate-600/50 bg-slate-900/50"
+              }`}
+            >
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-[11px] text-slate-400">{item.label}</p>
+                <span
+                  className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
                     item.tone === "red"
-                      ? "border-rose-500/40 bg-rose-500/10"
+                      ? "bg-rose-500/20 text-rose-200"
                       : item.tone === "green"
-                        ? "border-emerald-500/40 bg-emerald-500/10"
-                        : "border-slate-600/50 bg-slate-900/50"
+                        ? "bg-emerald-500/20 text-emerald-200"
+                        : "bg-slate-700/50 text-slate-300"
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-[11px] text-slate-400">{item.label}</p>
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                        item.tone === "red"
-                          ? "bg-rose-500/20 text-rose-200"
-                          : item.tone === "green"
-                            ? "bg-emerald-500/20 text-emerald-200"
-                            : "bg-slate-700/50 text-slate-300"
-                      }`}
-                    >
-                      {item.rank}/{item.total}
-                    </span>
-                  </div>
-                  <p className={`mt-1 text-sm font-semibold ${
-                    item.tone === "red" ? "text-rose-100" : item.tone === "green" ? "text-emerald-100" : "text-slate-100"
-                  }`}>
-                    {item.format === "percent" ? `${(item.value * 100).toFixed(item.decimals)}%` : item.value.toFixed(item.decimals)}
-                    {item.isWorst && <span className="ml-1 text-[10px] text-rose-300">Sämst</span>}
-                    {item.isBest && <span className="ml-1 text-[10px] text-emerald-300">Bäst</span>}
-                  </p>
-                </div>
-              ))}
+                  {item.rank}/{item.total}
+                </span>
+              </div>
+              <p
+                className={`mt-1 text-sm font-semibold ${
+                  item.tone === "red"
+                    ? "text-rose-100"
+                    : item.tone === "green"
+                      ? "text-emerald-100"
+                      : "text-slate-100"
+                }`}
+              >
+                {item.format === "percent"
+                  ? `${(item.value * 100).toFixed(item.decimals)}%`
+                  : item.value.toFixed(item.decimals)}
+                {item.rankLabel ? (
+                  <span
+                    className={`ml-1 text-[10px] ${
+                      item.tone === "red"
+                        ? "text-rose-300"
+                        : item.tone === "green"
+                          ? "text-emerald-300"
+                          : "text-slate-400"
+                    }`}
+                  >
+                    {item.rankLabel}
+                  </span>
+                ) : null}
+              </p>
             </div>
-          </section>
-        )}
+          );
+
+          return (
+            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-5">
+              <h2 className="text-base font-semibold text-white">Matchranking (Twelve)</h2>
+              <p className="mt-1 text-xs text-slate-400">
+                Vad som stack ut positivt och negativt jämfört med övriga Hammarbymatcher 2026.
+                Genomsnittliga värden visas sist.
+              </p>
+
+              {standout.length > 0 && (
+                <div className="mt-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">
+                    Stod ut
+                  </p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {standout.map(renderRankCard)}
+                  </div>
+                </div>
+              )}
+
+              {average.length > 0 && (
+                <div className={standout.length > 0 ? "mt-5 border-t border-slate-700/50 pt-4" : "mt-4"}>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                    Nära snittet
+                  </p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                    {average.map(renderRankCard)}
+                  </div>
+                </div>
+              )}
+            </section>
+          );
+        })()}
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
