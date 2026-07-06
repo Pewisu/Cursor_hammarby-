@@ -200,7 +200,10 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   );
   const [expandedMatchIds, setExpandedMatchIds] = useState<
     Record<number, boolean>
-  >({});
+  >(() => {
+    const latestMatch = matches[matches.length - 1];
+    return latestMatch ? { [latestMatch.matchId]: true } : {};
+  });
 
   const overallDistance = matches.reduce(
     (sum, match) => sum + match.hammarbyTeamDistanceMeters,

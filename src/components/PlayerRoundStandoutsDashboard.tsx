@@ -3,9 +3,14 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
+  getRunningMatchForGameweek,
+  RoundRunningStatsSection,
+} from "@/components/RoundRunningStatsSection";
+import {
   type PlayerTrendMatch,
   type PlayerTrendMetrics,
 } from "@/lib/hammarbyPlayerTrendData";
+import type { RunningMatchStat } from "@/lib/hammarbyRunningData";
 
 type TrendMetricKey = keyof PlayerTrendMetrics;
 
@@ -190,8 +195,10 @@ function normalizeValueForStandout(
 
 export function PlayerRoundStandoutsDashboard({
   matches,
+  runningMatches = [],
 }: {
   matches: PlayerTrendMatch[];
+  runningMatches?: RunningMatchStat[];
 }) {
   const [selectedGameweek, setSelectedGameweek] = useState<number>(
     matches[matches.length - 1]?.gameweek ?? matches[0]?.gameweek ?? 1
@@ -219,6 +226,10 @@ export function PlayerRoundStandoutsDashboard({
   const selectedRoundMatch = useMemo(() => {
     return matches.find((match) => match.gameweek === selectedGameweek) ?? null;
   }, [matches, selectedGameweek]);
+
+  const selectedRunningMatch = useMemo(() => {
+    return getRunningMatchForGameweek(runningMatches, selectedGameweek);
+  }, [runningMatches, selectedGameweek]);
 
   const roundMetricSummaries = useMemo<RoundMetricSummary[]>(() => {
     if (!selectedRoundMatch) return [];
@@ -279,6 +290,9 @@ export function PlayerRoundStandoutsDashboard({
           </Link>
           <Link href="/spelarstatistik" className="text-slate-300 hover:text-white">
             Till spelarstatistik
+          </Link>
+          <Link href="/lopdata" className="text-slate-400 hover:text-slate-200">
+            Till löpdata
           </Link>
           <Link href="/lopdata/trender" className="text-slate-400 hover:text-slate-200">
             Till spelartrender
@@ -350,6 +364,10 @@ export function PlayerRoundStandoutsDashboard({
             För räkneparametrar (st) normaliseras jämförelsen till per 90 för rättvisare bild.
           </div>
         </section>
+
+        {selectedRunningMatch ? (
+          <RoundRunningStatsSection match={selectedRunningMatch} />
+        ) : null}
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
