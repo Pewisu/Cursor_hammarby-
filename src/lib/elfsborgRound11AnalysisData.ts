@@ -69,7 +69,7 @@ export const elfsborgRound11MatchSpider: SpiderComparisonAxis[] = [
     1,
     "2",
     "1",
-    "Hammarby vann målkampen – båda målen i andra halvlek.",
+    "Hammarby vann målkampen – alla målen kom i andra halvlek.",
   ),
   buildMatchSpiderAxis(
     "xG / match",
@@ -146,18 +146,18 @@ export const elfsborgRound11Goals: MatchGoalEvent[] = [
 export const elfsborgRound11MatchStory: MatchStoryPhase[] = [
   {
     id: "first-half",
-    label: "Första halvlek · 0–0 → 0–1",
-    scoreline: "0–1 vid paus",
+    label: "Första halvlek · mållös",
+    scoreline: "0–0 vid paus",
     body:
-      "Hammarby tog bollen men hade svårt att skapa klara lägen. Elfsborg farligast i 16–30. Abraham bröt 0–0 på 49:e.",
+      "Hammarby tog bollen men hade svårt att skapa klara lägen. Elfsborg farligast mellan 16–30, men inget mål föll före paus.",
     tone: "blue",
   },
   {
     id: "second-half",
-    label: "Andra halvlek · avgörande tryck",
-    scoreline: "1–0 → 1–2",
+    label: "Andra halvlek · alla målen",
+    scoreline: "0–0 → 1–2",
     body:
-      "Hammarby tryckte på efter paus. Madjed 2–0 (73'), Sigurpálsson reducerade (76'). 1,50 xG i andra halvlek.",
+      "Efter paus avgjorde Hammarby. Abraham 1–0 (49'), Madjed 2–0 (73'), Sigurpálsson reducerade (76'). Alla tre målen kom i andra halvlek.",
     tone: "emerald",
   },
   {
@@ -231,12 +231,12 @@ export const elfsborgRound11SnapshotPills: MatchSnapshotPill[] = [
 
 export const elfsborgRound11Recap = {
   headline: "Hammarby vann i Borås",
-  tagline: "Mer boll och xG – avgjort i andra halvlek",
+  tagline: "Mer boll och xG – alla mål i andra halvlek",
   opponentScore: 1,
   hammarbyScore: 2,
   opponentXg: 1.03,
   hammarbyXg: 2.48,
-  halftimeScore: "0–1",
+  halftimeScore: "0–0",
   matchResult: "1–2",
   dateLabel: "5 juli 2026 · Omgång 11 · Borås Arena",
   sourceUrl:
