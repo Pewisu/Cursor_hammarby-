@@ -1418,5 +1418,155 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "metersPerMinute": 94.21
       }
     ]
+  },
+  {
+    "matchId": 6529911,
+    "round": "Omgång 11",
+    "date": "5 juli 2026",
+    "sourceUrl": "https://allsvenskan.se/matcher/2026/6529911/if-elfsborg-mot-hammarby",
+    "homeTeam": "Elfsborg",
+    "awayTeam": "Hammarby",
+    "hammarbyWasHome": false,
+    "matchDurationMinutes": 93,
+    "hammarbyTeamDistanceMeters": 122871,
+    "hammarbyTeamMinutes": 1024,
+    "hammarbyTopSpeedKmh": 33.42,
+    "players": [
+      {
+        "name": "Markus Karlsson",
+        "shirtNumber": 8,
+        "position": "Mittfältare",
+        "distanceMeters": 13013,
+        "maxSpeedKmh": 29,
+        "minutesPlayed": 93,
+        "metersPerMinute": 139.92
+      },
+      {
+        "name": "Noah Persson",
+        "shirtNumber": 16,
+        "position": "Anfallare",
+        "distanceMeters": 12124,
+        "maxSpeedKmh": 29.46,
+        "minutesPlayed": 93,
+        "metersPerMinute": 130.37
+      },
+      {
+        "name": "Tesfaldet Tekie",
+        "shirtNumber": 5,
+        "position": "Mittfältare",
+        "distanceMeters": 12063,
+        "maxSpeedKmh": 29.52,
+        "minutesPlayed": 93,
+        "metersPerMinute": 129.71
+      },
+      {
+        "name": "Victor Lind",
+        "shirtNumber": 9,
+        "position": "Anfallare",
+        "distanceMeters": 11713,
+        "maxSpeedKmh": 33.42,
+        "minutesPlayed": 93,
+        "metersPerMinute": 125.95
+      },
+      {
+        "name": "Paulos Abraham",
+        "shirtNumber": 7,
+        "position": "Anfallare",
+        "distanceMeters": 11438,
+        "maxSpeedKmh": 31.08,
+        "minutesPlayed": 83,
+        "metersPerMinute": 137.81
+      },
+      {
+        "name": "Frederik Winther",
+        "shirtNumber": 3,
+        "position": "Back",
+        "distanceMeters": 11407,
+        "maxSpeedKmh": 27.88,
+        "minutesPlayed": 93,
+        "metersPerMinute": 122.66
+      },
+      {
+        "name": "Victor Eriksson",
+        "shirtNumber": 4,
+        "position": "Back",
+        "distanceMeters": 11232,
+        "maxSpeedKmh": 29.21,
+        "minutesPlayed": 93,
+        "metersPerMinute": 120.77
+      },
+      {
+        "name": "Hampus Skoglund",
+        "shirtNumber": 2,
+        "position": "Back",
+        "distanceMeters": 10269,
+        "maxSpeedKmh": 30.63,
+        "minutesPlayed": 83,
+        "metersPerMinute": 123.72
+      },
+      {
+        "name": "Montader Madjed",
+        "shirtNumber": 26,
+        "position": "Anfallare",
+        "distanceMeters": 9358,
+        "maxSpeedKmh": 31.82,
+        "minutesPlayed": 83,
+        "metersPerMinute": 112.75
+      },
+      {
+        "name": "Nahir Besara",
+        "shirtNumber": 20,
+        "position": "Mittfältare",
+        "distanceMeters": 9083,
+        "maxSpeedKmh": 30.76,
+        "minutesPlayed": 75,
+        "metersPerMinute": 121.11
+      },
+      {
+        "name": "Warner Hahn",
+        "shirtNumber": 1,
+        "position": "Målvakt",
+        "distanceMeters": 4188,
+        "maxSpeedKmh": 17.66,
+        "minutesPlayed": 93,
+        "metersPerMinute": 45.03
+      },
+      {
+        "name": "Oscar Johansson",
+        "shirtNumber": 11,
+        "position": "Mittfältare",
+        "distanceMeters": 2744,
+        "maxSpeedKmh": 27.19,
+        "minutesPlayed": 19,
+        "metersPerMinute": 144.42
+      },
+      {
+        "name": "Elohim Kabore",
+        "shirtNumber": 29,
+        "position": "Anfallare",
+        "distanceMeters": 1615,
+        "maxSpeedKmh": 25.02,
+        "minutesPlayed": 10,
+        "metersPerMinute": 161.5
+      },
+      {
+        "name": "Frank Junior Adjei",
+        "shirtNumber": 28,
+        "position": "Mittfältare",
+        "distanceMeters": 1569,
+        "maxSpeedKmh": 24.43,
+        "minutesPlayed": 10,
+        "metersPerMinute": 156.9
+      },
+      {
+        "name": "Ibrahima Fofana",
+        "shirtNumber": 17,
+        "position": "Mittfältare",
+        "distanceMeters": 1430,
+        "maxSpeedKmh": 24.72,
+        "minutesPlayed": 10,
+        "metersPerMinute": 143
+      }
+    ]
   }
 ];

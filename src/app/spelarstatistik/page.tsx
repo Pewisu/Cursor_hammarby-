@@ -34,7 +34,8 @@ export default function PlayerStatisticsRoutePage() {
             </div>
             <h2 className="text-xl font-semibold text-white">Standout i omgång</h2>
             <p className="mt-2 text-sm text-slate-300">
-              Ny sektion med spelare som sticker ut mest i vald omgång, både positivt och negativt.
+              Spelare som sticker ut i vald omgång – nyckeltal från Bolldata och löpmeter från
+              Allsvenskan (omgång 11 Elfsborg finns nu).
             </p>
             <p className="mt-4 text-sm font-medium text-sky-300 group-hover:text-sky-200">
               Öppna standout →
