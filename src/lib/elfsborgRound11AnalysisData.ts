@@ -149,7 +149,7 @@ export const elfsborgRound11MatchStory: MatchStoryPhase[] = [
     label: "Första halvlek · 0–0 → 0–1",
     scoreline: "0–1 vid paus",
     body:
-      "Hammarby tog initiativet territoriellt (58–71% bollinnehav i inledningen) men hade svårt att få ut max av lägena. Elfsborg var farligast i 16–30 (0,44 xG mot Hammarbys 0,32 i samma period). Abraham bröt dödläget på 49:e – 1–0 till paus efter en halvlek där Hammarby skapade mer men inte dominerade helt.",
+      "Hammarby tog bollen men hade svårt att skapa klara lägen. Elfsborg farligast i 16–30. Abraham bröt 0–0 på 49:e.",
     tone: "blue",
   },
   {
@@ -157,7 +157,7 @@ export const elfsborgRound11MatchStory: MatchStoryPhase[] = [
     label: "Andra halvlek · avgörande tryck",
     scoreline: "1–0 → 1–2",
     body:
-      "Efter paus ökade Hammarby tempot. Sex skott och 0,71 xG bara i 61–75 – Madjed gjorde 2–0 i 73:e. Elfsborg svarade direkt via Sigurpálsson (76'), men Hammarby höll undan. Andra halvlek gav 1,50 xG mot Elfsborgs 0,38 – matchen avgjordes i slutskedet.",
+      "Hammarby tryckte på efter paus. Madjed 2–0 (73'), Sigurpálsson reducerade (76'). 1,50 xG i andra halvlek.",
     tone: "emerald",
   },
   {
@@ -165,7 +165,7 @@ export const elfsborgRound11MatchStory: MatchStoryPhase[] = [
     label: "Slutbild · vad matchen var",
     scoreline: "Mer boll, mer xG, tre poäng",
     body:
-      "En kontrollerad bortaseger där Hammarby var det bättre laget i nästan alla offensiva parametrar (2,48 vs 1,03 xG, 18 vs 14 avslut, 57% bollinnehav). Men matchen var inte enkel: lägre press än planerat (PPDA 7,40), Elfsborg reducerade direkt efter 2–0, och Rydström fick se sitt lag vinna utan att dominera hela 90 minuter.",
+      "Kontrollerad bortaseger – bättre i offensiven men lägre press (PPDA 7,40) än planerat.",
     tone: "slate",
   },
 ];
@@ -201,16 +201,44 @@ export const elfsborgRound11Takeaways: MatchRecapTakeaway[] = [
   },
 ];
 
+export interface MatchSnapshotStat {
+  label: string;
+  hammarbyValue: number;
+  opponentValue: number;
+  hammarbyDisplay: string;
+  opponentDisplay: string;
+}
+
+export interface MatchSnapshotPill {
+  id: string;
+  label: string;
+  tone: "emerald" | "amber" | "blue" | "slate";
+}
+
+export const elfsborgRound11SnapshotStats: MatchSnapshotStat[] = [
+  { label: "xG", hammarbyValue: 2.48, opponentValue: 1.03, hammarbyDisplay: "2,48", opponentDisplay: "1,03" },
+  { label: "Avslut", hammarbyValue: 18, opponentValue: 14, hammarbyDisplay: "18", opponentDisplay: "14" },
+  { label: "Bollinnehav", hammarbyValue: 57, opponentValue: 43, hammarbyDisplay: "57%", opponentDisplay: "43%" },
+  { label: "Boxberöringar", hammarbyValue: 22, opponentValue: 18, hammarbyDisplay: "22", opponentDisplay: "18" },
+];
+
+export const elfsborgRound11SnapshotPills: MatchSnapshotPill[] = [
+  { id: "win", label: "Bortaseger", tone: "emerald" },
+  { id: "xg", label: "2,48 xG", tone: "emerald" },
+  { id: "press", label: "Lägre press", tone: "amber" },
+  { id: "rydstrom", label: "Rydström-debut ✓", tone: "blue" },
+];
+
 export const elfsborgRound11Recap = {
-  headline: "Mer boll, mer xG – Hammarby vann i Borås",
-  verdict:
-    "Hammarby var det bättre laget och vann rättvist 2–1, men matchen var jämnare än siffrorna antyder. Abraham gav ledning sent i första halvlek, Madjed avgjorde i 73:e, Elfsborg reducerade tre minuter senare.",
-  subheadline:
-    "Bortaseger mot Elfsborg (1–2) med tydlig xG-fördel (2,48–1,03). Hammarby dominerade bollinnehav och skapade fler chanser, men pressade inte lika högt som förhandsanalysen pekade på. Rydströms första riktiga test blev godkänt.",
-  matchResult: "Elfsborg 1–2 Hammarby (1,03–2,48 xG)",
+  headline: "Hammarby vann i Borås",
+  tagline: "Mer boll och xG – avgjort i andra halvlek",
+  opponentScore: 1,
+  hammarbyScore: 2,
+  opponentXg: 1.03,
+  hammarbyXg: 2.48,
+  halftimeScore: "0–1",
+  matchResult: "1–2",
   dateLabel: "5 juli 2026 · Omgång 11 · Borås Arena",
-  bolldataSummary:
-    "Bolldata: 57% boll · 18–14 avslut · 22–18 boxberöringar · 8–3 hörnor",
   sourceUrl:
     "https://bolldata.se/allsvenskan/matcher/2026/2026-07-05/elfsborg-hammarby-1-2",
   hammarbySourceUrl:
