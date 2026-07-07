@@ -67,9 +67,9 @@ export default function UpcomingOpponentsPage() {
             Kommande motståndare
           </h1>
           <p className="mt-3 max-w-4xl text-sm text-slate-300 md:text-base">
-            Datadriven scouting av nästa motståndare med fokus på spelstil,
-            nyckeltal och en konkret plan för hur Hammarby kan kontrollera
-            matchbilden.
+            Scouting av nästa motståndare – med podcastmanus du kan läsa rakt av,
+            tydliga skärmreferenser för video och datasektioner att expandera
+            under sändning.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
             <Link
@@ -134,14 +134,118 @@ export default function UpcomingOpponentsPage() {
                     </span>
                   </div>
 
-                  <p className="mt-4 text-sm font-medium text-slate-100">
+                  <p className="mt-4 text-base font-medium leading-relaxed text-slate-100 md:text-lg">
                     {report.oneLineSummary}
                   </p>
+
+                  {report.podcastNarrative && (
+                    <article className="mt-6 rounded-xl border border-amber-400/35 bg-amber-400/8 p-4 md:p-5">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <h3 className="text-sm font-semibold text-amber-100">
+                          Podcastmanus
+                        </h3>
+                        <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-0.5 text-[11px] text-amber-100">
+                          Läs högt · skärmreferenser inkluderade
+                        </span>
+                      </div>
+                      <p className="mt-3 text-sm leading-relaxed text-slate-200">
+                        {report.podcastNarrative.intro}
+                      </p>
+                      <div className="mt-4 space-y-3">
+                        {report.podcastNarrative.sections.map((segment, index) => (
+                          <details
+                            key={segment.id}
+                            className="rounded-lg border border-amber-400/25 bg-[#1a2d26]/80 p-3"
+                            open={index === 0}
+                          >
+                            <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                              {segment.title}
+                            </summary>
+                            {segment.onScreen && (
+                              <p className="mt-3 rounded-md border border-slate-500/40 bg-slate-900/40 px-3 py-2 text-xs text-slate-300">
+                                <span className="font-semibold text-amber-200">
+                                  På skärmen:{" "}
+                                </span>
+                                {segment.onScreen}
+                              </p>
+                            )}
+                            <p className="mt-3 text-sm leading-relaxed text-slate-200">
+                              {segment.narrative}
+                            </p>
+                            {segment.beats && segment.beats.length > 0 && (
+                              <ul className="mt-3 space-y-1.5 text-sm text-slate-300">
+                                {segment.beats.map((beat) => (
+                                  <li key={beat} className="flex gap-2">
+                                    <span className="mt-1 text-amber-300">›</span>
+                                    <span>{beat}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </details>
+                        ))}
+                      </div>
+                      {report.podcastNarrative.outro && (
+                        <p className="mt-4 text-sm italic text-slate-300">
+                          {report.podcastNarrative.outro}
+                        </p>
+                      )}
+                    </article>
+                  )}
+
+                  <article className="mt-6 rounded-xl border border-emerald-500/25 bg-emerald-500/8 p-4">
+                    <h3 className="text-sm font-semibold text-slate-100">
+                      Snabbavslutning (30 sekunder)
+                    </h3>
+                    <ul className="mt-2 space-y-2 text-sm text-slate-200">
+                      {report.mobileTakeaways.map((point) => (
+                        <li key={point} className="flex gap-2">
+                          <span className="mt-1 text-emerald-300">•</span>
+                          <span>{point}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </article>
+
+                  <div className="mt-4 grid gap-3 lg:grid-cols-3">
+                    {report.quickStatusCards.map((card) => (
+                      <article
+                        key={card.title}
+                        className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
+                      >
+                        <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
+                          {card.title}
+                        </p>
+                        <p className="mt-2 text-sm leading-relaxed text-slate-100">
+                          {card.body}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+
+                  {report.cupSpecial && (
+                    <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4" open>
+                      <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                        {report.cupSpecial.title}
+                      </summary>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-300">
+                        {report.cupSpecial.context}
+                      </p>
+                      <ul className="mt-3 space-y-2 text-sm text-slate-300">
+                        {report.cupSpecial.tacticalKeys.map((item) => (
+                          <li key={item} className="flex gap-2">
+                            <span className="mt-1 text-emerald-300">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
 
                   {report.headToHead && (
                     <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                       <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                        Tidigare möten: senaste {report.headToHead.sampleSize} (visa)
+                        Inbördes möten: senaste {report.headToHead.sampleSize}
                       </summary>
                       <p className="mt-2 text-sm text-slate-300">{report.headToHead.description}</p>
 
@@ -228,40 +332,9 @@ export default function UpcomingOpponentsPage() {
                     </details>
                   )}
 
-                  <div className="mt-4 grid gap-3 lg:grid-cols-3">
-                    {report.quickStatusCards.map((card) => (
-                      <article
-                        key={card.title}
-                        className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
-                      >
-                        <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
-                          {card.title}
-                        </p>
-                        <p className="mt-2 text-sm text-slate-100">{card.body}</p>
-                      </article>
-                    ))}
-                  </div>
-
-                  {report.cupSpecial && (
-                    <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
-                      <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                        {report.cupSpecial.title} (visa)
-                      </summary>
-                      <p className="mt-2 text-sm text-slate-300">{report.cupSpecial.context}</p>
-                      <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                        {report.cupSpecial.tacticalKeys.map((item) => (
-                          <li key={item} className="flex gap-2">
-                            <span className="mt-1 text-emerald-300">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  )}
-
                   <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                     <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                      Så spelar {opponentName} (visa)
+                      Så spelar {opponentName}
                     </summary>
               <div className="mt-3 space-y-2">
                 {report.styleProfile.map((signal) => (
@@ -297,7 +370,7 @@ export default function UpcomingOpponentsPage() {
 
                   <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                     <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                      Spindel-jämförelse Hammarby vs {opponentName} (Bolldata) (visa)
+                      Spindeldiagram: Hammarby vs {opponentName}
                     </summary>
                     <p className="mt-1 text-xs text-slate-400">
                       Axlar från Bolldatas lagjämförelse för Allsvenskan 2026 hittills.
@@ -307,7 +380,7 @@ export default function UpcomingOpponentsPage() {
 
             <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                Nyckeltal med Allsvensk ranking (visa)
+                Nyckeltal med Allsvensk ranking
               </summary>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
                 {report.rankedMetrics.map((metric) => (
@@ -342,7 +415,7 @@ export default function UpcomingOpponentsPage() {
 
                   <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                     <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                      När i matchen bör Hammarby trycka? (visa)
+                      När i matchen ska Hammarby trycka?
                     </summary>
                     <p className="mt-1 text-xs text-slate-400">
                       Hammarbys gjorda mål jämfört med {opponentName}s insläppta mål per tidsfönster.
@@ -369,7 +442,7 @@ export default function UpcomingOpponentsPage() {
 
             <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                Målprofil att ta med till matchplanen (visa)
+                Målprofil inför matchplanen
               </summary>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
                 {report.goalTypeNotes.map((note) => (
@@ -387,7 +460,11 @@ export default function UpcomingOpponentsPage() {
               </div>
             </details>
 
-            <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            <div className="mt-6">
+              <h3 className="mb-3 text-sm font-semibold text-slate-100">
+                Matchplan för Hammarby
+              </h3>
+              <div className="grid gap-4 lg:grid-cols-3">
               <article className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4">
                 <h3 className="text-sm font-semibold text-emerald-100">
                   Hammarby med boll
@@ -427,21 +504,8 @@ export default function UpcomingOpponentsPage() {
                   ))}
                 </ul>
               </article>
+              </div>
             </div>
-
-            <article className="mt-6 rounded-xl border border-emerald-500/25 bg-emerald-500/8 p-4">
-              <h3 className="text-sm font-semibold text-slate-100">
-                Sammanfattning (30 sekunder)
-              </h3>
-              <ul className="mt-2 space-y-2 text-sm text-slate-200">
-                {report.mobileTakeaways.map((point) => (
-                  <li key={point} className="flex gap-2">
-                    <span className="mt-1 text-emerald-300">•</span>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
 
             {report.squadRecommendation && (
               <details className="mt-6 rounded-xl border border-cyan-500/35 bg-[#142d2d]/90 p-4">
@@ -529,7 +593,7 @@ export default function UpcomingOpponentsPage() {
 
             <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
               <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                Ordlista (visa)
+                Ordlista
               </summary>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {report.glossary.map((item) => (
