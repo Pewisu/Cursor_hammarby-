@@ -1063,7 +1063,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "2:a (17p), 21-8 i mål. 3V-1O-1F senaste 5. Hemmarutin: 4V-1O-0F, 19-3 i mål på Tele2.",
+        body: "2:a (17p), 21-8 i mål. 3V-1O-1F senaste 5. Hemmarutin: 4V-1O-0F, 19-3 i mål på Tre Arena.",
         tone: "emerald",
       },
       {
@@ -2158,8 +2158,8 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     round: 12,
     roundLabel: "Omgång 12",
     fixture: "Hammarby - Kalmar FF",
-    dateLabel: "12 juli 2026 · Tele2 Arena",
-    venueLabel: "Hemma · Tele2 Arena",
+    dateLabel: "12 juli 2026 · Tre Arena",
+    venueLabel: "Hemma · Tre Arena",
     oneLineSummary:
       "Hammarby hemma mot ett Kalmar-lag utan bortasegrar. HIF leder i xG och skottvolym.",
     introStats: [
@@ -2170,7 +2170,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     ],
     mobileTakeaways: [
       "Hammarby 2:a (20p, 26-14), Kalmar 12:e (13p, 14-15) efter 11–12 omgångar.",
-      "Kalmar: 0 segrar på 5 bortamatcher – men 3V-1O-1F hemma. Tele2 ska pressa deras bortaprofil.",
+      "Kalmar: 0 segrar på 5 bortamatcher – men 3V-1O-1F hemma. Tre Arena ska pressa deras bortaprofil.",
       "Twelve: Kalmar np xG 1,49 men bara 1,27 mål – underpresterar (xP 1,50 vs 1,18 poäng/match).",
       "Kalmar når boxen effektivt (28% final third to box) men skjuter försiktigt (box to shot 58%).",
       "Hammarby: 1:a i skott (19,9/match), boxberöringar (28,7) och shot assists (12,0). PPDA 4,19 vs Kalmar 6,15.",
@@ -2227,7 +2227,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     headToHead: {
       sampleSize: 5,
       description:
-        "Senaste 5 inbördes möten: Hammarby 4 segrar, 1 oavgjord. 14-5 i mål. Senaste hemmamötet på Tele2: 3-1 till HIF (mars 2024).",
+        "Senaste 5 inbördes möten: Hammarby 4 segrar, 1 oavgjord. 14-5 i mål. Senaste hemmamötet på Tre Arena: 3-1 till HIF (mars 2024).",
       summaryCards: [
         {
           title: "Senaste 5 möten",
@@ -2236,7 +2236,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           tone: "emerald",
         },
         {
-          title: "Senaste på Tele2",
+          title: "Senaste på Tre Arena",
           value: "3-1 (mars 2024)",
           note: "Hammarby vann hemma med 13-10 i avslut.",
           tone: "emerald",
@@ -2251,7 +2251,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       trendBullets: [
         "Hammarby har vunnit 4 av 5 senaste mötena (ett 0-0 aug 2023).",
         "Senaste bortamötet: 4-1 till HIF (aug 2024).",
-        "På Tele2 senast: 3-1 till Hammarby (mars 2024).",
+        "På Tre Arena senast: 3-1 till Hammarby (mars 2024).",
       ],
       matches: [
         {
@@ -2591,11 +2591,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Kalmar FF släpper till 1,19 opp. np xG/match (Twelve) – solid defensivt men sårbara 0-15 och 76-90+.",
       ],
       matchManagement: [
-        "Hemmamatch på Tele2 – Hammarby har 13p och +12 målskillnad hemma 2026. Spela på hemmafördelen.",
+        "Hemmamatch på Tre Arena – Hammarby har 13p och +15 målskillnad hemma 2026. Spela på hemmafördelen.",
         "Kalmar FF har xP 1,50 men bara 1,18 poäng/match – de förtjänar mer. Undvik att ge dem gratis mål.",
         "Vid ledning: Kalmar FF jagar med metodiskt uppspel – kontrollera tempot och utnyttja omställningar mot deras höga positionering.",
         "Vid oavgjort sent: Kalmar FF släpper in 5 mål 76-90+ – stäng matchen defensivt, de är farliga i slutminuterna.",
-        "Efter Elfsborg-segern (2-1 borta): Rydström har momentum – Kalmar FF hemma på Tele2 är en match Hammarby ska vinna på papperet.",
+        "Efter Elfsborg-segern (2-1 borta): Rydström har momentum – Kalmar borta på Tre Arena är en match Hammarby ska vinna på papperet.",
       ],
     },
     glossary: [
