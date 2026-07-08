@@ -242,6 +242,34 @@ export default function UpcomingOpponentsPage() {
                     ))}
                   </div>
 
+                  {report.playersToWatch && report.playersToWatch.length > 0 && (
+                    <details className="mt-6 rounded-xl border border-rose-500/35 bg-[#2d1f24]/85 p-4" open>
+                      <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                        Spelare att ha koll på från {opponentName} ({report.playersToWatch.length})
+                      </summary>
+                      <p className="mt-2 text-xs text-slate-400">
+                        Utvalda hot baserat på Bolldata spelardata för Allsvenskan 2026.
+                      </p>
+                      <div className="mt-4 grid gap-3 md:grid-cols-3">
+                        {report.playersToWatch.map((player) => (
+                          <article
+                            key={player.name}
+                            className="rounded-xl border border-rose-400/30 bg-rose-500/8 p-4"
+                          >
+                            <div className="flex flex-wrap items-center gap-2">
+                              <h3 className="text-sm font-semibold text-rose-100">{player.name}</h3>
+                              <span className="rounded-full border border-rose-400/35 bg-rose-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-rose-200">
+                                {player.position}
+                              </span>
+                            </div>
+                            <p className="mt-2 text-xs font-medium text-amber-100">{player.statLine}</p>
+                            <p className="mt-2 text-xs leading-relaxed text-slate-300">{player.motivation}</p>
+                          </article>
+                        ))}
+                      </div>
+                    </details>
+                  )}
+
                   {report.cupSpecial && (
                     <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                       <summary className="cursor-pointer text-sm font-semibold text-slate-100">

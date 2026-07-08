@@ -91,6 +91,13 @@ export interface SquadRecommendation {
   rotationNotes: string[];
 }
 
+export interface OpponentPlayerToWatch {
+  name: string;
+  position: string;
+  statLine: string;
+  motivation: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -99,6 +106,7 @@ export interface UpcomingOpponentReport {
   oneLineSummary: string;
   hidden?: boolean;
   mobileTakeaways: string[];
+  playersToWatch?: OpponentPlayerToWatch[];
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
   headToHead?: HeadToHeadSection;
@@ -2134,6 +2142,532 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "Rydström-special",
         explanation:
           "Henrik Rydström tillträdde som Hammarbys huvudtränare våren 2026. Elfsborg borta blir ett tidigt test av hans spelmodell.",
+      },
+    ],
+  },
+  {
+    round: 12,
+    roundLabel: "Omgång 12",
+    fixture: "Hammarby - Kalmar FF",
+    dateLabel:
+      "Inför 12 juli 2026 · uppdaterad med Bolldata lagdata + spelardata + Twelve säsongrapport",
+    oneLineSummary:
+      "Kalmar är ett hemmastarkt men bortasvagt lag (0 segrar på 5 bortamatcher) som bygger anfall metodiskt och når boxen ofta (28% av sista-tredjedel-possessioner, Twelve) men konverterar sällan (np xG 1,49 vs 1,27 mål). Hammarby leder i nästan alla offensiva lagmått – xG (2,22 vs 1,48/match), skottvolym (19,9 vs 13,6) och field tilt (70% vs 52%) – men Kalmar har förbättrats defensivt senaste omgångarna och återerövrar snabbt (12% recoveries within 5s).",
+    mobileTakeaways: [
+      "Hammarby 2:a (20p, 26-14), Kalmar 13:e (13p, 14-15) efter 11–12 omgångar.",
+      "Kalmar: 0 segrar på 5 bortamatcher – men 3V-1O-1F hemma. Tele2 ska pressa deras bortaprofil.",
+      "Twelve: Kalmar np xG 1,49 men bara 1,27 mål – underpresterar (xP 1,50 vs 1,18 poäng/match).",
+      "Kalmar når boxen effektivt (28% final third to box) men skjuter försiktigt (box to shot 58%).",
+      "Hammarby: 1:a i skott (19,9/match), boxberöringar (28,7) och shot assists (12,0). PPDA 4,19 vs Kalmar 6,15.",
+      "Kalmar släpper in 5 mål 0-15 och 5 mål 76-90+ – sårbara i inledning och slutskede.",
+      "Hammarby gör flest mål 46-60 (6) – tryck direkt efter paus.",
+      "Inbördes: HIF 6V-1O-3F senaste 10 spelade möten. Senast 3-1 hemma (2024) och 4-1 borta (2024).",
+    ],
+    playersToWatch: [
+      {
+        name: "Carl Sagoe Jr",
+        position: "Forward",
+        statLine:
+          "7 assist · 17 nyckelpass · 25 avslut · 82 dribblingar (Bolldata, 11 omgångar)",
+        motivation:
+          "Kalmar FF:s främsta chanskapare. Liganäst flest assist och högst dribblingsvolym i truppen – driver anfall via 1v1 på kanten och levererar inlägg/nyckelpass (17 key passes, 5:e i laget per 90). Hammarbys ytterbackar måste stå tight och inte ge Sagoe yta att vända inåt; hans 82 dribblingförsök visar att han söker dueller konstant.",
+      },
+      {
+        name: "Charlie Rosenqvist",
+        position: "Forward",
+        statLine: "5 mål · 2,52 xG · 16 avslut · 995 min (Bolldata)",
+        motivation:
+          "Målskytt (5 mål) och Kalmar FF:s primära avslutare framför mål. Har 2,52 xG vilket tyder på att han skapar och tar de bästa lägena – även om han inte alltid konverterar fullt ut. I boxen är han den som Hammarby inte får tappa mark – särskilt vid fasta situationer och andrabollar där Kalmar ofta får in bollar via metodiskt uppspel.",
+      },
+      {
+        name: "Rasmus Jansson",
+        position: "Defender",
+        statLine:
+          "3 mål · 2 assist · 108 progressiva pass · 108 återerövringar (Bolldata)",
+        motivation:
+          "Ovanlig offensiv backprofil: 3 mål, 2 assist och flest progressiva passningar i laget (108). Jansson driver Kalmar FF:s uppspel från defensiven och är deras motor i omställningar – 108 recoveries visar att han är aktiv i press och återerövring. Hammarby bör pressa honom tidigt och tvinga långa uppspel, annars hittar han Sagoe/Rosenqvist mellan linjerna.",
+      },
+    ],
+    dataSources: [
+      "Twelve säsongrapport Kalmar (delad): https://earpiece.twelve.football/shared-reports/c3893c0f-c0db-4223-9f9f-1eb629c6b774 (8 juli 2026)",
+      "Twelve säsongdata Hammarby 2026: hammarbySeasonAnalysisData.ts (12 omgångar)",
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 8 juli 2026)",
+      "Bolldata spelardata: https://bolldata.se/spelardata (hämtad 8 juli 2026)",
+      "Bolldata API: team-advanced + goals för Allsvenskan 2026 (11–12 omgångar)",
+      "Bolldata API: senaste 10 inbördes möten Hammarby-Kalmar (hämtad 8 juli 2026)",
+    ],
+    headToHead: {
+      sampleSize: 10,
+      description:
+        "Hammarby har dominerat inbördes möten de senaste åren – 6 segrar, 1 oavgjord och 3 förluster i senaste 10 spelade mötena. Totalt 24-13 i mål till Hammarby. Senaste två mötena: 3-1 hemma (mars 2024) och 4-1 borta (aug 2024) med tydlig skottfördel.",
+      summaryCards: [
+        {
+          title: "Senaste 10 möten",
+          value: "6V-1O-3F (HIF)",
+          note: "24-13 i mål. Hammarby har tagit poäng i 7 av 10.",
+          tone: "emerald",
+        },
+        {
+          title: "Senaste hemmamatch",
+          value: "3-1 (mars 2024)",
+          note: "Hammarby vann på Tele2 med 13-10 i avslut. Kalmar gjorde ett mål sent.",
+          tone: "emerald",
+        },
+        {
+          title: "Kalmar hemma mot HIF",
+          value: "2V-1O-2F senaste 5",
+          note: "Bortamatcherna är mer jämna – Kalmar vann 2-0 hemma 2022 och 2-1 2021.",
+          tone: "amber",
+        },
+      ],
+      trendBullets: [
+        "Hammarby har vunnit 3 av senaste 4 inbördes möten (ett 0-0 aug 2023).",
+        "Senaste två mötena: totalt 7-2 till Hammarby med 31-23 i avslut.",
+        "Kalmar FF:s senaste seger mot HIF: 2-0 hemma i maj 2022.",
+        "Hammarby skapar konsekvent mer – i snitt 15,4 avslut/match vs Kalmar FF:s 11,1 i de 10 senaste mötena.",
+      ],
+      matches: [
+        {
+          date: "2024-08-04",
+          fixture: "Kalmar FF - Hammarby",
+          result: "1-4",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 4,
+          opponentGoals: 1,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 18,
+          opponentShots: 13,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2024/2024-08-04/kalmar-hammarby-1-4",
+        },
+        {
+          date: "2024-03-31",
+          fixture: "Hammarby - Kalmar FF",
+          result: "3-1",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 1,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 13,
+          opponentShots: 10,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2024/2024-03-31/hammarby-kalmar-3-1",
+        },
+        {
+          date: "2023-08-20",
+          fixture: "Kalmar FF - Hammarby",
+          result: "0-0",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 0,
+          opponentGoals: 0,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 8,
+          opponentShots: 3,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2023/2023-08-20/kalmar-hammarby-0-0",
+        },
+        {
+          date: "2023-07-16",
+          fixture: "Hammarby - Kalmar FF",
+          result: "3-1",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 1,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 12,
+          opponentShots: 15,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2023/2023-07-16/hammarby-kalmar-3-1",
+        },
+        {
+          date: "2022-10-30",
+          fixture: "Hammarby - Kalmar FF",
+          result: "4-2",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 4,
+          opponentGoals: 2,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 15,
+          opponentShots: 9,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2022/2022-10-30/hammarby-kalmar-4-2",
+        },
+        {
+          date: "2022-05-08",
+          fixture: "Kalmar FF - Hammarby",
+          result: "2-0",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 0,
+          opponentGoals: 2,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 8,
+          opponentShots: 5,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2022/2022-05-08/kalmar-hammarby-2-0",
+        },
+        {
+          date: "2021-12-04",
+          fixture: "Hammarby - Kalmar FF",
+          result: "5-3",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 5,
+          opponentGoals: 3,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 26,
+          opponentShots: 13,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2021/2021-12-04/hammarby-kalmar-5-3",
+        },
+        {
+          date: "2021-05-23",
+          fixture: "Kalmar FF - Hammarby",
+          result: "2-1",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 1,
+          opponentGoals: 2,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 11,
+          opponentShots: 21,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2021/2021-05-23/kalmar-hammarby-2-1",
+        },
+        {
+          date: "2020-11-22",
+          fixture: "Hammarby - Kalmar FF",
+          result: "0-1",
+          venue: "home",
+          outcome: "loss",
+          hammarbyGoals: 0,
+          opponentGoals: 1,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 10,
+          opponentShots: 8,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2020/2020-11-22/hammarby-kalmar-0-1",
+        },
+        {
+          date: "2020-07-12",
+          fixture: "Kalmar FF - Hammarby",
+          result: "1-1",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 1,
+          opponentGoals: 1,
+          hammarbyXg: 0,
+          opponentXg: 0,
+          hammarbyShots: 12,
+          opponentShots: 9,
+          sourceUrl:
+            "https://bolldata.se/allsvenskan/matcher/2020/2020-07-12/kalmar-hammarby-1-1",
+        },
+      ],
+    },
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a (20p), 26-14 i mål efter 12 matcher. Twelve: 1:a i xG (2,16), field tilt (70%) och PPDA (4,19). Vann senast 2-1 borta mot Elfsborg under Rydström.",
+        tone: "emerald",
+      },
+      {
+        title: "Kalmar FF just nu",
+        body: "13:e (13p), 14-15 i mål. 0 segrar på 5 bortamatcher men stark hemma (3V-1O-1F). Twelve: xP 1,50 vs 1,18 faktiska poäng – förtjänar mer.",
+        tone: "amber",
+      },
+      {
+        title: "Nyckelkamp: volym vs effektivitet",
+        body: "Hammarbys skottvolym (19,9/match, 1:a) mot Kalmar FF:s box-penetration (28% final third to box, Twelve). Pressa upp Kalmar och tvinga långa uppspel – deras bortaprofil är svag.",
+        tone: "blue",
+      },
+    ],
+    opponentStyle: [
+      "Twelve: Kalmar spelar metodiskt med 49% bollinnehav och 52% field tilt – de bygger tålmodigt men saknar explosivitet i anfall.",
+      "Kalmar når boxen effektivt: 28% av sista-tredjedel-possessioner når straffområdet (över snitt) men konverterar bara 58% av boxberöringar till skott.",
+      "Lågt passtempo (18,97) och försiktig avslutning – np xG 1,49 men bara 1,27 np-mål. De skapar men avslutar inte tillräckligt aggressivt.",
+      "Defensivt: PPDA 6,15 och defensiv intensitet 5,50 – mer reaktiv än Hammarby. DAH 42,47 m, de pressar ibland högt men vinner bara 60% av defensiva dueller.",
+      "Twelve: Kalmar återerövrar snabbt (12% recoveries within 5s) och begränsar motståndarens xG inom 10s efter recovery till 0,27 – solid defensiv transition.",
+      "Bortaprofil: 0 segrar på 5 bortamatcher, 2,20 insläppta/match borta. Hemma: 3 segrar och bara 0,80 insläppta/match.",
+    ],
+    styleProfile: [
+      {
+        label: "Box-penetration (Twelve)",
+        value: "28% final third to box · 24,4 box touches/match",
+        score: 78,
+        explanation:
+          "Kalmar FF når straffområdet effektivt från sista tredjedelen – deras främsta anfallsvapen trots låg skottvolym.",
+      },
+      {
+        label: "Avslutseffektivitet (Twelve)",
+        value: "np Goals 1,27 vs np xG 1,49 · box to shot 58%",
+        score: 45,
+        explanation:
+          "Kalmar FF skapar chanser men konverterar under förväntan – patient men försiktig avslutning.",
+      },
+      {
+        label: "Bortaprofil (Bolldata)",
+        value: "0V-0O-5F borta · 2,20 insläppta/match",
+        score: 20,
+        explanation:
+          "Kalmar FF har inte vunnit en enda bortamatch 2026. Hammarby hemma ska utnyttja detta.",
+      },
+      {
+        label: "Press & intensitet (Twelve)",
+        value: "PPDA 6,15 · def. intensitet 5,50",
+        score: 50,
+        explanation:
+          "Mer reaktiv press än Hammarby (4,19). Motståndare får tid på bollen om Hammarby bygger lugnt.",
+      },
+      {
+        label: "Defensiv transition (Twelve)",
+        value: "12% recoveries within 5s · opp. xG inom 10s: 0,27",
+        score: 72,
+        explanation:
+          "Kalmar FF återerövrar snabbt efter bolltapp och begränsar kontringar – Hammarby måste vara skarpa i omställningarna.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,22",
+        opponentValue: "1,48",
+        hammarbyScore: 100,
+        opponentScore: 67,
+        note: "Hammarby skapar 50% mer xG per match enligt Bolldata-spelardata.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,92",
+        opponentValue: "13,55",
+        hammarbyScore: 100,
+        opponentScore: 68,
+        note: "Hammarby skjuter 47% mer – Kalmar FF förlitar sig på färre men mer utvalda lägen.",
+      },
+      {
+        label: "Skott på mål / match",
+        hammarbyValue: "2,58",
+        opponentValue: "3,18",
+        hammarbyScore: 81,
+        opponentScore: 100,
+        note: "Kalmar FF träffar faktiskt mål oftare per match trots lägre volym – effektivare avslut.",
+      },
+      {
+        label: "Boxberöringar / match",
+        hammarbyValue: "28,67",
+        opponentValue: "25,55",
+        hammarbyScore: 100,
+        opponentScore: 89,
+        note: "Båda lagen når boxen ofta – Kalmar FF 3:a i ligan i denna kategori.",
+      },
+      {
+        label: "Nyckelpassningar / match",
+        hammarbyValue: "5,17",
+        opponentValue: "4,91",
+        hammarbyScore: 100,
+        opponentScore: 95,
+        note: "Nästan jämnt – Sagoe Jr driver Kalmar FF:s kreativitet med 17 key passes totalt.",
+      },
+      {
+        label: "Progressiva passningar / match",
+        hammarbyValue: "73,92",
+        opponentValue: "70,55",
+        hammarbyScore: 100,
+        opponentScore: 95,
+        note: "Kalmar FF har hög progressionsvolym via Jansson och mittfältet.",
+      },
+      {
+        label: "Återerövringar / match",
+        hammarbyValue: "91,67",
+        opponentValue: "84,73",
+        hammarbyScore: 100,
+        opponentScore: 92,
+        note: "Hammarby återerövrar oftare – viktigt mot Kalmar FF:s snabba recoveries (12% inom 5s).",
+      },
+      {
+        label: "Field tilt (Twelve)",
+        hammarbyValue: "70%",
+        opponentValue: "52%",
+        hammarbyScore: 100,
+        opponentScore: 74,
+        note: "Hammarby dominerar territorium. Kalmar FF runt ligasnittet.",
+      },
+      {
+        label: "PPDA (Twelve)",
+        hammarbyValue: "4,19",
+        opponentValue: "6,15",
+        hammarbyScore: 100,
+        opponentScore: 68,
+        note: "Hammarby pressar betydligt hårdare – Kalmar FF mer reaktiv.",
+      },
+      {
+        label: "Gjorda mål (totalt)",
+        hammarbyValue: "26",
+        opponentValue: "14",
+        hammarbyScore: 100,
+        opponentScore: 54,
+        note: "Hammarby har nästan dubbelt så många mål efter 11–12 omgångar.",
+      },
+      {
+        label: "Bollinnehav (Twelve)",
+        hammarbyValue: "59%",
+        opponentValue: "49%",
+        hammarbyScore: 100,
+        opponentScore: 83,
+        note: "Hammarby styr bollen mer – Kalmar FF accepterar underläge men bygger metodiskt.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,22",
+        hammarbyRank: "2:a av 16",
+        opponentValue: "1,48",
+        opponentRank: "9:e av 16",
+        note: "Hammarby skapar klart mest xG. Kalmar FF medelmåttigt offensivt men når boxen effektivt.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,92",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "13,55",
+        opponentRank: "7:e av 16",
+        note: "Hammarby har ligans högsta skottvolym – Kalmar FF i övre halvan.",
+      },
+      {
+        label: "Boxberöringar / match",
+        hammarbyValue: "28,67",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "25,55",
+        opponentRank: "3:e av 16",
+        note: "Kalmar FF når boxen oftare än tabellplaceringen antyder.",
+      },
+      {
+        label: "PPDA",
+        hammarbyValue: "4,19",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "6,15",
+        opponentRank: "~9:e av 16",
+        note: "Hammarby pressar intensivast. Kalmar FF ger motståndare mer tid.",
+      },
+      {
+        label: "Field tilt (%)",
+        hammarbyValue: "70%",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "52%",
+        opponentRank: "~8:e av 16",
+        note: "Hammarby dominerar sista tredjedelen. Kalmar FF runt snittet.",
+      },
+      {
+        label: "xP vs faktiska poäng",
+        hammarbyValue: "1,55 xP",
+        hammarbyRank: "~4:e av 16",
+        opponentValue: "1,50 xP (1,18 p/match)",
+        opponentRank: "~9:e av 16",
+        note: "Twelve: Kalmar FF förtjänar fler poäng – de underpresterar resultatmässigt.",
+      },
+    ],
+    goalWindows: [
+      { window: "0-15", hammarbyGoals: 3, opponentConcededGoals: 5 },
+      { window: "16-30", hammarbyGoals: 3, opponentConcededGoals: 2 },
+      { window: "31-45+", hammarbyGoals: 5, opponentConcededGoals: 1 },
+      { window: "46-60", hammarbyGoals: 6, opponentConcededGoals: 0 },
+      { window: "61-75", hammarbyGoals: 5, opponentConcededGoals: 2 },
+      { window: "76-90+", hammarbyGoals: 4, opponentConcededGoals: 5 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Kalmar FF:s bortaprofil",
+        value: "0V-0O-5F borta · 2,20 insläppta/match",
+        interpretation:
+          "Kalmar FF har inte vunnit borta 2026. Hammarby hemma (13p, +12 målskillnad hemma) ska utnyttja detta från första minuten.",
+      },
+      {
+        label: "Kalmar FF:s sårbara fönster",
+        value: "5 insläppta 0-15 och 5 insläppta 76-90+",
+        interpretation:
+          "Kalmar FF släpper in mål tidigt och sent – Hammarby bör trycka hårt i inledning och stänga matchen defensivt sent.",
+      },
+      {
+        label: "Hammarbys målprofil",
+        value: "6 mål 46-60 och 5 mål 31-45+",
+        interpretation:
+          "Hammarby gör flest mål strax före och direkt efter paus – Rydström bör instruera om halvtidsintensitet.",
+      },
+      {
+        label: "Kalmar FF:s anfall",
+        value: "np xG 1,49 · box to shot 58% (Twelve)",
+        interpretation:
+          "Kalmar FF når boxen men avslutar försiktigt – begränsa deras få men kvalitativa chanser så räcker det.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Exploatera field tilt-fördelen (70% vs 52%). Kalmar FF pressar reaktivt (PPDA 6,15) – bygg lugnt och dra isär deras mittblock.",
+        "Attackera brett och centralt. Kalmar FF når boxen via både inlägg och carries – stäng halvrummen och tvinga dem ut på kanten.",
+        "Hammarbys 19,9 avslut/match mot Kalmar FF:s 13,6 – volymfördelen ska skapa tryck. Sikta på 20+ avslut och 4+ HQ-skott.",
+        "Pressa Kalmar FF:s uppspel via Jansson. Tvinga långa bollar – deras bortaprofil (0 segrar) visar att de tappar kontroll utanför hemmaborgen.",
+        "Utnyttja målfönstren 0-15 och 46-60 där Kalmar FF släppt in flest mål (5 respektive 0 – men Hammarby gör 6 mål 46-60).",
+      ],
+      withoutBall: [
+        "Press med Hammarbys PPDA 4,19 mot Kalmar FF:s 6,15. Stör uppspelet – men respektera deras 12% recoveries within 5s.",
+        "Stäng av Sagoe Jr och Rosenqvist – deras främsta chanskapare (7 assist respektive 5 mål). Särskilt Sagoe Jr:s dribblingar (82 försök).",
+        "Kalmar FF gör 4 av 14 mål 46-60 – farliga efter paus trots lågt passtempo. Håll intensiteten i andra halvlek.",
+        "Begränsa Janssons progressiva passningar (108 totalt). Pressa honom tidigt – annars hittar han Sagoe mellan linjerna.",
+        "Kalmar FF släpper till 1,19 opp. np xG/match (Twelve) – solid defensivt men sårbara 0-15 och 76-90+.",
+      ],
+      matchManagement: [
+        "Hemmamatch på Tele2 – Hammarby har 13p och +12 målskillnad hemma 2026. Spela på hemmafördelen.",
+        "Kalmar FF har xP 1,50 men bara 1,18 poäng/match – de förtjänar mer. Undvik att ge dem gratis mål.",
+        "Vid ledning: Kalmar FF jagar med metodiskt uppspel – kontrollera tempot och utnyttja omställningar mot deras höga positionering.",
+        "Vid oavgjort sent: Kalmar FF släpper in 5 mål 76-90+ – stäng matchen defensivt, de är farliga i slutminuterna.",
+        "Efter Elfsborg-segern (2-1 borta): Rydström har momentum – Kalmar FF hemma på Tele2 är en match Hammarby ska vinna på papperet.",
+      ],
+    },
+    glossary: [
+      {
+        term: "Final third to box",
+        explanation:
+          "Andel av possessioner i sista tredjedelen som når straffområdet. Kalmar FF:s 28% visar effektiv box-penetration.",
+      },
+      {
+        term: "Box to shot",
+        explanation:
+          "Andel av boxberöringar som blir avslut. Kalmar FF:s 58% (Twelve) visar försiktig avslutning.",
+      },
+      {
+        term: "PPDA",
+        explanation:
+          "Passes Per Defensive Action – lägre = hårdare press. Kalmar FF:s 6,15 innebär mer reaktiv press än Hammarby.",
+      },
+      {
+        term: "xP (expected Points)",
+        explanation:
+          "Förväntade poäng baserat på matchprestationer. Kalmar FF har 1,50 xP men bara 1,18 faktiska poäng – underpresterar.",
+      },
+      {
+        term: "Recovery within 5s",
+        explanation:
+          "Andel bollåtervinningar inom 5 sekunder efter bolltapp. Kalmar FF:s 12% visar snabb counterpress.",
+      },
+      {
+        term: "Progressiva passningar",
+        explanation:
+          "Passningar som driver bollen framåt minst 10 meter mot motståndarens mål. Jansson leder Kalmar FF med 108.",
       },
     ],
   },
