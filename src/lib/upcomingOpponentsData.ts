@@ -99,12 +99,20 @@ export interface OpponentPlayerToWatch {
   motivation: string;
 }
 
+export interface IntroStat {
+  label: string;
+  value: string;
+  tone?: "emerald" | "amber" | "blue";
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
   fixture: string;
   dateLabel: string;
   oneLineSummary: string;
+  venueLabel?: string;
+  introStats?: IntroStat[];
   hidden?: boolean;
   mobileTakeaways: string[];
   playersToWatch?: OpponentPlayerToWatch[];
@@ -2150,10 +2158,16 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     round: 12,
     roundLabel: "Omgång 12",
     fixture: "Hammarby - Kalmar FF",
-    dateLabel:
-      "Inför 12 juli 2026 · uppdaterad med Bolldata lagdata + spelardata + Twelve säsongrapport",
+    dateLabel: "12 juli 2026 · Tele2 Arena",
+    venueLabel: "Hemma · Tele2 Arena",
     oneLineSummary:
-      "Kalmar bygger metodiskt och når boxen ofta, men konverterar sällan. Borta har de 0 segrar – Hammarby leder i xG, skottvolym och field tilt.",
+      "Hammarby hemma mot ett Kalmar-lag utan bortasegrar. HIF leder i xG och skottvolym.",
+    introStats: [
+      { label: "Tabell", value: "HIF 2:a · 20p", tone: "emerald" },
+      { label: "Tabell", value: "Kalmar 13:e · 13p", tone: "amber" },
+      { label: "Kalmar borta 2026", value: "0 segrar · 5 matcher", tone: "amber" },
+      { label: "xG / match", value: "HIF 2,22 · Kalmar 1,48", tone: "blue" },
+    ],
     mobileTakeaways: [
       "Hammarby 2:a (20p, 26-14), Kalmar 13:e (13p, 14-15) efter 11–12 omgångar.",
       "Kalmar: 0 segrar på 5 bortamatcher – men 3V-1O-1F hemma. Tele2 ska pressa deras bortaprofil.",
@@ -2162,7 +2176,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Hammarby: 1:a i skott (19,9/match), boxberöringar (28,7) och shot assists (12,0). PPDA 4,19 vs Kalmar 6,15.",
       "Kalmar släpper in 5 mål 0-15 och 5 mål 76-90+ – sårbara i inledning och slutskede.",
       "Hammarby gör flest mål 46-60 (6) – tryck direkt efter paus.",
-      "Inbördes: HIF 6V-1O-3F senaste 10 spelade möten. Senast 3-1 hemma (2024) och 4-1 borta (2024).",
+      "Inbördes: HIF 4V-1O senaste 5 möten. Senast 3-1 hemma (2024).",
     ],
     playersToWatch: [
       {
@@ -2208,37 +2222,36 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 8 juli 2026)",
       "Bolldata spelardata: https://bolldata.se/spelardata (hämtad 8 juli 2026)",
       "Bolldata API: team-advanced + goals för Allsvenskan 2026 (11–12 omgångar)",
-      "Bolldata API: senaste 10 inbördes möten Hammarby-Kalmar (hämtad 8 juli 2026)",
+      "Bolldata API: senaste 5 inbördes möten Hammarby-Kalmar (hämtad 8 juli 2026)",
     ],
     headToHead: {
-      sampleSize: 10,
+      sampleSize: 5,
       description:
-        "Hammarby har dominerat inbördes möten de senaste åren – 6 segrar, 1 oavgjord och 3 förluster i senaste 10 spelade mötena. Totalt 24-13 i mål till Hammarby. Senaste två mötena: 3-1 hemma (mars 2024) och 4-1 borta (aug 2024) med tydlig skottfördel.",
+        "Senaste 5 inbördes möten: Hammarby 4 segrar, 1 oavgjord. 14-4 i mål. Senaste hemmamötet på Tele2: 3-1 till HIF (mars 2024).",
       summaryCards: [
         {
-          title: "Senaste 10 möten",
-          value: "6V-1O-3F (HIF)",
-          note: "24-13 i mål. Hammarby har tagit poäng i 7 av 10.",
+          title: "Senaste 5 möten",
+          value: "4V-1O-0F (HIF)",
+          note: "14-4 i mål. Hammarby obesegrade i perioden.",
           tone: "emerald",
         },
         {
-          title: "Senaste hemmamatch",
+          title: "Senaste på Tele2",
           value: "3-1 (mars 2024)",
-          note: "Hammarby vann på Tele2 med 13-10 i avslut. Kalmar gjorde ett mål sent.",
+          note: "Hammarby vann hemma med 13-10 i avslut.",
           tone: "emerald",
         },
         {
-          title: "Kalmar hemma mot HIF",
-          value: "2V-1O-2F senaste 5",
-          note: "Bortamatcherna är mer jämna – Kalmar vann 2-0 hemma 2022 och 2-1 2021.",
-          tone: "amber",
+          title: "Den här matchen",
+          value: "Hemma för HIF",
+          note: "Kalmar har 0 bortasegrar 2026. Hammarby stark hemma: 13p, +12 målskillnad.",
+          tone: "blue",
         },
       ],
       trendBullets: [
-        "Hammarby har vunnit 3 av senaste 4 inbördes möten (ett 0-0 aug 2023).",
-        "Senaste två mötena: totalt 7-2 till Hammarby med 31-23 i avslut.",
-        "Kalmar FF:s senaste seger mot HIF: 2-0 hemma i maj 2022.",
-        "Hammarby skapar konsekvent mer – i snitt 15,4 avslut/match vs Kalmar FF:s 11,1 i de 10 senaste mötena.",
+        "Hammarby har vunnit 4 av 5 senaste mötena (ett 0-0 aug 2023).",
+        "Senaste bortamötet: 4-1 till HIF (aug 2024).",
+        "På Tele2 senast: 3-1 till Hammarby (mars 2024).",
       ],
       matches: [
         {
@@ -2315,81 +2328,6 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           opponentShots: 9,
           sourceUrl:
             "https://bolldata.se/allsvenskan/matcher/2022/2022-10-30/hammarby-kalmar-4-2",
-        },
-        {
-          date: "2022-05-08",
-          fixture: "Kalmar FF - Hammarby",
-          result: "2-0",
-          venue: "away",
-          outcome: "loss",
-          hammarbyGoals: 0,
-          opponentGoals: 2,
-          hammarbyXg: 0,
-          opponentXg: 0,
-          hammarbyShots: 8,
-          opponentShots: 5,
-          sourceUrl:
-            "https://bolldata.se/allsvenskan/matcher/2022/2022-05-08/kalmar-hammarby-2-0",
-        },
-        {
-          date: "2021-12-04",
-          fixture: "Hammarby - Kalmar FF",
-          result: "5-3",
-          venue: "home",
-          outcome: "win",
-          hammarbyGoals: 5,
-          opponentGoals: 3,
-          hammarbyXg: 0,
-          opponentXg: 0,
-          hammarbyShots: 26,
-          opponentShots: 13,
-          sourceUrl:
-            "https://bolldata.se/allsvenskan/matcher/2021/2021-12-04/hammarby-kalmar-5-3",
-        },
-        {
-          date: "2021-05-23",
-          fixture: "Kalmar FF - Hammarby",
-          result: "2-1",
-          venue: "away",
-          outcome: "loss",
-          hammarbyGoals: 1,
-          opponentGoals: 2,
-          hammarbyXg: 0,
-          opponentXg: 0,
-          hammarbyShots: 11,
-          opponentShots: 21,
-          sourceUrl:
-            "https://bolldata.se/allsvenskan/matcher/2021/2021-05-23/kalmar-hammarby-2-1",
-        },
-        {
-          date: "2020-11-22",
-          fixture: "Hammarby - Kalmar FF",
-          result: "0-1",
-          venue: "home",
-          outcome: "loss",
-          hammarbyGoals: 0,
-          opponentGoals: 1,
-          hammarbyXg: 0,
-          opponentXg: 0,
-          hammarbyShots: 10,
-          opponentShots: 8,
-          sourceUrl:
-            "https://bolldata.se/allsvenskan/matcher/2020/2020-11-22/hammarby-kalmar-0-1",
-        },
-        {
-          date: "2020-07-12",
-          fixture: "Kalmar FF - Hammarby",
-          result: "1-1",
-          venue: "away",
-          outcome: "draw",
-          hammarbyGoals: 1,
-          opponentGoals: 1,
-          hammarbyXg: 0,
-          opponentXg: 0,
-          hammarbyShots: 12,
-          opponentShots: 9,
-          sourceUrl:
-            "https://bolldata.se/allsvenskan/matcher/2020/2020-07-12/kalmar-hammarby-1-1",
         },
       ],
     },

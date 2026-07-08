@@ -129,14 +129,46 @@ export default function UpcomingOpponentsPage() {
                       </h2>
                       <p className="mt-1 text-sm text-slate-300">{report.dateLabel}</p>
                     </div>
-                    <span className="rounded-full border border-emerald-500/35 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-100">
-                      Nästa motstånd
-                    </span>
+                    <div className="flex flex-col items-end gap-2">
+                      {report.venueLabel && (
+                        <span className="rounded-full border border-sky-400/40 bg-sky-500/15 px-3 py-1 text-xs font-semibold text-sky-100">
+                          {report.venueLabel}
+                        </span>
+                      )}
+                      <span className="rounded-full border border-emerald-500/35 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-100">
+                        Nästa motstånd
+                      </span>
+                    </div>
                   </div>
 
-                  <p className="mt-4 text-base font-medium leading-relaxed text-slate-100 md:text-lg">
-                    {report.oneLineSummary}
-                  </p>
+                  {report.introStats && report.introStats.length > 0 ? (
+                    <div className="mt-4 rounded-xl border border-emerald-500/30 bg-[#1b3229] p-4">
+                      <p className="text-sm font-medium text-slate-200">{report.oneLineSummary}</p>
+                      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                        {report.introStats.map((stat) => (
+                          <div
+                            key={`${stat.label}-${stat.value}`}
+                            className={`rounded-lg border px-3 py-2 ${
+                              stat.tone === "emerald"
+                                ? "border-emerald-500/30 bg-emerald-500/10"
+                                : stat.tone === "amber"
+                                  ? "border-amber-400/30 bg-amber-400/10"
+                                  : "border-slate-400/30 bg-slate-600/20"
+                            }`}
+                          >
+                            <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+                              {stat.label}
+                            </p>
+                            <p className="mt-0.5 text-sm font-bold text-slate-50">{stat.value}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="mt-4 text-base font-medium leading-relaxed text-slate-100 md:text-lg">
+                      {report.oneLineSummary}
+                    </p>
+                  )}
 
                   <div className="mt-4 grid gap-3 sm:grid-cols-3">
                     {report.quickStatusCards.map((card) => (
@@ -222,26 +254,28 @@ export default function UpcomingOpponentsPage() {
                       </summary>
                       <p className="mt-2 text-sm text-slate-300">{report.headToHead.description}</p>
 
-                      <div className="mt-3 grid gap-3 lg:grid-cols-3">
+                      <div className="mt-3 grid gap-2 sm:grid-cols-3">
                         {report.headToHead.summaryCards.map((card) => (
                           <article
                             key={card.title}
-                            className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
+                            className={`rounded-xl border p-3 ${toneStyles[card.tone]}`}
                           >
-                            <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
+                            <p className="text-[10px] font-semibold uppercase tracking-wide text-white/80">
                               {card.title}
                             </p>
-                            <p className="mt-2 text-lg font-semibold text-slate-100">{card.value}</p>
-                            <p className="mt-1 text-xs text-slate-300">{card.note}</p>
+                            <p className="mt-1 text-lg font-bold text-slate-50">{card.value}</p>
+                            <p className="mt-1 text-xs leading-snug text-slate-300">{card.note}</p>
                           </article>
                         ))}
                       </div>
 
-                      <ul className="mt-4 space-y-2 text-sm text-slate-300">
+                      <ul className="mt-3 grid gap-1.5 sm:grid-cols-3">
                         {report.headToHead.trendBullets.map((item) => (
-                          <li key={item} className="flex gap-2">
-                            <span className="mt-1 text-emerald-300">•</span>
-                            <span>{item}</span>
+                          <li
+                            key={item}
+                            className="rounded-lg border border-slate-600/40 bg-slate-900/30 px-2.5 py-2 text-xs text-slate-300"
+                          >
+                            {item}
                           </li>
                         ))}
                       </ul>
