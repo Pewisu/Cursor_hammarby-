@@ -2164,12 +2164,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Hammarby hemma mot ett Kalmar-lag utan bortasegrar. HIF leder i xG och skottvolym.",
     introStats: [
       { label: "Tabell", value: "HIF 2:a · 20p", tone: "emerald" },
-      { label: "Tabell", value: "Kalmar 13:e · 13p", tone: "amber" },
+      { label: "Tabell", value: "Kalmar 12:e · 13p", tone: "amber" },
       { label: "Kalmar borta 2026", value: "0 segrar · 5 matcher", tone: "amber" },
       { label: "xG / match", value: "HIF 2,22 · Kalmar 1,48", tone: "blue" },
     ],
     mobileTakeaways: [
-      "Hammarby 2:a (20p, 26-14), Kalmar 13:e (13p, 14-15) efter 11–12 omgångar.",
+      "Hammarby 2:a (20p, 26-14), Kalmar 12:e (13p, 14-15) efter 11–12 omgångar.",
       "Kalmar: 0 segrar på 5 bortamatcher – men 3V-1O-1F hemma. Tele2 ska pressa deras bortaprofil.",
       "Twelve: Kalmar np xG 1,49 men bara 1,27 mål – underpresterar (xP 1,50 vs 1,18 poäng/match).",
       "Kalmar når boxen effektivt (28% final third to box) men skjuter försiktigt (box to shot 58%).",
@@ -2221,18 +2221,18 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Twelve säsongdata Hammarby 2026: hammarbySeasonAnalysisData.ts (12 omgångar)",
       "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 8 juli 2026)",
       "Bolldata spelardata: https://bolldata.se/spelardata (hämtad 8 juli 2026)",
-      "Bolldata API: team-advanced + goals för Allsvenskan 2026 (11–12 omgångar)",
+      "Bolldata API: team-advanced + goals för Allsvenskan 2026 (rättad 8 juli 2026 – skott på mål via spelardata)",
       "Bolldata API: senaste 5 inbördes möten Hammarby-Kalmar (hämtad 8 juli 2026)",
     ],
     headToHead: {
       sampleSize: 5,
       description:
-        "Senaste 5 inbördes möten: Hammarby 4 segrar, 1 oavgjord. 14-4 i mål. Senaste hemmamötet på Tele2: 3-1 till HIF (mars 2024).",
+        "Senaste 5 inbördes möten: Hammarby 4 segrar, 1 oavgjord. 14-5 i mål. Senaste hemmamötet på Tele2: 3-1 till HIF (mars 2024).",
       summaryCards: [
         {
           title: "Senaste 5 möten",
           value: "4V-1O-0F (HIF)",
-          note: "14-4 i mål. Hammarby obesegrade i perioden.",
+          note: "14-5 i mål. Hammarby obesegrade i perioden.",
           tone: "emerald",
         },
         {
@@ -2244,7 +2244,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         {
           title: "Den här matchen",
           value: "Hemma för HIF",
-          note: "Kalmar har 0 bortasegrar 2026. Hammarby stark hemma: 13p, +12 målskillnad.",
+          note: "Kalmar har 0 bortasegrar 2026 (0V-0O-5F). Hammarby hemma: 13p, +15 målskillnad.",
           tone: "blue",
         },
       ],
@@ -2339,7 +2339,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         title: "Kalmar FF just nu",
-        body: "13:e · 13p · 14-15. 0 segrar borta (5 matcher). Stark hemma: 3V-1O-1F. Förtjänar fler poäng (xP 1,50).",
+        body: "12:e · 13p · 14-15. 0 segrar borta (5 matcher). Stark hemma: 3V-1O-1F. Förtjänar fler poäng (xP 1,50).",
         tone: "amber",
       },
       {
@@ -2412,11 +2412,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         label: "Skott på mål / match",
-        hammarbyValue: "2,58",
-        opponentValue: "3,18",
-        hammarbyScore: 81,
-        opponentScore: 100,
-        note: "Kalmar FF träffar faktiskt mål oftare per match trots lägre volym – effektivare avslut.",
+        hammarbyValue: "6,33",
+        opponentValue: "4,82",
+        hammarbyScore: 100,
+        opponentScore: 76,
+        note: "Hammarby 2:a i ligan (6,33/match). Kalmar 8:e – HIF har högre volym, Kalmar något bättre träffprocent per skott.",
       },
       {
         label: "Boxberöringar / match",
@@ -2432,7 +2432,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         opponentValue: "4,91",
         hammarbyScore: 100,
         opponentScore: 95,
-        note: "Nästan jämnt – Sagoe Jr driver Kalmar FF:s kreativitet med 17 key passes totalt.",
+        note: "Nästan jämnt – Sagoe Jr driver Kalmar FF:s kreativitet med 17 nyckelpass totalt.",
       },
       {
         label: "Progressiva passningar / match",
@@ -2525,6 +2525,14 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         note: "Hammarby dominerar sista tredjedelen. Kalmar FF runt snittet.",
       },
       {
+        label: "Skott på mål / match",
+        hammarbyValue: "6,33",
+        hammarbyRank: "2:a av 16",
+        opponentValue: "4,82",
+        opponentRank: "8:e av 16",
+        note: "Aggregerat från Bolldata spelardata. Hammarby har fler skott på mål per match tack vare högre skottvolym.",
+      },
+      {
         label: "xP vs faktiska poäng",
         hammarbyValue: "1,55 xP",
         hammarbyRank: "~4:e av 16",
@@ -2546,7 +2554,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         label: "Kalmar FF:s bortaprofil",
         value: "0V-0O-5F borta · 2,20 insläppta/match",
         interpretation:
-          "Kalmar FF har inte vunnit borta 2026. Hammarby hemma (13p, +12 målskillnad hemma) ska utnyttja detta från första minuten.",
+          "Kalmar FF har inte vunnit borta 2026 (5 förluster). Hammarby hemma (13p, +15 målskillnad) ska utnyttja detta från första minuten.",
       },
       {
         label: "Kalmar FF:s sårbara fönster",
