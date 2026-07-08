@@ -94,7 +94,8 @@ export interface SquadRecommendation {
 export interface OpponentPlayerToWatch {
   name: string;
   position: string;
-  statLine: string;
+  stats: { label: string; value: string }[];
+  threat: string;
   motivation: string;
 }
 
@@ -2152,7 +2153,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel:
       "Inför 12 juli 2026 · uppdaterad med Bolldata lagdata + spelardata + Twelve säsongrapport",
     oneLineSummary:
-      "Kalmar är ett hemmastarkt men bortasvagt lag (0 segrar på 5 bortamatcher) som bygger anfall metodiskt och når boxen ofta (28% av sista-tredjedel-possessioner, Twelve) men konverterar sällan (np xG 1,49 vs 1,27 mål). Hammarby leder i nästan alla offensiva lagmått – xG (2,22 vs 1,48/match), skottvolym (19,9 vs 13,6) och field tilt (70% vs 52%) – men Kalmar har förbättrats defensivt senaste omgångarna och återerövrar snabbt (12% recoveries within 5s).",
+      "Kalmar bygger metodiskt och når boxen ofta, men konverterar sällan. Borta har de 0 segrar – Hammarby leder i xG, skottvolym och field tilt.",
     mobileTakeaways: [
       "Hammarby 2:a (20p, 26-14), Kalmar 13:e (13p, 14-15) efter 11–12 omgångar.",
       "Kalmar: 0 segrar på 5 bortamatcher – men 3V-1O-1F hemma. Tele2 ska pressa deras bortaprofil.",
@@ -2167,25 +2168,38 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       {
         name: "Carl Sagoe Jr",
         position: "Forward",
-        statLine:
-          "7 assist · 17 nyckelpass · 25 avslut · 82 dribblingar (Bolldata, 11 omgångar)",
+        stats: [
+          { label: "Assist", value: "7" },
+          { label: "Nyckelpass", value: "17" },
+          { label: "Dribblingar", value: "82" },
+        ],
+        threat: "Främsta chanskapare via kant och 1v1",
         motivation:
-          "Kalmar FF:s främsta chanskapare. Liganäst flest assist och högst dribblingsvolym i truppen – driver anfall via 1v1 på kanten och levererar inlägg/nyckelpass (17 key passes, 5:e i laget per 90). Hammarbys ytterbackar måste stå tight och inte ge Sagoe yta att vända inåt; hans 82 dribblingförsök visar att han söker dueller konstant.",
+          "Högst dribblingsvolym i truppen. Ytterbackar måste stå tight och inte ge yta att vända inåt.",
       },
       {
         name: "Charlie Rosenqvist",
         position: "Forward",
-        statLine: "5 mål · 2,52 xG · 16 avslut · 995 min (Bolldata)",
+        stats: [
+          { label: "Mål", value: "5" },
+          { label: "xG", value: "2,52" },
+          { label: "Avslut", value: "16" },
+        ],
+        threat: "Primär målskytt och avslutare i boxen",
         motivation:
-          "Målskytt (5 mål) och Kalmar FF:s primära avslutare framför mål. Har 2,52 xG vilket tyder på att han skapar och tar de bästa lägena – även om han inte alltid konverterar fullt ut. I boxen är han den som Hammarby inte får tappa mark – särskilt vid fasta situationer och andrabollar där Kalmar ofta får in bollar via metodiskt uppspel.",
+          "Tar de bästa lägena framför mål. Farlig vid fasta situationer och andrabollar.",
       },
       {
-        name: "Rasmus Jansson",
+        name: "Rony Jansson",
         position: "Defender",
-        statLine:
-          "3 mål · 2 assist · 108 progressiva pass · 108 återerövringar (Bolldata)",
+        stats: [
+          { label: "Mål", value: "3" },
+          { label: "Assist", value: "2" },
+          { label: "Prog. pass", value: "108" },
+        ],
+        threat: "Driver uppspelet från defensiven",
         motivation:
-          "Ovanlig offensiv backprofil: 3 mål, 2 assist och flest progressiva passningar i laget (108). Jansson driver Kalmar FF:s uppspel från defensiven och är deras motor i omställningar – 108 recoveries visar att han är aktiv i press och återerövring. Hammarby bör pressa honom tidigt och tvinga långa uppspel, annars hittar han Sagoe/Rosenqvist mellan linjerna.",
+          "Flest progressiva pass i laget. Pressa honom tidigt – annars hittar han Sagoe mellan linjerna.",
       },
     ],
     dataSources: [
@@ -2382,17 +2396,17 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "2:a (20p), 26-14 i mål efter 12 matcher. Twelve: 1:a i xG (2,16), field tilt (70%) och PPDA (4,19). Vann senast 2-1 borta mot Elfsborg under Rydström.",
+        body: "2:a · 20p · 26-14. Ligaledare i xG, field tilt och PPDA. Vann senast 2-1 borta mot Elfsborg.",
         tone: "emerald",
       },
       {
         title: "Kalmar FF just nu",
-        body: "13:e (13p), 14-15 i mål. 0 segrar på 5 bortamatcher men stark hemma (3V-1O-1F). Twelve: xP 1,50 vs 1,18 faktiska poäng – förtjänar mer.",
+        body: "13:e · 13p · 14-15. 0 segrar borta (5 matcher). Stark hemma: 3V-1O-1F. Förtjänar fler poäng (xP 1,50).",
         tone: "amber",
       },
       {
         title: "Nyckelkamp: volym vs effektivitet",
-        body: "Hammarbys skottvolym (19,9/match, 1:a) mot Kalmar FF:s box-penetration (28% final third to box, Twelve). Pressa upp Kalmar och tvinga långa uppspel – deras bortaprofil är svag.",
+        body: "HIF:s skottvolym (19,9/match) mot Kalmar FF:s box-penetration (28%). Pressa högt – deras bortaprofil är svag.",
         tone: "blue",
       },
     ],
@@ -2488,7 +2502,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         opponentValue: "70,55",
         hammarbyScore: 100,
         opponentScore: 95,
-        note: "Kalmar FF har hög progressionsvolym via Jansson och mittfältet.",
+        note: "Kalmar FF har hög progressionsvolym via Rony Jansson och mittfältet.",
       },
       {
         label: "Återerövringar / match",
@@ -2620,14 +2634,14 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Exploatera field tilt-fördelen (70% vs 52%). Kalmar FF pressar reaktivt (PPDA 6,15) – bygg lugnt och dra isär deras mittblock.",
         "Attackera brett och centralt. Kalmar FF når boxen via både inlägg och carries – stäng halvrummen och tvinga dem ut på kanten.",
         "Hammarbys 19,9 avslut/match mot Kalmar FF:s 13,6 – volymfördelen ska skapa tryck. Sikta på 20+ avslut och 4+ HQ-skott.",
-        "Pressa Kalmar FF:s uppspel via Jansson. Tvinga långa bollar – deras bortaprofil (0 segrar) visar att de tappar kontroll utanför hemmaborgen.",
+        "Pressa Kalmar FF:s uppspel via Rony Jansson. Tvinga långa bollar – deras bortaprofil (0 segrar) visar att de tappar kontroll utanför hemmaborgen.",
         "Utnyttja målfönstren 0-15 och 46-60 där Kalmar FF släppt in flest mål (5 respektive 0 – men Hammarby gör 6 mål 46-60).",
       ],
       withoutBall: [
         "Press med Hammarbys PPDA 4,19 mot Kalmar FF:s 6,15. Stör uppspelet – men respektera deras 12% recoveries within 5s.",
         "Stäng av Sagoe Jr och Rosenqvist – deras främsta chanskapare (7 assist respektive 5 mål). Särskilt Sagoe Jr:s dribblingar (82 försök).",
         "Kalmar FF gör 4 av 14 mål 46-60 – farliga efter paus trots lågt passtempo. Håll intensiteten i andra halvlek.",
-        "Begränsa Janssons progressiva passningar (108 totalt). Pressa honom tidigt – annars hittar han Sagoe mellan linjerna.",
+        "Begränsa Rony Janssons progressiva passningar (108 totalt). Pressa honom tidigt – annars hittar han Sagoe mellan linjerna.",
         "Kalmar FF släpper till 1,19 opp. np xG/match (Twelve) – solid defensivt men sårbara 0-15 och 76-90+.",
       ],
       matchManagement: [
@@ -2667,7 +2681,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       {
         term: "Progressiva passningar",
         explanation:
-          "Passningar som driver bollen framåt minst 10 meter mot motståndarens mål. Jansson leder Kalmar FF med 108.",
+          "Passningar som driver bollen framåt minst 10 meter mot motståndarens mål. Rony Jansson leder Kalmar FF med 108.",
       },
     ],
   },
