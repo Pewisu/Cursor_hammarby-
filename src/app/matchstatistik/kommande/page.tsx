@@ -134,9 +134,86 @@ export default function UpcomingOpponentsPage() {
                     </span>
                   </div>
 
-                  <p className="mt-4 text-sm font-medium text-slate-100">
+                  <p className="mt-4 text-base font-medium leading-relaxed text-slate-100 md:text-lg">
                     {report.oneLineSummary}
                   </p>
+
+                  <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    {report.quickStatusCards.map((card) => (
+                      <article
+                        key={card.title}
+                        className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
+                      >
+                        <p className="text-[11px] font-semibold uppercase tracking-wide text-white/80">
+                          {card.title}
+                        </p>
+                        <p className="mt-2 text-sm leading-snug text-slate-100">{card.body}</p>
+                      </article>
+                    ))}
+                  </div>
+
+                  <section className="mt-6 rounded-xl border border-emerald-500/35 bg-[#213630]/90 p-4 md:p-5">
+                    <div className="flex items-center justify-between gap-3">
+                      <h3 className="text-base font-semibold text-slate-50">
+                        Så spelar {opponentName}
+                      </h3>
+                      <span className="rounded-full border border-emerald-400/30 bg-emerald-500/15 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-emerald-200">
+                        Spelstil
+                      </span>
+                    </div>
+
+                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                      {report.styleProfile.map((signal) => (
+                        <div
+                          key={signal.label}
+                          className="rounded-lg border border-slate-600/50 bg-white/5 p-3"
+                        >
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                              {signal.label}
+                            </p>
+                            <span className="shrink-0 text-sm font-bold text-amber-200">{signal.score}</span>
+                          </div>
+                          <p className="mt-1 text-sm font-medium text-slate-100">{signal.value}</p>
+                          <div className="mt-2 h-2 rounded-full bg-slate-700/55">
+                            <div
+                              className="h-2 rounded-full bg-emerald-400"
+                              style={{ width: `${signal.score}%` }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                      {report.opponentStyle.slice(0, 4).map((item) => (
+                        <li
+                          key={item}
+                          className="rounded-lg border border-slate-600/40 bg-slate-900/30 px-3 py-2 text-xs leading-relaxed text-slate-300"
+                        >
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+
+                    {report.opponentStyle.length > 4 && (
+                      <details className="mt-3">
+                        <summary className="cursor-pointer text-xs font-medium text-emerald-200">
+                          Visa alla spelstilspunkter ({report.opponentStyle.length})
+                        </summary>
+                        <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                          {report.opponentStyle.slice(4).map((item) => (
+                            <li
+                              key={item}
+                              className="rounded-lg border border-slate-600/40 bg-slate-900/30 px-3 py-2 text-xs leading-relaxed text-slate-300"
+                            >
+                              {item}
+                            </li>
+                          ))}
+                        </ul>
+                      </details>
+                    )}
+                  </section>
 
                   {report.headToHead && (
                     <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
@@ -228,48 +305,6 @@ export default function UpcomingOpponentsPage() {
                     </details>
                   )}
 
-                  <div className="mt-4 grid gap-3 lg:grid-cols-3">
-                    {report.quickStatusCards.map((card) => (
-                      <article
-                        key={card.title}
-                        className={`rounded-xl border p-4 ${toneStyles[card.tone]}`}
-                      >
-                        <p className="text-xs font-semibold uppercase tracking-wide text-white/90">
-                          {card.title}
-                        </p>
-                        <p className="mt-2 text-sm text-slate-100">{card.body}</p>
-                      </article>
-                    ))}
-                  </div>
-
-                  {report.playersToWatch && report.playersToWatch.length > 0 && (
-                    <details className="mt-6 rounded-xl border border-rose-500/35 bg-[#2d1f24]/85 p-4" open>
-                      <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                        Spelare att ha koll på från {opponentName} ({report.playersToWatch.length})
-                      </summary>
-                      <p className="mt-2 text-xs text-slate-400">
-                        Utvalda hot baserat på Bolldata spelardata för Allsvenskan 2026.
-                      </p>
-                      <div className="mt-4 grid gap-3 md:grid-cols-3">
-                        {report.playersToWatch.map((player) => (
-                          <article
-                            key={player.name}
-                            className="rounded-xl border border-rose-400/30 bg-rose-500/8 p-4"
-                          >
-                            <div className="flex flex-wrap items-center gap-2">
-                              <h3 className="text-sm font-semibold text-rose-100">{player.name}</h3>
-                              <span className="rounded-full border border-rose-400/35 bg-rose-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-rose-200">
-                                {player.position}
-                              </span>
-                            </div>
-                            <p className="mt-2 text-xs font-medium text-amber-100">{player.statLine}</p>
-                            <p className="mt-2 text-xs leading-relaxed text-slate-300">{player.motivation}</p>
-                          </article>
-                        ))}
-                      </div>
-                    </details>
-                  )}
-
                   {report.cupSpecial && (
                     <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                       <summary className="cursor-pointer text-sm font-semibold text-slate-100">
@@ -286,42 +321,6 @@ export default function UpcomingOpponentsPage() {
                       </ul>
                     </details>
                   )}
-
-                  <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
-                    <summary className="cursor-pointer text-sm font-semibold text-slate-100">
-                      Så spelar {opponentName} (visa)
-                    </summary>
-              <div className="mt-3 space-y-2">
-                {report.styleProfile.map((signal) => (
-                  <div
-                    key={signal.label}
-                    className="rounded-lg border border-slate-600/60 bg-white/5 p-3"
-                  >
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
-                        {signal.label}
-                      </p>
-                      <span className="text-xs text-amber-200">{signal.value}</span>
-                    </div>
-                    <div className="mt-2 h-1.5 rounded-full bg-slate-700/55">
-                      <div
-                        className="h-1.5 rounded-full bg-emerald-400"
-                        style={{ width: `${signal.score}%` }}
-                      />
-                    </div>
-                    <p className="mt-2 text-xs text-slate-400">{signal.explanation}</p>
-                  </div>
-                ))}
-              </div>
-              <ul className="mt-3 space-y-2 text-sm text-slate-300">
-                {report.opponentStyle.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-1 text-emerald-300">•</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-                  </details>
 
                   <details className="mt-6 rounded-xl border border-emerald-800/45 bg-[#213630]/85 p-4">
                     <summary className="cursor-pointer text-sm font-semibold text-slate-100">
@@ -457,11 +456,56 @@ export default function UpcomingOpponentsPage() {
               </article>
             </div>
 
-            <article className="mt-6 rounded-xl border border-emerald-500/25 bg-emerald-500/8 p-4">
-              <h3 className="text-sm font-semibold text-slate-100">
+            {report.playersToWatch && report.playersToWatch.length > 0 && (
+              <details className="mt-6 rounded-xl border border-rose-500/30 bg-[#2a1f24]/80 p-4">
+                <summary className="cursor-pointer text-sm font-semibold text-slate-100">
+                  Spelare att ha koll på från {opponentName} ({report.playersToWatch.length})
+                </summary>
+                <p className="mt-2 text-xs text-slate-400">
+                  Bolldata spelardata · Allsvenskan 2026
+                </p>
+                <div className="mt-4 space-y-3">
+                  {report.playersToWatch.map((player) => (
+                    <article
+                      key={player.name}
+                      className="rounded-xl border border-rose-400/25 bg-rose-500/6 p-4"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-base font-semibold text-rose-50">{player.name}</h3>
+                            <span className="rounded-full border border-rose-400/35 bg-rose-500/15 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-rose-200">
+                              {player.position}
+                            </span>
+                          </div>
+                          <p className="mt-1 text-sm font-medium text-amber-100">{player.threat}</p>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {player.stats.map((stat) => (
+                            <span
+                              key={`${player.name}-${stat.label}`}
+                              className="rounded-lg border border-slate-600/50 bg-slate-900/50 px-2.5 py-1 text-center"
+                            >
+                              <span className="block text-sm font-bold text-slate-50">{stat.value}</span>
+                              <span className="block text-[10px] uppercase tracking-wide text-slate-400">
+                                {stat.label}
+                              </span>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="mt-3 text-xs leading-relaxed text-slate-300">{player.motivation}</p>
+                    </article>
+                  ))}
+                </div>
+              </details>
+            )}
+
+            <details className="mt-6 rounded-xl border border-emerald-500/25 bg-emerald-500/8 p-4">
+              <summary className="cursor-pointer text-sm font-semibold text-slate-100">
                 Sammanfattning (30 sekunder)
-              </h3>
-              <ul className="mt-2 space-y-2 text-sm text-slate-200">
+              </summary>
+              <ul className="mt-3 space-y-2 text-sm text-slate-200">
                 {report.mobileTakeaways.map((point) => (
                   <li key={point} className="flex gap-2">
                     <span className="mt-1 text-emerald-300">•</span>
@@ -469,7 +513,7 @@ export default function UpcomingOpponentsPage() {
                   </li>
                 ))}
               </ul>
-            </article>
+            </details>
 
             {report.squadRecommendation && (
               <details className="mt-6 rounded-xl border border-cyan-500/35 bg-[#142d2d]/90 p-4">
