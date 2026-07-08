@@ -2180,7 +2180,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     ],
     playersToWatch: [
       {
-        name: "Carl Sagoe Jr",
+        name: "Charles Sagoe Jr",
         position: "Forward",
         stats: [
           { label: "Assist", value: "7" },
