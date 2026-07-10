@@ -18,6 +18,10 @@ function formatDate(dateStr: string): string {
   return `${parseInt(day, 10)} ${months[parseInt(month, 10) - 1]}`;
 }
 
+function formatSeconds(s: number): string {
+  return `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
+}
+
 function IndexBar({ value, max }: { value: number; max: number }) {
   const isPositive = value >= 0;
   const pct = max > 0 ? Math.abs(value) / max : 0;
@@ -74,6 +78,7 @@ type MatchRow = {
   domarindex: number;
   freeKickDiff: number;
   cardDiff: number;
+  stoppageMin: number;
 };
 
 function buildRows(): MatchRow[] {
@@ -84,6 +89,7 @@ function buildRows(): MatchRow[] {
       domarindex: calcDomarindex(m),
       freeKickDiff: calcFreeKickDiff(m),
       cardDiff: calcCardDiff(m),
+      stoppageMin: m.totalTimeMin - 90,
     }));
 }
 
@@ -91,8 +97,10 @@ type RefereeAggregate = {
   referee: string;
   matches: MatchRow[];
   avgIndex: number;
+  avgEffPlayingTimeS: number;
+  avgStoppageMin: number;
+  avgTotalCards: number;
   totalFreeKickDiff: number;
-  totalCardDiff: number;
   hamTotalFK: number;
   oppTotalFK: number;
   hamTotalCards: number;
@@ -108,32 +116,126 @@ function buildRefereeAggregates(rows: MatchRow[]): RefereeAggregate[] {
   }
   return Array.from(map.entries())
     .map(([referee, matches]) => {
-      const avgIndex =
-        matches.reduce((s, r) => s + r.domarindex, 0) / matches.length;
+      const n = matches.length;
+      const avgIndex = matches.reduce((s, r) => s + r.domarindex, 0) / n;
+      const avgEffPlayingTimeS = matches.reduce((s, r) => s + r.match.effectivePlayingTimeS, 0) / n;
+      const avgStoppageMin = matches.reduce((s, r) => s + r.stoppageMin, 0) / n;
+      const avgTotalCards = matches.reduce((s, r) => s + r.match.totalCards, 0) / n;
       const totalFreeKickDiff = matches.reduce((s, r) => s + r.freeKickDiff, 0);
-      const totalCardDiff = matches.reduce((s, r) => s + r.cardDiff, 0);
       const hamTotalFK = matches.reduce((s, r) => s + r.match.hammarby.freeKicks, 0);
       const oppTotalFK = matches.reduce((s, r) => s + r.match.opponent.freeKicks, 0);
-      const hamTotalCards =
-        matches.reduce(
-          (s, r) =>
-            s + r.match.hammarby.yellowCards + r.match.hammarby.redCards * 2,
-          0
-        );
-      const oppTotalCards =
-        matches.reduce(
-          (s, r) =>
-            s + r.match.opponent.yellowCards + r.match.opponent.redCards * 2,
-          0
-        );
-      return { referee, matches, avgIndex, totalFreeKickDiff, totalCardDiff, hamTotalFK, oppTotalFK, hamTotalCards, oppTotalCards };
+      const hamTotalCards = matches.reduce(
+        (s, r) => s + r.match.hammarby.yellowCards + r.match.hammarby.redCards * 2, 0
+      );
+      const oppTotalCards = matches.reduce(
+        (s, r) => s + r.match.opponent.yellowCards + r.match.opponent.redCards * 2, 0
+      );
+      return {
+        referee, matches, avgIndex, avgEffPlayingTimeS, avgStoppageMin,
+        avgTotalCards, totalFreeKickDiff, hamTotalFK, oppTotalFK,
+        hamTotalCards, oppTotalCards,
+      };
     })
     .sort((a, b) => b.avgIndex - a.avgIndex);
+}
+
+type ProfileCard = {
+  label: string;
+  sublabel: string;
+  winner: string;
+  value: string;
+  valueNote: string;
+  accent: string;
+  bg: string;
+  border: string;
+};
+
+function buildProfiles(rows: MatchRow[], aggs: RefereeAggregate[]): ProfileCard[] {
+  // Most effective playing time (per avg)
+  const mostEff = [...aggs].sort((a, b) => b.avgEffPlayingTimeS - a.avgEffPlayingTimeS)[0];
+  // Most stoppage time (per avg)
+  const mostStop = [...aggs].sort((a, b) => b.avgStoppageMin - a.avgStoppageMin)[0];
+  // Most cards per match avg
+  const mostCards = [...aggs].sort((a, b) => b.avgTotalCards - a.avgTotalCards)[0];
+  // Most favorable domarindex for Hammarby (single match)
+  const bestMatch = [...rows].sort((a, b) => b.domarindex - a.domarindex)[0];
+  // Most unfavorable
+  const worstMatch = [...rows].sort((a, b) => a.domarindex - b.domarindex)[0];
+  // Neutral FK split (closest to 50/50 across all their matches)
+  const mostNeutralFK = [...aggs].sort(
+    (a, b) =>
+      Math.abs(a.hamTotalFK - a.oppTotalFK) -
+      Math.abs(b.hamTotalFK - b.oppTotalFK)
+  )[0];
+
+  return [
+    {
+      label: "Mest effektiv speltid",
+      sublabel: "per match i snitt",
+      winner: mostEff.referee,
+      value: formatSeconds(Math.round(mostEff.avgEffPlayingTimeS)),
+      valueNote: `min eff. speltid/match${mostEff.matches.length > 1 ? ` (snitt ${mostEff.matches.length} matcher)` : ""}`,
+      accent: "text-emerald-300",
+      bg: "bg-emerald-900/20",
+      border: "border-emerald-600/30",
+    },
+    {
+      label: "Mest tilläggstid",
+      sublabel: "per match i snitt",
+      winner: mostStop.referee,
+      value: `+${mostStop.avgStoppageMin % 1 === 0 ? mostStop.avgStoppageMin : mostStop.avgStoppageMin.toFixed(1)} min`,
+      valueNote: `tillägg/match${mostStop.matches.length > 1 ? ` (snitt ${mostStop.matches.length} matcher)` : ""}`,
+      accent: "text-amber-300",
+      bg: "bg-amber-900/20",
+      border: "border-amber-600/30",
+    },
+    {
+      label: "Mest kort",
+      sublabel: "per match i snitt",
+      winner: mostCards.referee,
+      value: `${mostCards.avgTotalCards % 1 === 0 ? mostCards.avgTotalCards : mostCards.avgTotalCards.toFixed(1)}`,
+      valueNote: `kort/match (gul+röd)`,
+      accent: "text-yellow-300",
+      bg: "bg-yellow-900/20",
+      border: "border-yellow-600/30",
+    },
+    {
+      label: "Neutralast frisparkar",
+      sublabel: "jämnast fördelning Ham vs Mot",
+      winner: mostNeutralFK.referee,
+      value: `${mostNeutralFK.hamTotalFK}–${mostNeutralFK.oppTotalFK}`,
+      valueNote: `Ham–Motst. (${mostNeutralFK.matches.length > 1 ? `${mostNeutralFK.matches.length} matcher` : "1 match"})`,
+      accent: "text-sky-300",
+      bg: "bg-sky-900/20",
+      border: "border-sky-600/30",
+    },
+    {
+      label: "Bäst match för Hammarby",
+      sublabel: "domarindex enskild match",
+      winner: `${bestMatch.match.referee} (ø${bestMatch.match.gameweek})`,
+      value: `+${bestMatch.domarindex}`,
+      valueNote: bestMatch.match.matchName,
+      accent: "text-emerald-300",
+      bg: "bg-emerald-900/20",
+      border: "border-emerald-600/30",
+    },
+    {
+      label: "Sämst match för Hammarby",
+      sublabel: "domarindex enskild match",
+      winner: `${worstMatch.match.referee} (ø${worstMatch.match.gameweek})`,
+      value: `${worstMatch.domarindex}`,
+      valueNote: worstMatch.match.matchName,
+      accent: "text-rose-400",
+      bg: "bg-rose-900/20",
+      border: "border-rose-600/30",
+    },
+  ];
 }
 
 export default function RefereeAnalysisDashboard() {
   const rows = buildRows();
   const refereeAggregates = buildRefereeAggregates(rows);
+  const profiles = buildProfiles(rows, refereeAggregates);
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.domarindex)), 1);
   const maxRefAbs = Math.max(
     ...refereeAggregates.map((r) => Math.abs(r.avgIndex)),
@@ -147,6 +249,8 @@ export default function RefereeAnalysisDashboard() {
   const totalHamR = rows.reduce((s, r) => s + r.match.hammarby.redCards, 0);
   const totalOppR = rows.reduce((s, r) => s + r.match.opponent.redCards, 0);
   const totalIndex = rows.reduce((s, r) => s + r.domarindex, 0);
+  const avgEffS = Math.round(rows.reduce((s, r) => s + r.match.effectivePlayingTimeS, 0) / rows.length);
+  const avgStoppage = (rows.reduce((s, r) => s + r.stoppageMin, 0) / rows.length).toFixed(1);
 
   return (
     <div className="min-h-screen bg-[#0f172a]">
@@ -163,7 +267,7 @@ export default function RefereeAnalysisDashboard() {
             Domarstatistik 2026
           </h1>
           <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
-            Frisparkar för och emot samt gula och röda kort per match.{" "}
+            Frisparkar, gula/röda kort, effektiv speltid och tilläggstid per match.{" "}
             <span className="font-medium text-emerald-300">Domarindex</span> =
             (Ham. frisparkar − Motst. frisparkar) + (Motst. kort − Ham. kort).
             Positivt = fördel Hammarby.
@@ -176,70 +280,77 @@ export default function RefereeAnalysisDashboard() {
 
       <main className="mx-auto max-w-5xl space-y-8 px-4 py-8">
         {/* Season summary */}
-        <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
-            <p className="text-xs uppercase tracking-wide text-slate-400">
-              Ham. frisparkar
-            </p>
-            <p className="mt-1 text-3xl font-black text-emerald-300">
-              {totalHamFK}
-            </p>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Motst. {totalOppFK}
-            </p>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Ham. frisparkar</p>
+            <p className="mt-1 text-3xl font-black text-emerald-300">{totalHamFK}</p>
+            <p className="mt-0.5 text-xs text-slate-500">Motst. {totalOppFK}</p>
           </div>
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
-            <p className="text-xs uppercase tracking-wide text-slate-400">
-              Ham. gula
-            </p>
-            <p className="mt-1 text-3xl font-black text-yellow-300">
-              {totalHamY}
-            </p>
-            <p className="mt-0.5 text-xs text-slate-500">
-              Motst. {totalOppY}
-            </p>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Ham. gula</p>
+            <p className="mt-1 text-3xl font-black text-yellow-300">{totalHamY}</p>
+            <p className="mt-0.5 text-xs text-slate-500">Motst. {totalOppY}</p>
           </div>
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
-            <p className="text-xs uppercase tracking-wide text-slate-400">
-              Ham. röda
-            </p>
-            <p className="mt-1 text-3xl font-black text-red-400">
-              {totalHamR}
-            </p>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Ham. röda</p>
+            <p className="mt-1 text-3xl font-black text-red-400">{totalHamR}</p>
             <p className="mt-0.5 text-xs text-slate-500">Motst. {totalOppR}</p>
           </div>
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
-            <p className="text-xs uppercase tracking-wide text-slate-400">
-              Tot. domarindex
-            </p>
-            <p
-              className={`mt-1 text-3xl font-black ${
-                totalIndex > 0 ? "text-emerald-300" : "text-rose-400"
-              }`}
-            >
+            <p className="text-xs uppercase tracking-wide text-slate-400">Tot. domarindex</p>
+            <p className={`mt-1 text-3xl font-black ${totalIndex > 0 ? "text-emerald-300" : "text-rose-400"}`}>
               {totalIndex > 0 ? `+${totalIndex}` : totalIndex}
             </p>
             <p className="mt-0.5 text-xs text-slate-500">12 matcher</p>
           </div>
+          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
+            <p className="text-xs uppercase tracking-wide text-slate-400">Snitt eff. speltid</p>
+            <p className="mt-1 text-3xl font-black text-sky-300">{formatSeconds(avgEffS)}</p>
+            <p className="mt-0.5 text-xs text-slate-500">min/match</p>
+          </div>
+          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
+            <p className="text-xs uppercase tracking-wide text-slate-400">Snitt tillägg</p>
+            <p className="mt-1 text-3xl font-black text-amber-300">+{avgStoppage}</p>
+            <p className="mt-0.5 text-xs text-slate-500">min/match</p>
+          </div>
         </section>
 
-        {/* Per-match chart + table */}
+        {/* Profiles – "Kårens karaktärer" style */}
+        <section>
+          <h2 className="mb-4 text-base font-semibold text-white">Domarprofilerna</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {profiles.map((p) => (
+              <div
+                key={p.label}
+                className={`rounded-2xl border p-5 ${p.bg} ${p.border}`}
+              >
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                  {p.label}
+                </p>
+                <p className="mt-0.5 text-[10px] text-slate-500">{p.sublabel}</p>
+                <p className="mt-2 text-xl font-bold text-slate-200 leading-tight">
+                  {p.winner}
+                </p>
+                <p className={`mt-2 text-4xl font-black tabular-nums ${p.accent}`}>
+                  {p.value}
+                </p>
+                <p className="mt-1 text-xs text-slate-500">{p.valueNote}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Per-match bar chart */}
         <section className="rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5">
-          <h2 className="mb-4 text-base font-semibold text-white">
-            Domarindex per match
-          </h2>
+          <h2 className="mb-4 text-base font-semibold text-white">Domarindex per match</h2>
           <div className="space-y-2">
             {rows.map((row) => (
               <div
                 key={row.match.key}
                 className="grid items-center gap-x-3 gap-y-1 text-xs"
-                style={{
-                  gridTemplateColumns: "1.4rem 7rem 1fr auto",
-                }}
+                style={{ gridTemplateColumns: "1.4rem 7rem 1fr auto" }}
               >
-                <span className="text-right text-slate-500">
-                  {row.match.gameweek}
-                </span>
+                <span className="text-right text-slate-500">{row.match.gameweek}</span>
                 <a
                   href={row.match.sourceUrl}
                   target="_blank"
@@ -257,7 +368,7 @@ export default function RefereeAnalysisDashboard() {
             ))}
           </div>
           <p className="mt-4 text-xs text-slate-500">
-            Positiv stapel (grön) = nettofördel Hammarby. Negativ (röd) = nackdel.
+            Grön stapel = nettofördel Hammarby. Röd = nackdel.
           </p>
         </section>
 
@@ -267,31 +378,27 @@ export default function RefereeAnalysisDashboard() {
             <thead>
               <tr className="border-b border-slate-700/50 text-left text-slate-400">
                 <th className="px-3 py-3 font-medium">Ø</th>
-                <th className="px-3 py-3 font-medium">Datum</th>
                 <th className="px-3 py-3 font-medium">Match</th>
                 <th className="px-3 py-3 font-medium">Domare</th>
-                <th className="px-3 py-3 text-center font-medium" colSpan={2}>
-                  Frisparkar
-                </th>
-                <th className="px-3 py-3 text-center font-medium" colSpan={2}>
-                  Gula
-                </th>
-                <th className="px-3 py-3 text-center font-medium" colSpan={2}>
-                  Röda
-                </th>
+                <th className="px-3 py-3 text-center font-medium">Eff. tid</th>
+                <th className="px-3 py-3 text-center font-medium">Tillägg</th>
+                <th className="px-3 py-3 text-center font-medium" colSpan={2}>Frisparkar</th>
+                <th className="px-3 py-3 text-center font-medium" colSpan={2}>Gula</th>
+                <th className="px-3 py-3 text-center font-medium" colSpan={2}>Röda</th>
                 <th className="px-3 py-3 text-right font-medium">Index</th>
               </tr>
-              <tr className="border-b border-slate-800 text-left text-slate-500">
+              <tr className="border-b border-slate-800 text-slate-500">
                 <th className="px-3 pb-2" />
                 <th className="px-3 pb-2" />
                 <th className="px-3 pb-2" />
-                <th className="px-3 pb-2" />
+                <th className="px-3 pb-2 text-center text-[10px]">min</th>
+                <th className="px-3 pb-2 text-center text-[10px]">min</th>
                 <th className="px-3 pb-2 text-center text-emerald-500/70">Ham</th>
-                <th className="px-3 pb-2 text-center text-slate-500">Mot</th>
+                <th className="px-3 pb-2 text-center">Mot</th>
                 <th className="px-3 pb-2 text-center text-emerald-500/70">Ham</th>
-                <th className="px-3 pb-2 text-center text-slate-500">Mot</th>
+                <th className="px-3 pb-2 text-center">Mot</th>
                 <th className="px-3 pb-2 text-center text-emerald-500/70">Ham</th>
-                <th className="px-3 pb-2 text-center text-slate-500">Mot</th>
+                <th className="px-3 pb-2 text-center">Mot</th>
                 <th className="px-3 pb-2" />
               </tr>
             </thead>
@@ -305,12 +412,7 @@ export default function RefereeAnalysisDashboard() {
                       i % 2 === 0 ? "bg-slate-900/20" : ""
                     }`}
                   >
-                    <td className="px-3 py-2.5 text-slate-500">
-                      {row.match.gameweek}
-                    </td>
-                    <td className="px-3 py-2.5 text-slate-400">
-                      {formatDate(row.match.date)}
-                    </td>
+                    <td className="px-3 py-2.5 text-slate-500">{row.match.gameweek}</td>
                     <td className="px-3 py-2.5">
                       <a
                         href={row.match.sourceUrl}
@@ -326,8 +428,12 @@ export default function RefereeAnalysisDashboard() {
                         <span className="ml-1.5 rounded px-1 py-0.5 text-[10px] bg-slate-700/60 text-slate-400">B</span>
                       )}
                     </td>
-                    <td className="px-3 py-2.5 text-slate-300">
-                      {row.match.referee}
+                    <td className="px-3 py-2.5 text-slate-300">{row.match.referee}</td>
+                    <td className="px-3 py-2.5 text-center font-mono text-sky-300">
+                      {formatSeconds(row.match.effectivePlayingTimeS)}
+                    </td>
+                    <td className="px-3 py-2.5 text-center font-mono text-amber-300">
+                      +{row.stoppageMin}
                     </td>
                     <td className="px-3 py-2.5 text-center font-mono font-semibold text-emerald-300">
                       {row.match.hammarby.freeKicks}
@@ -386,11 +492,7 @@ export default function RefereeAnalysisDashboard() {
                     <td className="px-3 py-2.5 text-right">
                       <span
                         className={`font-mono font-bold ${
-                          idx > 0
-                            ? "text-emerald-300"
-                            : idx < 0
-                            ? "text-rose-400"
-                            : "text-slate-400"
+                          idx > 0 ? "text-emerald-300" : idx < 0 ? "text-rose-400" : "text-slate-400"
                         }`}
                       >
                         {idx > 0 ? `+${idx}` : idx}
@@ -402,32 +504,20 @@ export default function RefereeAnalysisDashboard() {
             </tbody>
             <tfoot>
               <tr className="border-t border-slate-600/50 bg-slate-800/40 font-semibold">
-                <td className="px-3 py-2.5 text-slate-400" colSpan={4}>
-                  Totalt
+                <td className="px-3 py-2.5 text-slate-400" colSpan={3}>Totalt / snitt</td>
+                <td className="px-3 py-2.5 text-center font-mono text-sky-300">
+                  {formatSeconds(avgEffS)}
                 </td>
-                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">
-                  {totalHamFK}
+                <td className="px-3 py-2.5 text-center font-mono text-amber-300">
+                  +{avgStoppage}
                 </td>
-                <td className="px-3 py-2.5 text-center font-mono text-slate-400">
-                  {totalOppFK}
-                </td>
-                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">
-                  {totalHamY}
-                </td>
-                <td className="px-3 py-2.5 text-center font-mono text-slate-400">
-                  {totalOppY}
-                </td>
-                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">
-                  {totalHamR}
-                </td>
-                <td className="px-3 py-2.5 text-center font-mono text-slate-400">
-                  {totalOppR}
-                </td>
-                <td
-                  className={`px-3 py-2.5 text-right font-mono font-black ${
-                    totalIndex > 0 ? "text-emerald-300" : "text-rose-400"
-                  }`}
-                >
+                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamFK}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-slate-400">{totalOppFK}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamY}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-slate-400">{totalOppY}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamR}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-slate-400">{totalOppR}</td>
+                <td className={`px-3 py-2.5 text-right font-mono font-black ${totalIndex > 0 ? "text-emerald-300" : "text-rose-400"}`}>
                   {totalIndex > 0 ? `+${totalIndex}` : totalIndex}
                 </td>
               </tr>
@@ -435,14 +525,13 @@ export default function RefereeAnalysisDashboard() {
           </table>
         </section>
 
-        {/* Per-referee chart */}
+        {/* Per-referee aggregate chart */}
         <section className="rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5">
           <h2 className="mb-1 text-base font-semibold text-white">
             Domarindex per domare (snitt)
           </h2>
           <p className="mb-4 text-xs text-slate-500">
             Sorterat från mest fördelaktig till mest ogynnsam för Hammarby.
-            Domare med flera matcher visar genomsnitt.
           </p>
           <div className="space-y-3">
             {refereeAggregates.map((agg) => (
@@ -454,26 +543,18 @@ export default function RefereeAnalysisDashboard() {
                   <span className="truncate text-slate-200 font-medium">
                     {agg.referee}
                     {agg.matches.length > 1 && (
-                      <span className="ml-1.5 text-slate-500">
-                        ×{agg.matches.length}
-                      </span>
+                      <span className="ml-1.5 text-slate-500">×{agg.matches.length}</span>
                     )}
                   </span>
-                  <IndexBar
-                    value={parseFloat(agg.avgIndex.toFixed(1))}
-                    max={maxRefAbs}
-                  />
-                  <span className="hidden text-right text-xs text-slate-500 sm:block">
-                    FK {agg.hamTotalFK}–{agg.oppTotalFK} | Kort {agg.hamTotalCards}–{agg.oppTotalCards}
+                  <IndexBar value={parseFloat(agg.avgIndex.toFixed(1))} max={maxRefAbs} />
+                  <span className="hidden text-right text-[10px] text-slate-500 sm:block whitespace-nowrap">
+                    {formatSeconds(Math.round(agg.avgEffPlayingTimeS))} eff · +{agg.avgStoppageMin % 1 === 0 ? agg.avgStoppageMin : agg.avgStoppageMin.toFixed(1)} min tillägg
                   </span>
                 </div>
                 {agg.matches.length > 1 && (
                   <div className="ml-36 text-[10px] text-slate-600">
                     {agg.matches
-                      .map(
-                        (m) =>
-                          `Ø${m.match.gameweek}: ${m.domarindex > 0 ? "+" : ""}${m.domarindex}`
-                      )
+                      .map((m) => `Ø${m.match.gameweek}: ${m.domarindex > 0 ? "+" : ""}${m.domarindex}`)
                       .join(" · ")}
                   </div>
                 )}
@@ -482,15 +563,13 @@ export default function RefereeAnalysisDashboard() {
           </div>
         </section>
 
-        {/* Note about freeKicks field */}
         <section className="rounded-xl border border-slate-700/30 bg-slate-900/30 p-4 text-xs text-slate-500">
           <p>
             <strong className="text-slate-400">Om frisparkar:</strong>{" "}
-            &ldquo;Frisparkar&rdquo; i Bolldata avser direkta frisparksavslut och
-            frisparkar i farliga lägen (set piece free kicks), inte totala friparkar från
-            regelöverträdelser. Totala fouls per match visas i Bolldata under
-            &ldquo;Fouls&rdquo;. Domarindex kombinerar frisparks­fördeln och
-            kortfördeln i ett enda tal.
+            &ldquo;Frisparkar&rdquo; i Bolldata avser direkta frisparksavslut och frisparkar i
+            farliga lägen (set piece free kicks), inte totala frisparkar från regelöverträdelser.
+            Effektiv speltid och tilläggstid hämtas från bolldata.se (effectivePlayingTimeS / totalTime).
+            Röda kort räknas ×2 i domarindex.
           </p>
         </section>
       </main>
