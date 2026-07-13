@@ -1459,6 +1459,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     { href: "/matchstatistik/sasong", label: "Säsong", active: mode === "combined" },
     { href: "/matchstatistik/omgang", label: "Omgångar", active: mode === "round" },
     { href: "/matchstatistik/coachjamforelse", label: "Rydström vs Karlsson", active: false },
+    { href: "/matchstatistik/passningsanalys", label: "Passningsanalys", active: false },
   ];
   const currentRoundIndex =
     mode === "round" && typeof round === "number"
