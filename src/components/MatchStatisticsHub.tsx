@@ -1266,6 +1266,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const [roundVsSeasonRound, setRoundVsSeasonRound] = useState<string>("");
   const [selectedHistoricalComparisonKey, setSelectedHistoricalComparisonKey] =
     useState<string>("none");
+  const [roundTab, setRoundTab] = useState<"matchen" | "analys" | "sasong">("matchen");
+  const [showCoachComparison, setShowCoachComparison] = useState(false);
 
   useEffect(() => {
     if (mode !== "round" || typeof round !== "number") return;
@@ -2386,6 +2388,37 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           </div>
         )}
+
+        {/* ── Tab navigation (round mode only, not special round 11) ── */}
+        {mode === "round" && !isRound11Dashboard && (
+          <div className="border-t border-slate-700/40 bg-[#0f172a]/95">
+            <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 py-2.5">
+              {(
+                [
+                  { id: "matchen", label: "Matchen" },
+                  { id: "analys",  label: "Analys & Spelstil" },
+                  { id: "sasong",  label: "Säsong & Trender" },
+                ] as const
+              ).map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setRoundTab(tab.id)}
+                  className={`relative whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
+                    roundTab === tab.id
+                      ? "bg-green-500/20 text-green-300 shadow-[0_0_12px_rgba(74,222,128,0.15)] ring-1 ring-green-500/50"
+                      : "text-slate-500 hover:bg-slate-800/70 hover:text-slate-300"
+                  }`}
+                >
+                  {tab.label}
+                  {roundTab === tab.id && (
+                    <span className="absolute inset-x-3 bottom-0.5 h-0.5 rounded-full bg-green-400/60" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
       <main
@@ -2430,7 +2463,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         )}
 
-        {!isRound11Dashboard && (
+        {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section id="matchgenomgang" className="grid gap-4 md:grid-cols-4">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
             <p className="text-xs text-slate-400">{current.leftTeam}</p>
@@ -2469,14 +2502,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {mode === "round" && !isRound11Dashboard && (
+        {mode === "round" && !isRound11Dashboard && roundTab === "sasong" && (
           <PointsComparisonSection
             comparisonRound={comparisonRound}
             pointsComparisonRows={pointsComparisonRows}
           />
         )}
 
-        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && (
+        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && roundTab === "matchen" && (
           <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -2532,6 +2565,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {mode === "round" &&
           !isRound11Dashboard &&
+          roundTab === "analys" &&
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
           visibleTeamStandoutInsights.length > 0 && (
@@ -2674,6 +2708,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {mode === "round" &&
           !isRound11Dashboard &&
+          roundTab === "analys" &&
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
           playstyleProfiles.length > 0 && (
@@ -2840,7 +2875,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </section>
           )}
 
-        {mode === "round" && matchRankItems.length > 0 && (() => {
+        {mode === "round" && matchRankItems.length > 0 && (isRound11Dashboard || roundTab === "matchen") && (() => {
           const { standout, average } = splitMatchRankItems(matchRankItems);
           const renderRankCard = (item: MatchRankItem) => (
             <div
@@ -2944,7 +2979,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
-        {!isRound11Dashboard && (
+        {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-slate-400">
@@ -2966,57 +3001,66 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
           <div className="mt-5 space-y-4">
-            {current.stats.map((stat) => {
-              const leftWidth = getBarWidth(stat.home, stat.away);
-              const rightWidth = 100 - leftWidth;
-              const roundsInView = mode === "combined" ? Math.max(sortedMatches.length, 1) : 1;
-              const perRoundHome = stat.home / roundsInView;
-              const perRoundAway = stat.away / roundsInView;
-              const showPerRound = mode === "combined" && stat.format !== "percent";
-              return (
-                <div key={stat.key}>
-                  <div className="mb-1.5 flex items-center justify-between text-sm">
-                    <span className="font-mono text-blue-200">
-                      {formatValue(stat.home, stat.format)}
-                    </span>
-                    <span className="text-xs uppercase tracking-wide text-slate-400">
-                      {stat.label}
-                    </span>
-                    <span className="font-mono text-green-200">
-                      {formatValue(stat.away, stat.format)}
-                    </span>
+            {(() => {
+              const hammarbyIsLeft = current.leftTeam === "Hammarby";
+              const hammarbyGradient = "linear-gradient(90deg, #15803d, #4ade80)";
+              const oppGradient = "linear-gradient(90deg, #334155, #64748b)";
+              return current.stats.map((stat) => {
+                const leftWidth = getBarWidth(stat.home, stat.away);
+                const rightWidth = 100 - leftWidth;
+                const roundsInView = mode === "combined" ? Math.max(sortedMatches.length, 1) : 1;
+                const perRoundHome = stat.home / roundsInView;
+                const perRoundAway = stat.away / roundsInView;
+                const showPerRound = mode === "combined" && stat.format !== "percent";
+                return (
+                  <div key={stat.key}>
+                    <div className="mb-1.5 flex items-center justify-between gap-2 text-sm">
+                      <span className={`font-mono ${hammarbyIsLeft ? "text-green-300" : "text-slate-400"}`}>
+                        {formatValue(stat.home, stat.format)}
+                      </span>
+                      <span className="text-center text-xs uppercase tracking-wide text-slate-400">
+                        {stat.label}
+                      </span>
+                      <span className={`font-mono ${!hammarbyIsLeft ? "text-green-300" : "text-slate-400"}`}>
+                        {formatValue(stat.away, stat.format)}
+                      </span>
+                    </div>
+                    <div className="flex h-2.5 gap-0.5 overflow-hidden rounded-full bg-slate-700/40">
+                      <div
+                        className="rounded-l-full transition-all"
+                        style={{
+                          width: `${leftWidth}%`,
+                          background: hammarbyIsLeft ? hammarbyGradient : oppGradient,
+                        }}
+                      />
+                      <div
+                        className="rounded-r-full transition-all"
+                        style={{
+                          width: `${rightWidth}%`,
+                          background: !hammarbyIsLeft ? hammarbyGradient : oppGradient,
+                        }}
+                      />
+                    </div>
+                    <div className="mt-1 flex justify-between text-[10px] text-slate-600">
+                      <span>{current.leftTeam}</span>
+                      <span>{current.rightTeam}</span>
+                    </div>
+                    {showPerRound && (
+                      <p className="mt-1 text-[11px] text-slate-500">
+                        Snitt/omgång: {current.leftTeam}{" "}
+                        {formatCompactValue(perRoundHome, stat.format)} • {current.rightTeam}{" "}
+                        {formatCompactValue(perRoundAway, stat.format)}
+                      </p>
+                    )}
                   </div>
-                  <div className="flex h-3 gap-1 rounded-full bg-slate-700/60">
-                    <div
-                      className="rounded-l-full"
-                      style={{
-                        width: `${leftWidth}%`,
-                        background: "linear-gradient(90deg, #2563eb, #60a5fa)",
-                      }}
-                    />
-                    <div
-                      className="rounded-r-full"
-                      style={{
-                        width: `${rightWidth}%`,
-                        background: "linear-gradient(90deg, #16a34a, #4ade80)",
-                      }}
-                    />
-                  </div>
-                  {showPerRound && (
-                    <p className="mt-1 text-[11px] text-slate-500">
-                      Snitt/omgång: {current.leftTeam}{" "}
-                      {formatCompactValue(perRoundHome, stat.format)} • {current.rightTeam}{" "}
-                      {formatCompactValue(perRoundAway, stat.format)}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
+                );
+              });
+            })()}
           </div>
         </section>
         )}
 
-        {!isRound11Dashboard && (
+        {!isRound11Dashboard && (mode === "combined" || roundTab === "sasong") && (
         <>
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -4183,39 +4227,61 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </>
         )}
 
-        {mode === "round" && round === 8 && (
+        {mode === "round" && round === 8 && roundTab === "matchen" && (
           <div id="matchens-spelare">
             <StandoutPlayerCard player={round8Standout} />
           </div>
         )}
 
-        {mode === "round" && round === 8 && (
+        {mode === "round" && round === 8 && roundTab === "analys" && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round8PredictionVsOutcome} />
           </div>
         )}
 
-        {mode === "round" && round === 9 && (
+        {mode === "round" && round === 9 && roundTab === "analys" && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round9AikPredictionVsOutcome} />
           </div>
         )}
 
-        {mode === "round" && round === 10 && (
+        {mode === "round" && round === 10 && roundTab === "analys" && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round10PredictionVsOutcome} />
           </div>
         )}
 
-        {mode === "round" && round === 15 && (
+        {mode === "round" && round === 15 && roundTab === "analys" && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round9PredictionVsOutcome} />
           </div>
         )}
 
-        {isRound12Dashboard && (
-          <div id="coachjamforelse">
-            <CoachComparisonDashboard rounds={hammarbyMatchAnalysisRounds} />
+        {isRound12Dashboard && roundTab === "sasong" && (
+          <div id="coachjamforelse" className="rounded-2xl border border-slate-700/50 bg-slate-800/80">
+            <button
+              type="button"
+              onClick={() => setShowCoachComparison((prev) => !prev)}
+              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-slate-700/20"
+            >
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Tränarskiftet</p>
+                <p className="mt-0.5 text-sm font-semibold text-slate-200">
+                  <span className="text-amber-400">Karlsson</span>
+                  <span className="mx-1.5 text-slate-600">→</span>
+                  <span className="text-teal-400">Rydström</span>
+                  <span className="ml-2 text-slate-500">— jämförelse per match</span>
+                </p>
+              </div>
+              <span className={`text-slate-500 transition-transform ${showCoachComparison ? "rotate-180" : ""}`}>
+                ▼
+              </span>
+            </button>
+            {showCoachComparison && (
+              <div className="border-t border-slate-700/50">
+                <CoachComparisonDashboard rounds={hammarbyMatchAnalysisRounds} />
+              </div>
+            )}
           </div>
         )}
 
