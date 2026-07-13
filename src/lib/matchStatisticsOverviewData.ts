@@ -472,7 +472,7 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       possessionPercent: 56,
       passes: 647,
       passesSuccessful: 569,
-      touchesInBox: 9,
+      touchesInBox: 39,
       corners: 5,
       fouls: 11,
       yellowCards: 2,
