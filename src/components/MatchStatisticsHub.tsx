@@ -1456,6 +1456,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     { href: "/matchstatistik", label: "Översikt", active: false },
     { href: "/matchstatistik/sasong", label: "Säsong", active: mode === "combined" },
     { href: "/matchstatistik/omgang", label: "Omgångar", active: mode === "round" },
+    { href: "/matchstatistik/passningsanalys", label: "Passningsanalys", active: false },
   ];
   const currentRoundIndex =
     mode === "round" && typeof round === "number"
