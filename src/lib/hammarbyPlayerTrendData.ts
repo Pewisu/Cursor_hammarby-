@@ -42,13 +42,13 @@ export interface PlayerTrendMatch {
 
 export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
   {
-    "matchId": 4562,
+    "matchId": 5042,
     "gameweek": 1,
     "date": "2026-04-04",
     "name": "Hammarby - Mjällby, 3-0",
     "players": [
       {
-        "playerId": 10008,
+        "playerId": 10918,
         "playerName": "B. Hedlöf",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -79,7 +79,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 15,
@@ -110,7 +110,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -141,7 +141,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 95,
@@ -172,7 +172,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 95,
@@ -203,7 +203,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 95,
@@ -234,7 +234,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 4,
@@ -265,7 +265,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 95,
@@ -296,7 +296,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 80,
@@ -327,7 +327,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 92,
@@ -358,7 +358,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 28,
@@ -389,7 +389,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 0,
@@ -420,7 +420,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 80,
@@ -451,7 +451,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 15,
@@ -482,7 +482,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 92,
@@ -513,7 +513,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9945,
+        "playerId": 10855,
         "playerName": "S. Kone",
         "roleName": "Midfielder",
         "minutes": 4,
@@ -544,7 +544,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 95,
@@ -575,7 +575,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 68,
@@ -606,7 +606,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 95,
@@ -637,7 +637,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -670,13 +670,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4576,
+    "matchId": 5056,
     "gameweek": 2,
     "date": "2026-04-13",
     "name": "Sirius - Hammarby, 2-0",
     "players": [
       {
-        "playerId": 10008,
+        "playerId": 10918,
         "playerName": "B. Hedlöf",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -707,7 +707,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 12,
@@ -738,7 +738,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -769,7 +769,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 96,
@@ -800,7 +800,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 96,
@@ -831,7 +831,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 64,
@@ -862,7 +862,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 64,
@@ -893,7 +893,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 96,
@@ -924,7 +924,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 84,
@@ -955,7 +955,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 96,
@@ -986,7 +986,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 18,
@@ -1017,7 +1017,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 18,
@@ -1048,7 +1048,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 78,
@@ -1079,7 +1079,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -1110,7 +1110,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 31,
@@ -1141,7 +1141,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9945,
+        "playerId": 10855,
         "playerName": "S. Kone",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -1172,7 +1172,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 31,
@@ -1203,7 +1203,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 96,
@@ -1234,7 +1234,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 78,
@@ -1265,7 +1265,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 96,
@@ -1298,13 +1298,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4580,
+    "matchId": 5060,
     "gameweek": 3,
     "date": "2026-04-18",
     "name": "Hammarby - Örgryte, 8-1",
     "players": [
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 33,
@@ -1335,7 +1335,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -1366,7 +1366,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 92,
@@ -1397,7 +1397,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 92,
@@ -1428,7 +1428,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 0,
@@ -1459,7 +1459,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 0,
@@ -1490,7 +1490,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 92,
@@ -1521,7 +1521,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 71,
@@ -1552,7 +1552,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 59,
@@ -1583,7 +1583,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 78,
@@ -1614,7 +1614,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 33,
@@ -1645,7 +1645,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 22,
@@ -1676,7 +1676,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 59,
@@ -1707,7 +1707,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 14,
@@ -1738,7 +1738,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 59,
@@ -1769,7 +1769,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 33,
@@ -1800,7 +1800,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 92,
@@ -1831,7 +1831,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 92,
@@ -1862,7 +1862,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 92,
@@ -1893,7 +1893,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -1926,13 +1926,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4586,
+    "matchId": 5066,
     "gameweek": 4,
     "date": "2026-04-22",
     "name": "Hammarby - Halmstad, 1-1",
     "players": [
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 39,
@@ -1963,7 +1963,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -1994,7 +1994,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 98,
@@ -2025,7 +2025,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 98,
@@ -2056,7 +2056,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 0,
@@ -2087,7 +2087,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 0,
@@ -2118,7 +2118,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 98,
@@ -2149,7 +2149,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 39,
@@ -2180,7 +2180,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 89,
@@ -2211,7 +2211,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 98,
@@ -2242,7 +2242,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 26,
@@ -2273,7 +2273,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 59,
@@ -2304,7 +2304,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 59,
@@ -2335,7 +2335,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 9,
@@ -2366,7 +2366,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 89,
@@ -2397,7 +2397,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -2428,7 +2428,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 98,
@@ -2459,7 +2459,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 71,
@@ -2490,7 +2490,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 98,
@@ -2521,7 +2521,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 9,
@@ -2554,13 +2554,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4593,
+    "matchId": 5073,
     "gameweek": 5,
     "date": "2026-04-26",
     "name": "Djurgården - Hammarby, 1-1",
     "players": [
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 1,
@@ -2591,7 +2591,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -2622,7 +2622,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 100,
@@ -2653,7 +2653,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 100,
@@ -2684,7 +2684,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 100,
@@ -2715,7 +2715,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 0,
@@ -2746,7 +2746,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 100,
@@ -2777,7 +2777,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 84,
@@ -2808,7 +2808,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 100,
@@ -2839,7 +2839,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 29,
@@ -2870,7 +2870,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 0,
@@ -2901,7 +2901,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 16,
@@ -2932,7 +2932,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 99,
@@ -2963,7 +2963,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -2994,7 +2994,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 100,
@@ -3025,7 +3025,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -3056,7 +3056,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 100,
@@ -3087,7 +3087,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 70,
@@ -3118,7 +3118,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 100,
@@ -3149,7 +3149,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -3182,13 +3182,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4603,
+    "matchId": 5083,
     "gameweek": 6,
     "date": "2026-05-03",
     "name": "Hammarby - Västerås SK, 3-0",
     "players": [
       {
-        "playerId": 9934,
+        "playerId": 10844,
         "playerName": "D. Collander",
         "roleName": "Midfielder",
         "minutes": 4,
@@ -3219,7 +3219,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 10020,
+        "playerId": 10931,
         "playerName": "E.  Fischerström",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -3250,54 +3250,54 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 95,
         "metrics": {
-          "passes": 66,
-          "passAccuracy": 84.85,
-          "forwardPasses": 33,
-          "forwardPassAccuracy": 75.76,
+          "passes": 65,
+          "passAccuracy": 84.62,
+          "forwardPasses": 32,
+          "forwardPassAccuracy": 75,
           "passesToPenaltyArea": 11,
           "passesToPenaltyAreaAccuracy": 45.45,
           "crosses": 4,
           "crossAccuracy": 50,
           "passesToFinalThird": 9,
           "finalThirdPassAccuracy": 88.89,
-          "keyPasses": 2,
+          "keyPasses": 1,
           "xA": 0.15,
           "shots": 6,
           "shotsOnTarget": 0,
-          "xG": 0.2,
+          "xG": 0.19,
           "touchesInBox": 4,
-          "dribbles": 5,
-          "dribbleSuccess": 80,
+          "dribbles": 4,
+          "dribbleSuccess": 75,
           "defensiveDuels": 8,
           "defensiveDuelWinRate": 12.5,
           "aerialDuels": 1,
           "aerialDuelWinRate": 0,
-          "recoveries": 17
+          "recoveries": 16
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 95,
         "metrics": {
-          "passes": 56,
-          "passAccuracy": 87.5,
-          "forwardPasses": 18,
-          "forwardPassAccuracy": 77.78,
+          "passes": 59,
+          "passAccuracy": 88.14,
+          "forwardPasses": 19,
+          "forwardPassAccuracy": 78.95,
           "passesToPenaltyArea": 4,
           "passesToPenaltyAreaAccuracy": 50,
           "crosses": 3,
           "crossAccuracy": 33.33,
-          "passesToFinalThird": 5,
-          "finalThirdPassAccuracy": 60,
+          "passesToFinalThird": 6,
+          "finalThirdPassAccuracy": 66.67,
           "keyPasses": 1,
-          "xA": 0.25,
+          "xA": 0.24,
           "shots": 2,
           "shotsOnTarget": 0,
           "xG": 0.13,
@@ -3308,11 +3308,11 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
           "defensiveDuelWinRate": 0,
           "aerialDuels": 3,
           "aerialDuelWinRate": 66.67,
-          "recoveries": 7
+          "recoveries": 8
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 95,
@@ -3343,15 +3343,15 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 95,
         "metrics": {
-          "passes": 82,
-          "passAccuracy": 87.8,
-          "forwardPasses": 22,
-          "forwardPassAccuracy": 72.73,
+          "passes": 83,
+          "passAccuracy": 87.95,
+          "forwardPasses": 23,
+          "forwardPassAccuracy": 73.91,
           "passesToPenaltyArea": 1,
           "passesToPenaltyAreaAccuracy": 0,
           "crosses": 0,
@@ -3362,19 +3362,19 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
           "xA": 0,
           "shots": 2,
           "shotsOnTarget": 0,
-          "xG": 0.01,
+          "xG": 0.03,
           "touchesInBox": 3,
           "dribbles": 1,
           "dribbleSuccess": 100,
-          "defensiveDuels": 5,
-          "defensiveDuelWinRate": 20,
+          "defensiveDuels": 4,
+          "defensiveDuelWinRate": 25,
           "aerialDuels": 3,
           "aerialDuelWinRate": 0,
-          "recoveries": 13
+          "recoveries": 14
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 17,
@@ -3405,7 +3405,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 88,
@@ -3421,7 +3421,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
           "passesToFinalThird": 9,
           "finalThirdPassAccuracy": 88.89,
           "keyPasses": 0,
-          "xA": 0.02,
+          "xA": 0.01,
           "shots": 2,
           "shotsOnTarget": 0,
           "xG": 0.08,
@@ -3436,7 +3436,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 91,
@@ -3467,7 +3467,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 79,
@@ -3480,7 +3480,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
           "passesToPenaltyAreaAccuracy": 75,
           "crosses": 1,
           "crossAccuracy": 0,
-          "passesToFinalThird": 3,
+          "passesToFinalThird": 4,
           "finalThirdPassAccuracy": 100,
           "keyPasses": 0,
           "xA": 0.13,
@@ -3498,7 +3498,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 17,
@@ -3529,7 +3529,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 7,
@@ -3560,7 +3560,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 0,
@@ -3591,7 +3591,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -3622,7 +3622,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -3653,7 +3653,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 88,
@@ -3684,13 +3684,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 95,
         "metrics": {
-          "passes": 48,
-          "passAccuracy": 87.5,
+          "passes": 46,
+          "passAccuracy": 86.96,
           "forwardPasses": 16,
           "forwardPassAccuracy": 62.5,
           "passesToPenaltyArea": 0,
@@ -3711,11 +3711,11 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
           "defensiveDuelWinRate": 85.71,
           "aerialDuels": 13,
           "aerialDuelWinRate": 84.62,
-          "recoveries": 27
+          "recoveries": 26
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 79,
@@ -3731,22 +3731,22 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
           "passesToFinalThird": 3,
           "finalThirdPassAccuracy": 66.67,
           "keyPasses": 0,
-          "xA": 0.1,
+          "xA": 0.11,
           "shots": 4,
           "shotsOnTarget": 1,
           "xG": 0.05,
           "touchesInBox": 7,
           "dribbles": 5,
           "dribbleSuccess": 100,
-          "defensiveDuels": 2,
-          "defensiveDuelWinRate": 50,
+          "defensiveDuels": 1,
+          "defensiveDuelWinRate": 100,
           "aerialDuels": 6,
           "aerialDuelWinRate": 33.33,
-          "recoveries": 5
+          "recoveries": 6
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 95,
@@ -3777,7 +3777,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 7,
@@ -3810,13 +3810,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4612,
+    "matchId": 5092,
     "gameweek": 7,
     "date": "2026-05-09",
     "name": "IFK Göteborg - Hammarby, 0-1",
     "players": [
       {
-        "playerId": 9934,
+        "playerId": 10844,
         "playerName": "D. Collander",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -3847,7 +3847,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 10020,
+        "playerId": 10931,
         "playerName": "E.  Fischerström",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -3878,7 +3878,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 99,
@@ -3909,7 +3909,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 99,
@@ -3940,7 +3940,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 99,
@@ -3971,7 +3971,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 17,
@@ -4002,7 +4002,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 0,
@@ -4033,7 +4033,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 99,
@@ -4064,7 +4064,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 83,
@@ -4095,7 +4095,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 74,
@@ -4126,7 +4126,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 83,
@@ -4157,7 +4157,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 38,
@@ -4188,7 +4188,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 17,
@@ -4219,7 +4219,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 25,
@@ -4250,7 +4250,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 25,
@@ -4281,7 +4281,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 61,
@@ -4312,7 +4312,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 99,
@@ -4343,7 +4343,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 74,
@@ -4374,7 +4374,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 99,
@@ -4405,7 +4405,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -4438,13 +4438,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4620,
+    "matchId": 5100,
     "gameweek": 8,
     "date": "2026-05-17",
     "name": "Hammarby - Malmö FF, 4-1",
     "players": [
       {
-        "playerId": 9934,
+        "playerId": 10844,
         "playerName": "D. Collander",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -4475,7 +4475,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 70,
@@ -4506,7 +4506,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -4537,7 +4537,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 94,
@@ -4568,7 +4568,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 94,
@@ -4599,7 +4599,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 24,
@@ -4630,7 +4630,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 31,
@@ -4661,7 +4661,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 94,
@@ -4692,7 +4692,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 81,
@@ -4723,7 +4723,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 94,
@@ -4754,7 +4754,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 70,
@@ -4785,7 +4785,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 0,
@@ -4816,7 +4816,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 13,
@@ -4847,7 +4847,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 31,
@@ -4878,7 +4878,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -4909,7 +4909,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 63,
@@ -4940,7 +4940,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 63,
@@ -4971,7 +4971,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 94,
@@ -5002,7 +5002,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 24,
@@ -5033,7 +5033,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 94,
@@ -5066,13 +5066,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4625,
+    "matchId": 5105,
     "gameweek": 15,
     "date": "2026-05-20",
     "name": "GAIS - Hammarby, 2-0",
     "players": [
       {
-        "playerId": 10008,
+        "playerId": 10918,
         "playerName": "B. Hedlöf",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -5103,7 +5103,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9934,
+        "playerId": 10844,
         "playerName": "D. Collander",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -5134,7 +5134,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 8,
@@ -5165,7 +5165,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -5196,7 +5196,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 73,
@@ -5227,7 +5227,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 73,
@@ -5258,7 +5258,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 97,
@@ -5289,7 +5289,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 65,
@@ -5320,7 +5320,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 97,
@@ -5351,7 +5351,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 65,
@@ -5382,7 +5382,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 33,
@@ -5413,7 +5413,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 25,
@@ -5444,7 +5444,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 12,
@@ -5475,7 +5475,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 25,
@@ -5506,7 +5506,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 97,
@@ -5537,7 +5537,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 85,
@@ -5568,7 +5568,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -5599,7 +5599,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 97,
@@ -5630,7 +5630,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 97,
@@ -5661,7 +5661,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 97,
@@ -5694,13 +5694,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4630,
+    "matchId": 5110,
     "gameweek": 9,
     "date": "2026-05-24",
     "name": "Hammarby - AIK, 1-2",
     "players": [
       {
-        "playerId": 10008,
+        "playerId": 10918,
         "playerName": "B. Hedlöf",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -5731,7 +5731,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9934,
+        "playerId": 10844,
         "playerName": "D. Collander",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -5762,7 +5762,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -5793,7 +5793,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 102,
@@ -5824,7 +5824,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 102,
@@ -5855,7 +5855,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 0,
@@ -5886,7 +5886,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 102,
@@ -5917,7 +5917,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 83,
@@ -5948,7 +5948,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 102,
@@ -5979,7 +5979,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 69,
@@ -6010,7 +6010,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 14,
@@ -6041,7 +6041,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 19,
@@ -6072,7 +6072,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 83,
@@ -6103,7 +6103,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 14,
@@ -6134,7 +6134,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 102,
@@ -6165,7 +6165,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 88,
@@ -6196,7 +6196,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 88,
@@ -6227,7 +6227,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 33,
@@ -6258,7 +6258,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 102,
@@ -6289,7 +6289,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 19,
@@ -6322,13 +6322,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4640,
+    "matchId": 5120,
     "gameweek": 10,
     "date": "2026-05-31",
     "name": "Häcken - Hammarby, 3-2",
     "players": [
       {
-        "playerId": 10008,
+        "playerId": 10918,
         "playerName": "B. Hedlöf",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -6359,7 +6359,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9934,
+        "playerId": 10844,
         "playerName": "D. Collander",
         "roleName": "Midfielder",
         "minutes": 8,
@@ -6390,7 +6390,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -6421,7 +6421,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 99,
@@ -6452,7 +6452,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 90,
@@ -6483,7 +6483,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 0,
@@ -6514,7 +6514,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 0,
@@ -6545,7 +6545,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 99,
@@ -6576,7 +6576,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 76,
@@ -6607,7 +6607,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 91,
@@ -6638,7 +6638,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 99,
@@ -6669,7 +6669,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 8,
@@ -6700,7 +6700,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 22,
@@ -6731,7 +6731,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 33,
@@ -6762,7 +6762,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 99,
@@ -6793,7 +6793,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 65,
@@ -6824,7 +6824,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 99,
@@ -6855,7 +6855,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 99,
@@ -6886,7 +6886,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 99,
@@ -6917,7 +6917,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9946,
+        "playerId": 10856,
         "playerName": "W. Lindberg Uhrström",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -6950,13 +6950,13 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4645,
+    "matchId": 5125,
     "gameweek": 11,
     "date": "2026-07-05",
     "name": "Elfsborg - Hammarby, 1-2",
     "players": [
       {
-        "playerId": 10008,
+        "playerId": 10918,
         "playerName": "B. Hedlöf",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -6987,7 +6987,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9942,
+        "playerId": 10852,
         "playerName": "F. Adjei",
         "roleName": "Midfielder",
         "minutes": 10,
@@ -7018,7 +7018,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9929,
+        "playerId": 10839,
         "playerName": "F. Jakobsson",
         "roleName": "Goalkeeper",
         "minutes": 0,
@@ -7049,7 +7049,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9931,
+        "playerId": 10841,
         "playerName": "F. Winther",
         "roleName": "Defender",
         "minutes": 93,
@@ -7080,7 +7080,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9944,
+        "playerId": 10854,
         "playerName": "H. Skoglund",
         "roleName": "Defender",
         "minutes": 83,
@@ -7111,7 +7111,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9935,
+        "playerId": 10845,
         "playerName": "I. Fofana",
         "roleName": "Defender",
         "minutes": 10,
@@ -7142,7 +7142,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9943,
+        "playerId": 10853,
         "playerName": "M. Kaboré",
         "roleName": "Forward",
         "minutes": 10,
@@ -7173,7 +7173,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9941,
+        "playerId": 10851,
         "playerName": "M. Karlsson",
         "roleName": "Midfielder",
         "minutes": 93,
@@ -7204,7 +7204,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9936,
+        "playerId": 10846,
         "playerName": "Montader Madjed",
         "roleName": "Forward",
         "minutes": 83,
@@ -7235,7 +7235,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9925,
+        "playerId": 10835,
         "playerName": "N. Besara",
         "roleName": "Midfielder",
         "minutes": 75,
@@ -7266,7 +7266,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9938,
+        "playerId": 10848,
         "playerName": "N. Persson",
         "roleName": "Defender",
         "minutes": 93,
@@ -7297,7 +7297,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9930,
+        "playerId": 10840,
         "playerName": "N. Vasić",
         "roleName": "Forward",
         "minutes": 0,
@@ -7328,7 +7328,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9939,
+        "playerId": 10849,
         "playerName": "O. Hagen",
         "roleName": "Forward",
         "minutes": 0,
@@ -7359,7 +7359,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9927,
+        "playerId": 10837,
         "playerName": "O. Johansson",
         "roleName": "Midfielder",
         "minutes": 19,
@@ -7390,7 +7390,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9940,
+        "playerId": 10850,
         "playerName": "O. Steinke Brånby",
         "roleName": "Midfielder",
         "minutes": 0,
@@ -7421,7 +7421,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9937,
+        "playerId": 10847,
         "playerName": "P. Abraham",
         "roleName": "Forward",
         "minutes": 83,
@@ -7452,7 +7452,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9928,
+        "playerId": 10838,
         "playerName": "T. Tekie",
         "roleName": "Midfielder",
         "minutes": 93,
@@ -7483,7 +7483,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9932,
+        "playerId": 10842,
         "playerName": "V. Eriksson",
         "roleName": "Defender",
         "minutes": 93,
@@ -7514,7 +7514,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9933,
+        "playerId": 10843,
         "playerName": "V. Lind",
         "roleName": "Forward",
         "minutes": 93,
@@ -7545,7 +7545,7 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       },
       {
-        "playerId": 9926,
+        "playerId": 10836,
         "playerName": "W. Hahn",
         "roleName": "Goalkeeper",
         "minutes": 93,
@@ -7578,10 +7578,631 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
     ]
   },
   {
-    "matchId": 4654,
+    "matchId": 5134,
     "gameweek": 12,
     "date": "2026-07-12",
-    "name": "Hammarby - Kalmar, 0 - 0",
-    "players": []
+    "name": "Hammarby - Kalmar, 2-0",
+    "players": [
+      {
+        "playerId": 10918,
+        "playerName": "B. Hedlöf",
+        "roleName": "Midfielder",
+        "minutes": 0,
+        "metrics": {
+          "passes": 0,
+          "passAccuracy": 0,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 0
+        }
+      },
+      {
+        "playerId": 10852,
+        "playerName": "F. Adjei",
+        "roleName": "Midfielder",
+        "minutes": 32,
+        "metrics": {
+          "passes": 15,
+          "passAccuracy": 86.67,
+          "forwardPasses": 2,
+          "forwardPassAccuracy": 50,
+          "passesToPenaltyArea": 1,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 1,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 1,
+          "shotsOnTarget": 0,
+          "xG": 0.05,
+          "touchesInBox": 0,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 3,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 3
+        }
+      },
+      {
+        "playerId": 10839,
+        "playerName": "F. Jakobsson",
+        "roleName": "Goalkeeper",
+        "minutes": 0,
+        "metrics": {
+          "passes": 0,
+          "passAccuracy": 0,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 0
+        }
+      },
+      {
+        "playerId": 10841,
+        "playerName": "F. Winther",
+        "roleName": "Defender",
+        "minutes": 95,
+        "metrics": {
+          "passes": 96,
+          "passAccuracy": 94.79,
+          "forwardPasses": 17,
+          "forwardPassAccuracy": 70.59,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 8,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 2,
+          "shotsOnTarget": 0,
+          "xG": 0.4,
+          "touchesInBox": 1,
+          "dribbles": 1,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 3,
+          "defensiveDuelWinRate": 66.67,
+          "aerialDuels": 2,
+          "aerialDuelWinRate": 0,
+          "recoveries": 6
+        }
+      },
+      {
+        "playerId": 10854,
+        "playerName": "H. Skoglund",
+        "roleName": "Defender",
+        "minutes": 95,
+        "metrics": {
+          "passes": 85,
+          "passAccuracy": 81.18,
+          "forwardPasses": 41,
+          "forwardPassAccuracy": 78.05,
+          "passesToPenaltyArea": 3,
+          "passesToPenaltyAreaAccuracy": 33.33,
+          "crosses": 2,
+          "crossAccuracy": 50,
+          "passesToFinalThird": 15,
+          "finalThirdPassAccuracy": 80,
+          "keyPasses": 2,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 5,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 13,
+          "defensiveDuelWinRate": 15.38,
+          "aerialDuels": 1,
+          "aerialDuelWinRate": 100,
+          "recoveries": 10
+        }
+      },
+      {
+        "playerId": 10845,
+        "playerName": "I. Fofana",
+        "roleName": "Defender",
+        "minutes": 0,
+        "metrics": {
+          "passes": 0,
+          "passAccuracy": 0,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 0
+        }
+      },
+      {
+        "playerId": 10853,
+        "playerName": "M. Kaboré",
+        "roleName": "Forward",
+        "minutes": 17,
+        "metrics": {
+          "passes": 2,
+          "passAccuracy": 100,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 0
+        }
+      },
+      {
+        "playerId": 10851,
+        "playerName": "M. Karlsson",
+        "roleName": "Midfielder",
+        "minutes": 95,
+        "metrics": {
+          "passes": 42,
+          "passAccuracy": 83.33,
+          "forwardPasses": 10,
+          "forwardPassAccuracy": 70,
+          "passesToPenaltyArea": 1,
+          "passesToPenaltyAreaAccuracy": 100,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 4,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 1,
+          "xA": 0.37,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 4,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 6,
+          "defensiveDuelWinRate": 16.67,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 6
+        }
+      },
+      {
+        "playerId": 10846,
+        "playerName": "Montader Madjed",
+        "roleName": "Forward",
+        "minutes": 78,
+        "metrics": {
+          "passes": 52,
+          "passAccuracy": 88.46,
+          "forwardPasses": 14,
+          "forwardPassAccuracy": 92.86,
+          "passesToPenaltyArea": 7,
+          "passesToPenaltyAreaAccuracy": 42.86,
+          "crosses": 4,
+          "crossAccuracy": 25,
+          "passesToFinalThird": 3,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 4,
+          "shotsOnTarget": 2,
+          "xG": 0.1,
+          "touchesInBox": 4,
+          "dribbles": 8,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 3,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 4
+        }
+      },
+      {
+        "playerId": 10835,
+        "playerName": "N. Besara",
+        "roleName": "Midfielder",
+        "minutes": 95,
+        "metrics": {
+          "passes": 41,
+          "passAccuracy": 82.93,
+          "forwardPasses": 12,
+          "forwardPassAccuracy": 83.33,
+          "passesToPenaltyArea": 2,
+          "passesToPenaltyAreaAccuracy": 100,
+          "crosses": 2,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 4,
+          "finalThirdPassAccuracy": 75,
+          "keyPasses": 2,
+          "xA": 0.12,
+          "shots": 1,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 4,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 2,
+          "defensiveDuelWinRate": 50,
+          "aerialDuels": 1,
+          "aerialDuelWinRate": 0,
+          "recoveries": 4
+        }
+      },
+      {
+        "playerId": 10848,
+        "playerName": "N. Persson",
+        "roleName": "Defender",
+        "minutes": 95,
+        "metrics": {
+          "passes": 42,
+          "passAccuracy": 78.57,
+          "forwardPasses": 12,
+          "forwardPassAccuracy": 66.67,
+          "passesToPenaltyArea": 3,
+          "passesToPenaltyAreaAccuracy": 100,
+          "crosses": 4,
+          "crossAccuracy": 50,
+          "passesToFinalThird": 2,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 1,
+          "xA": 0,
+          "shots": 1,
+          "shotsOnTarget": 0,
+          "xG": 0.04,
+          "touchesInBox": 3,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 1,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 3,
+          "aerialDuelWinRate": 66.67,
+          "recoveries": 7
+        }
+      },
+      {
+        "playerId": 10840,
+        "playerName": "N. Vasić",
+        "roleName": "Forward",
+        "minutes": 0,
+        "metrics": {
+          "passes": 0,
+          "passAccuracy": 0,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 0
+        }
+      },
+      {
+        "playerId": 10849,
+        "playerName": "O. Hagen",
+        "roleName": "Forward",
+        "minutes": 17,
+        "metrics": {
+          "passes": 3,
+          "passAccuracy": 100,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 1,
+          "shotsOnTarget": 1,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 1,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 1
+        }
+      },
+      {
+        "playerId": 10837,
+        "playerName": "O. Johansson",
+        "roleName": "Midfielder",
+        "minutes": 32,
+        "metrics": {
+          "passes": 18,
+          "passAccuracy": 88.89,
+          "forwardPasses": 3,
+          "forwardPassAccuracy": 66.67,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 1,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 3,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 4
+        }
+      },
+      {
+        "playerId": 10847,
+        "playerName": "P. Abraham",
+        "roleName": "Forward",
+        "minutes": 78,
+        "metrics": {
+          "passes": 22,
+          "passAccuracy": 86.36,
+          "forwardPasses": 7,
+          "forwardPassAccuracy": 85.71,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 1,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 2,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 1,
+          "xA": 0,
+          "shots": 5,
+          "shotsOnTarget": 3,
+          "xG": 0.81,
+          "touchesInBox": 7,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 4,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 3,
+          "aerialDuelWinRate": 33.33,
+          "recoveries": 4
+        }
+      },
+      {
+        "playerId": 14907,
+        "playerName": "S. Kebbeh",
+        "roleName": "Forward",
+        "minutes": 0,
+        "metrics": {
+          "passes": 0,
+          "passAccuracy": 0,
+          "forwardPasses": 0,
+          "forwardPassAccuracy": 0,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 0,
+          "finalThirdPassAccuracy": 0,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 0
+        }
+      },
+      {
+        "playerId": 10838,
+        "playerName": "T. Tekie",
+        "roleName": "Midfielder",
+        "minutes": 63,
+        "metrics": {
+          "passes": 54,
+          "passAccuracy": 90.74,
+          "forwardPasses": 18,
+          "forwardPassAccuracy": 77.78,
+          "passesToPenaltyArea": 1,
+          "passesToPenaltyAreaAccuracy": 100,
+          "crosses": 1,
+          "crossAccuracy": 100,
+          "passesToFinalThird": 5,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 1,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 3,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 1,
+          "aerialDuelWinRate": 100,
+          "recoveries": 7
+        }
+      },
+      {
+        "playerId": 10842,
+        "playerName": "V. Eriksson",
+        "roleName": "Defender",
+        "minutes": 95,
+        "metrics": {
+          "passes": 119,
+          "passAccuracy": 94.12,
+          "forwardPasses": 32,
+          "forwardPassAccuracy": 81.25,
+          "passesToPenaltyArea": 0,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 11,
+          "finalThirdPassAccuracy": 90.91,
+          "keyPasses": 0,
+          "xA": 0.01,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 1,
+          "dribbleSuccess": 100,
+          "defensiveDuels": 5,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 5,
+          "aerialDuelWinRate": 80,
+          "recoveries": 9
+        }
+      },
+      {
+        "playerId": 10843,
+        "playerName": "V. Lind",
+        "roleName": "Forward",
+        "minutes": 63,
+        "metrics": {
+          "passes": 25,
+          "passAccuracy": 96,
+          "forwardPasses": 1,
+          "forwardPassAccuracy": 100,
+          "passesToPenaltyArea": 1,
+          "passesToPenaltyAreaAccuracy": 100,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 1,
+          "finalThirdPassAccuracy": 100,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 1,
+          "shotsOnTarget": 0,
+          "xG": 0.12,
+          "touchesInBox": 5,
+          "dribbles": 1,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 2,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 2,
+          "aerialDuelWinRate": 0,
+          "recoveries": 3
+        }
+      },
+      {
+        "playerId": 10836,
+        "playerName": "W. Hahn",
+        "roleName": "Goalkeeper",
+        "minutes": 95,
+        "metrics": {
+          "passes": 31,
+          "passAccuracy": 93.55,
+          "forwardPasses": 15,
+          "forwardPassAccuracy": 93.33,
+          "passesToPenaltyArea": 1,
+          "passesToPenaltyAreaAccuracy": 0,
+          "crosses": 0,
+          "crossAccuracy": 0,
+          "passesToFinalThird": 3,
+          "finalThirdPassAccuracy": 66.67,
+          "keyPasses": 0,
+          "xA": 0,
+          "shots": 0,
+          "shotsOnTarget": 0,
+          "xG": 0,
+          "touchesInBox": 0,
+          "dribbles": 0,
+          "dribbleSuccess": 0,
+          "defensiveDuels": 0,
+          "defensiveDuelWinRate": 0,
+          "aerialDuels": 0,
+          "aerialDuelWinRate": 0,
+          "recoveries": 4
+        }
+      }
+    ]
   }
 ];
