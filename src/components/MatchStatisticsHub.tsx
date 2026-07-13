@@ -166,30 +166,63 @@ function PointsComparisonSection({
           Omgång {comparisonRound}
         </span>
       </div>
-      <div className="mt-3 overflow-x-auto">
-        <table className="min-w-full text-left text-xs sm:text-sm">
-          <thead>
-            <tr className="border-b border-white/[0.07] text-neutral-400">
-              <th className="px-2 py-2 font-medium">Säsong</th>
-              <th className="px-2 py-2 font-medium">Efter omg {comparisonRound}</th>
-              <th className="px-2 py-2 font-medium">Poängsnitt</th>
-              <th className="px-2 py-2 font-medium">Snitt per säsong</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pointsComparisonRows.map((row) => (
-              <tr
-                key={`points-compact-${row.seasonLabel}`}
-                className="border-b border-slate-800/80 text-neutral-200 last:border-b-0"
-              >
-                <td className="px-2 py-2 font-semibold text-white">{row.seasonLabel}</td>
-                <td className="px-2 py-2">{row.pointsAfterRoundText}</td>
-                <td className="px-2 py-2">{row.pointsPerRoundText}</td>
-                <td className="px-2 py-2">{row.seasonAverageText}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-4 space-y-2">
+        {pointsComparisonRows.map((row) => {
+          const is2026 = row.seasonLabel === "2026";
+          return (
+            <div
+              key={`points-compact-${row.seasonLabel}`}
+              className={`relative overflow-hidden rounded-xl p-3.5 sm:p-4 ${
+                is2026
+                  ? "border border-emerald-500/30 bg-emerald-950/25 shadow-[inset_0_0_32px_rgba(16,185,129,0.04)]"
+                  : "border border-white/[0.05] bg-white/[0.02]"
+              }`}
+            >
+              {is2026 && (
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent" />
+              )}
+              <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+                {/* Season label */}
+                <div className="flex items-center gap-2">
+                  {is2026 && (
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)]" />
+                  )}
+                  <span className={`text-sm font-bold tabular-nums ${is2026 ? "text-white" : "text-neutral-500"}`}>
+                    {row.seasonLabel}
+                  </span>
+                  {is2026 && (
+                    <span className="rounded-full bg-emerald-500/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-emerald-400">
+                      Aktiv
+                    </span>
+                  )}
+                </div>
+                {/* Stats */}
+                <div className="flex gap-4 text-right sm:gap-6">
+                  <div>
+                    <p className="text-[9px] font-semibold uppercase tracking-widest text-neutral-600">
+                      Efter omg {comparisonRound}
+                    </p>
+                    <p className={`mt-0.5 text-sm font-bold tabular-nums ${is2026 ? "text-white" : "text-neutral-300"}`}>
+                      {row.pointsAfterRoundText}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-semibold uppercase tracking-widest text-neutral-600">Snitt/omg</p>
+                    <p className={`mt-0.5 text-sm font-bold tabular-nums ${is2026 ? "text-emerald-300" : "text-neutral-300"}`}>
+                      {row.pointsPerRoundText}
+                    </p>
+                  </div>
+                  <div className="hidden sm:block">
+                    <p className="text-[9px] font-semibold uppercase tracking-widest text-neutral-600">Säsongssnitt</p>
+                    <p className={`mt-0.5 text-sm font-bold tabular-nums ${is2026 ? "text-neutral-200" : "text-neutral-400"}`}>
+                      {row.seasonAverageText}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
       {matchContext ? (
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-600/40 bg-emerald-500/10 px-4 py-3">
@@ -2464,7 +2497,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
-        <section id="matchgenomgang" className="grid gap-3 md:grid-cols-4">
+        <section id="matchgenomgang" className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {/* Hammarby goals */}
           <div className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-[#0d1f12] p-5">
             <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-600/0 via-emerald-500/70 to-emerald-600/0" />
@@ -2850,6 +2883,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {mode === "round" && matchRankItems.length > 0 && (isRound11Dashboard || roundTab === "matchen") && (() => {
           const { standout, average } = splitMatchRankItems(matchRankItems);
+          const getDot = (item: MatchRankItem) => {
+            if (item.rank <= 3) return "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]";
+            if (item.rank >= item.total - 2) return "bg-red-400 shadow-[0_0_6px_rgba(248,113,113,0.5)]";
+            return "bg-neutral-600";
+          };
           const renderRankCard = (item: MatchRankItem) => (
             <div
               key={item.label}
@@ -2867,7 +2905,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   : "hidden"
               }`} />
               <div className="flex items-start justify-between gap-2">
-                <p className="text-[11px] font-medium leading-snug text-neutral-500">{item.label}</p>
+                <div className="flex items-start gap-1.5">
+                  <span className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${getDot(item)}`} />
+                  <p className="text-[11px] font-medium leading-snug text-neutral-500">{item.label}</p>
+                </div>
                 <span
                   className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums ${
                     item.tone === "red"
@@ -2918,35 +2959,34 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 Genomsnittliga värden visas sist.
               </p>
 
-              {standout.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-300">
-                    Stod ut
-                  </p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {standout.map(renderRankCard)}
+              <div className={`mt-5 grid gap-6 ${standout.length > 0 && average.length > 0 ? "md:grid-cols-2" : ""}`}>
+                {standout.length > 0 && (
+                  <div>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.5)]" />
+                      <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-400">
+                        Stod ut
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      {standout.map(renderRankCard)}
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {average.length > 0 && (
-                <div
-                  className={
-                    standout.length > 0
-                      ? `mt-5 border-t pt-4 ${
-                          isRound11Dashboard ? "border-emerald-800/40" : "border-white/[0.06]"
-                        }`
-                      : "mt-4"
-                  }
-                >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-500">
-                    Nära snittet
-                  </p>
-                  <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {average.map(renderRankCard)}
+                )}
+                {average.length > 0 && (
+                  <div>
+                    <div className="mb-3 flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-neutral-600" />
+                      <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                        Nära snittet
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      {average.map(renderRankCard)}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </section>
           );
         })()}
