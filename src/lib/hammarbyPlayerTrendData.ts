@@ -7576,5 +7576,12 @@ export const hammarbyPlayerTrendMatches: PlayerTrendMatch[] = [
         }
       }
     ]
+  },
+  {
+    "matchId": 4654,
+    "gameweek": 12,
+    "date": "2026-07-12",
+    "name": "Hammarby - Kalmar, 0 - 0",
+    "players": []
   }
 ];

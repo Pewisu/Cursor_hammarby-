@@ -502,6 +502,11 @@ const STANDOUT_REFERENCE_DEFINITIONS: Record<
     label: "Passningar",
     decimals: 0,
   },
+  running: {
+    key: "recoveries",
+    label: "Löpdata",
+    decimals: 0,
+  },
 };
 
 const MATCH_ANALYSIS_ROUND_BY_KEY = new Map(
@@ -540,19 +545,24 @@ function getRoundHighlightCards(roundData: HammarbyRoundHighlight) {
       finishing: "amber",
       recoveries: "emerald",
       distribution: "cyan",
+      running: "emerald",
+    };
+
+    const iconByCategory: Record<
+      HammarbyRoundHighlight["players"][number]["category"],
+      string
+    > = {
+      creative: "🪄",
+      finishing: "🎯",
+      recoveries: "🛡️",
+      distribution: "🧠",
+      running: "⚡",
     };
 
     return {
       id: `${player.category}-${player.playerId}-${index}`,
       title: player.badge,
-      icon:
-        player.category === "creative"
-          ? "🪄"
-          : player.category === "finishing"
-            ? "🎯"
-            : player.category === "recoveries"
-              ? "🛡️"
-              : "🧠",
+      icon: iconByCategory[player.category],
       tone: toneByCategory[player.category],
       player,
       metricLabel: `${player.primaryStatLabel} / ${player.secondaryStatLabel}`,
@@ -1491,6 +1501,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     xG: "xG",
     Återerövringar: "recoveries",
     Passningar: "passes",
+    Maxhastighet: null,
   };
 
   const secondaryStatToTrendMetric: Record<
@@ -1501,6 +1512,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     "Skott på mål": "shotsOnTarget",
     "Vunna defensiva dueller": "defensiveDuels",
     "Lyckade passningar": "passes",
+    Löpmeter: null,
   };
 
   const buildStandoutReferenceRows = (
