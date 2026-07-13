@@ -4,77 +4,71 @@ import { useMemo, useState } from "react";
 import { type HammarbyMatchAnalysisRound } from "@/lib/hammarbyMatchAnalysisData";
 import { hammarbyRoundMatchStats } from "@/lib/matchStatisticsOverviewData";
 
-// Twelve-indexed gameweeks for each coach (2026 season)
+// Twelve-indexed gameweeks per coach (2026 season)
 const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 const RYDSTROM_GAMEWEEKS = new Set([12, 13]);
 
-// Bolldata overview gameweeks for each coach (for pass & result data)
+// Bolldata overview gameweeks per coach (pass & result data)
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
 const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12]);
 
-type Tab = "oversikt" | "offensiv" | "press" | "defensiv";
+type Tab = "oversikt" | "anfall" | "press" | "defensiv";
 
 type MetricRow = {
   key: string;
   label: string;
   sublabel?: string;
-  section: "offensiv" | "press" | "defensiv";
   format: "pct" | "decimal" | "int" | "m" | "s" | "diff";
   higherIsBetter: boolean;
   decimals?: number;
 };
 
-type PassMetricRow = {
-  key: string;
-  label: string;
-  sublabel?: string;
-  format: "pct" | "decimal" | "int";
-  higherIsBetter: boolean;
-  decimals?: number;
-};
+// ─── Metric definitions ───────────────────────────────────────────────────────
 
-const OFFENSIV_METRICS: MetricRow[] = [
-  { key: "ball_possession_pct",         label: "Bollinnehav",                                                           section: "offensiv", format: "pct",     higherIsBetter: true  },
-  { key: "field_tilt",                  label: "Field Tilt",          sublabel: "andel avslut på off. planhalva",       section: "offensiv", format: "pct",     higherIsBetter: true, decimals: 1 },
-  { key: "xt",                          label: "xT (förväntat hot)",                                                    section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 2 },
-  { key: "num_possessions_final_third", label: "Anfall i sista tredjedelen",                                            section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "num_box_entries",             label: "Inträden i straffområdet",                                              section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "np_shots",                    label: "Avslut",                                                                section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "np_xg",                       label: "Egen npxG",                                                             section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 2 },
-  { key: "np_xg_per_shot",              label: "Egen npxG per avslut",                                                  section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 3 },
-  { key: "xt_within_10s_after_recovery",label: "xT efter bollinvst, 10 sek",                                           section: "offensiv", format: "decimal", higherIsBetter: true,  decimals: 2 },
+const ANFALL_METRICS: MetricRow[] = [
+  { key: "ball_possession_pct",          label: "Bollinnehav",                format: "pct",     higherIsBetter: true  },
+  { key: "field_tilt",                   label: "Avslutsdominans",            sublabel: "andel avslut på offensiv planhalva", format: "pct", higherIsBetter: true, decimals: 1 },
+  { key: "xt",                           label: "Förväntat hot (xT)",         format: "decimal", higherIsBetter: true,  decimals: 2 },
+  { key: "num_possessions_final_third",  label: "Attacker in i sista tredj.", format: "decimal", higherIsBetter: true,  decimals: 1 },
+  { key: "num_box_entries",              label: "Inbrytningar i straffom.",   format: "decimal", higherIsBetter: true,  decimals: 1 },
+  { key: "np_shots",                     label: "Skott totalt",               format: "decimal", higherIsBetter: true,  decimals: 1 },
+  { key: "np_xg",                        label: "Eget xG (ej straff)",        format: "decimal", higherIsBetter: true,  decimals: 2 },
+  { key: "np_xg_per_shot",               label: "Skottkvalitet (xG/skott)",   format: "decimal", higherIsBetter: true,  decimals: 3 },
+  { key: "xt_within_10s_after_recovery", label: "Direkthot efter bolltapp",   sublabel: "xT inom 10 sek", format: "decimal", higherIsBetter: true, decimals: 2 },
+];
+
+const BYGGSPEL_METRICS: MetricRow[] = [
+  { key: "passes",        label: "Passningar / match",          format: "decimal", higherIsBetter: true,  decimals: 0 },
+  { key: "passAccuracy",  label: "Passningsprecision",          format: "pct",     higherIsBetter: true  },
+  { key: "shotsOnTarget", label: "Skott på mål",                format: "decimal", higherIsBetter: true,  decimals: 1 },
+  { key: "touchesInBox",  label: "Bollkontakter i straffom.",   format: "decimal", higherIsBetter: true,  decimals: 1 },
+  { key: "corners",       label: "Hörnsparkar",                 format: "decimal", higherIsBetter: true,  decimals: 1 },
 ];
 
 const PRESS_METRICS: MetricRow[] = [
-  { key: "num_recoveries_att_half",     label: "Höga återerövringar",                                                   section: "press", format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "ppda",                        label: "PPDA",                sublabel: "lägre = bättre press",                 section: "press", format: "decimal", higherIsBetter: false, decimals: 2 },
-  { key: "defensive_action_height_m",   label: "Defensiv höjd",                                                        section: "press", format: "m",       higherIsBetter: true,  decimals: 1 },
+  { key: "num_recoveries_att_half",   label: "Återerövringar offensivt", format: "decimal", higherIsBetter: true,  decimals: 1 },
+  { key: "ppda",                      label: "Presstäthet (PPDA)",        sublabel: "passningar per defensiv aktion · lägre = hårdare press", format: "decimal", higherIsBetter: false, decimals: 2 },
+  { key: "defensive_action_height_m", label: "Presspunkt (m från mål)",   format: "m",       higherIsBetter: true,  decimals: 1 },
 ];
 
 const DEFENSIV_METRICS: MetricRow[] = [
-  { key: "opp_num_box_entries",         label: "Motståndarnas inträden i box",                                          section: "defensiv", format: "decimal", higherIsBetter: false, decimals: 1 },
-  { key: "opp_np_shots",                label: "Motståndarnas avslut",                                                  section: "defensiv", format: "decimal", higherIsBetter: false, decimals: 1 },
-  { key: "opp_xt",                      label: "Motståndarnas xT",                                                      section: "defensiv", format: "decimal", higherIsBetter: false, decimals: 2 },
-  { key: "opp_np_xg",                   label: "Motståndarnas npxG",                                                    section: "defensiv", format: "decimal", higherIsBetter: false, decimals: 2 },
-  { key: "opp_np_xg_per_shot",          label: "Motståndarnas npxG per avslut",                                         section: "defensiv", format: "decimal", higherIsBetter: false, decimals: 3 },
-  { key: "time_to_defensive_action_after_loss_att_half_s", label: "Tid till def aktion efter bollapp", sublabel: "lägre = snabbare", section: "defensiv", format: "s", higherIsBetter: false, decimals: 2 },
-  { key: "_xg_diff",                    label: "npxG-övertag",                                                          section: "defensiv", format: "diff",    higherIsBetter: true,  decimals: 2 },
+  { key: "opp_num_box_entries", label: "Motst. inbrytningar i box",  format: "decimal", higherIsBetter: false, decimals: 1 },
+  { key: "opp_np_shots",        label: "Motst. skott totalt",        format: "decimal", higherIsBetter: false, decimals: 1 },
+  { key: "opp_xt",              label: "Motst. xT (hot mot mål)",    format: "decimal", higherIsBetter: false, decimals: 2 },
+  { key: "opp_np_xg",           label: "Motst. xG (ej straff)",      format: "decimal", higherIsBetter: false, decimals: 2 },
+  { key: "opp_np_xg_per_shot",  label: "Motst. skottkvalitet",       sublabel: "xG per skott · lägre = defensivt starkare", format: "decimal", higherIsBetter: false, decimals: 3 },
+  { key: "time_to_defensive_action_after_loss_att_half_s", label: "Reaktionstid efter bollapp", sublabel: "sek tills defensiv aktion · lägre = snabbare", format: "s", higherIsBetter: false, decimals: 2 },
+  { key: "_xg_diff",            label: "xG-balans",                  sublabel: "eget xG minus motst. xG per match", format: "diff", higherIsBetter: true, decimals: 2 },
 ];
 
-const PASS_METRICS: PassMetricRow[] = [
-  { key: "passes",        label: "Passningar per match",              format: "decimal", higherIsBetter: true,  decimals: 0 },
-  { key: "passAccuracy",  label: "Passningsprecision",                format: "pct",     higherIsBetter: true  },
-  { key: "shotsOnTarget", label: "Skott på mål",                      format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "touchesInBox",  label: "Bollkontakter i straffområdet",     format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "corners",       label: "Hörnsparkar",                       format: "decimal", higherIsBetter: true,  decimals: 1 },
-];
+const ALL_ANALYSIS_METRICS = [...ANFALL_METRICS, ...PRESS_METRICS, ...DEFENSIV_METRICS];
 
-const ALL_METRICS_FOR_AVERAGES = [...OFFENSIV_METRICS, ...PRESS_METRICS, ...DEFENSIV_METRICS];
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
-function formatValue(value: number, row: { format: string; decimals?: number }): string {
+function fmtVal(value: number, row: { format: string; decimals?: number }): string {
   if (value === null || value === undefined || isNaN(value)) return "–";
   const d = row.decimals ?? 2;
-  if (row.format === "pct") return `${(value * 100).toFixed(1)} %`;
+  if (row.format === "pct") return `${(value * 100).toFixed(1)}%`;
   if (row.format === "m") return `${value.toFixed(d)} m`;
   if (row.format === "s") return `${value.toFixed(d)} s`;
   if (row.format === "diff") return `${value >= 0 ? "+" : ""}${value.toFixed(d)}`;
@@ -84,19 +78,18 @@ function formatValue(value: number, row: { format: string; decimals?: number }):
 
 function computeAnalysisAverages(rounds: HammarbyMatchAnalysisRound[]): Record<string, number> {
   const result: Record<string, number> = {};
-  for (const row of ALL_METRICS_FOR_AVERAGES) {
+  for (const row of ALL_ANALYSIS_METRICS) {
     if (row.key === "_xg_diff") continue;
     const vals = rounds
       .map((r) => r.metrics?.[row.key as keyof typeof r.metrics]?.value)
       .filter((v): v is number => typeof v === "number" && !isNaN(v));
     result[row.key] = vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : NaN;
   }
-  // Derived xG differential
-  const npXg = rounds.map((r) => r.metrics?.np_xg?.value).filter((v): v is number => typeof v === "number");
+  const npXg  = rounds.map((r) => r.metrics?.np_xg?.value).filter((v): v is number => typeof v === "number");
   const oppXg = rounds.map((r) => r.metrics?.opp_np_xg?.value).filter((v): v is number => typeof v === "number");
-  const npAvg = npXg.reduce((s, v) => s + v, 0) / (npXg.length || 1);
-  const oppAvg = oppXg.reduce((s, v) => s + v, 0) / (oppXg.length || 1);
-  result["_xg_diff"] = npAvg - oppAvg;
+  result["_xg_diff"] =
+    npXg.reduce((s, v) => s + v, 0) / (npXg.length || 1) -
+    oppXg.reduce((s, v) => s + v, 0) / (oppXg.length || 1);
   return result;
 }
 
@@ -127,166 +120,118 @@ function computeRecord(gameweeks: Set<number>) {
   return { w, d, l, gf, gc, n, ptsPerGame: (w * 3 + d) / n, gfPerGame: gf / n, gcPerGame: gc / n };
 }
 
-// ─── Metric rows UI ─────────────────────────────────────────────────────────
+// ─── Section divider ──────────────────────────────────────────────────────────
 
-function MetricRows({
-  metrics,
-  kAvg,
-  rAvg,
+function SectionDivider({ title, accent = false }: { title: string; accent?: boolean }) {
+  return (
+    <div className={`flex items-center gap-3 px-4 py-2 ${accent ? "bg-teal-950/30" : "bg-slate-900/60"}`}>
+      <div className={`h-3.5 w-0.5 rounded-full ${accent ? "bg-teal-500" : "bg-slate-600"}`} />
+      <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${accent ? "text-teal-400" : "text-slate-500"}`}>
+        {title}
+      </span>
+    </div>
+  );
+}
+
+// ─── Single metric comparison row ─────────────────────────────────────────────
+
+function CompareRow({
+  row,
+  kVal,
+  rVal,
 }: {
-  metrics: MetricRow[];
-  kAvg: Record<string, number>;
-  rAvg: Record<string, number>;
+  row: MetricRow;
+  kVal: number;
+  rVal: number;
 }) {
-  return (
-    <div className="divide-y divide-slate-700/30">
-      {metrics.map((row) => {
-        const kVal = kAvg[row.key];
-        const rVal = rAvg[row.key];
-        const kBetter =
-          !isNaN(kVal) && !isNaN(rVal) && (row.higherIsBetter ? kVal > rVal : kVal < rVal);
-        const rBetter =
-          !isNaN(kVal) && !isNaN(rVal) && (row.higherIsBetter ? rVal > kVal : rVal < kVal);
-        const diff = Math.abs(kVal - rVal);
-        const base = Math.max(Math.abs(kVal), Math.abs(rVal), 0.001);
-        const isSignificant = diff / base > 0.05;
+  const kBetter = !isNaN(kVal) && !isNaN(rVal) && (row.higherIsBetter ? kVal > rVal : kVal < rVal);
+  const rBetter = !isNaN(kVal) && !isNaN(rVal) && (row.higherIsBetter ? rVal > kVal : rVal < kVal);
+  const diffPct = (!isNaN(kVal) && !isNaN(rVal) && Math.abs(kVal) > 0.001)
+    ? Math.abs((rVal - kVal) / kVal)
+    : 0;
+  const isSignificant = diffPct > 0.05;
+  const deltaLabel = isSignificant
+    ? `${rBetter ? "▲" : "▼"} ${Math.round(diffPct * 100)}%`
+    : null;
 
-        return (
-          <div key={row.key} className="grid grid-cols-[1fr_auto_1fr] items-center px-4 py-2.5">
-            <div className="text-left">
-              <span
-                className={`inline-block rounded-md px-2.5 py-1 text-sm font-bold tabular-nums ${
-                  kBetter && isSignificant ? "bg-slate-200 text-slate-900" : "bg-slate-700/50 text-slate-200"
-                }`}
-              >
-                {formatValue(kVal, row)}
-              </span>
-            </div>
-            <div className="w-44 px-2 text-center">
-              <p className="text-[11px] text-slate-400">{row.label}</p>
-              {row.sublabel && <p className="text-[9px] text-slate-600">{row.sublabel}</p>}
-            </div>
-            <div className="text-right">
-              <span
-                className={`inline-block rounded-md px-2.5 py-1 text-sm font-bold tabular-nums ${
-                  rBetter && isSignificant ? "bg-green-400 text-slate-900" : "bg-slate-700/50 text-slate-200"
-                }`}
-              >
-                {formatValue(rVal, row)}
-              </span>
-            </div>
-          </div>
-        );
-      })}
+  return (
+    <div className="grid grid-cols-[1fr_auto_auto_1fr] items-center gap-1 px-4 py-2.5">
+      {/* Karlsson value */}
+      <div className="text-left">
+        <span
+          className={`inline-block rounded px-2.5 py-1 text-sm font-bold tabular-nums ${
+            kBetter && isSignificant
+              ? "bg-amber-400 text-slate-900"
+              : "bg-slate-700/50 text-slate-300"
+          }`}
+        >
+          {fmtVal(kVal, row)}
+        </span>
+      </div>
+
+      {/* Delta + metric name */}
+      <div className="w-40 px-1 text-center">
+        {deltaLabel && (
+          <p className={`mb-0.5 text-[9px] font-bold ${rBetter ? "text-teal-400" : "text-amber-400"}`}>
+            {deltaLabel}
+          </p>
+        )}
+        <p className="text-[11px] leading-snug text-slate-400">{row.label}</p>
+        {row.sublabel && <p className="mt-0.5 text-[8px] text-slate-600">{row.sublabel}</p>}
+      </div>
+
+      {/* Spacer to keep 4-col layout aligned */}
+      <div className="w-1" />
+
+      {/* Rydström value */}
+      <div className="text-right">
+        <span
+          className={`inline-block rounded px-2.5 py-1 text-sm font-bold tabular-nums ${
+            rBetter && isSignificant
+              ? "bg-teal-400 text-slate-900"
+              : "bg-slate-700/50 text-slate-300"
+          }`}
+        >
+          {fmtVal(rVal, row)}
+        </span>
+      </div>
     </div>
   );
 }
 
-function PassMetricRows({
-  metrics,
-  kAvg,
-  rAvg,
-}: {
-  metrics: PassMetricRow[];
-  kAvg: Record<string, number>;
-  rAvg: Record<string, number>;
-}) {
-  return (
-    <div className="divide-y divide-slate-700/30">
-      {metrics.map((row) => {
-        const kVal = kAvg[row.key];
-        const rVal = rAvg[row.key];
-        const kBetter =
-          !isNaN(kVal) && !isNaN(rVal) && (row.higherIsBetter ? kVal > rVal : kVal < rVal);
-        const rBetter =
-          !isNaN(kVal) && !isNaN(rVal) && (row.higherIsBetter ? rVal > kVal : rVal < kVal);
-        const diff = Math.abs(kVal - rVal);
-        const base = Math.max(Math.abs(kVal), Math.abs(rVal), 0.001);
-        const isSignificant = diff / base > 0.05;
+// ─── Stat tile used in Facit ──────────────────────────────────────────────────
 
-        return (
-          <div key={row.key} className="grid grid-cols-[1fr_auto_1fr] items-center px-4 py-2.5">
-            <div className="text-left">
-              <span
-                className={`inline-block rounded-md px-2.5 py-1 text-sm font-bold tabular-nums ${
-                  kBetter && isSignificant ? "bg-slate-200 text-slate-900" : "bg-slate-700/50 text-slate-200"
-                }`}
-              >
-                {formatValue(kVal, row)}
-              </span>
-            </div>
-            <div className="w-44 px-2 text-center">
-              <p className="text-[11px] text-slate-400">{row.label}</p>
-              {row.sublabel && <p className="text-[9px] text-slate-600">{row.sublabel}</p>}
-            </div>
-            <div className="text-right">
-              <span
-                className={`inline-block rounded-md px-2.5 py-1 text-sm font-bold tabular-nums ${
-                  rBetter && isSignificant ? "bg-green-400 text-slate-900" : "bg-slate-700/50 text-slate-200"
-                }`}
-              >
-                {formatValue(rVal, row)}
-              </span>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-// ─── Section header used inside tab content ──────────────────────────────────
-
-function SectionHeader({ title }: { title: string }) {
-  return (
-    <div className="bg-slate-900/70 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400">
-      {title}
-    </div>
-  );
-}
-
-// ─── Record comparison card ───────────────────────────────────────────────────
-
-function RecordCard({
+function StatTile({
   label,
-  kValue,
-  rValue,
+  kVal,
+  rVal,
   higherIsBetter,
-  format = "num",
-  decimals = 1,
+  fmt,
 }: {
   label: string;
-  kValue: number;
-  rValue: number;
+  kVal: string;
+  rVal: string;
   higherIsBetter: boolean;
-  format?: "num" | "pct" | "decimal";
-  decimals?: number;
+  fmt?: "k-better" | "r-better" | "equal";
 }) {
-  const kBetter = higherIsBetter ? kValue > rValue : kValue < rValue;
-  const rBetter = higherIsBetter ? rValue > kValue : rValue < kValue;
-  const fmt = (v: number) => {
-    if (format === "pct") return `${(v * 100).toFixed(1)} %`;
-    return v.toFixed(decimals);
-  };
+  // fmt is derived externally so parent decides colouring
   return (
-    <div className="rounded-xl border border-slate-700/50 bg-slate-800/60 px-4 py-3 text-center">
-      <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-slate-500">{label}</p>
-      <div className="flex items-center justify-between gap-2">
-        <span
-          className={`rounded-lg px-3 py-1.5 text-lg font-bold tabular-nums ${
-            kBetter ? "bg-slate-200 text-slate-900" : "bg-slate-700/50 text-slate-200"
-          }`}
-        >
-          {fmt(kValue)}
-        </span>
-        <span className="text-[9px] text-slate-600">vs</span>
-        <span
-          className={`rounded-lg px-3 py-1.5 text-lg font-bold tabular-nums ${
-            rBetter ? "bg-green-400 text-slate-900" : "bg-slate-700/50 text-slate-200"
-          }`}
-        >
-          {fmt(rValue)}
-        </span>
+    <div className="rounded-lg border border-slate-700/40 bg-slate-900/60 p-3">
+      <p className="mb-2 text-[9px] font-semibold uppercase tracking-widest text-slate-600">{label}</p>
+      <div className="flex items-end justify-between gap-1">
+        <div className="text-center">
+          <p className={`text-base font-extrabold tabular-nums ${fmt === "k-better" ? "text-amber-300" : "text-slate-400"}`}>
+            {kVal}
+          </p>
+          <p className="mt-0.5 text-[8px] text-slate-600">Karlsson</p>
+        </div>
+        <div className="pb-4 text-[8px] text-slate-700">|</div>
+        <div className="text-center">
+          <p className={`text-base font-extrabold tabular-nums ${fmt === "r-better" ? "text-teal-300" : "text-slate-400"}`}>
+            {rVal}
+          </p>
+          <p className="mt-0.5 text-[8px] text-slate-600">Rydström</p>
+        </div>
       </div>
     </div>
   );
@@ -298,15 +243,8 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   const [activeTab, setActiveTab] = useState<Tab>("oversikt");
 
   const rounds2026 = useMemo(() => rounds.filter((r) => r.season === 2026), [rounds]);
-
-  const karlssonRounds = useMemo(
-    () => rounds2026.filter((r) => KARLSSON_GAMEWEEKS.has(r.gameweek)),
-    [rounds2026]
-  );
-  const rydstromRounds = useMemo(
-    () => rounds2026.filter((r) => RYDSTROM_GAMEWEEKS.has(r.gameweek)),
-    [rounds2026]
-  );
+  const karlssonRounds = useMemo(() => rounds2026.filter((r) => KARLSSON_GAMEWEEKS.has(r.gameweek)), [rounds2026]);
+  const rydstromRounds = useMemo(() => rounds2026.filter((r) => RYDSTROM_GAMEWEEKS.has(r.gameweek)), [rounds2026]);
 
   const kAvg = useMemo(() => computeAnalysisAverages(karlssonRounds), [karlssonRounds]);
   const rAvg = useMemo(() => computeAnalysisAverages(rydstromRounds), [rydstromRounds]);
@@ -319,206 +257,208 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
 
   if (karlssonRounds.length === 0 || rydstromRounds.length === 0) return null;
 
-  const rydstromMatchLabels = rydstromRounds.map((r) => r.opponent).join(" & ");
+  const rydstromOpponents = rydstromRounds.map((r) => r.opponent).join(" & ");
 
   const tabs: { id: Tab; label: string }[] = [
-    { id: "oversikt", label: "Översikt" },
-    { id: "offensiv", label: "Offensiv" },
-    { id: "press",    label: "Press" },
-    { id: "defensiv", label: "Defensiv" },
+    { id: "oversikt", label: "Facit" },
+    { id: "anfall",   label: "Anfallsspelet" },
+    { id: "press",    label: "Pressintensitet" },
+    { id: "defensiv", label: "Defensivt facit" },
   ];
 
-  const biggestImprovement = (() => {
-    const oppXgPerShot = DEFENSIV_METRICS.find((m) => m.key === "opp_np_xg_per_shot")!;
-    const pct = Math.round(
-      (1 - rAvg["opp_np_xg_per_shot"] / kAvg["opp_np_xg_per_shot"]) * 100
-    );
-    return { pct, kVal: formatValue(kAvg["opp_np_xg_per_shot"], oppXgPerShot), rVal: formatValue(rAvg["opp_np_xg_per_shot"], oppXgPerShot) };
-  })();
+  const oppXgPerShotRow = DEFENSIV_METRICS.find((m) => m.key === "opp_np_xg_per_shot")!;
+  const defensePct = Math.round((1 - rAvg["opp_np_xg_per_shot"] / kAvg["opp_np_xg_per_shot"]) * 100);
 
   return (
     <section className="overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-800/80">
-      {/* Header */}
-      <div className="border-b border-slate-700/50 px-6 py-5">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-          Coachjämförelse · Allsvenskan 2026
+      {/* ── Header ── */}
+      <div className="border-b border-slate-700/50 bg-slate-900/40 px-5 py-5">
+        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500">
+          Tränarskiftet · Allsvenskan 2026
         </p>
-        <h2 className="mt-1 text-xl font-bold text-white">Rydström vs Karlsson</h2>
-        <p className="mt-1 text-sm text-slate-400">
-          Snitt per match under respektive period. Rydström:{" "}
-          <span className="text-green-300">{rydstromMatchLabels}</span> ({rydstromRounds.length} matcher). Karlsson:{" "}
-          <span className="text-slate-300">{karlssonRounds.length} matcher</span>.
+        <h2 className="mt-2 text-2xl font-black tracking-tight text-white">
+          <span className="text-amber-400">Karlsson</span>
+          <span className="mx-2 text-slate-600 font-light">→</span>
+          <span className="text-teal-400">Rydström</span>
+        </h2>
+        <p className="mt-1.5 text-xs text-slate-500">
+          Matchsnitt under respektive tränarperiod.{" "}
+          <span className="text-amber-400/80">{karlssonRounds.length} matcher (Karlsson)</span>
+          {" · "}
+          <span className="text-teal-400/80">{rydstromRounds.length} matcher – {rydstromOpponents} (Rydström)</span>
         </p>
       </div>
 
-      {/* Tab navigation */}
-      <div className="flex border-b border-slate-700/50 bg-slate-900/60">
-        {tabs.map((tab) => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 px-3 py-3 text-xs font-semibold uppercase tracking-wide transition-colors ${
-              activeTab === tab.id
-                ? "border-b-2 border-green-400 text-green-300"
-                : "text-slate-500 hover:text-slate-300"
-            }`}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Column headers (shared, visible on all tabs) */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center border-b border-slate-700/50 bg-slate-900/50 px-4 py-2 text-xs font-semibold uppercase tracking-wide">
-        <div className="text-left text-slate-200">
-          Kalle Karlsson
-          <span className="ml-1.5 text-slate-500">({karlssonRounds.length} m)</span>
-        </div>
-        <div className="w-44 text-center text-slate-500">Nyckeltal</div>
-        <div className="text-right text-green-300">
-          Henrik Rydström
-          <span className="ml-1.5 text-slate-500">({rydstromRounds.length} m)</span>
+      {/* ── Pill tab navigation ── */}
+      <div className="border-b border-slate-700/50 bg-slate-900/60 px-3 py-2">
+        <div className="flex gap-1.5 overflow-x-auto">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition-all ${
+                activeTab === tab.id
+                  ? "bg-teal-500/20 text-teal-300 ring-1 ring-teal-500/40"
+                  : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* ── Översikt tab ── */}
+      {/* ── Column labels ── */}
+      <div className="grid grid-cols-[1fr_auto_auto_1fr] items-center border-b border-slate-700/30 bg-slate-900/30 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider">
+        <span className="text-amber-500">K. Karlsson</span>
+        <span className="w-40 text-center text-slate-600">Mätvärde</span>
+        <span className="w-1" />
+        <span className="text-right text-teal-400">H. Rydström</span>
+      </div>
+
+      {/* ══ FACIT tab ══════════════════════════════════════════════════════════ */}
       {activeTab === "oversikt" && (
         <div>
-          {/* Record comparison */}
-          <SectionHeader title="Matchresultat" />
-          <div className="grid grid-cols-2 gap-3 p-4 sm:grid-cols-4">
-            <RecordCard
-              label="V/O/F"
-              kValue={kRecord.w}
-              rValue={rRecord.w}
-              higherIsBetter
-              format="num"
-              decimals={0}
-            />
-            <RecordCard
+          {/* Era banners */}
+          <div className="grid grid-cols-2 divide-x divide-slate-700/40">
+            <div className="bg-amber-950/20 px-4 py-4">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-amber-600">Karlsson-eran</p>
+              <p className="mt-1 text-2xl font-black text-amber-300">
+                {kRecord.w}V {kRecord.d}O {kRecord.l}F
+              </p>
+              <p className="mt-0.5 text-xs text-slate-500">
+                {kRecord.gf}–{kRecord.gc} · {(kRecord.ptsPerGame).toFixed(2)} p/m
+              </p>
+            </div>
+            <div className="bg-teal-950/20 px-4 py-4">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-teal-600">Rydström-eran</p>
+              <p className="mt-1 text-2xl font-black text-teal-300">
+                {rRecord.w}V {rRecord.d}O {rRecord.l}F
+              </p>
+              <p className="mt-0.5 text-xs text-slate-500">
+                {rRecord.gf}–{rRecord.gc} · {(rRecord.ptsPerGame).toFixed(2)} p/m
+              </p>
+            </div>
+          </div>
+
+          {/* Stat tiles */}
+          <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
+            <StatTile
               label="Poäng / match"
-              kValue={kRecord.ptsPerGame}
-              rValue={rRecord.ptsPerGame}
+              kVal={kRecord.ptsPerGame.toFixed(2)}
+              rVal={rRecord.ptsPerGame.toFixed(2)}
               higherIsBetter
-              format="decimal"
-              decimals={2}
+              fmt={rRecord.ptsPerGame > kRecord.ptsPerGame ? "r-better" : "k-better"}
             />
-            <RecordCard
+            <StatTile
               label="Mål / match"
-              kValue={kRecord.gfPerGame}
-              rValue={rRecord.gfPerGame}
+              kVal={kRecord.gfPerGame.toFixed(2)}
+              rVal={rRecord.gfPerGame.toFixed(2)}
               higherIsBetter
-              format="decimal"
-              decimals={2}
+              fmt={rRecord.gfPerGame > kRecord.gfPerGame ? "r-better" : kRecord.gfPerGame > rRecord.gfPerGame ? "k-better" : "equal"}
             />
-            <RecordCard
+            <StatTile
               label="Insläppta / match"
-              kValue={kRecord.gcPerGame}
-              rValue={rRecord.gcPerGame}
+              kVal={kRecord.gcPerGame.toFixed(2)}
+              rVal={rRecord.gcPerGame.toFixed(2)}
               higherIsBetter={false}
-              format="decimal"
-              decimals={2}
+              fmt={rRecord.gcPerGame < kRecord.gcPerGame ? "r-better" : "k-better"}
+            />
+            <StatTile
+              label="xG-balans / match"
+              kVal={`${kAvg["_xg_diff"] >= 0 ? "+" : ""}${kAvg["_xg_diff"]?.toFixed(2)}`}
+              rVal={`${rAvg["_xg_diff"] >= 0 ? "+" : ""}${rAvg["_xg_diff"]?.toFixed(2)}`}
+              higherIsBetter
+              fmt={rAvg["_xg_diff"] > kAvg["_xg_diff"] ? "r-better" : "k-better"}
             />
           </div>
 
-          {/* Record breakdown */}
-          <div className="grid grid-cols-2 gap-2 border-t border-slate-700/30 px-4 py-3 text-sm">
-            <div className="rounded-lg bg-slate-900/50 p-3">
-              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-slate-500">Kalle Karlsson</p>
-              <p className="text-base font-bold text-slate-200">
-                {kRecord.w}V – {kRecord.d}O – {kRecord.l}F
-              </p>
-              <p className="text-xs text-slate-500">
-                {kRecord.gf} mål gjorda · {kRecord.gc} insläppta · {kRecord.n} matcher
-              </p>
-            </div>
-            <div className="rounded-lg bg-slate-900/50 p-3">
-              <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest text-green-500">Henrik Rydström</p>
-              <p className="text-base font-bold text-green-200">
-                {rRecord.w}V – {rRecord.d}O – {rRecord.l}F
-              </p>
-              <p className="text-xs text-slate-500">
-                {rRecord.gf} mål gjorda · {rRecord.gc} insläppta · {rRecord.n} matcher
-              </p>
-            </div>
-          </div>
+          {/* Markantaste skiftena */}
+          <SectionDivider title="Markantaste skiftena" accent />
+          {[
+            DEFENSIV_METRICS.find((m) => m.key === "opp_np_xg_per_shot")!,
+            DEFENSIV_METRICS.find((m) => m.key === "opp_np_xg")!,
+            PRESS_METRICS.find((m) => m.key === "ppda")!,
+            ANFALL_METRICS.find((m) => m.key === "np_xg")!,
+            ANFALL_METRICS.find((m) => m.key === "xt")!,
+          ].map((row) => (
+            <CompareRow key={row.key} row={row} kVal={kAvg[row.key]} rVal={rAvg[row.key]} />
+          ))}
 
-          {/* Top highlights */}
-          <SectionHeader title="Tydligaste skillnader" />
-          <MetricRows
-            metrics={[
-              DEFENSIV_METRICS.find((m) => m.key === "opp_np_xg_per_shot")!,
-              DEFENSIV_METRICS.find((m) => m.key === "opp_np_xg")!,
-              PRESS_METRICS.find((m) => m.key === "ppda")!,
-              OFFENSIV_METRICS.find((m) => m.key === "np_xg")!,
-              OFFENSIV_METRICS.find((m) => m.key === "xt")!,
-            ]}
-            kAvg={kAvg}
-            rAvg={rAvg}
-          />
-
-          {/* Biggest improvement callout */}
-          <div className="border-t border-slate-700/50 bg-green-950/30 px-5 py-4">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-green-400">Tydligaste förändringen</p>
-            <p className="mt-1 text-sm font-semibold text-green-200">
-              Motståndarnas avslut är {biggestImprovement.pct}% mindre farliga per skott under Rydström
+          {/* Highlight callout */}
+          <div className="border-t border-teal-900/50 bg-teal-950/30 px-5 py-4">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-teal-500">Skarpaste förbättringen</p>
+            <p className="mt-1 text-sm font-bold text-teal-200">
+              Motståndarna avlossar {defensePct}% farligare skott per avslut under Karlsson
             </p>
-            <p className="mt-0.5 text-xs text-slate-500">
-              npxG/avslut mot: {biggestImprovement.rVal} (Rydström) vs {biggestImprovement.kVal} (Karlsson)
+            <p className="mt-0.5 text-[11px] text-slate-500">
+              Skottkvalitet mot: {fmtVal(kAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Karlsson) →{" "}
+              {fmtVal(rAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Rydström)
             </p>
           </div>
         </div>
       )}
 
-      {/* ── Offensiv tab ── */}
-      {activeTab === "offensiv" && (
+      {/* ══ ANFALLSSPELET tab ══════════════════════════════════════════════════ */}
+      {activeTab === "anfall" && (
         <div>
-          <SectionHeader title="Bollkontroll & anfall" />
-          <MetricRows metrics={OFFENSIV_METRICS} kAvg={kAvg} rAvg={rAvg} />
+          <SectionDivider title="Anfallsmönster (Twelve)" />
+          {ANFALL_METRICS.map((row) => (
+            <CompareRow key={row.key} row={row} kVal={kAvg[row.key]} rVal={rAvg[row.key]} />
+          ))}
 
-          <SectionHeader title="Passningar & bollkontroll (Bolldata)" />
-          <PassMetricRows metrics={PASS_METRICS} kAvg={kPassAvg} rAvg={rPassAvg} />
+          <SectionDivider title="Byggspelet (Bolldata)" accent />
+          {BYGGSPEL_METRICS.map((row) => {
+            const kVal = kPassAvg[row.key];
+            const rVal = rPassAvg[row.key];
+            return <CompareRow key={row.key} row={row} kVal={kVal} rVal={rVal} />;
+          })}
         </div>
       )}
 
-      {/* ── Press tab ── */}
+      {/* ══ PRESSINTENSITET tab ════════════════════════════════════════════════ */}
       {activeTab === "press" && (
         <div>
-          <SectionHeader title="Press & territorium" />
-          <MetricRows metrics={PRESS_METRICS} kAvg={kAvg} rAvg={rAvg} />
+          <SectionDivider title="Press & återerövring" />
+          {PRESS_METRICS.map((row) => (
+            <CompareRow key={row.key} row={row} kVal={kAvg[row.key]} rVal={rAvg[row.key]} />
+          ))}
 
-          {/* Context box */}
-          <div className="border-t border-slate-700/50 bg-slate-900/40 px-5 py-4">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-slate-400">Kontext</p>
-            <p className="mt-1 text-xs text-slate-400">
-              Rydström valde ett mer kontrollerat press i debuten mot Elfsborg (PPDA {rAvg["ppda"]?.toFixed(2)}) jämfört med
-              säsonsplanen på 4.19. Trots detta vann Hammarby xG-kampen tydligt (2.48 vs 1.03).
+          <div className="border-t border-slate-700/40 bg-slate-900/40 px-5 py-4">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">Analytikerns not</p>
+            <p className="mt-1 text-xs leading-relaxed text-slate-400">
+              Rydström valde ett mer positionsbaserat press i sin debut mot Elfsborg borta (PPDA{" "}
+              {rAvg["ppda"]?.toFixed(2)}). Trots lägre pressintensitet vann Hammarby xG-uppgörelsen
+              klart (2.48 vs 1.03) — ett tecken på att spelkontrollen var god ändå.
             </p>
           </div>
         </div>
       )}
 
-      {/* ── Defensiv tab ── */}
+      {/* ══ DEFENSIVT FACIT tab ════════════════════════════════════════════════ */}
       {activeTab === "defensiv" && (
         <div>
-          <SectionHeader title="Defensivt utfall" />
-          <MetricRows metrics={DEFENSIV_METRICS} kAvg={kAvg} rAvg={rAvg} />
+          <SectionDivider title="Defensivt utfall" />
+          {DEFENSIV_METRICS.map((row) => (
+            <CompareRow key={row.key} row={row} kVal={kAvg[row.key]} rVal={rAvg[row.key]} />
+          ))}
 
-          {/* Biggest improvement callout */}
-          <div className="border-t border-slate-700/50 bg-green-950/30 px-5 py-4">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-green-400">Tydligaste förändringen</p>
-            <p className="mt-1 text-sm font-semibold text-green-200">
-              Motståndarnas avslut är {biggestImprovement.pct}% mindre farliga per skott under Rydström
+          <div className="border-t border-teal-900/50 bg-teal-950/30 px-5 py-4">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-teal-500">Skarpaste förbättringen</p>
+            <p className="mt-1 text-sm font-bold text-teal-200">
+              Motståndarna avlossar {defensePct}% farligare skott per avslut under Karlsson
             </p>
-            <p className="mt-0.5 text-xs text-slate-500">
-              npxG/avslut mot: {biggestImprovement.rVal} (Rydström) vs {biggestImprovement.kVal} (Karlsson)
+            <p className="mt-0.5 text-[11px] text-slate-500">
+              Skottkvalitet mot: {fmtVal(kAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Karlsson) →{" "}
+              {fmtVal(rAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Rydström)
             </p>
           </div>
         </div>
       )}
 
-      <div className="border-t border-slate-700/50 px-5 py-3 text-[10px] leading-relaxed text-slate-500">
-        Twelve/hammarbyfotboll.se (xG, PPDA, press) · Bolldata (passningar, hörnsparkar) · Rydström: gw-12–13; Karlsson: gw-1–11
+      <div className="border-t border-slate-700/40 px-5 py-2.5 text-[9px] leading-relaxed text-slate-600">
+        Källa: Twelve / hammarbyfotboll.se (xG, PPDA, press) · Bolldata (passningar, hörnsparkar) ·
+        Rydström = omg 12–13 (Elfsborg bort + Kalmar hem) · Karlsson = omg 1–11
       </div>
     </section>
   );
