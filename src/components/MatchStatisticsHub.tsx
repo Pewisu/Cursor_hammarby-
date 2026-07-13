@@ -43,6 +43,7 @@ import {
 import { findMatchAnalysisRoundForOverview } from "@/lib/resolveMatchAnalysisRound";
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
+import { CoachComparisonDashboard } from "@/components/CoachComparisonDashboard";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -1424,6 +1425,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     },
   ];
   const isRound11Dashboard = mode === "round" && round === 11;
+  const isRound12Dashboard = mode === "round" && round === 12;
   const matchesThroughRound = sortedMatches.filter((match) => match.gameweek <= comparisonRound);
   const matchCountThroughRound = matchesThroughRound.length;
   const round11MatchPoints =
@@ -1456,6 +1458,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
     { href: "/matchstatistik", label: "Översikt", active: false },
     { href: "/matchstatistik/sasong", label: "Säsong", active: mode === "combined" },
     { href: "/matchstatistik/omgang", label: "Omgångar", active: mode === "round" },
+    { href: "/matchstatistik/coachjamforelse", label: "Rydström vs Karlsson", active: false },
     { href: "/matchstatistik/passningsanalys", label: "Passningsanalys", active: false },
   ];
   const currentRoundIndex =
@@ -4207,6 +4210,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         {mode === "round" && round === 15 && (
           <div id="prediction-vs-outcome">
             <PredictionVsOutcome {...round9PredictionVsOutcome} />
+          </div>
+        )}
+
+        {isRound12Dashboard && (
+          <div id="coachjamforelse">
+            <CoachComparisonDashboard rounds={hammarbyMatchAnalysisRounds} />
           </div>
         )}
 
