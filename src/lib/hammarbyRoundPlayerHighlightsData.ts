@@ -2,7 +2,8 @@ export type HammarbyRoundHighlightCategory =
   | "creative"
   | "finishing"
   | "recoveries"
-  | "distribution";
+  | "distribution"
+  | "running";
 
 export type HammarbyRoundHighlightPlayer = {
   playerId: number;
@@ -226,6 +227,28 @@ export const hammarbyRoundPlayerHighlights: HammarbyRoundHighlight[] = [
         primaryStatValue: 76,
         secondaryStatLabel: "Lyckade passningar",
         secondaryStatValue: 69,
+      },
+    ],
+  },
+  {
+    gameweek: 12,
+    sourceMatchId: 6529918,
+    sourceUrl: "https://allsvenskan.se/matcher/2026/6529918/hammarby-mot-kalmar-ff",
+    players: [
+      {
+        playerId: 3973,
+        name: "V. Lind",
+        firstName: "Victor",
+        lastName: "Lind",
+        roleName: "Forward",
+        minutesOnField: 63,
+        category: "running",
+        badge: "Säsongens snabbaste",
+        description: "Noterade 34,26 km/h mot Kalmar FF — Hammarbys högsta uppmätta maxhastighet under 2026 och historiskt #6 i hela Allsvenskan (2025–2026). Bara fem spelare i ligan har uppmätts snabbare sedan 2025.",
+        primaryStatLabel: "Maxhastighet",
+        primaryStatValue: 34.26,
+        secondaryStatLabel: "Löpmeter",
+        secondaryStatValue: 8433,
       },
     ],
   },

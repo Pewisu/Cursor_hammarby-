@@ -11,6 +11,21 @@ import {
   type PlayerTrendMetrics,
 } from "@/lib/hammarbyPlayerTrendData";
 import type { RunningMatchStat } from "@/lib/hammarbyRunningData";
+import {
+  hammarbyRoundPlayerHighlights,
+  type HammarbyRoundHighlightCategory,
+} from "@/lib/hammarbyRoundPlayerHighlightsData";
+
+const HIGHLIGHT_STYLES: Record<
+  HammarbyRoundHighlightCategory,
+  { icon: string; border: string; bg: string; text: string; chip: string }
+> = {
+  creative:     { icon: "🪄", border: "border-violet-500/40",  bg: "bg-violet-500/8",  text: "text-violet-300",  chip: "bg-violet-500/20 text-violet-200"  },
+  finishing:    { icon: "🎯", border: "border-amber-500/40",   bg: "bg-amber-500/8",   text: "text-amber-300",   chip: "bg-amber-500/20 text-amber-200"    },
+  recoveries:   { icon: "🛡️", border: "border-emerald-500/40", bg: "bg-emerald-500/8", text: "text-emerald-300", chip: "bg-emerald-500/20 text-emerald-200" },
+  distribution: { icon: "🧠", border: "border-cyan-500/40",   bg: "bg-cyan-500/8",    text: "text-cyan-300",    chip: "bg-cyan-500/20 text-cyan-200"      },
+  running:      { icon: "⚡", border: "border-emerald-500/40", bg: "bg-emerald-500/8", text: "text-emerald-300", chip: "bg-emerald-500/20 text-emerald-200" },
+};
 
 type TrendMetricKey = keyof PlayerTrendMetrics;
 
@@ -231,6 +246,11 @@ export function PlayerRoundStandoutsDashboard({
     return getRunningMatchForGameweek(runningMatches, selectedGameweek);
   }, [runningMatches, selectedGameweek]);
 
+  const selectedRoundHighlights = useMemo(
+    () => hammarbyRoundPlayerHighlights.find((entry) => entry.gameweek === selectedGameweek) ?? null,
+    [selectedGameweek]
+  );
+
   const roundMetricSummaries = useMemo<RoundMetricSummary[]>(() => {
     if (!selectedRoundMatch) return [];
     return FEATURED_METRICS.map((metricKey) => {
@@ -371,6 +391,71 @@ export function PlayerRoundStandoutsDashboard({
             allDetailMatches={runningMatches}
           />
         ) : null}
+
+        {selectedRoundHighlights && selectedRoundHighlights.players.length > 0 && (
+          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
+            <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-[11px] uppercase tracking-[0.15em] text-amber-400">
+                  Spelarstandouts
+                </p>
+                <h2 className="mt-1 text-lg font-semibold text-white">
+                  Omgång {selectedGameweek} – framstående prestationer
+                </h2>
+              </div>
+              <a
+                href={selectedRoundHighlights.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+              >
+                Matchkälla ↗
+              </a>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {selectedRoundHighlights.players.map((player, index) => {
+                const style = HIGHLIGHT_STYLES[player.category];
+                return (
+                  <article
+                    key={`${player.category}-${player.playerId}-${index}`}
+                    className={`rounded-xl border p-3 ${style.border} ${style.bg}`}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <p className={`text-xs font-semibold uppercase tracking-wide ${style.text}`}>
+                        {style.icon} {player.badge}
+                      </p>
+                      <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${style.chip}`}>
+                        {player.category === "running" ? "Löpdata" :
+                         player.category === "creative" ? "Kreativ" :
+                         player.category === "finishing" ? "Avslut" :
+                         player.category === "recoveries" ? "Defensiv" : "Passning"}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-base font-semibold text-white">{player.name}</p>
+                    <p className="text-xs text-slate-400">{player.roleName}</p>
+                    <p className="mt-2 text-[11px] text-slate-300">
+                      {player.primaryStatLabel}:{" "}
+                      <span className="font-semibold text-slate-100">
+                        {player.primaryStatValue}
+                        {player.category === "running" ? " km/h" : ""}
+                      </span>
+                    </p>
+                    <p className="mt-1 text-[11px] text-slate-400">
+                      {player.minutesOnField} min ·{" "}
+                      {player.secondaryStatLabel}:{" "}
+                      {player.category === "running"
+                        ? `${player.secondaryStatValue.toLocaleString("sv-SE")} m`
+                        : player.secondaryStatValue}
+                    </p>
+                    <p className="mt-2 text-[11px] leading-relaxed text-slate-400">
+                      {player.description}
+                    </p>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
