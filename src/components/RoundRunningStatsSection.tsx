@@ -170,34 +170,27 @@ export function RoundRunningStatsSection({
           </thead>
           <tbody>
             {sortedPlayers.map((player, index) => {
-              const isElite = player.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M;
-              const pctOfRecord = Math.round(
-                (player.distanceMeters / ALLSVENSKAN_RECORD_DISTANCE_M) * 100
-              );
+              const isEliteDist = player.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M;
               return (
                 <tr
                   key={`${player.shirtNumber}-${player.name}`}
                   className={`border-b last:border-b-0 ${
-                    isElite
-                      ? "border-amber-500/30 bg-amber-500/8 text-slate-100"
+                    isEliteDist
+                      ? "border-amber-700/40 bg-amber-500/5 text-slate-100"
                       : "border-slate-800/80 text-slate-200"
                   }`}
                 >
                   <td className="px-3 py-2">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className={`font-semibold ${isElite ? "text-amber-100" : "text-white"}`}>
-                        {index + 1}. {player.name}
-                      </span>
-                      <span className="text-slate-500">#{player.shirtNumber}</span>
-                      {isElite && (
-                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/50 bg-amber-400/15 px-2 py-0.5 text-[10px] font-semibold leading-none text-amber-300">
-                          🥈 {pctOfRecord}% av Allsvenskan-rekordet
-                        </span>
-                      )}
-                    </div>
+                    <span className={`font-semibold ${isEliteDist ? "text-amber-100" : "text-white"}`}>
+                      {index + 1}. {player.name}
+                    </span>
+                    <span className="ml-1 text-slate-500">#{player.shirtNumber}</span>
+                    {isEliteDist && (
+                      <span className="ml-1.5 text-[10px] font-bold text-amber-400">🥈</span>
+                    )}
                   </td>
                   <td className="px-3 py-2 text-slate-400">{player.position}</td>
-                  <td className={`px-3 py-2 font-mono font-semibold ${isElite ? "text-amber-300" : "text-green-200"}`}>
+                  <td className={`px-3 py-2 font-mono font-semibold ${isEliteDist ? "text-amber-300" : "text-green-200"}`}>
                     {formatMeters(player.distanceMeters)}
                   </td>
                   <td className="px-3 py-2 font-mono text-slate-200">
@@ -216,7 +209,7 @@ export function RoundRunningStatsSection({
 
       {sortedPlayers.some((p) => p.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M) && (
         <p className="mt-3 text-[11px] text-slate-500">
-          🥈 = bland de {ELITE_SINGLE_MATCH_THRESHOLD_M.toLocaleString("sv-SE")}+ m som uppmätts i Allsvenskan sedan GPS-mätningarna startade 2024. Allsvenskan-rekordet är {ALLSVENSKAN_RECORD_DISTANCE_M.toLocaleString("sv-SE")} m (Besfort Zeneli, Elfsborg, 2025).
+          🥈 = en av de högsta löpdistanserna uppmätta i Allsvenskan sedan GPS-mätningarna startade 2024. Allsvenskan-rekordet är {ALLSVENSKAN_RECORD_DISTANCE_M.toLocaleString("sv-SE")} m (Besfort Zeneli, Elfsborg, 2025).
         </p>
       )}
     </section>
