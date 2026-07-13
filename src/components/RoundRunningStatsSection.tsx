@@ -1,5 +1,13 @@
 import type { RunningMatchStat } from "@/lib/hammarbyRunningData";
 
+/**
+ * The all-time highest single-match distance recorded in Allsvenskan since
+ * GPS measurements started in 2024: Besfort Zeneli (IF Elfsborg), 2025 — 14 059 m.
+ * Any player exceeding ELITE_SINGLE_MATCH_THRESHOLD is considered historically elite.
+ */
+const ALLSVENSKAN_RECORD_DISTANCE_M = 14059;
+const ELITE_SINGLE_MATCH_THRESHOLD_M = 13800;
+
 function formatMeters(meters: number) {
   return `${meters.toLocaleString("sv-SE")} m`;
 }
@@ -108,33 +116,56 @@ export function RoundRunningStatsSection({
             </tr>
           </thead>
           <tbody>
-            {sortedPlayers.map((player, index) => (
-              <tr
-                key={`${player.shirtNumber}-${player.name}`}
-                className="border-b border-slate-800/80 text-slate-200 last:border-b-0"
-              >
-                <td className="px-3 py-2">
-                  <span className="font-semibold text-white">
-                    {index + 1}. {player.name}
-                  </span>
-                  <span className="ml-1 text-slate-500">#{player.shirtNumber}</span>
-                </td>
-                <td className="px-3 py-2 text-slate-400">{player.position}</td>
-                <td className="px-3 py-2 font-mono text-green-200">
-                  {formatMeters(player.distanceMeters)}
-                </td>
-                <td className="px-3 py-2 font-mono text-slate-200">
-                  {formatMetersPerMinute(player.metersPerMinute)}
-                </td>
-                <td className="px-3 py-2 font-mono text-emerald-200">
-                  {formatSpeed(player.maxSpeedKmh)}
-                </td>
-                <td className="px-3 py-2 text-slate-400">{player.minutesPlayed}</td>
-              </tr>
-            ))}
+            {sortedPlayers.map((player, index) => {
+              const isElite = player.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M;
+              const pctOfRecord = Math.round(
+                (player.distanceMeters / ALLSVENSKAN_RECORD_DISTANCE_M) * 100
+              );
+              return (
+                <tr
+                  key={`${player.shirtNumber}-${player.name}`}
+                  className={`border-b last:border-b-0 ${
+                    isElite
+                      ? "border-amber-500/30 bg-amber-500/8 text-slate-100"
+                      : "border-slate-800/80 text-slate-200"
+                  }`}
+                >
+                  <td className="px-3 py-2">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className={`font-semibold ${isElite ? "text-amber-100" : "text-white"}`}>
+                        {index + 1}. {player.name}
+                      </span>
+                      <span className="text-slate-500">#{player.shirtNumber}</span>
+                      {isElite && (
+                        <span className="inline-flex items-center gap-1 rounded-full border border-amber-400/50 bg-amber-400/15 px-2 py-0.5 text-[10px] font-semibold leading-none text-amber-300">
+                          🥈 {pctOfRecord}% av Allsvenskan-rekordet
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-3 py-2 text-slate-400">{player.position}</td>
+                  <td className={`px-3 py-2 font-mono font-semibold ${isElite ? "text-amber-300" : "text-green-200"}`}>
+                    {formatMeters(player.distanceMeters)}
+                  </td>
+                  <td className="px-3 py-2 font-mono text-slate-200">
+                    {formatMetersPerMinute(player.metersPerMinute)}
+                  </td>
+                  <td className="px-3 py-2 font-mono text-emerald-200">
+                    {formatSpeed(player.maxSpeedKmh)}
+                  </td>
+                  <td className="px-3 py-2 text-slate-400">{player.minutesPlayed}</td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
+
+      {sortedPlayers.some((p) => p.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M) && (
+        <p className="mt-3 text-[11px] text-slate-500">
+          🥈 = bland de {ELITE_SINGLE_MATCH_THRESHOLD_M.toLocaleString("sv-SE")}+ m som uppmätts i Allsvenskan sedan GPS-mätningarna startade 2024. Allsvenskan-rekordet är {ALLSVENSKAN_RECORD_DISTANCE_M.toLocaleString("sv-SE")} m (Besfort Zeneli, Elfsborg, 2025).
+        </p>
+      )}
     </section>
   );
 }
