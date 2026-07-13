@@ -1,4 +1,5 @@
 import type { RunningMatchStat } from "@/lib/hammarbyRunningData";
+import { hammarbyTeamDistanceHistory } from "@/lib/hammarbyTeamDistanceHistoryData";
 
 /**
  * The all-time highest single-match distance recorded in Allsvenskan since
@@ -42,14 +43,42 @@ export function getRunningMatchForGameweek(
 
 export function RoundRunningStatsSection({
   match,
+  allDetailMatches,
 }: {
   match: RunningMatchStat;
+  allDetailMatches?: RunningMatchStat[];
 }) {
   const sortedPlayers = [...match.players].sort(
     (left, right) => right.distanceMeters - left.distanceMeters
   );
   const averageMetersPerMinute =
     match.hammarbyTeamDistanceMeters / match.hammarbyTeamMinutes;
+
+  const combinedSorted = [
+    ...(allDetailMatches ?? [match]).map((m) => ({
+      matchId: m.matchId,
+      dist: m.hammarbyTeamDistanceMeters,
+    })),
+    ...hammarbyTeamDistanceHistory
+      .filter((h) => !(allDetailMatches ?? [match]).some((m) => m.matchId === h.matchId))
+      .map((h) => ({ matchId: h.matchId, dist: h.hammarbyTeamDistanceMeters })),
+  ].sort((a, b) => b.dist - a.dist);
+
+  const totalMatchCount = combinedSorted.length;
+  const rankIndex = combinedSorted.findIndex((e) => e.matchId === match.matchId);
+  const rank = rankIndex + 1;
+  const rankLabel =
+    rank === 1 ? "🥇 #1" : rank === 2 ? "🥈 #2" : rank === 3 ? "🥉 #3" : `#${rank}`;
+  const rankColor =
+    rank === 1
+      ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-200"
+      : rank === 2
+      ? "border-slate-400/40 bg-slate-400/10 text-slate-200"
+      : rank === 3
+      ? "border-orange-500/50 bg-orange-500/15 text-orange-200"
+      : rank <= 10
+      ? "border-green-500/40 bg-green-500/10 text-green-200"
+      : "border-slate-600/40 bg-slate-600/10 text-slate-300";
 
   return (
     <section className="rounded-2xl border border-green-500/25 bg-slate-800/80 p-6">
@@ -65,17 +94,28 @@ export function RoundRunningStatsSection({
             {match.homeTeam} – {match.awayTeam} · {match.date}
           </p>
         </div>
-        <a
-          href={match.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-lg border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-xs font-medium text-green-200 hover:border-green-400/60 hover:bg-green-500/20"
-        >
-          Källa: allsvenskan.se ↗
-        </a>
+        <div className="flex flex-wrap items-center gap-2">
+          {rank > 0 && (
+            <span
+              className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm font-bold ${rankColor}`}
+              title={`Rankad ${rank} av ${totalMatchCount} kända Hammarby-matcher (2025–2026) efter lagets löpsträcka`}
+            >
+              {rankLabel}
+              <span className="text-[11px] font-normal opacity-70">/ {totalMatchCount}</span>
+            </span>
+          )}
+          <a
+            href={match.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-lg border border-green-500/35 bg-green-500/10 px-3 py-1.5 text-xs font-medium text-green-200 hover:border-green-400/60 hover:bg-green-500/20"
+          >
+            Källa: allsvenskan.se ↗
+          </a>
+        </div>
       </div>
 
-      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+      <div className="mt-4 grid gap-3 sm:grid-cols-4">
         <div className="rounded-xl border border-slate-700/60 bg-slate-900/50 px-4 py-3">
           <p className="text-[11px] uppercase tracking-wide text-slate-400">Lagets löpsträcka</p>
           <p className="mt-1 text-2xl font-bold text-white">
@@ -101,6 +141,19 @@ export function RoundRunningStatsSection({
           </p>
           <p className="mt-0.5 text-xs text-slate-500">Hammarbys topp i matchen</p>
         </div>
+        {rank > 0 && (
+          <div className={`rounded-xl border px-4 py-3 ${
+            rank <= 3 ? "border-yellow-500/40 bg-yellow-500/8" : "border-slate-700/60 bg-slate-900/50"
+          }`}>
+            <p className="text-[11px] uppercase tracking-wide text-slate-400">Ranking löpsträcka</p>
+            <p className={`mt-1 text-2xl font-bold ${rank <= 3 ? "text-yellow-200" : "text-white"}`}>
+              {rankLabel}
+            </p>
+            <p className="mt-0.5 text-xs text-slate-500">
+              av {totalMatchCount} kända Hammarby-matcher (2025–2026)
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="mt-4 overflow-x-auto rounded-xl border border-slate-700/60">

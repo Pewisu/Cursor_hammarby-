@@ -3,9 +3,55 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { type RunningMatchStat } from "@/lib/hammarbyRunningData";
+import {
+  hammarbyTeamDistanceHistory,
+  type TeamDistanceHistoryEntry,
+} from "@/lib/hammarbyTeamDistanceHistoryData";
 
 const ALLSVENSKAN_RECORD_DISTANCE_M = 14059;
 const ELITE_SINGLE_MATCH_THRESHOLD_M = 13800;
+
+type CombinedMatchEntry = {
+  matchId: number;
+  season: number;
+  round: string;
+  date: string;
+  homeTeam: string;
+  awayTeam: string;
+  hammarbyWasHome: boolean;
+  hammarbyTeamDistanceMeters: number;
+  hasPlayerDetail: boolean;
+};
+
+function buildCombinedHistory(
+  detailMatches: RunningMatchStat[],
+  history: TeamDistanceHistoryEntry[]
+): CombinedMatchEntry[] {
+  const detailIds = new Set(detailMatches.map((m) => m.matchId));
+
+  const fromDetail: CombinedMatchEntry[] = detailMatches.map((m) => ({
+    matchId: m.matchId,
+    season: 2026,
+    round: m.round,
+    date: m.date,
+    homeTeam: m.homeTeam,
+    awayTeam: m.awayTeam,
+    hammarbyWasHome: m.hammarbyWasHome,
+    hammarbyTeamDistanceMeters: m.hammarbyTeamDistanceMeters,
+    hasPlayerDetail: true,
+  }));
+
+  const fromHistory: CombinedMatchEntry[] = history
+    .filter((h) => !detailIds.has(h.matchId))
+    .map((h) => ({
+      ...h,
+      hasPlayerDetail: false,
+    }));
+
+  return [...fromDetail, ...fromHistory].sort(
+    (a, b) => b.hammarbyTeamDistanceMeters - a.hammarbyTeamDistanceMeters
+  );
+}
 
 type PlayerAggregate = {
   name: string;
@@ -237,6 +283,9 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
     ...matches.map((match) => match.hammarbyTeamDistanceMeters)
   );
 
+  const rankInHistory = (matchId: number) =>
+    combinedHistory.findIndex((e) => e.matchId === matchId) + 1;
+
   const sortedMatches = useMemo(() => {
     return matches.map((match) => {
       const sortedPlayers = [...match.players].sort((a, b) => {
@@ -272,6 +321,11 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
       return totalSort.direction === "desc" ? -compare : compare;
     });
   }, [playerTotals, totalSort]);
+
+  const combinedHistory = useMemo(
+    () => buildCombinedHistory(matches, hammarbyTeamDistanceHistory),
+    [matches]
+  );
 
   const primaryTrendSeries = useMemo(
     () => buildPlayerTrendSeries(matches, trendPrimaryPlayerName),
@@ -526,6 +580,94 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
           </section>
         )}
 
+        <section className="overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-800/80">
+          <div className="border-b border-slate-700/50 px-6 py-4">
+            <h2 className="text-lg font-semibold text-white">
+              Matchranking – lagets löpsträcka
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">
+              Alla Hammarby-matcher med tillgänglig löpdata, sorterade efter lagets löpsträcka.
+              Säsong 2026 (detaljdata) · Säsong 2025 (lagdistans). Data saknas för 2024.
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-slate-900/70 text-left text-xs uppercase tracking-wide text-slate-400">
+                <tr>
+                  <th className="px-4 py-3 text-right">#</th>
+                  <th className="px-4 py-3">Match</th>
+                  <th className="px-4 py-3 text-right whitespace-nowrap">Säsong</th>
+                  <th className="px-4 py-3 text-right whitespace-nowrap">Löpsträcka</th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {combinedHistory.slice(0, 15).map((entry, index) => {
+                  const isCurrent2026 = entry.hasPlayerDetail;
+                  const isTop3 = index < 3;
+                  const rankLabel =
+                    index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}`;
+                  const distancePct =
+                    (entry.hammarbyTeamDistanceMeters /
+                      combinedHistory[0].hammarbyTeamDistanceMeters) *
+                    100;
+                  return (
+                    <tr
+                      key={entry.matchId}
+                      className={`border-t text-slate-200 ${
+                        isCurrent2026
+                          ? isTop3
+                            ? "border-green-500/30 bg-green-500/8"
+                            : "border-green-700/30 bg-green-900/10"
+                          : "border-slate-700/50"
+                      }`}
+                    >
+                      <td className="px-4 py-2.5 text-right text-base font-bold">
+                        <span className={isCurrent2026 && isTop3 ? "text-green-300" : "text-slate-400"}>
+                          {rankLabel}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2.5">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className={`font-medium ${isCurrent2026 ? "text-white" : "text-slate-300"}`}>
+                            {entry.homeTeam} – {entry.awayTeam}
+                          </span>
+                          {isCurrent2026 && (
+                            <span className="rounded-full bg-green-500/20 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-green-300">
+                              2026
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-0.5 text-xs text-slate-500">{entry.round}</div>
+                      </td>
+                      <td className="px-4 py-2.5 text-right text-slate-400">{entry.season}</td>
+                      <td className="px-4 py-2.5 text-right">
+                        <div className={`font-semibold ${isCurrent2026 && isTop3 ? "text-green-200" : "text-white"}`}>
+                          {formatMeters(entry.hammarbyTeamDistanceMeters)}
+                        </div>
+                        <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-slate-700/60 ml-auto">
+                          <div
+                            className={`h-full rounded-full ${isCurrent2026 ? "bg-green-500" : "bg-slate-500"}`}
+                            style={{ width: `${distancePct}%` }}
+                          />
+                        </div>
+                      </td>
+                      <td className="px-4 py-2.5 text-right text-xs text-slate-500">
+                        {isCurrent2026 ? "Detaljer ↑" : ""}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {combinedHistory.length > 15 && (
+            <div className="border-t border-slate-700/50 px-6 py-3 text-xs text-slate-500">
+              Visar topp 15 av {combinedHistory.length} matcher.
+            </div>
+          )}
+        </section>
+
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
             <p className="text-xs text-slate-400">Total löpsträcka</p>
@@ -577,12 +719,35 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                   key={match.matchId}
                   className="rounded-xl border border-slate-700/50 bg-slate-900/60 p-4"
                 >
-                  <p className="text-xs text-slate-400">
-                    {match.round} • {match.date}
-                  </p>
-                  <h3 className="mt-1 text-base font-semibold text-white">
-                    {match.homeTeam} - {match.awayTeam}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-xs text-slate-400">
+                        {match.round} • {match.date}
+                      </p>
+                      <h3 className="mt-1 text-base font-semibold text-white">
+                        {match.homeTeam} - {match.awayTeam}
+                      </h3>
+                    </div>
+                    {(() => {
+                      const rank = rankInHistory(match.matchId);
+                      const rankLabel = rank === 1 ? "🥇 #1" : rank === 2 ? "🥈 #2" : rank === 3 ? "🥉 #3" : `#${rank}`;
+                      const rankColor =
+                        rank === 1
+                          ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-300"
+                          : rank === 2
+                          ? "border-slate-400/50 bg-slate-400/15 text-slate-300"
+                          : rank === 3
+                          ? "border-orange-500/50 bg-orange-500/15 text-orange-300"
+                          : rank <= 10
+                          ? "border-green-500/40 bg-green-500/10 text-green-300"
+                          : "border-slate-600/40 bg-slate-600/10 text-slate-400";
+                      return (
+                        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-xs font-bold ${rankColor}`}>
+                          {rankLabel}
+                        </span>
+                      );
+                    })()}
+                  </div>
 
                   <div className="mt-4 space-y-3">
                     <div>
