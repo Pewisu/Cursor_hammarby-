@@ -9662,5 +9662,37 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
         ]
       }
     }
+  },
+  {
+    "key": "2026-gw-13",
+    "season": 2026,
+    "competition": "Allsvenskan",
+    "gameweek": 13,
+    "date": "2026-07-12",
+    "matchName": "Hammarby - Kalmar, 2-0",
+    "opponent": "Kalmar",
+    "opponentTeamId": 6711,
+    "isHome": true,
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-07-12-00-00-hammarby-kalmar-ff",
+    "metrics": {
+      "ball_possession_pct": { "value": 0.56, "seasonAverage": 0.5, "periods": [0.75, 0.62, 0.73, 0.45, 0.55, 0.31] },
+      "field_tilt": { "value": 0.64, "seasonAverage": 1, "periods": [0.8, 1, 1, 0.5714285714285714, 0.75, 0.2] },
+      "np_shots": { "value": 16, "seasonAverage": 13.15, "periods": [4, 2, 2, 4, 3, 1] },
+      "num_possessions_final_third": { "value": 48, "seasonAverage": 46.39, "periods": [9, 8, 11, 7, 7, 6] },
+      "num_box_entries": { "value": 9, "seasonAverage": 8.7, "periods": [2, 1, 2, 2, 2, 0] },
+      "xt_within_10s_after_recovery": { "value": 0.66, "seasonAverage": 0.89, "periods": [0.19, 0.07, 0.1, 0.14, 0.08, 0.07] },
+      "xt": { "value": 1.88, "seasonAverage": 1.51, "periods": [0.54, 0.18, 0.47, 0.4, 0.23, 0.04] },
+      "opp_xt": { "value": 1.03, "seasonAverage": 0, "periods": [0.17, 0.07, 0.08, 0.25, 0.14, 0.33] },
+      "num_recoveries_att_half": { "value": 9, "seasonAverage": 7.82, "periods": [2, 1, 2, 2, 2, 0] },
+      "ppda": { "value": 7.48, "seasonAverage": 6.43, "periods": [4.08, 4.92, 5.57, 6, 13.5, 24.5] },
+      "defensive_action_height_m": { "value": 45.58, "seasonAverage": 41.04, "periods": [54.18, 54.43, 52.08, 47, 40.16, 28.92] },
+      "opp_np_shots": { "value": 9, "seasonAverage": 0, "periods": [1, 0, 0, 3, 1, 4] },
+      "opp_num_box_entries": { "value": 4, "seasonAverage": 0, "periods": [1, 0, 0, 0, 0, 3] },
+      "time_to_defensive_action_after_loss_att_half_s": { "value": 4.52, "seasonAverage": 6.53, "periods": [6.12, 3.79, 3.47, 1.1, 33.94, 45.94] },
+      "np_xg": { "value": 1.52, "seasonAverage": 1.57, "periods": [0.41, 0.09, 0.43, 0.35, 0.2, 0] },
+      "opp_np_xg": { "value": 1.12, "seasonAverage": 0, "periods": [0.47, 0, 0, 0.18, 0.01, 0.46] },
+      "np_xg_per_shot": { "value": 0.09, "seasonAverage": 0.12, "periods": [0.1, 0.04, 0.21, 0.09, 0.07, 0] },
+      "opp_np_xg_per_shot": { "value": 0.12, "seasonAverage": 0, "periods": [0.47, 0, 0, 0.06, 0.01, 0.11] }
+    }
   }
 ];
