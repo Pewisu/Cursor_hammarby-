@@ -152,24 +152,24 @@ function PointsComparisonSection({
       id="season-points"
       className={
         className ??
-        "rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4 md:p-5"
+        "rounded-2xl border border-white/[0.06] bg-[#161b22] p-4 md:p-5"
       }
     >
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <h2 className="text-base font-semibold text-white md:text-lg">Poängsnitt & poängprognos</h2>
-          <p className="mt-1 text-xs text-slate-400 md:text-sm">
+          <p className="mt-1 text-xs text-neutral-400 md:text-sm">
             Komprimerad jämförelse: poäng efter vald omgång, poängsnitt och säsongssnitt.
           </p>
         </div>
-        <span className="rounded-md border border-slate-600/70 bg-slate-900/60 px-2 py-1 text-[11px] text-slate-300">
+        <span className="rounded-md border border-neutral-700/70 bg-neutral-900/60 px-2 py-1 text-[11px] text-neutral-300">
           Omgång {comparisonRound}
         </span>
       </div>
       <div className="mt-3 overflow-x-auto">
         <table className="min-w-full text-left text-xs sm:text-sm">
           <thead>
-            <tr className="border-b border-slate-700/60 text-slate-400">
+            <tr className="border-b border-white/[0.07] text-neutral-400">
               <th className="px-2 py-2 font-medium">Säsong</th>
               <th className="px-2 py-2 font-medium">Efter omg {comparisonRound}</th>
               <th className="px-2 py-2 font-medium">Poängsnitt</th>
@@ -180,7 +180,7 @@ function PointsComparisonSection({
             {pointsComparisonRows.map((row) => (
               <tr
                 key={`points-compact-${row.seasonLabel}`}
-                className="border-b border-slate-800/80 text-slate-200 last:border-b-0"
+                className="border-b border-slate-800/80 text-neutral-200 last:border-b-0"
               >
                 <td className="px-2 py-2 font-semibold text-white">{row.seasonLabel}</td>
                 <td className="px-2 py-2">{row.pointsAfterRoundText}</td>
@@ -197,7 +197,7 @@ function PointsComparisonSection({
             <p className="text-[10px] font-semibold uppercase tracking-wide text-emerald-300/90">
               Denna match vs snitt
             </p>
-            <p className="mt-0.5 text-xs text-slate-400">
+            <p className="mt-0.5 text-xs text-neutral-400">
               Jämfört med {matchContext.seasonPpgBefore.toFixed(2).replace(".", ",")} p/omg före matchen
             </p>
           </div>
@@ -214,14 +214,14 @@ function PointsComparisonSection({
           </div>
         </div>
       ) : null}
-      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-slate-500">
+      <div className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-neutral-500">
         {pointsComparisonRows.map((row) => (
           <span key={`points-note-${row.seasonLabel}`}>
             {row.seasonLabel}: {row.note}
           </span>
         ))}
       </div>
-      <p className="mt-2 text-[11px] text-slate-500">
+      <p className="mt-2 text-[11px] text-neutral-500">
         2026-poängsnittet räknas på faktisk poäng hittills; 2025/2024 använder slutligt säsongssnitt
         per omgång. ≈ markerar prognos/fallback.
       </p>
@@ -716,7 +716,7 @@ function computeRelativeOutcomeDelta(
 }
 
 function getSimpleDeltaTone(value: number | null): string {
-  if (value === null || value === 0) return "text-slate-300";
+  if (value === null || value === 0) return "text-neutral-300";
   return value > 0 ? "text-green-300" : "text-rose-300";
 }
 
@@ -849,7 +849,7 @@ function getMatchAnalysisDeltaTone(
   value: number,
   direction: MatchAnalysisMetricDefinition["direction"]
 ): string {
-  if (value === 0) return "text-slate-300";
+  if (value === 0) return "text-neutral-300";
   const isPositiveOutcome = direction === "higher" ? value > 0 : value < 0;
   return isPositiveOutcome ? "text-green-300" : "text-rose-300";
 }
@@ -2225,9 +2225,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
   if (!current || current.stats.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0f172a]">
+      <div className="min-h-screen bg-[#0d1117]">
         <main className="mx-auto max-w-5xl px-4 py-12">
-          <p className="text-slate-300">Ingen matchstatistik tillgänglig för detta val.</p>
+          <p className="text-neutral-300">Ingen matchstatistik tillgänglig för detta val.</p>
           <Link href="/" className="mt-4 inline-flex text-sm text-blue-300 hover:text-blue-200">
             ← Till startsidan
           </Link>
@@ -2237,12 +2237,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   }
 
   return (
-    <div className={`min-h-screen ${isRound11Dashboard ? "bg-[#13231d]" : "bg-[#0f172a]"}`}>
+    <div className={`min-h-screen ${isRound11Dashboard ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
       <header
         className={`sticky top-0 z-50 border-b backdrop-blur-sm ${
           isRound11Dashboard
             ? "border-emerald-800/45 bg-[#163028]/95"
-            : "border-slate-700/50 bg-[#0f172a]/90"
+            : "border-white/[0.06] bg-[#0d1117]/90"
         }`}
       >
         <div className="mx-auto max-w-6xl px-4 py-4">
@@ -2254,7 +2254,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             Matchstatistik
           </p>
           <h1 className="text-2xl font-bold text-white">{current.title}</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-neutral-400">
             {current.subtitle} • {current.dateText}
           </p>
         </div>
@@ -2266,44 +2266,44 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
                 item.active
                   ? "border-blue-500/40 bg-blue-500/20 text-blue-200"
-                  : "border-slate-700 bg-slate-900/50 text-slate-300 hover:border-slate-500 hover:text-white"
+                  : "border-neutral-800 bg-neutral-900/60 text-neutral-300 hover:border-slate-500 hover:text-white"
               }`}
             >
               {item.label}
             </Link>
           ))}
-          <span className="mx-1 text-slate-600">•</span>
+          <span className="mx-1 text-neutral-600">•</span>
           <Link href="/spelarstatistik" className="text-xs text-purple-300 hover:text-purple-200">
             Spelarstatistik
           </Link>
           <Link
             href="/"
-            className="rounded-lg border border-slate-500/50 bg-slate-900/70 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:border-slate-300 hover:bg-slate-800"
+            className="rounded-lg border border-slate-500/50 bg-neutral-900/70 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:border-slate-300 hover:bg-[#161b22]"
           >
             🏠 Huvudsida
           </Link>
           {mode === "round" && typeof round === "number" && (
-            <div className="ml-auto flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900/60 px-2 py-1">
+            <div className="ml-auto flex items-center gap-2 rounded-lg border border-neutral-800 bg-neutral-900/60 px-2 py-1">
               {previousRound ? (
                 <Link
                   href={`/matchstatistik/omgang/${previousRound.gameweek}`}
-                  className="rounded-md border border-slate-600 px-2 py-1 text-[11px] text-slate-200 hover:border-slate-500 hover:text-white"
+                  className="rounded-md border border-neutral-700 px-2 py-1 text-[11px] text-neutral-200 hover:border-slate-500 hover:text-white"
                 >
                   ← Omg {previousRound.gameweek}
                 </Link>
               ) : (
-                <span className="px-2 py-1 text-[11px] text-slate-500">←</span>
+                <span className="px-2 py-1 text-[11px] text-neutral-500">←</span>
               )}
-              <span className="text-[11px] text-slate-300">Nu: Omg {round}</span>
+              <span className="text-[11px] text-neutral-300">Nu: Omg {round}</span>
               {nextRound ? (
                 <Link
                   href={`/matchstatistik/omgang/${nextRound.gameweek}`}
-                  className="rounded-md border border-slate-600 px-2 py-1 text-[11px] text-slate-200 hover:border-slate-500 hover:text-white"
+                  className="rounded-md border border-neutral-700 px-2 py-1 text-[11px] text-neutral-200 hover:border-slate-500 hover:text-white"
                 >
                   Omg {nextRound.gameweek} →
                 </Link>
               ) : (
-                <span className="px-2 py-1 text-[11px] text-slate-500">→</span>
+                <span className="px-2 py-1 text-[11px] text-neutral-500">→</span>
               )}
             </div>
           )}
@@ -2311,7 +2311,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 15) && (
           <div
             className={`border-t ${
-              isRound11Dashboard ? "border-emerald-800/40 bg-[#163028]/95" : "border-slate-700/40 bg-[#0f172a]/95"
+              isRound11Dashboard ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
             }`}
           >
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
@@ -2391,7 +2391,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {/* ── Tab navigation (round mode only, not special round 11) ── */}
         {mode === "round" && !isRound11Dashboard && (
-          <div className="border-t border-slate-700/40 bg-[#0f172a]/95">
+          <div className="border-t border-white/[0.05] bg-[#0d1117]/95">
             <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 py-2.5">
               {(
                 [
@@ -2407,7 +2407,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   className={`relative whitespace-nowrap rounded-full px-4 py-1.5 text-xs font-semibold transition-all ${
                     roundTab === tab.id
                       ? "bg-green-500/20 text-green-300 shadow-[0_0_12px_rgba(74,222,128,0.15)] ring-1 ring-green-500/50"
-                      : "text-slate-500 hover:bg-slate-800/70 hover:text-slate-300"
+                      : "text-neutral-500 hover:bg-[#161b22]/70 hover:text-neutral-300"
                   }`}
                 >
                   {tab.label}
@@ -2464,40 +2464,55 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
-        <section id="matchgenomgang" className="grid gap-4 md:grid-cols-4">
-          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
-            <p className="text-xs text-slate-400">{current.leftTeam}</p>
-            <p className="mt-2 text-3xl font-semibold text-white">
-              {current.stats.find((stat) => stat.key === "goals")?.home ?? 0}
+        <section id="matchgenomgang" className="grid gap-3 md:grid-cols-4">
+          {/* Hammarby goals */}
+          <div className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-[#0d1f12] p-5">
+            <div className="absolute inset-x-0 top-0 h-0.5 bg-gradient-to-r from-emerald-600/0 via-emerald-500/70 to-emerald-600/0" />
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-emerald-400/70">Hammarby</p>
+            <p className="mt-1 text-5xl font-black tabular-nums text-white">
+              {current.leftTeam === "Hammarby"
+                ? (current.stats.find((s) => s.key === "goals")?.home ?? 0)
+                : (current.stats.find((s) => s.key === "goals")?.away ?? 0)}
             </p>
-            <p className="text-xs text-slate-500">Mål</p>
+            <p className="mt-1 text-xs font-medium text-neutral-500">Mål</p>
           </div>
-          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
-            <p className="text-xs text-slate-400">{current.rightTeam}</p>
-            <p className="mt-2 text-3xl font-semibold text-white">
-              {current.stats.find((stat) => stat.key === "goals")?.away ?? 0}
+          {/* Opponent goals */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#161b22] p-5">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">
+              {current.leftTeam === "Hammarby" ? current.rightTeam : current.leftTeam}
             </p>
-            <p className="text-xs text-slate-500">Mål</p>
+            <p className="mt-1 text-5xl font-black tabular-nums text-neutral-300">
+              {current.leftTeam === "Hammarby"
+                ? (current.stats.find((s) => s.key === "goals")?.away ?? 0)
+                : (current.stats.find((s) => s.key === "goals")?.home ?? 0)}
+            </p>
+            <p className="mt-1 text-xs font-medium text-neutral-500">Mål</p>
           </div>
-          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
-            <p className="text-xs text-slate-400">Hammarby xG</p>
-            <p className="mt-2 text-3xl font-semibold text-white">
-              {(
-                current.leftTeam === "Hammarby"
-                  ? current.stats.find((stat) => stat.key === "xg")?.home
-                  : current.stats.find((stat) => stat.key === "xg")?.away
+          {/* xG */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#161b22] p-5">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Hammarby xG</p>
+            <p className="mt-1 text-5xl font-black tabular-nums text-white">
+              {(current.leftTeam === "Hammarby"
+                ? current.stats.find((s) => s.key === "xg")?.home
+                : current.stats.find((s) => s.key === "xg")?.away
               )?.toFixed(2) ?? "0.00"}
             </p>
-            <p className="text-xs text-slate-500">Förväntade mål</p>
+            <p className="mt-1 text-xs font-medium text-neutral-500">Förväntade mål</p>
           </div>
-          <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
-            <p className="text-xs text-slate-400">Hammarby bollinnehav</p>
-            <p className="mt-2 text-3xl font-semibold text-white">
+          {/* Possession */}
+          <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#161b22] p-5">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Bollinnehav</p>
+            <p className="mt-1 text-5xl font-black tabular-nums text-white">
               {current.leftTeam === "Hammarby"
-                ? `${current.stats.find((stat) => stat.key === "possession")?.home ?? 0}%`
-                : `${current.stats.find((stat) => stat.key === "possession")?.away ?? 0}%`}
+                ? `${current.stats.find((s) => s.key === "possession")?.home ?? 0}`
+                : `${current.stats.find((s) => s.key === "possession")?.away ?? 0}`}<span className="text-2xl text-neutral-500">%</span>
             </p>
-            <p className="text-xs text-slate-500">Andel av boll</p>
+            <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-neutral-800">
+              <div
+                className="h-full rounded-full bg-emerald-500"
+                style={{ width: `${current.leftTeam === "Hammarby" ? (current.stats.find((s) => s.key === "possession")?.home ?? 0) : (current.stats.find((s) => s.key === "possession")?.away ?? 0)}%` }}
+              />
+            </div>
           </div>
         </section>
         )}
@@ -2510,13 +2525,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && roundTab === "matchen" && (
-          <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
+          <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
                 <h2 className="text-lg font-semibold text-white">
                   Standout-spelare (Hammarby, omgång {standoutPlayersForRound.gameweek})
                 </h2>
-                <p className="mt-1 text-sm text-slate-400">
+                <p className="mt-1 text-sm text-neutral-400">
                   Lyfter spelare som utmärkte sig i olika roller i matchen.
                 </p>
               </div>
@@ -2524,7 +2539,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 href={standoutPlayersForRound.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+                className="rounded-lg border border-neutral-700 bg-neutral-900/70 px-3 py-1.5 text-xs text-neutral-200 hover:border-slate-500 hover:text-white"
               >
                 Datakälla
               </a>
@@ -2548,11 +2563,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       </span>
                     </div>
                     <p className="mt-2 text-base font-semibold text-white">{card.player.name}</p>
-                    <p className="text-xs text-slate-400">{card.player.roleName}</p>
-                    <p className="mt-2 text-[11px] text-slate-300">
-                      {card.metricLabel}: <span className="font-semibold text-slate-100">{card.metricValue}</span>
+                    <p className="text-xs text-neutral-400">{card.player.roleName}</p>
+                    <p className="mt-2 text-[11px] text-neutral-300">
+                      {card.metricLabel}: <span className="font-semibold text-neutral-100">{card.metricValue}</span>
                     </p>
-                    <p className="mt-1 text-[11px] text-slate-400">
+                    <p className="mt-1 text-[11px] text-neutral-400">
                       {card.player.minutesOnField} min • {card.player.secondaryStatLabel}:{" "}
                       {card.player.secondaryStatValue}
                     </p>
@@ -2569,13 +2584,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
           visibleTeamStandoutInsights.length > 0 && (
-            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
+            <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white">
                     Lagets standout i omgången (det som stack ut)
                   </h2>
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-sm text-neutral-400">
                     Kompletterar KPI-översikten ovan med korta insikter om vad som verkligen stack
                     ut i matchbilden. Vanligtvis visas minst 3 punkter, med balans mellan positivt
                     och negativt.
@@ -2585,120 +2600,98 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   href={selectedRoundData.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+                  className="rounded-lg border border-neutral-700 bg-neutral-900/70 px-3 py-1.5 text-xs text-neutral-200 hover:border-slate-500 hover:text-white"
                 >
                   Matchanalyskälla
                 </a>
               </div>
-              <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+              <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
                 {visibleTeamStandoutInsights.map((insight) => {
-                  const toneClass = insight.isPositive
-                    ? insight.emphasis === "high"
-                      ? "border-emerald-400/50 bg-emerald-500/10"
-                      : insight.emphasis === "medium"
-                        ? "border-emerald-500/35 bg-emerald-500/5"
-                        : "border-emerald-600/25 bg-emerald-500/5"
-                    : "border-rose-500/35 bg-rose-500/10";
+                  const isPos = insight.isPositive;
+                  const badgeLabel = getStandoutOutcomeLabel(insight);
+                  // Progress bar: match value vs avg2026 (0–200% scale capped at 100)
+                  const avg = insight.season2026Value ?? insight.season2025Value ?? insight.matchValue;
+                  const barMatch = avg > 0 ? Math.min(100, (insight.matchValue / (avg * 2)) * 100) : 50;
+                  const barAvg   = avg > 0 ? Math.min(100, (avg                / (avg * 2)) * 100) : 50;
                   return (
                     <article
                       key={`team-standout-${insight.id}`}
-                      className={`rounded-xl border p-3 ${toneClass}`}
+                      className={`relative overflow-hidden rounded-2xl border p-5 ${
+                        isPos
+                          ? "border-emerald-500/20 bg-[#0d1f12]"
+                          : "border-red-500/20 bg-[#1a0f0f]"
+                      }`}
                     >
-                      <div className="flex items-center justify-between gap-2">
-                        <p className="text-xs font-semibold uppercase tracking-wide text-slate-200">
+                      {/* Top accent line */}
+                      <div className={`absolute inset-x-0 top-0 h-0.5 ${
+                        isPos
+                          ? "bg-gradient-to-r from-transparent via-emerald-500/60 to-transparent"
+                          : "bg-gradient-to-r from-transparent via-red-500/60 to-transparent"
+                      }`} />
+
+                      {/* Header row */}
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
                           {insight.theme}
                         </p>
-                        <span className="rounded-full border border-slate-600/80 bg-slate-950/60 px-2 py-0.5 text-[10px] text-slate-300">
-                          {getStandoutBadgeLabel(insight)}
+                        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                          isPos
+                            ? "bg-emerald-500/15 text-emerald-300"
+                            : "bg-red-500/15 text-red-300"
+                        }`}>
+                          {badgeLabel}
                         </span>
                       </div>
-                      <p className="mt-1 text-sm font-semibold text-white">{insight.metric.label}</p>
-                      <p className="mt-1 text-[11px] text-slate-300">{insight.narrative}</p>
-                      <p
-                        className={`mt-1 text-[11px] font-semibold ${
-                          insight.isPositive ? "text-emerald-300" : "text-rose-300"
-                        }`}
-                      >
-                        {getStandoutOutcomeLabel(insight)}
+
+                      {/* Metric name + value */}
+                      <p className="mt-2 text-sm font-semibold text-neutral-200">{insight.metric.label}</p>
+                      <p className={`mt-1 text-2xl font-black tabular-nums ${isPos ? "text-emerald-300" : "text-red-300"}`}>
+                        {formatMatchAnalysisValue(insight.matchValue, insight.metric)}
                       </p>
-                      <div className="mt-2 grid gap-2 text-[11px] sm:grid-cols-3">
-                        <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                          <p className="text-slate-500">Vald omgång</p>
-                          <p className="font-semibold text-white">
-                            {formatMatchAnalysisValue(insight.matchValue, insight.metric)}
-                          </p>
+
+                      {/* Progress bar: match vs avg */}
+                      <div className="mt-3 space-y-1.5">
+                        <div>
+                          <div className="mb-1 flex justify-between text-[10px] text-neutral-500">
+                            <span>Denna match</span>
+                            <span className={isPos ? "text-emerald-400" : "text-red-400"}>
+                              {formatMatchAnalysisValue(insight.matchValue, insight.metric)}
+                            </span>
+                          </div>
+                          <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-800">
+                            <div
+                              className={`h-full rounded-full transition-all duration-700 ${isPos ? "bg-emerald-500" : "bg-red-500"}`}
+                              style={{ width: `${barMatch}%` }}
+                            />
+                          </div>
                         </div>
-                        <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                          <p className="text-slate-500">Snitt 2026</p>
-                          <p className="font-semibold text-white">
-                            {insight.season2026Value === null
-                              ? "–"
-                              : formatMatchAnalysisValue(insight.season2026Value, insight.metric)}
-                          </p>
-                        </div>
-                        <div className="rounded border border-slate-700/70 bg-slate-950/60 px-2 py-1.5">
-                          <p className="text-slate-500">Snitt 2025</p>
-                          <p className="font-semibold text-white">
-                            {insight.season2025Value === null
-                              ? "–"
-                              : formatMatchAnalysisValue(insight.season2025Value, insight.metric)}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="mt-2 rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5 text-[11px]">
-                        <p className="text-slate-500">Skillnad mot säsongssnitt</p>
-                        <div className="mt-1 grid gap-2 sm:grid-cols-2">
-                          <p
-                            className={
-                              insight.deltaVs2026 === null
-                                ? "text-slate-400"
-                                : getMatchAnalysisDeltaTone(
-                                    insight.deltaVs2026,
-                                    insight.metric.direction
-                                  )
-                            }
-                          >
-                            2026: {formatDeltaWithMeaning(insight.deltaVs2026, insight.metric)}
-                            {insight.relativeVs2026 !== null && (
-                              <span className="ml-1 text-slate-400">
-                                ({formatRelativeOutcomeDelta(insight.relativeVs2026)})
-                              </span>
-                            )}
-                          </p>
-                          <p
-                            className={
-                              insight.deltaVs2025 === null
-                                ? "text-slate-400"
-                                : getMatchAnalysisDeltaTone(
-                                    insight.deltaVs2025,
-                                    insight.metric.direction
-                                  )
-                            }
-                          >
-                            2025: {formatDeltaWithMeaning(insight.deltaVs2025, insight.metric)}
-                            {insight.relativeVs2025 !== null && (
-                              <span className="ml-1 text-slate-400">
-                                ({formatRelativeOutcomeDelta(insight.relativeVs2025)})
-                              </span>
-                            )}
-                          </p>
+                        <div>
+                          <div className="mb-1 flex justify-between text-[10px] text-neutral-500">
+                            <span>Snitt 2026</span>
+                            <span>{insight.season2026Value !== null ? formatMatchAnalysisValue(insight.season2026Value, insight.metric) : "–"}</span>
+                          </div>
+                          <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-800">
+                            <div
+                              className="h-full rounded-full bg-neutral-500 transition-all duration-700"
+                              style={{ width: `${barAvg}%` }}
+                            />
+                          </div>
                         </div>
                       </div>
-                      <div className="mt-2 rounded border border-slate-700/70 bg-slate-900/60 px-2 py-1.5 text-[11px]">
-                        <p className="text-slate-500">Aktiv referens</p>
-                        <p
-                          className={`font-semibold ${getMatchAnalysisDeltaTone(
-                            insight.selectedRawDelta,
-                            insight.metric.direction
-                          )}`}
-                        >
-                          Snitt {insight.selectedReferenceSeason}:{" "}
-                          {formatDeltaWithMeaning(insight.selectedRawDelta, insight.metric)}
+
+                      {/* Delta summary */}
+                      {insight.deltaVs2026 !== null && (
+                        <p className={`mt-3 text-[11px] font-semibold ${
+                          getMatchAnalysisDeltaTone(insight.deltaVs2026, insight.metric.direction)
+                        }`}>
+                          {formatDeltaWithMeaning(insight.deltaVs2026, insight.metric)} vs snitt 2026
+                          {insight.relativeVs2026 !== null && (
+                            <span className="ml-1 font-normal text-neutral-500">
+                              ({formatRelativeOutcomeDelta(insight.relativeVs2026)})
+                            </span>
+                          )}
                         </p>
-                        <p className="text-slate-400">
-                          Utslag {formatRelativeOutcomeDelta(insight.selectedRelativeDelta)}
-                        </p>
-                      </div>
+                      )}
                     </article>
                   );
                 })}
@@ -2712,13 +2705,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
           playstyleProfiles.length > 0 && (
-            <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
+            <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-white">
                     Spelstil & spelsätt som stack ut (omgång {roundVsSeasonRow?.gameweek})
                   </h2>
-                  <p className="mt-1 text-sm text-slate-400">
+                  <p className="mt-1 text-sm text-neutral-400">
                     Profilkort som visar hur matchen skiljde sig mot säsongssnitt 2026 och 2025.
                   </p>
                 </div>
@@ -2726,125 +2719,91 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   href={selectedRoundData.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-1.5 text-xs text-slate-200 hover:border-slate-500 hover:text-white"
+                  className="rounded-lg border border-neutral-700 bg-neutral-900/70 px-3 py-1.5 text-xs text-neutral-200 hover:border-slate-500 hover:text-white"
                 >
                   Matchanalyskälla
                 </a>
               </div>
-              <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              <div className="mt-5 grid gap-5 lg:grid-cols-2">
                 {playstyleProfiles.map((profile) => {
-                  const tone = HIGHLIGHT_TONE_STYLES[profile.tone];
+                  const isPos = profile.tone === "emerald" || profile.tone === "cyan";
                   const renderSnapshot = (
                     snapshot: PlaystyleMetricSnapshot,
-                    snapshotLabel: string
+                    snapshotLabel: string,
+                    isPrimary: boolean
                   ) => {
                     const comparisonValues = [
                       snapshot.currentValue,
                       snapshot.average2026 ?? 0,
                       snapshot.average2025 ?? 0,
                     ];
+                    const maxVal = Math.max(...comparisonValues, 0.001);
+                    const wMatch = `${Math.min(100, (snapshot.currentValue / maxVal) * 100).toFixed(1)}%`;
+                    const w2026  = `${Math.min(100, ((snapshot.average2026 ?? 0) / maxVal) * 100).toFixed(1)}%`;
+                    const w2025  = `${Math.min(100, ((snapshot.average2025 ?? 0) / maxVal) * 100).toFixed(1)}%`;
                     return (
-                      <div className="rounded-lg border border-slate-700/60 bg-slate-950/60 p-3">
-                        <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-300">
-                          {snapshotLabel}
-                        </p>
-                        <p className={`mt-1 text-sm font-semibold ${tone.text}`}>
-                          {snapshot.metric.label}
-                        </p>
-                        <div className="mt-2 space-y-2 text-[11px]">
-                          <div>
-                            <div className="mb-1 flex items-center justify-between text-slate-300">
-                              <span>Vald match</span>
-                              <span className="font-semibold text-white">
-                                {formatMatchAnalysisValue(snapshot.currentValue, snapshot.metric)}
-                              </span>
-                            </div>
-                            <div className="h-1.5 rounded-full bg-slate-800">
-                              <div
-                                className="h-1.5 rounded-full bg-blue-400"
-                                style={{
-                                  width: getRelativeMetricBarWidth(
-                                    snapshot.currentValue,
-                                    comparisonValues
-                                  ),
-                                }}
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="mb-1 flex items-center justify-between text-slate-300">
-                              <span>Snitt 2026</span>
-                              <span className="font-semibold text-white">
-                                {snapshot.average2026 === null
-                                  ? "–"
-                                  : formatMatchAnalysisValue(snapshot.average2026, snapshot.metric)}
-                              </span>
-                            </div>
-                            <div className="h-1.5 rounded-full bg-slate-800">
-                              <div
-                                className="h-1.5 rounded-full bg-emerald-400"
-                                style={{
-                                  width: getRelativeMetricBarWidth(
-                                    snapshot.average2026 ?? 0,
-                                    comparisonValues
-                                  ),
-                                }}
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="mb-1 flex items-center justify-between text-slate-300">
-                              <span>Snitt 2025</span>
-                              <span className="font-semibold text-white">
-                                {snapshot.average2025 === null
-                                  ? "–"
-                                  : formatMatchAnalysisValue(snapshot.average2025, snapshot.metric)}
-                              </span>
-                            </div>
-                            <div className="h-1.5 rounded-full bg-slate-800">
-                              <div
-                                className="h-1.5 rounded-full bg-amber-400"
-                                style={{
-                                  width: getRelativeMetricBarWidth(
-                                    snapshot.average2025 ?? 0,
-                                    comparisonValues
-                                  ),
-                                }}
-                              />
-                            </div>
-                          </div>
+                      <div className={`rounded-xl border p-4 ${isPrimary ? "border-white/[0.08] bg-neutral-900/80" : "border-white/[0.05] bg-neutral-900/40"}`}>
+                        <div className="flex items-center gap-2">
+                          <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-emerald-400" : "bg-neutral-500"}`} />
+                          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">{snapshotLabel}</p>
                         </div>
-                        <div className="mt-3 grid gap-2 text-[11px] sm:grid-cols-2">
-                          <div className="rounded border border-slate-700/60 bg-slate-900/70 px-2 py-1.5">
-                            <p className="text-slate-500">Δ vs 2026</p>
-                            <p
-                              className={`font-semibold ${
-                                snapshot.deltaVs2026 === null
-                                  ? "text-slate-300"
-                                  : getMatchAnalysisDeltaTone(
-                                      snapshot.deltaVs2026,
-                                      snapshot.metric.direction
-                                    )
-                              }`}
-                            >
-                              {formatDeltaWithMeaning(snapshot.deltaVs2026, snapshot.metric)}
-                            </p>
+                        <p className="mt-1.5 text-sm font-semibold text-neutral-200">{snapshot.metric.label}</p>
+
+                        <div className="mt-3 space-y-2.5">
+                          {/* Match bar */}
+                          <div>
+                            <div className="mb-1 flex justify-between text-[11px]">
+                              <span className="text-neutral-400">Denna match</span>
+                              <span className="font-bold text-white">{formatMatchAnalysisValue(snapshot.currentValue, snapshot.metric)}</span>
+                            </div>
+                            <div className="h-2 overflow-hidden rounded-full bg-neutral-800">
+                              <div className="h-full rounded-full bg-emerald-500 transition-all duration-700" style={{ width: wMatch }} />
+                            </div>
                           </div>
-                          <div className="rounded border border-slate-700/60 bg-slate-900/70 px-2 py-1.5">
-                            <p className="text-slate-500">Δ vs 2025</p>
-                            <p
-                              className={`font-semibold ${
-                                snapshot.deltaVs2025 === null
-                                  ? "text-slate-300"
-                                  : getMatchAnalysisDeltaTone(
-                                      snapshot.deltaVs2025,
-                                      snapshot.metric.direction
-                                    )
-                              }`}
-                            >
-                              {formatDeltaWithMeaning(snapshot.deltaVs2025, snapshot.metric)}
-                            </p>
+                          {/* 2026 bar */}
+                          <div>
+                            <div className="mb-1 flex justify-between text-[11px]">
+                              <span className="text-neutral-500">Snitt 2026</span>
+                              <span className="text-neutral-300">
+                                {snapshot.average2026 !== null ? formatMatchAnalysisValue(snapshot.average2026, snapshot.metric) : "–"}
+                              </span>
+                            </div>
+                            <div className="h-2 overflow-hidden rounded-full bg-neutral-800">
+                              <div className="h-full rounded-full bg-neutral-500 transition-all duration-700" style={{ width: w2026 }} />
+                            </div>
                           </div>
+                          {/* 2025 bar */}
+                          {snapshot.average2025 !== null && (
+                            <div>
+                              <div className="mb-1 flex justify-between text-[11px]">
+                                <span className="text-neutral-500">Snitt 2025</span>
+                                <span className="text-neutral-400">{formatMatchAnalysisValue(snapshot.average2025, snapshot.metric)}</span>
+                              </div>
+                              <div className="h-2 overflow-hidden rounded-full bg-neutral-800">
+                                <div className="h-full rounded-full bg-neutral-600 transition-all duration-700" style={{ width: w2025 }} />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Delta chips */}
+                        <div className="mt-3 flex flex-wrap gap-2">
+                          {snapshot.deltaVs2026 !== null && (
+                            <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${
+                              getMatchAnalysisDeltaTone(snapshot.deltaVs2026, snapshot.metric.direction) === "text-green-300"
+                                ? "bg-emerald-500/15 text-emerald-300"
+                                : getMatchAnalysisDeltaTone(snapshot.deltaVs2026, snapshot.metric.direction) === "text-rose-300"
+                                  ? "bg-red-500/15 text-red-300"
+                                  : "bg-neutral-800 text-neutral-400"
+                            }`}>
+                              Δ'26 {formatDeltaWithMeaning(snapshot.deltaVs2026, snapshot.metric)}
+                            </span>
+                          )}
+                          {snapshot.deltaVs2025 !== null && (
+                            <span className="rounded-full bg-neutral-800 px-2 py-0.5 text-[10px] font-medium text-neutral-400">
+                              Δ'25 {formatDeltaWithMeaning(snapshot.deltaVs2025, snapshot.metric)}
+                            </span>
+                          )}
                         </div>
                       </div>
                     );
@@ -2853,20 +2812,34 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   return (
                     <article
                       key={`playstyle-${profile.id}`}
-                      className={`rounded-xl border p-4 ${tone.border} ${tone.bg}`}
+                      className={`relative overflow-hidden rounded-2xl border p-5 ${
+                        isPos
+                          ? "border-emerald-500/20 bg-[#0d1f12]"
+                          : "border-red-500/15 bg-[#1a0f0f]"
+                      }`}
                     >
-                      <div className="flex items-start justify-between gap-2">
-                        <p className={`text-sm font-semibold ${tone.text}`}>
-                          {profile.icon} {profile.title}
-                        </p>
-                        <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${tone.chip}`}>
-                          Matchprofil
+                      <div className={`absolute inset-x-0 top-0 h-0.5 ${
+                        isPos
+                          ? "bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"
+                          : "bg-gradient-to-r from-transparent via-red-500/50 to-transparent"
+                      }`} />
+                      <div className="flex items-start justify-between gap-3">
+                        <div>
+                          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">Spelstilsprofil</p>
+                          <p className={`mt-1 text-base font-bold ${isPos ? "text-emerald-300" : "text-red-300"}`}>
+                            {profile.icon} {profile.title}
+                          </p>
+                        </div>
+                        <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[10px] font-bold ${
+                          isPos ? "bg-emerald-500/15 text-emerald-400" : "bg-red-500/15 text-red-400"
+                        }`}>
+                          {isPos ? "Positiv" : "Negativ"}
                         </span>
                       </div>
-                      <p className="mt-1 text-xs text-slate-300">{profile.description}</p>
-                      <div className="mt-3 space-y-3">
-                        {renderSnapshot(profile.primary, "Primär KPI")}
-                        {profile.secondary && renderSnapshot(profile.secondary, "Stöd-KPI")}
+                      <p className="mt-2 text-[12px] leading-relaxed text-neutral-400">{profile.description}</p>
+                      <div className="mt-4 space-y-3">
+                        {renderSnapshot(profile.primary, "Primär KPI", true)}
+                        {profile.secondary && renderSnapshot(profile.secondary, "Stöd-KPI", false)}
                       </div>
                     </article>
                   );
@@ -2880,54 +2853,53 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           const renderRankCard = (item: MatchRankItem) => (
             <div
               key={item.label}
-              className={`rounded-lg border px-3 py-2 ${
+              className={`group relative overflow-hidden rounded-xl border px-4 py-3 transition-colors ${
                 item.tone === "red"
-                  ? "border-rose-500/40 bg-rose-500/10"
+                  ? "border-red-500/25 bg-red-950/30 hover:border-red-500/40"
                   : item.tone === "green"
-                    ? "border-emerald-500/40 bg-emerald-500/10"
-                    : "border-slate-600/50 bg-slate-900/50"
+                    ? "border-emerald-500/25 bg-emerald-950/30 hover:border-emerald-500/40"
+                    : "border-white/[0.06] bg-[#1c2128] hover:border-white/[0.10]"
               }`}
             >
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-[11px] text-slate-400">{item.label}</p>
+              <div className={`absolute inset-x-0 top-0 h-px ${
+                item.tone === "red" ? "bg-gradient-to-r from-transparent via-red-500/50 to-transparent"
+                  : item.tone === "green" ? "bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"
+                  : "hidden"
+              }`} />
+              <div className="flex items-start justify-between gap-2">
+                <p className="text-[11px] font-medium leading-snug text-neutral-500">{item.label}</p>
                 <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                  className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold tabular-nums ${
                     item.tone === "red"
-                      ? "bg-rose-500/20 text-rose-200"
+                      ? "bg-red-500/15 text-red-300"
                       : item.tone === "green"
-                        ? "bg-emerald-500/20 text-emerald-200"
-                        : "bg-slate-700/50 text-slate-300"
+                        ? "bg-emerald-500/15 text-emerald-300"
+                        : "bg-neutral-800 text-neutral-400"
                   }`}
                 >
-                  {item.rank}/{item.total}
+                  #{item.rank}
                 </span>
               </div>
               <p
-                className={`mt-1 text-sm font-semibold ${
+                className={`mt-2 text-xl font-black tabular-nums tracking-tight ${
                   item.tone === "red"
-                    ? "text-rose-100"
+                    ? "text-red-200"
                     : item.tone === "green"
-                      ? "text-emerald-100"
-                      : "text-slate-100"
+                      ? "text-emerald-200"
+                      : "text-neutral-200"
                 }`}
               >
                 {item.format === "percent"
                   ? `${(item.value * 100).toFixed(item.decimals)}%`
                   : item.value.toFixed(item.decimals)}
-                {item.rankLabel ? (
-                  <span
-                    className={`ml-1 text-[10px] ${
-                      item.tone === "red"
-                        ? "text-rose-300"
-                        : item.tone === "green"
-                          ? "text-emerald-300"
-                          : "text-slate-400"
-                    }`}
-                  >
-                    {item.rankLabel}
-                  </span>
-                ) : null}
               </p>
+              {item.rankLabel && (
+                <p className={`mt-0.5 text-[10px] font-medium ${
+                  item.tone === "red" ? "text-red-400" : item.tone === "green" ? "text-emerald-400" : "text-neutral-500"
+                }`}>
+                  {item.rankLabel} av {item.total}
+                </p>
+              )}
             </div>
           );
 
@@ -2937,18 +2909,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               className={
                 isRound11Dashboard
                   ? `${ROUND11_SURFACE} p-5`
-                  : "rounded-2xl border border-slate-700/50 bg-slate-800/80 p-5"
+                  : "rounded-2xl border border-white/[0.06] bg-[#161b22] p-5"
               }
             >
               <h2 className="text-base font-semibold text-white">Matchranking (Twelve)</h2>
-              <p className="mt-1 text-xs text-slate-400">
+              <p className="mt-1 text-xs text-neutral-400">
                 Vad som stack ut positivt och negativt jämfört med övriga Hammarbymatcher 2026.
                 Genomsnittliga värden visas sist.
               </p>
 
               {standout.length > 0 && (
                 <div className="mt-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-300">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-300">
                     Stod ut
                   </p>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -2962,12 +2934,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   className={
                     standout.length > 0
                       ? `mt-5 border-t pt-4 ${
-                          isRound11Dashboard ? "border-emerald-800/40" : "border-slate-700/50"
+                          isRound11Dashboard ? "border-emerald-800/40" : "border-white/[0.06]"
                         }`
                       : "mt-4"
                   }
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-500">
                     Nära snittet
                   </p>
                   <div className="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -2980,22 +2952,22 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         })()}
 
         {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
-        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
+        <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
-          <p className="mt-1 text-sm text-slate-400">
+          <p className="mt-1 text-sm text-neutral-400">
             Värdena visar totalen för det valda urvalet. I kombinerat läge är det summerat över
             alla spelade omgångar.
           </p>
           {mode === "combined" && (
-            <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2 text-xs text-slate-300">
+            <div className="mt-3 rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2 text-xs text-neutral-300">
               <p>
                 Per omgång (snitt):{" "}
-                <span className="font-semibold text-slate-100">
+                <span className="font-semibold text-neutral-100">
                   {current.subtitle.match(/Omgång/g)?.length ?? 1}
                 </span>{" "}
                 spelade omgångar i urvalet.
               </p>
-              <p className="mt-1 text-slate-400">
+              <p className="mt-1 text-neutral-400">
                 Exempel: Passningar = total i urvalet, medan passningsprocent visas som procent.
               </p>
             </div>
@@ -3015,17 +2987,17 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 return (
                   <div key={stat.key}>
                     <div className="mb-1.5 flex items-center justify-between gap-2 text-sm">
-                      <span className={`font-mono ${hammarbyIsLeft ? "text-green-300" : "text-slate-400"}`}>
+                      <span className={`font-mono ${hammarbyIsLeft ? "text-green-300" : "text-neutral-400"}`}>
                         {formatValue(stat.home, stat.format)}
                       </span>
-                      <span className="text-center text-xs uppercase tracking-wide text-slate-400">
+                      <span className="text-center text-xs uppercase tracking-wide text-neutral-400">
                         {stat.label}
                       </span>
-                      <span className={`font-mono ${!hammarbyIsLeft ? "text-green-300" : "text-slate-400"}`}>
+                      <span className={`font-mono ${!hammarbyIsLeft ? "text-green-300" : "text-neutral-400"}`}>
                         {formatValue(stat.away, stat.format)}
                       </span>
                     </div>
-                    <div className="flex h-2.5 gap-0.5 overflow-hidden rounded-full bg-slate-700/40">
+                    <div className="flex h-2.5 gap-0.5 overflow-hidden rounded-full bg-neutral-800/40">
                       <div
                         className="rounded-l-full transition-all"
                         style={{
@@ -3041,12 +3013,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                         }}
                       />
                     </div>
-                    <div className="mt-1 flex justify-between text-[10px] text-slate-600">
+                    <div className="mt-1 flex justify-between text-[10px] text-neutral-600">
                       <span>{current.leftTeam}</span>
                       <span>{current.rightTeam}</span>
                     </div>
                     {showPerRound && (
-                      <p className="mt-1 text-[11px] text-slate-500">
+                      <p className="mt-1 text-[11px] text-neutral-500">
                         Snitt/omgång: {current.leftTeam}{" "}
                         {formatCompactValue(perRoundHome, stat.format)} • {current.rightTeam}{" "}
                         {formatCompactValue(perRoundAway, stat.format)}
@@ -3062,24 +3034,24 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {!isRound11Dashboard && (mode === "combined" || roundTab === "sasong") && (
         <>
-        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
+        <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-white">
                 Trend omgång för omgång (Hammarby)
               </h2>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-sm text-neutral-400">
                 Jämför hur Hammarby utvecklas mellan omgångarna inom valda nyckeltal.
               </p>
             </div>
-            <label className="flex flex-col gap-1 text-sm text-slate-300">
+            <label className="flex flex-col gap-1 text-sm text-neutral-300">
               Parameter
               <select
                 value={selectedTrendMetricKey}
                 onChange={(event) =>
                   setSelectedTrendMetricKey(event.target.value as TrendMetricKey)
                 }
-                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+                className="rounded-lg border border-neutral-700 bg-neutral-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
               >
                 {TREND_METRIC_OPTIONS.map((metric) => (
                   <option key={metric.key} value={metric.key}>
@@ -3090,9 +3062,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </label>
           </div>
 
-          <div className="mt-4 grid gap-3 text-xs text-slate-300 md:grid-cols-3">
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Senast</p>
+          <div className="mt-4 grid gap-3 text-xs text-neutral-300 md:grid-cols-3">
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Senast</p>
               <p className="mt-1 text-base font-semibold text-white">
                 {formatCompactValue(
                   trendPoints[trendPoints.length - 1]?.value ?? 0,
@@ -3100,14 +3072,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 )}
               </p>
             </div>
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Snitt</p>
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Snitt</p>
               <p className="mt-1 text-base font-semibold text-white">
                 {formatCompactValue(trendAverage, selectedTrendMetric.format)}
               </p>
             </div>
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Trend (första → senaste)</p>
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Trend (första → senaste)</p>
               <p
                 className={`mt-1 text-base font-semibold ${
                   trendDelta >= 0 ? "text-green-300" : "text-rose-300"
@@ -3206,11 +3178,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </svg>
           </div>
 
-          <div className="mt-3 grid gap-2 text-xs text-slate-400 md:grid-cols-2">
+          <div className="mt-3 grid gap-2 text-xs text-neutral-400 md:grid-cols-2">
             {trendPoints.map((point) => (
               <div
                 key={`legend-${point.gameweek}`}
-                className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2"
+                className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2"
               >
                 Omgång {point.gameweek}: {point.opponent} ({formatDate(point.date)})
               </div>
@@ -3218,17 +3190,17 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         </section>
 
-        <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
+        <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-white">
                 Matchanalys omgång för omgång (Hammarby KPI)
               </h2>
-              <p className="mt-1 text-sm text-slate-400">
+              <p className="mt-1 text-sm text-neutral-400">
                 Hammarbys egna matchanalys-metriker per omgång med perioder 0-15 till 75-FT.
               </p>
             </div>
-            <label className="flex flex-col gap-1 text-sm text-slate-300">
+            <label className="flex flex-col gap-1 text-sm text-neutral-300">
               KPI
               <select
                 value={selectedMatchAnalysisMetricKey}
@@ -3237,7 +3209,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     event.target.value as MatchAnalysisMetricKey
                   )
                 }
-                className="rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+                className="rounded-lg border border-neutral-700 bg-neutral-900 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
               >
                 {hammarbyMatchAnalysisMetricDefinitions.map((metric) => (
                   <option key={metric.key} value={metric.key}>
@@ -3248,26 +3220,26 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </label>
           </div>
 
-          <p className="mt-3 text-xs text-slate-500">
+          <p className="mt-3 text-xs text-neutral-500">
             Tolkning:{" "}
             {selectedMatchAnalysisMetric.direction === "higher"
               ? "högre värde är oftast bättre för den här KPI:n."
               : "lägre värde är oftast bättre för den här KPI:n."}
           </p>
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-neutral-500">
             Färgkodning: <span className="font-semibold text-green-300">Grön = bättre</span>,{" "}
             <span className="font-semibold text-rose-300">Röd = sämre</span> enligt vald KPI
             (inte alltid plus/minus i sig).
           </p>
           <div className="mt-3 flex flex-wrap items-end gap-3">
-            <label className="flex flex-col gap-1 text-xs text-slate-300">
+            <label className="flex flex-col gap-1 text-xs text-neutral-300">
               Visning
               <select
                 value={effectiveMatchAnalysisViewMode}
                 onChange={(event) =>
                   setMatchAnalysisViewMode(event.target.value as MatchAnalysisViewMode)
                 }
-                className="rounded-lg border border-slate-600 bg-slate-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                className="rounded-lg border border-neutral-700 bg-neutral-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                 disabled={mode === "combined"}
               >
                 <option value="round">Omgång</option>
@@ -3275,12 +3247,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               </select>
             </label>
             {mode === "round" && (
-              <label className="flex flex-col gap-1 text-xs text-slate-300">
+              <label className="flex flex-col gap-1 text-xs text-neutral-300">
                 Säsong
                 <select
                   value={selectedMatchAnalysisSeason}
                   onChange={(event) => setSelectedMatchAnalysisSeason(Number(event.target.value))}
-                  className="rounded-lg border border-slate-600 bg-slate-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                  className="rounded-lg border border-neutral-700 bg-neutral-900 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                 >
                   {MATCH_ANALYSIS_AVAILABLE_SEASONS.map((seasonValue) => (
                     <option key={`analysis-season-${seasonValue}`} value={seasonValue}>
@@ -3293,13 +3265,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
 
           {hammarbyFocusRoundKpiCards.length > 0 && roundVsSeasonRow && (
-            <div className="mt-4 rounded-xl border border-blue-500/25 bg-slate-900/60 p-4">
+            <div className="mt-4 rounded-xl border border-blue-500/25 bg-neutral-900/60 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <h3 className="text-sm font-semibold text-blue-100">
                     Hammarby KPI-översikt (omgång {roundVsSeasonRow.gameweek})
                   </h3>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-neutral-400">
                     Snabb överblick av omgångens viktigaste KPI:er (inkl. Field Tilt) mot snitt
                     2026 och 2025.
                   </p>
@@ -3308,7 +3280,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   href={selectedRoundData?.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg border border-slate-600 bg-slate-950/70 px-2 py-1 text-[11px] text-slate-200 hover:border-slate-500 hover:text-white"
+                  className="rounded-lg border border-neutral-700 bg-neutral-950/70 px-2 py-1 text-[11px] text-neutral-200 hover:border-slate-500 hover:text-white"
                 >
                   Öppna matchanalys
                 </a>
@@ -3317,19 +3289,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 {hammarbyFocusRoundKpiCards.map((card) => (
                   <article
                     key={`focus-kpi-${card.metric.key}`}
-                    className="rounded-lg border border-slate-700/60 bg-slate-950/70 px-3 py-2"
+                    className="rounded-lg border border-white/[0.07] bg-neutral-950/70 px-3 py-2"
                   >
-                    <p className="text-slate-300">{card.metric.label}</p>
+                    <p className="text-neutral-300">{card.metric.label}</p>
                     <p className="mt-1 text-base font-semibold text-white">
                       {formatMatchAnalysisValue(card.matchValue, card.metric)}
                     </p>
-                    <p className="mt-1 text-slate-500">
+                    <p className="mt-1 text-neutral-500">
                       2026:{" "}
                       {card.season2026Value === null
                         ? "–"
                         : formatMatchAnalysisValue(card.season2026Value, card.metric)}
                     </p>
-                    <p className="text-slate-500">
+                    <p className="text-neutral-500">
                       2025:{" "}
                       {card.season2025Value === null
                         ? "–"
@@ -3339,7 +3311,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       <p
                         className={
                           card.deltaVs2026 === null
-                            ? "text-slate-400"
+                            ? "text-neutral-400"
                             : getMatchAnalysisDeltaTone(
                                 card.deltaVs2026,
                                 card.metric.direction
@@ -3351,7 +3323,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       <p
                         className={
                           card.deltaVs2025 === null
-                            ? "text-slate-400"
+                            ? "text-neutral-400"
                             : getMatchAnalysisDeltaTone(
                                 card.deltaVs2025,
                                 card.metric.direction
@@ -3367,9 +3339,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
 
-          <div className="mt-4 grid gap-3 text-xs text-slate-300 md:grid-cols-4">
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Senaste omgång</p>
+          <div className="mt-4 grid gap-3 text-xs text-neutral-300 md:grid-cols-4">
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Senaste omgång</p>
               <p className="mt-1 text-base font-semibold text-white">
                 {latestMatchAnalysisRow
                   ? formatMatchAnalysisValue(
@@ -3379,14 +3351,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   : "–"}
               </p>
             </div>
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Snitt (omgångar)</p>
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Snitt (omgångar)</p>
               <p className="mt-1 text-base font-semibold text-white">
                 {formatMatchAnalysisValue(matchAnalysisAverage, selectedMatchAnalysisMetric)}
               </p>
             </div>
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Senaste vs säsongssnitt</p>
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Senaste vs säsongssnitt</p>
               <p
                 className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
                   latestVsSeasonAverageDelta,
@@ -3399,8 +3371,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 )}
               </p>
             </div>
-            <div className="rounded-lg border border-slate-700/60 bg-slate-900/50 px-3 py-2">
-              <p className="text-slate-400">Trend (första → senaste)</p>
+            <div className="rounded-lg border border-white/[0.07] bg-neutral-900/60 px-3 py-2">
+              <p className="text-neutral-400">Trend (första → senaste)</p>
               <p
                 className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
                   matchAnalysisTrendDelta,
@@ -3416,7 +3388,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               <button
                 type="button"
                 onClick={() => setShowSeasonRows((currentValue) => !currentValue)}
-                className="rounded-lg border border-slate-600 bg-slate-900/70 px-3 py-2 text-left text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+                className="rounded-lg border border-neutral-700 bg-neutral-900/70 px-3 py-2 text-left text-neutral-200 transition-colors hover:border-slate-500 hover:text-white"
               >
                 {showSeasonRows ? "Dölj omgångslista" : "Visa omgångslista"}
               </button>
@@ -3427,26 +3399,26 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             effectiveMatchAnalysisViewMode === "round" &&
             comparisonRowA &&
             comparisonRowB && (
-            <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
+            <div className="mt-4 rounded-xl border border-white/[0.07] bg-neutral-900/60 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför två omgångar</h3>
               </div>
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-neutral-400">
                 Snabbt sätt att se skillnad mot säsongsnivån.
               </p>
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-neutral-500">
                 KPI (samma för alla jämförelser):{" "}
-                <span className="font-semibold text-slate-200">
+                <span className="font-semibold text-neutral-200">
                   {selectedMatchAnalysisMetric.label}
                 </span>
               </p>
               <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                <label className="flex flex-col gap-1 text-xs text-slate-300">
+                <label className="flex flex-col gap-1 text-xs text-neutral-300">
                   Omgång A
                   <select
                     value={comparisonRoundA}
                     onChange={(event) => setComparisonRoundA(event.target.value)}
-                    className="rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+                    className="rounded-lg border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
                   >
                     {seasonRows.map((row) => (
                       <option key={`round-a-${row.key}`} value={row.key}>
@@ -3455,12 +3427,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     ))}
                   </select>
                 </label>
-                <label className="flex flex-col gap-1 text-xs text-slate-300">
+                <label className="flex flex-col gap-1 text-xs text-neutral-300">
                   Omgång B
                   <select
                     value={comparisonRoundB}
                     onChange={(event) => setComparisonRoundB(event.target.value)}
-                    className="rounded-lg border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
+                    className="rounded-lg border border-neutral-700 bg-neutral-950 px-3 py-2 text-sm text-white outline-none focus:border-blue-400"
                   >
                     {seasonRows.map((row) => (
                       <option key={`round-b-${row.key}`} value={row.key}>
@@ -3470,9 +3442,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </select>
                 </label>
               </div>
-              <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
-                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                  <p className="text-slate-400">
+              <div className="mt-3 grid gap-3 text-xs text-neutral-300 sm:grid-cols-3">
+                <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                  <p className="text-neutral-400">
                     Omg {comparisonRowA.gameweek} → Omg {comparisonRowB.gameweek}
                   </p>
                   <p className="mt-1 text-base font-semibold text-white">
@@ -3480,8 +3452,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {formatMatchAnalysisValue(comparisonRowB.value, selectedMatchAnalysisMetric)}
                   </p>
                 </div>
-                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                  <p className="text-slate-400">Skillnad mellan valda omgångar</p>
+                <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                  <p className="text-neutral-400">Skillnad mellan valda omgångar</p>
                   <p
                     className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
                       comparisonDelta,
@@ -3490,15 +3462,15 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   >
                     {formatMatchAnalysisDelta(comparisonDelta, selectedMatchAnalysisMetric)}
                   </p>
-                  <p className="mt-0.5 text-[11px] text-slate-400">
+                  <p className="mt-0.5 text-[11px] text-neutral-400">
                     {getMatchAnalysisDeltaMeaning(
                       comparisonDelta,
                       selectedMatchAnalysisMetric.direction
                     )}
                   </p>
                 </div>
-                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                  <p className="text-slate-400">Säsongssnitt (referens)</p>
+                <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                  <p className="text-neutral-400">Säsongssnitt (referens)</p>
                   <p className="mt-1 text-base font-semibold text-white">
                     {formatMatchAnalysisValue(
                       seasonAverageReference,
@@ -3512,11 +3484,11 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           )}
 
           {mode !== "round" && effectiveMatchAnalysisViewMode === "season-average" && (
-            <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
+            <div className="mt-4 rounded-xl border border-white/[0.07] bg-neutral-900/60 p-4">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
                   <h3 className="text-sm font-semibold text-white">Säsongsgenomsnitt</h3>
-                  <p className="mt-1 text-xs text-slate-400">
+                  <p className="mt-1 text-xs text-neutral-400">
                     Jämför säsong mot säsong och valda omgångar mot 2025.
                   </p>
                 </div>
@@ -3527,7 +3499,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
                       seasonComparisonMode === "full"
                         ? "border-blue-500/50 bg-blue-500/20 text-blue-100"
-                        : "border-slate-600 bg-slate-950/70 text-slate-300 hover:border-slate-500 hover:text-white"
+                        : "border-neutral-700 bg-neutral-950/70 text-neutral-300 hover:border-slate-500 hover:text-white"
                     }`}
                   >
                     Hela säsongen
@@ -3538,7 +3510,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     className={`rounded-lg border px-3 py-1.5 text-xs transition-colors ${
                       seasonComparisonMode === "played"
                         ? "border-blue-500/50 bg-blue-500/20 text-blue-100"
-                        : "border-slate-600 bg-slate-950/70 text-slate-300 hover:border-slate-500 hover:text-white"
+                        : "border-neutral-700 bg-neutral-950/70 text-neutral-300 hover:border-slate-500 hover:text-white"
                     }`}
                   >
                     Spelade motsvarande matcher
@@ -3546,23 +3518,23 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </div>
               </div>
               {mode === "combined" && (
-                <div className="mt-3 rounded-lg border border-slate-700/60 bg-slate-950/50 p-3">
+                <div className="mt-3 rounded-lg border border-white/[0.07] bg-neutral-950/50 p-3">
                   <div className="flex flex-wrap items-end gap-3">
-                    <label className="flex min-w-[150px] flex-col gap-1 text-xs text-slate-300">
+                    <label className="flex min-w-[150px] flex-col gap-1 text-xs text-neutral-300">
                       Hemma/Borta
                       <select
                         value={seasonVenueFilter}
                         onChange={(event) =>
                           setSeasonVenueFilter(event.target.value as "all" | "home" | "away")
                         }
-                        className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                        className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                       >
                         <option value="all">Alla matcher</option>
                         <option value="home">Endast hemma</option>
                         <option value="away">Endast borta</option>
                       </select>
                     </label>
-                    <label className="flex min-w-[220px] flex-1 flex-col gap-1 text-xs text-slate-300">
+                    <label className="flex min-w-[220px] flex-1 flex-col gap-1 text-xs text-neutral-300">
                       Sök motståndare
                       <input
                         type="search"
@@ -3570,7 +3542,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                         onChange={(event) => setSeasonOpponentSearch(event.target.value)}
                         list="season-opponent-options"
                         placeholder="T.ex. Sirius, Malmö, AIK"
-                        className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none placeholder:text-slate-500 focus:border-blue-400"
+                        className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none placeholder:text-neutral-500 focus:border-blue-400"
                       />
                       <datalist id="season-opponent-options">
                         {seasonOpponentOptions.map((opponent) => (
@@ -3585,41 +3557,41 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                         setSeasonOpponentSearch("");
                       }}
                       disabled={!seasonFiltersActive}
-                      className="rounded-lg border border-slate-600 bg-slate-900/80 px-3 py-1.5 text-xs text-slate-200 transition-colors hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      className="rounded-lg border border-neutral-700 bg-neutral-900/80 px-3 py-1.5 text-xs text-neutral-200 transition-colors hover:border-slate-500 hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
                     >
                       Nollställ filter
                     </button>
                   </div>
-                  <p className="mt-2 text-[11px] text-slate-400">{seasonFilterSummary}</p>
+                  <p className="mt-2 text-[11px] text-neutral-400">{seasonFilterSummary}</p>
                 </div>
               )}
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-neutral-500">
                 {seasonComparisonMode === "full"
                   ? `Visar säsongssnitt för urvalet (${seasonRowsForSelectedFilters2026.length} matcher 2026, ${seasonRowsForSelectedFilters2025.length} matcher 2025).`
                   : `Visar endast ${seasonComparisonSelectedPairCount} matchpar: 2026 spelade omgångar mot motsvarande matcher 2025 i nuvarande filter.`}
               </p>
               {mode === "combined" && (
-                <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-4">
-                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                    <p className="text-slate-400">Matcher i urval 2026</p>
+                <div className="mt-3 grid gap-3 text-xs text-neutral-300 sm:grid-cols-4">
+                  <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                    <p className="text-neutral-400">Matcher i urval 2026</p>
                     <p className="mt-1 text-base font-semibold text-white">
                       {seasonRowsForSelectedFilters2026.length}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                    <p className="text-slate-400">Matcher i urval 2025</p>
+                  <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                    <p className="text-neutral-400">Matcher i urval 2025</p>
                     <p className="mt-1 text-base font-semibold text-white">
                       {seasonRowsForSelectedFilters2025.length}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                    <p className="text-slate-400">Parade matcher</p>
+                  <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                    <p className="text-neutral-400">Parade matcher</p>
                     <p className="mt-1 text-base font-semibold text-white">
                       {seasonComparisonSelectedPairCount}
                     </p>
                   </div>
-                  <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                    <p className="text-slate-400">Totalt i filter</p>
+                  <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                    <p className="text-neutral-400">Totalt i filter</p>
                     <p className="mt-1 text-base font-semibold text-white">
                       {seasonAvailableRowsCount}
                     </p>
@@ -3630,7 +3602,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <button
                   type="button"
                   onClick={() => setShowSeasonComparisonPeriods((currentValue) => !currentValue)}
-                  className="rounded-lg border border-slate-600 bg-slate-950/70 px-3 py-1.5 text-xs text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+                  className="rounded-lg border border-neutral-700 bg-neutral-950/70 px-3 py-1.5 text-xs text-neutral-200 transition-colors hover:border-slate-500 hover:text-white"
                 >
                   {showSeasonComparisonPeriods ? "Dölj perioddetaljer" : "Visa perioddetaljer"}
                 </button>
@@ -3641,8 +3613,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </p>
               )}
               {seasonComparisonMode === "played" && playedSeasonPairCount > 0 && (
-                <div className="mt-2 rounded-lg border border-slate-700/60 bg-slate-950/60 px-3 py-2 text-[11px] text-slate-300">
-                  <p className="font-medium text-slate-200">Parade matcher (2026 mot 2025)</p>
+                <div className="mt-2 rounded-lg border border-white/[0.07] bg-neutral-950/60 px-3 py-2 text-[11px] text-neutral-300">
+                  <p className="font-medium text-neutral-200">Parade matcher (2026 mot 2025)</p>
                   <div className="mt-1 grid gap-1">
                     {playedSeasonPairs.map((pair) => (
                       <p key={`played-pair-${pair.season2026.key}`}>
@@ -3653,9 +3625,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </div>
                 </div>
               )}
-              <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-3">
-                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                  <p className="text-slate-400">Säsong 2025</p>
+              <div className="mt-3 grid gap-3 text-xs text-neutral-300 sm:grid-cols-3">
+                <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                  <p className="text-neutral-400">Säsong 2025</p>
                   <p className="mt-1 text-base font-semibold text-white">
                     {formatMatchAnalysisValue(
                       activeSeasonComparisonAverage2025,
@@ -3663,8 +3635,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     )}
                   </p>
                 </div>
-                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                  <p className="text-slate-400">Säsong 2026</p>
+                <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                  <p className="text-neutral-400">Säsong 2026</p>
                   <p className="mt-1 text-base font-semibold text-white">
                     {formatMatchAnalysisValue(
                       activeSeasonComparisonAverage2026,
@@ -3672,8 +3644,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     )}
                   </p>
                 </div>
-                <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                  <p className="text-slate-400">Skillnad (2026 - 2025)</p>
+                <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                  <p className="text-neutral-400">Skillnad (2026 - 2025)</p>
                   <p
                     className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
                       activeSeasonComparisonDelta,
@@ -3685,7 +3657,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       selectedMatchAnalysisMetric
                     )}
                   </p>
-                  <p className="mt-0.5 text-[11px] text-slate-400">
+                  <p className="mt-0.5 text-[11px] text-neutral-400">
                     {getMatchAnalysisDeltaMeaning(
                       activeSeasonComparisonDelta,
                       selectedMatchAnalysisMetric.direction
@@ -3698,10 +3670,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   {activeSeasonComparisonPeriodRows.map((periodRow) => (
                     <div
                       key={`season-compare-period-${periodRow.label}`}
-                      className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                      className="rounded border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5"
                     >
-                      <p className="text-slate-500">{periodRow.label}</p>
-                      <p className="text-slate-300">
+                      <p className="text-neutral-500">{periodRow.label}</p>
+                      <p className="text-neutral-300">
                         {formatMatchAnalysisValue(periodRow.seasonAValue, selectedMatchAnalysisMetric)} vs{" "}
                         {formatMatchAnalysisValue(periodRow.seasonBValue, selectedMatchAnalysisMetric)}
                       </p>
@@ -3718,19 +3690,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 </div>
               )}
 
-              <div className="mt-4 rounded-lg border border-slate-700/60 bg-slate-900/70 p-3">
-                <p className="text-xs font-semibold text-slate-100">Valda omgångar: 2026 vs 2025</p>
-                <p className="mt-1 text-[11px] text-slate-400">
+              <div className="mt-4 rounded-lg border border-white/[0.07] bg-neutral-900/70 p-3">
+                <p className="text-xs font-semibold text-neutral-100">Valda omgångar: 2026 vs 2025</p>
+                <p className="mt-1 text-[11px] text-neutral-400">
                   Jämför en vald omgång 2026 mot en vald omgång 2025 med samma KPI.
                 </p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <label className="flex flex-col gap-1 text-xs text-slate-300">
+                  <label className="flex flex-col gap-1 text-xs text-neutral-300">
                     Omgång 2026
                     <select
                       value={seasonViewRoundA}
                       onChange={(event) => setSeasonViewRoundA(event.target.value)}
                       disabled={seasonRowsForSelectedFilters2026.length === 0}
-                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                      className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
                       {seasonRowsForSelectedFilters2026.map((row) => (
                         <option key={`season-view-a-${row.key}`} value={row.key}>
@@ -3739,13 +3711,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       ))}
                     </select>
                   </label>
-                  <label className="flex flex-col gap-1 text-xs text-slate-300">
+                  <label className="flex flex-col gap-1 text-xs text-neutral-300">
                     Omgång 2025
                     <select
                       value={seasonViewRoundB}
                       onChange={(event) => setSeasonViewRoundB(event.target.value)}
                       disabled={seasonRowsForSelectedFilters2025.length === 0}
-                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                      className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
                       {seasonRowsForSelectedFilters2025.map((row) => (
                         <option key={`season-view-b-${row.key}`} value={row.key}>
@@ -3758,9 +3730,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
                 {seasonViewComparisonRoundA && seasonViewComparisonRoundB && (
                   <>
-                    <div className="mt-3 grid gap-2 text-[11px] text-slate-300 sm:grid-cols-3">
-                      <div className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
-                        <p className="text-slate-500">2025 vald</p>
+                    <div className="mt-3 grid gap-2 text-[11px] text-neutral-300 sm:grid-cols-3">
+                      <div className="rounded border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5">
+                        <p className="text-neutral-500">2025 vald</p>
                         <p className="font-semibold text-white">
                           {formatMatchAnalysisValue(
                             seasonViewComparisonRoundB.value,
@@ -3768,8 +3740,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           )}
                         </p>
                       </div>
-                      <div className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
-                        <p className="text-slate-500">2026 vald</p>
+                      <div className="rounded border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5">
+                        <p className="text-neutral-500">2026 vald</p>
                         <p className="font-semibold text-white">
                           {formatMatchAnalysisValue(
                             seasonViewComparisonRoundA.value,
@@ -3777,8 +3749,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           )}
                         </p>
                       </div>
-                      <div className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
-                        <p className="text-slate-500">Skillnad (2026 - 2025)</p>
+                      <div className="rounded border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5">
+                        <p className="text-neutral-500">Skillnad (2026 - 2025)</p>
                         <p
                           className={`font-semibold ${getMatchAnalysisDeltaTone(
                             seasonViewComparisonDelta,
@@ -3796,10 +3768,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       {seasonViewComparisonPeriodRows.map((periodRow) => (
                         <div
                           key={`season-view-period-${periodRow.label}`}
-                          className="rounded border border-slate-700/60 bg-slate-950/60 px-2 py-1.5"
+                          className="rounded border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5"
                         >
-                          <p className="text-slate-500">{periodRow.label}</p>
-                          <p className="text-slate-300">
+                          <p className="text-neutral-500">{periodRow.label}</p>
+                          <p className="text-neutral-300">
                             {formatMatchAnalysisValue(
                               periodRow.roundAValue,
                               selectedMatchAnalysisMetric
@@ -3828,16 +3800,16 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           )}
 
           {mode !== "round" && effectiveMatchAnalysisViewMode === "round" && roundVsSeasonRow && (
-            <div className="mt-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4">
+            <div className="mt-4 rounded-xl border border-white/[0.07] bg-neutral-900/60 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <h3 className="text-sm font-semibold text-white">Jämför vald omgång</h3>
                 <div className="flex flex-wrap items-center gap-2">
-                  <label className="flex items-center gap-2 text-xs text-slate-300">
+                  <label className="flex items-center gap-2 text-xs text-neutral-300">
                     Omgång (fokus)
                     <select
                       value={roundVsSeasonRound}
                       onChange={(event) => setRoundVsSeasonRound(event.target.value)}
-                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                      className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
                       {seasonRows.map((row) => (
                         <option key={`season-vs-round-${row.key}`} value={row.key}>
@@ -3846,7 +3818,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       ))}
                     </select>
                   </label>
-                  <label className="flex items-center gap-2 text-xs text-slate-300">
+                  <label className="flex items-center gap-2 text-xs text-neutral-300">
                     Visning
                     <select
                       value={selectedSingleRoundComparisonMode}
@@ -3855,7 +3827,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           event.target.value as "season-average" | "previous-season-match"
                         )
                       }
-                      className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                      className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                     >
                       <option value="season-average">Säsongssnitt</option>
                       <option value="previous-season-match">
@@ -3865,15 +3837,15 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </label>
                 </div>
               </div>
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-neutral-500">
                 KPI (samma för alla jämförelser):{" "}
-                <span className="font-semibold text-slate-200">
+                <span className="font-semibold text-neutral-200">
                   {selectedMatchAnalysisMetric.label}
                 </span>
               </p>
 
               {singleRoundComparisonMode === "previous-season-match" ? (
-                <div className="mt-3 rounded-lg border border-blue-500/25 bg-slate-900/70 p-3">
+                <div className="mt-3 rounded-lg border border-blue-500/25 bg-neutral-900/70 p-3">
                   {previousSeason && historicalComparisonCandidates.length > 0 ? (
                     <>
                       <div className="flex flex-wrap items-center gap-2">
@@ -3885,7 +3857,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           onChange={(event) =>
                             setSelectedHistoricalComparisonKey(event.target.value)
                           }
-                          className="rounded-lg border border-slate-600 bg-slate-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
+                          className="rounded-lg border border-neutral-700 bg-neutral-950 px-2 py-1.5 text-xs text-white outline-none focus:border-blue-400"
                         >
                           <option value="none">Välj match</option>
                           {historicalComparisonCandidates.map((candidate) => (
@@ -3895,13 +3867,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           ))}
                         </select>
                       </div>
-                      <p className="mt-1 text-[11px] text-slate-400">
+                      <p className="mt-1 text-[11px] text-neutral-400">
                         Jämförelsen använder samma KPI och perioder (0-15 till 75-FT).
                       </p>
                       {historicalComparisonRow && (
-                        <div className="mt-3 grid gap-2 text-[11px] text-slate-300 sm:grid-cols-3">
-                          <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
-                            <p className="text-slate-500">Nuvarande ({roundVsSeasonRow.season})</p>
+                        <div className="mt-3 grid gap-2 text-[11px] text-neutral-300 sm:grid-cols-3">
+                          <div className="rounded border border-white/[0.07] bg-neutral-950/70 px-2 py-1.5">
+                            <p className="text-neutral-500">Nuvarande ({roundVsSeasonRow.season})</p>
                             <p className="font-semibold text-white">
                               {formatMatchAnalysisValue(
                                 roundVsSeasonRow.value,
@@ -3909,8 +3881,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                               )}
                             </p>
                           </div>
-                          <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
-                            <p className="text-slate-500">Motsvarande {previousSeason}</p>
+                          <div className="rounded border border-white/[0.07] bg-neutral-950/70 px-2 py-1.5">
+                            <p className="text-neutral-500">Motsvarande {previousSeason}</p>
                             <p className="font-semibold text-white">
                               {formatMatchAnalysisValue(
                                 historicalComparisonRow.value,
@@ -3918,8 +3890,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                               )}
                             </p>
                           </div>
-                          <div className="rounded border border-slate-700/60 bg-slate-950/70 px-2 py-1.5">
-                            <p className="text-slate-500">
+                          <div className="rounded border border-white/[0.07] bg-neutral-950/70 px-2 py-1.5">
+                            <p className="text-neutral-500">
                               Skillnad ({roundVsSeasonRow.season} - {previousSeason})
                             </p>
                             <p
@@ -3933,7 +3905,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                                 selectedMatchAnalysisMetric
                               )}
                             </p>
-                            <p className="text-[10px] text-slate-500">
+                            <p className="text-[10px] text-neutral-500">
                               {getMatchAnalysisDeltaMeaning(
                                 roundVsSeasonRow.value - historicalComparisonRow.value,
                                 selectedMatchAnalysisMetric.direction
@@ -3944,22 +3916,22 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       )}
                     </>
                   ) : (
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-neutral-400">
                       Ingen motsvarande match hittades i föregående säsong för vald omgång.
                     </p>
                   )}
                 </div>
               ) : (
                 <>
-                  <div className="mt-3 grid gap-3 text-xs text-slate-300 sm:grid-cols-4">
-                    <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                      <p className="text-slate-400">Vald omgång</p>
+                  <div className="mt-3 grid gap-3 text-xs text-neutral-300 sm:grid-cols-4">
+                    <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                      <p className="text-neutral-400">Vald omgång</p>
                       <p className="mt-1 text-base font-semibold text-white">
                         {formatMatchAnalysisValue(roundVsSeasonRow.value, selectedMatchAnalysisMetric)}
                       </p>
                     </div>
-                    <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                      <p className="text-slate-400">Säsongssnitt 2026</p>
+                    <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                      <p className="text-neutral-400">Säsongssnitt 2026</p>
                       <p className="mt-1 text-base font-semibold text-white">
                         {matchAnalysisAverage2026
                           ? formatMatchAnalysisValue(
@@ -3971,7 +3943,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       <p
                         className={`mt-1 text-[11px] ${
                           roundVsSeasonAverage2026Delta === null
-                            ? "text-slate-400"
+                            ? "text-neutral-400"
                             : getMatchAnalysisDeltaTone(
                                 roundVsSeasonAverage2026Delta,
                                 selectedMatchAnalysisMetric.direction
@@ -3985,8 +3957,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                         )}
                       </p>
                     </div>
-                    <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                      <p className="text-slate-400">Säsongssnitt 2025</p>
+                    <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                      <p className="text-neutral-400">Säsongssnitt 2025</p>
                       <p className="mt-1 text-base font-semibold text-white">
                         {matchAnalysisAverage2025
                           ? formatMatchAnalysisValue(
@@ -3998,7 +3970,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       <p
                         className={`mt-1 text-[11px] ${
                           roundVsSeasonAverage2025Delta === null
-                            ? "text-slate-400"
+                            ? "text-neutral-400"
                             : getMatchAnalysisDeltaTone(
                                 roundVsSeasonAverage2025Delta,
                                 selectedMatchAnalysisMetric.direction
@@ -4012,8 +3984,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                         )}
                       </p>
                     </div>
-                    <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 px-3 py-2">
-                      <p className="text-slate-400">Skillnad (omgång - aktivt snitt)</p>
+                    <div className="rounded-lg border border-white/[0.07] bg-neutral-900/70 px-3 py-2">
+                      <p className="text-neutral-400">Skillnad (omgång - aktivt snitt)</p>
                       <p
                         className={`mt-1 text-base font-semibold ${getMatchAnalysisDeltaTone(
                           roundVsSeasonDelta,
@@ -4022,7 +3994,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       >
                         {formatMatchAnalysisDelta(roundVsSeasonDelta, selectedMatchAnalysisMetric)}
                       </p>
-                      <p className="mt-0.5 text-[11px] text-slate-400">
+                      <p className="mt-0.5 text-[11px] text-neutral-400">
                         {getMatchAnalysisDeltaMeaning(
                           roundVsSeasonDelta,
                           selectedMatchAnalysisMetric.direction
@@ -4038,18 +4010,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
           {mode === "round" && showSeasonRows && (
             <div className="mt-4 grid gap-3 sm:hidden">
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-neutral-500">
                 Kompakt lista: visar vald säsong. Full tabell finns på större skärm.
               </p>
               {seasonRows.map((row) => (
                 <article
                   key={`mobile-analysis-${row.key}`}
-                  className="rounded-xl border border-slate-700/60 bg-slate-900/60 p-3"
+                  className="rounded-xl border border-white/[0.07] bg-neutral-900/60 p-3"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <p className="text-sm font-semibold text-white">Omgång {row.gameweek}</p>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-neutral-400">
                         {row.opponent} • {formatDate(row.date)}
                       </p>
                     </div>
@@ -4063,18 +4035,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     </a>
                   </div>
                   <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
-                    <div className="rounded-lg border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
-                      <p className="text-slate-400">Värde</p>
+                    <div className="rounded-lg border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5">
+                      <p className="text-neutral-400">Värde</p>
                       <p className="font-semibold text-white">
                         {formatMatchAnalysisValue(row.value, selectedMatchAnalysisMetric)}
                       </p>
                     </div>
-                    <div className="rounded-lg border border-slate-700/60 bg-slate-950/60 px-2 py-1.5">
-                      <p className="text-slate-400">Δ mot förra</p>
+                    <div className="rounded-lg border border-white/[0.07] bg-neutral-950/60 px-2 py-1.5">
+                      <p className="text-neutral-400">Δ mot förra</p>
                       <p
                         className={`font-semibold ${
                           row.deltaFromPrevious === null
-                            ? "text-slate-300"
+                            ? "text-neutral-300"
                             : getMatchAnalysisDeltaTone(
                                 row.deltaFromPrevious,
                                 selectedMatchAnalysisMetric.direction
@@ -4094,10 +4066,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {MATCH_ANALYSIS_PERIOD_LABELS.map((label, idx) => (
                       <div
                         key={`mobile-period-${row.gameweek}-${label}`}
-                        className="rounded border border-slate-700/60 bg-slate-950/50 px-1.5 py-1"
+                        className="rounded border border-white/[0.07] bg-neutral-950/50 px-1.5 py-1"
                       >
-                        <p className="text-slate-500">{label}</p>
-                        <p className="text-slate-200">
+                        <p className="text-neutral-500">{label}</p>
+                        <p className="text-neutral-200">
                           {formatMatchAnalysisValue(row.periods[idx], selectedMatchAnalysisMetric)}
                         </p>
                       </div>
@@ -4113,19 +4085,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               <table className="min-w-[900px] table-fixed border-separate border-spacing-0 text-xs">
                 <thead>
                   <tr>
-                    <th className="sticky left-0 z-10 w-36 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                    <th className="sticky left-0 z-10 w-36 border border-white/[0.07] bg-neutral-900 px-2 py-2 text-left text-neutral-300">
                       Omgång
                     </th>
-                    <th className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                    <th className="w-24 border border-white/[0.07] bg-neutral-900 px-2 py-2 text-left text-neutral-300">
                       Värde
                     </th>
-                    <th className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300">
+                    <th className="w-24 border border-white/[0.07] bg-neutral-900 px-2 py-2 text-left text-neutral-300">
                       Δ mot förra
                     </th>
                     {MATCH_ANALYSIS_PERIOD_LABELS.map((label) => (
                       <th
                         key={label}
-                        className="w-24 border border-slate-700/60 bg-slate-900 px-2 py-2 text-left text-slate-300"
+                        className="w-24 border border-white/[0.07] bg-neutral-900 px-2 py-2 text-left text-neutral-300"
                       >
                         {label}
                       </th>
@@ -4135,9 +4107,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <tbody>
                   {seasonRows.map((row) => (
                     <tr key={`analysis-${row.key}`}>
-                      <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-medium text-slate-100">
+                      <th className="sticky left-0 z-10 border border-white/[0.07] bg-neutral-950 px-2 py-2 text-left font-medium text-neutral-100">
                         <div>Omg {row.gameweek}</div>
-                        <div className="text-[10px] text-slate-400">
+                        <div className="text-[10px] text-neutral-400">
                           {row.opponent}, {formatDate(row.date)}
                         </div>
                         <a
@@ -4149,13 +4121,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                           Matchanalys
                         </a>
                       </th>
-                      <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 font-semibold text-white">
+                      <td className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 font-semibold text-white">
                         {formatMatchAnalysisValue(row.value, selectedMatchAnalysisMetric)}
                       </td>
                       <td
-                        className={`border border-slate-700/60 bg-slate-900/70 px-2 py-2 ${
+                        className={`border border-white/[0.07] bg-neutral-900/70 px-2 py-2 ${
                           row.deltaFromPrevious === null
-                            ? "text-slate-400"
+                            ? "text-neutral-400"
                             : getMatchAnalysisDeltaTone(
                                 row.deltaFromPrevious,
                                 selectedMatchAnalysisMetric.direction
@@ -4172,7 +4144,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                       {row.periods.map((periodValue, index) => (
                         <td
                           key={`period-${row.gameweek}-${index}`}
-                          className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-200"
+                          className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 text-neutral-200"
                         >
                           {formatMatchAnalysisValue(periodValue, selectedMatchAnalysisMetric)}
                         </td>
@@ -4181,19 +4153,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   ))}
                   {seasonAverageRow && (
                     <tr>
-                      <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-semibold text-slate-100">
+                      <th className="sticky left-0 z-10 border border-white/[0.07] bg-neutral-950 px-2 py-2 text-left font-semibold text-neutral-100">
                         Säsongssnitt ({selectedMatchAnalysisSeason})
                       </th>
-                      <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 font-semibold text-white">
+                      <td className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 font-semibold text-white">
                         {formatMatchAnalysisValue(seasonAverageRow.value, selectedMatchAnalysisMetric)}
                       </td>
-                      <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-400">
+                      <td className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 text-neutral-400">
                         –
                       </td>
                       {seasonAverageRow.periods.map((periodAverage, index) => (
                         <td
                           key={`season-period-row-${selectedMatchAnalysisSeason}-${index}`}
-                          className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-200"
+                          className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 text-neutral-200"
                         >
                           {formatMatchAnalysisValue(periodAverage, selectedMatchAnalysisMetric)}
                         </td>
@@ -4201,19 +4173,19 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     </tr>
                   )}
                   <tr>
-                    <th className="sticky left-0 z-10 border border-slate-700/60 bg-slate-950 px-2 py-2 text-left font-semibold text-slate-100">
+                    <th className="sticky left-0 z-10 border border-white/[0.07] bg-neutral-950 px-2 py-2 text-left font-semibold text-neutral-100">
                       Snitt (valda omgångar)
                     </th>
-                    <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 font-semibold text-white">
+                    <td className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 font-semibold text-white">
                       {formatMatchAnalysisValue(matchAnalysisAverage, selectedMatchAnalysisMetric)}
                     </td>
-                    <td className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-400">
+                    <td className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 text-neutral-400">
                       –
                     </td>
                     {averagePeriodValues.map((periodAverage, index) => (
                       <td
                         key={`season-period-${index}`}
-                        className="border border-slate-700/60 bg-slate-900/70 px-2 py-2 text-slate-200"
+                        className="border border-white/[0.07] bg-neutral-900/70 px-2 py-2 text-neutral-200"
                       >
                         {formatMatchAnalysisValue(periodAverage, selectedMatchAnalysisMetric)}
                       </td>
@@ -4258,27 +4230,27 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {isRound12Dashboard && roundTab === "sasong" && (
-          <div id="coachjamforelse" className="rounded-2xl border border-slate-700/50 bg-slate-800/80">
+          <div id="coachjamforelse" className="rounded-2xl border border-white/[0.06] bg-[#161b22]">
             <button
               type="button"
               onClick={() => setShowCoachComparison((prev) => !prev)}
-              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-slate-700/20"
+              className="flex w-full items-center justify-between gap-3 px-5 py-4 text-left transition-colors hover:bg-neutral-800/20"
             >
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Tränarskiftet</p>
-                <p className="mt-0.5 text-sm font-semibold text-slate-200">
+                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-neutral-500">Tränarskiftet</p>
+                <p className="mt-0.5 text-sm font-semibold text-neutral-200">
                   <span className="text-amber-400">Karlsson</span>
-                  <span className="mx-1.5 text-slate-600">→</span>
+                  <span className="mx-1.5 text-neutral-600">→</span>
                   <span className="text-teal-400">Rydström</span>
-                  <span className="ml-2 text-slate-500">— jämförelse per match</span>
+                  <span className="ml-2 text-neutral-500">— jämförelse per match</span>
                 </p>
               </div>
-              <span className={`text-slate-500 transition-transform ${showCoachComparison ? "rotate-180" : ""}`}>
+              <span className={`text-neutral-500 transition-transform ${showCoachComparison ? "rotate-180" : ""}`}>
                 ▼
               </span>
             </button>
             {showCoachComparison && (
-              <div className="border-t border-slate-700/50">
+              <div className="border-t border-white/[0.06]">
                 <CoachComparisonDashboard rounds={hammarbyMatchAnalysisRounds} />
               </div>
             )}
@@ -4288,8 +4260,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         <footer
           className={
             isRound11Dashboard
-              ? "rounded-2xl border border-emerald-800/35 bg-[#13231d]/80 p-5 text-xs leading-relaxed text-slate-400"
-              : "rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5 text-xs leading-relaxed text-slate-400"
+              ? "rounded-2xl border border-emerald-800/35 bg-[#13231d]/80 p-5 text-xs leading-relaxed text-neutral-400"
+              : "rounded-2xl border border-white/[0.06] bg-neutral-900/60 p-5 text-xs leading-relaxed text-neutral-400"
           }
         >
           <p>
