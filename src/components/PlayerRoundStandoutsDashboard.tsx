@@ -366,7 +366,10 @@ export function PlayerRoundStandoutsDashboard({
         </section>
 
         {selectedRunningMatch ? (
-          <RoundRunningStatsSection match={selectedRunningMatch} />
+          <RoundRunningStatsSection
+            match={selectedRunningMatch}
+            allDetailMatches={runningMatches}
+          />
         ) : null}
 
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
