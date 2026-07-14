@@ -44,6 +44,7 @@ import { findMatchAnalysisRoundForOverview } from "@/lib/resolveMatchAnalysisRou
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
 import { CoachComparisonDashboard } from "@/components/CoachComparisonDashboard";
+import { MatchAnalysisKpiSection } from "@/components/MatchAnalysisKpiSection";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -2554,6 +2555,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           <PointsComparisonSection
             comparisonRound={comparisonRound}
             pointsComparisonRows={pointsComparisonRows}
+          />
+        )}
+
+        {/* ── Matchanalys KPI cards (Twelve data) ── */}
+        {mode === "round" && !isRound11Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
+          <MatchAnalysisKpiSection
+            roundData={resolvedAnalysisRound}
+            matchLabel={selectedRoundMatch ? `${selectedRoundMatch.matchName}` : ""}
           />
         )}
 
