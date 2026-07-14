@@ -2890,7 +2890,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </section>
           )}
 
-        {mode === "round" && matchRankItems.length > 0 && (isRound11Dashboard || roundTab === "matchen") && (() => {
+        {mode === "round" && matchRankItems.length > 0 && isRound11Dashboard && (() => {
           const { standout, average } = splitMatchRankItems(matchRankItems);
           const getDot = (item: MatchRankItem) => {
             if (item.rank <= 3) return "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]";

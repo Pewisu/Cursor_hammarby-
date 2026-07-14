@@ -7,79 +7,108 @@ import {
   type MatchAnalysisMetricKey,
 } from "@/lib/hammarbyMatchAnalysisData";
 
-// ─── Metrics featured in the card grid ───────────────────────────────────────
+// ─── Metric definitions ───────────────────────────────────────────────────────
 
 type FeaturedMetric = {
   key: MatchAnalysisMetricKey;
-  badge: string;        // short uppercase badge text
+  badge: string;
   group: "offensiv" | "press" | "defensiv";
   description: (val: number, avg: number, better: boolean) => string;
 };
 
 const FEATURED: FeaturedMetric[] = [
+  // ── Offensivt ────────────────────────────────────────────────────────────────
   {
     key: "ball_possession_pct",
-    badge: "BOLLINNEHAV",
+    badge: "Bollinnehav",
     group: "offensiv",
     description: (v, a, b) =>
-      b ? `Dominerade bollen. ${((v - a) * 100).toFixed(1)} pp över snitt.`
+      b
+        ? `Dominerade bollen – ${((v - a) * 100).toFixed(1)} procentenheter över snitt.`
         : `Lägre bollinnehav än normalt (snitt ${(a * 100).toFixed(1)}%).`,
   },
   {
     key: "np_xg",
-    badge: "OFFENSIVT xG",
+    badge: "Offensivt xG",
     group: "offensiv",
     description: (v, a, b) =>
-      b ? `Stark chanskapning. +${(v - a).toFixed(2)} xG vs snitt.`
+      b
+        ? `Stark chanskapning. ${(v - a).toFixed(2)} xG över snittet.`
         : `Under normalt xG-snitt (${a.toFixed(2)}) denna omgång.`,
   },
   {
     key: "num_box_entries",
-    badge: "INBRYTNINGAR",
+    badge: "Inbrytningar i box",
     group: "offensiv",
     description: (v, a, b) =>
-      b ? `${Math.round(v)} intränganden i straffom. vs snitt ${a.toFixed(1)}.`
+      b
+        ? `${Math.round(v)} intränganden i straffom. – snitt är ${a.toFixed(1)}.`
         : `Färre inbrytningar än normalt (snitt ${a.toFixed(1)}).`,
   },
   {
-    key: "field_tilt",
-    badge: "AVSLUTSDOMINANS",
+    key: "np_shots",
+    badge: "Avslut",
     group: "offensiv",
     description: (v, a, b) =>
-      b ? `${((v - a) * 100).toFixed(1)} pp mer av avsluten på offensiv planhalva.`
-        : `Lägre avslutsdominans än säsongssnitt.`,
+      b
+        ? `${Math.round(v)} avslut – ${(v - a).toFixed(1)} fler än snitt.`
+        : `Färre avslut än normalt (snitt ${a.toFixed(1)}).`,
   },
+  // ── Press & territorium ───────────────────────────────────────────────────────
   {
     key: "ppda",
-    badge: "PRESSTÄTHET",
+    badge: "Presstäthet (PPDA)",
     group: "press",
     description: (v, a, b) =>
-      b ? `Hårdare press än normalt. ${(a - v).toFixed(2)} lägre PPDA vs snitt.`
-        : `Mer kontrollerat press (PPDA ${v.toFixed(2)} vs snitt ${a.toFixed(2)}).`,
+      b
+        ? `Hårdare press än normalt – PPDA ${v.toFixed(2)} vs snitt ${a.toFixed(2)}.`
+        : `Mer kontrollerat press – PPDA ${v.toFixed(2)} vs snitt ${a.toFixed(2)}.`,
   },
   {
     key: "num_recoveries_att_half",
-    badge: "ÅTERERÖVRINGAR",
+    badge: "Återerövringar",
     group: "press",
     description: (v, a, b) =>
-      b ? `${Math.round(v)} höga återerövringar. ${(v - a).toFixed(1)} över snitt.`
+      b
+        ? `${Math.round(v)} höga återerövringar – ${(v - a).toFixed(1)} över snitt.`
         : `Färre höga återerövringar än normalt (snitt ${a.toFixed(1)}).`,
   },
   {
+    key: "defensive_action_height_m",
+    badge: "Presspunkt",
+    group: "press",
+    description: (v, a, b) =>
+      b
+        ? `Defensiva aktioner sker högt upp (${v.toFixed(1)} m) – ${(v - a).toFixed(1)} m över snitt.`
+        : `Lägre presslinje än normalt (snitt ${a.toFixed(1)} m).`,
+  },
+  // ── Defensivt ─────────────────────────────────────────────────────────────────
+  {
     key: "opp_np_xg",
-    badge: "DEFENSIVT xG MOT",
+    badge: "Motst. xG",
     group: "defensiv",
     description: (v, a, b) =>
-      b ? `Motst. skapade ${v.toFixed(2)} xG. Defensivt starkt (snitt ${a.toFixed(2)}).`
-        : `Motst. skapade mer xG än normalt (snitt ${a.toFixed(2)}).`,
+      b
+        ? `Motst. skapade bara ${v.toFixed(2)} xG – klart under snitt (${a.toFixed(2)}).`
+        : `Motst. skapade ${v.toFixed(2)} xG – mer än normalt (snitt ${a.toFixed(2)}).`,
   },
   {
-    key: "np_xg_per_shot",
-    badge: "SKOTTKVALITET",
-    group: "offensiv",
+    key: "opp_np_xg_per_shot",
+    badge: "Motst. skottkvalitet",
+    group: "defensiv",
     description: (v, a, b) =>
-      b ? `Hög xG per avslut – skapade farliga lägen. ${(v - a).toFixed(3)} vs snitt.`
-        : `Lägre skottkvalitet denna match (snitt ${a.toFixed(3)}).`,
+      b
+        ? `Motst. avslut var ofarliga – ${v.toFixed(3)} xG/skott vs snitt ${a.toFixed(3)}.`
+        : `Motst. skapade farliga lägen – ${v.toFixed(3)} xG/skott vs snitt ${a.toFixed(3)}.`,
+  },
+  {
+    key: "opp_num_box_entries",
+    badge: "Motst. inbrytningar",
+    group: "defensiv",
+    description: (v, a, b) =>
+      b
+        ? `Motst. kom in i boxen bara ${Math.round(v)} gånger – snitt är ${a.toFixed(1)}.`
+        : `Motst. lyckades bryta in ${Math.round(v)} gånger – mer än normalt.`,
   },
 ];
 
@@ -93,60 +122,68 @@ function fmtMetricValue(key: MatchAnalysisMetricKey, value: number): string {
   return value.toFixed(def.decimals);
 }
 
-function getSliderPos(
-  value: number,
-  avg: number,
-  direction: "higher" | "lower"
-): number {
-  if (avg === 0) return 50;
+function getSliderPos(value: number, avg: number, direction: "higher" | "lower"): number {
+  if (!avg || avg === 0) return 50;
   const raw = direction === "higher" ? (value / avg) * 50 : (avg / value) * 50;
   return Math.min(95, Math.max(5, raw));
 }
 
-function getRankBadge(rank: number, total: number): {
+function getRankInfo(rank: number, total: number): {
   label: string;
+  shortLabel: string;
   cls: string;
+  dotCls: string;
 } {
-  if (rank <= 3)
-    return { label: `Topp ${rank}/${total}`, cls: "bg-emerald-500/15 text-emerald-300" };
-  if (rank >= total - 2)
-    return { label: `Botten ${total - rank + 1}/${total}`, cls: "bg-red-500/15 text-red-300" };
-  return { label: `#${rank}/${total}`, cls: "bg-neutral-800 text-neutral-500" };
-}
-
-function getDotColor(rank: number, total: number): string {
-  if (rank <= 3) return "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.6)]";
-  if (rank >= total - 2) return "bg-red-400 shadow-[0_0_5px_rgba(248,113,113,0.5)]";
-  return "bg-neutral-600";
+  if (rank <= 3) return {
+    label: `Topp ${rank} av ${total}`,
+    shortLabel: `#${rank}`,
+    cls: "bg-emerald-500/25 text-emerald-200 border border-emerald-500/40",
+    dotCls: "bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.7)]",
+  };
+  if (rank >= total - 2) return {
+    label: `Botten ${total - rank + 1} av ${total}`,
+    shortLabel: `#${rank}`,
+    cls: "bg-red-500/20 text-red-200 border border-red-500/35",
+    dotCls: "bg-red-400 shadow-[0_0_5px_rgba(248,113,113,0.6)]",
+  };
+  return {
+    label: `Plats ${rank} av ${total}`,
+    shortLabel: `#${rank}`,
+    cls: "bg-neutral-700/60 text-neutral-300 border border-neutral-600/50",
+    dotCls: "bg-neutral-500",
+  };
 }
 
 // ─── Period mini bar chart ────────────────────────────────────────────────────
 
-function PeriodBars({ periods, color }: { periods: number[]; color: string }) {
+const PERIOD_LABELS = ["0–15", "15–30", "30–HT", "45–60", "60–75", "75–FT"];
+
+function PeriodBars({ periods, barCls }: { periods: number[]; barCls: string }) {
   const max = Math.max(...periods, 0.001);
-  const labels = ["0-15", "15-30", "30-HT", "45-60", "60-75", "75-FT"];
   return (
     <div>
-      <div className="flex items-end gap-0.5" style={{ height: 28 }}>
+      <div className="flex items-end gap-0.5" style={{ height: 32 }}>
         {periods.map((p, i) => (
-          <div key={i} className="group relative flex flex-1 flex-col items-center justify-end">
+          <div key={i} className="flex flex-1 flex-col items-center justify-end">
             <div
-              className={`w-full rounded-t-sm ${color} opacity-80 transition-all group-hover:opacity-100`}
-              style={{ height: `${Math.max(4, (p / max) * 100)}%` }}
+              className={`w-full rounded-t-sm ${barCls}`}
+              style={{ height: `${Math.max(8, (p / max) * 100)}%` }}
             />
           </div>
         ))}
       </div>
-      <div className="mt-1 flex justify-between">
-        {labels.map((l) => (
-          <span key={l} className="flex-1 text-center text-[7px] text-neutral-700">{l}</span>
+      <div className="mt-1.5 flex">
+        {PERIOD_LABELS.map((l) => (
+          <span key={l} className="flex-1 text-center text-[8px] font-medium text-neutral-500">
+            {l}
+          </span>
         ))}
       </div>
     </div>
   );
 }
 
-// ─── Single KPI card ─────────────────────────────────────────────────────────
+// ─── Single KPI card ──────────────────────────────────────────────────────────
 
 type KpiCardProps = {
   metric: FeaturedMetric;
@@ -156,7 +193,8 @@ type KpiCardProps = {
 };
 
 function KpiCard({ metric, roundData, rank, total }: KpiCardProps) {
-  const def = hammarbyMatchAnalysisMetricDefinitions.find((d) => d.key === metric.key)!;
+  const def = hammarbyMatchAnalysisMetricDefinitions.find((d) => d.key === metric.key);
+  if (!def) return null;
   const sample = roundData.metrics[metric.key];
   if (!sample) return null;
 
@@ -164,113 +202,106 @@ function KpiCard({ metric, roundData, rank, total }: KpiCardProps) {
   const direction = def.direction;
 
   const relDelta = avg !== 0 ? (value - avg) / Math.abs(avg) : 0;
-  const isBetter =
-    direction === "higher" ? relDelta > 0.1 : relDelta < -0.1;
-  const isWorse =
-    direction === "higher" ? relDelta < -0.1 : relDelta > 0.1;
+  const isBetter = direction === "higher" ? relDelta > 0.1 : relDelta < -0.1;
+  const isWorse  = direction === "higher" ? relDelta < -0.1 : relDelta > 0.1;
 
-  const valueColor = isBetter
-    ? "text-emerald-400"
+  const valueColor = isBetter ? "text-emerald-300" : isWorse ? "text-red-300" : "text-amber-300";
+  const barCls     = isBetter ? "bg-emerald-500"   : isWorse ? "bg-red-500"   : "bg-amber-500";
+  const borderCls  = isBetter
+    ? "border-emerald-500/20"
     : isWorse
-    ? "text-red-400"
-    : "text-amber-300";
-  const barColor = isBetter
-    ? "bg-emerald-500"
+    ? "border-red-500/20"
+    : "border-amber-500/15";
+  const topAccent  = isBetter
+    ? "from-transparent via-emerald-500/60 to-transparent"
     : isWorse
-    ? "bg-red-500"
-    : "bg-amber-500";
+    ? "from-transparent via-red-500/55 to-transparent"
+    : "from-transparent via-amber-500/45 to-transparent";
 
   const sliderPos = getSliderPos(value, avg, direction);
-  const { label: rankLabel, cls: rankCls } = getRankBadge(rank, total);
-  const dotColor = getDotColor(rank, total);
+  const { label: rankLabel, shortLabel, cls: rankCls, dotCls } = getRankInfo(rank, total);
+
+  // Delta in the "good" direction
+  const deltaGood = direction === "higher" ? relDelta : -relDelta;
+  const deltaSign = deltaGood >= 0 ? "▲" : "▼";
+  const deltaColor = deltaGood >= 0 ? "text-emerald-300" : "text-red-300";
+
   const description = metric.description(value, avg, isBetter);
 
-  // direction-aware delta sign: positive means better
-  const deltaGoodDirection = direction === "higher" ? relDelta : -relDelta;
-
   return (
-    <article className="relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-[#161b22]">
-      {/* Top accent */}
-      <div
-        className={`h-0.5 w-full ${
-          isBetter
-            ? "bg-gradient-to-r from-transparent via-emerald-500/70 to-transparent"
-            : isWorse
-            ? "bg-gradient-to-r from-transparent via-red-500/60 to-transparent"
-            : "bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"
-        }`}
-      />
+    <article className={`relative flex flex-col overflow-hidden rounded-2xl border bg-[#161b22] ${borderCls}`}>
+      {/* Top accent line */}
+      <div className={`h-0.5 w-full bg-gradient-to-r ${topAccent}`} />
 
-      <div className="flex flex-1 flex-col p-4">
-        {/* Badge row */}
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex items-center gap-1.5">
-            <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${dotColor}`} />
-            <span className="rounded bg-neutral-800/80 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-neutral-400">
-              {metric.badge}
-            </span>
+      <div className="flex flex-1 flex-col gap-3 p-4">
+        {/* Row 1: badge + rank */}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className={`h-2 w-2 shrink-0 rounded-full ${dotCls}`} />
+            <span className="text-[11px] font-bold text-neutral-200">{metric.badge}</span>
           </div>
-          <span className={`shrink-0 rounded-full px-2 py-0.5 text-[9px] font-bold ${rankCls}`}>
-            {rankLabel}
+          <span className={`shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-black ${rankCls}`}>
+            {shortLabel}
           </span>
         </div>
 
-        {/* Large value */}
-        <p className={`mt-3 text-4xl font-black tabular-nums leading-none tracking-tight ${valueColor}`}>
-          {fmtMetricValue(metric.key, value)}
-        </p>
+        {/* Row 2: large value */}
+        <div>
+          <p className={`text-[44px] font-black leading-none tabular-nums tracking-tight ${valueColor}`}>
+            {fmtMetricValue(metric.key, value)}
+          </p>
+          {/* Rank label below value */}
+          <p className="mt-1 text-[11px] font-semibold text-neutral-400">{rankLabel}</p>
+        </div>
 
-        {/* Context */}
-        <div className="mt-1.5 flex items-center gap-2 text-[11px]">
-          <span className="text-neutral-500">
+        {/* Row 3: snitt + delta */}
+        <div className="flex items-center gap-2">
+          <span className="text-[12px] text-neutral-400">
             Snitt{" "}
-            <span className="font-semibold text-neutral-400">
-              {fmtMetricValue(metric.key, avg)}
-            </span>
+            <span className="font-bold text-neutral-200">{fmtMetricValue(metric.key, avg)}</span>
           </span>
-          <span className={`font-bold ${deltaGoodDirection >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-            {deltaGoodDirection >= 0 ? "▲" : "▼"}{" "}
-            {Math.abs(deltaGoodDirection * 100).toFixed(0)}%
+          <span className={`text-[12px] font-black ${deltaColor}`}>
+            {deltaSign} {Math.abs(deltaGood * 100).toFixed(0)}%
           </span>
         </div>
 
-        {/* Description */}
-        <p className="mt-1.5 text-[11px] leading-snug text-neutral-500">{description}</p>
+        {/* Row 4: description */}
+        <p className="text-[12px] leading-relaxed text-neutral-400">{description}</p>
 
-        {/* Slider: Sämre ──●── Bättre */}
-        <div className="mt-3">
-          <div className="relative">
+        {/* Row 5: SÄMRE / SNITT / BÄTTRE slider */}
+        <div>
+          <div className="relative h-3 flex items-center">
             {/* Track */}
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-800">
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-700">
               <div
-                className={`h-full rounded-full ${barColor} opacity-30`}
+                className={`h-full rounded-full ${barCls} opacity-40`}
                 style={{ width: `${sliderPos}%` }}
               />
             </div>
-            {/* Average marker */}
+            {/* Average tick */}
             <div
-              className="absolute top-1/2 h-3 w-px -translate-y-1/2 bg-neutral-500"
+              className="absolute top-0 h-full w-px bg-neutral-400"
               style={{ left: "50%" }}
             />
-            {/* Current value dot */}
+            {/* Value dot */}
             <div
-              className={`absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#161b22] ${barColor}`}
+              className={`absolute h-4 w-4 -translate-x-1/2 rounded-full border-2 border-[#161b22] ${barCls} shadow-lg`}
               style={{ left: `${sliderPos}%` }}
             />
           </div>
-          <div className="mt-1 flex justify-between text-[8px] text-neutral-700">
+          <div className="mt-1.5 flex justify-between text-[10px] font-semibold text-neutral-500">
             <span>Sämre</span>
             <span>Snitt</span>
             <span>Bättre</span>
           </div>
         </div>
 
-        {/* Period mini bars */}
-        <div className="mt-3 border-t border-white/[0.04] pt-3">
-          <p className="mb-1.5 text-[8px] font-semibold uppercase tracking-widest text-neutral-700">
-            Per period
+        {/* Row 6: period bars */}
+        <div className="border-t border-white/[0.06] pt-3">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-neutral-500">
+            Per period (15 min)
           </p>
-          <PeriodBars periods={Array.from(periods)} color={barColor} />
+          <PeriodBars periods={Array.from(periods)} barCls={barCls} />
         </div>
       </div>
     </article>
@@ -279,16 +310,16 @@ function KpiCard({ metric, roundData, rank, total }: KpiCardProps) {
 
 // ─── Group header ─────────────────────────────────────────────────────────────
 
-function GroupLabel({ label, accent }: { label: string; accent: string }) {
+function GroupHeader({ label, accent }: { label: string; accent: string }) {
   return (
-    <div className={`flex items-center gap-2 px-1 py-2`}>
-      <div className={`h-3 w-0.5 rounded-full ${accent}`} />
-      <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-500">{label}</p>
+    <div className="flex items-center gap-2.5 px-1">
+      <div className={`h-4 w-0.5 rounded-full ${accent}`} />
+      <p className="text-[11px] font-black uppercase tracking-[0.2em] text-neutral-300">{label}</p>
     </div>
   );
 }
 
-// ─── Main section ─────────────────────────────────────────────────────────────
+// ─── Main component ───────────────────────────────────────────────────────────
 
 type Props = {
   roundData: HammarbyMatchAnalysisRound;
@@ -296,7 +327,6 @@ type Props = {
 };
 
 export function MatchAnalysisKpiSection({ roundData, matchLabel }: Props) {
-  // Compute ranks from all 2026 rounds
   const season2026 = hammarbyMatchAnalysisRounds.filter((r) => r.season === 2026);
 
   function computeRank(key: MatchAnalysisMetricKey): { rank: number; total: number } {
@@ -311,64 +341,62 @@ export function MatchAnalysisKpiSection({ roundData, matchLabel }: Props) {
     const sorted = [...allVals].sort((a, b) =>
       def.direction === "higher" ? b - a : a - b
     );
-    return { rank: sorted.indexOf(current) + 1, total: sorted.length };
+    const idx = sorted.findIndex((v) => Math.abs(v - current) < 0.0001);
+    return { rank: (idx >= 0 ? idx : sorted.length) + 1, total: sorted.length };
   }
 
   const groups: { id: FeaturedMetric["group"]; label: string; accent: string }[] = [
-    { id: "offensiv", label: "Offensivt", accent: "bg-emerald-500" },
-    { id: "press",    label: "Press & territorium", accent: "bg-amber-500" },
-    { id: "defensiv", label: "Defensivt", accent: "bg-red-500" },
+    { id: "offensiv",  label: "Offensivt",             accent: "bg-emerald-400" },
+    { id: "press",     label: "Press & territorium",   accent: "bg-amber-400" },
+    { id: "defensiv",  label: "Defensivt",              accent: "bg-red-400" },
   ];
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-white/[0.06] bg-[#0d1117]">
-      {/* Header */}
-      <div className="border-b border-white/[0.05] px-5 py-4">
+    <section className="overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0d1117]">
+      {/* ── Header ── */}
+      <div className="border-b border-white/[0.06] px-5 py-4">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-neutral-600">
+            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-neutral-500">
               Twelve · Matchanalys
             </p>
-            <h2 className="mt-1 text-base font-black text-white">
+            <h2 className="mt-1 text-lg font-black text-white">
               Hur presterade Hammarby?
             </h2>
-            <p className="mt-0.5 text-xs text-neutral-500">{matchLabel}</p>
+            <p className="mt-0.5 text-sm font-medium text-neutral-400">{matchLabel}</p>
           </div>
-          {/* Twelve logo */}
-          <div className="shrink-0 rounded-lg border border-neutral-800 bg-neutral-900 px-2.5 py-1.5">
-            <p className="text-xs font-black text-neutral-200">
-              twelve<sup className="text-[8px] text-emerald-400">12</sup>
+          <div className="shrink-0 rounded-xl border border-neutral-700 bg-neutral-800/80 px-3 py-1.5">
+            <p className="text-sm font-black text-white">
+              twelve<sup className="text-[9px] text-emerald-400">12</sup>
             </p>
           </div>
         </div>
 
         {/* Traffic light legend */}
-        <div className="mt-3 flex flex-wrap items-center gap-3 text-[10px] text-neutral-600">
-          <div className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-emerald-400" />
-            <span>&gt;10% bättre än snitt</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-amber-400" />
-            <span>Nära snittet (±10%)</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="h-2 w-2 rounded-full bg-red-400" />
-            <span>&gt;10% under snitt</span>
-          </div>
+        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5">
+          {[
+            { dot: "bg-emerald-400", label: ">10% bättre än snitt" },
+            { dot: "bg-amber-400",   label: "Nära snittet (±10%)" },
+            { dot: "bg-red-400",     label: ">10% under snitt" },
+          ].map(({ dot, label }) => (
+            <div key={label} className="flex items-center gap-1.5">
+              <span className={`h-2 w-2 rounded-full ${dot}`} />
+              <span className="text-[11px] font-medium text-neutral-400">{label}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* KPI card groups */}
-      <div className="space-y-6 p-5">
+      {/* ── KPI card groups ── */}
+      <div className="space-y-7 p-5">
         {groups.map((group) => {
-          const groupMetrics = FEATURED.filter((m) => m.group === group.id);
-          if (groupMetrics.length === 0) return null;
+          const metrics = FEATURED.filter((m) => m.group === group.id);
+          if (metrics.length === 0) return null;
           return (
             <div key={group.id}>
-              <GroupLabel label={group.label} accent={group.accent} />
-              <div className="mt-2 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {groupMetrics.map((metric) => {
+              <GroupHeader label={group.label} accent={group.accent} />
+              <div className="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {metrics.map((metric) => {
                   const { rank, total } = computeRank(metric.key);
                   return (
                     <KpiCard
@@ -386,9 +414,9 @@ export function MatchAnalysisKpiSection({ roundData, matchLabel }: Props) {
         })}
       </div>
 
-      <p className="px-5 pb-4 text-[9px] text-neutral-700">
-        Källa: Twelve / hammarbyfotboll.se · Ranking bland Allsvenskan 2026-omgångar ·
-        Trafikljus: grön = &gt;10% bättre, röd = &gt;10% sämre, gul = ±10% mot säsongssnitt
+      <p className="px-5 pb-4 text-[10px] font-medium text-neutral-600">
+        Källa: Twelve / hammarbyfotboll.se · Ranking bland Allsvenskan 2026 ·
+        Grön = &gt;10% bättre, röd = &gt;10% sämre, gul = ±10% vs säsongssnitt
       </p>
     </section>
   );
