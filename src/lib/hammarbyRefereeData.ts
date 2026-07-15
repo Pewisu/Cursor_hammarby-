@@ -1,7 +1,10 @@
 // Hammarby Allsvenskan 2026 – domarstatistik per match
 // Källa: bolldata.se – frisparkar (freeKicks), fouls, gula/röda kort per match
+// Omg. 1–11, 15: hämtad direkt från bolldata.se matchsidor
+// Omg. 12 (Hammarby–Kalmar 2-0): fouls/freeKicks härledda via diff mot bolldata.se säsongsaggregat
 // Domarindex = (Ham. frisparkar − Motst. frisparkar) + (Motst. kort − Ham. kort)
 // Positivt = fördel Hammarby, negativt = nackdel Hammarby
+// Senast uppdaterad: 15 juli 2026 (13 matcher, omgång 12 tillagd)
 
 export interface RefereeMatchStats {
   key: string;
@@ -190,6 +193,24 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     totalCards: 1,
     hammarby: { freeKicks: 2, fouls: 8, foulsSuffered: 9, yellowCards: 0, redCards: 0, isHome: false },
     opponent: { name: "Elfsborg", freeKicks: 2, fouls: 9, foulsSuffered: 7, yellowCards: 1, redCards: 0 },
+  },
+  {
+    // Omgång 12 – Hammarby - Kalmar FF 2-0 (12 jul 2026)
+    // Källa: bolldata.se matchsida. Fouls/kort härledda via diff mot säsongsaggregat
+    // (HIF fouls: 138tot−127prev=11; foulsSuffered: 187tot−176prev=11; GK: 13tot−12prev=1)
+    // (FF: 40tot−39prev=1; FE: 24tot−23prev=1)
+    key: "omgang-12",
+    gameweek: 12,
+    date: "2026-07-12",
+    matchName: "Hammarby - Kalmar FF, 2-0",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-07-12/hammarby-kalmar-2-0",
+    referee: "Kristoffer Karlsson",
+    effectivePlayingTimeS: 3214,
+    totalTimeMin: 95,
+    totalFreeKicks: 2,
+    totalCards: 2,
+    hammarby: { freeKicks: 1, fouls: 11, foulsSuffered: 11, yellowCards: 1, redCards: 0, isHome: true },
+    opponent: { name: "Kalmar", freeKicks: 1, fouls: 11, foulsSuffered: 11, yellowCards: 1, redCards: 0 },
   },
   {
     key: "omgang-15",
