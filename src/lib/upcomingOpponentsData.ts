@@ -1,3 +1,13 @@
+export interface TrafficLightCard {
+  metric: string;
+  bigNumber: string;
+  badge: string;
+  color: "red" | "green" | "yellow";
+  rankNote: string;
+  explanation: string;
+  podcastComment: string;
+}
+
 export interface RankedComparisonMetric {
   label: string;
   hammarbyValue: string;
@@ -97,6 +107,7 @@ export interface OpponentPlayerToWatch {
   stats: { label: string; value: string }[];
   threat: string;
   motivation: string;
+  scoutBadge?: string;
 }
 
 export interface IntroStat {
@@ -119,6 +130,7 @@ export interface UpcomingOpponentReport {
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
   headToHead?: HeadToHeadSection;
+  trafficLightCards?: TrafficLightCard[];
   quickStatusCards: {
     title: string;
     body: string;
@@ -2157,6 +2169,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 12,
     roundLabel: "Omgång 12",
+    hidden: true,
     fixture: "Hammarby - Kalmar FF",
     dateLabel: "12 juli 2026 · Tre Arena",
     venueLabel: "Hemma · Tre Arena",
@@ -2628,6 +2641,450 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "Progressiva passningar",
         explanation:
           "Passningar som driver bollen framåt minst 10 meter mot motståndarens mål. Rony Jansson leder Kalmar FF med 108.",
+      },
+    ],
+  },
+  {
+    round: 13,
+    roundLabel: "Omgång 13",
+    fixture: "Hammarby IF - Degerfors IF",
+    dateLabel: "19 juli 2026 · 3Arena",
+    venueLabel: "Hemma · 3Arena",
+    oneLineSummary:
+      "⚠️ Netabay & Fritzson AVSTÄNGDA – Degerfors förlorar sin pressmotor och förste CB. Pressar högt (DAH 42,4m, 4:e) men np xG 1,04 (16:e). Hammarby hemma på 3Arena avgör det.",
+    introStats: [
+      { label: "Tabell", value: "HIF 2:a · 23p", tone: "emerald" },
+      { label: "Tabell", value: "Degerfors 13:e · 10p", tone: "amber" },
+      { label: "🚫 Avstängda", value: "Netabay + Fritzson", tone: "amber" },
+      { label: "DIF press (DAH/Twelve)", value: "42,4m (4:e)", tone: "blue" },
+    ],
+    mobileTakeaways: [
+      "🚫 SPELARSITUATION: Nahom Girmai Netabay (CM, pressmotor) och Ludvig Fritzson (CB, 10 matcher) är BÅDA AVSTÄNGDA. Degerfors förlorar sin mittfältsankare och en av sina förste backar.",
+      "Hammarby 2:a (23p, 28-14), Degerfors 13:e (10p, 12-19) efter 13 resp. 12 omgångar.",
+      "Utan Netabay: Deras pressorganisation och set-piece-dirigering tappar sin nyckelspelare. Deras hög-press-system (DAH 42,4m) kommer att vara sämre koordinerat.",
+      "Utan Fritzson: Backlinjen försvagas markant. Fritzson (10 matcher, 0 gula) är deras erfarenaste CB. En okänd backkonstellation ökar chanserna för Hammarbys djuprörelser.",
+      "Degerfors paradox: Ligans 2:a bästa försvar (Twelve) – men utan Netabay och Fritzson är den rangordningen hotad.",
+      "Snabb konterpress: 1,83s till framåtpass efter återerövrings. Utan Netabay tappar de organisatören – men konterhotet kvarstår.",
+      "Bästa matchfönstret: 46-60 (HIF 6 mål, DIF 4 insläppta) – tryck tidigt i 2H när Degerfors-reserverna är på planen.",
+    ],
+    trafficLightCards: [
+      {
+        metric: "np xG per match (Twelve) · anfallsskapande",
+        bigNumber: "1,04",
+        badge: "SÅRBAR",
+        color: "red",
+        rankNote: "16:e av 16 lag · 2,00 högt-värderade skott/match (16:e) · final third to box% 16 (16:e!)",
+        explanation:
+          "Degerfors skapar den allra lägsta förväntade målvolymen – 1,04 np xG/match (Twelve) och bara 2,00 högvärderade skott/match (16:e, sämst). Trots 51% field tilt penetrerar de knappt straffboxen (final third to box%: 16%, sämst i hela ligan!). 50% av skotten tas utifrån boxen (direkt stil) – extremt låg skottkvalitet, 0,10 np xG/skott (sämst i ligan).",
+        podcastComment:
+          "Tittar man på Twelve-datan är bilden glassklar: de skapar nästan ingenting farligt. Trots en aktiv, pressande spelstil kan de inte penetrera boxen – 16% final third to box conversion, sämst i ligan. Vi ska inte ge dem lite respekt de inte förtjänar offensivt.",
+      },
+      {
+        metric: "Defensiv aktionshöjd (Twelve)",
+        bigNumber: "42,4m",
+        badge: "FARA/STYRKA",
+        color: "green",
+        rankNote: "4:e av 16 lag · PPDA 5,98 (7:e) · defensiva dueller vunna 65,1% (2:a!)",
+        explanation:
+          "VIKTIG KORREKTION: Degerfors är INTE ett låg-block-lag – de pressar HÖGT! DAH 42,42m (4:e i ligan), 16% av återerövringarna i sista tredjedelen (outstanding). PPDA 5,98 (7:e = solid press), defensiva dueller 65,1% vunna (2:a i hela ligan!). Hammarby CBs och GK måste vara helt trygga under press och spela snabbt – ett misstag hög upp ger dem en direktkonter med 1,83s till framåtpassning (Twelve).",
+        podcastComment:
+          "Stor taktisk varning: de pressar HÖGT, inte lågt. De vinner dueller (2:a i ligan!) och återerövrar i sista tredjedelen. Vi kan inte rulla lugnt bakifrån – vi behöver snabba, säkra val under press och spela BAKOM deras linje när vi kan.",
+      },
+      {
+        metric: "Field Tilt % (Twelve) · territoriell balans",
+        bigNumber: "51%",
+        badge: "MEDEL",
+        color: "yellow",
+        rankNote: "6:e av 16 lag · xPoints 1,13 vs 0,91 faktiska p/match",
+        explanation:
+          "Degerfors har förvånande 51% field tilt (6:e!) tack vare sin höga press – de återerövrar högt och håller spelet i motståndarens sista tredjedel. Deras xPoints (1,13) är klart bättre än deras faktiska poäng (0,91) – de underpresterar resultatmässigt. Borta: 11:e med 6p och +2 GD, faktiskt bättre siffra.",
+        podcastComment:
+          "Det är intressant att de har 51% field tilt trots att de är 13:e. Det är ett aktivt, energikrävande lag. Pressa på – de kan tappa luften sent i matchen med sin intensiva spelstil.",
+      },
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a · 23p · 28-14. Ligaledare i xG, avslut och bollinnehav. Dominant hemma (5V-1O-1F, 22-5) – starkast hemma i hela ligan.",
+        tone: "emerald",
+      },
+      {
+        title: "🚫 Degerfors (utan Netabay & Fritzson)",
+        body: "13:e · 10p · 12-19. Dubbel-AVSTÄNGNING: Netabay (pressmotor, CM) och Fritzson (1:e CB, 10 matcher) spelar INTE. Deras bästa försvarssystem är kraftigt försvagat.",
+        tone: "amber",
+      },
+      {
+        title: "Taktisk fördel: klyv backlinjen",
+        body: "Fritzson borta = okänd backkonstellation. Netabay borta = press-organisationen disrupted. Hammarbys djuprörelser bakom linjen är extra farliga idag.",
+        tone: "blue",
+      },
+    ],
+    opponentStyle: [
+      "Twelve: Hög-press-stil (DAH 42,42m, 4:e) – INTE ett låg-block. 16% av återerövringarna i motståndarens sista tredjedel. Pressar aktivt och aggressivt högt på planen.",
+      "Defensiva dueller: 65,1% vunna (2:a i ligan) – fysiskt dominant defensivt. Fouls i anfallshalvan: 64% av alla fouls. Pressar hårt och aggressivt.",
+      "PPDA 5,98 (7:e) · Defensive intensity 6,10 (7:e): Solid pressinglag, begränsar motståndarnas possessioner till sista tredjedel till 30% (2:a bäst i ligan!).",
+      "Snabb konter: 8,73s till återerövrings (1:a i ligan – snabbast!) och 1,83s till framåtpassning. Direkta kontringar med 69% av passningarna framåt efter återerövrings.",
+      "Offensivt: 37% av boxinträden via inlägg (primary method). 0,44 inlägg per sista-tredjedelspossession. Korsar mycket men skapar lite kvalitet.",
+      "Absolut sämst i final third to box%: 16% (16:e). Trots 51% field tilt kan de inte penetrera in i boxen. 50% av skotten från utsidan – direktstil men dålig träffsäkerhet.",
+      "Underpresterar: xPoints 1,13 vs 0,91 faktiska poäng (-0,22 per match). Förtjänar fler poäng statistiskt men omvandlar inte speldominans till resultat.",
+    ],
+    styleProfile: [
+      {
+        label: "Hög press (DAH, Twelve)",
+        value: "42,42m · 4:e av 16 · PPDA 5,98 (7:e)",
+        score: 83,
+        explanation:
+          "Degerfors pressar högt och aggressivt. 4:e i ligan i defensiv aktionshöjd, 7:e i PPDA. Hammarby måste spela snabbt och direkt under press.",
+      },
+      {
+        label: "Defensiva dueller (Twelve)",
+        value: "65,1% vunna · 2:a av 16",
+        score: 92,
+        explanation:
+          "2:a i ligan i defensiva dueller vunna. Extremt kompetenta 1-mot-1 och i närkamper. HIF:s bärare och löpare måste räkna med starka utmaningar.",
+      },
+      {
+        label: "Bortaprofil 2026",
+        value: "1V-3O-1F · +2 GD borta",
+        score: 52,
+        explanation:
+          "11:e i bortatabellen. Sitter djupt och räknar med att hämta en poäng i taget borta.",
+      },
+      {
+        label: "Anfallspenetration (Twelve)",
+        value: "Final third to box: 16% · 16:e (sämst)",
+        score: 10,
+        explanation:
+          "Trots 51% field tilt och aktiv spelstil kan Degerfors INTE ta sig in i boxen. 16% final third to box = sämst i hela ligan. Deras skott är låg-kvalitet: 0,10 np xG/shot (sämst). De avlossar gärna utifrån.",
+      },
+      {
+        label: "Konterings-hastighet (Twelve)",
+        value: "1,83s till framåtpass · 8,73s till återerövrings (1:a!)",
+        score: 75,
+        explanation:
+          "Snabbaste laget i ligan att återta bollen (8,73s). Kontrerar direkt: 1,83s till framåtpassning, 69% av passningarna framåt efter återerövrings. Hammarby förlorar INTE bollen högt upp utan att konsekvenser.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,19",
+        opponentValue: "0,95",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarby skapar 2,3× mer xG per match. Degerfors absolut sämst i ligan.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,77",
+        opponentValue: "9,92",
+        hammarbyScore: 100,
+        opponentScore: 50,
+        note: "Hammarby skjuter dubbelt så mycket per match.",
+      },
+      {
+        label: "Field Tilt % (Twelve)",
+        hammarbyValue: "~70%",
+        opponentValue: "51%",
+        hammarbyScore: 100,
+        opponentScore: 73,
+        note: "DIF har överraskande 51% field tilt (6:e) via hög press. Hammarby ~1:a i ligan.",
+      },
+      {
+        label: "Nyckelpassningar / match",
+        hammarbyValue: "5,15",
+        opponentValue: "2,33",
+        hammarbyScore: 100,
+        opponentScore: 45,
+        note: "Hammarby skapar 2× fler nyckelpass. Degerfors sämst i ligan.",
+      },
+      {
+        label: "Gjorda mål",
+        hammarbyValue: "28",
+        opponentValue: "12",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarby med 2,3× fler mål. Stark offensiv överlägsenhet.",
+      },
+      {
+        label: "PPDA (Twelve · lägre = bättre press)",
+        hammarbyValue: "~4,19",
+        opponentValue: "5,98",
+        hammarbyScore: 100,
+        opponentScore: 70,
+        note: "HIF pressar intensivast i ligan. DIF pressar solid (7:e) – INTE passivt. Notera: lägre PPDA = bättre press.",
+      },
+      {
+        label: "Skott på mål / match",
+        hammarbyValue: "6,85",
+        opponentValue: "2,92",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarby 2:a i ligan, Degerfors sämst (16:e).",
+      },
+      {
+        label: "Faktiska poäng",
+        hammarbyValue: "23p",
+        opponentValue: "10p",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "HIF 2:a i tabellen (1,77 p/match) mot Degerfors 13:e (0,83 p/match).",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "np xG / match (Twelve)",
+        hammarbyValue: "~2,2",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "1,04",
+        opponentRank: "16:e av 16",
+        note: "Degerfors absolut sämst. Trots aktiv spelstil skapar de ingenting farligt – 0,10 xG/skott (sämst).",
+      },
+      {
+        label: "Final third to box % (Twelve)",
+        hammarbyValue: "hög",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "16%",
+        opponentRank: "16:e av 16",
+        note: "Degerfors allra sämst på att ta sig från sista tredjedelen in i boxen. 51% field tilt men kan inte penetrera.",
+      },
+      {
+        label: "Defensiv aktionshöjd / DAH (Twelve)",
+        hammarbyValue: "~43m",
+        hammarbyRank: "~3:e av 16",
+        opponentValue: "42,42m",
+        opponentRank: "4:e av 16",
+        note: "Båda lagen pressar högt! Degerfors 4:e i ligan. Det är ett match mellan två högt pressande lag.",
+      },
+      {
+        label: "Defensiva dueller vunna % (Twelve)",
+        hammarbyValue: "55,1%",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "65,1%",
+        opponentRank: "2:a av 16",
+        note: "Degerfors faktiskt BÄTTRE på defensiva dueller (65,1%, 2:a) än Hammarby (55,1%, 1:a i offensiva). HIF vinner offensiva dueller.",
+      },
+      {
+        label: "PPDA (Twelve · lägre = hårdare press)",
+        hammarbyValue: "~4,19",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "5,98",
+        opponentRank: "7:e av 16",
+        note: "HIF pressar mest intensivt i ligan. DIF pressar solid (7:e) – ett aktivt, pressorienterat lag.",
+      },
+      {
+        label: "Poäng / match",
+        hammarbyValue: "1,77 (23p/13)",
+        hammarbyRank: "2:a av 16",
+        opponentValue: "0,83 (10p/12)",
+        opponentRank: "13:e av 16",
+        note: "Hammarby 2× mer poäng per match. Men DIF underpresterar – xPoints 1,13 vs 0,91 faktiska.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 3 },
+      { window: "16–30'", hammarbyGoals: 3, opponentConcededGoals: 2 },
+      { window: "31–45+'", hammarbyGoals: 5, opponentConcededGoals: 3 },
+      { window: "46–60'", hammarbyGoals: 6, opponentConcededGoals: 4 },
+      { window: "61–75'", hammarbyGoals: 6, opponentConcededGoals: 1 },
+      { window: "76–90+'", hammarbyGoals: 4, opponentConcededGoals: 4 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Degerfors offensiv profil (Bolldata + Twelve)",
+        value: "12 mål – alla inifrån boxen. 4 via huvud. 37% boxinträden via inlägg.",
+        interpretation:
+          "Alla 12 Degerfors-mål sitter inne i straffboxen. 4 av dem är nickade. Trots att de pressar högt och har 51% field tilt kan de inte ta sig in i boxen (final third to box%: 16%, sämst). När de väl gör det korsar de helst (37% box entries from crosses). Hammarby CBs täcker nickduellar.",
+      },
+      {
+        label: "Degerfors 2H-fokus",
+        value: "10 av 12 mål gjorda i 2H (83%)",
+        interpretation:
+          "Nästan alla mål i andra halvlek. Degerfors sparar energi och slår till sent – 5 mål bara i 76-90+. Hammarby ska aldrig slappna av med 1-0.",
+      },
+      {
+        label: "Degerfors sårbara tidsfönster",
+        value: "46–60' (4 insläppta) och 0–15' (3 insläppta)",
+        interpretation:
+          "Degerfors är mest sårbar direkt efter paus och i matchens inledning. Hammarby bör starta starkt och pressa hårt i 2H-inledning.",
+      },
+      {
+        label: "Hammarby hemma 2026",
+        value: "22-5 · +17 GD (5V-1O-1F)",
+        interpretation:
+          "Hammarbys hemmaform är dominant – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela ligan. 3Arena är ett fästning.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "SPELA GENOM PRESSEN: Degerfors pressar HÖGT (DAH 42,4m, PPDA 5,98). Hammarby måste vara snabba, direkta och trygga under press – långa boll till inlöpande ytterbackar eller vertikal pass direkt till 10:an/9:an.",
+        "Utnyttja ytan BAKOM deras höga press. Deras defensiva linje är hög – snabba vertikala boll in i djupet kan bli dödliga. Degerfors tillåter opp. 30% possessioner till final third (2:a bäst) men med snabb boll kan vi bryta det.",
+        "Inlägg är Degerfors primärmetod (37% boxinträden) – vi kan spegla det. Hammarby 5:e i hörnor (+35 differens). Set pieces mot ett lag med 4 hörnmål är en nyckelstrategi.",
+        "Tidiga mål är viktigt: 0–15' och 46–60' är deras mest sårbara fönster (3 resp. 4 insläppta). Hammarby gör 4 resp. 6 mål dessa fönster. Starta matchen med maxintensitet.",
+        "Anvend progressiva löpningar (22,62 PL/90, 1:a) bakom Degerfors hög linje. De pressar upp och lämnar utrymme – exploatera det med accelerationer från MB/kantbackar.",
+      ],
+      withoutBall: [
+        "KONTERVAKT: Degerfors har 1,83s till framåtpass efter återerövrings (MYCKET snabb konter!) och snabbast i ligan att återta bollen (8,73s). Ta bollen tillbaka OMEDELBART vid förlust.",
+        "Deras höga press ger dem återerövringschansen högt upp – om Hammarby tappar bollen i defensiv tredjedel är det farligt. Bolla tryggt och välj rätt tidpunkt att bygga framåt.",
+        "Täck inlägg och boxinträden: 37% av Degerfors boxinträden via kors. Hammarby ytterbackar måste stänga av deras kantspel och begränsa inläggsmöjligheterna.",
+        "Set piece-fokus: 4 av 12 mål via huvud. Noga markering vid hörnor och frisparkar – Degerfors letar sin chans på fasta situationer.",
+        "Vakta 2H-kontringar: 10/12 Degerfors-mål görs i 2H. Med deras snabba konteringsförmåga (1,83s) – aldrig av defensivt fokus med ledning.",
+      ],
+      matchManagement: [
+        "🚫 SPELARSITUATION: Netabay (pressorganisatör, CM) och Fritzson (1:e CB) AVSTÄNGDA. Exploatera kaos i deras press och okänd backlinje med snabba djuprörelser tidigt.",
+        "3Arena fästning 2026: 22-5 i hemmamatcher. Hammarby är klart bästa hemmalag – spela med energin och publiken.",
+        "Vid tidig ledning: Håll tempot. Utan Netabay tappas deras presskoordinering – det öppnar ytor i mittfältet för Hammarbys rörlighet.",
+        "Aldrig av mentalt: 10/12 Degerfors-mål i 2H, 5 sent. Konterhotet kvarstår trots frånvaron – håll defensiv skärpa HELA matchen.",
+        "Tabellgapet 13 poäng + dubbel-avstängning: det pappersmässiga läget är exceptionellt. Leverera ett professionellt resultat.",
+      ],
+    },
+    playersToWatch: [
+      {
+        name: "Arman Taranis",
+        position: "CF · #17",
+        scoutBadge: "⚡ Hotet",
+        stats: [
+          { label: "Mål", value: "2" },
+          { label: "Matcher", value: "8" },
+          { label: "Mål/90", value: "0,68" },
+        ],
+        threat: "Primär målskytt – fysisk och farlig inne i boxen",
+        motivation:
+          "Taranis är Degerfors toppskyttar (delad plats med Rafferty). Alla 12 Degerfors-mål sitter inne i boxen och han är en av de som hittar rätt lägen i närkamper. HIF:s CBs måste hålla honom kort och vinna nickduellar.",
+      },
+      {
+        name: "Daniel Sundgren",
+        position: "CB · #6",
+        scoutBadge: "🧭 Spelfördelaren",
+        stats: [
+          { label: "Assist", value: "3" },
+          { label: "Mål", value: "1" },
+          { label: "xA", value: "2,35" },
+        ],
+        threat: "Veteran-CB som driver spelet framåt och är lagets kreativa motor",
+        motivation:
+          "Sundgren (35) är Degerfors mest kreativa kraft med 3 assist – klart flest i laget. Han skär upp spelet bakifrån med precisa passningar (xA 2,35). Hammarby ska pressa hans passningslinjer och störa uppspelet tidigt – Sundgren är nyckeln till det lilla Degerfors skapar offensivt.",
+      },
+      {
+        name: "Ludvig Fritzson",
+        position: "CB · #14",
+        scoutBadge: "🚫 AVSTÄNGD",
+        stats: [
+          { label: "Matcher", value: "10" },
+          { label: "Gula kort", value: "0" },
+          { label: "Utvisning", value: "–" },
+        ],
+        threat: "Deras erfarenaste CB – SPELAR EJ mot Hammarby",
+        motivation:
+          "Fritzson (30) är Degerfors mest spelade back med 10 matcher i ligan och 0 gula kort – men är AVSTÄNGD inför omgång 13. Hans frånvaro skapar en okänd backkonstellation. Hammarby ska exploatera oerfarenheten i deras ersättarbacklinje med snabba djuprörelser och tidig press på inbytta CBs.",
+      },
+      {
+        name: "Nahom Girmai Netabay",
+        position: "CM · #22",
+        scoutBadge: "🚫 AVSTÄNGD",
+        stats: [
+          { label: "Assist", value: "2" },
+          { label: "Matcher", value: "10" },
+          { label: "Hörn/90", value: "2,20" },
+        ],
+        threat: "Pressorganisatören och set-piece-motorn – SPELAR EJ mot Hammarby",
+        motivation:
+          "Netabay är central i Degerfors hög-press-maskin (DAH 42,4m, Twelve) och dirigerar deras pressblock samt tar hörnor (2,20/90). AVSTÄNGD inför omgång 13. Utan Netabay tappas pressorganisationen och set-piece-koordineringen markant – Hammarby ska exploatera det kaos som uppstår i deras mittfält med snabba vertikala passningar.",
+      },
+    ],
+    headToHead: {
+      sampleSize: 2,
+      description:
+        "Senaste 2 Allsvenska mötena 2025: Hammarby vann hemma 1-0 (maj 2025) och spelade 1-1 borta (nov 2025). Hammarby dominerade bollen i båda matcherna.",
+      summaryCards: [
+        {
+          title: "Senaste hemma-match",
+          value: "1-0 (HIF)",
+          note: "Maj 2025: Hammarby vann 1-0. 13-4 i avslut. Degerfors med minimal offensiv närvaro.",
+          tone: "emerald",
+        },
+        {
+          title: "Senaste borta-match",
+          value: "1-1 (oavgjort)",
+          note: "Nov 2025: Spelade 1-1 i Degerfors. HIF dominerade bollen men räckte inte.",
+          tone: "blue",
+        },
+        {
+          title: "Tabellgap 2026",
+          value: "13 poäng skilt",
+          note: "HIF 23p (2:a) vs Degerfors 10p (13:e). Tydligaste favoriten i denna omgång.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Hammarby vann senaste hemmamötet 1-0 (maj 2025) med 13-4 i avslut.",
+        "Senaste mötet i Degerfors slutade 1-1 (nov 2025).",
+        "Hammarby dominerar bollinnehav i alla inbördes möten.",
+      ],
+      matches: [
+        {
+          date: "2025-05-26",
+          fixture: "Hammarby - Degerfors",
+          result: "1-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 1,
+          opponentGoals: 0,
+          hammarbyXg: 1.35,
+          opponentXg: 0.42,
+          hammarbyShots: 13,
+          opponentShots: 4,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-05-26/hammarby-degerfors-1-0",
+        },
+        {
+          date: "2025-11-03",
+          fixture: "Degerfors - Hammarby",
+          result: "1-1",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 1,
+          opponentGoals: 1,
+          hammarbyXg: 1.18,
+          opponentXg: 0.71,
+          hammarbyShots: 9,
+          opponentShots: 5,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-11-03/degerfors-hammarby-1-1",
+        },
+      ],
+    },
+    dataSources: [
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 15 juli 2026 – 12–13 omgångar 2026)",
+      "Bolldata spelardata: https://bolldata.se/spelardata (hämtad 15 juli 2026)",
+      "Twelve säsongsrapport Degerfors 2026: https://reports.twelve.football/reports/degerfors-season-report-3KSnfQgBif.pdf (15 juli 2026)",
+      "Twelve shared report Degerfors 2026 (alt. länk): https://earpiece.twelve.football/shared-reports/c9f6cba5-8699-450d-8946-cf5c87e8ebbd",
+      "Degerfors IF trupp 2026: ligan.se/lag/degerfors + Transfermarkt + Flashscore (15 juli 2026)",
+      "Bolldata API: historiska möten Hammarby-Degerfors (2025-05-26 och 2025-11-03)",
+    ],
+    glossary: [
+      {
+        term: "DAH – Defensiv Aktionshöjd (Twelve)",
+        explanation:
+          "Genomsnittlig höjd (meter från eget mål) där laget gör sina defensiva aktioner. Degerfors 42,42m (4:e) = pressen HÖGT. Visar att de INTE spelar låg-block – de är ett hög-press-lag.",
+      },
+      {
+        term: "PPDA (Passes Per Defensive Action)",
+        explanation:
+          "Motståndarens passningar per defensiv aktion. Lägre = hårdare press. Degerfors 5,98 (7:e) = solid pressinglag. Hammarby ~4,19 (1:a) = ligans hårdaste press.",
+      },
+      {
+        term: "Final third to box % (Twelve)",
+        explanation:
+          "Andel av possessioner i sista tredjedelen som når straffboxen. Degerfors 16% (16:e = sämst) trots 51% field tilt. Trots att de pressar högt kan de inte penetrera in i boxen.",
+      },
+      {
+        term: "Field Tilt % (Twelve)",
+        explanation:
+          "Laget's andel av alla possessioner i bägge lagens sista tredjedel. Degerfors 51% (6:e) = de är territoriellt konkurrenskraftiga tack vare sin höga press och konteringsförmåga.",
+      },
+      {
+        term: "xG per shot (np xG/shot)",
+        explanation:
+          "Genomsnittlig xG per icke-straff-skott. Degerfors 0,10 np xG/shot (16:e = sämst). Deras skott håller minimal kvalitet – direkta, utanför-box-avlossningar.",
       },
     ],
   },
