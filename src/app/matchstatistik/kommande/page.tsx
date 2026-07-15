@@ -8,9 +8,10 @@ export const metadata: Metadata = {
   description: "Broadcast-ready matchanalys för Hammarby IF – Allsvenskan 2026.",
 };
 
+/* ── Traffic light config ── */
 const trafficCfg = {
   red: {
-    cardBg: "bg-gradient-to-b from-rose-950/80 to-neutral-950",
+    cardBg: "bg-gradient-to-b from-rose-950/70 to-neutral-950",
     border: "border-rose-600/40",
     numColor: "text-rose-400",
     badgeBg: "bg-rose-500/20 border-rose-500/50 text-rose-200",
@@ -18,15 +19,15 @@ const trafficCfg = {
     icon: "🔴",
   },
   green: {
-    cardBg: "bg-gradient-to-b from-emerald-950/80 to-neutral-950",
+    cardBg: "bg-gradient-to-b from-emerald-950/70 to-neutral-950",
     border: "border-emerald-600/40",
     numColor: "text-emerald-400",
     badgeBg: "bg-emerald-500/20 border-emerald-500/50 text-emerald-200",
-    accent: "bg-emerald-500",
+    accent: "bg-[#008050]",
     icon: "🟢",
   },
   yellow: {
-    cardBg: "bg-gradient-to-b from-amber-950/80 to-neutral-950",
+    cardBg: "bg-gradient-to-b from-amber-950/70 to-neutral-950",
     border: "border-amber-600/40",
     numColor: "text-amber-400",
     badgeBg: "bg-amber-500/20 border-amber-500/50 text-amber-200",
@@ -35,78 +36,90 @@ const trafficCfg = {
   },
 } as const;
 
-function SectionLabel({
-  num,
-  sub,
-  title,
-}: {
-  num: string;
-  sub: string;
-  title: string;
-}) {
+/* ── Section label ── */
+function SectionLabel({ num, sub, title }: { num: string; sub: string; title: string }) {
   return (
     <div className="mb-8 flex items-center gap-5">
-      <span className="text-5xl font-black tabular-nums text-neutral-700 leading-none">
-        {num}
-      </span>
-      <div className="w-1 h-14 rounded-full bg-[#008050]" />
+      <span className="text-5xl font-black tabular-nums leading-none text-neutral-700">{num}</span>
+      <div className="h-14 w-1 shrink-0 rounded-full bg-[#008050]" />
       <div>
-        <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#008050]">
-          {sub}
-        </p>
-        <h2 className="text-2xl font-black uppercase tracking-[0.12em] text-slate-100 leading-tight">
-          {title}
-        </h2>
+        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#008050]">{sub}</p>
+        <h2 className="text-2xl font-black uppercase tracking-[0.1em] leading-tight text-slate-100">{title}</h2>
       </div>
-      <div className="flex-1 h-px bg-neutral-800" />
+      <div className="h-px flex-1 bg-neutral-800" />
     </div>
   );
+}
+
+/* ── Outcome circle for H2H strip ── */
+function OutcomeCircle({ outcome }: { outcome: "win" | "draw" | "loss" }) {
+  const cfg = {
+    win: { bg: "bg-[#008050]", text: "text-white", label: "V" },
+    draw: { bg: "bg-amber-500", text: "text-neutral-900", label: "O" },
+    loss: { bg: "bg-rose-600", text: "text-white", label: "F" },
+  }[outcome];
+  return (
+    <span
+      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-black ${cfg.bg} ${cfg.text}`}
+    >
+      {cfg.label}
+    </span>
+  );
+}
+
+/* ── Short team name helper ── */
+function shortName(name: string): string {
+  return name.replace(/ IF$/, "").replace(/ FF$/, "").replace(/ BK$/, "").replace(/ FK$/, "");
 }
 
 export default function BroadcasterDashboard() {
   const report = upcomingOpponents.find((r) => !r.hidden);
   if (!report) {
     return (
-      <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
-        <p className="text-neutral-500 text-xl">Ingen aktiv rapport.</p>
+      <div className="flex min-h-screen items-center justify-center bg-neutral-950">
+        <p className="text-xl text-neutral-500">Ingen aktiv rapport.</p>
       </div>
     );
   }
 
-  const opponentName =
-    report.fixture
-      .split("-")
-      .map((p) => p.trim())
-      .find((t) => !t.toLowerCase().includes("hammarby")) ?? "Motståndaren";
+  /* Derive short names from fixture */
+  const parts = report.fixture.split("-").map((p) => p.trim());
+  const hifShort = shortName(parts[0] ?? "Hammarby");
+  const difShort = shortName(parts[1] ?? "Motståndaren");
 
-  const hasSuspended =
-    report.playersToWatch?.some((p) => p.scoutBadge?.includes("AVSTÄNGD")) ??
-    false;
+  /* H2H computed stats */
+  const h2hMatches = report.headToHead?.matches ?? [];
+  const h2hWins = h2hMatches.filter((m) => m.outcome === "win").length;
+  const h2hDraws = h2hMatches.filter((m) => m.outcome === "draw").length;
+  const h2hLosses = h2hMatches.filter((m) => m.outcome === "loss").length;
+  const h2hHifGoals = h2hMatches.reduce((s, m) => s + m.hammarbyGoals, 0);
+  const h2hDifGoals = h2hMatches.reduce((s, m) => s + m.opponentGoals, 0);
 
-  const suspendedNames =
-    report.playersToWatch
-      ?.filter((p) => p.scoutBadge?.includes("AVSTÄNGD"))
-      .map((p) => p.name.split(" ").pop())
-      .join(" + ") ?? "";
+  /* Suspended players */
+  const suspended = report.playersToWatch?.filter((p) => p.scoutBadge?.includes("AVSTÄNGD")) ?? [];
+  const suspendedLabel = suspended.map((p) => p.name.split(" ").pop()).join(" + ");
+
+  /* Rank lookup from rankedMetrics */
+  function rankFor(label: string, side: "hammarby" | "opponent"): string {
+    const m = report!.rankedMetrics.find(
+      (r) => r.label.toLowerCase().includes(label.toLowerCase()),
+    );
+    if (!m) return "";
+    return side === "hammarby" ? m.hammarbyRank : m.opponentRank;
+  }
 
   return (
     <div className="min-h-screen bg-neutral-950 text-slate-100">
-      {/* ── NAV ── */}
+      {/* ── Top nav ── */}
       <div className="border-b border-neutral-800 bg-neutral-950/95 px-6 py-3">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          <Link
-            href="/matchstatistik"
-            className="text-sm text-neutral-500 hover:text-neutral-300"
-          >
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <Link href="/matchstatistik" className="text-sm text-neutral-500 hover:text-neutral-300">
             ← Matchstatistik
           </Link>
-          <span className="rounded-full border border-neutral-700 bg-neutral-800 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-neutral-400">
+          <span className="rounded-full border border-neutral-700 bg-neutral-800 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-neutral-400">
             Broadcaster Dashboard
           </span>
-          <Link
-            href="/matchstatistik/omgang/12"
-            className="text-sm text-neutral-500 hover:text-neutral-300"
-          >
+          <Link href="/matchstatistik/omgang/12" className="text-sm text-neutral-500 hover:text-neutral-300">
             Senaste: Omg. 12 →
           </Link>
         </div>
@@ -114,47 +127,36 @@ export default function BroadcasterDashboard() {
 
       <div className="mx-auto max-w-7xl space-y-14 px-6 py-12">
 
-        {/* ══════════════════════════════════════════════
-            MATCH TITLE
-        ══════════════════════════════════════════════ */}
-        <header className="rounded-3xl border border-neutral-800 bg-neutral-900 px-8 py-10 text-center">
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-[#008050]">
-            {report.roundLabel ?? `Omgång ${report.round}`} &nbsp;·&nbsp; {report.dateLabel}
+        {/* ══════════════════════════════════════════
+            MATCH HEADER
+        ══════════════════════════════════════════ */}
+        <header className="rounded-3xl border border-neutral-800 bg-neutral-900 px-8 py-10">
+          {/* Round + date */}
+          <p className="text-center text-sm font-bold uppercase tracking-[0.28em] text-[#008050]">
+            {report.roundLabel ?? `Omgång ${report.round}`}
+            <span className="mx-3 text-neutral-700">·</span>
+            {report.dateLabel}
           </p>
 
-          <div className="mt-6 flex items-center justify-center gap-8">
-            {/* HIF */}
-            <div className="text-right">
-              <p className="text-4xl font-black uppercase tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
-                Hammarby IF
-              </p>
-              <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-[#008050]">
-                Hemmalag · 3Arena
-              </p>
-            </div>
-
-            {/* VS badge */}
-            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 border-neutral-700 bg-neutral-800 text-2xl font-black text-neutral-400">
+          {/* Team names — short + nowrap */}
+          <div className="mt-6 flex items-center justify-center gap-6">
+            <h1 className="flex-1 whitespace-nowrap text-right text-3xl font-extrabold uppercase tracking-tight text-slate-50 sm:text-4xl md:text-5xl">
+              {hifShort}
+            </h1>
+            <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-neutral-700 bg-neutral-800 text-xl font-black text-neutral-500">
               VS
             </div>
-
-            {/* Opponent */}
-            <div className="text-left">
-              <p className="text-4xl font-black uppercase tracking-tight text-slate-50 md:text-5xl lg:text-6xl">
-                {opponentName}
-              </p>
-              <p className="mt-1 text-sm font-semibold uppercase tracking-widest text-neutral-500">
-                Bortalag · 13:e · 10p
-              </p>
-            </div>
+            <h1 className="flex-1 whitespace-nowrap text-left text-3xl font-extrabold uppercase tracking-tight text-slate-50 sm:text-4xl md:text-5xl">
+              {difShort}
+            </h1>
           </div>
 
-          {/* Quick stats row */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          {/* Venue + table */}
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             {report.introStats?.map((s) => (
               <span
                 key={s.label}
-                className={`rounded-xl border px-4 py-2 text-sm font-semibold ${
+                className={`rounded-xl border px-4 py-1.5 text-sm font-semibold ${
                   s.tone === "emerald"
                     ? "border-emerald-700/50 bg-emerald-950/60 text-emerald-200"
                     : s.tone === "amber"
@@ -162,31 +164,87 @@ export default function BroadcasterDashboard() {
                       : "border-neutral-700 bg-neutral-800 text-neutral-300"
                 }`}
               >
-                <span className="text-xs font-normal text-current/60">{s.label} &nbsp;</span>
+                <span className="text-xs font-normal opacity-60">{s.label} </span>
                 {s.value}
               </span>
             ))}
           </div>
 
           {/* Suspended alert */}
-          {hasSuspended && (
-            <div className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-amber-600/40 bg-amber-950/50 px-6 py-3">
-              <span className="text-xl">🚫</span>
-              <span className="text-base font-bold text-amber-200">
-                {suspendedNames} AVSTÄNGDA
-              </span>
-              <span className="text-sm text-amber-400/70">— Degerfors utan halva mittfältet</span>
+          {suspended.length > 0 && (
+            <div className="mt-5 flex justify-center">
+              <div className="inline-flex items-center gap-3 rounded-2xl border border-amber-600/40 bg-amber-950/50 px-5 py-3">
+                <span className="text-lg">🚫</span>
+                <span className="font-bold text-amber-200">{suspendedLabel} AVSTÄNGDA</span>
+                <span className="text-sm text-amber-400/60">— halva {difShort}s mittfält borta</span>
+              </div>
+            </div>
+          )}
+
+          {/* ── H2H STRIP ── */}
+          {h2hMatches.length > 0 && (
+            <div className="mt-8 rounded-2xl border border-neutral-800 bg-neutral-800/40 px-6 py-5">
+              <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                Inbördes möten · Senaste {h2hMatches.length}
+              </p>
+              <div className="flex flex-wrap items-center gap-4">
+                {/* Circles newest-first */}
+                <div className="flex gap-2">
+                  {h2hMatches.map((m) => (
+                    <OutcomeCircle key={`${m.date}-${m.fixture}`} outcome={m.outcome} />
+                  ))}
+                </div>
+                {/* Summary text */}
+                <div className="min-w-0 flex-1">
+                  <p className="text-base font-bold text-slate-200">
+                    {h2hWins}V – {h2hDraws}O – {h2hLosses}F
+                    <span className="ml-3 text-sm font-normal text-neutral-500">
+                      Mål: {hifShort} {h2hHifGoals}–{h2hDifGoals} {difShort}
+                    </span>
+                  </p>
+                  <p className="mt-0.5 text-xs text-neutral-500">
+                    {report.headToHead?.description}
+                  </p>
+                </div>
+              </div>
+              {/* Match rows */}
+              <div className="mt-4 grid gap-1.5 sm:grid-cols-2 lg:grid-cols-5">
+                {h2hMatches.map((m) => (
+                  <div
+                    key={`row-${m.date}`}
+                    className={`flex items-center justify-between rounded-xl px-3 py-2 text-xs ${
+                      m.outcome === "win"
+                        ? "border border-emerald-700/30 bg-emerald-950/30"
+                        : m.outcome === "draw"
+                          ? "border border-amber-700/30 bg-amber-950/30"
+                          : "border border-rose-700/30 bg-rose-950/30"
+                    }`}
+                  >
+                    <span className="font-bold text-neutral-400">
+                      {m.date.slice(0, 7)}
+                    </span>
+                    <span className={`font-black ${
+                      m.outcome === "win" ? "text-emerald-300" :
+                      m.outcome === "draw" ? "text-amber-300" : "text-rose-300"
+                    }`}>
+                      {m.result}
+                    </span>
+                    <span className="text-neutral-600 uppercase text-[10px]">
+                      {m.venue === "home" ? "H" : "B"}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </header>
 
-        {/* ══════════════════════════════════════════════
+        {/* ══════════════════════════════════════════
             01 · THE HOOK: KPI-ANALYS
-        ══════════════════════════════════════════════ */}
+        ══════════════════════════════════════════ */}
         {report.trafficLightCards && report.trafficLightCards.length > 0 && (
           <section>
             <SectionLabel num="01" sub="The Hook" title="KPI-Analys" />
-
             <div className="grid gap-6 lg:grid-cols-3">
               {report.trafficLightCards.map((card) => {
                 const cfg = trafficCfg[card.color];
@@ -195,44 +253,23 @@ export default function BroadcasterDashboard() {
                     key={card.metric}
                     className={`flex flex-col rounded-3xl border p-7 ${cfg.cardBg} ${cfg.border}`}
                   >
-                    {/* Top: icon + badge */}
                     <div className="flex items-center justify-between">
-                      <span
-                        className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${cfg.badgeBg}`}
-                      >
+                      <span className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${cfg.badgeBg}`}>
                         {card.badge}
                       </span>
                       <span className="text-2xl">{cfg.icon}</span>
                     </div>
-
-                    {/* Big number */}
-                    <p
-                      className={`mt-5 text-7xl font-black leading-none tabular-nums ${cfg.numColor}`}
-                    >
+                    <p className={`mt-5 text-7xl font-black leading-none tabular-nums ${cfg.numColor}`}>
                       {card.bigNumber}
                     </p>
-
-                    {/* Metric label */}
-                    <p className="mt-3 text-base font-bold uppercase tracking-wide text-slate-200">
+                    <p className="mt-3 text-sm font-bold uppercase tracking-wide text-slate-200">
                       {card.metric}
                     </p>
-                    <p className="mt-1 text-xs font-medium text-neutral-500">
-                      {card.rankNote}
-                    </p>
-
-                    {/* Accent bar */}
+                    <p className="mt-1 text-xs text-neutral-500">{card.rankNote}</p>
                     <div className={`my-5 h-0.5 w-12 rounded-full ${cfg.accent}`} />
-
-                    {/* Explanation */}
-                    <p className="flex-1 text-sm leading-relaxed text-neutral-300">
-                      {card.explanation}
-                    </p>
-
-                    {/* Podcast comment */}
-                    <div className="mt-5 rounded-2xl border border-white/6 bg-black/40 p-4">
-                      <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
-                        🎙️ Podd
-                      </p>
+                    <p className="flex-1 text-sm leading-relaxed text-neutral-300">{card.explanation}</p>
+                    <div className="mt-5 rounded-2xl border border-white/5 bg-black/40 p-4">
+                      <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-neutral-600">🎙️ Podd</p>
                       <p className="text-sm italic leading-relaxed text-neutral-300">
                         &ldquo;{card.podcastComment}&rdquo;
                       </p>
@@ -244,62 +281,68 @@ export default function BroadcasterDashboard() {
           </section>
         )}
 
-        {/* ══════════════════════════════════════════════
+        {/* ══════════════════════════════════════════
             02 · THE COMPARISON: HEAD TO HEAD
-        ══════════════════════════════════════════════ */}
+        ══════════════════════════════════════════ */}
         <section>
           <SectionLabel num="02" sub="The Comparison" title="Head to Head" />
-
           <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-8">
-            {/* Team labels */}
-            <div className="mb-8 grid grid-cols-[1fr_auto_1fr] items-center text-center gap-4">
-              <p className="text-right text-lg font-black uppercase tracking-wider text-[#008050]">
-                Hammarby IF
+            {/* Team name row */}
+            <div className="mb-8 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+              <p className="text-right text-base font-black uppercase tracking-wider text-[#008050] sm:text-lg">
+                {hifShort}
               </p>
-              <p className="text-sm font-bold uppercase tracking-widest text-neutral-600">
+              <p className="text-xs font-bold uppercase tracking-widest text-neutral-600">
                 Allsvenskan 2026
               </p>
-              <p className="text-left text-lg font-black uppercase tracking-wider text-amber-400">
-                {opponentName}
+              <p className="text-left text-base font-black uppercase tracking-wider text-amber-400 sm:text-lg">
+                {difShort}
               </p>
             </div>
 
-            {/* Bars */}
-            <div className="space-y-6">
+            {/* Bars with rank labels */}
+            <div className="space-y-7">
               {report.spiderComparison.slice(0, 5).map((axis) => {
                 const hPct = Math.min(axis.hammarbyScore, 100);
                 const oPct = Math.min(axis.opponentScore, 100);
+                const hRank = rankFor(axis.label, "hammarby");
+                const oRank = rankFor(axis.label, "opponent");
                 return (
                   <div key={axis.label}>
-                    <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-baseline gap-4">
-                      <p className="text-right text-xl font-black tabular-nums text-slate-100">
-                        {axis.hammarbyValue}
-                      </p>
-                      <p className="text-center text-xs font-bold uppercase tracking-widest text-neutral-500 min-w-[140px]">
+                    <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-end gap-4">
+                      <div className="text-right">
+                        <p className="text-2xl font-black tabular-nums text-slate-100">{axis.hammarbyValue}</p>
+                        {hRank && (
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-[#008050]/60">{hRank}</p>
+                        )}
+                      </div>
+                      <p className="min-w-[140px] text-center text-[11px] font-bold uppercase tracking-widest text-neutral-500">
                         {axis.label}
                       </p>
-                      <p className="text-left text-xl font-black tabular-nums text-slate-100">
-                        {axis.opponentValue}
-                      </p>
+                      <div className="text-left">
+                        <p className="text-2xl font-black tabular-nums text-slate-100">{axis.opponentValue}</p>
+                        {oRank && (
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-amber-500/60">{oRank}</p>
+                        )}
+                      </div>
                     </div>
-                    <div className="grid grid-cols-[1fr_2px_1fr] items-center gap-0">
-                      <div className="flex justify-end overflow-hidden rounded-l-full bg-neutral-800 h-5">
+                    {/* Dual bar */}
+                    <div className="grid grid-cols-[1fr_2px_1fr] items-stretch">
+                      <div className="flex h-5 justify-end overflow-hidden rounded-l-full bg-neutral-800">
                         <div
                           className="h-5 rounded-l-full bg-[#008050] transition-all"
                           style={{ width: `${hPct}%` }}
                         />
                       </div>
-                      <div className="h-6 bg-neutral-700" />
-                      <div className="flex justify-start overflow-hidden rounded-r-full bg-neutral-800 h-5">
+                      <div className="bg-neutral-700" />
+                      <div className="flex h-5 justify-start overflow-hidden rounded-r-full bg-neutral-800">
                         <div
                           className="h-5 rounded-r-full bg-amber-500/70 transition-all"
                           style={{ width: `${oPct}%` }}
                         />
                       </div>
                     </div>
-                    <p className="mt-1.5 text-center text-xs text-neutral-600">
-                      {axis.note}
-                    </p>
+                    <p className="mt-1 text-center text-[11px] text-neutral-600">{axis.note}</p>
                   </div>
                 );
               })}
@@ -307,43 +350,58 @@ export default function BroadcasterDashboard() {
 
             {/* Spider chart */}
             <div className="mt-10 border-t border-neutral-800 pt-8">
-              <p className="mb-4 text-center text-xs font-bold uppercase tracking-widest text-neutral-600">
+              <p className="mb-4 text-center text-[11px] font-bold uppercase tracking-widest text-neutral-600">
                 Spindel-jämförelse · Bolldata + Twelve
               </p>
-              <SpiderComparisonChart
-                axes={report.spiderComparison}
-                opponentLabel={opponentName}
-              />
+              <SpiderComparisonChart axes={report.spiderComparison} opponentLabel={difShort} />
             </div>
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════
+        {/* ══════════════════════════════════════════
             03 · THE TACTIC: MATCHPLANEN
-        ══════════════════════════════════════════════ */}
+        ══════════════════════════════════════════ */}
         <section>
           <SectionLabel num="03" sub="The Tactic" title="Matchplanen" />
 
+          {/* ── SPOTLIGHT BOX ── */}
+          {report.spotlightKey && (
+            <div className="mb-6 rounded-3xl border border-[#008050]/50 bg-[#008050]/8 p-7"
+              style={{ boxShadow: "0 0 32px rgba(0,128,80,0.12)" }}>
+              <div className="flex items-start gap-5">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#008050]/20 text-2xl">
+                  ⚡
+                </span>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#008050]">
+                    X-Factor
+                  </p>
+                  <h3 className="text-xl font-black uppercase tracking-wide text-emerald-100">
+                    Nyckeln till 3 poäng
+                  </h3>
+                  <p className="mt-2 text-base leading-relaxed text-slate-200">
+                    {report.spotlightKey}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 3-column tactics */}
           <div className="grid gap-6 lg:grid-cols-3">
             {/* Med boll */}
             <div className="flex flex-col rounded-3xl border border-emerald-700/40 bg-gradient-to-b from-emerald-950/60 to-neutral-950 p-7">
               <div className="mb-6 flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/20 text-2xl">
-                  ⚽
-                </span>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/20 text-2xl">⚽</span>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-emerald-500/80">
-                    Anfallsvapen
-                  </p>
-                  <h3 className="text-xl font-black uppercase tracking-wide text-emerald-100">
-                    Med boll
-                  </h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#008050]">Anfallsvapen</p>
+                  <h3 className="text-xl font-black uppercase tracking-wide text-emerald-100">Med boll</h3>
                 </div>
               </div>
               <ul className="flex-1 space-y-3">
                 {report.hammarbyPlan.withBall.map((pt, i) => (
                   <li key={i} className="flex gap-3 text-sm leading-snug text-slate-300">
-                    <span className="mt-0.5 shrink-0 text-[#008050] font-bold">
+                    <span className="mt-0.5 shrink-0 font-black text-[#008050]">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>{pt}</span>
@@ -355,36 +413,25 @@ export default function BroadcasterDashboard() {
             {/* Utan boll */}
             <div className="flex flex-col rounded-3xl border border-neutral-700 bg-gradient-to-b from-neutral-800/60 to-neutral-950 p-7">
               <div className="mb-6 flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-neutral-700/50 text-2xl">
-                  🛡️
-                </span>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-neutral-700/50 text-2xl">🛡️</span>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-500">
-                    Defensiva nycklar
-                  </p>
-                  <h3 className="text-xl font-black uppercase tracking-wide text-slate-100">
-                    Utan boll
-                  </h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-500">Defensiva nycklar</p>
+                  <h3 className="text-xl font-black uppercase tracking-wide text-slate-100">Utan boll</h3>
                 </div>
               </div>
               <ul className="flex-1 space-y-3">
                 {report.hammarbyPlan.withoutBall.map((pt, i) => (
                   <li key={i} className="flex gap-3 text-sm leading-snug text-slate-300">
-                    <span className="mt-0.5 shrink-0 text-neutral-500 font-bold">
+                    <span className="mt-0.5 shrink-0 font-black text-neutral-600">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>{pt}</span>
                   </li>
                 ))}
               </ul>
-
-              {/* Match management pills */}
-              <div className="mt-6 space-y-2 border-t border-neutral-700 pt-5">
+              <div className="mt-6 space-y-2 border-t border-neutral-700 pt-4">
                 {report.hammarbyPlan.matchManagement.map((pt, i) => (
-                  <p
-                    key={i}
-                    className="flex gap-2 text-xs leading-snug text-neutral-400"
-                  >
+                  <p key={i} className="flex gap-2 text-xs leading-snug text-neutral-500">
                     <span className="shrink-0 text-[#008050]">↻</span>
                     <span>{pt}</span>
                   </p>
@@ -395,27 +442,19 @@ export default function BroadcasterDashboard() {
             {/* Målprofil */}
             <div className="flex flex-col rounded-3xl border border-amber-700/40 bg-gradient-to-b from-amber-950/60 to-neutral-950 p-7">
               <div className="mb-6 flex items-center gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-2xl">
-                  ⏱️
-                </span>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-2xl">⏱️</span>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500/80">
-                    Tidsfönster
-                  </p>
-                  <h3 className="text-xl font-black uppercase tracking-wide text-amber-100">
-                    Målprofil
-                  </h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500/80">Tidsfönster</p>
+                  <h3 className="text-xl font-black uppercase tracking-wide text-amber-100">Strategiska målfönster</h3>
                 </div>
               </div>
-              <p className="mb-4 text-xs font-medium text-neutral-600">
-                HIF-mål vs {opponentName} insläppta per tidsfönster
+              <p className="mb-4 text-xs text-neutral-600">
+                HIF-mål vs {difShort} insläppta per 15-min fönster
               </p>
-              <div className="flex-1 space-y-2.5">
+              <div className="flex-1 space-y-2">
                 {report.goalWindows.map((w) => {
                   const total = w.hammarbyGoals + w.opponentConcededGoals;
-                  const maxTotal = Math.max(
-                    ...report.goalWindows.map((x) => x.hammarbyGoals + x.opponentConcededGoals),
-                  );
+                  const maxTotal = Math.max(...report.goalWindows.map((x) => x.hammarbyGoals + x.opponentConcededGoals));
                   const isHot = total >= maxTotal - 1;
                   return (
                     <div
@@ -423,51 +462,37 @@ export default function BroadcasterDashboard() {
                       className={`flex items-center justify-between rounded-xl px-4 py-2.5 ${
                         isHot
                           ? "border border-amber-500/40 bg-amber-500/15"
-                          : "border border-neutral-800 bg-neutral-800/40"
+                          : "border border-neutral-800 bg-neutral-800/30"
                       }`}
                     >
                       <span className={`text-sm font-bold ${isHot ? "text-amber-200" : "text-neutral-400"}`}>
-                        {w.window}
-                        {isHot && <span className="ml-1.5 text-amber-400">🔥</span>}
+                        {w.window} {isHot && "🔥"}
                       </span>
-                      <div className="flex items-center gap-2 text-sm">
-                        <span className="font-bold text-[#008050]">
-                          HIF {w.hammarbyGoals}
-                        </span>
+                      <div className="flex items-center gap-2 text-sm font-bold">
+                        <span className="text-[#008050]">HIF {w.hammarbyGoals}</span>
                         <span className="text-neutral-700">|</span>
-                        <span className="font-bold text-amber-400">
-                          {w.opponentConcededGoals} in
-                        </span>
+                        <span className="text-amber-400">{w.opponentConcededGoals} in</span>
                       </div>
                     </div>
                   );
                 })}
               </div>
-
-              {/* Goal type notes */}
-              {report.goalTypeNotes.length > 0 && (
-                <div className="mt-5 space-y-2 border-t border-amber-700/30 pt-4">
-                  {report.goalTypeNotes.slice(0, 2).map((n) => (
-                    <div key={n.label}>
-                      <p className="text-[10px] font-bold uppercase tracking-wide text-amber-400/60">
-                        {n.label}
-                      </p>
-                      <p className="text-xs text-neutral-400">{n.value}</p>
-                    </div>
-                  ))}
+              {report.goalTypeNotes.slice(0, 2).map((n) => (
+                <div key={n.label} className="mt-3 border-t border-amber-700/30 pt-3">
+                  <p className="text-[10px] font-bold uppercase tracking-wide text-amber-500/50">{n.label}</p>
+                  <p className="text-xs text-neutral-500">{n.value}</p>
                 </div>
-              )}
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════
-            04 · THE SCOUT: SPELARKORT
-        ══════════════════════════════════════════════ */}
+        {/* ══════════════════════════════════════════
+            04 · THE SCOUT
+        ══════════════════════════════════════════ */}
         {report.playersToWatch && report.playersToWatch.length > 0 && (
           <section>
             <SectionLabel num="04" sub="The Scout" title="Scouting" />
-
             <div className="grid gap-6 lg:grid-cols-3">
               {report.playersToWatch.slice(0, 3).map((player) => {
                 const isSuspended = player.scoutBadge?.includes("AVSTÄNGD");
@@ -475,59 +500,36 @@ export default function BroadcasterDashboard() {
                   <div
                     key={player.name}
                     className={`flex flex-col overflow-hidden rounded-3xl border ${
-                      isSuspended
-                        ? "border-neutral-700 bg-neutral-900/50 opacity-70"
-                        : "border-neutral-700 bg-neutral-900"
-                    }`}
+                      isSuspended ? "border-neutral-700 opacity-65" : "border-neutral-700"
+                    } bg-neutral-900`}
                   >
-                    {/* Color bar */}
-                    <div
-                      className={`h-1.5 w-full ${
-                        isSuspended
-                          ? "bg-neutral-700"
-                          : "bg-gradient-to-r from-rose-500 via-rose-400/60 to-transparent"
-                      }`}
-                    />
-
+                    <div className={`h-1.5 w-full ${
+                      isSuspended ? "bg-neutral-700" : "bg-gradient-to-r from-rose-500 via-rose-400/50 to-transparent"
+                    }`} />
                     <div className="flex flex-1 flex-col p-7">
-                      {/* Badge */}
                       {player.scoutBadge && (
-                        <span
-                          className={`mb-4 self-start rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${
-                            isSuspended
-                              ? "border-neutral-600 bg-neutral-800 text-neutral-500"
-                              : "border-rose-500/50 bg-rose-500/15 text-rose-300"
-                          }`}
-                        >
+                        <span className={`mb-4 self-start rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${
+                          isSuspended
+                            ? "border-neutral-600 bg-neutral-800 text-neutral-500"
+                            : "border-rose-500/50 bg-rose-500/15 text-rose-300"
+                        }`}>
                           {player.scoutBadge}
                         </span>
                       )}
-
-                      {/* Name */}
                       <h3 className="text-2xl font-black leading-tight tracking-tight text-slate-50">
                         {player.name}
                       </h3>
                       <p className="mt-1 text-xs font-bold uppercase tracking-widest text-neutral-500">
-                        {player.position} · {opponentName}
+                        {player.position} · {difShort}
                       </p>
-
-                      {/* Threat */}
                       <p className={`mt-3 text-sm font-semibold ${isSuspended ? "text-neutral-500" : "text-rose-300"}`}>
                         {player.threat}
                       </p>
-
-                      {/* Stats */}
+                      {/* Big stats */}
                       <div className="mt-5 grid grid-cols-3 gap-3">
                         {player.stats.map((stat) => (
-                          <div
-                            key={`${player.name}-${stat.label}`}
-                            className={`rounded-2xl border p-3 text-center ${
-                              isSuspended
-                                ? "border-neutral-700 bg-neutral-800/40"
-                                : "border-neutral-700 bg-neutral-800"
-                            }`}
-                          >
-                            <span className="block text-3xl font-black tabular-nums text-slate-50 leading-none">
+                          <div key={`${player.name}-${stat.label}`} className="rounded-2xl border border-neutral-700 bg-neutral-800 p-3 text-center">
+                            <span className="block text-3xl font-black tabular-nums leading-none text-slate-50">
                               {stat.value}
                             </span>
                             <span className="mt-1 block text-[10px] font-bold uppercase tracking-widest text-neutral-500">
@@ -536,15 +538,11 @@ export default function BroadcasterDashboard() {
                           </div>
                         ))}
                       </div>
-
-                      {/* Motivation */}
                       <div className="mt-5 flex-1 rounded-2xl border border-neutral-800 bg-neutral-800/40 p-4">
                         <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
                           Scoutens omdöme
                         </p>
-                        <p className="text-sm leading-relaxed text-neutral-400">
-                          {player.motivation}
-                        </p>
+                        <p className="text-sm leading-relaxed text-neutral-400">{player.motivation}</p>
                       </div>
                     </div>
                   </div>
@@ -554,27 +552,19 @@ export default function BroadcasterDashboard() {
           </section>
         )}
 
-        {/* ══════════════════════════════════════════════
-            SOURCES FOOTER
-        ══════════════════════════════════════════════ */}
-        <footer className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6">
+        {/* ── Footer ── */}
+        <footer className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
           <div className="grid gap-6 md:grid-cols-2">
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
-                Datakällor
-              </p>
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">Datakällor</p>
               <ul className="space-y-1">
                 {report.dataSources.map((s, i) => (
-                  <li key={i} className="text-xs leading-relaxed text-neutral-600">
-                    · {s}
-                  </li>
+                  <li key={i} className="text-xs leading-relaxed text-neutral-700">· {s}</li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
-                Ordlista
-              </p>
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">Ordlista</p>
               <dl className="space-y-2">
                 {report.glossary.slice(0, 4).map((g) => (
                   <div key={g.term}>
