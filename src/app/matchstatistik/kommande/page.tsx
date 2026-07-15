@@ -551,19 +551,31 @@ export default function UpcomingOpponentsPage() {
                     <span className="h-px flex-1 bg-neutral-700/60" />
                   </div>
 
-                  <div className="grid gap-5 md:grid-cols-3">
-                    {report.playersToWatch.map((player) => (
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    {report.playersToWatch.map((player) => {
+                      const isSuspended = player.scoutBadge?.includes("AVSTÄNGD");
+                      return (
                       <div
                         key={player.name}
-                        className="relative flex flex-col overflow-hidden rounded-2xl border border-neutral-700/50 bg-neutral-900"
+                        className={`relative flex flex-col overflow-hidden rounded-2xl border bg-neutral-900 ${
+                          isSuspended ? "border-neutral-600/40 opacity-80" : "border-neutral-700/50"
+                        }`}
                       >
                         {/* Top accent bar */}
-                        <div className="h-1 w-full bg-gradient-to-r from-rose-500/60 via-rose-400/40 to-transparent" />
+                        <div className={`h-1 w-full bg-gradient-to-r ${
+                          isSuspended
+                            ? "from-neutral-500/50 via-neutral-400/30 to-transparent"
+                            : "from-rose-500/60 via-rose-400/40 to-transparent"
+                        }`} />
 
                         <div className="flex flex-1 flex-col p-5">
                           {/* Scout badge */}
                           {player.scoutBadge && (
-                            <span className="mb-3 self-start rounded-full border border-rose-400/35 bg-rose-500/15 px-3 py-1 text-xs font-bold text-rose-200">
+                            <span className={`mb-3 self-start rounded-full border px-3 py-1 text-xs font-bold ${
+                              isSuspended
+                                ? "border-neutral-500/50 bg-neutral-700/50 text-neutral-300"
+                                : "border-rose-400/35 bg-rose-500/15 text-rose-200"
+                            }`}>
                               {player.scoutBadge}
                             </span>
                           )}
@@ -609,7 +621,8 @@ export default function UpcomingOpponentsPage() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
               )}

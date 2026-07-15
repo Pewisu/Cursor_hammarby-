@@ -2651,21 +2651,21 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel: "19 juli 2026 · 3Arena",
     venueLabel: "Hemma · 3Arena",
     oneLineSummary:
-      "Degerfors pressar HÖGT (DAH 42,4m, 4:e) och vinner dueller (65,1%, 2:a) – men kan inte skapa chanser alls (np xG 1,04, 16:e). Hammarby hemma på 3Arena avgör det.",
+      "⚠️ Netabay & Fritzson AVSTÄNGDA – Degerfors förlorar sin pressmotor och förste CB. Pressar högt (DAH 42,4m, 4:e) men np xG 1,04 (16:e). Hammarby hemma på 3Arena avgör det.",
     introStats: [
       { label: "Tabell", value: "HIF 2:a · 23p", tone: "emerald" },
       { label: "Tabell", value: "Degerfors 13:e · 10p", tone: "amber" },
-      { label: "DIF np xG/match (Twelve)", value: "1,04 (16:e)", tone: "amber" },
+      { label: "🚫 Avstängda", value: "Netabay + Fritzson", tone: "amber" },
       { label: "DIF press (DAH/Twelve)", value: "42,4m (4:e)", tone: "blue" },
     ],
     mobileTakeaways: [
+      "🚫 SPELARSITUATION: Nahom Girmai Netabay (CM, pressmotor) och Ludvig Fritzson (CB, 10 matcher) är BÅDA AVSTÄNGDA. Degerfors förlorar sin mittfältsankare och en av sina förste backar.",
       "Hammarby 2:a (23p, 28-14), Degerfors 13:e (10p, 12-19) efter 13 resp. 12 omgångar.",
-      "VIKTIG KORREKTION (Twelve): Degerfors är INTE ett låg-block – de är ett HÖG-PRESS-lag! DAH 42,42m (4:e), PPDA 5,98 (7:e), defensiva dueller vunna 65,1% (2:a).",
-      "Degerfors paradox: Ligans 2:a bästa försvar (Twelve) men ligans absolut sämsta anfallsspel – np xG 1,04 (16:e), inga högt-värderade skott (2,00/match, 16:e).",
-      "Snabb konterpress: Snabbast i ligan att återta bollen (8,73s, 1:a) och 1,83s till framåtpassning efter återerövring. Direkta kontringar är deras primärna offensivvapen.",
-      "Inkörning via kanter: 37% av boxinträden från inlägg, 0,44 inlägg per sista-tredjelings-possession. Bredd är nyckeln för Hammarby att neutralisera.",
-      "10 av 12 Degerfors-mål i 2H. 5 mål i 76-90+. Deras höga press innebär trötthet sent – Hammarby bör exploatera.",
-      "Bästa matchfönstret: 46-60 (HIF 6 mål, DIF 4 insläppta) + start av matchen (spela snabbt för att undvika pressen).",
+      "Utan Netabay: Deras pressorganisation och set-piece-dirigering tappar sin nyckelspelare. Deras hög-press-system (DAH 42,4m) kommer att vara sämre koordinerat.",
+      "Utan Fritzson: Backlinjen försvagas markant. Fritzson (10 matcher, 0 gula) är deras erfarenaste CB. En okänd backkonstellation ökar chanserna för Hammarbys djuprörelser.",
+      "Degerfors paradox: Ligans 2:a bästa försvar (Twelve) – men utan Netabay och Fritzson är den rangordningen hotad.",
+      "Snabb konterpress: 1,83s till framåtpass efter återerövrings. Utan Netabay tappar de organisatören – men konterhotet kvarstår.",
+      "Bästa matchfönstret: 46-60 (HIF 6 mål, DIF 4 insläppta) – tryck tidigt i 2H när Degerfors-reserverna är på planen.",
     ],
     trafficLightCards: [
       {
@@ -2709,13 +2709,13 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         tone: "emerald",
       },
       {
-        title: "Degerfors just nu",
-        body: "13:e · 10p · 12-19. Hög-press-lag (DAH 42,4m, 4:e) men ligans sämsta offensiv (np xG 1,04, 16:e). Sista 5: 0V-3O-2F.",
+        title: "🚫 Degerfors (utan Netabay & Fritzson)",
+        body: "13:e · 10p · 12-19. Dubbel-AVSTÄNGNING: Netabay (pressmotor, CM) och Fritzson (1:e CB, 10 matcher) spelar INTE. Deras bästa försvarssystem är kraftigt försvagat.",
         tone: "amber",
       },
       {
-        title: "Nyckelkamp: Direkt vs. press",
-        body: "Degerfors pressar HÖGT (PPDA 5,98, 7:e) och vinner dueller (65,1%, 2:a!). Hammarby måste spela snabbt GENOM pressen och utnyttja ytor bakom deras höga linje.",
+        title: "Taktisk fördel: klyv backlinjen",
+        body: "Fritzson borta = okänd backkonstellation. Netabay borta = press-organisationen disrupted. Hammarbys djuprörelser bakom linjen är extra farliga idag.",
         tone: "blue",
       },
     ],
@@ -2931,11 +2931,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Vakta 2H-kontringar: 10/12 Degerfors-mål görs i 2H. Med deras snabba konteringsförmåga (1,83s) – aldrig av defensivt fokus med ledning.",
       ],
       matchManagement: [
+        "🚫 SPELARSITUATION: Netabay (pressorganisatör, CM) och Fritzson (1:e CB) AVSTÄNGDA. Exploatera kaos i deras press och okänd backlinje med snabba djuprörelser tidigt.",
         "3Arena fästning 2026: 22-5 i hemmamatcher. Hammarby är klart bästa hemmalag – spela med energin och publiken.",
-        "Vid tidig ledning: Håll tempot och pressa vidare. Degerfors tvingas öppna upp om de jagar – och då öppnar sig ytor bakom deras linje för snabba vertikala kontringar.",
-        "Aldrig av mentalt: 10/12 Degerfors-mål i 2H, 5 sent (76-90+). Håll intensiteten HELA matchen – deras konteringsförmåga gör dem farliga sent.",
-        "Tabellgapet 13 poäng: pappersmässigt vår match. Leverera ett professionellt resultat utan att underskatta ett aktivt, pressande lag.",
-        "Rotation möjlig: DIF:s offensiv är svag – bra tillfälle att ge speltid. Men ha respekt för deras hög-press-intensitet.",
+        "Vid tidig ledning: Håll tempot. Utan Netabay tappas deras presskoordinering – det öppnar ytor i mittfältet för Hammarbys rörlighet.",
+        "Aldrig av mentalt: 10/12 Degerfors-mål i 2H, 5 sent. Konterhotet kvarstår trots frånvaron – håll defensiv skärpa HELA matchen.",
+        "Tabellgapet 13 poäng + dubbel-avstängning: det pappersmässiga läget är exceptionellt. Leverera ett professionellt resultat.",
       ],
     },
     playersToWatch: [
@@ -2966,17 +2966,30 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           "Sundgren (35) är Degerfors mest kreativa kraft med 3 assist – klart flest i laget. Han skär upp spelet bakifrån med precisa passningar (xA 2,35). Hammarby ska pressa hans passningslinjer och störa uppspelet tidigt – Sundgren är nyckeln till det lilla Degerfors skapar offensivt.",
       },
       {
+        name: "Ludvig Fritzson",
+        position: "CB · #14",
+        scoutBadge: "🚫 AVSTÄNGD",
+        stats: [
+          { label: "Matcher", value: "10" },
+          { label: "Gula kort", value: "0" },
+          { label: "Utvisning", value: "–" },
+        ],
+        threat: "Deras erfarenaste CB – SPELAR EJ mot Hammarby",
+        motivation:
+          "Fritzson (30) är Degerfors mest spelade back med 10 matcher i ligan och 0 gula kort – men är AVSTÄNGD inför omgång 13. Hans frånvaro skapar en okänd backkonstellation. Hammarby ska exploatera oerfarenheten i deras ersättarbacklinje med snabba djuprörelser och tidig press på inbytta CBs.",
+      },
+      {
         name: "Nahom Girmai Netabay",
         position: "CM · #22",
-        scoutBadge: "🛡️ Presspjäsen",
+        scoutBadge: "🚫 AVSTÄNGD",
         stats: [
           { label: "Assist", value: "2" },
           { label: "Matcher", value: "10" },
           { label: "Hörn/90", value: "2,20" },
         ],
-        threat: "Mittfältsmotorn i deras höga press – styr pressblock och set pieces",
+        threat: "Pressorganisatören och set-piece-motorn – SPELAR EJ mot Hammarby",
         motivation:
-          "Girmai Netabay är central i Degerfors pressmaskin – organiserar pressblocket från CM, tar hörnor (2,20/90) och bidrar med 2 assist i offensiven. Twelve bekräftar att Degerfors pressar högt (DAH 42,4m). Hammarby måste pressa RUNT honom och avbryta hans organisation – stör hans roll som pressdirigent tidigt.",
+          "Netabay är central i Degerfors hög-press-maskin (DAH 42,4m, Twelve) och dirigerar deras pressblock samt tar hörnor (2,20/90). AVSTÄNGD inför omgång 13. Utan Netabay tappas pressorganisationen och set-piece-koordineringen markant – Hammarby ska exploatera det kaos som uppstår i deras mittfält med snabba vertikala passningar.",
       },
     ],
     headToHead: {
