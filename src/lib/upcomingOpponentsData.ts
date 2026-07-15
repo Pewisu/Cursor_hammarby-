@@ -1,3 +1,13 @@
+export interface TrafficLightCard {
+  metric: string;
+  bigNumber: string;
+  badge: string;
+  color: "red" | "green" | "yellow";
+  rankNote: string;
+  explanation: string;
+  podcastComment: string;
+}
+
 export interface RankedComparisonMetric {
   label: string;
   hammarbyValue: string;
@@ -97,6 +107,7 @@ export interface OpponentPlayerToWatch {
   stats: { label: string; value: string }[];
   threat: string;
   motivation: string;
+  scoutBadge?: string;
 }
 
 export interface IntroStat {
@@ -119,6 +130,7 @@ export interface UpcomingOpponentReport {
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
   headToHead?: HeadToHeadSection;
+  trafficLightCards?: TrafficLightCard[];
   quickStatusCards: {
     title: string;
     body: string;
@@ -2157,6 +2169,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 12,
     roundLabel: "Omgång 12",
+    hidden: true,
     fixture: "Hammarby - Kalmar FF",
     dateLabel: "12 juli 2026 · Tre Arena",
     venueLabel: "Hemma · Tre Arena",
@@ -2628,6 +2641,437 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "Progressiva passningar",
         explanation:
           "Passningar som driver bollen framåt minst 10 meter mot motståndarens mål. Rony Jansson leder Kalmar FF med 108.",
+      },
+    ],
+  },
+  {
+    round: 13,
+    roundLabel: "Omgång 13",
+    fixture: "Hammarby IF - Degerfors IF",
+    dateLabel: "19 juli 2026 · 3Arena",
+    venueLabel: "Hemma · 3Arena",
+    oneLineSummary:
+      "Degerfors: ligans svagaste offensiv (0,95 xG/match) men ett kompakt låg-block (bäst MCE/match i ligan). Hammarby hemma är dominant – det ska avgöra.",
+    introStats: [
+      { label: "Tabell", value: "HIF 2:a · 23p", tone: "emerald" },
+      { label: "Tabell", value: "Degerfors 13:e · 10p", tone: "amber" },
+      { label: "DIF xG/match", value: "0,95 (16:e)", tone: "amber" },
+      { label: "HIF hemma 2026", value: "5V-1O-1F · 22-5", tone: "emerald" },
+    ],
+    mobileTakeaways: [
+      "Hammarby 2:a (23p, 28-14), Degerfors 13:e (10p, 12-19) efter 13 resp. 12 omgångar.",
+      "Degerfors ligans absolut svagaste offensiv: 0,95 xG/match (16:e), 9,92 avslut/match (16:e), 2,92 skott på mål/match (16:e).",
+      "Paradox: Degerfors tillåter minst chansoskapande av alla lag (6,83 MCE/match, 1:a) – men deras GK underpresterar (-0,97 FM).",
+      "Degerfors bättre borta (6p, 1V-3O-1F, +2 GD) än hemma (5p, 1V-2O-4F, -7 GD).",
+      "10 av 12 Degerfors-mål i 2H. 5 mål i 76-90+. Hammarby ska inte slappna av sent.",
+      "Hammarby hemma 2026: Starkaste i ligan – 5V-1O-1F, 22-5, +17 GD. 3Arena är ett fästning.",
+      "Bästa matchfönstret: 46-60 (HIF 6 mål, DIF 4 insläppta) och 31-45+ (5 vs 3).",
+    ],
+    trafficLightCards: [
+      {
+        metric: "xG per match (offensiv skaparkraft)",
+        bigNumber: "0,95",
+        badge: "SÅRBAR",
+        color: "red",
+        rankNote: "16:e av 16 lag · absolut sämst",
+        explanation:
+          "Degerfors skapar det minsta antalet förväntade mål per match i hela Allsvenskan 2026. Bara 9,92 avslut och 2,92 skott på mål per match – bägge sämst i ligan. Även nyckelpass (2,33/match) och progressiva passningar (58,42/match) är sämst. De satsar allt på att stänga av och kontra.",
+        podcastComment:
+          "De skapar ingenting. I princip. Vi kan luta oss lite bakåt defensivt och lägga krutet på att slå igenom deras block – de skapar inga riktiga chanser mot oss.",
+      },
+      {
+        metric: "Motst. chanser per match (MCE/M)",
+        bigNumber: "6,83",
+        badge: "VARNING",
+        color: "green",
+        rankNote: "1:a av 16 lag · bäst defensivt i ligan",
+        explanation:
+          "Trots 19 insläppta mål tillåter Degerfors minst chansoskapande av alla lag i Allsvenskan 2026. 6,83 MCE/match (Hammarby har 6,92). De är extremt kompakta och svårgenomträngliga. Deras GK M. Igonen underpresterar (-0,97 FM) vilket förklarar det höga antalet insläppta från de få chanser de tillåter.",
+        podcastComment:
+          "Det är betongskylt. Vi kommer att ha bollen hela matchen men de tät centralt. Bredd, rörlighet och tålamod är nyckelorden – och vi måste vara effektiva när vi väl får rätt lägen.",
+      },
+      {
+        metric: "Borta-poäng 2026",
+        bigNumber: "6p",
+        badge: "MEDEL",
+        color: "yellow",
+        rankNote: "11:e av 16 lag · 1V-3O-1F · +2 GD borta",
+        explanation:
+          "Degerfors har faktiskt hämtat ihop 6 borta-poäng (1V-3O-1F, +2 GD i bortamål) och är 11:e i bortatabellen – bättre än vad 13:e platsen antyder. Hemma är katastrofalt: 14:e med 5p och -7 GD. De presterar alltså bättre bort och har en viss 'fri fågel'-mentalitet borta.",
+        podcastComment:
+          "Lite varningsflagg att de faktiskt har +2 i bortamål. De är ingen dödskniven borta. Men vår hemmafördel och tabellgapet på 13 poäng ska räcka mer än väl.",
+      },
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a · 23p · 28-14. Ligaledare i xG, avslut och bollinnehav. Dominant hemma (5V-1O-1F, 22-5) – starkast hemma i hela ligan.",
+        tone: "emerald",
+      },
+      {
+        title: "Degerfors just nu",
+        body: "13:e · 10p · 12-19. Ligans svagaste offensiv (0,95 xG/match, 16:e). Bättre borta (6p, 11:e) än hemma (5p, 14:e). Sista 5: 0V-3O-2F.",
+        tone: "amber",
+      },
+      {
+        title: "Nyckelkamp: Mur vs. maskin",
+        body: "Degerfors compactar extremt (MCE/match 6,83, bäst i ligan). Hammarby måste ha tålamod och klyva dem med rörlighet och bredd.",
+        tone: "blue",
+      },
+    ],
+    opponentStyle: [
+      "Extremt defensivt låg-block: 43,6% bollinnehav (14:e), 9,92 avslut/match (16:e), nästan inget iniciativ offensivt.",
+      "Ligans sämsta offensiva nyckeltal: xG 0,95/match, nyckelpass 2,33/match, progressiva pass 58,42/match – alla sämst (16:e).",
+      "Kompakta defensivt men sårbar GK: 6,83 MCE/match (1:a i ligan!) men Igonen -0,97 FM – tillåter lite men concederar ändå 19 mål.",
+      "Kontrings-hot i 2H: 10 av 12 mål gjorda i andra halvlek, 5 mål i 76-90+. Farliga när matchen är öppen sent.",
+      "4 av 12 mål via huvud – set pieces och inlägg är deras viktigaste offensivvapen. Alla 12 mål från inne i boxen.",
+      "Borta-stabilitet: 1V-3O-1F borta (11:e), +2 GD. Sämre hemma (14:e). Laget sitter lugnt djupt.",
+      "3 straffar emot och 0 för sig – notoriskt lockade till foul-situationer i boxen.",
+    ],
+    styleProfile: [
+      {
+        label: "Offensiv skaparkraft (xG/match)",
+        value: "0,95 xG/match · 16:e av 16",
+        score: 18,
+        explanation:
+          "Absolut sämst i ligan. Degerfors skapar nästan ingenting – Hammarby kan fokusera offensivt.",
+      },
+      {
+        label: "Defensiv kompakthet (MCE/M)",
+        value: "6,83 MCE/match · 1:a av 16",
+        score: 87,
+        explanation:
+          "Laget är extremt kompakt och tillåter minst chanser per match – ett tätt låg-block.",
+      },
+      {
+        label: "Bortaprofil 2026",
+        value: "1V-3O-1F · +2 GD borta",
+        score: 52,
+        explanation:
+          "11:e i bortatabellen. Sitter djupt och räknar med att hämta en poäng i taget borta.",
+      },
+      {
+        label: "Skottvolym & aktivitet",
+        value: "9,92 avslut/match · 16:e",
+        score: 15,
+        explanation:
+          "Ligans lägsta skottvolym. Minimalt offensivt engagemang – de räknar på omställningar.",
+      },
+      {
+        label: "2H-fokus & sent hot",
+        value: "10/12 mål i 2H · 5 mål 76-90+",
+        score: 68,
+        explanation:
+          "Sparar energi och slår till sent. Hammarby måste hålla intensiteten hela matchen.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,19",
+        opponentValue: "0,95",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarby skapar 2,3× mer xG per match. Degerfors absolut sämst i ligan.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,77",
+        opponentValue: "9,92",
+        hammarbyScore: 100,
+        opponentScore: 50,
+        note: "Hammarby skjuter dubbelt så mycket per match.",
+      },
+      {
+        label: "Bollinnehav %",
+        hammarbyValue: "58,8%",
+        opponentValue: "43,6%",
+        hammarbyScore: 100,
+        opponentScore: 74,
+        note: "Hammarby dominerar bollen – Degerfors spelar passivt.",
+      },
+      {
+        label: "Nyckelpassningar / match",
+        hammarbyValue: "5,15",
+        opponentValue: "2,33",
+        hammarbyScore: 100,
+        opponentScore: 45,
+        note: "Hammarby skapar 2× fler nyckelpass. Degerfors sämst i ligan.",
+      },
+      {
+        label: "Gjorda mål",
+        hammarbyValue: "28",
+        opponentValue: "12",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarby med 2,3× fler mål. Stor offensiv skillnad.",
+      },
+      {
+        label: "Återerövringar / match",
+        hammarbyValue: "90,23",
+        opponentValue: "80,75",
+        hammarbyScore: 100,
+        opponentScore: 90,
+        note: "Relativt jämnt – Degerfors återerövrar flitigt som del av defensivt spel.",
+      },
+      {
+        label: "Skott på mål / match",
+        hammarbyValue: "6,85",
+        opponentValue: "2,92",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarby 2:a i ligan, Degerfors sämst (16:e).",
+      },
+      {
+        label: "Faktiska poäng",
+        hammarbyValue: "23p",
+        opponentValue: "10p",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "HIF 2:a i tabellen (1,77 p/match) mot Degerfors 13:e (0,83 p/match).",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,19",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "0,95",
+        opponentRank: "16:e av 16",
+        note: "Hammarby skapar 2,3× mer xG. Degerfors absolut sämst – extremaste marginalen i ligan.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,77",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "9,92",
+        opponentRank: "16:e av 16",
+        note: "Hammarby dubbel skottvolym mot Degerfors som skjuter minst i ligan.",
+      },
+      {
+        label: "Bollinnehav %",
+        hammarbyValue: "58,8%",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "43,6%",
+        opponentRank: "14:e av 16",
+        note: "Hammarby dominerar bollen. Degerfors en av ligans mest passiva lag.",
+      },
+      {
+        label: "Nyckelpass / match",
+        hammarbyValue: "5,15",
+        hammarbyRank: "4:e av 16",
+        opponentValue: "2,33",
+        opponentRank: "16:e av 16",
+        note: "Degerfors sämst i ligan i nyckelpass. Hammarby i övre halvan.",
+      },
+      {
+        label: "MCE/match (def. chanser mot)",
+        hammarbyValue: "6,92",
+        hammarbyRank: "3:e av 16",
+        opponentValue: "6,83",
+        opponentRank: "1:a av 16 (bäst)",
+        note: "Degerfors tillåter minst chanser – kompakt men sårbar GK. Hammarby 3:a.",
+      },
+      {
+        label: "Poäng / match",
+        hammarbyValue: "1,77 (23p/13)",
+        hammarbyRank: "2:a av 16",
+        opponentValue: "0,83 (10p/12)",
+        opponentRank: "13:e av 16",
+        note: "Hammarby 2× mer poäng per match. Tydlig tabellskillnad.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 3 },
+      { window: "16–30'", hammarbyGoals: 3, opponentConcededGoals: 2 },
+      { window: "31–45+'", hammarbyGoals: 5, opponentConcededGoals: 3 },
+      { window: "46–60'", hammarbyGoals: 6, opponentConcededGoals: 4 },
+      { window: "61–75'", hammarbyGoals: 6, opponentConcededGoals: 1 },
+      { window: "76–90+'", hammarbyGoals: 4, opponentConcededGoals: 4 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Degerfors offensiv profil",
+        value: "12 mål – alla inifrån boxen. 4 via huvud.",
+        interpretation:
+          "Alla 12 Degerfors-mål sitter inne i straffboxen. 4 av dem är nickade – set pieces och inlägg är deras primärvapen. Hammarby CBs måste täcka nickduellar noga.",
+      },
+      {
+        label: "Degerfors 2H-fokus",
+        value: "10 av 12 mål gjorda i 2H (83%)",
+        interpretation:
+          "Nästan alla mål i andra halvlek. Degerfors sparar energi och slår till sent – 5 mål bara i 76-90+. Hammarby ska aldrig slappna av med 1-0.",
+      },
+      {
+        label: "Degerfors sårbara tidsfönster",
+        value: "46–60' (4 insläppta) och 0–15' (3 insläppta)",
+        interpretation:
+          "Degerfors är mest sårbar direkt efter paus och i matchens inledning. Hammarby bör starta starkt och pressa hårt i 2H-inledning.",
+      },
+      {
+        label: "Hammarby hemma 2026",
+        value: "22-5 · +17 GD (5V-1O-1F)",
+        interpretation:
+          "Hammarbys hemmaform är dominant – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela ligan. 3Arena är ett fästning.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Klyv deras låg-block med bredd och rörlighet. Degerfors compacts centralt – drag dem ut på kanterna och sök in-cuts mot straffboxen.",
+        "Ha tålamod med bollen (HIF 58,8% vs 43,6%). De pressar inte högt – bygg upp lugnt och tvinga dem att försvara länge.",
+        "Tryckt tidigt: Degerfors är sårbar 0–15' (3 insläppta) och 46–60' (4 insläppta). Intensiv matchstart och stark 2H-inledning.",
+        "Set pieces som nyckel: Hammarby 5:e i hörnor (72 för vs 37 emot, +35 differens). Degerfors nickfokus gör att vi kan slå djupa hörnor.",
+        "Använd progressiva löpningar (22,62 PL/90, 1:a i ligan) – dra ut deras kompakta block med löpningar bakom linjen.",
+      ],
+      withoutBall: [
+        "Vakta 2H-kontringar: 10/12 Degerfors-mål i 2H. Backlinjen skärpt – särskilt sent (5 mål 76-90+). Inte fira i förtid.",
+        "Täck deras set piece-hot: 4 av 12 mål via huvud. Noga markering och hög närvaro vid Degerfors hörnor och frisparkar.",
+        "Håll press efter ledning. Degerfors vaknar vid insläppt mål – ge dem ingen uppmuntran.",
+        "Begränsa Taranis och Rafferty: Deras toppskytten (2 mål var) hittar sina lägen inne i boxen. CBs håller korta avstånd.",
+        "Störa Sundgrens distribution: 35-åriga backen är deras mest kreativa kraft (3 assist). Press hans passningslinjer tidigt.",
+      ],
+      matchManagement: [
+        "3Arena fästning 2026: 22-5 i hemmamatcher (starkast i hela ligan). Spela på hemmaenergis för att bryta blocket.",
+        "Vid tidig ledning: Håll tempot uppe. Degerfors tar mer risker om de jagar matchen – och då öppnar sig ytor för oss.",
+        "Aldrig av mentalt: Degerfors scorer oftast i 61-90+ (9 av 12 mål). Hög fokus HELA matchen.",
+        "Tabellgapet: 13 poängs-differens – det är pappersmässigt vår match. Leverera ett professionellt resultat.",
+        "Rotation möjlig: Med litet offensivt hot är det ett bra läge att ge speltid och bevara energi inför kommande matcher.",
+      ],
+    },
+    playersToWatch: [
+      {
+        name: "Arman Taranis",
+        position: "CF · #17",
+        scoutBadge: "⚡ Hotet",
+        stats: [
+          { label: "Mål", value: "2" },
+          { label: "Matcher", value: "8" },
+          { label: "Mål/90", value: "0,68" },
+        ],
+        threat: "Primär målskytt – fysisk och farlig inne i boxen",
+        motivation:
+          "Taranis är Degerfors toppskyttar (delad plats med Rafferty). Alla 12 Degerfors-mål sitter inne i boxen och han är en av de som hittar rätt lägen i närkamper. HIF:s CBs måste hålla honom kort och vinna nickduellar.",
+      },
+      {
+        name: "Daniel Sundgren",
+        position: "CB · #6",
+        scoutBadge: "🧭 Spelfördelaren",
+        stats: [
+          { label: "Assist", value: "3" },
+          { label: "Mål", value: "1" },
+          { label: "xA", value: "2,35" },
+        ],
+        threat: "Veteran-CB som driver spelet framåt och är lagets kreativa motor",
+        motivation:
+          "Sundgren (35) är Degerfors mest kreativa kraft med 3 assist – klart flest i laget. Han skär upp spelet bakifrån med precisa passningar (xA 2,35). Hammarby ska pressa hans passningslinjer och störa uppspelet tidigt – Sundgren är nyckeln till det lilla Degerfors skapar offensivt.",
+      },
+      {
+        name: "Nahom Girmai Netabay",
+        position: "CM · #22",
+        scoutBadge: "🛡️ Ankaret",
+        stats: [
+          { label: "Assist", value: "2" },
+          { label: "Matcher", value: "10" },
+          { label: "Hörn/90", value: "2,20" },
+        ],
+        threat: "Defensiv mittfältare som organiserar blocket och styr set pieces",
+        motivation:
+          "Girmai Netabay organiserar Degerfors kompakta mittblock och tar hörnor (2,20/90). Hans 2 assist visar att han är involverad i de få offensiva sekvenserna. Hammarby ska pressa hans position och avbryta set piece-rutiner.",
+      },
+    ],
+    headToHead: {
+      sampleSize: 2,
+      description:
+        "Senaste 2 Allsvenska mötena 2025: Hammarby vann hemma 1-0 (maj 2025) och spelade 1-1 borta (nov 2025). Hammarby dominerade bollen i båda matcherna.",
+      summaryCards: [
+        {
+          title: "Senaste hemma-match",
+          value: "1-0 (HIF)",
+          note: "Maj 2025: Hammarby vann 1-0. 13-4 i avslut. Degerfors med minimal offensiv närvaro.",
+          tone: "emerald",
+        },
+        {
+          title: "Senaste borta-match",
+          value: "1-1 (oavgjort)",
+          note: "Nov 2025: Spelade 1-1 i Degerfors. HIF dominerade bollen men räckte inte.",
+          tone: "blue",
+        },
+        {
+          title: "Tabellgap 2026",
+          value: "13 poäng skilt",
+          note: "HIF 23p (2:a) vs Degerfors 10p (13:e). Tydligaste favoriten i denna omgång.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Hammarby vann senaste hemmamötet 1-0 (maj 2025) med 13-4 i avslut.",
+        "Senaste mötet i Degerfors slutade 1-1 (nov 2025).",
+        "Hammarby dominerar bollinnehav i alla inbördes möten.",
+      ],
+      matches: [
+        {
+          date: "2025-05-26",
+          fixture: "Hammarby - Degerfors",
+          result: "1-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 1,
+          opponentGoals: 0,
+          hammarbyXg: 1.35,
+          opponentXg: 0.42,
+          hammarbyShots: 13,
+          opponentShots: 4,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-05-26/hammarby-degerfors-1-0",
+        },
+        {
+          date: "2025-11-03",
+          fixture: "Degerfors - Hammarby",
+          result: "1-1",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 1,
+          opponentGoals: 1,
+          hammarbyXg: 1.18,
+          opponentXg: 0.71,
+          hammarbyShots: 9,
+          opponentShots: 5,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-11-03/degerfors-hammarby-1-1",
+        },
+      ],
+    },
+    dataSources: [
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 15 juli 2026 – 12–13 omgångar 2026)",
+      "Bolldata spelardata: https://bolldata.se/spelardata (hämtad 15 juli 2026)",
+      "Degerfors IF trupp 2026: ligan.se/lag/degerfors + Transfermarkt + Flashscore (15 juli 2026)",
+      "Bolldata API: historiska möten Hammarby-Degerfors (2025-05-26 och 2025-11-03)",
+      "Twelve shared report Degerfors 2026: https://earpiece.twelve.football/shared-reports/c9f6cba5-8699-450d-8946-cf5c87e8ebbd (ej tillgänglig vid analystillfället – rapport på timeout)",
+      "Degerfors mål-timing & typ: Bolldata lagdata målstatistik per matchminut 2026",
+    ],
+    glossary: [
+      {
+        term: "MCE/match (Motståndarens Chansoskapande per Match)",
+        explanation:
+          "Sammansatt defensivt mått. Degerfors 6,83 MCE/match (1:a = bäst i ligan) visar extremt kompakt spel – men deras GK Igonen underpresterar (-0,97 FM) vilket ger många insläppta mål.",
+      },
+      {
+        term: "xG (Expected Goals)",
+        explanation:
+          "Förväntade mål baserat på chansens natur. Degerfors 0,95 xG/match = sämst i ligan. De skapar minimalt med chanser.",
+      },
+      {
+        term: "FM (Forventet Mål-differens, GK)",
+        explanation:
+          "Skillnad mellan faktiska insläppta mål och förväntade insläppta mål för målvakten. Igonen -0,97 FM = underpresterar och släpper in mer än förväntat.",
+      },
+      {
+        term: "Låg-block",
+        explanation:
+          "Försvarstaktik där laget positionerar sig djupt i sin egen planhalva. Degerfors primärtaktik – kompakta och täta men passiva offensivt.",
+      },
+      {
+        term: "Progressiva passningar (PP/match)",
+        explanation:
+          "Passningar som driver bollen framåt mot motståndarens mål. Degerfors 58,42/match = sämst i ligan.",
       },
     ],
   },
