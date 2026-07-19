@@ -3195,11 +3195,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         bigNumber: "2:a / 16",
         badge: "KONTRINGSFARA",
         color: "red",
-        rankNote: "Turnovers 30,43/match (1:a – sällan bolltapp) · tid till def. aktion 5,19s (1:a)",
+        rankNote: "30,43 bollförluster/match (1:a – minst i ligan) · tid till defensiv aktion 5,19s (1:a)",
         explanation:
-          "Anderlechts absoluta styrka i ligan: defensiv transition. De tappar boll sällan (30,43 turnovers/match, 1:a – sällan bolltapp), reagerar snabbast på planens alla lag (5,19s, 1:a) och lämnar minimal final-third-yta vid motståndares återerövrings (opp. poss. to final third within 10s: 9,12, 2:a). Tappa ALDRIG bollen högt upp mot dem.",
+          "Anderlechts absoluta styrka i ligan: defensiv transition. De tappar sällan boll (30,43/match, 1:a – minst i ligan), reagerar snabbast av alla lag (5,19s, 1:a) och begränsar motståndarnas inträde i den offensiva tredjedelen efter återerövring exceptionellt väl (9,12, 2:a). Tappa ALDRIG bollen högt upp mot dem.",
         podcastComment:
-          "Deras starkaste kort i ligan. De tappar knappt bollen och reagerar på 5 sekunder. Tappa vi bollen högt upp är kontringshotet omedelbart. Kontrollerat spel bakifrån är ett krav.",
+          "Deras starkaste kort i ligan. De tappar knappt bollen och reagerar på fem sekunder. Tappar vi bollen högt är kontringshotet omedelbart. Kontrollerat spel bakifrån är ett krav.",
       },
       {
         metric: "Final third to box % (Twelve · liga)",
@@ -3208,9 +3208,9 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         color: "green",
         rankNote: "13:e av 16 · Box to shot 63% (16:e – sämst) · 45% skott utifrån",
         explanation:
-          "Anderlecht pressar högt (DAH 41,19m, 3:e) och når final third (37%, 5:e) men kan knappt ta sig in i boxen – final third to box bara 21% (13:e). Av de boxberöringar de trots allt får konverterar de sämst i ligan till skott (box to shot 63%, 16:e). Nästan hälften av deras skott tas utifrån (45%). Hammarby-försvaret kan hålla dem ute med god organisation.",
+          "Anderlecht pressar högt (DAH 41,19m, 3:e) och når den offensiva tredjedelen (37%, 5:e) men tar sig knappt in i boxen – final third to box bara 21% (13:e). Av de boxberöringar de ändå får omvandlar de sämst i ligan till skott (box to shot 63%, 16:e). Nästan hälften av deras skott tas utifrån boxen (45%). Hammarbys försvar kan hålla dem ute med god organisation.",
         podcastComment:
-          "De pressar, de äger bollen i sista tredjedelen, men de skapar ingenting inne i boxen. 21% final third to box och sämst på att skjuta från box-lägen. Kompakt försvar räcker för att neutralisera dem.",
+          "De pressar, de äger bollen i den sista tredjedelen, men skapar ingenting inne i boxen. 21% final third to box och sämst på att avsluta från nära håll. Kompakt försvar räcker för att neutralisera dem.",
       },
       {
         metric: "Ny tränare + truppomvälvning (TM · Twelve)",
@@ -3219,9 +3219,9 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         color: "yellow",
         rankNote: "Ny tränare tar över INFÖR dessa matcher · Sålde De Cat €20m + Simić €15m + Goto €10m",
         explanation:
-          "Anderlecht sålde nyckelspelarna De Cat (CM, €20m), Simić (CB, €15m) och Goto (CF, €10m) under sommaren – totalt €45m ut, bara €7,5m in. Den nya tränaren tar över truppen inför dessa matcher och har inte coachat laget ett enda spel. Taktisk profil och spelstil är helt okänd. All Twelve-data speglar en annan spelordning under förra säsongens tränare. ⚠️ I Europa (2 matcher): pressen faller markant – def. intensitet 7,20 (2:a/16 i liga) → 5,83 (34:e/53).",
+          "Anderlecht sålde nyckelspelarna De Cat (CM, €20m), Simić (CB, €15m) och Goto (CF, €10m) under sommaren – totalt €45m ut, bara €7,5m in. Den nya tränaren tar över inför dessa matcher och har inte lett laget i ett enda spel. Taktisk profil och spelstil är helt okänd. All Twelve-data speglar ett annat tränarteam. ⚠️ I Europa (2 matcher): pressen faller markant – def. intensitet 7,20 (2:a/16 i ligan) → 5,83 (34:e/53).",
         podcastComment:
-          "Ny tränare som aldrig coachat dem, sålde tre nyckelspelarna för €45m. De är ett helt annat lag än förra säsongens Anderlecht. Det ger oss en chans – de vet inte heller var de har sig själva.",
+          "Ny tränare som aldrig lett dem, sålde nyckelspelarna för €45m. De är ett helt annat lag än förra säsongens Anderlecht. Det ger oss en chans – de vet inte heller riktigt var de har sig själva.",
       },
     ],
     quickStatusCards: [
@@ -3242,12 +3242,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
     ],
     opponentStyle: [
-      "Hög press i ligan: PPDA 5,34 (2:a), def. intensitet 7,20 (2:a), DAH 41,19m (3:e). Snabb reaktion vid förlust – tid till defensiv aktion 5,19s (1:a). Inga billiga bollar högt.",
-      "Defensiv transition = deras styrka (2:a/16). Tappar sällan boll (30,43 turnovers/match, 1:a) och reagerar snabbt. Motståndarens final-third-inträde inom 10s lågt (9,12, 2:a).",
-      "Offensivt genomsnittligt: bollinnehav 53% (4:e), field tilt 55% (5:e), pass tempo 19,50 (3:e). Når final third (37%, 5:e) men penetrerar inte boxen – final third to box 21% (13:e).",
-      "Skott från distans: 45% utifrån boxen, box to shot 63% (sämst, 16:e). Låg skottkvalitet – np xG/skott 0,11 (15:e). Spelar gärna direkta skott utifrån (21% direktanfall).",
-      "Försvarsarbete OK men inte starkt defensivt (7:e/16). Opp. final third to box 24% (14:e) – tillåter motståndarna att ta sig in i boxen. Insläppta mål 1,55 (14:e).",
-      "⚠️ I EL-kval (2 matcher): press faller markant, spelar mer direkt (40% direktanfall) och tillåter fler boxberöringar defensivt. Offensiv transition förbättras dock till 5:a/53.",
+      "Hög press i ligan: PPDA 5,34 (2:a), def. intensitet 7,20 (2:a), DAH 41,19m (3:e). Snabb reaktion vid förlust – tid till defensiv aktion 5,19s (1:a). Inga billiga bollar högt upp.",
+      "Defensiv transition = deras starkaste område (2:a/16). Tappar sällan boll (30,43/match, 1:a) och reagerar snabbt. Motståndarens inträde i den offensiva tredjedelen inom 10s lågt (9,12, 2:a).",
+      "Offensivt genomsnittliga: bollinnehav 53% (4:e), field tilt 55% (5:e), passtempo 19,50 (3:e). Når den offensiva tredjedelen (37%, 5:e) men tar sig inte in i boxen – final third to box 21% (13:e).",
+      "Skjuter ofta från distans: 45% av skotten utifrån boxen, box to shot 63% (sämst, 16:e). Låg skottkvalitet – np xG/skott 0,11 (15:e). Direktanfall 21% – inte ett överdrivet direktspelande lag i ligan.",
+      "Defensivt genomsnittliga (7:e/16). Motståndare tar sig in i deras box relativt lätt (opp. final third to box 24%, 14:e). Släpper in 1,55 mål/match (14:e).",
+      "⚠️ I EL-kval (2 matcher): pressen faller markant, spelar mer direkt (40% direktanfall) och tillåter fler boxberöringar defensivt. Offensiv transition förbättras dock till 5:a/53.",
     ],
     styleProfile: [
       {
@@ -3255,14 +3255,14 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         value: "PPDA 5,34 · 2:a av 16 · Def. intensitet 7,20 (2:a) · DAH 41,19m (3:e)",
         score: 85,
         explanation:
-          "I belgisk Pro League är Anderlecht ett av ligans hårdast pressande lag. PPDA 5,34 (2:a), defensiv intensitet 7,20 (2:a), tid till defensiv aktion 5,19s (1:a – snabbast). Hög och aggressiv press är deras grundidentitet. ⚠️ EL-skillnad: i Europa faller def. intensitet till 5,83 (34:e/53) – pressen fungerar inte lika bra mot europeisk motstånd.",
+          "I belgisk Pro League är Anderlecht ett av ligans hårdast pressande lag. PPDA 5,34 (2:a), defensiv intensitet 7,20 (2:a), tid till defensiv aktion 5,19s (1:a – snabbast). Hög och aggressiv press är deras grundidentitet. ⚠️ EL-skillnad: i Europa faller def. intensitet till 5,83 (34:e/53) – pressen fungerar inte lika bra mot europeiska motståndare.",
       },
       {
         label: "Defensiv transition (liga, Twelve)",
         value: "2:a av 16 · Turnovers 30,43/match (1:a) · Tid till def. aktion 5,19s (1:a)",
         score: 90,
         explanation:
-          "Deras starkaste area. Tappar sällan boll (1:a i ligan), reagerar snabbast på planens alla lag, begränsar motståndares kontringsmöjligheter exceptionellt väl. Hammarby kan INTE tappa bollen högt – reaktionen kommer omedelbart.",
+          "Deras starkaste område. Tappar sällan boll (1:a i ligan), reagerar snabbast av alla lag, begränsar motståndarnas kontringsmöjligheter exceptionellt väl. Hammarby får INTE tappa bollen högt – reaktionen kommer omedelbart.",
       },
       {
         label: "Offensiv boxpenetration (liga, Twelve)",
@@ -3283,7 +3283,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         value: "Bollinnehav 53% (4:e) · Field tilt 55% (5:e) · Pass tempo 19,50 (3:e)",
         score: 68,
         explanation:
-          "Anderlecht äger bollen och dominerar territorin i ligan – 4:e i bollinnehav, 5:e i field tilt. Högt pass-tempo (3:e). De är ett aktivt, rörligt lag som vill ha bollen. Men bollinnehavet producerar inte tillräckligt farliga chanser.",
+          "Anderlecht äger bollen och dominerar territoriet i ligan – 4:e i bollinnehav, 5:e i field tilt. Högt passtempo (3:e). De är ett aktivt, rörligt lag som vill ha bollen. Men bollinnehavet ger inte tillräckligt farliga chanser.",
       },
       {
         label: "Truppomvälvning + ny tränare (TM)",
@@ -3300,7 +3300,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         opponentValue: "1,45 (liga)",
         hammarbyScore: 100,
         opponentScore: 66,
-        note: "Hammarby skapar 50% mer xG per match. Anderlecht genomsnittlig offensivt (8:e/16 i Pro League).",
+        note: "Hammarby skapar 50% mer xG per match. Anderlecht genomsnittliga offensivt (8:e/16 i Pro League).",
       },
       {
         label: "np Avslut / match",
@@ -3332,7 +3332,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         opponentValue: "3,00 (liga)",
         hammarbyScore: 100,
         opponentScore: 54,
-        note: "Anderlecht genomsnittliga i höga chanser (10:e/16). Inte kliniskt trots 5:e i field tilt.",
+        note: "Anderlecht genomsnittliga i höga chanser (10:e/16). Inte kliniska trots 5:e i field tilt.",
       },
       {
         label: "Final third to box %",
@@ -3356,7 +3356,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         opponentValue: "53% (liga)",
         hammarbyScore: 100,
         opponentScore: 95,
-        note: "Anderlecht 4:e i ligan i bollinnehav – liknande besittningsmönster som HIF men lägre produktion.",
+        note: "Anderlecht 4:e i ligan i bollinnehav – liknande innehavsmönster som HIF men lägre offensiv produktion.",
       },
     ],
     rankedMetrics: [
@@ -3366,7 +3366,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         hammarbyRank: "~1:a i Allsvenskan",
         opponentValue: "1,45",
         opponentRank: "8:e av 16",
-        note: "Anderlecht genomsnittlig i xG-produktion trots solid bollinnehav. Hammarby skapar 50% mer.",
+        note: "Anderlecht genomsnittliga i xG-produktion trots solid bollinnehav. Hammarby skapar 50% mer.",
       },
       {
         label: "Final third to box % (liga, Twelve)",
@@ -3382,7 +3382,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         hammarbyRank: "~topp Allsvenskan",
         opponentValue: "2:a / 16",
         opponentRank: "2:a av 16",
-        note: "Anderlechts starkaste area. Snabbast att reagera i hela Pro League. Tappa inte bollen högt.",
+        note: "Anderlechts starkaste område. Snabbast att reagera i hela Pro League. Tappa inte bollen högt.",
       },
       {
         label: "PPDA (liga, Twelve · lägre = hårdare press)",
@@ -3406,7 +3406,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         hammarbyRank: "~1:a i Allsvenskan",
         opponentValue: "53%",
         opponentRank: "4:e av 16",
-        note: "Anderlecht 4:e i Pro League i bollinnehav – aktivt lag. Men innehavet producerar inte tillräcklig offensiv output.",
+        note: "Anderlecht 4:e i Pro League i bollinnehav – aktivt lag. Men innehavet ger inte tillräckliga offensiva chanser.",
       },
     ],
     goalWindows: [
@@ -3422,25 +3422,25 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         label: "Anderlechts offensiva mönster i ligan (Twelve)",
         value: "1,48 mål/match (5:e) · 45% skott utifrån · 21% direktanfall · np xG/shot 0,11 (15:e)",
         interpretation:
-          "Anderlecht gör mål i ligan men med låg skottkvalitet. Nästan hälften av deras skott tas utifrån boxen. 21% direktanfall – de spelar inte överdrivet direkt i ligan. Skottet per final-third-pass är 0,12 (4:e) men boxpenetrationen svag (21%, 13:e). Hög volym, lägre precision.",
+          "Anderlecht gör mål i ligan men med låg skottkvalitet. Nästan hälften av deras skott tas utifrån boxen. 21% direktanfall – de spelar inte överdrivet direkt i ligan. Skott per final-third-pass: 0,12 (4:e) men boxpenetrationen svag (21%, 13:e). Hög volym, lägre precision.",
       },
       {
         label: "Defensivt i ligan – insläppta vs xG",
         value: "Insläppta 1,55 (14:e) · Opp. xG 1,58 (9:e) · Opp. np goals 1,40 (13:e)",
         interpretation:
-          "Anderlecht är inte ett defensivt starkt lag sammanlagt (7:e/16). Insläpper 1,55 mål/match (14:e) vilket är sämre än expected (opp. xG 1,58). Motståndare penetrerar boxen relativt lätt mot dem (opp. final third to box 24%, 14:e). Hammarby ska exploatera detta med kombinationsspel in mot boxen.",
+          "Anderlecht är inte ett defensivt starkt lag (7:e/16). Släpper in 1,55 mål/match (14:e), vilket är sämre än förväntat (opp. xG 1,58). Motståndare tar sig in i boxen relativt lätt mot dem (opp. final third to box 24%, 14:e). Hammarby ska utnyttja detta med kombinationsspel in mot straffboxen.",
       },
       {
         label: "Truppomvälvning och ny tränare (TM)",
         value: "Ny tränare inför dessa matcher · Sålde De Cat €20m + Simić €15m + Goto €10m",
         interpretation:
-          "Ny tränare tar över inför dessa matcher och har inte coachat Anderlecht ett enda spel. Sålde dessutom tre av säsongens viktigaste spelare (De Cat CM €20m, Simić CB €15m, Goto CF €10m) totalt €45m. Köpte bara Ambros (AM, €5m). Truppen är ombyggd och taktiken helt okänd. All Twelve-data gäller en annan tränare och delvis en annan trupp.",
+          "Ny tränare tar över inför dessa matcher och har inte lett Anderlecht i ett enda spel. Sålde dessutom tre av säsongens viktigaste spelare (De Cat CM €20m, Simić CB €15m, Goto CF €10m) – totalt €45m ut. Köpte in enbart Ambros (AM, €5m). Truppen är ombyggd och taktiken helt okänd. All Twelve-data gäller ett annat tränarteam och delvis en annan trupp.",
       },
       {
         label: "Hammarby hemma 2026",
         value: "22-5 · +17 GD (5V-1O-1F)",
         interpretation:
-          "3Arena är ett fästning – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela Allsvenskan. I en europeisk tvåmatchstie är hemmamål extra värda – mål i hinmatchen ger kapital inför borta-returen i Bryssel.",
+          "3Arena är en fästning – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela Allsvenskan. I en europeisk tvåmatchstie är hemmamål extra värda – mål i hinmatchen ger kapital inför returen i Bryssel.",
       },
     ],
     playersToWatch: [
@@ -3456,7 +3456,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         threat:
           "Anderlechts dyraste spelare och spjutspets – 19-årig serb med högt europeiskt marknadsvärde",
         motivation:
-          "Truppens mest värdefulla spelare (€10m, TM). 19 år – snabb, teknisk anfallare som är Anderlechts primäre striker inför denna säsong. Hammarby:s CB-par håller honom tätt – inga ytor bakom linjen för en spelare med hans snabbhet och rörlighet.",
+          "Truppens mest värdefulla spelare (€10m, TM). 19 år – snabb, teknisk anfallare som är Anderlechts spjutspets inför denna säsong. Hammarbys mittbackspar måste hålla honom tätt – inga ytor bakom försvarslinjen för en spelare med hans snabbhet.",
       },
       {
         name: "Nathan-Dylan Saliba",
@@ -3469,7 +3469,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         ],
         threat: "Näst mest värderad – central mittfältare som driver spelet och kopplar försvar till anfall",
         motivation:
-          "Anderlechts näst dyraste spelare (€7,5m, TM). Fransk CM som håller ihop lagets spelorganisation. Viktig länk i övergångar och press. Hammarby pressar hans passningslinjer och bryter deras mittfältsflöde tidigt i matcher.",
+          "Anderlechts näst dyraste spelare (€7,5m, TM). Fransk central mittfältare som håller ihop lagets spelorganisation. Viktig länk i övergångar och press. Hammarby ska pressa hans passningslinjer och bryta deras mittfältsflöde tidigt i matcherna.",
       },
       {
         name: "Mario Stroeykens",
@@ -3480,33 +3480,33 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           { label: "Ålder", value: "21" },
           { label: "Nat.", value: "Belgien" },
         ],
-        threat: "Ung belgisk attacking midfielder – kreativ i final third och lagets potentiella 10:a",
+        threat: "Ung belgisk offensiv mittfältare – kreativ i den sista tredjedelen och lagets potentiella 10:a",
         motivation:
-          "21-årig belgisk talang (€4,5m, TM) som är Anderlechts kreativa motor i offensiv zon. Akademiprodukt med genombrott i ligan. Kan skapa chanser i smala ytor. Hammarby stänger mellanzonen och tar bort hans passningsalternativ bakom mittfältet.",
+          "21-årig belgisk talang (€4,5m, TM) och Anderlechts kreativa motor i anfallszonen. Akademiprodukt med genombrott i ligan. Kan skapa chanser i trånga ytor. Hammarby stänger mellanzonen och skär av hans passningsalternativ bakom mittfältet.",
       },
     ],
     hammarbyPlan: {
       withBall: [
-        "Exploatera deras svaga boxpenetration defensivt (opp. final third to box 24%, 14:e). Bär bollen in i deras sista tredjedel via carries och kombinationer – de tillåter motståndarens box-touches 19,75/match (8:e). Pressa in i straffboxen med kombination.",
-        "Utnyttja deras offensiva svaghet (final third to box 21%, 13:e) för att dominera territorin med boll. Anderlecht svarar med hög press – spela snabbt och direkt IGENOM pressen med vertikala bollar.",
-        "Högt passning-tempo (19,50, 3:e i ligan) hos Anderlecht. De pressar hårt och snabbt vid bollförlust – ha alltid en säker utväg och undvik riskfyllda bollar i Hammarbys mellanzon.",
-        "Tvåmatchstie: sätt ett mål tidigt hemma. Anderlecht i nedgångstrend och ny tränare – deras svar på motgångar är opålitligt. Tidigt hemma-mål sätter press på deras instabila formkurva.",
+        "Utnyttja Anderlechts svaga defensiva boxskydd (opp. final third to box 24%, 14:e). Bär bollen in i deras sista tredjedel via löpningar och kombinationer – de tillåter motståndarens boxberöringar 19,75/match (8:e). Kombinera er in i straffboxen.",
+        "Utnyttja deras offensiva svaghet (final third to box 21%, 13:e) för att dominera territoriet med boll. Anderlecht svarar med hög press – spela snabbt och direkt IGENOM pressen med vertikala bollar.",
+        "Anderlecht har högt passtempo (19,50, 3:e i ligan) och pressar hårt vid bollförlust – ha alltid en säker utväg och undvik riskfyllda passningar i mittzon.",
+        "Tvåmatchstie: sätt ett mål tidigt hemma. Ny tränare och ombyggd trupp – Anderlechts reaktion på motgångar är svår att förutsäga. Ett tidigt mål sätter press på ett lag utan etablerad spelordning.",
       ],
       withoutBall: [
-        "ALDRIG tappa bollen högt upp mot deras defensiva transition (2:a/16). De reagerar på 5,19s (1:a i ligan) och begränsar motståndarens final-third-inträde inom 10s exceptionellt väl. Strukturerat pass-spel bakifrån.",
-        "Bevaka deras offensiva transition – även i EL-kval förbättras detta till 5:a/53. Förvänta er snabba kontringar om Hammarby tappar bollen högt, särskilt i europamötet.",
-        "Block mot distansskott: 45% av deras skott i ligan tas utifrån boxen. Kompakt blockorganisation – låt dem avlossa från distans hellre än att ge frilägen inne i boxen.",
-        "⚠️ I EL förlitar de sig mer på taktiska fouls (86% i off. halva) och direkta passningar bakom linjen. Tätt baklinje och ingen rygg-på-backlinje mot deras djuplöpare i europaformat.",
+        "ALDRIG tappa bollen högt upp mot deras defensiva transition (2:a/16). De reagerar på 5,19s (1:a i ligan) och stryper motståndarens inträde i anfallszonen inom 10 sekunder exceptionellt väl. Strukturerat passningsspel bakifrån.",
+        "Var vaksamma på deras omställningsspel – i EL-kval förbättrades detta till 5:a/53. Räkna med snabba kontringar om Hammarby tappar bollen högt, särskilt i europamötet.",
+        "Block mot distansskott: 45% av deras skott i ligan tas utifrån boxen. Kompakt blockorganisation – låt dem avlossa från distans hellre än att ge frilägen inne i straffboxen.",
+        "⚠️ I EL förlitar de sig mer på taktiska frisparkar (86% av foulerna i anfallshalvan) och direkta passningar bakom försvarslinjen. Håll en tät baklinje och lämna inga ytor bakom backlinjen mot deras djuplöpare.",
       ],
       matchManagement: [
         "Tvåmatchstie: ett Hemma-0-0 är INTE tillräckligt. Tryck på mål i hinmatchen – hemmamål är kapital inför returen i Bryssel.",
-        "Ny tränare som aldrig coachat Anderlecht = okänd taktik, opålitliga reaktioner på motgångar. Etablera dominans tidigt och sätt dem i en situation de inte är förberedda på – 3Arena (22-5) är vår starkaste fördel.",
-        "Anderlechts starkaste kort från förra säsongen är defensiv transition (1:a i reaktionstid). Aldrig tappa bollen högt – strukturerat spel stryper kontringsytorna.",
-        "Returmatchen i Bryssel: med ny tränare och ombyggd trupp är Anderlecht hemma lika oetablerad. Minst ett hemmamål ger ett psykologiskt övertag inför bortaresan.",
+        "Ny tränare som aldrig lett Anderlecht = okänd taktik och opålitliga reaktioner på motgångar. Etablera dominans tidigt och sätt dem i en situation de inte är förberedda på – 3Arena (22-5) är vår starkaste fördel.",
+        "Anderlechts starkaste kort från förra säsongen är defensiv transition (snabbast i ligan på att reagera). Tappa aldrig bollen högt – strukturerat spel stryper kontringsytorna.",
+        "Returmatchen i Bryssel: med ny tränare och ombyggd trupp är Anderlecht hemma lika oetablerade. Minst ett hemmamål ger ett psykologiskt övertag inför bortaresan.",
       ],
     },
     spotlightKey:
-      "Anderlecht är ett ombyggt lag med en tränare som ännu inte coachat dem ett enda spel. Sålde De Cat (€20m), Simić (€15m) och Goto (€10m) – €45m ut. Taktiken för dessa matcher är okänd. Från förra säsongens ligaspel: starkt pressinglag (2:a/16) men svag boxpenetration (13:e) – deras defensiva transition är det enda klara varningskortet (tappa ALDRIG bollen högt). Med boll: exploatera deras tillåtande defensiva zon (opp. final third to box 24%, 14:e). Truppvärde ~€76m mot HIF €31,55m – men pengar spelar ingen roll när man inte har en etablerad spelordning. Hemmavinst med mål i hinmatchen är målet.",
+      "Anderlecht är ett ombyggt lag med en tränare som ännu inte lett dem i ett enda spel. Sålde De Cat (€20m), Simić (€15m) och Goto (€10m) – €45m ut. Taktiken inför dessa matcher är helt okänd. Från förra säsongens ligaspel: starkt pressinglag (2:a/16) men svag boxpenetration (13:e) – deras defensiva transition är det enda klara varningskortet (tappa ALDRIG bollen högt). Med boll: utnyttja deras svaga defensiva boxskydd (opp. final third to box 24%, 14:e). Truppvärde ~€76m mot HIF:s €31,55m – men ett dyrt lag utan etablerad spelordning är sårbart. Hemmavinst med mål i hinmatchen är målet.",
     glossary: [
       {
         term: "PPDA (Passes Per Defensive Action, Twelve)",
@@ -3516,12 +3516,12 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       {
         term: "Defensiv transition (Twelve)",
         explanation:
-          "Förmåga att begränsa motståndarens kontringshotet direkt efter bollförlust. Anderlecht 2:a av 16 i liga – tappar sällan boll (1:a) och reagerar snabbast (5,19s). Kritisk: tappa ALDRIG bollen högt mot dem.",
+          "Förmåga att begränsa motståndarens kontringshot direkt efter bollförlust. Anderlecht 2:a av 16 i ligan – tappar sällan boll (1:a) och reagerar snabbast (5,19s). Kritisk varning: tappa ALDRIG bollen högt mot dem.",
       },
       {
         term: "Final third to box % (Twelve)",
         explanation:
-          "Andel possessioner i sista tredjedelen som når straffboxen. Anderlecht 21% (13:e/16) trots 37% possessioner till final third (5:e). Trots aktivt spel når de knappt in i boxen – svag penetration.",
+          "Andel av bollinnehaven i den sista tredjedelen som når straffboxen. Anderlecht 21% (13:e/16) trots att 37% av deras bollinnehav når den sista tredjedelen (5:e). Trots aktivt spel tar de sig knappt in i boxen – svag penetration.",
       },
       {
         term: "Defensiv intensitet (Twelve)",
