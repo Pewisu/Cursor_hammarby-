@@ -1718,5 +1718,164 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "metersPerMinute": 134.54
       }
     ]
+  },
+  {
+    "matchId": 6529926,
+    "round": "Omgång 13",
+    "date": "19 juli 2026",
+    "sourceUrl": "https://allsvenskan.se/matcher/2026/6529926/hammarby-mot-degerfors-if",
+    "homeTeam": "Hammarby",
+    "awayTeam": "Degerfors",
+    "hammarbyWasHome": true,
+    "matchDurationMinutes": 93.25,
+    "hammarbyTeamDistanceMeters": 131448,
+    "hammarbyTeamMinutes": 1025.75,
+    "hammarbyTopSpeedKmh": 33.39,
+    "players": [
+      {
+        "name": "Markus Karlsson",
+        "shirtNumber": 8,
+        "position": "Mittfältare",
+        "distanceMeters": 13693,
+        "maxSpeedKmh": 29.55,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 146.84
+      },
+      {
+        "name": "Oscar Johansson",
+        "shirtNumber": 11,
+        "position": "Mittfältare",
+        "distanceMeters": 13561,
+        "maxSpeedKmh": 32.64,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 145.43
+      },
+      {
+        "name": "Hampus Skoglund",
+        "shirtNumber": 2,
+        "position": "Back",
+        "distanceMeters": 12650,
+        "maxSpeedKmh": 30.97,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 135.66
+      },
+      {
+        "name": "Ibrahima Fofana",
+        "shirtNumber": 17,
+        "position": "Mittfältare",
+        "distanceMeters": 12545,
+        "maxSpeedKmh": 33.39,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 134.53
+      },
+      {
+        "name": "Noah Persson",
+        "shirtNumber": 16,
+        "position": "Anfallare",
+        "distanceMeters": 11870,
+        "maxSpeedKmh": 31.05,
+        "minutesPlayed": 84.77,
+        "metersPerMinute": 140.03
+      },
+      {
+        "name": "Montader Madjed",
+        "shirtNumber": 26,
+        "position": "Anfallare",
+        "distanceMeters": 11444,
+        "maxSpeedKmh": 33.07,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 122.72
+      },
+      {
+        "name": "Frederik Winther",
+        "shirtNumber": 3,
+        "position": "Back",
+        "distanceMeters": 11165,
+        "maxSpeedKmh": 29.68,
+        "minutesPlayed": 84.77,
+        "metersPerMinute": 131.71
+      },
+      {
+        "name": "Paulos Abraham",
+        "shirtNumber": 7,
+        "position": "Anfallare",
+        "distanceMeters": 10878,
+        "maxSpeedKmh": 32.78,
+        "minutesPlayed": 75.87,
+        "metersPerMinute": 143.38
+      },
+      {
+        "name": "Victor Lind",
+        "shirtNumber": 9,
+        "position": "Anfallare",
+        "distanceMeters": 10162,
+        "maxSpeedKmh": 31.26,
+        "minutesPlayed": 75.87,
+        "metersPerMinute": 133.94
+      },
+      {
+        "name": "Nahir Besara",
+        "shirtNumber": 20,
+        "position": "Mittfältare",
+        "distanceMeters": 8421,
+        "maxSpeedKmh": 29.26,
+        "minutesPlayed": 63.78,
+        "metersPerMinute": 132.03
+      },
+      {
+        "name": "Warner Hahn",
+        "shirtNumber": 1,
+        "position": "Målvakt",
+        "distanceMeters": 4594,
+        "maxSpeedKmh": 25.84,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 49.27
+      },
+      {
+        "name": "Tesfaldet Tekie",
+        "shirtNumber": 5,
+        "position": "Mittfältare",
+        "distanceMeters": 4251,
+        "maxSpeedKmh": 31.11,
+        "minutesPlayed": 29.47,
+        "metersPerMinute": 144.25
+      },
+      {
+        "name": "Frank Junior Adjei",
+        "shirtNumber": 28,
+        "position": "Mittfältare",
+        "distanceMeters": 2508,
+        "maxSpeedKmh": 27.73,
+        "minutesPlayed": 17.38,
+        "metersPerMinute": 144.3
+      },
+      {
+        "name": "Elohim Kabore",
+        "shirtNumber": 29,
+        "position": "Anfallare",
+        "distanceMeters": 2294,
+        "maxSpeedKmh": 33.15,
+        "minutesPlayed": 17.38,
+        "metersPerMinute": 131.99
+      },
+      {
+        "name": "Björn Hedlöf",
+        "shirtNumber": 33,
+        "position": "Back",
+        "distanceMeters": 1302,
+        "maxSpeedKmh": 26.78,
+        "minutesPlayed": 8.48,
+        "metersPerMinute": 153.54
+      },
+      {
+        "name": "Waylon Ramon Renecke",
+        "shirtNumber": 24,
+        "position": "Back",
+        "distanceMeters": 1235,
+        "maxSpeedKmh": 28.98,
+        "minutesPlayed": 8.48,
+        "metersPerMinute": 145.64
+      }
+    ]
   }
 ];
