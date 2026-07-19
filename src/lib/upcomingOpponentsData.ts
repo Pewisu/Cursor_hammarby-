@@ -3134,25 +3134,27 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel: "Juli/Augusti 2026 · Twelve säsongsrapport Belgian Pro League 2025/26",
     venueLabel: "Hemma · 3Arena",
     oneLineSummary:
-      "Anderlecht är ett belgiskt medellag (6:a, 1,38 p/match) med starkt pressingspel och exceptionell defensiv transition (2:a/16) – men svag offensiv penetration in i boxen (final third to box 21%, 13:e) och en tydlig nedgångstrend med ny tränare. I ligaspelet: genomsnittlig, inte dominant.",
+      "Anderlecht är ett belgiskt medellag (6:a, 1,38 p/match) med starkt pressingspel och exceptionell defensiv transition (2:a/16) – men svag offensiv penetration in i boxen (final third to box 21%, 13:e). Sålde nyckelspelare för €45m i sommar (De Cat €20m, Simić €15m) och får en helt ny tränare till dessa matcher. Truppvärde ~€76m vs Hammarbys €31,55m.",
     introStats: [
       { label: "Belgian Pro League", value: "6:a · 1,38 p/match", tone: "blue" },
+      { label: "Truppvärde (TM)", value: "~€76m vs HIF €31,55m", tone: "amber" },
       { label: "Press (Twelve)", value: "PPDA 5,34 · 2:a av 16", tone: "blue" },
-      { label: "Def. transition", value: "2:a av 16 · 30,43 bolltapp/match (1:a)", tone: "emerald" },
-      { label: "Ligaform", value: "Nedgång sista 10 · ny tränare", tone: "amber" },
+      { label: "Sommar: sålde", value: "De Cat €20m + Simić €15m + Goto €10m", tone: "amber" },
     ],
     mobileTakeaways: [
-      "Anderlecht 6:a i belgisk Pro League – ett steg upp kvalitetsmässigt från Allsvenskan, men ett genomsnittligt liga-lag.",
-      "Hög press i ligan: PPDA 5,34 (2:a), def. intensitet 7,20 (2:a), tid till defensiv aktion 5,19s (1:a). Inga billiga bollar högt upp.",
-      "Defensiv transition = deras STARKASTE område (2:a/16). Sällan bollförluster, snabb återerövrings.",
-      "Svag boxpenetration: final third to box 21% (13:e). Pressar högt men skapar lite farligt inne i boxen.",
-      "45% av skotten utifrån boxen – låg skottkvalitet (np xG/shot 0,11, 15:e). Många spekulativa avslut.",
-      "Nedgångstrend sista 10 matcher i ligan. Ny tränare sedan 16 matcher – ingen förbättring.",
-      "⚠️ Markant EL-skillnad: i Europa (2 matcher) pressen avsevärt lägre (def. intensitet 34:e/53 vs 2:a/16 i ligan).",
+      "Truppvärde: Anderlecht ~€76m vs Hammarby €31,55m – 2,4× dyrare trupp. Belgisk Pro League är ett tydligt steg upp.",
+      "Stor sommaromvälvning: sålde De Cat (€20m), Simić (€15m), Goto (€10m) = €45m ut. Ny tränare tar över inför dessa matcher – okänd taktisk profil.",
+      "I ligan 25/26: hög press (PPDA 5,34, 2:a), exceptionell defensiv transition (2:a/16). Men svag boxpenetration (final third to box 21%, 13:e).",
+      "Dyraste spelare: Cvetkovic (CF, 19 år, €10m), Saliba (CM, €7,5m), Ambros (AM, ny köpt för €5m), Stroeykens (AM, €4,5m).",
+      "45% av skotten utifrån boxen – låg skottkvalitet trots aktivt spel. Box to shot sämst i ligan (16:e).",
+      "Ny tränare = helt okänd taktisk profil. All Twelve-data speglar förra säsongens spelsystem och är osäker som prediktor.",
+      "⚠️ EL-skillnad (2 matcher): pressen faller markant, mer direktspel. Offensiv transition förbättras dock (5:a/53).",
     ],
     dataSources: [
       "Twelve säsongsrapport Anderlecht – Belgian Pro League 2025/26: https://reports.twelve.football/reports/anderlecht-season-report-2Pfy5HEo4M.pdf",
       "Twelve säsongsrapport Anderlecht – UEFA EL-kval 2025 (2 matcher, litet urval): https://reports.twelve.football/reports/anderlecht-season-report-5xebc7QPQB.pdf",
+      "Transfermarkt – RSC Anderlecht trupp & värden: https://www.transfermarkt.com/rsc-anderlecht/startseite/verein/58 (19 juli 2026)",
+      "Transfermarkt – Hammarby IF trupp & värden: https://www.transfermarkt.com/hammarby-if/startseite/verein/1059 (19 juli 2026)",
     ],
     headToHead: {
       sampleSize: 0,
@@ -3210,15 +3212,15 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           "De pressar, de äger bollen i sista tredjedelen, men de skapar ingenting inne i boxen. 21% final third to box och sämst på att skjuta från box-lägen. Kompakt försvar räcker för att neutralisera dem.",
       },
       {
-        metric: "Nedgångstrend + ny tränare (Twelve · liga)",
-        bigNumber: "↓ 10 matcher",
-        badge: "INSTABILITET",
+        metric: "Ny tränare + truppomvälvning (TM · Twelve)",
+        bigNumber: "€45m ut",
+        badge: "OKÄND PROFIL",
         color: "yellow",
-        rankNote: "Sista 10: nedgång i försvar, offensiv, transition och utfall · Ny tränare = 0 förbättring",
+        rankNote: "Ny tränare tar över INFÖR dessa matcher · Sålde De Cat €20m + Simić €15m + Goto €10m",
         explanation:
-          "I ligans sista 10 omgångar försämrades Anderlecht påtagligt i samtliga kategorier: försvar, defensiv övergång, attack och totalt utfall. Ny tränare tog över för 16 matcher sedan – statistiken visar ingen positiv effekt. Laget saknar stabilitet och rytm just nu. ⚠️ OBS: i Europa (2 matcher) syns dessutom ett markant pressfall – def. intensitet sjunker från 7,20 (2:a/16 i ligan) till 5,83 (34:e/53).",
+          "Anderlecht sålde nyckelspelarna De Cat (CM, €20m), Simić (CB, €15m) och Goto (CF, €10m) under sommaren – totalt €45m ut, bara €7,5m in. Den nya tränaren tar över truppen inför dessa matcher och har inte coachat laget ett enda spel. Taktisk profil och spelstil är helt okänd. All Twelve-data speglar en annan spelordning under förra säsongens tränare. ⚠️ I Europa (2 matcher): pressen faller markant – def. intensitet 7,20 (2:a/16 i liga) → 5,83 (34:e/53).",
         podcastComment:
-          "Nedgångstrend i 10 raka omgångar och ny tränare utan genomslag. De är inte det lag de var i höstas. Lägg till att deras press halveras i europaformat så är receptet klart – dominera från start.",
+          "Ny tränare som aldrig coachat dem, sålde tre nyckelspelarna för €45m. De är ett helt annat lag än förra säsongens Anderlecht. Det ger oss en chans – de vet inte heller var de har sig själva.",
       },
     ],
     quickStatusCards: [
@@ -3228,13 +3230,13 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         tone: "emerald",
       },
       {
-        title: "Anderlecht – ligastatus",
-        body: "Belgisk Pro League 6:a · 1,38 p/match · Goals 1,48-1,55. Genomsnittlig säsong. Hög press (2:a) men svag boxpenetration (13:e). Nedgångstrend sista 10 omgångar med ny tränare utan effekt.",
+        title: "Anderlecht – ligastatus 25/26",
+        body: "Belgisk Pro League 6:a · 1,38 p/match · Truppvärde ~€76m. Hög press (2:a) men svag boxpenetration (13:e). Stora spelarförsäljningar: De Cat €20m, Simić €15m, Goto €10m = €45m ut.",
         tone: "amber",
       },
       {
-        title: "⚠️ EL-skillnad att notera",
-        body: "I Europa (2 matcher): pressen faller markant (def. intensitet 34:e/53 vs 2:a/16). Mer direktspel (40% direktanfall vs 21%). Offensiv transition stärks (5:a/53). Urval litet – tolka med försiktighet.",
+        title: "⚠️ Ny tränare – okänd profil",
+        body: "Ny tränare tar över INFÖR dessa matcher – har inte coachat ett enda spel. Taktisk stil okänd. I EL (2 matcher under gamla tränarteamet): press faller (34:e/53), mer direktspel. Tolka Twelve-data med försiktighet.",
         tone: "blue",
       },
     ],
@@ -3283,11 +3285,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           "Anderlecht äger bollen och dominerar territorin i ligan – 4:e i bollinnehav, 5:e i field tilt. Högt pass-tempo (3:e). De är ett aktivt, rörligt lag som vill ha bollen. Men bollinnehavet producerar inte tillräckligt farliga chanser.",
       },
       {
-        label: "Ligaform – trend",
-        value: "Nedgång sista 10 matcher · Ny tränare sedan 16 matcher – ingen förbättring",
+        label: "Truppomvälvning + ny tränare (TM)",
+        value: "Sålde €45m · Ny tränare helt ny inför dessa matcher",
         score: 28,
         explanation:
-          "Tydlig nedgångstrend i ligans sista 10 omgångar i samtliga kategorier. Ny tränare har inte vänt kurvan på 16 matcher. Instabilt lag som saknar rytm just nu.",
+          "Sålde De Cat (€20m), Simić (€15m), Goto (€10m) i sommar. Ny tränare tar över inför dessa matcher – har inte coachat laget ett enda spel. Helt okänd taktisk profil. Truppvärde kvarstår ~€76m men organisationen är oetablerad.",
       },
     ],
     spiderComparison: [
@@ -3428,16 +3430,58 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           "Anderlecht är inte ett defensivt starkt lag sammanlagt (7:e/16). Insläpper 1,55 mål/match (14:e) vilket är sämre än expected (opp. xG 1,58). Motståndare penetrerar boxen relativt lätt mot dem (opp. final third to box 24%, 14:e). Hammarby ska exploatera detta med kombinationsspel in mot boxen.",
       },
       {
-        label: "⚠️ Markant EL-skillnad: press och spelstil",
-        value: "Def. intensitet: 7,20 (2:a/16 liga) → 5,83 (34:e/53 EL) · Direktanfall: 21% → 40%",
+        label: "Truppomvälvning och ny tränare (TM)",
+        value: "Ny tränare inför dessa matcher · Sålde De Cat €20m + Simić €15m + Goto €10m",
         interpretation:
-          "I Europa (2 matcher) sjunker Anderlechts pressintensitet dramatiskt och spelstilen blir mer direkt. De spelar med lägre press, mer via kontering och direkta skott. Offensiv transition förbättras dock (5:a/53 i EL). OBS: litet urval – 2 matcher. Förvänta er ett mer direktspelande Anderlecht i EL-kval.",
+          "Ny tränare tar över inför dessa matcher och har inte coachat Anderlecht ett enda spel. Sålde dessutom tre av säsongens viktigaste spelare (De Cat CM €20m, Simić CB €15m, Goto CF €10m) totalt €45m. Köpte bara Ambros (AM, €5m). Truppen är ombyggd och taktiken helt okänd. All Twelve-data gäller en annan tränare och delvis en annan trupp.",
       },
       {
         label: "Hammarby hemma 2026",
         value: "22-5 · +17 GD (5V-1O-1F)",
         interpretation:
           "3Arena är ett fästning – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela Allsvenskan. I en europeisk tvåmatchstie är hemmamål extra värda – mål i hinmatchen ger kapital inför borta-returen i Bryssel.",
+      },
+    ],
+    playersToWatch: [
+      {
+        name: "Mihajlo Cvetkovic",
+        position: "CF · #9 · 19 år",
+        scoutBadge: "⚡ Mest värderad",
+        stats: [
+          { label: "Marknadsvärde", value: "€10m" },
+          { label: "Ålder", value: "19" },
+          { label: "Nat.", value: "Serbien" },
+        ],
+        threat:
+          "Anderlechts dyraste spelare och spjutspets – 19-årig serb med högt europeiskt marknadsvärde",
+        motivation:
+          "Truppens mest värdefulla spelare (€10m, TM). 19 år – snabb, teknisk anfallare som är Anderlechts primäre striker inför denna säsong. Hammarby:s CB-par håller honom tätt – inga ytor bakom linjen för en spelare med hans snabbhet och rörlighet.",
+      },
+      {
+        name: "Nathan-Dylan Saliba",
+        position: "CM · #13 · 22 år",
+        scoutBadge: "🧠 Mittfältsmotorn",
+        stats: [
+          { label: "Marknadsvärde", value: "€7,5m" },
+          { label: "Ålder", value: "22" },
+          { label: "Nat.", value: "Frankrike" },
+        ],
+        threat: "Näst mest värderad – central mittfältare som driver spelet och kopplar försvar till anfall",
+        motivation:
+          "Anderlechts näst dyraste spelare (€7,5m, TM). Fransk CM som håller ihop lagets spelorganisation. Viktig länk i övergångar och press. Hammarby pressar hans passningslinjer och bryter deras mittfältsflöde tidigt i matcher.",
+      },
+      {
+        name: "Mario Stroeykens",
+        position: "AM · #29 · 21 år",
+        scoutBadge: "🎯 Kreativ 10:a",
+        stats: [
+          { label: "Marknadsvärde", value: "€4,5m" },
+          { label: "Ålder", value: "21" },
+          { label: "Nat.", value: "Belgien" },
+        ],
+        threat: "Ung belgisk attacking midfielder – kreativ i final third och lagets potentiella 10:a",
+        motivation:
+          "21-årig belgisk talang (€4,5m, TM) som är Anderlechts kreativa motor i offensiv zon. Akademiprodukt med genombrott i ligan. Kan skapa chanser i smala ytor. Hammarby stänger mellanzonen och tar bort hans passningsalternativ bakom mittfältet.",
       },
     ],
     hammarbyPlan: {
@@ -3455,13 +3499,13 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       ],
       matchManagement: [
         "Tvåmatchstie: ett Hemma-0-0 är INTE tillräckligt. Tryck på mål i hinmatchen – hemmamål är kapital inför returen i Bryssel.",
-        "Anderlecht i nedgångstrend (sista 10 ligamatcher) + ny tränare utan genomslag = instabilt lag. Etablera dominans tidigt – 3Arena är vår starkaste arena i Allsvenskan (22-5).",
-        "Anderlechts starkaste kort är defensiv transition (1:a i reaktionstid). Aldrig tappa bollen slarvigt högt upp – spelar vi snabbt och strukturerat kvarstår inga ytor att kontra i.",
-        "Returmatchen i Bryssel: planera hela tien från start. Minst ett hemmamål i hinmatchen öppnar tiebrekern markant inför bortaresan.",
+        "Ny tränare som aldrig coachat Anderlecht = okänd taktik, opålitliga reaktioner på motgångar. Etablera dominans tidigt och sätt dem i en situation de inte är förberedda på – 3Arena (22-5) är vår starkaste fördel.",
+        "Anderlechts starkaste kort från förra säsongen är defensiv transition (1:a i reaktionstid). Aldrig tappa bollen högt – strukturerat spel stryper kontringsytorna.",
+        "Returmatchen i Bryssel: med ny tränare och ombyggd trupp är Anderlecht hemma lika oetablerad. Minst ett hemmamål ger ett psykologiskt övertag inför bortaresan.",
       ],
     },
     spotlightKey:
-      "Anderlecht pressar hårt i ligan (2:a) men skapar lite inne i boxen (final third to box 21%, 13:e) och är i tydlig nedgångstrend. Deras defensiva transition är deras starkaste vapen – tappa ALDRIG bollen högt mot dem. Med boll: utnyttja att de defensivt tillåter penetration (opp. final third to box 24%, 14:e) – kombinationsspel in mot boxen är nyckeln. ⚠️ I EL-kval pressen faller markant (def. intensitet 34:e/53 vs 2:a/16) och de spelar mer direkt – räkna med ett direktare Anderlecht än i deras belgiska ligaform. Hemmavinst med mål i hinmatchen är målet inför returen i Bryssel.",
+      "Anderlecht är ett ombyggt lag med en tränare som ännu inte coachat dem ett enda spel. Sålde De Cat (€20m), Simić (€15m) och Goto (€10m) – €45m ut. Taktiken för dessa matcher är okänd. Från förra säsongens ligaspel: starkt pressinglag (2:a/16) men svag boxpenetration (13:e) – deras defensiva transition är det enda klara varningskortet (tappa ALDRIG bollen högt). Med boll: exploatera deras tillåtande defensiva zon (opp. final third to box 24%, 14:e). Truppvärde ~€76m mot HIF €31,55m – men pengar spelar ingen roll när man inte har en etablerad spelordning. Hemmavinst med mål i hinmatchen är målet.",
     glossary: [
       {
         term: "PPDA (Passes Per Defensive Action, Twelve)",
@@ -3487,6 +3531,11 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "np xG per shot (Twelve)",
         explanation:
           "Genomsnittlig expected goals per icke-straff-skott. Anderlecht 0,11 i liga (15:e/16) – låg skottkvalitet. 45% skott utifrån boxen bidrar till det låga snittet.",
+      },
+      {
+        term: "Truppvärde (Transfermarkt)",
+        explanation:
+          "Anderlecht ~€76m totalt (27 spelare) vs Hammarby €31,55m (24 spelare). Dyraste spelare: Cvetkovic CF €10m, Saliba CM €7,5m. Anderlecht sålde De Cat (€20m), Simić (€15m), Goto (€10m) – totalt €45m ut i sommar.",
       },
     ],
   },
