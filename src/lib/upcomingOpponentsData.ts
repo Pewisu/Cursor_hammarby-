@@ -2647,6 +2647,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   },
   {
     round: 13,
+    hidden: true,
     roundLabel: "Omgång 13",
     fixture: "Hammarby IF - Degerfors IF",
     dateLabel: "19 juli 2026 · 3Arena",
@@ -3123,6 +3124,370 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "xG per shot (np xG/shot)",
         explanation:
           "Genomsnittlig xG per icke-straff-skott. Degerfors 0,10 np xG/shot (16:e = sämst). Deras skott håller minimal kvalitet – direkta, utanför-box-avlossningar.",
+      },
+    ],
+  },
+  {
+    round: 99,
+    roundLabel: "EL-kval Q2 · Hinmatch",
+    fixture: "Hammarby IF - Anderlecht",
+    dateLabel: "Juli/Augusti 2026 · Twelve säsongsrapporter liga + EL-kval (Anderlecht 25/26)",
+    venueLabel: "Hemma · 3Arena",
+    oneLineSummary:
+      "Anderlecht är ett belgiskt Pro League-lag med imponerande ligapress (2:a/16) men klart svagare i Europa – svag chanskapande (50:a/53 i höga chanser) men toppklass på offensiva övergångar (5:a/53). Ny tränare i ligan – nedgångstrend.",
+    introStats: [
+      { label: "Belgian Pro League", value: "6:a · 1,38 p/match", tone: "blue" },
+      { label: "EL-kval (2 matcher)", value: "1V 0O 1F · 1,50 p/match", tone: "amber" },
+      { label: "Ligapress (Twelve)", value: "PPDA 5,34 · 2:a av 16", tone: "blue" },
+      { label: "EL höga chanser", value: "1,50/match · 50:a/53", tone: "amber" },
+    ],
+    mobileTakeaways: [
+      "Anderlecht spelar i belgisk Pro League – ett steg upp kvalitetsmässigt från Allsvenskan.",
+      "I ligan: starkt pressinglag (PPDA 5,34, 2:a av 16), men offensivt genomsnittligt (np xG 1,45, 8:e).",
+      "I EL-kval (2 matcher): offensiv transition toppklass (5:a av 53) men chanskapande bottennivå (50:a av 53).",
+      "Spelar DIREKTARE i Europa: 40% direktanfall vs 21% i ligan – hoppar snabbt till skott utan att bygga.",
+      "Press faller dramatiskt i Europa: def. intensitet 5,83 (34:e/53) vs 7,20 (2:a/16) i ligan. Mer tid på bollen.",
+      "Farliga i omställning: 88% ball retention efter återerövrings (2:a/53). Tappa ALDRIG bollen högt.",
+      "Ny tränare i ligan – ingen förbättring på 16 matcher. Laget i tydlig nedgångstrend.",
+    ],
+    dataSources: [
+      "Twelve säsongsrapport Anderlecht – Belgian Pro League 2025/26: https://reports.twelve.football/reports/anderlecht-season-report-2Pfy5HEo4M.pdf",
+      "Twelve säsongsrapport Anderlecht – UEFA EL-kval 2025: https://reports.twelve.football/reports/anderlecht-season-report-5xebc7QPQB.pdf",
+      "OBS: EL-kval-rapporten baseras på 2 matcher – litet urval, tolka med försiktighet",
+    ],
+    headToHead: {
+      sampleSize: 0,
+      description:
+        "Hammarby IF och Anderlecht har inga kända historiska möten i UEFA-tävlingar. Detta är sannolikt lagets första europeiska möte.",
+      summaryCards: [
+        {
+          title: "Historiska möten",
+          value: "Inga kända",
+          note: "Första europeiska mötet för de båda lagen.",
+          tone: "blue",
+        },
+        {
+          title: "Anderlecht EL-kval 2025",
+          value: "1V 0O 1F",
+          note: "2 matcher · 2 gjorda mål · 2 insläppta.",
+          tone: "amber",
+        },
+        {
+          title: "Hammarby hemma 2026",
+          value: "5V 1O 1F",
+          note: "22-5 · Starkast hemma i Allsvenskan.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Inga historiska H2H-data tillgängliga – första europeiska mötet.",
+        "Anderlecht i EL-kval 2025: 1V-0O-1F (2 matcher), 2 gjorda, 2 insläppta.",
+        "Hammarby hemma 2026: starkast i hela Allsvenskan (22-5, 5V-1O-1F).",
+        "Anderlecht i belgisk liga: 6:a plats med 1,38 p/match under nedgångstrend.",
+      ],
+      matches: [],
+    },
+    trafficLightCards: [
+      {
+        metric: "Höga chanser EL-kval (Twelve)",
+        bigNumber: "1,50",
+        badge: "SÅRBAR OFFENSIVT",
+        color: "red",
+        rankNote: "50:e av 53 lag i EL-kval – bottennivå",
+        explanation:
+          "Anderlecht skapar knappt 1,5 höga chanser (xG > 0,15) per match i EL-kval – bland de allra sämsta av 53 europalag. De når final third (40%, 8:e) men konverterar inte till farliga lägen inne i boxen (final third to box 19%, 27:e). Skottkvalitet 0,09 xG/skott (41:a).",
+        podcastComment:
+          "1,50 höga chanser per match i Europa – 50:a av 53. De tar sig upp på plan men hittar inga lägen inne i boxen. Strukturerat Hammarby-försvar håller dem borta utan stor ansträngning.",
+      },
+      {
+        metric: "Offensiv transition EL-kval (Twelve)",
+        bigNumber: "5:a / 53",
+        badge: "FARA – OMSTÄLLNING",
+        color: "red",
+        rankNote: "Toppklass i Europa · 88% ball retention (2:a/53)",
+        explanation:
+          "Anderlechts enda toppklass-kategori i Europa: omställningar efter bollåtertagning. 5:a av 53 totalt. Återerövrar bollen högt (41,11m, 13:e) och håller den exceptionellt bra (88%, 2:a). Skapar snabbt xT/xG i övergångsfasen. ALDRIG tappa bollen högt upp på planen.",
+        podcastComment:
+          "5:a av 53 i offensiv transition – det är deras absoluta vapen i Europa. Men det kräver att vi tappar bollen högt. Spelar vi säkert och strukturerat exponerar vi aldrig deras styrka.",
+      },
+      {
+        metric: "Press liga vs Europa (Twelve)",
+        bigNumber: "7,20 → 5,83",
+        badge: "PRESS-TAPP I EUROPA",
+        color: "yellow",
+        rankNote: "Liga: 2:a av 16 · Europa: 34:e av 53",
+        explanation:
+          "Anderlechts defensiva intensitet faller dramatiskt i europaformat: 7,20 (2:a/16) i ligan mot 5,83 (34:e/53) i EL-kval. PPDA går från 5,34 (2:a) till 5,77 (20:e). Hammarby kan förvänta sig mer tid på bollen i Europa än belgiska ligalag brukar få mot Anderlecht.",
+        podcastComment:
+          "I ligan är de ett av Belgiens pressigaste lag. I Europa? 34:e. Vi får mer tid och utrymme mot dem i EL-kval än vad deras egna ligamotståndare brukar. Utnyttja det direkt.",
+      },
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a · 23p · 28-14. Ligaledare i xG, avslut och bollinnehav. Dominant hemma (5V-1O-1F, 22-5) – starkast hemma i hela ligan.",
+        tone: "emerald",
+      },
+      {
+        title: "Anderlecht – ligastatus",
+        body: "Belgisk Pro League 6:a · 1,38 p/match. Ny tränare sedan 16 matcher – ingen förbättring. Nedgångstrend i ligans sista 10 omgångar på alla nyckelparametrar.",
+        tone: "amber",
+      },
+      {
+        title: "Anderlecht – Europaprofil",
+        body: "2 EL-kval-matcher: 1V-0O-1F. Svag chanskapande (50:a/53). Stark offensiv transition (5:a/53). Spelar direktare och fysiskare i Europa än i ligan.",
+        tone: "blue",
+      },
+    ],
+    opponentStyle: [
+      "I ligan: hög press (PPDA 5,34, 2:a; def. intensitet 7,20, 2:a) och minimal bollförlust (30,43/match, 1:a). Snabbt i defensiv övergång (tid till defensiv aktion 5,19s, 1:a i ligan).",
+      "I Europa: LÄGRE press (PPDA 5,77, 20:e; def. intensitet 5,83, 34:e). Förlitar sig mer på taktiska avbrott via foul – 86% av fouls begås i offensiv halva.",
+      "Direktare attackspel i Europa: 40% direktanfall (vs 21% i ligan), 39% skott utifrån boxen. Hoppar snabbt från återerövrings till skott utan byggfas.",
+      "Svag chanskapande i EL-kval: 1,50 höga chanser/match (50:a/53). Når final third (40%, 8:e) men penetrerar inte boxen (19%, 27:e). np xG 1,03 (34:e).",
+      "Offensiv transition = toppklass i Europa: 5:a av 53. Återerövrar högt (41,11m, 13:e), 88% ball retention (2:a), skapar xT/xG snabbt efter återerövrings.",
+      "Defensivt penetrerbar i Europa: motståndarens box-touches 23,0 (44:e/53), opp. xT 2,02 (48:e/53). Tydligt mer öppna i EL-kval än i ligan.",
+    ],
+    styleProfile: [
+      {
+        label: "Pressintensitet (liga, Twelve)",
+        value: "PPDA 5,34 · 2:a av 16 · Def. intensitet 7,20 (2:a)",
+        score: 85,
+        explanation:
+          "I belgiska Pro League är Anderlecht ett av ligans hårdast pressande lag. PPDA 5,34 (2:a), defensiv intensitet 7,20 (2:a), tid till defensiv aktion 5,19s (snabbast i ligan). Viktig not: detta gäller INTE i europaformat.",
+      },
+      {
+        label: "Pressintensitet (Europa, Twelve)",
+        value: "PPDA 5,77 · 20:e av 53 · Def. intensitet 5,83 (34:e)",
+        score: 38,
+        explanation:
+          "I EL-kval är Anderlechts press genomsnittlig till svag. Defensiv intensitet 34:e av 53, PPDA 20:e. Hammarby bör ha klart mer tid på bollen än belgiska ligalag brukar få. Deras press-vapen verkar inte fungera i europaformat.",
+      },
+      {
+        label: "Offensiv transition (Europa, Twelve)",
+        value: "5:a av 53 · 88% ball retention (2:a) · Recovery DAH 41,11m (13:e)",
+        score: 92,
+        explanation:
+          "Anderlechts enda toppklass-kategori i Europa. Återerövrar bollen högt och håller det exceptionellt bra (88%, näst bäst av 53). Skapar snabbt omställningshot. Hammarby kan ALDRIG tappa bollen högt utan att riskera direkta konteringsmöjligheter.",
+      },
+      {
+        label: "Chanskapande (Europa, Twelve)",
+        value: "1,50 höga chanser/match · 50:a av 53 · np xG 1,03 (34:e)",
+        score: 10,
+        explanation:
+          "Bottennivå i EL-kval chanskapande. 50:e av 53 i höga chanser – knappt 1,5 riktigt farliga lägen per match. Når final third men penetrerar inte boxen. Skottkvalitet 0,09 np xG/skott (41:a). Hammarby-försvaret behöver inte stå emot många skarpa lägen.",
+      },
+      {
+        label: "Defensiv sårbarhet (Europa)",
+        value: "Opp. box touches 23,0 (44:e/53) · Opp. xT 2,02 (48:e/53)",
+        score: 25,
+        explanation:
+          "Anderlecht tillåter betydligt fler farliga situationer defensivt i Europa jämfört med ligan. Motståndare når boxen 23,0 gånger/match (44:e), motståndarens xT 2,02 (48:e). Hammarby ska utnyttja deras defensiva öppenhet med strukturerade angrepp.",
+      },
+      {
+        label: "Ligaform (trend)",
+        value: "Nedgång sista 10 matcher · Ny tränare – ingen effekt",
+        score: 30,
+        explanation:
+          "I ligans sista 10 omgångar försämrades Anderlecht i alla kategorier: försvar, defensiv övergång, attack och utfall. Ny tränare tog över för 16 matcher sedan – ingen signifikant förbättring. Laget är i nedgångstrend.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "np xG / match",
+        hammarbyValue: "~2,19",
+        opponentValue: "1,03 (EL)",
+        hammarbyScore: 100,
+        opponentScore: 47,
+        note: "Hammarby skapar 2× mer xG. Anderlecht underpresterar i EL-kval (np xG 1,03, 34:e/53).",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "~19,8",
+        opponentValue: "11,5 (EL)",
+        hammarbyScore: 100,
+        opponentScore: 58,
+        note: "Anderlecht skjuter 11,5/match i Europa (26:e/53). Hammarby dominerar avslut per match.",
+      },
+      {
+        label: "PPDA (lägre = bättre press)",
+        hammarbyValue: "~4,19",
+        opponentValue: "5,77 (EL)",
+        hammarbyScore: 100,
+        opponentScore: 58,
+        note: "Hammarby pressar hårdare. Anderlechts press i Europa klart sämre än deras eget ligasnitt.",
+      },
+      {
+        label: "Field tilt %",
+        hammarbyValue: "~70%",
+        opponentValue: "54% (EL)",
+        hammarbyScore: 100,
+        opponentScore: 77,
+        note: "Hammarby territoriellt dominerande. Anderlecht med 54% field tilt i Europa – solid men inte imponerande.",
+      },
+      {
+        label: "Höga chanser / match",
+        hammarbyValue: "hög",
+        opponentValue: "1,50 (EL)",
+        hammarbyScore: 100,
+        opponentScore: 12,
+        note: "Anderlecht bland sämsta i EL-kval (50:a/53) på höga chanser. Kritisk offensiv svaghet i Europa.",
+      },
+      {
+        label: "Bollinnehav %",
+        hammarbyValue: "~56%",
+        opponentValue: "48% (EL)",
+        hammarbyScore: 100,
+        opponentScore: 86,
+        note: "Anderlecht spelar med 48% bollinnehav i Europa – klart lägre än deras 53% i ligan.",
+      },
+      {
+        label: "Defensiv intensitet (Twelve)",
+        hammarbyValue: "hög",
+        opponentValue: "5,83 (EL)",
+        hammarbyScore: 100,
+        opponentScore: 38,
+        note: "Anderlechts press halveras nästan i Europa. 34:e/53 i EL-kval vs 2:a/16 i Pro League.",
+      },
+      {
+        label: "Offensiv transition",
+        hammarbyValue: "~topp Allsvenskan",
+        opponentValue: "5:a av 53 (EL)",
+        hammarbyScore: 75,
+        opponentScore: 95,
+        note: "Anderlecht STARKA i offensiv transition i Europa – deras farligaste vapen. Tappa ALDRIG bollen högt.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "np xG / match (EL-kval, Twelve)",
+        hammarbyValue: "~2,19",
+        hammarbyRank: "~1:a i Allsvenskan",
+        opponentValue: "1,03",
+        opponentRank: "34:e av 53",
+        note: "Hammarby skapar mer än dubbelt Anderlechts europeiska xG-snitt.",
+      },
+      {
+        label: "Höga chanser / match (EL-kval, Twelve)",
+        hammarbyValue: "hög",
+        hammarbyRank: "~topp Allsvenskan",
+        opponentValue: "1,50",
+        opponentRank: "50:e av 53",
+        note: "Anderlecht bland de allra sämsta i EL-kval på chanskapande. Extremt svag offensiv kärna i Europa.",
+      },
+      {
+        label: "Defensiv intensitet (EL-kval, Twelve)",
+        hammarbyValue: "hög",
+        hammarbyRank: "~1:a i Allsvenskan",
+        opponentValue: "5,83",
+        opponentRank: "34:e av 53",
+        note: "Anderlechts press rasar i Europa. Mer tid och utrymme på bollen för Hammarby.",
+      },
+      {
+        label: "Offensiv transition (EL-kval, Twelve)",
+        hammarbyValue: "hög",
+        hammarbyRank: "~topp Allsvenskan",
+        opponentValue: "toppklass",
+        opponentRank: "5:e av 53",
+        note: "Enda området där Anderlecht markant överträffar snittet i Europa. Kontringstempot är farligt.",
+      },
+      {
+        label: "PPDA (Twelve · lägre = hårdare press)",
+        hammarbyValue: "~4,19",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "5,77 (EL) / 5,34 (liga)",
+        opponentRank: "20:e av 53 (EL)",
+        note: "Hammarby pressar hårdare. Anderlechts press i Europa jämförbar med ett europeiskt medellag.",
+      },
+      {
+        label: "Opp. box touches (EL-kval, Twelve)",
+        hammarbyValue: "låga",
+        hammarbyRank: "~topp Allsvenskan defensivt",
+        opponentValue: "23,0",
+        opponentRank: "44:e av 53",
+        note: "Anderlecht tillåter många boxberöringar defensivt i Europa. Hammarby kan pressa hårt mot deras defensiva zon.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 1 },
+      { window: "16–30'", hammarbyGoals: 3, opponentConcededGoals: 1 },
+      { window: "31–45+'", hammarbyGoals: 5, opponentConcededGoals: 0 },
+      { window: "46–60'", hammarbyGoals: 6, opponentConcededGoals: 0 },
+      { window: "61–75'", hammarbyGoals: 6, opponentConcededGoals: 1 },
+      { window: "76–90+'", hammarbyGoals: 4, opponentConcededGoals: 1 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Anderlechts offensiva profil i Europa (Twelve)",
+        value: "1,00 mål/match · 40% direktanfall · 39% skott utifrån · np xG/shot 0,09",
+        interpretation:
+          "I EL-kval spelar Anderlecht direktare än i ligan (40% direktanfall mot 21%). Avlossar fler skott utifrån (39%) och hoppar snabbt från bollinnehav till skott utan att bygga upp. Det ger lägre skottkvalitet (0,09 xG/skott, 41:a av 53). Mål/match sjunker från 1,48 (liga) till 1,00 (EL-kval).",
+      },
+      {
+        label: "Liga vs Europa – den avgörande skillnaden",
+        value: "Press: 7,20 → 5,83 · Höga chanser: 3,00 → 1,50 · Direktanfall: 21% → 40%",
+        interpretation:
+          "Anderlecht presterar sämre i Europa på nästan alla punkter. Press faller kraftigt, chanskapande halveras, direktspelet ökar. OBS: baserat på bara 2 EL-kval-matcher – urval litet, tolka med försiktighet.",
+      },
+      {
+        label: "Anderlechts defensiva sårbarhet i Europa",
+        value: "Opp. box touches 23,0 (44:e) · Opp. xT 2,02 (48:e) · Opp. Final third to box 24% (38:e)",
+        interpretation:
+          "Anderlecht tillåter markant fler farliga situationer i Europa än i ligan. Motståndare når boxen 23,0 gånger/match (mot 19,75 i ligan). Hammarby ska utnyttja denna defensiva öppenhet med kombinationsspel in mot straffboxen.",
+      },
+      {
+        label: "Hammarby hemma 2026",
+        value: "22-5 · +17 GD (5V-1O-1F)",
+        interpretation:
+          "3Arena är ett fästning – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela Allsvenskan. I en europeisk tvåmatchstie är hemmamålen extra värda – mål i hinmatchen är kapital inför borta-returen i Bryssel.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Utnyttja Anderlechts lägre press i Europa (def. intensitet 5,83, 34:e/53 vs 7,20 i ligan) – mer tid på bollen. Bygg upp med kontroll och exponera deras genomsnittliga pressorganisation.",
+        "Kombinationsspel in mot boxen: Anderlecht defensivt penetrerbar (opp. box touches 23,0, 44:e/53). Bär bollen in i deras defensiva tredjedel via kombinationer och carries.",
+        "Utnyttja frikallssituationer: i Europa förlitar de sig på taktiska fouls (86% i off. halva) för att bryta tempo – vinn frikall högt upp och exploatera med snabba inlägg/passes.",
+        "Hemmatrycket på 3Arena: Anderlecht skapar 1,50 höga chanser/match i Europa. Med Hammarbys höga press och hemmaplan pressas deras offensiva output ytterligare.",
+      ],
+      withoutBall: [
+        "ALDRIG tappa bollen högt upp: Anderlecht 5:a av 53 i offensiv transition, 88% ball retention (2:a/53). Deras kontringsmaskin aktiveras av Hammarbys höga bollförluster – kompakt och strukturerat.",
+        "Stäng deras direktspelsstigar: 40% direktanfall i Europa. De gillar det snabba passet bakom försvarslinjen. Tätt baklinje, ingen rygg-på-backlinje mot deras djuplöpare.",
+        "86% foul-mönster i offensiv halva: räkna med taktiska avbrott från Anderlecht för att bryta Hammarbys rytm. Håll fokus vid frikall och återstarta snabbt.",
+        "Block mot distansskott: 39% av deras skott utifrån boxen i Europa. Kompakt blockorganisation mot Anderlechts distansförsök.",
+      ],
+      matchManagement: [
+        "Tvåmatchstie: ett Hemma-0-0 är INTE acceptabelt. Tryck på mål i hinmatchen – hemmamål är kapital inför returen i Bryssel.",
+        "Anderlecht i nedgångstrend + ny tränare = lag utan stabilitet. Etablera dominans tidigt på 3Arena.",
+        "Deras farligaste vapen (offensiv transition, 5:a/53) aktiveras av Hammarbys bollförluster högt – strukturerat spel stryper deras styrka.",
+        "Returmatchen i Bryssel: planera hela tien från start. Minst ett hemmamål öppnar tiebrekern markant.",
+      ],
+    },
+    spotlightKey:
+      "Anderlechts chanskapande i EL-kval är bottennivå (50:a/53 i höga chanser) – men deras offensiva övergångar är toppklass (5:a/53). Det är ett lag som lever på kontringar, inte byggt-upp spel. Svaret: tätt och strukturerat försvarsspel som stryper kontringsmöjligheterna. Med boll: utnyttja deras låga press i Europa (34:e i def. intensitet) och angrip en svag defensiv zon (44:e i box touches tillåtna). Hemmavinst är målet – ett mål i försprång inför returen i Bryssel förändrar hela förutsättningen.",
+    glossary: [
+      {
+        term: "PPDA (Passes Per Defensive Action, Twelve)",
+        explanation:
+          "Motståndarens passningar per defensiv aktion. Lägre = hårdare press. Anderlecht 5,34 i liga (2:a/16) men 5,77 i EL-kval (20:e/53). Hammarby ~4,19 (1:a i Allsvenskan).",
+      },
+      {
+        term: "Defensiv intensitet (Twelve)",
+        explanation:
+          "Antal defensiva aktioner per minut utan bollinnehav. Anderlecht 7,20 i liga (2:a) vs 5,83 i Europa (34:e). En av säsongsrapportens mest slående liga-vs-Europa-skillnader.",
+      },
+      {
+        term: "Offensiv transition (Twelve)",
+        explanation:
+          "Förmåga att exploatera omställningsmoment efter bollåtertagning. Anderlecht 5:a av 53 i EL-kval. Mäts via xT/xG inom 10s efter återerövrings och ball retention rate.",
+      },
+      {
+        term: "Höga chanser / high opportunity shots (Twelve)",
+        explanation:
+          "Antal skott med np xG > 0,15 per match. Mått på chanskapande kvalitet. Anderlecht 1,50/match i EL-kval (50:a/53) – extremt svagt. I liga: 3,00 (10:e/16).",
+      },
+      {
+        term: "Ball retention / Possessions retained after 5s (Twelve)",
+        explanation:
+          "Andel possessioner som håller sig längre än 5 sekunder efter återerövrings. Anderlecht 88% i EL-kval (2:a/53) – exceptionellt. De behåller bollen väl i övergångsfasen.",
       },
     ],
   },
