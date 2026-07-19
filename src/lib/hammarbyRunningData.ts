@@ -1728,7 +1728,7 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
     "awayTeam": "Degerfors",
     "hammarbyWasHome": true,
     "matchDurationMinutes": 93.25,
-    "hammarbyTeamDistanceMeters": 131448,
+    "hammarbyTeamDistanceMeters": 136388,
     "hammarbyTeamMinutes": 1025.75,
     "hammarbyTopSpeedKmh": 33.39,
     "players": [
@@ -1736,145 +1736,145 @@ export const hammarbyRunningMatches: RunningMatchStat[] = [
         "name": "Markus Karlsson",
         "shirtNumber": 8,
         "position": "Mittfältare",
-        "distanceMeters": 13693,
+        "distanceMeters": 14038,
         "maxSpeedKmh": 29.55,
         "minutesPlayed": 93.25,
-        "metersPerMinute": 146.84
+        "metersPerMinute": 150.54
       },
       {
         "name": "Oscar Johansson",
         "shirtNumber": 11,
         "position": "Mittfältare",
-        "distanceMeters": 13561,
+        "distanceMeters": 13917,
         "maxSpeedKmh": 32.64,
         "minutesPlayed": 93.25,
-        "metersPerMinute": 145.43
+        "metersPerMinute": 149.24
       },
       {
         "name": "Hampus Skoglund",
         "shirtNumber": 2,
         "position": "Back",
-        "distanceMeters": 12650,
+        "distanceMeters": 13068,
         "maxSpeedKmh": 30.97,
         "minutesPlayed": 93.25,
-        "metersPerMinute": 135.66
+        "metersPerMinute": 140.14
       },
       {
         "name": "Ibrahima Fofana",
         "shirtNumber": 17,
         "position": "Mittfältare",
-        "distanceMeters": 12545,
+        "distanceMeters": 12948,
         "maxSpeedKmh": 33.39,
         "minutesPlayed": 93.25,
-        "metersPerMinute": 134.53
+        "metersPerMinute": 138.85
       },
       {
         "name": "Noah Persson",
         "shirtNumber": 16,
         "position": "Anfallare",
-        "distanceMeters": 11870,
+        "distanceMeters": 12758,
         "maxSpeedKmh": 31.05,
         "minutesPlayed": 84.77,
-        "metersPerMinute": 140.03
-      },
-      {
-        "name": "Montader Madjed",
-        "shirtNumber": 26,
-        "position": "Anfallare",
-        "distanceMeters": 11444,
-        "maxSpeedKmh": 33.07,
-        "minutesPlayed": 93.25,
-        "metersPerMinute": 122.72
+        "metersPerMinute": 150.50
       },
       {
         "name": "Frederik Winther",
         "shirtNumber": 3,
         "position": "Back",
-        "distanceMeters": 11165,
+        "distanceMeters": 12111,
         "maxSpeedKmh": 29.68,
         "minutesPlayed": 84.77,
-        "metersPerMinute": 131.71
+        "metersPerMinute": 142.88
+      },
+      {
+        "name": "Montader Madjed",
+        "shirtNumber": 26,
+        "position": "Anfallare",
+        "distanceMeters": 11904,
+        "maxSpeedKmh": 30.06,
+        "minutesPlayed": 93.25,
+        "metersPerMinute": 127.66
       },
       {
         "name": "Paulos Abraham",
         "shirtNumber": 7,
         "position": "Anfallare",
-        "distanceMeters": 10878,
+        "distanceMeters": 11388,
         "maxSpeedKmh": 32.78,
         "minutesPlayed": 75.87,
-        "metersPerMinute": 143.38
+        "metersPerMinute": 150.11
       },
       {
         "name": "Victor Lind",
         "shirtNumber": 9,
         "position": "Anfallare",
-        "distanceMeters": 10162,
+        "distanceMeters": 10505,
         "maxSpeedKmh": 31.26,
         "minutesPlayed": 75.87,
-        "metersPerMinute": 133.94
+        "metersPerMinute": 138.46
       },
       {
         "name": "Nahir Besara",
         "shirtNumber": 20,
         "position": "Mittfältare",
-        "distanceMeters": 8421,
+        "distanceMeters": 8417,
         "maxSpeedKmh": 29.26,
         "minutesPlayed": 63.78,
-        "metersPerMinute": 132.03
+        "metersPerMinute": 131.96
       },
       {
         "name": "Warner Hahn",
         "shirtNumber": 1,
         "position": "Målvakt",
-        "distanceMeters": 4594,
+        "distanceMeters": 4846,
         "maxSpeedKmh": 25.84,
         "minutesPlayed": 93.25,
-        "metersPerMinute": 49.27
+        "metersPerMinute": 51.97
       },
       {
         "name": "Tesfaldet Tekie",
         "shirtNumber": 5,
         "position": "Mittfältare",
-        "distanceMeters": 4251,
-        "maxSpeedKmh": 31.11,
+        "distanceMeters": 4713,
+        "maxSpeedKmh": 33.05,
         "minutesPlayed": 29.47,
-        "metersPerMinute": 144.25
+        "metersPerMinute": 159.89
       },
       {
         "name": "Frank Junior Adjei",
         "shirtNumber": 28,
         "position": "Mittfältare",
-        "distanceMeters": 2508,
+        "distanceMeters": 2565,
         "maxSpeedKmh": 27.73,
         "minutesPlayed": 17.38,
-        "metersPerMinute": 144.3
+        "metersPerMinute": 147.58
       },
       {
         "name": "Elohim Kabore",
         "shirtNumber": 29,
         "position": "Anfallare",
-        "distanceMeters": 2294,
+        "distanceMeters": 2166,
         "maxSpeedKmh": 33.15,
         "minutesPlayed": 17.38,
-        "metersPerMinute": 131.99
+        "metersPerMinute": 124.63
       },
       {
         "name": "Björn Hedlöf",
         "shirtNumber": 33,
         "position": "Back",
-        "distanceMeters": 1302,
-        "maxSpeedKmh": 26.78,
+        "distanceMeters": 779,
+        "maxSpeedKmh": 21.86,
         "minutesPlayed": 8.48,
-        "metersPerMinute": 153.54
+        "metersPerMinute": 91.86
       },
       {
         "name": "Waylon Ramon Renecke",
         "shirtNumber": 24,
         "position": "Back",
-        "distanceMeters": 1235,
-        "maxSpeedKmh": 28.98,
+        "distanceMeters": 765,
+        "maxSpeedKmh": 24.09,
         "minutesPlayed": 8.48,
-        "metersPerMinute": 145.64
+        "metersPerMinute": 90.21
       }
     ]
   }
