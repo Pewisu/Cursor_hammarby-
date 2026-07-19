@@ -2649,6 +2649,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     round: 13,
     hidden: true,
     roundLabel: "Omgång 13",
+    hidden: true,
     fixture: "Hammarby IF - Degerfors IF",
     dateLabel: "19 juli 2026 · 3Arena",
     venueLabel: "Hemma · 3Arena",

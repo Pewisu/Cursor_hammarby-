@@ -28,6 +28,7 @@ export interface RoundMatchStats {
     | "omgang-10"
     | "omgang-11"
     | "omgang-12"
+    | "omgang-13"
     | "omgang-15";
   gameweek: number;
   date: string;
@@ -491,6 +492,44 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       corners: 1,
       fouls: 11,
       yellowCards: 0,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-13",
+    gameweek: 13,
+    date: "2026-07-19",
+    matchName: "Hammarby - Degerfors IF, 4-0",
+    sourceUrl:
+      "https://www.fotmob.com/match/5107534?tz=Europe%2FStockholm",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 4,
+      xg: 2.65,
+      shots: 22,
+      shotsOnTarget: 11,
+      possessionPercent: 64,
+      passes: 678,
+      passesSuccessful: 602,
+      touchesInBox: 39,
+      corners: 6,
+      fouls: 11,
+      yellowCards: 0,
+      redCards: 0,
+    },
+    opponent: {
+      teamName: "Degerfors IF",
+      goals: 0,
+      xg: 0.35,
+      shots: 8,
+      shotsOnTarget: 1,
+      possessionPercent: 36,
+      passes: 374,
+      passesSuccessful: 296,
+      touchesInBox: 15,
+      corners: 2,
+      fouls: 8,
+      yellowCards: 1,
       redCards: 0,
     },
   },

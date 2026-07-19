@@ -31,6 +31,7 @@ import { round9PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9Data";
 import { round9AikPredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9AikData";
 import { round10PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound10Data";
 import { round11PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound11Data";
+import { round13PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound13Data";
 import {
   elfsborgRound11Goals,
   elfsborgRound11MatchSpider,
@@ -40,6 +41,18 @@ import {
   elfsborgRound11SnapshotStats,
   elfsborgRound11Takeaways,
 } from "@/lib/elfsborgRound11AnalysisData";
+import {
+  degerforsRound13Goals,
+  degerforsRound13MatchSpider,
+  degerforsRound13MatchStory,
+  degerforsRound13Recap,
+  degerforsRound13SnapshotPills,
+  degerforsRound13SnapshotStats,
+  degerforsRound13Takeaways,
+  degerforsYearComparison,
+  degerforsYearComparisonMeta,
+  type YearOnYearRow,
+} from "@/lib/degerforsRound13AnalysisData";
 import { findMatchAnalysisRoundForOverview } from "@/lib/resolveMatchAnalysisRound";
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
@@ -259,6 +272,127 @@ function PointsComparisonSection({
         2026-poängsnittet räknas på faktisk poäng hittills; 2025/2024 använder slutligt säsongssnitt
         per omgång. ≈ markerar prognos/fallback.
       </p>
+    </section>
+  );
+}
+
+function YearComparisonSection({
+  rows,
+  meta,
+}: {
+  rows: YearOnYearRow[];
+  meta: typeof degerforsYearComparisonMeta;
+}) {
+  const trendIcon = (trend: YearOnYearRow["trend"]) => {
+    if (trend === "better") return <span className="text-emerald-400">↑</span>;
+    if (trend === "worse") return <span className="text-rose-400">↓</span>;
+    return <span className="text-slate-400">→</span>;
+  };
+
+  return (
+    <section
+      id="year-comparison"
+      className="rounded-2xl border border-blue-700/35 bg-[#0f1e2e] overflow-hidden"
+    >
+      <div className="border-b border-blue-800/40 px-5 py-4 md:px-6">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-blue-300/90">
+          Hammarby vs Degerfors · Hemma 2025 vs 2026
+        </p>
+        <h2 className="mt-1 text-lg font-bold text-slate-50">
+          Jämförelse: 2025 mötet vs 2026
+        </h2>
+        <p className="mt-1 text-sm text-blue-100/80">
+          Hur skiljde sig dagens 4-0 seger från fjolårets 1-0 på 3Arena?
+        </p>
+      </div>
+
+      <div className="grid gap-3 px-5 py-4 md:grid-cols-2 md:px-6">
+        <div className="rounded-xl border border-slate-600/40 bg-slate-900/60 p-4">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+            {meta.season2025.label}
+          </p>
+          <p className="mt-1 text-3xl font-black text-white">{meta.season2025.result}</p>
+          <p className="mt-1 text-xs text-slate-400">Mål: {meta.season2025.scorer}</p>
+          <p className="mt-0.5 text-xs text-slate-500">Tränare: {meta.season2025.coach}</p>
+          <a
+            href={meta.season2025.fotmobUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-block text-[11px] text-blue-400 hover:text-blue-300"
+          >
+            Fotmob ↗
+          </a>
+        </div>
+        <div className="rounded-xl border border-emerald-600/40 bg-emerald-950/30 p-4">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-emerald-400/80">
+            {meta.season2026.label}
+          </p>
+          <p className="mt-1 text-3xl font-black text-white">{meta.season2026.result}</p>
+          <p className="mt-1 text-xs text-emerald-300/80">Mål: {meta.season2026.scorer}</p>
+          <p className="mt-0.5 text-xs text-emerald-400/60">Tränare: {meta.season2026.coach}</p>
+          <a
+            href={meta.season2026.fotmobUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-block text-[11px] text-blue-400 hover:text-blue-300"
+          >
+            Fotmob ↗
+          </a>
+        </div>
+      </div>
+
+      <div className="border-t border-blue-800/30 px-5 pb-5 md:px-6">
+        <p className="mb-3 pt-4 text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
+          Nyckeltal
+        </p>
+        <div className="overflow-x-auto rounded-xl border border-slate-700/40">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-slate-700/50 bg-slate-900/60">
+                <th className="px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                  Mätvärde
+                </th>
+                <th className="px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                  2025
+                </th>
+                <th className="px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-emerald-400/70">
+                  2026
+                </th>
+                <th className="px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                  Trend
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, i) => (
+                <tr
+                  key={row.label}
+                  className={`border-b border-slate-800/60 ${i % 2 === 0 ? "bg-slate-900/30" : "bg-slate-900/10"}`}
+                >
+                  <td className="px-3 py-2.5 text-xs font-medium text-slate-300">
+                    {row.label}
+                    {row.note ? (
+                      <span className="ml-1 text-[10px] text-slate-500">{row.note}</span>
+                    ) : null}
+                  </td>
+                  <td className="px-3 py-2.5 text-center text-xs font-semibold text-slate-400">
+                    {row.value2025}
+                  </td>
+                  <td className="px-3 py-2.5 text-center text-xs font-bold text-emerald-300">
+                    {row.value2026}
+                  </td>
+                  <td className="px-3 py-2.5 text-center text-sm font-bold">
+                    {trendIcon(row.trend)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-3 text-[11px] text-slate-500">
+          Källa: Fotmob/Opta matchdata. ↑ = förbättring för Hammarby, → = liknande, ↓ = försämring.
+        </p>
+      </div>
     </section>
   );
 }
@@ -1462,6 +1596,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   ];
   const isRound11Dashboard = mode === "round" && round === 11;
   const isRound12Dashboard = mode === "round" && round === 12;
+  const isRound13Dashboard = mode === "round" && round === 13;
   const matchesThroughRound = sortedMatches.filter((match) => match.gameweek <= comparisonRound);
   const matchCountThroughRound = matchesThroughRound.length;
   const round11MatchPoints =
@@ -1484,6 +1619,29 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         seasonPpgBefore: round11PpgBefore,
         matchDeltaVsPpg: round11MatchPoints - round11PpgBefore,
         projectedSeasonPoints: Math.round(round11PpgAfter * ALLSVENSKAN_TOTAL_ROUNDS),
+        matchesPlayed: matchCountThroughRound,
+      }
+    : null;
+  const round13MatchPoints =
+    selectedRoundMatch === null
+      ? 0
+      : getMatchPoints(selectedRoundMatch.hammarby.goals, selectedRoundMatch.opponent.goals);
+  const round13PointsBeforeMatch = season2026PointsThroughRound - round13MatchPoints;
+  const round13MatchCountBefore = Math.max(matchCountThroughRound - 1, 0);
+  const round13PpgBefore =
+    round13MatchCountBefore > 0 ? round13PointsBeforeMatch / round13MatchCountBefore : 0;
+  const round13PpgAfter =
+    matchCountThroughRound > 0 ? season2026PointsThroughRound / matchCountThroughRound : 0;
+  const round13PointsContext: MatchPointsContext | null = isRound13Dashboard
+    ? {
+        seasonLabel: "2026",
+        roundNumber: comparisonRound,
+        matchPoints: round13MatchPoints,
+        seasonPointsAfter: season2026PointsThroughRound,
+        seasonPpgAfter: round13PpgAfter,
+        seasonPpgBefore: round13PpgBefore,
+        matchDeltaVsPpg: round13MatchPoints - round13PpgBefore,
+        projectedSeasonPoints: Math.round(round13PpgAfter * ALLSVENSKAN_TOTAL_ROUNDS),
         matchesPlayed: matchCountThroughRound,
       }
     : null;
@@ -2271,10 +2429,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   }
 
   return (
-    <div className={`min-h-screen ${isRound11Dashboard ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
+    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
       <header
         className={`sticky top-0 z-50 border-b backdrop-blur-sm ${
-          isRound11Dashboard
+          (isRound11Dashboard || isRound13Dashboard)
             ? "border-emerald-800/45 bg-[#163028]/95"
             : "border-white/[0.06] bg-[#0d1117]/90"
         }`}
@@ -2282,7 +2440,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         <div className="mx-auto max-w-6xl px-4 py-4">
           <p
             className={`text-xs uppercase tracking-[0.2em] ${
-              isRound11Dashboard ? "text-emerald-300/90" : "text-blue-400"
+              (isRound11Dashboard || isRound13Dashboard) ? "text-emerald-300/90" : "text-blue-400"
             }`}
           >
             Matchstatistik
@@ -2342,10 +2500,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </div>
-        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 15) && (
+        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 13 || round === 15) && (
           <div
             className={`border-t ${
-              isRound11Dashboard ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
+              (isRound11Dashboard || isRound13Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
             }`}
           >
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
@@ -2388,7 +2546,39 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </a>
                 </>
               )}
-              {round !== 11 && (
+              {round === 13 && (
+                <>
+                  <a
+                    href="#season-points"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/25"
+                  >
+                    <span>📈</span>
+                    <span>Poängsnitt</span>
+                  </a>
+                  <a
+                    href="#match-recap"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                  >
+                    <span>⚽</span>
+                    <span>Match 4-0</span>
+                  </a>
+                  <a
+                    href="#year-comparison"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
+                  >
+                    <span>📅</span>
+                    <span>2025 vs 2026</span>
+                  </a>
+                  <a
+                    href="#prediction-vs-outcome"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                  >
+                    <span>🎯</span>
+                    <span>Analys vs utfall</span>
+                  </a>
+                </>
+              )}
+              {round !== 11 && round !== 13 && (
               <a
                 href="#matchgenomgang"
                 className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
@@ -2406,7 +2596,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   <span>Omgångens spelare</span>
                 </a>
               )}
-              {round !== 11 && (
+              {round !== 11 && round !== 13 && (
               <a
                 href="#prediction-vs-outcome"
                 className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
@@ -2423,8 +2613,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         )}
 
-        {/* ── Tab navigation (round mode only, not special round 11) ── */}
-        {mode === "round" && !isRound11Dashboard && (
+        {/* ── Tab navigation (round mode only, not special rounds 11/13) ── */}
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && (
           <div className="border-t border-white/[0.05] bg-[#0d1117]/95">
             <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 py-2.5">
               {(
@@ -2457,7 +2647,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
       <main
         className={`mx-auto flex max-w-6xl flex-col px-4 py-8 ${
-          isRound11Dashboard ? "gap-4" : "gap-8"
+          (isRound11Dashboard || isRound13Dashboard) ? "gap-4" : "gap-8"
         }`}
       >
         {mode === "round" && isRound11Dashboard && (
@@ -2497,7 +2687,52 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         )}
 
-        {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {/* ── Round 13: Hammarby 4-0 Degerfors ── */}
+        {mode === "round" && isRound13Dashboard && (
+          <PointsComparisonSection
+            comparisonRound={comparisonRound}
+            pointsComparisonRows={pointsComparisonRows}
+            matchContext={round13PointsContext}
+            className={`${ROUND11_SURFACE} p-4 md:p-5`}
+          />
+        )}
+
+        {isRound13Dashboard && (
+          <div id="match-recap" className={ROUND11_SURFACE}>
+            <MatchRecapSection
+              embedded
+              headline={degerforsRound13Recap.headline}
+              tagline={degerforsRound13Recap.tagline}
+              dateLabel={degerforsRound13Recap.dateLabel}
+              opponentLabel="Degerfors IF"
+              opponentScore={degerforsRound13Recap.opponentScore}
+              hammarbyScore={degerforsRound13Recap.hammarbyScore}
+              opponentXg={degerforsRound13Recap.opponentXg}
+              hammarbyXg={degerforsRound13Recap.hammarbyXg}
+              halftimeScore={degerforsRound13Recap.halftimeScore}
+              snapshotStats={degerforsRound13SnapshotStats}
+              snapshotPills={degerforsRound13SnapshotPills}
+              matchStory={degerforsRound13MatchStory}
+              goals={degerforsRound13Goals}
+              takeaways={degerforsRound13Takeaways}
+              spiderAxes={degerforsRound13MatchSpider}
+              sourceUrl={degerforsRound13Recap.sourceUrl}
+              hammarbySourceUrl={degerforsRound13Recap.hammarbySourceUrl}
+            />
+            <div className="px-5 pb-5 md:px-6" id="prediction-vs-outcome">
+              <PredictionVsOutcome embedded {...round13PredictionVsOutcome} />
+            </div>
+          </div>
+        )}
+
+        {isRound13Dashboard && (
+          <YearComparisonSection
+            rows={degerforsYearComparison}
+            meta={degerforsYearComparisonMeta}
+          />
+        )}
+
+        {!isRound11Dashboard && !isRound13Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section id="matchgenomgang" className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {/* Hammarby goals */}
           <div className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-[#0d1f12] p-5">
@@ -2551,7 +2786,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {mode === "round" && !isRound11Dashboard && roundTab === "sasong" && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && roundTab === "sasong" && (
           <PointsComparisonSection
             comparisonRound={comparisonRound}
             pointsComparisonRows={pointsComparisonRows}
@@ -2559,14 +2794,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {/* ── Matchanalys KPI cards (Twelve data) ── */}
-        {mode === "round" && !isRound11Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
           <MatchAnalysisKpiSection
             roundData={resolvedAnalysisRound}
             matchLabel={selectedRoundMatch ? `${selectedRoundMatch.matchName}` : ""}
           />
         )}
 
-        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && roundTab === "matchen" && (
+        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && roundTab === "matchen" && (
           <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -2622,6 +2857,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {mode === "round" &&
           !isRound11Dashboard &&
+          !isRound13Dashboard &&
           roundTab === "analys" &&
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
@@ -2743,6 +2979,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {mode === "round" &&
           !isRound11Dashboard &&
+          !isRound13Dashboard &&
           roundTab === "analys" &&
           effectiveMatchAnalysisViewMode === "round" &&
           selectedRoundData &&
@@ -3000,7 +3237,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
-        {!isRound11Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {!isRound11Dashboard && !isRound13Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-neutral-400">
@@ -3081,7 +3318,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {!isRound11Dashboard && (mode === "combined" || roundTab === "sasong") && (
+        {!isRound11Dashboard && !isRound13Dashboard && (mode === "combined" || roundTab === "sasong") && (
         <>
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -4308,7 +4545,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         <footer
           className={
-            isRound11Dashboard
+            (isRound11Dashboard || isRound13Dashboard)
               ? "rounded-2xl border border-emerald-800/35 bg-[#13231d]/80 p-5 text-xs leading-relaxed text-neutral-400"
               : "rounded-2xl border border-white/[0.06] bg-neutral-900/60 p-5 text-xs leading-relaxed text-neutral-400"
           }
