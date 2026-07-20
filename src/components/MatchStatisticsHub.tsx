@@ -226,9 +226,11 @@ function PointsComparisonSection({
                       {row.pointsPerRoundText}
                     </p>
                   </div>
-                  <div className="hidden sm:block">
-                    <p className="text-[9px] font-semibold uppercase tracking-widest text-neutral-600">Säsongssnitt</p>
-                    <p className={`mt-0.5 text-sm font-bold tabular-nums ${is2026 ? "text-neutral-200" : "text-neutral-400"}`}>
+                  <div>
+                    <p className={`text-[9px] font-semibold uppercase tracking-widest ${is2026 ? "text-blue-400/80" : "text-neutral-600"}`}>
+                      {is2026 ? "Prognos säsong" : "Slutpoäng"}
+                    </p>
+                    <p className={`mt-0.5 text-sm font-bold tabular-nums ${is2026 ? "text-blue-300" : "text-neutral-400"}`}>
                       {row.seasonAverageText}
                     </p>
                   </div>
@@ -283,12 +285,6 @@ function YearComparisonSection({
   rows: YearOnYearRow[];
   meta: typeof degerforsYearComparisonMeta;
 }) {
-  const trendIcon = (trend: YearOnYearRow["trend"]) => {
-    if (trend === "better") return <span className="text-emerald-400">↑</span>;
-    if (trend === "worse") return <span className="text-rose-400">↓</span>;
-    return <span className="text-slate-400">→</span>;
-  };
-
   return (
     <section
       id="year-comparison"
@@ -306,6 +302,7 @@ function YearComparisonSection({
         </p>
       </div>
 
+      {/* Match header cards */}
       <div className="grid gap-3 px-5 py-4 md:grid-cols-2 md:px-6">
         <div className="rounded-xl border border-slate-600/40 bg-slate-900/60 p-4">
           <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
@@ -314,12 +311,8 @@ function YearComparisonSection({
           <p className="mt-1 text-3xl font-black text-white">{meta.season2025.result}</p>
           <p className="mt-1 text-xs text-slate-400">Mål: {meta.season2025.scorer}</p>
           <p className="mt-0.5 text-xs text-slate-500">Tränare: {meta.season2025.coach}</p>
-          <a
-            href={meta.season2025.fotmobUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-block text-[11px] text-blue-400 hover:text-blue-300"
-          >
+          <a href={meta.season2025.fotmobUrl} target="_blank" rel="noopener noreferrer"
+            className="mt-2 inline-block text-[11px] text-blue-400 hover:text-blue-300">
             Fotmob ↗
           </a>
         </div>
@@ -330,67 +323,107 @@ function YearComparisonSection({
           <p className="mt-1 text-3xl font-black text-white">{meta.season2026.result}</p>
           <p className="mt-1 text-xs text-emerald-300/80">Mål: {meta.season2026.scorer}</p>
           <p className="mt-0.5 text-xs text-emerald-400/60">Tränare: {meta.season2026.coach}</p>
-          <a
-            href={meta.season2026.fotmobUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-2 inline-block text-[11px] text-blue-400 hover:text-blue-300"
-          >
+          <a href={meta.season2026.fotmobUrl} target="_blank" rel="noopener noreferrer"
+            className="mt-2 inline-block text-[11px] text-blue-400 hover:text-blue-300">
             Fotmob ↗
           </a>
         </div>
       </div>
 
+      {/* Comparison rows */}
       <div className="border-t border-blue-800/30 px-5 pb-5 md:px-6">
         <p className="mb-3 pt-4 text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
           Nyckeltal
         </p>
-        <div className="overflow-x-auto rounded-xl border border-slate-700/40">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-slate-700/50 bg-slate-900/60">
-                <th className="px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Mätvärde
-                </th>
-                <th className="px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  2025
-                </th>
-                <th className="px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-emerald-400/70">
-                  2026
-                </th>
-                <th className="px-3 py-2 text-center text-[10px] font-semibold uppercase tracking-wide text-slate-500">
-                  Trend
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, i) => (
-                <tr
-                  key={row.label}
-                  className={`border-b border-slate-800/60 ${i % 2 === 0 ? "bg-slate-900/30" : "bg-slate-900/10"}`}
-                >
-                  <td className="px-3 py-2.5 text-xs font-medium text-slate-300">
-                    {row.label}
-                    {row.note ? (
-                      <span className="ml-1 text-[10px] text-slate-500">{row.note}</span>
-                    ) : null}
-                  </td>
-                  <td className="px-3 py-2.5 text-center text-xs font-semibold text-slate-400">
-                    {row.value2025}
-                  </td>
-                  <td className="px-3 py-2.5 text-center text-xs font-bold text-emerald-300">
-                    {row.value2026}
-                  </td>
-                  <td className="px-3 py-2.5 text-center text-sm font-bold">
-                    {trendIcon(row.trend)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+        {/* Header row */}
+        <div className="mb-1 grid grid-cols-[1fr_auto_auto] gap-2 px-2">
+          <span className="text-[9px] font-semibold uppercase tracking-wide text-slate-600">Mätvärde</span>
+          <span className="w-16 text-center text-[9px] font-semibold uppercase tracking-wide text-slate-500">2025</span>
+          <span className="w-16 text-center text-[9px] font-semibold uppercase tracking-wide text-emerald-400/70">2026</span>
         </div>
+
+        <div className="space-y-1.5">
+          {rows.map((row) => {
+            const wins2026 = row.trend === "better";
+            const wins2025 = row.trend === "worse";
+            const similar = row.trend === "similar";
+
+            return (
+              <div
+                key={row.label}
+                className="grid grid-cols-[1fr_auto_auto] items-center gap-2 rounded-lg border border-slate-800/60 bg-slate-900/30 px-3 py-2.5"
+              >
+                {/* Label + note */}
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold text-slate-200">{row.label}</p>
+                  {row.note && (
+                    <p className="mt-0.5 text-[10px] leading-tight text-slate-500">{row.note}</p>
+                  )}
+                </div>
+
+                {/* 2025 value */}
+                <div
+                  className={`flex w-16 flex-col items-center justify-center rounded-md px-1.5 py-1.5 ${
+                    wins2025
+                      ? "bg-amber-400/15 ring-1 ring-amber-400/40"
+                      : wins2026
+                      ? "opacity-50"
+                      : ""
+                  }`}
+                >
+                  <span
+                    className={`text-sm font-bold tabular-nums ${
+                      wins2025
+                        ? "text-amber-200"
+                        : similar
+                        ? "text-slate-300"
+                        : "text-slate-500"
+                    }`}
+                  >
+                    {row.value2025}
+                  </span>
+                  {wins2025 && (
+                    <span className="mt-0.5 text-[8px] font-bold uppercase tracking-wide text-amber-300">
+                      ✓ bäst
+                    </span>
+                  )}
+                </div>
+
+                {/* 2026 value */}
+                <div
+                  className={`flex w-16 flex-col items-center justify-center rounded-md px-1.5 py-1.5 ${
+                    wins2026
+                      ? "bg-emerald-500/15 ring-1 ring-emerald-500/40"
+                      : wins2025
+                      ? "opacity-50"
+                      : ""
+                  }`}
+                >
+                  <span
+                    className={`text-sm font-bold tabular-nums ${
+                      wins2026
+                        ? "text-emerald-200"
+                        : similar
+                        ? "text-slate-300"
+                        : "text-slate-500"
+                    }`}
+                  >
+                    {row.value2026}
+                  </span>
+                  {wins2026 && (
+                    <span className="mt-0.5 text-[8px] font-bold uppercase tracking-wide text-emerald-400">
+                      ✓ bäst
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
         <p className="mt-3 text-[11px] text-slate-500">
-          Källa: Fotmob/Opta matchdata. ↑ = förbättring för Hammarby, → = liknande, ↓ = försämring.
+          Källa: Fotmob/Opta matchdata. Grön cell = bäst för Hammarby i det nyckeltal.
         </p>
       </div>
     </section>

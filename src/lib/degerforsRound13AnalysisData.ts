@@ -277,6 +277,41 @@ export const degerforsYearComparison: YearOnYearRow[] = [
     trend: "similar",
     note: "Nollan hållen i båda matcherna",
   },
+  {
+    label: "Degerfors skott på mål",
+    value2025: "2",
+    value2026: "1",
+    trend: "better",
+    note: "Ännu bättre defensiv kontroll 2026",
+  },
+  {
+    label: "Hörnor (HIF)",
+    value2025: "4",
+    value2026: "6",
+    trend: "better",
+    note: "+2 hörnor – mer konstant press mot boxen",
+  },
+  {
+    label: "Gula kort (HIF)",
+    value2025: "2",
+    value2026: "0",
+    trend: "better",
+    note: "Disciplinerat spel utan varningar 2026",
+  },
+  {
+    label: "Passningsprecision (HIF)",
+    value2025: "90%",
+    value2026: "89%",
+    trend: "similar",
+    note: "Marginellt lägre men fortfarande dominant",
+  },
+  {
+    label: "Dueller vunna (HIF)",
+    value2025: "69 / 117",
+    value2026: "52 / 96",
+    trend: "similar",
+    note: "59% vs 54% – ungefär likvärdigt",
+  },
 ];
 
 export const degerforsYearComparisonMeta = {
