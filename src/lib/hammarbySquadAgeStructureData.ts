@@ -1347,7 +1347,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 14,
         "subbedIn": 0,
         "goals": 0,
-        "assists": 1,
+        "assists": 2,
         "contractExpiration": "2029-12-31"
       },
       {
@@ -1404,7 +1404,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 13,
         "subbedIn": 0,
         "goals": 0,
-        "assists": 2,
+        "assists": 3,
         "contractExpiration": "2029-12-31"
       },
       {
@@ -1442,7 +1442,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 12,
         "subbedIn": 2,
         "goals": 8,
-        "assists": 3,
+        "assists": 4,
         "contractExpiration": "2028-12-31"
       },
       {
@@ -1461,7 +1461,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 12,
         "subbedIn": 2,
         "goals": 5,
-        "assists": 0,
+        "assists": 1,
         "contractExpiration": "2028-12-31"
       },
       {
@@ -1480,7 +1480,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 11,
         "subbedIn": 3,
         "goals": 5,
-        "assists": 4,
+        "assists": 6,
         "contractExpiration": "2029-12-31"
       },
       {
@@ -1499,7 +1499,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 7,
         "subbedIn": 7,
         "goals": 1,
-        "assists": 1,
+        "assists": 2,
         "contractExpiration": "2029-12-31"
       },
       {
@@ -1537,7 +1537,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 7,
         "subbedIn": 3,
         "goals": 1,
-        "assists": 0,
+        "assists": 1,
         "contractExpiration": "2029-12-31"
       },
       {
@@ -1555,7 +1555,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "matches": 8,
         "starts": 5,
         "subbedIn": 3,
-        "goals": 0,
+        "goals": 1,
         "assists": 0,
         "contractExpiration": "2026-12-31"
       },
@@ -1575,7 +1575,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 4,
         "subbedIn": 8,
         "goals": 1,
-        "assists": 2,
+        "assists": 1,
         "contractExpiration": "2029-12-31"
       },
       {
@@ -1631,7 +1631,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "matches": 8,
         "starts": 0,
         "subbedIn": 8,
-        "goals": 3,
+        "goals": 0,
         "assists": 0,
         "contractExpiration": "2026-12-31"
       },
@@ -1670,7 +1670,7 @@ export const hammarbySquadAgeStructureSeasons: HammarbySquadAgeStructureSeason[]
         "starts": 0,
         "subbedIn": 4,
         "goals": 0,
-        "assists": 1,
+        "assists": 0,
         "contractExpiration": "2028-12-31"
       },
       {
