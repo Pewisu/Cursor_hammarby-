@@ -3550,20 +3550,20 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     dateLabel: "26 juli 2026 · Grimsta IP · Bolldata lagdata (24 jul 2026) + Twelve Earpiece scouting",
     venueLabel: "Borta · Grimsta IP · Stockholm",
     oneLineSummary:
-      "BP är ett offensivt underpresterande lag (16,77 xG, 13:e) med Allsvenskans sämsta bollåterhämtning och näst flest insläppta hörnmål – Mads Hansen avstängd tar bort deras skarpaste anfallsvapen. HIF:s cornerdominans (+39 saldo) möter BP:s extrema hörnsårbarhet (6 insläppta hörnmål, 8,5% rate – 2:a sämst). Allsvenskans bästa lag möter det bästa offensivt (HIF 1:a i xG, avslut, bollinnehav, dueller) mot ett BP som gör mål på sina ytterst få chanser (13,6% KG, 5:e).",
+      "BP saknar båda sin bästa anfallare (Hansen) och sin kreative AM (Berg) – dubbla avstängningar urholkar en offensiv som redan är 13:e i ligan (16,77 xG). HIF:s cornerdominans (+39 saldo) möter BP:s extrema hörnsårbarhet (6 insläppta hörnmål, 8,5% rate – 2:a sämst). Allsvenskans bästa lag möter det bästa offensivt (HIF 1:a i xG, avslut, bollinnehav, dueller) mot ett BP vars offensiv är kraftigt försvagad.",
     introStats: [
       { label: "Tabell", value: "BP 11:a · 16p (4V-4O-5F)", tone: "blue" },
       { label: "xG / match", value: "BP 1,29 (13:e) vs HIF 2,27 (1:a)", tone: "amber" },
-      { label: "Hansen AVSTÄNGD", value: "3 matcher (röd kort 17 jul)", tone: "amber" },
+      { label: "Hansen + Berg AVST.", value: "Båda borta · offensiven urholkad", tone: "amber" },
       { label: "Hörnsårbarhet", value: "6 insläppta hörnmål · 8,5% rate", tone: "amber" },
     ],
     mobileTakeaways: [
       "Omgång 14 borta på Grimsta IP (sön 26 jul, 14:00). BP 11:a med 16p, HIF 2:a med 26p efter 14 omgångar.",
       "NYCKEL: BP har näst flest insläppta hörnmål (6 mål, 8,5% per hörna mot dem) – HIF leder serien med +39 hörnsaldo och 78 vunna hörnor.",
-      "Mads Hansen AVSTÄNGD i 3 matcher (direkt rött kort 17 juli vs IFK Göteborg). BP:s mest hotfulla anfallsspelare borta.",
+      "DUBBLA AVSTÄNGNINGAR: Mads Hansen (röd 17 jul vs IFK Göteborg) OCH Oliver Berg (gula kort) är båda borta. BP tappar sin anfallare + sin kreative AM i ett svep.",
       "BP:s sämsta defensiva tidsfönster: 46–60' (5 insläppta – värst av alla fönster). HIF:s bästa offensiva period: 61–75' (9 mål i säsongen).",
       "BP vinner bara 36,4% av duellerna (15:e/16) och har sämst bollåterhämtning i hela Allsvenskan (75,46/match, 16:e/sist).",
-      "Trots låg volym (132 avslut, 15:e) konverterar BP häpnadsväckande 13,6% (5:e bäst) – farliga på sina chanser trots Hansen-frånvaron.",
+      "Trots låg volym (132 avslut, 15:e) konverterar BP 13,6% (5:e bäst) – men utan Hansen och Berg är anfallskapaciteten på botten.",
       "Victor Lind (3 mål mot HIF i 2025) lämnade BP för Hammarby inför 2026. HIF-kedjan har insyn i BP:s spelsystem.",
     ],
     dataSources: [
@@ -3600,7 +3600,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       trendBullets: [
         "HIF har vunnit de två senaste H2H-mötena mot BP med sammanlagt 5-2 (2025).",
         "I april 2025 vann HIF 2-0 på Grimsta IP – exakt samma arena som söndag 26 juli 2026.",
-        "I juli 2025 ledde BP 0-2 i paus (Adam Jakobsen dubbel) men HIF vände med 3-2 i 2H.",
+        "I juli 2025 ledde BP 0-2 i paus men HIF vände med 3-2 i 2H – mentalt övertag för HIF.",
         "Victor Lind (2 mål mot HIF i 2025-matcherna) är nu i Hammarby – insidekunskap om BP:s spelsystem.",
         "BP:s senaste form: 1V-2O-2F (5p senaste 5 matcher). HIF 3V-0O-2F (9p).",
       ],
@@ -3692,24 +3692,24 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       {
         metric: "BPs offensiva kapacitet (Bolldata)",
         bigNumber: "1,29",
-        badge: "LÅG xG-PRODUKTION",
+        badge: "URHOLKAD OFFENSIV",
         color: "green",
-        rankNote: "16,77 xG totalt (13:e) · 10,15 avslut/match (15:e) · Hansen AVSTÄNGD · 7,00 MC/90 (13:e)",
+        rankNote: "16,77 xG totalt (13:e) · Hansen AVS. (anfall) · Berg AVS. (kreativitet) · 7,00 MC/90 (13:e)",
         explanation:
-          "BP skapar lite – 16,77 xG på 13 matcher (13:e i ligan), bara 10,15 avslut per match (15:e). Utan Mads Hansen (dansken som utvisades mot IFK Göteborg den 17 juli) är deras skarpaste anfallsvapen borta. Adam Jakobsen lär starta som ersättare men BP:s totala offensiva hot är markant lägre. 7,00 matchchanser per 90 minuter är bland de lägsta i Allsvenskan.",
+          "BP är redan 13:e i xG-produktion (1,29/match). Nu är dessutom BÅDA de viktigaste offensiva profilerna borta: Hansen (anfallaren, röd kort 17 jul) och Oliver Berg (den kreative AM:en, gula kort). Kvar är Hedström/Oppong som anfallsalternativ och Björklund som speldistributör. BP:s anfallshot inför denna match är det svagaste de haft under säsongen.",
         podcastComment:
-          "Hansen är borta tre matcher och BP skapar redan lite. 1,29 xG per match är 13:e i ligan. Jakobsen kan göra mål – han visade det mot oss i juli 2025 – men utan Hansen är BP mycket mer lättförsvarade.",
+          "De saknar sin anfallare och sin kreativa mittfältare i ett och samma slag. 1,29 xG per match utan Hansen och Berg. Det är extremt lågt och vi ska utnyttja det offensivt.",
       },
       {
         metric: "BPs sena scoring + bortaform (Bolldata)",
         bigNumber: "61–75'",
-        badge: "BP:S BÄSTA PERIOD",
+        badge: "VAKSAMHET 2H",
         color: "yellow",
         rankNote: "5 mål 61-75' (BP:s starkaste fönster) · Borta: 3V-2O-3F (11p, 7:e) · Konvertering 13,6% (5:e)",
         explanation:
-          "Trots låg volym konverterar BP häpnadsväckande bra (13,6%, 5:e i ligan) – när de väl skapar chanser, sätter de dem. Deras starkaste scoringsperiod är 61–75' (5 av 18 mål = 28%). Bortaformen är dessutom bättre än hemmafacit (3V-2O-3F, 7:e borta vs 5:e sämst hemma). Trots klara pappersövertaget måste HIF vara vakna i 2H.",
+          "Trots dubbla avstängningar och låg xG-produktion kan BP fortfarande bitas. 13,6% konvertering (5:e bäst) innebär att om de skapar 2–3 lägen kan de göra mål. Deras starkaste scoringsperiod är 61–75' (5 av 18 mål). Bortaformen är dessutom bättre än hemmafacit (3V-2O-3F, 7:e borta). Respektera dem i 2H trots pappersövertaget.",
         podcastComment:
-          "Var inte lurad av de låga siffrorna – BP konverterar sina chanser, och de är faktiskt bättre borta än hemma. Och 61 till 75 är deras gyllene period. Vi har ett stark övertag på pappret men de är sega.",
+          "Även utan Hansen och Berg är BP effektiva när de skapar chanser – 13,6 procents konvertering är femte bäst i hela Allsvenskan. Och 61 till 75 är deras gyllene period. Håll strukturen i 2H.",
       },
     ],
     quickStatusCards: [
@@ -3720,7 +3720,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         title: "Brommapojkarna – ligastatus",
-        body: "11:a · 16p · 18-21 mål. Låg xG-produktion (16,77, 13:e), sämst i dueller (36,4%, 15:e), sämst i bollåterhämtning (75,46/m, 16:e). 2 spelare AVSTÄNGDA inkl. Mads Hansen.",
+        body: "11:a · 16p · 18-21 mål. Låg xG-produktion (16,77, 13:e), sämst i dueller (36,4%, 15:e), sämst i bollåterhämtning (75,46/m, 16:e). Hansen (anfall) + Berg (AM) båda AVSTÄNGDA. Jakobsen lämnat klubben.",
         tone: "amber",
       },
       {
@@ -3730,8 +3730,8 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
     ],
     opponentStyle: [
-      "Låg offensiv volym: 132 totala avslut (15:e), 10,15/match. BP skapar få chanser men konverterar effektivt (13,6%, 5:e). Utan Hansen är anfallskapaciteten markant lägre.",
-      "4-2-3-1 formation: Cavallius i mål, 4-back med Zandén, Troelsen, Cotton. DM-par (Strand + Wahlund/Barslund), AM-trio (Berg, Oppong + en ytterspelare), Björklund/Jakobsen uppifrån.",
+      "Låg offensiv volym: 132 totala avslut (15:e), 10,15/match. BP konverterar effektivt (13,6%, 5:e) men utan Hansen (anfall) och Berg (AM) är anfallskapaciteten på säsongens lägsta nivå.",
+      "4-2-3-1 formation: Cavallius i mål, 4-back med Zandén, Troelsen, Cotton, Örqvist. DM-par (Strand + Wahlund/Barslund), AM-trio (Oppong + Martinsson Ngouali/Nildén), Hedström/Alladoh uppifrån.",
       "Passar tekniskt väl (84,7% passningsprecision, 4:e) men utan de kreativa nyckelpassningarna (3,46/90, 12:e). Spelar strukturerat bakifrån men når sällan farliga lägen.",
       "Extremt svagt i dueller (36,4% totalt – 15:e/16) och bollåterhämtning (75,46/m – 16:e/sist). Vinner inte sina 50/50-dueller och pressar inte intensivt bakåt.",
       "Hörnsårbarhet är deras tydligaste defensiva svaghet: 8,5% av de 71 hörnorna mot dem ger mål (2:e sämst i Allsvenskan). 6 mål från hörnor – i matchens nyckelscenario.",
@@ -3925,39 +3925,39 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
           "Hammarby vann båda 2025-mötena. I april 2025 vann HIF 2-0 på exakt samma arena (Grimsta IP). I det hemma-mötet i juli 2025 ledde BP 0-2 vid halvtid men HIF vände med 3-2. Mentalt övertag finns. Victor Lind (nu i HIF) bidrar med insidekunskap om BP:s spelsystem.",
       },
       {
-        label: "Hansen-effekten (Expressen, SVT)",
-        value: "Hansen avstängd 3 matcher (17 jul–11 aug) · Jakobsen ersätter troligen",
+        label: "Dubbla avstängningar + trupp-läge",
+        value: "Hansen (anfall) + Berg (AM) AVS. · Jakobsen lämnat klubben",
         interpretation:
-          "Mads Hansen fick direkt rött kort mot IFK Göteborg den 17 juli (satte dubbelsulan i bröstet på Noah Tolf). Disciplinnämnden gav 3 matchersstängning. Hansen är BP:s viktigaste offensiva profil – hans frånvaro försvagar anfallet dramatiskt. Adam Jakobsen (dubbel i HIF-matchen i juli 2025) kan starta som ersättare.",
+          "Mads Hansen fick direkt rött kort mot IFK Göteborg den 17 juli (dubbelsula i bröstet på Noah Tolf, 3 matcher). Oliver Berg är avstängd via gula kort. Jakobsen har lämnat klubben. BP går in i matchen utan sin naturlige anfallare, sin kreative AM och med stängda dörrar för deras tidigare backavsparksalternativ. Hedström eller Alladoh väntas starta som anfallare, Oppong/Martinsson Ngouali täcker AM-positionerna.",
       },
     ],
     playersToWatch: [
       {
-        name: "Adam Jakobsen",
-        position: "CF · Danskt landslagsmaterial",
-        scoutBadge: "⚡ Ersätter Hansen",
+        name: "Elton Hedström",
+        position: "CF · #18 · Ung svensk anfallare",
+        scoutBadge: "⚡ Startar i Hansens frånvaro",
         stats: [
-          { label: "H2H-mål 2025", value: "2" },
-          { label: "Nat.", value: "Danmark" },
           { label: "Position", value: "CF" },
+          { label: "Nat.", value: "Sverige" },
+          { label: "Roll", value: "Starter" },
         ],
         threat:
-          "Scorade DUBBEL mot HIF i juli 2025 – ledde BP 2-0 i paus innan HIF vände",
+          "Väntas starta som CF med Hansen och Jakobsen borta – BP:s spjutspets framåt",
         motivation:
-          "Med Mads Hansen avstängd är Jakobsen den mest logiska ersättaren på CF. Han visade vad han kan mot HIF – dubbel i paus i 3-2-matchen i juli 2025. Trots att HIF vände är han ett etablerat måltecknarhot. HIF:s mittbackspar måste hålla honom borta från boxen och stänga hans löpningar bakom försvarslinjen.",
+          "Med Hansen avstängd och Jakobsen lämnat klubben är Hedström den troligaste starterna som CF i BP:s 4-2-3-1. Han är en ung, rörlig anfallare som skapar med löpdjup bakom backlinjen. HIF:s mittbackspar håller tätt på honom och lämnar inga ytor – Hedström är farligast om han kan vända mot mål inne i boxen.",
       },
       {
-        name: "Oliver Berg",
-        position: "AM/CM · Kom från Malmö FF (€200K)",
-        scoutBadge: "🎯 Kreativ mittfältare",
+        name: "Sion Oppong",
+        position: "AM/Yttermittfältare · #33",
+        scoutBadge: "🎯 Täcker Bergs plats",
         stats: [
-          { label: "Passnings%", value: "BP 84,7%" },
-          { label: "Värde (TM)", value: "€450K" },
-          { label: "Position", value: "AM" },
+          { label: "Position", value: "AM/Yttermitt" },
+          { label: "Nat.", value: "Sverige" },
+          { label: "Roll", value: "Starter" },
         ],
-        threat: "Offensiv mittfältare som driver spelet i slutzonen – BP:s kreative länk",
+        threat: "Väntas ta Bergs AM-roll – snabb ytterspelare som kan skapa i omställning",
         motivation:
-          "Berg (fd Malmö FF) är BP:s kreativa motor i anfallszonen. Spelar i AM-rollen i 4-2-3-1 och är den spelaren som kan skapa chanser ur ingenting. Hammarby ska pressa hans passningslinjer tidigt och förhindra att han vänder med bollen mot HIF:s försvarsblock.",
+          "Med Berg avstängd kliver Oppong troligen in i AM-trion. Han är en snabb ytterspelare som föredrar att driva mot mål från kanten. Hammarby ska inte ge honom ytor i kontra – BP är starkast i omställning och Oppong kan vara den som driver deras bästa kontringslägen. Täck linjen till kanten och tvinga honom inåt mot strukturen.",
       },
       {
         name: "Lukas Björklund",
@@ -3982,7 +3982,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       ],
       withoutBall: [
         "Vaka BP:s 61–75'-fönster (5 av BP:s 18 mål görs där). Håll strukturen och forma ett kompakt block under denna period – BP:s bästa scoringsperiod.",
-        "Jakobsen utan stöd av Hansen är mer hanterbar: håll tätt på honom inne i boxen och stäng hans djuplöpningar. Utan Hansen är BP:s offensiv mer förutsägbar.",
+        "Hedström och Oppong tar de tyngsta offensiva rollerna med Hansen + Berg borta – BP:s attack är mer förutsägbar och enklare att läsa. Håll tätt på Hedström inne i boxen och stäng Oppongs kantlöpningar.",
         "BP försöker spela (84,7% passningsprecision) men har få nyckelpassningar (3,46/90, 12:e). Press på deras DM-par stryper deras speldistribution och skapar ombyten högt.",
         "BP har 22 offsides (3:e flest, 1,69/m) – backlinjen håller högt och sätter ofsidesfällan. BP:s anfallare löper ofta bakom linjen och ger HIF gratisoffsidar.",
       ],
@@ -3994,7 +3994,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       ],
     },
     spotlightKey:
-      "Matchen sitter på två nyckelscenarios: (1) Hörnorna – BP har 8,5% insläppta hörnmålsrate (2:e sämst) och HIF leder ligan med +39 i hörnsaldo. Varje corner HIF vinner är ett potentiellt mål. (2) Hansen-frånvaron – BP:s skarpaste offensiva profil är borta i 3 matcher, anfallet förlitar sig nu på Jakobsen/Berg utan stöd. I H2H har HIF vunnit båda 2025-mötena (5-2 sammanlagt), inklusive 2-0 på exakt samma arena i april 2025. BP är ett lag med stor underliggande svaghet i dueller (15:e), bollåterhämtning (16:e/sist) och hörndefensiv – men de konverterar sina chanser (13,6%, 5:e) och är starkare borta än hemma. Respektera dem, men dom dominansen med boll, press och set-pieces.",
+      "Matchen sitter på tre nyckelscenarios: (1) Hörnorna – BP har 8,5% insläppta hörnmålsrate (2:e sämst) och HIF leder ligan med +39 i hörnsaldo. Varje corner HIF vinner är ett potentiellt mål. (2) Dubbla avstängningar – Hansen (anfall) och Berg (AM) borta + Jakobsen lämnat klubben = BP:s offensiv på säsongens svagaste punkt. Hedström och Oppong ersätter men är inte i samma klass. (3) Bortakvalitet – HIF vann 2-0 på Grimsta i april 2025. BP är starkare borta än hemma men strukturen är nu söndrig. BP konverterar sina chanser (13,6%, 5:e) – respektera dem i 2H, men dominera med boll och set-pieces.",
     glossary: [
       {
         term: "xG (Expected Goals, Bolldata)",
