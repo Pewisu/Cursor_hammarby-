@@ -358,21 +358,7 @@ function ShotQualitySection() {
         Har avslutsfrekvensen att göra med VAR han kommer till skott?
       </p>
 
-      {/* Key finding callout */}
-      <div className="mt-4 rounded-xl border border-violet-400/20 bg-slate-900/60 p-4">
-        <p className="text-sm leading-6 text-slate-200">
-          <span className="font-black text-violet-300">Kortsvaret: delvis.</span>{" "}
-          Besara kommer faktiskt <span className="font-black text-emerald-300">mer in i boxen 2026</span> (box-beröringar
-          och box-löpningar är toppklass), men skotten han tar är från{" "}
-          <span className="font-black text-amber-300">något sämre positioner</span> (np xG/avslut sjönk
-          från 72:a till 47:e percentilen). Den verkliga förklaringen är att han{" "}
-          <span className="font-black text-sky-300">avslutade 43% ÖVER sitt xG 2025</span> (+5,15 mål) –
-          ett exceptionellt år. 2026 ligger han på +0,17, alltså precis på förväntat. Måldroppen
-          handlar mer om normaliserad finishing än om sämre skottlägen.
-        </p>
-      </div>
-
-      <div className="mt-5 grid gap-5 md:grid-cols-2">
+      <div className="mt-4 grid gap-5 md:grid-cols-2">
         {/* Goals vs xG bars */}
         <div>
           <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
@@ -446,26 +432,61 @@ function ShotQualitySection() {
         </div>
       </div>
 
-      {/* Summary chips */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        {[
-          { text: "Mer i boxen 2026",         tone: "emerald" },
-          { text: "Sämre skottpositioner 2026", tone: "amber" },
-          { text: "Superfinishing 2025 (+43%)", tone: "sky" },
-          { text: "Normal finishing 2026 (+4%)", tone: "slate" },
-        ].map(({ text, tone }) => (
-          <span
-            key={text}
-            className={`rounded-full border px-3 py-1 text-xs font-bold ${
-              tone === "emerald" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" :
-              tone === "amber"   ? "border-amber-400/30 bg-amber-400/10 text-amber-200" :
-              tone === "sky"     ? "border-sky-400/30 bg-sky-400/10 text-sky-200" :
-                                   "border-slate-600/40 bg-slate-700/30 text-slate-300"
-            }`}
-          >
-            {text}
-          </span>
-        ))}
+      {/* Conclusion */}
+      <div className="mt-5 rounded-2xl border border-violet-400/30 bg-violet-500/10 p-5">
+        <p className="text-xs font-black uppercase tracking-[0.2em] text-violet-300">Slutsats</p>
+        <p className="mt-1 text-lg font-black text-white">
+          Skottlägena är ett litet problem – finishing-normaliseringen är det stora
+        </p>
+        <div className="mt-4 space-y-3">
+          {[
+            {
+              n: "1",
+              tone: "emerald",
+              title: "Han är MER i boxen 2026",
+              body: "Box-löpningar: 61% → 90% percentil. Box-beröringar: 73% → 90%. Han når boxen oftare och bättre – det är inte problemet.",
+            },
+            {
+              n: "2",
+              tone: "amber",
+              title: "Skottpositionerna är något sämre",
+              body: "np xG per avslut sjönk från 72:a till 47:e percentilen. Han får in fler skott men från lite sämre vinklar/lägen. Bidrar delvis.",
+            },
+            {
+              n: "3",
+              tone: "sky",
+              title: "Huvudorsaken: 2025 var exceptionellt",
+              body: "2025 avslutade Besara +5,15 mål ÖVER sitt xG (+43%) – ett av de högsta överprestationerna i ligan. 2026 är han på +0,17 (+3,5%), alltså normalt. Den droppen är statistisk normalisering, inte försämring.",
+            },
+          ].map(({ n, tone, title, body }) => (
+            <div
+              key={n}
+              className={`flex gap-3 rounded-xl border p-4 ${
+                tone === "emerald" ? "border-emerald-500/25 bg-emerald-500/8" :
+                tone === "amber"   ? "border-amber-400/25 bg-amber-400/8" :
+                                     "border-sky-400/25 bg-sky-400/8"
+              }`}
+            >
+              <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm font-black ${
+                tone === "emerald" ? "bg-emerald-500/30 text-emerald-200" :
+                tone === "amber"   ? "bg-amber-400/30 text-amber-200" :
+                                     "bg-sky-400/30 text-sky-200"
+              }`}>
+                {n}
+              </div>
+              <div>
+                <p className={`text-sm font-black ${
+                  tone === "emerald" ? "text-emerald-200" :
+                  tone === "amber"   ? "text-amber-200" :
+                                       "text-sky-200"
+                }`}>
+                  {title}
+                </p>
+                <p className="mt-1 text-sm leading-6 text-slate-300">{body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
