@@ -183,6 +183,7 @@ export const twelveSubMetrics: SubMetric[] = [
   { label: "xA",                      category: "Skapa",               rank2025: 33,  total2025: 119, rank2026: 11, total2026: 73 },
   { label: "Nyckelpassningar",        category: "Skapa",               rank2025: 53,  total2025: 119, rank2026: 16, total2026: 73 },
   { label: "Djupa passningar",        category: "Skapa",               rank2025: 15,  total2025: 119, rank2026: 7,  total2026: 73 },
+  { label: "np xG per avslut",        category: "Effektivitet",        rank2025: 34,  total2025: 119, rank2026: 39, total2026: 73 },
   { label: "xGChain/ball possession", category: "Effektivitet",        rank2025: 4,   total2025: 119, rank2026: 4,  total2026: 73 },
   { label: "np xG+xA per 100 touch.", category: "Effektivitet",        rank2025: 12,  total2025: 119, rank2026: 9,  total2026: 73 },
   { label: "Ball progression (xT)",   category: "Progression",         rank2025: 82,  total2025: 119, rank2026: 35, total2026: 73 },
@@ -292,6 +293,47 @@ export const seasonNarratives: SeasonNarrative[] = [
       "2026 visar en ny sida av Besara. Fortfarande ett hot i boxen (topp 10/73) och extremt effektiv (topp 6/73), men nu är han ligatoppens skickligaste spelstartare. Rank 4/73 i att skapa för lagkamrater och rank 2/73 i chans-skapande passningar visar att han blivit en komplett anfallande mittfältare.",
     strengths: ["Skapa för lagkamrater 4/73", "Effektivitet 6/73", "Box Threat 10/73", "Chans-skapande pass rank 2/73"],
     weaknesses: ["Intelligent försvar 73/73", "Involvering 65/73", "Aktivt försvar 48/73"],
+  },
+];
+
+// ─── Skottkvalitet & avslut ────────────────────────────────────────────────────
+
+export interface FinishingData {
+  season: BesaraSeason;
+  goals: number;
+  npXG: number;
+  npXGRank: number;
+  npXGTotal: number;
+  npXGPerShotRank: number;
+  npXGPerShotTotal: number;
+  boxEntriesRank: number;
+  boxEntriesTotal: number;
+  boxTouchesRank: number;
+  boxTouchesTotal: number;
+  boxReceptionsRank: number;
+  boxReceptionsTotal: number;
+}
+
+export const finishingData: FinishingData[] = [
+  {
+    season: "2025",
+    goals: 17,
+    npXG: 11.85,
+    npXGRank: 8,            npXGTotal: 119,
+    npXGPerShotRank: 34,    npXGPerShotTotal: 119,  // ~72nd pct – bra skottpositioner
+    boxEntriesRank: 46,     boxEntriesTotal: 119,   // ~61st pct
+    boxTouchesRank: 32,     boxTouchesTotal: 119,   // ~73rd pct
+    boxReceptionsRank: 30,  boxReceptionsTotal: 119,// ~75th pct
+  },
+  {
+    season: "2026",
+    goals: 5,
+    npXG: 4.83,
+    npXGRank: 7,            npXGTotal: 73,
+    npXGPerShotRank: 39,    npXGPerShotTotal: 73,   // ~47th pct – sämre skottpositioner
+    boxEntriesRank: 8,      boxEntriesTotal: 73,    // ~90th pct – MYCKET mer i boxen
+    boxTouchesRank: 8,      boxTouchesTotal: 73,    // ~90th pct
+    boxReceptionsRank: 11,  boxReceptionsTotal: 73, // ~85th pct
   },
 ];
 

@@ -6,6 +6,7 @@ import {
   besaraBasicStats,
   bolldataStats2025,
   bolldataStats2026,
+  finishingData,
   keyInsights,
   rankToPercentile,
   seasonNarratives,
@@ -286,6 +287,190 @@ function SubMetricRow({
   );
 }
 
+// ─── Shot quality section ─────────────────────────────────────────────────────
+
+function GoalVsXGBar({ season, goals, npXG }: { season: BesaraSeason; goals: number; npXG: number }) {
+  const style = SEASON_STYLES[season];
+  const overPerf = goals - npXG;
+  const overPct = Math.round((overPerf / npXG) * 100);
+  const maxVal = Math.max(goals, npXG) * 1.1;
+  const goalPct = (goals / maxVal) * 100;
+  const xgPct  = (npXG  / maxVal) * 100;
+
+  return (
+    <div className={`rounded-xl border p-4 ${style.chipBorder} bg-slate-900/50`}>
+      <div className="flex items-center justify-between gap-2">
+        <p className={`text-xs font-black uppercase tracking-wide ${style.textColor}`}>{season}</p>
+        <span className={`rounded-full px-2 py-0.5 text-[11px] font-black ${
+          overPerf > 2 ? "bg-sky-500/20 text-sky-200" :
+          overPerf > 0 ? "bg-emerald-500/20 text-emerald-200" :
+                         "bg-slate-700/40 text-slate-400"
+        }`}>
+          {overPerf > 0 ? `+${overPerf.toFixed(2)}` : overPerf.toFixed(2)} vs xG
+          {overPerf > 0.5 && ` (${overPct}%)`}
+        </span>
+      </div>
+
+      <div className="mt-3 space-y-2">
+        <div>
+          <div className="mb-1 flex justify-between text-[11px]">
+            <span className="font-semibold text-slate-300">Mål</span>
+            <span className="font-black text-white">{goals}</span>
+          </div>
+          <div className="h-3 overflow-hidden rounded-full bg-slate-700">
+            <div className="h-3 rounded-full" style={{ width: `${goalPct}%`, backgroundColor: style.stroke }} />
+          </div>
+        </div>
+        <div>
+          <div className="mb-1 flex justify-between text-[11px]">
+            <span className="font-semibold text-slate-300">np xG</span>
+            <span className="font-black text-slate-300">{npXG.toFixed(2)}</span>
+          </div>
+          <div className="h-3 overflow-hidden rounded-full bg-slate-700">
+            <div className="h-3 rounded-full opacity-50" style={{ width: `${xgPct}%`, backgroundColor: style.stroke }} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShotQualitySection() {
+  const fd25 = finishingData.find((d) => d.season === "2025")!;
+  const fd26 = finishingData.find((d) => d.season === "2026")!;
+
+  const boxMetrics = [
+    { label: "Box-löpningar (carries)",  r25: fd25.boxEntriesRank,    t25: fd25.boxEntriesTotal,    r26: fd26.boxEntriesRank,    t26: fd26.boxEntriesTotal    },
+    { label: "Box-beröringar",           r25: fd25.boxTouchesRank,    t25: fd25.boxTouchesTotal,    r26: fd26.boxTouchesRank,    t26: fd26.boxTouchesTotal    },
+    { label: "Box-mottagningar",         r25: fd25.boxReceptionsRank, t25: fd25.boxReceptionsTotal, r26: fd26.boxReceptionsRank, t26: fd26.boxReceptionsTotal },
+    { label: "np xG per avslut",         r25: fd25.npXGPerShotRank,   t25: fd25.npXGPerShotTotal,   r26: fd26.npXGPerShotRank,   t26: fd26.npXGPerShotTotal   },
+  ];
+
+  return (
+    <section className="rounded-2xl border border-violet-500/20 bg-violet-500/5 p-6">
+      <p className="text-xs font-black uppercase tracking-[0.2em] text-violet-400">
+        Twelve.football · Box Threat
+      </p>
+      <h2 className="mt-1 text-2xl font-black text-white">
+        Varför färre mål 2026?
+      </h2>
+      <p className="mt-1 text-sm text-slate-400">
+        Har avslutsfrekvensen att göra med VAR han kommer till skott?
+      </p>
+
+      {/* Key finding callout */}
+      <div className="mt-4 rounded-xl border border-violet-400/20 bg-slate-900/60 p-4">
+        <p className="text-sm leading-6 text-slate-200">
+          <span className="font-black text-violet-300">Kortsvaret: delvis.</span>{" "}
+          Besara kommer faktiskt <span className="font-black text-emerald-300">mer in i boxen 2026</span> (box-beröringar
+          och box-löpningar är toppklass), men skotten han tar är från{" "}
+          <span className="font-black text-amber-300">något sämre positioner</span> (np xG/avslut sjönk
+          från 72:a till 47:e percentilen). Den verkliga förklaringen är att han{" "}
+          <span className="font-black text-sky-300">avslutade 43% ÖVER sitt xG 2025</span> (+5,15 mål) –
+          ett exceptionellt år. 2026 ligger han på +0,17, alltså precis på förväntat. Måldroppen
+          handlar mer om normaliserad finishing än om sämre skottlägen.
+        </p>
+      </div>
+
+      <div className="mt-5 grid gap-5 md:grid-cols-2">
+        {/* Goals vs xG bars */}
+        <div>
+          <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
+            Mål vs xG – avslutningsfaktorn
+          </p>
+          <div className="space-y-3">
+            <GoalVsXGBar season="2025" goals={fd25.goals} npXG={fd25.npXG} />
+            <GoalVsXGBar season="2026" goals={fd26.goals} npXG={fd26.npXG} />
+          </div>
+          <p className="mt-3 text-[11px] leading-5 text-slate-500">
+            2025: +5,15 mål över xG (+43%) – historiskt exceptionellt.
+            2026: +0,17 (+3,5%) – normalt avslut. Droppen förklaras till
+            stor del av normalisering, inte försämrade skottlägen.
+          </p>
+        </div>
+
+        {/* Box presence + shot quality bars */}
+        <div>
+          <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
+            Boxnärvaro & skottkvalitet – percentil
+          </p>
+          <div className="space-y-3">
+            {boxMetrics.map((m) => {
+              const p25 = rankToPercentile(m.r25, m.t25);
+              const p26 = rankToPercentile(m.r26, m.t26);
+              const up = p26 > p25 + 3;
+              const down = p25 > p26 + 3;
+              const isQuality = m.label.includes("xG");
+              return (
+                <div key={m.label} className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-3">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <span className="text-xs font-semibold text-slate-200">{m.label}</span>
+                    <div className="flex items-center gap-2 text-[11px]">
+                      <span className="text-sky-300">{m.r25}/{m.t25}</span>
+                      <span className="text-slate-600">→</span>
+                      <span className="text-emerald-300">{m.r26}/{m.t26}</span>
+                      {up   && <span className={`font-black ${isQuality ? "text-amber-400" : "text-emerald-400"}`}>
+                        {isQuality ? "↓" : "↑"}
+                      </span>}
+                      {down && <span className={`font-black ${isQuality ? "text-emerald-400" : "text-amber-400"}`}>
+                        {isQuality ? "↑" : "↓"}
+                      </span>}
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    {(["2025", "2026"] as BesaraSeason[]).map((s) => {
+                      const pct = s === "2025" ? p25 : p26;
+                      const style = SEASON_STYLES[s];
+                      return (
+                        <div key={s} className="flex items-center gap-2">
+                          <span className="w-6 text-[10px]" style={{ color: style.stroke }}>{s}</span>
+                          <div className="h-2 flex-1 overflow-hidden rounded-full bg-slate-700">
+                            <div className="h-2 rounded-full transition-all"
+                              style={{ width: `${pct}%`, backgroundColor: style.stroke }}
+                            />
+                          </div>
+                          <span className="w-7 text-right text-[10px] text-slate-500">{pct}%</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {isQuality && (
+                    <p className="mt-1.5 text-[10px] text-amber-400/70">
+                      Skottpositionernas kvalitet sjönk – trots mer boxnärvaro
+                    </p>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Summary chips */}
+      <div className="mt-4 flex flex-wrap gap-2">
+        {[
+          { text: "Mer i boxen 2026",         tone: "emerald" },
+          { text: "Sämre skottpositioner 2026", tone: "amber" },
+          { text: "Superfinishing 2025 (+43%)", tone: "sky" },
+          { text: "Normal finishing 2026 (+4%)", tone: "slate" },
+        ].map(({ text, tone }) => (
+          <span
+            key={text}
+            className={`rounded-full border px-3 py-1 text-xs font-bold ${
+              tone === "emerald" ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" :
+              tone === "amber"   ? "border-amber-400/30 bg-amber-400/10 text-amber-200" :
+              tone === "sky"     ? "border-sky-400/30 bg-sky-400/10 text-sky-200" :
+                                   "border-slate-600/40 bg-slate-700/30 text-slate-300"
+            }`}
+          >
+            {text}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── Bolldata comparison row ───────────────────────────────────────────────────
 
 function BolldataCmpRow({
@@ -554,6 +739,9 @@ export function BesaraSeasonComparisonDashboard() {
             ))}
           </div>
         </section>
+
+        {/* ── Skottkvalitet & avslut ── */}
+        <ShotQualitySection />
 
         {/* ── Radardiagram ── */}
         <section className="rounded-2xl border border-slate-700/40 bg-slate-800/40 p-6">
