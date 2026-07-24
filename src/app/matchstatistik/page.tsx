@@ -21,12 +21,18 @@ export default function MatchStatisticsRoutePage() {
             flödet tydligare.
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
-            <Link
-              href="/matchstatistik/omgang/11"
-              className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/60 bg-emerald-500/20 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/30"
-            >
-              ⚽ Ny: Elfsborg 1-2 Hammarby (omgång 11)
-            </Link>
+          <Link
+            href="/matchstatistik/anderlecht-kvalet"
+            className="inline-flex items-center gap-2 rounded-lg border border-sky-400/60 bg-sky-500/20 px-3 py-1.5 text-xs font-bold text-sky-100 hover:border-sky-300 hover:bg-sky-500/30"
+          >
+            🇪🇺 Ny: HIF 1–1 Anderlecht – EL-kval 23 juli
+          </Link>
+          <Link
+            href="/matchstatistik/omgang/11"
+            className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/60 bg-emerald-500/20 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/30"
+          >
+            ⚽ Elfsborg 1-2 Hammarby (omgång 11)
+          </Link>
             <Link
               href="/matchstatistik/sasongsanalys"
               className="inline-flex items-center gap-2 rounded-lg border border-amber-300/50 bg-emerald-500/15 px-3 py-1.5 text-xs font-bold text-amber-100 hover:border-amber-200 hover:text-amber-50"
@@ -159,6 +165,25 @@ export default function MatchStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-amber-300 group-hover:text-amber-200">
               Öppna intern jämförelse →
+            </p>
+          </Link>
+
+          <Link
+            href="/matchstatistik/anderlecht-kvalet"
+            className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800 md:col-span-2 lg:col-span-1"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-500/20 text-2xl">
+              🇪🇺
+            </div>
+            <h2 className="text-xl font-semibold text-white">HIF 1–1 Anderlecht</h2>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-sky-400">
+              UEFA Europa League – Kval · 23 juli 2026
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              xG 1,75–0,48. 4 höga chanser. 72% vinstprobabilitet. Anderlecht fick rött – men HIF fick nöja sig med 1–1.
+            </p>
+            <p className="mt-4 text-sm font-medium text-sky-300 group-hover:text-sky-200">
+              Öppna matchanalys →
             </p>
           </Link>
 
