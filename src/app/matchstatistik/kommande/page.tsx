@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { upcomingOpponents } from "@/lib/upcomingOpponentsData";
+import { upcomingOpponents, type StyleChip } from "@/lib/upcomingOpponentsData";
 import SpiderComparisonChart from "@/components/SpiderComparisonChart";
 
 export const metadata: Metadata = {
@@ -273,12 +273,9 @@ export default function BroadcasterDashboard() {
           {/* Style chips */}
           <div className="mb-6 flex flex-wrap gap-2">
             {[
-              { label: "HÖG PRESS", sub: "DAH 42,4m · 4:e", color: "border-amber-600/50 bg-amber-950/40 text-amber-200" },
-              { label: "SNABB KONTER", sub: "1,83s → framåtpass", color: "border-orange-600/50 bg-orange-950/40 text-orange-200" },
-              { label: "SVAG OFFENSIV", sub: "np xG 1,04 · 16:e", color: "border-rose-600/50 bg-rose-950/40 text-rose-300" },
-              { label: "VINNER DUELLER", sub: "65,1% def. · 2:a", color: "border-emerald-600/50 bg-emerald-950/40 text-emerald-200" },
+              ...(report.styleChips ?? []),
               ...(suspended.length > 0
-                ? [{ label: `🚫 ${suspendedLabel} BORTA`, sub: "mittfältet försvagat", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" }]
+                ? [{ label: `🚫 ${suspendedLabel} BORTA`, sub: "anfallet kraftigt försvagat", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" } as StyleChip]
                 : []),
             ].map((chip) => (
               <div key={chip.label} className={`rounded-2xl border px-4 py-2 ${chip.color}`}>
