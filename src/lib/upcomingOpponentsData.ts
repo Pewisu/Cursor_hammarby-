@@ -3696,7 +3696,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         color: "green",
         rankNote: "16,77 xG totalt (13:e) · Hansen AVS. (anfall) · Berg AVS. (kreativitet) · 7,00 MC/90 (13:e)",
         explanation:
-          "BP är redan 13:e i xG-produktion (1,29/match). Nu är dessutom BÅDA de viktigaste offensiva profilerna borta: Hansen (anfallaren, röd kort 17 jul) och Oliver Berg (den kreative AM:en, gula kort). Kvar är Hedström/Oppong som anfallsalternativ och Björklund som speldistributör. BP:s anfallshot inför denna match är det svagaste de haft under säsongen.",
+          "BP är redan 13:e i xG-produktion (1,29/match). Nu är dessutom BÅDA de viktigaste offensiva profilerna borta: Hansen (anfallaren, röd kort 17 jul) och Oliver Berg (den kreative AM:en, gula kort). Kvar är Björklund som primär CF (12 SM, 2M), Oppong på kanten (12 SM, 2M) och Isso/Sever som alternativa framåtspelarna. BP:s anfallshot inför denna match är det svagaste de haft under säsongen.",
         podcastComment:
           "De saknar sin anfallare och sin kreativa mittfältare i ett och samma slag. 1,29 xG per match utan Hansen och Berg. Det är extremt lågt och vi ska utnyttja det offensivt.",
       },
@@ -3731,7 +3731,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     ],
     opponentStyle: [
       "Låg offensiv volym: 132 totala avslut (15:e), 10,15/match. BP konverterar effektivt (13,6%, 5:e) men utan Hansen (anfall) och Berg (AM) är anfallskapaciteten på säsongens lägsta nivå.",
-      "4-2-3-1 formation: Cavallius i mål, 4-back med Zandén, Troelsen, Cotton, Örqvist. DM-par (Strand + Wahlund/Barslund), AM-trio (Oppong + Martinsson Ngouali/Nildén), Hedström/Alladoh uppifrån.",
+      "4-2-3-1 formation: Cavallius i mål, 4-back med Zandén, Troelsen, Cotton, Örqvist/Timossi Andersson. DM-par (Strand + Barslund), AM-trio (Oppong + Sever/Okeke), Björklund eller Isso uppifrån.",
       "Passar tekniskt väl (84,7% passningsprecision, 4:e) men utan de kreativa nyckelpassningarna (3,46/90, 12:e). Spelar strukturerat bakifrån men når sällan farliga lägen.",
       "Extremt svagt i dueller (36,4% totalt – 15:e/16) och bollåterhämtning (75,46/m – 16:e/sist). Vinner inte sina 50/50-dueller och pressar inte intensivt bakåt.",
       "Hörnsårbarhet är deras tydligaste defensiva svaghet: 8,5% av de 71 hörnorna mot dem ger mål (2:e sämst i Allsvenskan). 6 mål från hörnor – i matchens nyckelscenario.",
@@ -3928,49 +3928,49 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         label: "Dubbla avstängningar + trupp-läge",
         value: "Hansen (anfall) + Berg (AM) AVS. · Jakobsen lämnat klubben",
         interpretation:
-          "Mads Hansen fick direkt rött kort mot IFK Göteborg den 17 juli (dubbelsula i bröstet på Noah Tolf, 3 matcher). Oliver Berg är avstängd via gula kort. Jakobsen har lämnat klubben. BP går in i matchen utan sin naturlige anfallare, sin kreative AM och med stängda dörrar för deras tidigare backavsparksalternativ. Hedström eller Alladoh väntas starta som anfallare, Oppong/Martinsson Ngouali täcker AM-positionerna.",
+          "Mads Hansen fick direkt rött kort mot IFK Göteborg den 17 juli (dubbelsula i bröstet på Noah Tolf, 3 matcher). Oliver Berg är avstängd via gula kort. Jakobsen och Alladoh har lämnat klubben. Björklund (CF, 12 SM, 2M) väntas starta som primär anfallare. Oppong (12 SM, 2M) täcker AM/kantplatsen. David Isso (8 SM, 1M) eller Sever (8 SM) kan starta alternativt.",
       },
     ],
     playersToWatch: [
       {
-        name: "Elton Hedström",
-        position: "CF · #18 · Ung svensk anfallare",
-        scoutBadge: "⚡ Startar i Hansens frånvaro",
+        name: "Lukas Björklund",
+        position: "CF · #30 · 12 SM · 2 mål",
+        scoutBadge: "⚡ Primärt anfallshot",
         stats: [
-          { label: "Position", value: "CF" },
+          { label: "Matcher", value: "12" },
+          { label: "Mål", value: "2" },
           { label: "Nat.", value: "Sverige" },
-          { label: "Roll", value: "Starter" },
         ],
         threat:
-          "Väntas starta som CF med Hansen och Jakobsen borta – BP:s spjutspets framåt",
+          "BP:s mest spelade forward (12 SM, 2 mål) – väntas starta som CF med Hansen borta",
         motivation:
-          "Med Hansen avstängd och Jakobsen lämnat klubben är Hedström den troligaste starterna som CF i BP:s 4-2-3-1. Han är en ung, rörlig anfallare som skapar med löpdjup bakom backlinjen. HIF:s mittbackspar håller tätt på honom och lämnar inga ytor – Hedström är farligast om han kan vända mot mål inne i boxen.",
+          "Björklund (#30, 22 år, fd Sönderjyske) klassas av Ligan som CF och har 12 starter bakom sig – han är BP:s primära framåtspetspot när Hansen är borta. Spelar som ren forward i 4-2-3-1 men kan dra ut bredare. Hammarby:s mittbackspar håller tätt på honom inne i boxen och skär av hans djuplöpningar. Han är mer bekväm på bollen än i luften – försvara ytan framför backlinje.",
       },
       {
         name: "Sion Oppong",
-        position: "AM/Yttermittfältare · #33",
-        scoutBadge: "🎯 Täcker Bergs plats",
+        position: "Yttermitt/AM · #33 · 12 SM · 2 mål",
+        scoutBadge: "🎯 Snabb kantspelare",
         stats: [
-          { label: "Position", value: "AM/Yttermitt" },
+          { label: "Matcher", value: "12" },
+          { label: "Mål", value: "2" },
           { label: "Nat.", value: "Sverige" },
-          { label: "Roll", value: "Starter" },
         ],
-        threat: "Väntas ta Bergs AM-roll – snabb ytterspelare som kan skapa i omställning",
+        threat: "Regelbunden starter på kanten, 12 matcher och 2 mål – farlig i omställning och dribbel",
         motivation:
-          "Med Berg avstängd kliver Oppong troligen in i AM-trion. Han är en snabb ytterspelare som föredrar att driva mot mål från kanten. Hammarby ska inte ge honom ytor i kontra – BP är starkast i omställning och Oppong kan vara den som driver deras bästa kontringslägen. Täck linjen till kanten och tvinga honom inåt mot strukturen.",
+          "Oppong (#33, 19 år) är en av BP:s mest spelade offensiva profiler. Snabb ytterspelare som föredrar att driva mot mål från vänsterkanten. Med Berg borta tar han ännu mer ansvar i den kreativa rollen. Hammarby täcker kantlinjen tätt och tvinga honom inåt mot blockat centrum – han tappar farligast om han får löpa fritt längs linjen mot boxen.",
       },
       {
-        name: "Lukas Björklund",
-        position: "CM · #30 · Högt värderad",
-        scoutBadge: "🧠 Mittfältsmotorn",
+        name: "David Isso",
+        position: "CF · #34 · 8 SM · 1 mål",
+        scoutBadge: "🔄 Alternativ forward",
         stats: [
-          { label: "Värde (TM)", value: "€850K–€1M" },
+          { label: "Matcher", value: "8" },
+          { label: "Mål", value: "1" },
           { label: "Nat.", value: "Sverige" },
-          { label: "Position", value: "CM" },
         ],
-        threat: "BP:s mest värdefulla spelare – central mittfältare som dikterar tempo och bärare av BP:s bästa passningar",
+        threat: "Ung forward med 8 matcher i ligan – kan starta eller komma in som joker",
         motivation:
-          "Björklund (fd Sönderjyske, €500K inköp) är BP:s dyraste spelare och deras mittfältsmotor. Han startar ofta längre fram (som anfallare) när BP behöver mål. Hammarby ska störa hans bollmottagning och passningsrytm tidigt – med BP 13:e i nyckelpassningar (3,46/90) är deras speldistribution begränsad om Björklund neutraliseras.",
+          "David Isso (#34, 19 år) är BP:s tredje forward-alternativ med 8 allsvenska framträdanden och 1 mål. Snabb och rörlig – kan starta om tränaren väljer att vila Björklund eller komma in i 2H som en piggt byte. HIF:s backfyra håller tätt på djupledslöpningar och lämnar inga ytor bakom linjen mot honom.",
       },
     ],
     hammarbyPlan: {
@@ -3982,7 +3982,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       ],
       withoutBall: [
         "Vaka BP:s 61–75'-fönster (5 av BP:s 18 mål görs där). Håll strukturen och forma ett kompakt block under denna period – BP:s bästa scoringsperiod.",
-        "Hedström och Oppong tar de tyngsta offensiva rollerna med Hansen + Berg borta – BP:s attack är mer förutsägbar och enklare att läsa. Håll tätt på Hedström inne i boxen och stäng Oppongs kantlöpningar.",
+        "Björklund och Oppong tar de tyngsta offensiva rollerna med Hansen + Berg borta – BP:s attack är mer förutsägbar och enklare att läsa. Håll tätt på Björklund inne i boxen och stäng Oppongs kantlöpningar.",
         "BP försöker spela (84,7% passningsprecision) men har få nyckelpassningar (3,46/90, 12:e). Press på deras DM-par stryper deras speldistribution och skapar ombyten högt.",
         "BP har 22 offsides (3:e flest, 1,69/m) – backlinjen håller högt och sätter ofsidesfällan. BP:s anfallare löper ofta bakom linjen och ger HIF gratisoffsidar.",
       ],
@@ -3994,7 +3994,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       ],
     },
     spotlightKey:
-      "Matchen sitter på tre nyckelscenarios: (1) Hörnorna – BP har 8,5% insläppta hörnmålsrate (2:e sämst) och HIF leder ligan med +39 i hörnsaldo. Varje corner HIF vinner är ett potentiellt mål. (2) Dubbla avstängningar – Hansen (anfall) och Berg (AM) borta + Jakobsen lämnat klubben = BP:s offensiv på säsongens svagaste punkt. Hedström och Oppong ersätter men är inte i samma klass. (3) Bortakvalitet – HIF vann 2-0 på Grimsta i april 2025. BP är starkare borta än hemma men strukturen är nu söndrig. BP konverterar sina chanser (13,6%, 5:e) – respektera dem i 2H, men dominera med boll och set-pieces.",
+      "Matchen sitter på tre nyckelscenarios: (1) Hörnorna – BP har 8,5% insläppta hörnmålsrate (2:e sämst) och HIF leder ligan med +39 i hörnsaldo. Varje corner HIF vinner är ett potentiellt mål. (2) Dubbla avstängningar – Hansen (anfall) och Berg (AM) borta + Jakobsen/Alladoh lämnat klubben = BP:s offensiv på säsongens svagaste punkt. Björklund (CF) och Oppong (kant) ersätter men är inte i samma klass. (3) Bortakvalitet – HIF vann 2-0 på Grimsta i april 2025. BP är starkare borta än hemma men strukturen är nu söndrig. BP konverterar sina chanser (13,6%, 5:e) – respektera dem i 2H, men dominera med boll och set-pieces.",
     glossary: [
       {
         term: "xG (Expected Goals, Bolldata)",
