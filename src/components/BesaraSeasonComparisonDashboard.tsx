@@ -193,7 +193,7 @@ function StatCard({
   note?: string;
 }) {
   return (
-    <div className="rounded-xl border border-slate-700/50 bg-slate-800/60 p-4">
+    <div className="rounded-xl border border-slate-700/50 bg-neutral-900 p-4">
       <p className="mb-3 text-xs font-semibold uppercase tracking-[0.15em] text-slate-400">
         {label}
       </p>
@@ -298,7 +298,7 @@ function GoalVsXGBar({ season, goals, npXG }: { season: BesaraSeason; goals: num
   const xgPct  = (npXG  / maxVal) * 100;
 
   return (
-    <div className={`rounded-xl border p-4 ${style.chipBorder} bg-slate-900/50`}>
+    <div className={`rounded-xl border p-4 ${style.chipBorder} bg-neutral-900/80`}>
       <div className="flex items-center justify-between gap-2">
         <p className={`text-xs font-black uppercase tracking-wide ${style.textColor}`}>{season}</p>
         <span className={`rounded-full px-2 py-0.5 text-[11px] font-black ${
@@ -388,7 +388,7 @@ function ShotQualitySection() {
               const down = p25 > p26 + 3;
               const isQuality = m.label.includes("xG");
               return (
-                <div key={m.label} className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-3">
+                <div key={m.label} className="rounded-xl border border-slate-700/40 bg-neutral-900/80 p-3">
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <span className="text-xs font-semibold text-slate-200">{m.label}</span>
                     <div className="flex items-center gap-2 text-[11px]">
@@ -541,7 +541,7 @@ function BolldataGroupCard({
   }>;
 }) {
   return (
-    <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
+    <div className="rounded-xl border border-slate-700/40 bg-neutral-900/80 p-4">
       <div className="mb-2 flex items-center justify-between">
         <p className="text-xs font-black uppercase tracking-wide text-slate-400">{title}</p>
         <div className="flex gap-3 text-[10px] font-black">
@@ -555,6 +555,378 @@ function BolldataGroupCard({
         ))}
       </div>
     </div>
+  );
+}
+
+// ─── Broadcaster hero helpers ─────────────────────────────────────────────────
+
+function JerseyGraphic() {
+  return (
+    <svg
+      viewBox="0 0 120 140"
+      className="h-full w-full"
+      role="img"
+      aria-label="Hammarby tröja #10"
+    >
+      <defs>
+        <radialGradient id="jerseyGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="rgba(52,211,153,0.25)" />
+          <stop offset="100%" stopColor="rgba(52,211,153,0)" />
+        </radialGradient>
+      </defs>
+      <ellipse cx="60" cy="75" rx="52" ry="58" fill="url(#jerseyGlow)" />
+      <path
+        d="M42,4 L20,24 L2,18 L12,62 L30,56 L30,136 L90,136 L90,56 L108,62 L118,18 L100,24 L78,4 C75,16 45,16 42,4Z"
+        fill="rgba(52,211,153,0.12)"
+        stroke="rgba(52,211,153,0.45)"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <text
+        x="60" y="100"
+        textAnchor="middle"
+        fontSize="44"
+        fontWeight="900"
+        fill="rgba(52,211,153,0.85)"
+        fontFamily="ui-sans-serif,system-ui,sans-serif"
+      >
+        10
+      </text>
+    </svg>
+  );
+}
+
+function HeroStat({
+  label, value, sub, tone,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  tone: "emerald" | "sky" | "amber" | "violet";
+}) {
+  const colors = {
+    emerald: "border-emerald-500/30 bg-emerald-500/10 text-emerald-200",
+    sky:     "border-sky-500/30     bg-sky-500/10     text-sky-200",
+    amber:   "border-amber-400/30   bg-amber-400/10   text-amber-200",
+    violet:  "border-violet-500/30  bg-violet-500/10  text-violet-200",
+  };
+  return (
+    <div className={`rounded-xl border px-4 py-3 ${colors[tone]}`}>
+      <p className="text-[10px] font-black uppercase tracking-[0.18em] opacity-70">{label}</p>
+      <p className="mt-0.5 text-2xl font-black tabular-nums">{value}</p>
+      {sub && <p className="mt-0.5 text-[11px] opacity-60">{sub}</p>}
+    </div>
+  );
+}
+
+function BroadcasterHero() {
+  return (
+    <header
+      className="relative overflow-hidden border-b border-emerald-500/30 bg-neutral-900/90"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle at 70% 50%, rgba(52,211,153,0.07) 0%, transparent 55%), radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0)",
+        backgroundSize: "auto, 28px 28px",
+      }}
+    >
+      <div className="mx-auto max-w-6xl px-4 py-8 md:py-12">
+        <Link
+          href="/spelarstatistik"
+          className="text-xs font-semibold text-neutral-500 hover:text-neutral-300"
+        >
+          ← Spelarstatistik
+        </Link>
+
+        <div className="mt-5 grid gap-6 md:grid-cols-[1fr_auto]">
+          {/* Left: text */}
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-emerald-300">
+                Taktisk Spelarprofil
+              </span>
+              <span className="rounded-full border border-neutral-700 bg-neutral-800 px-3 py-1 text-[11px] font-black uppercase tracking-[0.2em] text-neutral-400">
+                Allsvenskan · Hammarby IF
+              </span>
+            </div>
+
+            <h1 className="mt-4 text-5xl font-black uppercase leading-none tracking-tight text-white md:text-6xl">
+              Nahir Besara
+            </h1>
+            <p className="mt-1 text-lg font-black text-emerald-400 md:text-xl">
+              #10 · Säsong 2025 vs 2026
+            </p>
+            <p className="mt-3 max-w-xl text-sm leading-7 text-neutral-400">
+              Från ligans skarpaste avslutare till kreativ motor och spelstartare.
+              Samma xG/90, samma boxhot – men en helt ny offensiv roll.
+            </p>
+          </div>
+
+          {/* Right: jersey graphic */}
+          <div className="flex items-center justify-end">
+            <div className="h-36 w-28 opacity-90 md:h-44 md:w-36">
+              <JerseyGraphic />
+            </div>
+          </div>
+        </div>
+
+        {/* Quick stats row */}
+        <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <HeroStat label="xG / 90 (båda åren)" value="≈ 0,39"      sub="Identisk chansvolym"     tone="emerald" />
+          <HeroStat label="Assist / 90 2026"     value="0,39"         sub="vs 0,07 – 2025"          tone="sky"     />
+          <HeroStat label="G+A / 90 2026"        value="0,78"         sub="vs 0,63 – 2025 (+24%)"   tone="amber"   />
+          <HeroStat label="Box Threat rank"       value="Topp 10"      sub="Elit i båda säsongerna"  tone="violet"  />
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// ─── Constants section ────────────────────────────────────────────────────────
+
+function ConstantCard({
+  label, detail, pct25, pct26, rank25, total25, rank26, total26,
+}: {
+  label: string;
+  detail: string;
+  pct25?: number;
+  pct26?: number;
+  rank25?: string;
+  total25?: string;
+  rank26?: string;
+  total26?: string;
+}) {
+  return (
+    <div className="rounded-xl border border-emerald-500/20 bg-neutral-900 p-4">
+      <div className="flex items-start justify-between gap-2">
+        <p className="text-sm font-black text-white">{label}</p>
+        <span className="shrink-0 rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-black uppercase text-emerald-300">
+          Konstant
+        </span>
+      </div>
+      <p className="mt-1 text-xs text-neutral-400">{detail}</p>
+      {(pct25 !== undefined && pct26 !== undefined) && (
+        <div className="mt-3 space-y-1.5">
+          {([["2025", pct25, "#60a5fa"], ["2026", pct26, "#34d399"]] as const).map(([yr, pct, color]) => (
+            <div key={yr} className="flex items-center gap-2">
+              <span className="w-7 text-[10px] font-bold" style={{ color }}>{yr}</span>
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-neutral-800">
+                <div className="h-2 rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: color }} />
+              </div>
+              <span className="w-7 text-right text-[10px] text-neutral-500">{pct}%</span>
+            </div>
+          ))}
+        </div>
+      )}
+      {rank25 && (
+        <div className="mt-3 flex items-center gap-3 text-xs">
+          <span className="text-sky-400 font-bold">{rank25}/{total25}</span>
+          <span className="text-neutral-600">→</span>
+          <span className="text-emerald-400 font-bold">{rank26}/{total26}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ConstantsSection() {
+  return (
+    <section className="rounded-2xl border border-emerald-500/25 bg-neutral-900/50 p-6">
+      <div className="flex items-center gap-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/20 text-xl">🟢</div>
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-400">Konstanter</p>
+          <h2 className="text-xl font-black text-white">Vad som är sig LIKT i Besaras spel</h2>
+        </div>
+      </div>
+      <p className="mt-2 text-sm text-neutral-400">
+        Dessa mätvärden håller exakt samma höga Allsvenska elitnivå – eller har förbättrats – oavsett taktisk rollförändring.
+      </p>
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <ConstantCard
+          label="xG / 90 – chansvolym"
+          detail="Identisk per minut i båda säsongerna. Han skapar lika farliga lägen för sig själv oavsett roll."
+          pct25={rankToPercentile(8, 119)}
+          pct26={rankToPercentile(7, 73)}
+          rank25="8" total25="119" rank26="7" total26="73"
+        />
+        <ConstantCard
+          label="Box Threat"
+          detail="Topp 10 i jämförelsegruppen båda åren. Fortsatt ligatoppklass i hur han hotar från boxen."
+          pct25={rankToPercentile(10, 119)}
+          pct26={rankToPercentile(10, 73)}
+          rank25="10" total25="119" rank26="10" total26="73"
+        />
+        <ConstantCard
+          label="Effektivitet"
+          detail="13/119 → 6/73. Förbättrad. Maximerar värdet av varje bollkontakt oavsett hur rollen ser ut."
+          pct25={rankToPercentile(13, 119)}
+          pct26={rankToPercentile(6, 73)}
+          rank25="13" total25="119" rank26="6" total26="73"
+        />
+        <ConstantCard
+          label="xGChain / ball possession"
+          detail="Rank 4/119 → 4/73. Oförändrad absolut elitnivå – involveras i ligets farligaste angrepp."
+          pct25={rankToPercentile(4, 119)}
+          pct26={rankToPercentile(4, 73)}
+          rank25="4" total25="119" rank26="4" total26="73"
+        />
+        <ConstantCard
+          label="np xG + xA per 100 touches"
+          detail="12/119 → 9/73. Förbättrad. Varje beröring genererar mer förväntad poäng 2026 än 2025."
+          pct25={rankToPercentile(12, 119)}
+          pct26={rankToPercentile(9, 73)}
+          rank25="12" total25="119" rank26="9" total26="73"
+        />
+        <ConstantCard
+          label="G+A / 90 (totalt output)"
+          detail="0,63 (2025) → 0,78 (2026). Mer total offensiv output per minut, trots färre mål."
+          pct25={Math.round((0.63 / 0.78) * 78)}
+          pct26={78}
+          rank25="0,63" total25="per 90" rank26="0,78" total26="per 90"
+        />
+      </div>
+    </section>
+  );
+}
+
+// ─── Changes section ──────────────────────────────────────────────────────────
+
+function ChangeCard({
+  label,
+  val25,
+  val26,
+  unit,
+  pct25,
+  pct26,
+  direction,
+  tacticTitle,
+  tacticBody,
+}: {
+  label: string;
+  val25: string;
+  val26: string;
+  unit?: string;
+  pct25: number;
+  pct26: number;
+  direction: "up" | "down";
+  tacticTitle: string;
+  tacticBody: string;
+}) {
+  const improved = direction === "up";
+
+  return (
+    <div className="rounded-xl border border-neutral-800 bg-neutral-900 p-5">
+      <p className="text-xs font-black uppercase tracking-[0.15em] text-neutral-400">{label}</p>
+
+      {/* Big value display */}
+      <div className="mt-3 flex items-end gap-4">
+        <div>
+          <p className="text-[10px] font-bold text-sky-400 uppercase">2025</p>
+          <p className="text-3xl font-black tabular-nums text-sky-200">{val25}<span className="text-lg text-neutral-500">{unit}</span></p>
+        </div>
+        <div className="mb-1 text-xl font-black text-neutral-600">→</div>
+        <div>
+          <p className="text-[10px] font-bold text-emerald-400 uppercase">2026</p>
+          <p className={`text-3xl font-black tabular-nums ${improved ? "text-emerald-200" : "text-amber-200"}`}>
+            {val26}<span className="text-lg text-neutral-500">{unit}</span>
+          </p>
+        </div>
+        <div className="mb-1 ml-auto">
+          <span className={`rounded-full px-3 py-1 text-sm font-black ${
+            improved ? "bg-emerald-500/15 text-emerald-300" : "bg-amber-500/15 text-amber-300"
+          }`}>
+            {improved ? "↑ Upp" : "↓ Ned"}
+          </span>
+        </div>
+      </div>
+
+      {/* Bars */}
+      <div className="mt-4 space-y-1.5">
+        {([["2025", pct25, "#60a5fa"], ["2026", pct26, "#34d399"]] as const).map(([yr, pct, color]) => (
+          <div key={yr} className="flex items-center gap-2">
+            <span className="w-7 text-[10px] font-bold" style={{ color }}>{yr}</span>
+            <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-neutral-800">
+              <div className="h-2.5 rounded-full transition-all" style={{ width: `${pct}%`, backgroundColor: color }} />
+            </div>
+            <span className="w-8 text-right text-[10px] text-neutral-500">{pct}%</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Tactical reason box */}
+      <div className={`mt-4 rounded-xl border px-4 py-3 ${
+        improved
+          ? "border-emerald-500/20 bg-emerald-500/8"
+          : "border-amber-400/20 bg-amber-400/8"
+      }`}>
+        <p className={`text-[10px] font-black uppercase tracking-[0.15em] ${
+          improved ? "text-emerald-400" : "text-amber-400"
+        }`}>
+          🔍 Taktisk orsak
+        </p>
+        <p className={`mt-1 text-sm font-black ${
+          improved ? "text-emerald-200" : "text-amber-200"
+        }`}>
+          {tacticTitle}
+        </p>
+        <p className="mt-1 text-xs leading-5 text-neutral-300">{tacticBody}</p>
+      </div>
+    </div>
+  );
+}
+
+function ChangesSection() {
+  return (
+    <section className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6">
+      <div className="flex items-center gap-3">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/20 text-xl">⚡</div>
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-amber-400">Förändringar</p>
+          <h2 className="text-xl font-black text-white">Vad som HAR FÖRÄNDRATS</h2>
+        </div>
+      </div>
+      <p className="mt-2 text-sm text-neutral-400">
+        Tydliga mätförändringar med taktisk förklaring – direkt användbart som talpunkter i podden.
+      </p>
+      <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <ChangeCard
+          label="Mål / 90 min"
+          val25="0,56" val26="0,39"
+          pct25={Math.round((0.56 / 0.78) * 72)}
+          pct26={Math.round((0.39 / 0.78) * 72) + 10}
+          direction="down"
+          tacticTitle="Statistisk normalisering – ej försämring"
+          tacticBody="2025 avslutade Besara +43% ÖVER sitt xG (+5,15 mål). Det kallas regression to the mean. 2026 är han på +0,17 – precis på förväntat. Skottlägen och chansvolym är oförändrade."
+        />
+        <ChangeCard
+          label="Assist / 90 min"
+          val25="0,07" val26="0,39"
+          pct25={9}
+          pct26={72}
+          direction="up"
+          tacticTitle="Rollskifte: från finisher till spelstartare"
+          tacticBody="Besara agerar nu som primär bollcirkulatör. Adjei och Johansson gör de löpningar in bakom som Besara tidigare stod för. Resultatet: assists exploderade från 2 till 5 på halva antalet matcher."
+        />
+        <ChangeCard
+          label="Skapa för lagkamrater (rank)"
+          val25="39/119" val26="4/73"
+          pct25={rankToPercentile(39, 119)}
+          pct26={rankToPercentile(4, 73)}
+          direction="up"
+          tacticTitle="Central playmaker-roll"
+          tacticBody="Från 67:e till 95:e percentilen. Chans-skapande passningar: 15/119 → 2/73 (näst bäst i hela Allsvenskan). Besara är nu laget strategiske spelöppnare, inte primärt anfallaren."
+        />
+        <ChangeCard
+          label="Progression i uppbyggnad (rank)"
+          val25="90/119" val26="37/73"
+          pct25={rankToPercentile(90, 119)}
+          pct26={rankToPercentile(37, 73)}
+          direction="up"
+          tacticTitle="Friare i uppbyggnadsfasen"
+          tacticBody="Från 25:e till 51:a percentilen. Besara kan nu ta fler framåtpassningar och bolla sig upp på planen. Lägre initial position i formationen ger mer involvering i cirkulering."
+        />
+      </div>
+    </section>
   );
 }
 
@@ -577,43 +949,14 @@ export function BesaraSeasonComparisonDashboard() {
   const categories = Array.from(new Set(twelveSubMetrics.map((m) => m.category)));
 
   return (
-    <div className="min-h-screen bg-[#0c1322]">
-      {/* ── Header ── */}
-      <header className="border-b border-slate-700/40 bg-[#0f172a]/80">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <Link
-            href="/spelarstatistik"
-            className="text-sm font-semibold text-slate-400 hover:text-slate-200"
-          >
-            ← Spelarstatistik
-          </Link>
-          <div className="mt-4 flex flex-wrap items-end gap-4">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-amber-400">
-                Spelarprofil · Säsongsjämförelse
-              </p>
-              <h1 className="mt-2 text-4xl font-black uppercase text-white md:text-5xl">
-                Nahir Besara
-              </h1>
-              <p className="mt-1 text-base text-slate-400">
-                2025 vs 2026 · Allsvenskan · Hammarby IF
-              </p>
-            </div>
-            <div className="ml-auto flex gap-2">
-              {SEASONS.map((s) => (
-                <span
-                  key={s}
-                  className={`rounded-full border px-3 py-1.5 text-sm font-black ${SEASON_STYLES[s].chipBorder} ${SEASON_STYLES[s].chipBg} ${SEASON_STYLES[s].chipText}`}
-                >
-                  {s}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-neutral-950">
+      <BroadcasterHero />
 
       <main className="mx-auto max-w-6xl space-y-6 px-4 py-8">
+
+        {/* ── Konstanter & förändringar ── */}
+        <ConstantsSection />
+        <ChangesSection />
 
         {/* ── Säsongskort ── */}
         <section className="grid gap-4 md:grid-cols-2">
@@ -623,7 +966,7 @@ export function BesaraSeasonComparisonDashboard() {
             return (
               <article
                 key={n.season}
-                className={`rounded-2xl border bg-slate-800/60 p-6 ${style.chipBorder}`}
+                className={`rounded-2xl border bg-neutral-900 p-6 ${style.chipBorder}`}
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -647,7 +990,7 @@ export function BesaraSeasonComparisonDashboard() {
                     { label: "Assist", value: stats.assists },
                     { label: "G+A", value: stats.goals + stats.assists },
                   ].map(({ label, value }) => (
-                    <div key={label} className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-3 text-center">
+                    <div key={label} className="rounded-xl border border-slate-700/40 bg-neutral-900/80 p-3 text-center">
                       <p className="text-xs text-slate-500">{label}</p>
                       <p className={`mt-1 text-2xl font-black ${style.textColor}`}>{value}</p>
                     </div>
@@ -676,7 +1019,7 @@ export function BesaraSeasonComparisonDashboard() {
         </section>
 
         {/* ── Per-90-jämförelse ── */}
-        <section className="rounded-2xl border border-slate-700/40 bg-slate-800/40 p-6">
+        <section className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Per 90 min</p>
           <h2 className="mt-1 text-2xl font-black text-white">Grundläggande nyckeltal</h2>
           <p className="mt-1 text-sm text-slate-400">
@@ -750,7 +1093,7 @@ export function BesaraSeasonComparisonDashboard() {
             {keyInsights.map((insight, i) => (
               <div
                 key={i}
-                className="flex gap-3 rounded-xl border border-slate-700/40 bg-slate-800/60 p-4"
+                className="flex gap-3 rounded-xl border border-slate-700/40 bg-neutral-900 p-4"
               >
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-xs font-black text-amber-300">
                   {i + 1}
@@ -765,7 +1108,7 @@ export function BesaraSeasonComparisonDashboard() {
         <ShotQualitySection />
 
         {/* ── Radardiagram ── */}
-        <section className="rounded-2xl border border-slate-700/40 bg-slate-800/40 p-6">
+        <section className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
@@ -795,7 +1138,7 @@ export function BesaraSeasonComparisonDashboard() {
           </div>
 
           <div className="mt-5 grid gap-6 md:grid-cols-[1fr_0.9fr]">
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
+            <div className="rounded-xl border border-slate-700/40 bg-neutral-900/80 p-4">
               <RadarChart activeSeason={radarFilter} />
               <div className="mt-3 flex flex-wrap items-center gap-4 text-xs">
                 {SEASONS.map((s) => (
@@ -824,7 +1167,7 @@ export function BesaraSeasonComparisonDashboard() {
                 return (
                   <div
                     key={cat.key}
-                    className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-3"
+                    className="rounded-xl border border-slate-700/40 bg-neutral-900/80 p-3"
                   >
                     <div className="mb-2 flex items-center justify-between gap-2">
                       <span className="text-xs font-semibold text-slate-200">{cat.label}</span>
@@ -866,7 +1209,7 @@ export function BesaraSeasonComparisonDashboard() {
         </section>
 
         {/* ── Sub-metriker ── */}
-        <section className="rounded-2xl border border-slate-700/40 bg-slate-800/40 p-6">
+        <section className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Twelve.football</p>
           <h2 className="mt-1 text-2xl font-black text-white">Detaljerade metriker</h2>
           <p className="mt-1 text-sm text-slate-400">
@@ -916,7 +1259,7 @@ export function BesaraSeasonComparisonDashboard() {
         </section>
 
         {/* ── Bolldata-jämförelse ── */}
-        <section className="rounded-2xl border border-slate-700/40 bg-slate-800/40 p-6">
+        <section className="rounded-2xl border border-neutral-800 bg-neutral-900/60 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
