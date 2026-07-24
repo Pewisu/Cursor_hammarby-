@@ -111,6 +111,22 @@ export default function PlayerStatisticsRoutePage() {
               Öppna spelartrender →
             </p>
           </Link>
+
+          <Link
+            href="/spelarstatistik/besara-jamforelse"
+            className="group rounded-2xl border border-amber-500/30 bg-slate-800/80 p-6 transition-colors hover:border-amber-400/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/20 text-amber-300">
+              🔄
+            </div>
+            <h2 className="text-xl font-semibold text-white">Besara 2025 vs 2026</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Säsongsjämförelse för Nahir Besara med data från Twelve och Bolldata – mål, assist, xG, xA och profilrankingar.
+            </p>
+            <p className="mt-4 text-sm font-medium text-amber-300 group-hover:text-amber-200">
+              Öppna jämförelsen →
+            </p>
+          </Link>
         </div>
       </main>
     </div>
