@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import {
   besaraBasicStats,
+  bolldataStats2025,
   bolldataStats2026,
   keyInsights,
   rankToPercentile,
@@ -285,16 +286,68 @@ function SubMetricRow({
   );
 }
 
-// ─── Bolldata section ──────────────────────────────────────────────────────────
+// ─── Bolldata comparison row ───────────────────────────────────────────────────
 
-function BolldataRow({ label, value, sub }: { label: string; value: string; sub?: string }) {
+function BolldataCmpRow({
+  label,
+  v25,
+  v26,
+  highlight,
+  sub,
+}: {
+  label: string;
+  v25: string;
+  v26: string;
+  highlight?: "2025" | "2026" | "equal";
+  sub?: string;
+}) {
   return (
-    <div className="flex items-center justify-between gap-4 py-2.5">
-      <div>
-        <p className="text-sm text-slate-200">{label}</p>
-        {sub && <p className="text-[11px] text-slate-500">{sub}</p>}
+    <div className="flex items-center gap-2 py-2.5">
+      <div className="flex-1">
+        <p className="text-xs text-slate-300">{label}</p>
+        {sub && <p className="text-[10px] text-slate-500">{sub}</p>}
       </div>
-      <p className="tabular-nums text-lg font-black text-emerald-200">{value}</p>
+      <p className={`w-16 text-right tabular-nums text-sm font-black ${
+        highlight === "2025" ? "text-sky-200" : "text-sky-400"
+      }`}>
+        {v25}
+      </p>
+      <p className={`w-16 text-right tabular-nums text-sm font-black ${
+        highlight === "2026" ? "text-emerald-200" : "text-emerald-400"
+      }`}>
+        {v26}
+      </p>
+    </div>
+  );
+}
+
+function BolldataGroupCard({
+  title,
+  rows,
+}: {
+  title: string;
+  rows: Array<{
+    label: string;
+    v25: string;
+    v26: string;
+    highlight?: "2025" | "2026" | "equal";
+    sub?: string;
+  }>;
+}) {
+  return (
+    <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
+      <div className="mb-2 flex items-center justify-between">
+        <p className="text-xs font-black uppercase tracking-wide text-slate-400">{title}</p>
+        <div className="flex gap-3 text-[10px] font-black">
+          <span className="text-sky-400">2025</span>
+          <span className="text-emerald-400">2026</span>
+        </div>
+      </div>
+      <div className="divide-y divide-slate-700/30">
+        {rows.map((row) => (
+          <BolldataCmpRow key={row.label} {...row} />
+        ))}
+      </div>
     </div>
   );
 }
@@ -421,20 +474,20 @@ export function BesaraSeasonComparisonDashboard() {
           <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Per 90 min</p>
           <h2 className="mt-1 text-2xl font-black text-white">Grundläggande nyckeltal</h2>
           <p className="mt-1 text-sm text-slate-400">
-            2026-xG och xA är från Bolldata. 2025 saknar bolldata-källa; goals/90 och assists/90 är beräknade.
+            Alla värden från Bolldata.se. 2025-data via bolldata.se/spelardata?season_name=2025
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
               label="Mål / 90"
-              value2025={stats25.goalsPerNinety.toFixed(2)}
-              value2026={stats26.goalsPerNinety.toFixed(2)}
+              value2025={bolldataStats2025.goalsPerNinety.toFixed(2)}
+              value2026={bolldataStats2026.goalsPerNinety.toFixed(2)}
               highlight="2025"
               note="Mål per 90 spelade min"
             />
             <StatCard
               label="Assist / 90"
-              value2025={stats25.assistsPerNinety.toFixed(2)}
-              value2026={stats26.assistsPerNinety.toFixed(2)}
+              value2025={bolldataStats2025.assistsPerNinety.toFixed(2)}
+              value2026={bolldataStats2026.assistsPerNinety.toFixed(2)}
               highlight="2026"
               note="Assist per 90 spelade min"
             />
@@ -447,33 +500,38 @@ export function BesaraSeasonComparisonDashboard() {
             />
             <StatCard
               label="xG / 90"
-              value2025="–"
+              value2025={bolldataStats2025.xGPerNinety.toFixed(2)}
               value2026={bolldataStats2026.xGPerNinety.toFixed(2)}
-              note="2025 xG/90 ej tillgänglig i Bolldata"
+              highlight="equal"
+              note="Identisk xG/90 – samma chansvolym"
             />
             <StatCard
               label="xA / 90"
-              value2025="–"
+              value2025={bolldataStats2025.xAPerNinety.toFixed(2)}
               value2026={bolldataStats2026.xAPerNinety.toFixed(2)}
-              note="2025 xA/90 ej tillgänglig i Bolldata"
+              highlight="2026"
+              note="xA per 90 – dubblerat 2026"
             />
             <StatCard
               label="Skottassist / 90"
-              value2025="–"
+              value2025={bolldataStats2025.shotAssistsPerNinety.toFixed(2)}
               value2026={bolldataStats2026.shotAssistsPerNinety.toFixed(2)}
-              note="SA/90 – Bolldata 2026"
-            />
-            <StatCard
-              label="Nyckelpassningar / 90"
-              value2025="–"
-              value2026={bolldataStats2026.keyPassesPerNinety.toFixed(2)}
-              note="NP/90 – Bolldata 2026"
+              highlight="2026"
+              note="SA/90 – fler chanser skapade per min"
             />
             <StatCard
               label="Målchanser / 90"
-              value2025="–"
+              value2025={bolldataStats2025.goalChancesPerNinety.toFixed(2)}
               value2026={bolldataStats2026.goalChancesPerNinety.toFixed(2)}
-              note="MC/90 – Bolldata 2026"
+              highlight="2026"
+              note="MC/90 – Bolldata"
+            />
+            <StatCard
+              label="xP / 90"
+              value2025={bolldataStats2025.xPPerNinety.toFixed(2)}
+              value2026={bolldataStats2026.xPPerNinety.toFixed(2)}
+              highlight="2026"
+              note="Totalt förväntat G+A per 90"
             />
           </div>
         </section>
@@ -648,115 +706,90 @@ export function BesaraSeasonComparisonDashboard() {
           </div>
         </section>
 
-        {/* ── Bolldata 2026 ── */}
+        {/* ── Bolldata-jämförelse ── */}
         <section className="rounded-2xl border border-slate-700/40 bg-slate-800/40 p-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
-                Bolldata.se · Allsvenskan 2026
+                Bolldata.se · Allsvenskan
               </p>
-              <h2 className="mt-1 text-2xl font-black text-white">Detaljerad stats – 2026</h2>
+              <h2 className="mt-1 text-2xl font-black text-white">Bolldata-jämförelse 2025 vs 2026</h2>
               <p className="mt-1 text-sm text-slate-400">
-                14 matcher · 1 147 min · Bolldata.se/spelardata
+                2025: 30 matcher · 2 719 min &nbsp;|&nbsp; 2026: 14 matcher · 1 147 min
               </p>
             </div>
-            <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-sm font-black text-emerald-200">
-              2026
-            </span>
+            <div className="flex items-center gap-3 text-sm font-black">
+              <span className="rounded-full border border-sky-400/30 bg-sky-400/10 px-3 py-1.5 text-sky-200">2025</span>
+              <span className="text-slate-600">vs</span>
+              <span className="rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1.5 text-emerald-200">2026</span>
+            </div>
           </div>
 
           <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {/* Mål & xG */}
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
-              <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
-                Mål & xG
-              </p>
-              <div className="divide-y divide-slate-700/30">
-                <BolldataRow label="Mål" value={bolldataStats2026.goals.toString()} />
-                <BolldataRow label="Mål / 90" value={bolldataStats2026.goalsPerNinety.toFixed(2)} />
-                <BolldataRow label="xG" value={bolldataStats2026.xG.toFixed(2)} />
-                <BolldataRow label="xG / 90" value={bolldataStats2026.xGPerNinety.toFixed(2)} />
-                <BolldataRow
-                  label="Mål vs xG"
-                  value={`+${bolldataStats2026.goalsOverXG.toFixed(2)}`}
-                  sub="Mål utöver förväntat"
-                />
-              </div>
-            </div>
+            <BolldataGroupCard
+              title="Mål & xG"
+              rows={[
+                { label: "Mål", v25: "17", v26: "5", highlight: "2025" },
+                { label: "Mål / 90", v25: "0,56", v26: "0,39", highlight: "2025" },
+                { label: "xG", v25: "11,85", v26: "4,83", highlight: "2025" },
+                { label: "xG / 90", v25: "0,39", v26: "0,38", highlight: "equal", sub: "Identiskt per minut" },
+                { label: "Mål – xG", v25: "+5,15", v26: "+0,17", highlight: "2025", sub: "Överkurs vs förväntat" },
+              ]}
+            />
 
-            {/* Assist & xA */}
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
-              <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
-                Assist & xA
-              </p>
-              <div className="divide-y divide-slate-700/30">
-                <BolldataRow label="Assist" value={bolldataStats2026.assists.toString()} />
-                <BolldataRow label="Assist / 90" value={bolldataStats2026.xAPerNinety.toFixed(2)} sub="xA/90" />
-                <BolldataRow label="xA" value={bolldataStats2026.xA.toFixed(2)} />
-                <BolldataRow label="xA / 90" value={bolldataStats2026.xAPerNinety.toFixed(2)} />
-                <BolldataRow label="G+A totalt" value={`${bolldataStats2026.goals + bolldataStats2026.assists}`} />
-              </div>
-            </div>
+            <BolldataGroupCard
+              title="Assist & xA"
+              rows={[
+                { label: "Assist", v25: "2", v26: "5", highlight: "2026" },
+                { label: "Assist / 90", v25: "0,07", v26: "0,39", highlight: "2026" },
+                { label: "xA", v25: "4,25", v26: "3,60" },
+                { label: "xA / 90", v25: "0,14", v26: "0,28", highlight: "2026" },
+                { label: "G+A totalt", v25: "19", v26: "10" },
+              ]}
+            />
 
-            {/* Poäng & xP */}
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
-              <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
-                Poäng & xP
-              </p>
-              <div className="divide-y divide-slate-700/30">
-                <BolldataRow label="G+A (poäng)" value={bolldataStats2026.points.toString()} />
-                <BolldataRow label="Poäng / 90" value={bolldataStats2026.pointsPerNinety.toFixed(2)} />
-                <BolldataRow label="xP" value={bolldataStats2026.xP.toFixed(2)} />
-                <BolldataRow label="xP / 90" value={bolldataStats2026.xPPerNinety.toFixed(2)} />
-                <BolldataRow
-                  label="P vs xP (±)"
-                  value={`+${bolldataStats2026.goalsOverXG.toFixed(2)}`}
-                  sub="Faktisk vs förväntad"
-                />
-              </div>
-            </div>
+            <BolldataGroupCard
+              title="Poäng & xP"
+              rows={[
+                { label: "G+A (P)", v25: "19", v26: "10", highlight: "2025" },
+                { label: "P / 90", v25: "0,63", v26: "0,78", highlight: "2026" },
+                { label: "xP", v25: "16,10", v26: "8,43", highlight: "2025" },
+                { label: "xP / 90", v25: "0,53", v26: "0,66", highlight: "2026" },
+                { label: "P – xP (±)", v25: "+2,90", v26: "+1,57" },
+              ]}
+            />
 
-            {/* Passningsspel */}
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
-              <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
-                Passningsspel
-              </p>
-              <div className="divide-y divide-slate-700/30">
-                <BolldataRow label="Skottassist (SA)" value={bolldataStats2026.shotAssists.toString()} />
-                <BolldataRow label="SA / 90" value={bolldataStats2026.shotAssistsPerNinety.toFixed(2)} />
-                <BolldataRow label="Nyckelpassningar" value={bolldataStats2026.keyPasses.toString()} />
-                <BolldataRow label="NP / 90" value={bolldataStats2026.keyPassesPerNinety.toFixed(2)} />
-                <BolldataRow label="Smarta passningar" value={bolldataStats2026.smartPasses.toString()} />
-              </div>
-            </div>
+            <BolldataGroupCard
+              title="Passningsspel / chansskapande"
+              rows={[
+                { label: "Skottassist (SA)", v25: "49", v26: "34", highlight: "2025" },
+                { label: "SA / 90", v25: "1,62", v26: "2,67", highlight: "2026" },
+                { label: "Målchanser (MC)", v25: "63", v26: "31", highlight: "2025" },
+                { label: "MC / 90", v25: "2,09", v26: "2,43", highlight: "2026" },
+                { label: "Nyckelpassningar", v25: "–", v26: "16", sub: "2025 ej i topp-20" },
+              ]}
+            />
 
-            {/* Fasta situationer */}
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
-              <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
-                Fasta situationer
-              </p>
-              <div className="divide-y divide-slate-700/30">
-                <BolldataRow label="Hörnor sparkade" value={bolldataStats2026.cornerKicks.toString()} />
-                <BolldataRow label="Hörnor / 90" value={bolldataStats2026.cornerKicksPerNinety.toFixed(2)} />
-                <BolldataRow label="Frisparkar" value={bolldataStats2026.freekicks.toString()} />
-                <BolldataRow label="FS farlig zon (DAF)" value={bolldataStats2026.freekicksDangerousArea.toString()} />
-                <BolldataRow label="xA frisparkar" value={bolldataStats2026.freekicksXA.toFixed(2)} />
-              </div>
-            </div>
+            <BolldataGroupCard
+              title="Fasta situationer"
+              rows={[
+                { label: "Hörnor sparkade", v25: "106", v26: "32", highlight: "2025" },
+                { label: "Hörnor / 90", v25: "3,51", v26: "2,51", highlight: "2025" },
+                { label: "Frisparkar (FS)", v25: "40", v26: "32", highlight: "2025" },
+                { label: "FS farlig zon (DAF)", v25: "16", v26: "6", highlight: "2025" },
+                { label: "xA frisparkar", v25: "–", v26: "0,66", sub: "2025 ej tillgänglig" },
+              ]}
+            />
 
-            {/* Övrigt */}
-            <div className="rounded-xl border border-slate-700/40 bg-slate-900/50 p-4">
-              <p className="mb-3 text-xs font-black uppercase tracking-wide text-slate-400">
-                Övrigt
-              </p>
-              <div className="divide-y divide-slate-700/30">
-                <BolldataRow label="Målchanser (MC)" value={bolldataStats2026.goalChances.toString()} />
-                <BolldataRow label="MC / 90" value={bolldataStats2026.goalChancesPerNinety.toFixed(2)} />
-                <BolldataRow label="Straff (S/M)" value={`${bolldataStats2026.penalties}/${bolldataStats2026.penaltiesScored}`} sub="Sparkade / Gjorda" />
-                <BolldataRow label="Offensiv ranking (OP)" value={bolldataStats2026.offensiveRating.toLocaleString("sv-SE")} />
-                <BolldataRow label="OP / 90" value={bolldataStats2026.offensiveRatingPerNinety.toFixed(2)} />
-              </div>
-            </div>
+            <BolldataGroupCard
+              title="Övrigt"
+              rows={[
+                { label: "Straff S/M", v25: "2/1", v26: "1/1" },
+                { label: "Offensiv ranking", v25: "–", v26: "557 (43,71/90)", sub: "2025 ej i topp-20" },
+                { label: "P%", v25: "21,1%", v26: "18,5%" },
+                { label: "Minuter per G+A", v25: String(Math.round(2719 / 19)), v26: String(Math.round(1147 / 10)) },
+              ]}
+            />
           </div>
         </section>
 
@@ -773,8 +806,9 @@ export function BesaraSeasonComparisonDashboard() {
               earpiece.twelve.football – spelarprofil, rang av 73 mittfältare, Allsvenskan 26.
             </p>
             <p>
-              <span className="font-semibold text-slate-300">Bolldata (2026):</span>{" "}
-              bolldata.se/spelardata – detaljerad Allsvenskan-statistik per 2026. Bolldata saknar 2025-data för Besara.
+              <span className="font-semibold text-slate-300">Bolldata (2025 & 2026):</span>{" "}
+              bolldata.se/spelardata – detaljerad Allsvenskan-statistik. 2025-data via{" "}
+              bolldata.se/spelardata?season_name=2025
             </p>
           </div>
         </section>

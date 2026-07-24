@@ -39,9 +39,9 @@ export interface TwelveSubMetricRank {
   rank2026: number;
 }
 
-/** Bolldata.se – endast 2026 tillgängligt */
-export interface BolldataStats2026 {
-  season: "2026";
+/** Bolldata.se – tillgängligt för båda säsongerna */
+export interface BolldataStats {
+  season: BesaraSeason;
   sm: number;
   min: number;
   goals: number;
@@ -62,20 +62,26 @@ export interface BolldataStats2026 {
   shotAssistsPerNinety: number;
   goalChances: number;
   goalChancesPerNinety: number;
-  keyPasses: number;
-  keyPassesPerNinety: number;
-  smartPasses: number;
-  smartPassesPerNinety: number;
+  /** Nyckelpassningar – saknas för 2025 i top-20 */
+  keyPasses?: number;
+  keyPassesPerNinety?: number;
+  /** Smarta passningar – saknas för 2025 i top-20 */
+  smartPasses?: number;
+  smartPassesPerNinety?: number;
   cornerKicks: number;
   cornerKicksPerNinety: number;
   freekicks: number;
   freekicksDangerousArea: number;
-  freekicksXA: number;
+  freekicksXA?: number;
   penalties: number;
   penaltiesScored: number;
-  offensiveRating: number;
-  offensiveRatingPerNinety: number;
+  /** Offensiv ranking – saknas för 2025 i top-20 */
+  offensiveRating?: number;
+  offensiveRatingPerNinety?: number;
 }
+
+/** @deprecated Använd BolldataStats */
+export type BolldataStats2026 = BolldataStats;
 
 // ─── Grunddata ────────────────────────────────────────────────────────────────
 
@@ -183,9 +189,39 @@ export const twelveSubMetrics: SubMetric[] = [
   { label: "Pass till sista tredj.",  category: "Progression",         rank2025: 77,  total2025: 119, rank2026: 37, total2026: 73 },
 ];
 
-// ─── Bolldata.se 2026 ─────────────────────────────────────────────────────────
+// ─── Bolldata.se data ─────────────────────────────────────────────────────────
 
-export const bolldataStats2026: BolldataStats2026 = {
+export const bolldataStats2025: BolldataStats = {
+  season: "2025",
+  sm: 30,
+  min: 2719,
+  goals: 17,
+  assists: 2,
+  points: 19,
+  pointsPercent: 21.1,
+  pointsPerNinety: 0.63,
+  goalsPerNinety: 0.56,
+  assistsPerNinety: 0.07,
+  xG: 11.85,
+  xA: 4.25,
+  xP: 16.10,
+  xGPerNinety: 0.39,
+  xAPerNinety: 0.14,
+  xPPerNinety: 0.53,
+  goalsOverXG: parseFloat((17 - 11.85).toFixed(2)),   // +5.15 överkurs – exceptionellt avslut
+  shotAssists: 49,
+  shotAssistsPerNinety: 1.62,
+  goalChances: 63,
+  goalChancesPerNinety: 2.09,
+  cornerKicks: 106,
+  cornerKicksPerNinety: 3.51,
+  freekicks: 40,
+  freekicksDangerousArea: 16,
+  penalties: 2,
+  penaltiesScored: 1,
+};
+
+export const bolldataStats2026: BolldataStats = {
   season: "2026",
   sm: 14,
   min: 1147,
@@ -222,6 +258,11 @@ export const bolldataStats2026: BolldataStats2026 = {
   offensiveRatingPerNinety: 43.71,
 };
 
+export const bolldataStatsBySeason: Record<BesaraSeason, BolldataStats> = {
+  "2025": bolldataStats2025,
+  "2026": bolldataStats2026,
+};
+
 // ─── Analystexter ──────────────────────────────────────────────────────────────
 
 export interface SeasonNarrative {
@@ -255,10 +296,10 @@ export const seasonNarratives: SeasonNarrative[] = [
 ];
 
 export const keyInsights: string[] = [
-  "Mål/90 sjönk från 0,56 till 0,39 – men Assist/90 steg från 0,07 till 0,39.",
-  "Kombinerat G+A/90 steg från 0,63 till 0,78 – mer produktiv per minut totalt.",
-  "Rank i att skapa för lagkamrater: 39/119 (2025) → 4/73 (2026). En transformation.",
-  "Chans-skapande passningar: 15/119 (2025) → 2/73 (2026) – ligatoppklass.",
-  "Box Threat: fortsatt elit i båda säsongerna trots förändrad roll.",
-  "Försvar är och förblir Besaras tydliga svaghetszon i båda säsongerna.",
+  "Mål/90 sjönk från 0,56 till 0,39 – men Assist/90 steg från 0,07 till 0,39. Rollbyte från finisher till spelstartare.",
+  "G+A/90 steg från 0,63 (2025) till 0,78 (2026) – mer total offensiv output per minut 2026.",
+  "xG/90 identisk: 0,39 (2025) vs 0,38 (2026). Besara skapar lika många kvalitéchanger för sig själv per minut.",
+  "2025: 17 mål på 11,85 xG = +5,15 överkurs (exceptionellt avslut). 2026: 5 mål på 4,83 xG = +0,17 (normaliserat).",
+  "Skottassist/90 ökade: 1,62 (2025) → 2,67 (2026). Fler chanser skapade för lagkamrater per minut.",
+  "Rank 'Skapa för lagkamrater': 39/119 (2025) → 4/73 (2026). xA/90 dubblerades: 0,14 → 0,28.",
 ];
