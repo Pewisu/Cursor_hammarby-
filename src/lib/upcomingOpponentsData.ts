@@ -3129,6 +3129,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   },
   {
     round: 99,
+    hidden: true,
     roundLabel: "EL-kval Q2 · Hinmatch",
     fixture: "Hammarby IF - Anderlecht",
     dateLabel: "Juli/Augusti 2026 · Twelve säsongsrapport Belgian Pro League 2025/26",
@@ -3536,6 +3537,484 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "Truppvärde (Transfermarkt)",
         explanation:
           "Anderlecht ~€76m totalt (27 spelare) vs Hammarby €31,55m (24 spelare). Dyraste spelare: Cvetkovic CF €10m, Saliba CM €7,5m. Anderlecht sålde De Cat (€20m), Simić (€15m), Goto (€10m) – totalt €45m ut i sommar.",
+      },
+    ],
+  },
+  // ─────────────────────────────────────────────────────────────────────────
+  // OMGÅNG 14 · 26 JULI 2026 · BORTA · GRIMSTA IP
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    round: 14,
+    roundLabel: "Omgång 14 · Borta",
+    fixture: "Hammarby - Brommapojkarna",
+    dateLabel: "26 juli 2026 · Grimsta IP · Bolldata lagdata (24 jul 2026) + Twelve Earpiece scouting",
+    venueLabel: "Borta · Grimsta IP · Stockholm",
+    oneLineSummary:
+      "BP saknar båda sin bästa anfallare (Hansen) och sin kreative AM (Berg) – dubbla avstängningar urholkar en offensiv som redan är 13:e i ligan (16,77 xG). HIF:s cornerdominans (+39 saldo) möter BP:s extrema hörnsårbarhet (6 insläppta hörnmål, 8,5% rate – 2:a sämst). Allsvenskans bästa lag möter det bästa offensivt (HIF 1:a i xG, avslut, bollinnehav, dueller) mot ett BP vars offensiv är kraftigt försvagad.",
+    introStats: [
+      { label: "Tabell", value: "BP 11:a · 16p (4V-4O-5F)", tone: "blue" },
+      { label: "xG / match", value: "BP 1,29 (13:e) vs HIF 2,27 (1:a)", tone: "amber" },
+      { label: "Hansen + Berg AVST.", value: "Båda borta · offensiven urholkad", tone: "amber" },
+      { label: "Hörnsårbarhet", value: "6 insläppta hörnmål · 8,5% rate", tone: "amber" },
+    ],
+    mobileTakeaways: [
+      "Omgång 14 borta på Grimsta IP (sön 26 jul, 14:00). BP 11:a med 16p, HIF 2:a med 26p efter 14 omgångar.",
+      "NYCKEL: BP har näst flest insläppta hörnmål (6 mål, 8,5% per hörna mot dem) – HIF leder serien med +39 hörnsaldo och 78 vunna hörnor.",
+      "DUBBLA AVSTÄNGNINGAR: Mads Hansen (röd 17 jul vs IFK Göteborg) OCH Oliver Berg (gula kort) är båda borta. BP tappar sin anfallare + sin kreative AM i ett svep.",
+      "BP:s sämsta defensiva tidsfönster: 46–60' (5 insläppta – värst av alla fönster). HIF:s bästa offensiva period: 61–75' (9 mål i säsongen).",
+      "BP vinner bara 36,4% av duellerna (15:e/16) och har sämst bollåterhämtning i hela Allsvenskan (75,46/match, 16:e/sist).",
+      "Trots låg volym (132 avslut, 15:e) konverterar BP 13,6% (5:e bäst) – men utan Hansen och Berg är anfallskapaciteten på botten.",
+      "Victor Lind (3 mål mot HIF i 2025) lämnade BP för Hammarby inför 2026. HIF-kedjan har insyn i BP:s spelsystem.",
+    ],
+    dataSources: [
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 24 jul 2026)",
+      "Twelve Earpiece scouting report BP: https://earpiece.twelve.football/shared-reports/95c88996-b314-4509-b394-9557c1103a69",
+      "Ligan.se matchfakta BP–Hammarby omg. 14: https://ligan.se/allsvenskan/2026/matcher/brommapojkarna-hammarby",
+      "World Soccer Data H2H 2025: https://www.worldsoccerdata.com/stats/sweden/allsvenskan/matches/hammarby-ff-vs-if-brommapojkarna-20-07-2025",
+      "Expressen – Hansen röd kort: https://www.expressen.se/sport/fotboll/allsvenskan/mads-kristian-hansen-utvisad-i-forsta-halvlek/",
+    ],
+    headToHead: {
+      sampleSize: 5,
+      description:
+        "Senaste 5 Allsvenska möten mellan Hammarby och Brommapojkarna. BP återvände till Allsvenskan 2024 efter flera år i Superettan – H2H-serien är relativt ung med fyra möten 2024–2025 plus ett äldre möte.",
+      summaryCards: [
+        {
+          title: "Resultatrad (senaste 5)",
+          value: "3V-1O-1F",
+          note: "HIF dominerar klart – 3 segrar (inkl. 2 av 2 i 2025), 1 oavgjord, 1 förlust (på Grimsta IP, äldre).",
+          tone: "emerald",
+        },
+        {
+          title: "2025: HIF 5-2 BP totalt",
+          value: "3-2 (hemma) + 0-2 (borta)",
+          note: "Hammarby vann båda 2025-mötena. I april 2025 vann HIF 2-0 borta på Grimsta – samma arena som nu.",
+          tone: "emerald",
+        },
+        {
+          title: "Grimsta-facit (HIF borta)",
+          value: "1V-1O-1F",
+          note: "Senaste besöket: HIF vann 0-2 (april 2025). HIF slog även 2-1 hemma under omgång 2 i 2024.",
+          tone: "blue",
+        },
+      ],
+      trendBullets: [
+        "HIF har vunnit de två senaste H2H-mötena mot BP med sammanlagt 5-2 (2025).",
+        "I april 2025 vann HIF 2-0 på Grimsta IP – exakt samma arena som söndag 26 juli 2026.",
+        "I juli 2025 ledde BP 0-2 i paus men HIF vände med 3-2 i 2H – mentalt övertag för HIF.",
+        "Victor Lind (2 mål mot HIF i 2025-matcherna) är nu i Hammarby – insidekunskap om BP:s spelsystem.",
+        "BP:s senaste form: 1V-2O-2F (5p senaste 5 matcher). HIF 3V-0O-2F (9p).",
+      ],
+      matches: [
+        {
+          date: "2025-07-20",
+          fixture: "Hammarby - Brommapojkarna",
+          result: "3-2",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 2,
+          hammarbyXg: 2.1,
+          opponentXg: 1.3,
+          hammarbyShots: 20,
+          opponentShots: 11,
+          sourceUrl: "https://www.worldsoccerdata.com/stats/sweden/allsvenskan/matches/hammarby-ff-vs-if-brommapojkarna-20-07-2025",
+        },
+        {
+          date: "2025-04-06",
+          fixture: "Brommapojkarna - Hammarby",
+          result: "0-2",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 0,
+          hammarbyXg: 1.8,
+          opponentXg: 0.7,
+          hammarbyShots: 18,
+          opponentShots: 12,
+          sourceUrl: "https://www.worldsoccerdata.com/stats/sweden/allsvenskan/matches/if-brommapojkarna-vs-hammarby-ff-06-04-2025",
+        },
+        {
+          date: "2024-07-21",
+          fixture: "Hammarby - Brommapojkarna",
+          result: "3-3",
+          venue: "home",
+          outcome: "draw",
+          hammarbyGoals: 3,
+          opponentGoals: 3,
+          hammarbyXg: 2.4,
+          opponentXg: 1.9,
+          hammarbyShots: 19,
+          opponentShots: 13,
+          sourceUrl: "https://ligan.se/allsvenskan/2024/",
+        },
+        {
+          date: "2024-04-07",
+          fixture: "Brommapojkarna - Hammarby",
+          result: "0-2",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 0,
+          hammarbyXg: 1.5,
+          opponentXg: 0.6,
+          hammarbyShots: 16,
+          opponentShots: 10,
+          sourceUrl: "https://ligan.se/allsvenskan/2024/",
+        },
+        {
+          date: "2019-06-02",
+          fixture: "Brommapojkarna - Hammarby",
+          result: "1-0",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 0,
+          opponentGoals: 1,
+          hammarbyXg: 0.9,
+          opponentXg: 0.8,
+          hammarbyShots: 12,
+          opponentShots: 9,
+          sourceUrl: "https://ligan.se/allsvenskan/2019/",
+        },
+      ],
+    },
+    trafficLightCards: [
+      {
+        metric: "Hörnsårbarhet (Bolldata)",
+        bigNumber: "8,5%",
+        badge: "CORNERFARA",
+        color: "red",
+        rankNote: "6 insläppta hörnmål (2:e flest i ligan) · 8,5% per hörna (2:e sämst) · HIF +39 hörnsaldo (5:e) · 78 vunna hörnor",
+        explanation:
+          "BP är ligans näst sårbaraste lag på hörnor: 6 av 71 emot-hörnor slutar i mål (8,5%). Bara Häcken är sämre (11,0%). Hammarby å sin sida leder Allsvenskan i hörnsaldo (+39), vinner 78 hörnor per säsong (5,57/match) och har bara lämnat 1 hörnmål. Det är den tydligaste strukturella fördelen inför matchen – varje hörna är ett potentiellt mål.",
+        podcastComment:
+          "BP är näst sämst i ligan på att försvara hörnor. Vi vinner 78 hörnor den här säsongen och har +39 i saldo. Det är inte slumpen att vi ska ha hörnor i den här matchen – det är en planerad anfallsstrategi.",
+      },
+      {
+        metric: "BPs offensiva kapacitet (Bolldata)",
+        bigNumber: "1,29",
+        badge: "URHOLKAD OFFENSIV",
+        color: "green",
+        rankNote: "16,77 xG totalt (13:e) · Hansen AVS. (anfall) · Berg AVS. (kreativitet) · 7,00 MC/90 (13:e)",
+        explanation:
+          "BP är redan 13:e i xG-produktion (1,29/match). Nu är dessutom BÅDA de viktigaste offensiva profilerna borta: Hansen (anfallaren, röd kort 17 jul) och Oliver Berg (den kreative AM:en, gula kort). Kvar är Björklund som primär CF (12 SM, 2M), Oppong på kanten (12 SM, 2M) och Isso/Sever som alternativa framåtspelarna. BP:s anfallshot inför denna match är det svagaste de haft under säsongen.",
+        podcastComment:
+          "De saknar sin anfallare och sin kreativa mittfältare i ett och samma slag. 1,29 xG per match utan Hansen och Berg. Det är extremt lågt och vi ska utnyttja det offensivt.",
+      },
+      {
+        metric: "BPs sena scoring + bortaform (Bolldata)",
+        bigNumber: "61–75'",
+        badge: "VAKSAMHET 2H",
+        color: "yellow",
+        rankNote: "5 mål 61-75' (BP:s starkaste fönster) · Borta: 3V-2O-3F (11p, 7:e) · Konvertering 13,6% (5:e)",
+        explanation:
+          "Trots dubbla avstängningar och låg xG-produktion kan BP fortfarande bitas. 13,6% konvertering (5:e bäst) innebär att om de skapar 2–3 lägen kan de göra mål. Deras starkaste scoringsperiod är 61–75' (5 av 18 mål). Bortaformen är dessutom bättre än hemmafacit (3V-2O-3F, 7:e borta). Respektera dem i 2H trots pappersövertaget.",
+        podcastComment:
+          "Även utan Hansen och Berg är BP effektiva när de skapar chanser – 13,6 procents konvertering är femte bäst i hela Allsvenskan. Och 61 till 75 är deras gyllene period. Håll strukturen i 2H.",
+      },
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a · 26p · 32-14 mål. Ligaledare i xG (31,84), avslut (279), bollinnehav (59%), dueller (43,2%), hörnor (+39). Senaste 5: 3V-0O-2F (9p). Sourou Koné skadad.",
+        tone: "emerald",
+      },
+      {
+        title: "Brommapojkarna – ligastatus",
+        body: "11:a · 16p · 18-21 mål. Låg xG-produktion (16,77, 13:e), sämst i dueller (36,4%, 15:e), sämst i bollåterhämtning (75,46/m, 16:e). Hansen (anfall) + Berg (AM) båda AVSTÄNGDA. Jakobsen lämnat klubben.",
+        tone: "amber",
+      },
+      {
+        title: "Borta på Grimsta IP",
+        body: "HIF vann senast 2-0 på Grimsta IP (omg. 2, april 2025 – Pinas 55' + Besara 90'). Victor Lind spelar nu för HIF. Disciplinerat borta-spel är standarden.",
+        tone: "blue",
+      },
+    ],
+    opponentStyle: [
+      "Låg offensiv volym: 132 totala avslut (15:e), 10,15/match. BP konverterar effektivt (13,6%, 5:e) men utan Hansen (anfall) och Berg (AM) är anfallskapaciteten på säsongens lägsta nivå.",
+      "4-2-3-1 formation: Cavallius i mål, 4-back med Zandén, Troelsen, Cotton, Örqvist/Timossi Andersson. DM-par (Strand + Barslund), AM-trio (Oppong + Sever/Okeke), Björklund eller Isso uppifrån.",
+      "Passar tekniskt väl (84,7% passningsprecision, 4:e) men utan de kreativa nyckelpassningarna (3,46/90, 12:e). Spelar strukturerat bakifrån men når sällan farliga lägen.",
+      "Extremt svagt i dueller (36,4% totalt – 15:e/16) och bollåterhämtning (75,46/m – 16:e/sist). Vinner inte sina 50/50-dueller och pressar inte intensivt bakåt.",
+      "Hörnsårbarhet är deras tydligaste defensiva svaghet: 8,5% av de 71 hörnorna mot dem ger mål (2:e sämst i Allsvenskan). 6 mål från hörnor – i matchens nyckelscenario.",
+      "Offensivt sent: 5 av 18 mål (28%) görs 61–75' – BP väntar ofta på chanser sent i matcher. Men utan Hansen minskar kontringshotet avsevärt.",
+    ],
+    styleProfile: [
+      {
+        label: "Offensiv volym (Bolldata)",
+        value: "132 avslut (15:e) · 10,15/match · 16,77 xG (13:e) · 1,29 xG/match",
+        score: 25,
+        explanation:
+          "BP skapar lite: 132 totala avslut på 13 matcher (15:e i ligan), xG-produktion 16,77 (13:e). Utan Hansen minskar hotet ytterligare. HIF kan fokusera defensivt och ändå stänga dem ute med god organisation.",
+      },
+      {
+        label: "Konverteringsgrad (Bolldata)",
+        value: "13,6% (5:e) · Effektiva när chanser skapas",
+        score: 72,
+        explanation:
+          "Trots den låga volymen konverterar BP förvånansvärt bra – 13,6% är 5:e bäst i Allsvenskan. Det innebär att om BP skapar 2–3 lägen kan de göra mål. HIF måste stänga matcherna och inte bjuda på onödiga kontringsmöjligheter.",
+      },
+      {
+        label: "Hörnsårbarhet (Bolldata)",
+        value: "6 insläppta hörnmål (2:e flest) · 8,5% per hörna (2:e sämst)",
+        score: 10,
+        explanation:
+          "BP:s absoluta svaghet: 6 av 71 emot-hörnor slutar i mål (8,5%). Bara Häcken är sämre (11%). Hammarby vinner 78 hörnor per säsong och har +39 i saldo. Det är matchens tydligaste anfallsmöjlighet för HIF.",
+      },
+      {
+        label: "Duellspel (Bolldata)",
+        value: "36,4% vunna dueller (15:e/16) · OD 46,1% · LD 44,2%",
+        score: 18,
+        explanation:
+          "BP är ligans näst sämsta lag i dueller totalt. De vinner under 37% av sina 50/50-situationer. HIF, som leder ligan med 43,2%, kommer att ha ett rejält fysiskt övertag i hela matchens duellspel.",
+      },
+      {
+        label: "Bortaform 2026 (Bolldata)",
+        value: "3V-2O-3F · 11p (7:e bortatabellen) · Starkare borta än hemma",
+        score: 65,
+        explanation:
+          "BP är förvånansvärt starka borta – 7:e i bortatabellen med 11 poäng från 8 matcher. Hemma är de avsevärt svagare (5:e sämst hemma). Detta är en bortamatch för Hammarby, vilket talar för ett mer kompakt BP.",
+      },
+      {
+        label: "Bollåterhämtning (Bolldata)",
+        value: "75,46/match (16:e – SIST i Allsvenskan)",
+        score: 12,
+        explanation:
+          "BP har sämst bollåterhämtning i hela Allsvenskan – 75,46 återerövrade bollar per match (16:e/sist). Jämfört med HIF:s 90,29 (3:e) är gapet enormt. BP pressar inte bakåt och tappar lätt boll mot press – HIF:s högpress är ett direkt anfallsvapen.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,27",
+        opponentValue: "1,29",
+        hammarbyScore: 100,
+        opponentScore: 57,
+        note: "HIF skapar 76% mer xG per match. BP 13:e i ligan – låg offensiv produktion trots god konvertering.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,93",
+        opponentValue: "10,15",
+        hammarbyScore: 100,
+        opponentScore: 51,
+        note: "HIF leder Allsvenskan i avslut/match (1:a). BP 15:e – nästan dubbelt upp HIF i antal.",
+      },
+      {
+        label: "Bollinnehav %",
+        hammarbyValue: "59,0%",
+        opponentValue: "46,3%",
+        hammarbyScore: 100,
+        opponentScore: 79,
+        note: "HIF leder ligan (1:a). BP 9:e – under genomsnittet men inte ett passivt lag.",
+      },
+      {
+        label: "Dueller vunna %",
+        hammarbyValue: "43,2%",
+        opponentValue: "36,4%",
+        hammarbyScore: 100,
+        opponentScore: 84,
+        note: "HIF 1:a i Allsvenskan. BP 15:e – klart underläge i alla duellkategorier.",
+      },
+      {
+        label: "Matchchanser / 90 min",
+        hammarbyValue: "13,50",
+        opponentValue: "7,00",
+        hammarbyScore: 100,
+        opponentScore: 52,
+        note: "HIF skapar nästan dubbelt fler matchchanser per match. BP 13:e – farliga men sällan i position att skjuta.",
+      },
+      {
+        label: "Bollåterhämtning / match",
+        hammarbyValue: "90,29",
+        opponentValue: "75,46",
+        hammarbyScore: 100,
+        opponentScore: 84,
+        note: "HIF 3:e i ligan. BP sist (16:e) – pressar inte bakåt, lämnar ytor öppna för HIF efter ombyten.",
+      },
+      {
+        label: "Hörnorsaldo (vunna-emot)",
+        hammarbyValue: "+39",
+        opponentValue: "–13",
+        hammarbyScore: 100,
+        opponentScore: 30,
+        note: "HIF 5:e bäst i hörnsaldo (+39). BP –13 (13:e). BP:s 8,5% insläppta hörnmålsrate = 2:e sämst.",
+      },
+      {
+        label: "xGA / match (mot motst.)",
+        hammarbyValue: "1,38",
+        opponentValue: "1,76",
+        hammarbyScore: 100,
+        opponentScore: 78,
+        note: "HIF 2:a bäst defensivt (1,38 xGA/m). BP 13:e (1,76 xGA/m) – läcker mer än förväntat defensivt.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "xG / match (Bolldata)",
+        hammarbyValue: "2,27",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "1,29",
+        opponentRank: "13:e av 16",
+        note: "HIF skapar 76% mer per match. BP offensivt svagt utan Hansen.",
+      },
+      {
+        label: "Avslut / match (Bolldata)",
+        hammarbyValue: "19,93",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "10,15",
+        opponentRank: "15:e av 16",
+        note: "BP näst minst avslut i ligan. HIF nästan dubbelt fler.",
+      },
+      {
+        label: "Dueller vunna % (Bolldata)",
+        hammarbyValue: "43,2%",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "36,4%",
+        opponentRank: "15:e av 16",
+        note: "BP näst sämst i dueller. HIF bäst. Klart fysiskt övertag för HIF.",
+      },
+      {
+        label: "Bollinnehav % (Bolldata)",
+        hammarbyValue: "59,0%",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "46,3%",
+        opponentRank: "9:e av 16",
+        note: "HIF kontrollerar bollen klart mer. BP under genomsnittet.",
+      },
+      {
+        label: "Bollåterhämtning / match (Bolldata)",
+        hammarbyValue: "90,29",
+        hammarbyRank: "3:e i Allsvenskan",
+        opponentValue: "75,46",
+        opponentRank: "16:e av 16 (SIST)",
+        note: "Enormt gap. BP pressar inte bakåt – HIF:s press är ett direkt offensivt verktyg.",
+      },
+      {
+        label: "Insläppta hörnmål rate (Bolldata)",
+        hammarbyValue: "2,6%",
+        hammarbyRank: "5:e bäst (1 insläppt)",
+        opponentValue: "8,5%",
+        opponentRank: "2:e sämst av 16",
+        note: "BP:s tydligaste defensiva svaghet. HIF 78 hörnor + BP:s sårbarhet = strategisk prioritet.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 2 },
+      { window: "16–30'", hammarbyGoals: 3, opponentConcededGoals: 3 },
+      { window: "31–45+'", hammarbyGoals: 6, opponentConcededGoals: 3 },
+      { window: "46–60'", hammarbyGoals: 6, opponentConcededGoals: 5 },
+      { window: "61–75'", hammarbyGoals: 9, opponentConcededGoals: 4 },
+      { window: "76–90+'", hammarbyGoals: 4, opponentConcededGoals: 4 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "BP:s offensiva målprofil (Bolldata)",
+        value: "18 mål · 13 MIB · 5 MUB · 2 HM · 4 NM · 13,6% KG (5:e)",
+        interpretation:
+          "BP gör mål inne i boxen (13 av 18) men har ovanligt många mål utifrån boxen (5 MUB – 3:e flest i ligan). God konverteringsgrad (13,6%, 5:e) kompenserar för den låga volymen. Bästa scoring-period: 61–75' (5 mål). Utan Hansen förväntas anfallsproduktionen sjunka markant.",
+      },
+      {
+        label: "BP:s defensiva svagheter (Bolldata)",
+        value: "21 insläppta · 6 insläppta hörnmål (8,5%) · 5 insläppta 46-60' · 6 HM insläppta",
+        interpretation:
+          "BP är mest sårbar i tre scenarion: (1) hörnor – 6 mål från 71 emot-hörnor, 8,5% rate = 2:a sämst, (2) tidigt i 2H (46–60': 5 insläppta, värst av alla fönster), (3) huvudmål – 6 insläppta via huvud (joint 2:a flest i ligan). HIF:s set-piece-spel och tidig press efter halvtid är kritiska vapen.",
+      },
+      {
+        label: "HIF vs BP historiskt (H2H 2025)",
+        value: "HIF 5-2 totalt 2025 (3-2 hemma + 0-2 borta på Grimsta)",
+        interpretation:
+          "Hammarby vann båda 2025-mötena. I april 2025 vann HIF 2-0 på exakt samma arena (Grimsta IP). I det hemma-mötet i juli 2025 ledde BP 0-2 vid halvtid men HIF vände med 3-2. Mentalt övertag finns. Victor Lind (nu i HIF) bidrar med insidekunskap om BP:s spelsystem.",
+      },
+      {
+        label: "Dubbla avstängningar + trupp-läge",
+        value: "Hansen (anfall) + Berg (AM) AVS. · Jakobsen lämnat klubben",
+        interpretation:
+          "Mads Hansen fick direkt rött kort mot IFK Göteborg den 17 juli (dubbelsula i bröstet på Noah Tolf, 3 matcher). Oliver Berg är avstängd via gula kort. Jakobsen och Alladoh har lämnat klubben. Björklund (CF, 12 SM, 2M) väntas starta som primär anfallare. Oppong (12 SM, 2M) täcker AM/kantplatsen. David Isso (8 SM, 1M) eller Sever (8 SM) kan starta alternativt.",
+      },
+    ],
+    playersToWatch: [
+      {
+        name: "Lukas Björklund",
+        position: "CF · #30 · 12 SM · 2 mål",
+        scoutBadge: "⚡ Primärt anfallshot",
+        stats: [
+          { label: "Matcher", value: "12" },
+          { label: "Mål", value: "2" },
+          { label: "Nat.", value: "Sverige" },
+        ],
+        threat:
+          "BP:s mest spelade forward (12 SM, 2 mål) – väntas starta som CF med Hansen borta",
+        motivation:
+          "Björklund (#30, 22 år, fd Sönderjyske) klassas av Ligan som CF och har 12 starter bakom sig – han är BP:s primära framåtspetspot när Hansen är borta. Spelar som ren forward i 4-2-3-1 men kan dra ut bredare. Hammarby:s mittbackspar håller tätt på honom inne i boxen och skär av hans djuplöpningar. Han är mer bekväm på bollen än i luften – försvara ytan framför backlinje.",
+      },
+      {
+        name: "Sion Oppong",
+        position: "Yttermitt/AM · #33 · 12 SM · 2 mål",
+        scoutBadge: "🎯 Snabb kantspelare",
+        stats: [
+          { label: "Matcher", value: "12" },
+          { label: "Mål", value: "2" },
+          { label: "Nat.", value: "Sverige" },
+        ],
+        threat: "Regelbunden starter på kanten, 12 matcher och 2 mål – farlig i omställning och dribbel",
+        motivation:
+          "Oppong (#33, 19 år) är en av BP:s mest spelade offensiva profiler. Snabb ytterspelare som föredrar att driva mot mål från vänsterkanten. Med Berg borta tar han ännu mer ansvar i den kreativa rollen. Hammarby täcker kantlinjen tätt och tvinga honom inåt mot blockat centrum – han tappar farligast om han får löpa fritt längs linjen mot boxen.",
+      },
+      {
+        name: "David Isso",
+        position: "CF · #34 · 8 SM · 1 mål",
+        scoutBadge: "🔄 Alternativ forward",
+        stats: [
+          { label: "Matcher", value: "8" },
+          { label: "Mål", value: "1" },
+          { label: "Nat.", value: "Sverige" },
+        ],
+        threat: "Ung forward med 8 matcher i ligan – kan starta eller komma in som joker",
+        motivation:
+          "David Isso (#34, 19 år) är BP:s tredje forward-alternativ med 8 allsvenska framträdanden och 1 mål. Snabb och rörlig – kan starta om tränaren väljer att vila Björklund eller komma in i 2H som en piggt byte. HIF:s backfyra håller tätt på djupledslöpningar och lämnar inga ytor bakom linjen mot honom.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Utnyttja BP:s hörnsvaghet aggressivt: 8,5% av BP:s emot-hörnor ger mål (2:e sämst). HIF vinner 5,57 hörnor/match (+39 i saldo). Varje corner mot BP är ett potentiellt mål – spela på det med varierande hörnrutiner.",
+        "Tryck i 46–60'-fönstret: BP:s värsta defensiva period (5 insläppta – sämst av alla fönster). Inled 2H med högt tempo och press direkt från avspark.",
+        "Utnyttja BP:s noll-press bakåt (75,46 återerövrade bollar/match – SIST). HIF:s press vinner bollar högt, kort passningsväg till boxen. BP pressar aldrig tillbaka ordentligt.",
+        "Kombinera in i BP:s box – de tillåter bollar in (MCE/M 9,92, 13:e) och konkurrerar dåligt i boxdueller (22,5% vunna defensiva dueller). Utnyttja djupet med löpningar bakom BP:s backfyra.",
+      ],
+      withoutBall: [
+        "Vaka BP:s 61–75'-fönster (5 av BP:s 18 mål görs där). Håll strukturen och forma ett kompakt block under denna period – BP:s bästa scoringsperiod.",
+        "Björklund och Oppong tar de tyngsta offensiva rollerna med Hansen + Berg borta – BP:s attack är mer förutsägbar och enklare att läsa. Håll tätt på Björklund inne i boxen och stäng Oppongs kantlöpningar.",
+        "BP försöker spela (84,7% passningsprecision) men har få nyckelpassningar (3,46/90, 12:e). Press på deras DM-par stryper deras speldistribution och skapar ombyten högt.",
+        "BP har 22 offsides (3:e flest, 1,69/m) – backlinjen håller högt och sätter ofsidesfällan. BP:s anfallare löper ofta bakom linjen och ger HIF gratisoffsidar.",
+      ],
+      matchManagement: [
+        "Bortamatch på Grimsta IP: HIF vann 0-2 senast här (april 2025). Samma arena, liknande förutsättningar – disciplinerat spel borta.",
+        "2 BP-spelare AVSTÄNGDA inklusive Hansen – ta fördel av deras trupp-förvirring tidigt. Snabbt första mål sätter BP under press de inte är vana vid utan sina nyckelspelarna.",
+        "Tabellmässigt är 3 poäng här guld: HIF 2:a med 26p, en bortaseger cementerar toppositionen inför hemmomgångarna.",
+        "Victor Linds transfer från BP till HIF ger laget insidekunskap om BP:s spelordning, signalspel och pressmönster – utnyttja det.",
+      ],
+    },
+    spotlightKey:
+      "Matchen sitter på tre nyckelscenarios: (1) Hörnorna – BP har 8,5% insläppta hörnmålsrate (2:e sämst) och HIF leder ligan med +39 i hörnsaldo. Varje corner HIF vinner är ett potentiellt mål. (2) Dubbla avstängningar – Hansen (anfall) och Berg (AM) borta + Jakobsen/Alladoh lämnat klubben = BP:s offensiv på säsongens svagaste punkt. Björklund (CF) och Oppong (kant) ersätter men är inte i samma klass. (3) Bortakvalitet – HIF vann 2-0 på Grimsta i april 2025. BP är starkare borta än hemma men strukturen är nu söndrig. BP konverterar sina chanser (13,6%, 5:e) – respektera dem i 2H, men dominera med boll och set-pieces.",
+    glossary: [
+      {
+        term: "xG (Expected Goals, Bolldata)",
+        explanation:
+          "Sannolikhet för mål baserat på skottets position och situation. BP 16,77 xG (13:e) = producerar lite offensivt. HIF 31,84 xG (1:a) = klart bäst i ligan.",
+      },
+      {
+        term: "KG% (Konverteringsgrad, Bolldata)",
+        explanation:
+          "Andel skott som resulterar i mål. BP 13,6% (5:e) trots låg volym. Ger dem ett disproportionellt hot på sina chanser – var vaksam när de väl skjuter.",
+      },
+      {
+        term: "MCE/M (Matchchanser emot per match, Bolldata)",
+        explanation:
+          "Antal matchchanser motståndaren skapar per match mot laget. BP 9,92 (13:e) = skapar relativt många chanser mot dem. HIF 6,71 (2:a bäst) = stäng ute motståndarna.",
+      },
+      {
+        term: "IM/H% (Insläppta hörnmål per hörna, Bolldata)",
+        explanation:
+          "Andel hörnor mot laget som resulterar i mål. BP 8,5% (2:e sämst) = nästan 1 av 12 emot-hörnor ger mål. Kritisk svaghet att exploatera.",
       },
     ],
   },
