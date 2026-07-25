@@ -672,8 +672,8 @@ function BroadcasterHero() {
         {/* Quick stats row */}
         <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <HeroStat label="xG / 90 (båda åren)" value="≈ 0,39"      sub="Identisk chansvolym"     tone="emerald" />
-          <HeroStat label="Assist / 90 2026"     value="0,39"         sub="vs 0,07 – 2025"          tone="sky"     />
-          <HeroStat label="G+A / 90 2026"        value="0,78"         sub="vs 0,63 – 2025 (+24%)"   tone="amber"   />
+          <HeroStat label="Assist / 90 2026"     value="0,39"         sub="vs 0,10 – 2025"          tone="sky"     />
+          <HeroStat label="G+A / 90 2026"        value="0,78"         sub="vs 0,66 – 2025 (+18%)"   tone="amber"   />
           <HeroStat label="Box Threat rank"       value="Topp 10"      sub="Elit i båda säsongerna"  tone="violet"  />
         </div>
       </div>
@@ -779,10 +779,10 @@ function ConstantsSection() {
         />
         <ConstantCard
           label="G+A / 90 (totalt output)"
-          detail="0,63 (2025) → 0,78 (2026). Mer total offensiv output per minut, trots färre mål."
-          pct25={Math.round((0.63 / 0.78) * 78)}
+          detail="0,66 (2025) → 0,78 (2026). Mer total offensiv output per minut, trots färre mål."
+          pct25={Math.round((0.66 / 0.78) * 78)}
           pct26={78}
-          rank25="0,63" total25="per 90" rank26="0,78" total26="per 90"
+          rank25="0,66" total25="per 90" rank26="0,78" total26="per 90"
         />
       </div>
     </section>
@@ -900,12 +900,12 @@ function ChangesSection() {
         />
         <ChangeCard
           label="Assist / 90 min"
-          val25="0,07" val26="0,39"
-          pct25={9}
+          val25="0,10" val26="0,39"
+          pct25={13}
           pct26={72}
           direction="up"
           tacticTitle="Rollskifte: från finisher till spelstartare"
-          tacticBody="Besara agerar nu som primär bollcirkulatör. Adjei och Johansson gör de löpningar in bakom som Besara tidigare stod för. Resultatet: assists exploderade från 2 till 5 på halva antalet matcher."
+          tacticBody="Besara agerar nu som primär bollcirkulatör. Adjei och Johansson gör de löpningar in bakom som Besara tidigare stod för. Resultatet: assists gick från 3 till 5 på hälften av matcherna."
         />
         <ChangeCard
           label="Skapa för lagkamrater (rank)"
@@ -1293,7 +1293,7 @@ export function BesaraSeasonComparisonDashboard() {
               title="Assist & xA"
               rows={[
                 { label: "Assist", v25: "2", v26: "5", highlight: "2026" },
-                { label: "Assist / 90", v25: "0,07", v26: "0,39", highlight: "2026" },
+                { label: "Assist / 90", v25: "0,10", v26: "0,39", highlight: "2026" },
                 { label: "xA", v25: "4,25", v26: "3,60" },
                 { label: "xA / 90", v25: "0,14", v26: "0,28", highlight: "2026" },
                 { label: "G+A totalt", v25: "19", v26: "10" },
