@@ -17,10 +17,10 @@ export default function Home() {
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             <Link
-              href="/matchstatistik/omgang/11"
+              href="/matchstatistik/omgang/14"
               className="inline-flex items-center gap-2 rounded-full border border-emerald-400/60 bg-emerald-500/20 px-4 py-2 text-sm font-bold text-emerald-100 transition-colors hover:border-emerald-300 hover:bg-emerald-500/30"
             >
-              ⚽ Senaste match: Elfsborg 1-2 Hammarby →
+              ⚽ Senaste match: Brommapojkarna 1-1 Hammarby →
             </Link>
             <Link
               href="/matchstatistik/sasongsanalys"
