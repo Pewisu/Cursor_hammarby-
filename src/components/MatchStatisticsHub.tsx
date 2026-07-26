@@ -53,6 +53,15 @@ import {
   degerforsYearComparisonMeta,
   type YearOnYearRow,
 } from "@/lib/degerforsRound13AnalysisData";
+import {
+  brommapojkarnaRound14Goals,
+  brommapojkarnaRound14MatchSpider,
+  brommapojkarnaRound14MatchStory,
+  brommapojkarnaRound14Recap,
+  brommapojkarnaRound14SnapshotPills,
+  brommapojkarnaRound14SnapshotStats,
+  brommapojkarnaRound14Takeaways,
+} from "@/lib/brommapojkarnaRound14AnalysisData";
 import { findMatchAnalysisRoundForOverview } from "@/lib/resolveMatchAnalysisRound";
 import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
@@ -1630,6 +1639,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const isRound11Dashboard = mode === "round" && round === 11;
   const isRound12Dashboard = mode === "round" && round === 12;
   const isRound13Dashboard = mode === "round" && round === 13;
+  const isRound14Dashboard = mode === "round" && round === 14;
   const matchesThroughRound = sortedMatches.filter((match) => match.gameweek <= comparisonRound);
   const matchCountThroughRound = matchesThroughRound.length;
   const round11MatchPoints =
@@ -1675,6 +1685,29 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         seasonPpgBefore: round13PpgBefore,
         matchDeltaVsPpg: round13MatchPoints - round13PpgBefore,
         projectedSeasonPoints: Math.round(round13PpgAfter * ALLSVENSKAN_TOTAL_ROUNDS),
+        matchesPlayed: matchCountThroughRound,
+      }
+    : null;
+  const round14MatchPoints =
+    selectedRoundMatch === null
+      ? 0
+      : getMatchPoints(selectedRoundMatch.hammarby.goals, selectedRoundMatch.opponent.goals);
+  const round14PointsBeforeMatch = season2026PointsThroughRound - round14MatchPoints;
+  const round14MatchCountBefore = Math.max(matchCountThroughRound - 1, 0);
+  const round14PpgBefore =
+    round14MatchCountBefore > 0 ? round14PointsBeforeMatch / round14MatchCountBefore : 0;
+  const round14PpgAfter =
+    matchCountThroughRound > 0 ? season2026PointsThroughRound / matchCountThroughRound : 0;
+  const round14PointsContext: MatchPointsContext | null = isRound14Dashboard
+    ? {
+        seasonLabel: "2026",
+        roundNumber: comparisonRound,
+        matchPoints: round14MatchPoints,
+        seasonPointsAfter: season2026PointsThroughRound,
+        seasonPpgAfter: round14PpgAfter,
+        seasonPpgBefore: round14PpgBefore,
+        matchDeltaVsPpg: round14MatchPoints - round14PpgBefore,
+        projectedSeasonPoints: Math.round(round14PpgAfter * ALLSVENSKAN_TOTAL_ROUNDS),
         matchesPlayed: matchCountThroughRound,
       }
     : null;
@@ -2462,10 +2495,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   }
 
   return (
-    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
+    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard || isRound14Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
       <header
         className={`sticky top-0 z-50 border-b backdrop-blur-sm ${
-          (isRound11Dashboard || isRound13Dashboard)
+          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard)
             ? "border-emerald-800/45 bg-[#163028]/95"
             : "border-white/[0.06] bg-[#0d1117]/90"
         }`}
@@ -2473,7 +2506,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         <div className="mx-auto max-w-6xl px-4 py-4">
           <p
             className={`text-xs uppercase tracking-[0.2em] ${
-              (isRound11Dashboard || isRound13Dashboard) ? "text-emerald-300/90" : "text-blue-400"
+              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard) ? "text-emerald-300/90" : "text-blue-400"
             }`}
           >
             Matchstatistik
@@ -2536,7 +2569,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 13 || round === 15) && (
           <div
             className={`border-t ${
-              (isRound11Dashboard || isRound13Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
+              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
             }`}
           >
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
@@ -2647,7 +2680,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {/* ── Tab navigation (round mode only, not special rounds 11/13) ── */}
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && (
           <div className="border-t border-white/[0.05] bg-[#0d1117]/95">
             <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 py-2.5">
               {(
@@ -2680,7 +2713,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
       <main
         className={`mx-auto flex max-w-6xl flex-col px-4 py-8 ${
-          (isRound11Dashboard || isRound13Dashboard) ? "gap-4" : "gap-8"
+          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard) ? "gap-4" : "gap-8"
         }`}
       >
         {mode === "round" && isRound11Dashboard && (
@@ -2765,7 +2798,42 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           />
         )}
 
-        {!isRound11Dashboard && !isRound13Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {/* ── Round 14: Brommapojkarna 1-1 Hammarby ── */}
+        {mode === "round" && isRound14Dashboard && (
+          <PointsComparisonSection
+            comparisonRound={comparisonRound}
+            pointsComparisonRows={pointsComparisonRows}
+            matchContext={round14PointsContext}
+            className={`${ROUND11_SURFACE} p-4 md:p-5`}
+          />
+        )}
+
+        {isRound14Dashboard && (
+          <div id="match-recap" className={ROUND11_SURFACE}>
+            <MatchRecapSection
+              embedded
+              headline={brommapojkarnaRound14Recap.headline}
+              tagline={brommapojkarnaRound14Recap.tagline}
+              dateLabel={brommapojkarnaRound14Recap.dateLabel}
+              opponentLabel="IF Brommapojkarna"
+              opponentScore={brommapojkarnaRound14Recap.opponentScore}
+              hammarbyScore={brommapojkarnaRound14Recap.hammarbyScore}
+              opponentXg={brommapojkarnaRound14Recap.opponentXg}
+              hammarbyXg={brommapojkarnaRound14Recap.hammarbyXg}
+              halftimeScore={brommapojkarnaRound14Recap.halftimeScore}
+              snapshotStats={brommapojkarnaRound14SnapshotStats}
+              snapshotPills={brommapojkarnaRound14SnapshotPills}
+              matchStory={brommapojkarnaRound14MatchStory}
+              goals={brommapojkarnaRound14Goals}
+              takeaways={brommapojkarnaRound14Takeaways}
+              spiderAxes={brommapojkarnaRound14MatchSpider}
+              sourceUrl={brommapojkarnaRound14Recap.sourceUrl}
+              hammarbySourceUrl={brommapojkarnaRound14Recap.hammarbySourceUrl}
+            />
+          </div>
+        )}
+
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section id="matchgenomgang" className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {/* Hammarby goals */}
           <div className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-[#0d1f12] p-5">
@@ -2819,7 +2887,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && roundTab === "sasong" && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && roundTab === "sasong" && (
           <PointsComparisonSection
             comparisonRound={comparisonRound}
             pointsComparisonRows={pointsComparisonRows}
@@ -2827,14 +2895,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {/* ── Matchanalys KPI cards (Twelve data) ── */}
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
           <MatchAnalysisKpiSection
             roundData={resolvedAnalysisRound}
             matchLabel={selectedRoundMatch ? `${selectedRoundMatch.matchName}` : ""}
           />
         )}
 
-        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && roundTab === "matchen" && (
+        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && roundTab === "matchen" && (
           <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -3270,7 +3338,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
-        {!isRound11Dashboard && !isRound13Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-neutral-400">
@@ -3351,7 +3419,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {!isRound11Dashboard && !isRound13Dashboard && (mode === "combined" || roundTab === "sasong") && (
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && (mode === "combined" || roundTab === "sasong") && (
         <>
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -4578,7 +4646,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         <footer
           className={
-            (isRound11Dashboard || isRound13Dashboard)
+            (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard)
               ? "rounded-2xl border border-emerald-800/35 bg-[#13231d]/80 p-5 text-xs leading-relaxed text-neutral-400"
               : "rounded-2xl border border-white/[0.06] bg-neutral-900/60 p-5 text-xs leading-relaxed text-neutral-400"
           }

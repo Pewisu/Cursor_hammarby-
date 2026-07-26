@@ -2,7 +2,7 @@ import type { SpiderComparisonAxis } from "@/lib/upcomingOpponentsData";
 
 export interface MatchGoalEvent {
   minute: number;
-  team: "Hammarby" | "Elfsborg";
+  team: string;
   player: string;
   xg: number;
 }
