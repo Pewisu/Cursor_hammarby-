@@ -22,10 +22,16 @@ export default function MatchStatisticsRoutePage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
           <Link
+            href="/matchstatistik/anderlecht-kvalet-retur"
+            className="inline-flex items-center gap-2 rounded-lg border border-red-400/60 bg-red-500/20 px-3 py-1.5 text-xs font-bold text-red-100 hover:border-red-300 hover:bg-red-500/30"
+          >
+            🇪🇺 Ny: Anderlecht 3–1 HIF – EL-kval retur 30 juli
+          </Link>
+          <Link
             href="/matchstatistik/anderlecht-kvalet"
             className="inline-flex items-center gap-2 rounded-lg border border-sky-400/60 bg-sky-500/20 px-3 py-1.5 text-xs font-bold text-sky-100 hover:border-sky-300 hover:bg-sky-500/30"
           >
-            🇪🇺 Ny: HIF 1–1 Anderlecht – EL-kval 23 juli
+            🇪🇺 HIF 1–1 Anderlecht – EL-kval 23 juli
           </Link>
           <Link
             href="/matchstatistik/omgang/11"
@@ -165,6 +171,28 @@ export default function MatchStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-amber-300 group-hover:text-amber-200">
               Öppna intern jämförelse →
+            </p>
+          </Link>
+
+          <Link
+            href="/matchstatistik/anderlecht-kvalet-retur"
+            className="group rounded-2xl border border-red-500/40 bg-[#1a0a0a] p-6 transition-colors hover:border-red-400/60 hover:bg-[#1f0e0e] md:col-span-2 lg:col-span-1"
+          >
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-red-400/40 bg-red-400/10 px-2.5 py-0.5 text-[10px] font-bold text-red-300">
+              NY · RETUR
+            </div>
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/20 text-2xl">
+              🇪🇺
+            </div>
+            <h2 className="text-xl font-semibold text-white">Anderlecht 3–1 HIF</h2>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-red-400">
+              UEFA Europa League – Kval Retur · 30 juli 2026
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              Aggregat 4–2. Abraham chockade i 2' men halvtidsbyten vände. Varför tog Anderlecht över helt i andra halvlek?
+            </p>
+            <p className="mt-4 text-sm font-medium text-red-300 group-hover:text-red-200">
+              Öppna matchanalys + halvleksanalys →
             </p>
           </Link>
 
