@@ -291,10 +291,10 @@ export default function AnderlechtReturPage() {
           <div className="mt-4 flex flex-wrap gap-4">
             <div className="rounded-lg border border-amber-500/20 bg-amber-500/8 px-3 py-1.5 text-xs">
               <span className="text-slate-400">xG AND: </span>
-              <span className="font-black text-amber-200">1,21</span>
+              <span className="font-black text-amber-200">4,55</span>
               <span className="ml-2 text-slate-400">xG HIF: </span>
-              <span className="font-black text-emerald-300">1,61</span>
-              <span className="ml-2 text-[10px] text-slate-500">– HIF mer xG, men förlorade</span>
+              <span className="font-black text-emerald-300">1,47</span>
+              <span className="ml-2 text-[10px] text-slate-500">– AND tre gånger mer förväntade mål</span>
             </div>
           </div>
         </div>
@@ -319,20 +319,20 @@ export default function AnderlechtReturPage() {
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-center text-xs">
               <div>
-                <p className="text-[10px] text-slate-500">xG 1:a HT</p>
-                <p className="font-black text-amber-200">{halftimeInfo.homeXg}</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-500">xG 1:a HT</p>
-                <p className="font-black text-emerald-300">{halftimeInfo.awayXg}</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-500">Avslut 1:a HT</p>
+                <p className="text-[10px] text-slate-500">Avslut 1:a HT (AND)</p>
                 <p className="font-black text-amber-200">{halftimeInfo.homeShots}</p>
               </div>
               <div>
-                <p className="text-[10px] text-slate-500">Avslut 1:a HT</p>
+                <p className="text-[10px] text-slate-500">Avslut 1:a HT (HIF)</p>
                 <p className="font-black text-emerald-300">{halftimeInfo.awayShots}</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-slate-500">Hörnor 1:a HT (AND)</p>
+                <p className="font-black text-amber-200">{halftimeInfo.homeCorners}</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-slate-500">HIF ledde</p>
+                <p className="font-black text-emerald-300">0–1 HT</p>
               </div>
             </div>
           </div>
@@ -342,15 +342,15 @@ export default function AnderlechtReturPage() {
             <div className="flex h-10 overflow-hidden rounded-full">
               <div
                 className="flex items-center justify-center text-sm font-black text-amber-100"
-                style={{ width: "85%", background: "linear-gradient(90deg,#b45309,#fbbf24)" }}
+                style={{ width: "56%", background: "linear-gradient(90deg,#b45309,#fbbf24)" }}
               >
-                AND 85%
+                AND 56%
               </div>
               <div
-                className="flex items-center justify-center text-xs font-black text-emerald-200"
-                style={{ width: "15%", background: "rgba(5,150,105,0.5)" }}
+                className="flex items-center justify-center text-sm font-black text-emerald-200"
+                style={{ width: "44%", background: "rgba(5,150,105,0.5)" }}
               >
-                15%
+                HIF 44%
               </div>
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-center text-xs">
@@ -360,15 +360,15 @@ export default function AnderlechtReturPage() {
               </div>
               <div>
                 <p className="text-[10px] text-slate-500">Avslut totalt</p>
-                <p className="font-black text-slate-200">21 – 6</p>
+                <p className="font-black text-slate-200">21 – 10</p>
               </div>
               <div>
-                <p className="text-[10px] text-slate-500">Farliga angrepp</p>
-                <p className="font-black text-amber-200">78 – 28</p>
+                <p className="text-[10px] text-slate-500">xG (Twelve)</p>
+                <p className="font-black text-amber-200">4,55 – 1,47</p>
               </div>
               <div>
                 <p className="text-[10px] text-slate-500">Field tilt</p>
-                <p className="font-black text-amber-200">78% AND</p>
+                <p className="font-black text-amber-200">68% AND</p>
               </div>
             </div>
           </div>

@@ -189,7 +189,7 @@ export default function MatchStatisticsRoutePage() {
               UEFA Europa League – Kval Retur · 30 juli 2026
             </p>
             <p className="mt-2 text-sm text-slate-300">
-              Aggregat 4–2. Abraham chockade i 2' men halvtidsbyten vände. Varför tog Anderlecht över helt i andra halvlek?
+              Aggregat 4–2. Abraham chockade i 2' men halvtidsbyten vände. xG 4,55–1,47. Varför tog Anderlecht över i andra halvlek?
             </p>
             <p className="mt-4 text-sm font-medium text-red-300 group-hover:text-red-200">
               Öppna matchanalys + halvleksanalys →
