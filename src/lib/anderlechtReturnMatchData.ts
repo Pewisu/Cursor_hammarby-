@@ -202,7 +202,7 @@ export const analysisSections: AnalysisSection[] = [
     subTitle: "Fem faktorer som förklarar andra halvlekens dramaturgi",
     verdict: "warning",
     summary:
-      "Anderlecht dominerade inte bara volymmässigt – de skapade verklig chankvalité. Med 4,55 xG mot HIF:s 1,47 var dominansen statistiskt påvisbar. Anderlecht hade 56% bollinnehav (inte extremt, men nog för att styra tempot) och 10 hörnor mot noll. Snikans omedelbara kvittering i 48' förändrade aggregatsituationen (nu 1–1 totalt) och psykologin: Hammarby tvingades försvara. Halvtidsbyten adderade energi och Cvetković blev direkt avgörande. De två sista målen speglar HIF:s utmattning och individuella fel.",
+      "Anderlecht dominerade inte bara volymmässigt – de skapade verklig chankvalité. Med 4,55 xG mot HIF:s 1,47 var dominansen statistiskt påvisbar. Anderlecht hade 56% bollinnehav (inte extremt, men nog för att styra tempot) och 10 hörnor mot noll. Sikans omedelbara kvittering i 48' förändrade aggregatsituationen (nu 1–1 totalt) och psykologin: Hammarby tvingades försvara. Halvtidsbyten adderade energi och Cvetković blev direkt avgörande. De två sista målen speglar HIF:s utmattning och individuella fel.",
     metrics: [
       { label: "xG AND", value: 4.55, note: "Stark chankvalité" },
       { label: "xG HIF", value: 1.47 },
