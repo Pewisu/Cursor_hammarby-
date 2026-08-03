@@ -22,10 +22,16 @@ export default function MatchStatisticsRoutePage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
           <Link
+            href="/matchstatistik/europakval"
+            className="inline-flex items-center gap-2 rounded-lg border border-sky-400/60 bg-sky-500/20 px-3 py-1.5 text-xs font-bold text-sky-100 hover:border-sky-300 hover:bg-sky-500/30"
+          >
+            🇪🇺 Ny: Europakval 2026 – UEL + UECL (Raków)
+          </Link>
+          <Link
             href="/matchstatistik/anderlecht-kvalet-retur"
             className="inline-flex items-center gap-2 rounded-lg border border-red-400/60 bg-red-500/20 px-3 py-1.5 text-xs font-bold text-red-100 hover:border-red-300 hover:bg-red-500/30"
           >
-            🇪🇺 Ny: Anderlecht 3–1 HIF – EL-kval retur 30 juli
+            🇪🇺 Anderlecht 3–1 HIF – EL-kval retur 30 juli
           </Link>
           <Link
             href="/matchstatistik/anderlecht-kvalet"
@@ -171,6 +177,28 @@ export default function MatchStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-amber-300 group-hover:text-amber-200">
               Öppna intern jämförelse →
+            </p>
+          </Link>
+
+          <Link
+            href="/matchstatistik/europakval"
+            className="group rounded-2xl border border-sky-500/40 bg-[#070f1e] p-6 transition-colors hover:border-sky-400/60 hover:bg-[#0c1628] md:col-span-2 lg:col-span-2"
+          >
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-sky-400/40 bg-sky-400/10 px-2.5 py-0.5 text-[10px] font-bold text-sky-300">
+              NY · KAMPANJÖVERSIKT
+            </div>
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-500/20 text-2xl">
+              🇪🇺
+            </div>
+            <h2 className="text-xl font-semibold text-white">Europakval 2026</h2>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-sky-400">
+              UEL Q2 · Anderlecht · UECL Q3 · Raków
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              Komplett kampanjöversikt – UEL mot Anderlecht (agg. 4–2) och UECL Q3 mot Raków Częstochowa. Tidslinje, statistik och matchlänkar.
+            </p>
+            <p className="mt-4 text-sm font-medium text-sky-300 group-hover:text-sky-200">
+              Öppna europakval-kampanj →
             </p>
           </Link>
 

@@ -115,8 +115,8 @@ export default function BroadcasterDashboard() {
           <span className="rounded-full border border-neutral-700 bg-neutral-800 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-neutral-400">
             Broadcaster Dashboard
           </span>
-          <Link href="/matchstatistik/omgang/13" className="text-sm text-neutral-500 hover:text-neutral-300">
-            Omg. 13 →
+          <Link href="/matchstatistik/europakval" className="text-sm text-neutral-500 hover:text-neutral-300">
+            Europakval →
           </Link>
         </div>
       </div>
