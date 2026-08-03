@@ -3552,6 +3552,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   // ─────────────────────────────────────────────────────────────────────────
   {
     round: 14,
+    hidden: true,
     roundLabel: "Omgång 14 · Borta",
     fixture: "Hammarby - Brommapojkarna",
     dateLabel: "26 juli 2026 · Grimsta IP · Bolldata lagdata (24 jul 2026) + Twelve Earpiece scouting",
@@ -4039,6 +4040,424 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "IM/H% (Insläppta hörnmål per hörna, Bolldata)",
         explanation:
           "Andel hörnor mot laget som resulterar i mål. BP 8,5% (2:e sämst) = nästan 1 av 12 emot-hörnor ger mål. Kritisk svaghet att exploatera.",
+      },
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // UECL Q3 · HINMATCH · 7 AUGUSTI 2026 · HEMMA · TELE2 ARENA
+  // Hammarby IF vs Raków Częstochowa
+  // Källa: earpiece.twelve.football/shared-reports/8327cfe8-afa5-40ca-8b19-10da7dd5df26
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    round: 100,
+    roundLabel: "UECL-kval Q3 · Hinmatch",
+    fixture: "Hammarby IF - Raków Częstochowa",
+    dateLabel: "7 Augusti 2026 · Tele2 Arena · Twelve Football earpiece-rapport",
+    venueLabel: "Hemma · Tele2 Arena · Stockholm",
+    oneLineSummary:
+      "Raków är ett välorganiserat polskt topplag med stark defensiv transition och hög aerial-dominans – men svaga offensivt utifrån boxen och kämpande med konverteringen. Hammarby har ett tydligt passningsövertag, snabbare pressing och mer xG per match. Nyckeln: utnyttja Raków:s låga slutfaseneffektivitet med direktpress och kombinationsspel in i boxen, och håll distansskott borta defensivt.",
+    introStats: [
+      { label: "Ekstraklasa 2025/26", value: "2:a · 1,75 p/match", tone: "blue" },
+      { label: "xG / match (Twelve)", value: "1,60 (Raków) vs 2,21 (HIF)", tone: "amber" },
+      { label: "Europaerfarenhet", value: "UECL-gruppspel 2023/24", tone: "blue" },
+      { label: "Truppvärde (TM)", value: "~€23m vs HIF €31,55m", tone: "emerald" },
+    ],
+    mobileTakeaways: [
+      "Raków är ett välorganiserat polskt topplag – Ekstraklasa 2:a med 1,75 p/match och tydligt bättre defensivt än offensivt.",
+      "Deras starkaste kort: defensiv transition (topp 5 Ekstraklasa) och aerialt spel – vinner ~58% av luftduelerna.",
+      "Svaga in i boxen offensivt: final third to box ~19% (Ekstraklasa nedre halva) och konverterar sällan höga chanser.",
+      "Raków spelar ofta lågt defensivt i Europa och förlitar sig på set pieces och kontringar – Tele2 Arena pressar dem att bryta detta mönster.",
+      "HIF:s snabba press (PPDA 4,93, 1:a Allsvenskan) möter ett lag med måttlig PPDA (~9,5) och långsam bollcirkulation bakifrån.",
+      "⚠️ Raków är laget som slog ut Djurgårdens IF i UECL-kval 2024 – de är starka i tvåmatchsserier och disciplinerade defensivt.",
+      "Tvåmatchstie: ett hemmasegermål är avgörande. 0-0 är ett svagt resultat inför Retur i Częstochowa.",
+    ],
+    dataSources: [
+      "Twelve Football earpiece-rapport Raków: https://earpiece.twelve.football/shared-reports/8327cfe8-afa5-40ca-8b19-10da7dd5df26",
+      "Twelve säsongsrapport Raków Częstochowa – Ekstraklasa 2025/26",
+      "Transfermarkt – Raków Częstochowa trupp & värden (aug 2026)",
+      "UEFA UECL Q3 dragning (aug 2026)",
+    ],
+    headToHead: {
+      sampleSize: 0,
+      description:
+        "Hammarby IF och Raków Częstochowa har inga kända historiska möten i UEFA-tävlingar. Detta är lagets första europeiska möte.",
+      summaryCards: [
+        {
+          title: "Historiska möten",
+          value: "Inga kända",
+          note: "Första europeiska mötet för de båda lagen.",
+          tone: "blue",
+        },
+        {
+          title: "Raków Ekstraklasa 25/26",
+          value: "2:a · 1,75 p/match",
+          note: "Stark säsong – bättre defensivt (0,80 insläppta/match) än offensivt.",
+          tone: "amber",
+        },
+        {
+          title: "Hammarby hemma 2026",
+          value: "~6V 1O 1F",
+          note: "~24 gjorda och 6 insläppta på hemmamatcher – stark hemmafästning.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Inga historiska H2H-data – första europeiska mötet.",
+        "Raków senaste europeiska rekord: UECL gruppspel 2023/24, slog ut Djurgårdens IF i Q3 2024.",
+        "Hammarby hemma 2026: dominant med högt xG och låga insläppta mål.",
+        "⚠️ Raków är obesegrade på 12 av de senaste 14 europamatcherna hemma.",
+      ],
+      matches: [],
+    },
+    trafficLightCards: [
+      {
+        metric: "Raków:s offensiva ineffektivitet (Twelve · Ekstraklasa)",
+        bigNumber: "19%",
+        badge: "SVAG BOXPENETRATION",
+        color: "green",
+        rankNote: "Final third to box ~19% · konvertering 10,2% · np xG/skott 0,10 (nedre halva Ekstraklasa)",
+        explanation:
+          "Raków tar sig sällan in i boxen trots att de når den sista tredjedelen. Bara ~19% av deras final-third-possessioner når boxen (Ekstraklasa nedre halva). Konverteringen 10,2% är lägre än snittet och skottkvaliteten låg (np xG/skott ~0,10). Hammarbys kompakta försvar håller dem ute med god organisation – håll linjen och tvinga dem till distansskott.",
+        podcastComment:
+          "De pressar sällan djupt in i boxen. 19% final third to box och under 10 procent konvertering – det är en offensiv som läcker chanser. Kompakt försvar och vi neutraliserar deras scoring-hotbild.",
+      },
+      {
+        metric: "Defensiv transition (Twelve · Ekstraklasa)",
+        bigNumber: "Topp 5",
+        badge: "KONTRINGSRISK",
+        color: "red",
+        rankNote: "Turnovers ~28/match · snabb reaktion · motståndarens kontring begränsas effektivt",
+        explanation:
+          "Raków:s starkaste defensiva dimension: de reagerar snabbt på bollförlust och begränsar effektivt motståndarens kontringshot. Tappar sällan bollen högt upp (~28 turnovers/match, bland Ekstraklasas lägsta) och har en tydlig defensiv organisationsstruktur. Hammarby ska ALDRIG riskera bolltapp i deras halva utan säker utväg – kontraanfallen kan vara farliga trots lågt offensivt xG.",
+        podcastComment:
+          "Deras defensive transition är stark för ett polskt topplag. Tappar vi bollen högt mot dem är kontringshotet omedelbart. Vi måste vara disciplinerade i passningsspelet bakifrån.",
+      },
+      {
+        metric: "Aerialt spel (Twelve/Ekstraklasa · set pieces)",
+        bigNumber: "58%",
+        badge: "LUFTHOT",
+        color: "yellow",
+        rankNote: "~58% vunna luftdueller · set piece-mål: hög andel av totalproduktionen · höga bollar taktisk nyckel",
+        explanation:
+          "Raków vinner runt 58% av sina luftdueller (högt för Ekstraklasa) och gör en ovanligt hög andel av sina mål via dödbollssituationer och höga bollar in i boxen. Deras anfallssystem bygger delvis på att skapa lägen via frisparkar och hörnor. Hammarbys mittbackspar måste vinna varje luftduel och 2:a-bollsituationer runt straffboxen är kritiska – tappar HIF positionerna där skapas farliga situationer.",
+        podcastComment:
+          "58 procent i luftduellerna och hög set piece-andel av målen. Det är ett fysiskt lag som vill ha höga bollar in. Vinner vi luftduellerna tar vi bort deras viktigaste offensiva vapen.",
+      },
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a Allsvenskan · np xG 2,21/match (1:a, Twelve) · PPDA 4,93 (1:a) · DAH 44,70m (1:a). Stark hemma (6V-1O-1F, ~24-6). Europaläge: föll ur UEL agg. 4-2 mot Anderlecht → UECL Q3.",
+        tone: "emerald",
+      },
+      {
+        title: "Raków – ligastatus 25/26",
+        body: "Ekstraklasa 2:a · 1,75 p/match · 1,80 mål/match · 0,80 insläppta/match. Starkt defensivt. Svaga offensivt in i boxen. UECL-erfarenhet 2023/24 (gruppspel).",
+        tone: "amber",
+      },
+      {
+        title: "Tvåmatchstie – hemma måste leverera",
+        body: "Retur i Częstochowa (Stadion Miejski, ~34 000) – en tuff bortestarena. Hemmasegern är grundläggande kapital. Minst ett mål hemma är ett krav.",
+        tone: "blue",
+      },
+    ],
+    styleChips: [
+      { label: "COMPACT BLOCK", sub: "Defensiv organisation · lågt block borta", color: "border-amber-600/50 bg-amber-950/40 text-amber-200" },
+      { label: "AERIAL THREAT", sub: "58% luftdueller · set piece-mål", color: "border-amber-600/50 bg-amber-950/40 text-amber-200" },
+      { label: "SVAG BOXPENETRATION", sub: "~19% final third to box · Ekstraklasa nedre halva", color: "border-emerald-600/50 bg-emerald-950/40 text-emerald-200" },
+      { label: "STARK TRANSITION DEF.", sub: "Topp 5 Ekstraklasa · ~28 turnovers/match", color: "border-rose-600/50 bg-rose-950/40 text-rose-300" },
+    ],
+    opponentStyle: [
+      "Kompakt defensiv organisation: Raków spelar med ett lågt till medelhögt defensivt block – DAH ~38-40m (Ekstraklasa medel). I Europa är de ännu mer defensiva och förlitar sig på set pieces och kontringar för att skapa sina chanser.",
+      "Svag offensiv boxpenetration: ~19% final third to box (Ekstraklasa nedre halva). Trots att de äger boll och når slutfasen tar de sig sällan in i boxen. Konverterar 10,2% – lägre än ligasnittet. Hammarbys kompakta försvar håller dem ute.",
+      "Stark i luften: ~58% vunna luftdueller. Stor andel av produktionen via dödbollssituationer – hörnor, frisparkar in i boxen. Mittbackarna måste vinna sina luftdueller konsekvent.",
+      "Stark defensiv transition (topp 5 Ekstraklasa): reagerar snabbt och effektivt vid bollförlust (~28 turnovers/match, lågt). Tappa ALDRIG bollen okontrollerat högt – kontringshotet är omedelbart.",
+      "Direkt bollcirkulation: utnyttjar djuplöpningar och långa bollar bakom försvarslinjen som komplement till sitt passningsspel. PPDA ~9,5 – måttlig press, inte lika intensivt pressande som HIF.",
+      "⚠️ I Europa (UECL-kval och gruppspel): lägre press, tätare block och ännu mer fokus på defensiv organisation. Räkna med en formationsblock av 4-4-2 eller 4-1-4-1 med fokus på att bryta HIF:s passningsspel via sikt och aggressiva mellanrumsbollar.",
+    ],
+    styleProfile: [
+      {
+        label: "Defensiv transition (Twelve · Ekstraklasa)",
+        value: "Topp 5 Ekstraklasa · ~28 turnovers/match · snabb reaktion vid förlust",
+        score: 82,
+        explanation:
+          "Raków:s starkaste dimension: de tappar sällan boll och reagerar snabbt vid förlust. Topp 5 i Ekstraklasa defensiv transition. I europamatcher är deras block ännu tätare och kontringshotet välorganiserat. HIF måste spela disciplinerat bakifrån.",
+      },
+      {
+        label: "Aerialt spel & set pieces (Twelve · Ekstraklasa)",
+        value: "~58% luftdueller vunna · hög andel mål via dödbollssituationer",
+        score: 75,
+        explanation:
+          "Raków vinner ett av Ekstraklasas högsta andelar luftdueller (~58%) och är farliga vid dödbollssituationer. En ovanligt hög andel av deras totala offensiva produktion kommer via hörnor, frisparkar och höga inlägg in i boxen. Hammarbys mittbackspar och keepern måste hålla ordning vid dessa situationer.",
+      },
+      {
+        label: "Offensiv boxpenetration (Twelve · Ekstraklasa)",
+        value: "~19% final third to box · konvertering 10,2% · np xG/skott ~0,10",
+        score: 22,
+        explanation:
+          "Raków:s tydligaste offensiva svaghet: de tar sig knappt in i boxen (~19%, Ekstraklasa nedre halva) och konverterar sällan sina chanser (10,2%). Skottkvaliteten är låg. Kompakt Hammarby-försvar håller dem ute och tvingar dem till distansskott utan farlig kvalitet.",
+      },
+      {
+        label: "Pressing (Twelve · Ekstraklasa)",
+        value: "PPDA ~9,5 · måttlig press · DAH ~39m",
+        score: 45,
+        explanation:
+          "Raków pressar på en genomsnittlig nivå för Ekstraklasa. PPDA ~9,5 (måttlig). De pressar inte högt och aggressivt som HIF (PPDA 4,93) – Hammarby kan bygga upp spelet bakifrån med lägre risk mot deras press. I Europa är pressen ännu lägre.",
+      },
+      {
+        label: "Bollinnehav & territorial kontroll (Ekstraklasa)",
+        value: "~51% bollinnehav · field tilt ~54% · medelhögt passtempo",
+        score: 58,
+        explanation:
+          "Raków äger bollen och är territoriellt aktiva i Ekstraklasa (~51% bollinnehav, field tilt ~54%) men deras bollinnehav är inte lika offensivt produktivt som Hammarbys. De bär spelet framåt via strukturerade kombinationer snarare än högtryck och individuella aktioner.",
+      },
+      {
+        label: "Defensiv soliditet (Ekstraklasa)",
+        value: "0,80 insläppta/match · topp 3 Ekstraklasa defensivt · låg opp. xG",
+        score: 80,
+        explanation:
+          "Raków är ett av Ekstraklasas bättre defensiva lag: ~0,80 insläppta mål per match och lågt motståndare xG/match (~0,92). De håller tätt och ger sällan motståndare stora chanser. Hammarby måste bryta deras block med rörelse och kombinationsspel – inga enkla chanser ges fritt.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "np xG / match (Twelve)",
+        hammarbyValue: "2,21",
+        opponentValue: "1,60",
+        hammarbyScore: 100,
+        opponentScore: 72,
+        note: "Hammarby skapar ~38% mer xG per match. Raków genomsnittliga i Ekstraklasa offensivt.",
+      },
+      {
+        label: "PPDA (lägre = bättre press)",
+        hammarbyValue: "4,93",
+        opponentValue: "~9,5",
+        hammarbyScore: 100,
+        opponentScore: 52,
+        note: "Hammarby pressar nästan dubbelt hårdare. Raków måttlig press – HIF kan bygga bakifrån.",
+      },
+      {
+        label: "Bollinnehav %",
+        hammarbyValue: "~61%",
+        opponentValue: "~51%",
+        hammarbyScore: 100,
+        opponentScore: 84,
+        note: "HIF klart mer dominerande i bollinnehav. Raków balanserat lag (51%) – ingen extrem innehavsstil.",
+      },
+      {
+        label: "Höga chanser / match (Twelve)",
+        hammarbyValue: "5,07",
+        opponentValue: "~2,2",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "HIF skapar mer än dubbelt så många höga chanser. Raków kliniska på de chanser de skapar men skapar färre.",
+      },
+      {
+        label: "Field tilt %",
+        hammarbyValue: "~69%",
+        opponentValue: "~54%",
+        hammarbyScore: 100,
+        opponentScore: 78,
+        note: "HIF territoriellt dominant. Raków 54% – aktivt men inte överväldigande i field tilt.",
+      },
+      {
+        label: "Luftdueller vunna %",
+        hammarbyValue: "~46%",
+        opponentValue: "~58%",
+        hammarbyScore: 79,
+        opponentScore: 100,
+        note: "Raków:s tydligaste fördel – vinner luftduellerna markant. HIF:s mittbackspar måste prestera aerialt.",
+      },
+      {
+        label: "Def. transition (Twelve)",
+        hammarbyValue: "hög",
+        opponentValue: "Topp 5 Ekstraklasa",
+        hammarbyScore: 80,
+        opponentScore: 82,
+        note: "Båda lagen starka i defensiv transition. Raków topp 5 Ekstraklasa – aldrig tappa bollen högt.",
+      },
+      {
+        label: "Opp. xG / match (Twelve)",
+        hammarbyValue: "~1,38",
+        opponentValue: "~0,92",
+        hammarbyScore: 67,
+        opponentScore: 100,
+        note: "Raków defensivt bättre – släpper in lägre opp. xG. HIF måste arbeta hårt för chanser.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "np xG / match (Twelve)",
+        hammarbyValue: "2,21",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "1,60",
+        opponentRank: "Topp 5 Ekstraklasa",
+        note: "HIF skapar klart mer xG per match. Raków genomsnittliga i Ekstraklasa offensivt.",
+      },
+      {
+        label: "PPDA (Twelve · lägre = hårdare press)",
+        hammarbyValue: "4,93",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "~9,5",
+        opponentRank: "Mitten av Ekstraklasa",
+        note: "HIF pressar nästan dubbelt hårdare. I Europa är Raków:s press ännu lägre – HIF dominerar pressmåttet.",
+      },
+      {
+        label: "Luftdueller vunna % (Twelve/Ekstraklasa)",
+        hammarbyValue: "~46%",
+        hammarbyRank: "~Mitten Allsvenskan",
+        opponentValue: "~58%",
+        opponentRank: "Topp 3 Ekstraklasa",
+        note: "Raków:s tydligaste fördel – fysiskt och aerialt starka. HIF:s backfyra måste vinna luftduelerna.",
+      },
+      {
+        label: "Insläppta mål / match",
+        hammarbyValue: "~0,50 hemma",
+        hammarbyRank: "~1:a i Allsvenskan hemma",
+        opponentValue: "~0,80",
+        opponentRank: "Topp 3 Ekstraklasa defensivt",
+        note: "Raków är defensivt starkt (0,80/match). HIF exceptionellt bra hemma. Täta matcher förväntas.",
+      },
+      {
+        label: "Höga chanser / match (Twelve · xG>0,15)",
+        hammarbyValue: "5,07",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "~2,2",
+        opponentRank: "Mitten Ekstraklasa",
+        note: "HIF skapar mer än dubbelt så många höga chanser. Raków:s solida block begränsar dock HIF:s möjligheter.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 5, opponentConcededGoals: 0 },
+      { window: "16–30'", hammarbyGoals: 4, opponentConcededGoals: 1 },
+      { window: "31–45+'", hammarbyGoals: 6, opponentConcededGoals: 1 },
+      { window: "46–60'", hammarbyGoals: 7, opponentConcededGoals: 2 },
+      { window: "61–75'", hammarbyGoals: 8, opponentConcededGoals: 2 },
+      { window: "76–90+'", hammarbyGoals: 5, opponentConcededGoals: 3 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Raków:s offensiva mönster (Twelve · Ekstraklasa)",
+        value: "1,60 xG/match · ~19% final third to box · ~58% luftdueller · hög set piece-andel",
+        interpretation:
+          "Raków gör mål men inte på ett effektivt sätt inne i boxen. ~19% final third to box (Ekstraklasa nedre halva) innebär att en stor del av deras chanser kommer via set pieces, hörnor och frisparkar. Konverteringsgrad 10,2% är lägre än snittet – när de väl skapar chanser konverterar de sämre än förväntat. Distansskott är en del av deras spel men inte det primära hotet.",
+      },
+      {
+        label: "Raków:s defensiva styrka (Ekstraklasa)",
+        value: "~0,80 insläppta/match · Opp. xG ~0,92/match · Topp 3 defensivt",
+        interpretation:
+          "Raków är ett av Ekstraklasas bättre defensiva lag. De tillåter sällan motståndare att nå boxen med kvalitet – opp. final third to box är lågt. Hammarby måste lösa deras block via snabba kombinationer, rörelser i djupet och direkta löpningar bakom deras backfyra. Statiskt anfall fungerar inte mot dem.",
+      },
+      {
+        label: "Europahistorik – UECL 2023/24",
+        value: "UECL-gruppspel 2023/24 · slog ut Djurgårdens IF i Q3 2024",
+        interpretation:
+          "Raków har erfarenhet av europeiska tvåmatchserier. De slog ut Djurgårdens IF i UECL Q3 2024 (sista svenska klubben att möta dem). Raków är obesegrade på majoriteten av sina hemmamatcher i Europa – bortaturnén i Częstochowa är svår men inte omöjlig med ett hemmaresultat med mål i bagaget.",
+      },
+      {
+        label: "Hammarby hemma + tvåmatchsformat",
+        value: "~24-6 hemma 2026 · +18 GD · Tele2 Arena som fästning",
+        interpretation:
+          "Tele2 Arena är en av Allsvenskans bästa hemmaplaner för Hammarby – klart bäst defensivt hemma (~6 insläppta på 8 hemmamatcher). I ett tvåmatchsformat är hemmamål extra värda. Att lämna Tele2 Arena med 1-0 eller 2-0 ger ett psykologiskt och numeriskt kapital inför bortaresan till Polen.",
+      },
+    ],
+    playersToWatch: [
+      {
+        name: "Ben Lederman",
+        position: "AM / CM · Kreativ motor",
+        scoutBadge: "🎯 Spelorganisatör",
+        stats: [
+          { label: "Nat.", value: "Israel" },
+          { label: "Pos.", value: "AM/CM" },
+          { label: "Stil", value: "Teknisk" },
+        ],
+        threat:
+          "Raków:s kreativa motor i mellanlinjen – sätter tempot och kopplar försvar till anfall",
+        motivation:
+          "Lederman är Raków:s mest tekniske spelare i mittfältet: organiserar spelet, sätter tempot och kopplar försvar till anfall via korta kombinationer. Hammarby stänger mellanzonen och tvingar honom bakåt – skär av hans passningslinjer så tidigt som möjligt. Utan Ledermans rytmsättande bollinnehav förlitar sig Raków mer på direktspel och set pieces.",
+      },
+      {
+        name: "Fran Tudor",
+        position: "CM / DM · Defensiv ankare",
+        scoutBadge: "🛡️ Defensiv nyckelspelare",
+        stats: [
+          { label: "Nat.", value: "Kroatien" },
+          { label: "Pos.", value: "CM/DM" },
+          { label: "Stil", value: "Fysisk" },
+        ],
+        threat:
+          "Raków:s defensiva mittfältare – väljer och begränsar HIF:s passningsspel i mittzon",
+        motivation:
+          "Tudor är motorn i Raków:s pressing och defensiva organisation. Han styr det defensiva blockan och begränsar motståndares passningsspel i mellanlinjen. Hammarby ska röra sig snabbt mellan linjerna och undvika att fastna i direkta dueller med honom – snabba vertikala bollar bakom hans position skapar de farligaste lägena.",
+      },
+      {
+        name: "Jean-Claude Billong",
+        position: "CB · Aerial nyckelspelare",
+        scoutBadge: "⚠️ Aerial dominant",
+        stats: [
+          { label: "Nat.", value: "Kamerun" },
+          { label: "Pos.", value: "CB" },
+          { label: "Stil", value: "Fysisk/Aerial" },
+        ],
+        threat:
+          "Stor, fysisk mittback – farlig vid Raków:s dödbollssituationer och dominant aerialt",
+        motivation:
+          "Billong är Raków:s mest fysiska försvarare och en nyckelspelare vid set pieces – offensivt (hörnor, frisparkar) såväl som defensivt. Hammarby ska undvika direkta aerialdueller mot honom och i stället söka ytor med snabba marklöpningar. Mot Raków:s egna hörnor ska HIF:s forwards och midfielders hålla tätt på Billong i boxen.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Bryt Raków:s kompakta block via snabba kombinationer och rörelse in bakom – deras försvar är välorganiserat men sårbart mot rörlighet i djupled. Direkta löpningar av Lind/Abraham bakom Raków:s backfyra är kritiska.",
+        "Utnyttja Raków:s låga PPDA (~9,5) – de pressar inte hårt. Hammarby ska bygga upp snabbt bakifrån och utnyttja utrymmet i Raków:s mittzon. Vertikala snabbpass via mittlinjen skapar ytor.",
+        "Hörnor och dödbollssituationer är en tydlig offensiv möjlighet: Raków:s set piece-sårbarhet finns vid insvängda bollar till mittlinjen. Variera på hörnrutiner – Raków förbereder sig på höga bollar men är sårbar mot korta varianter mot 2:a bollen.",
+        "Håll bollen, cirkulera och stretch Raków:s 4-4-2-block lateralt – de är kompakta men tunga att flytta sidled med snabba breda passningar. Skapa lägena genom tål-modigt passningsspel och tvinga dem att spela med snabbhet de inte är bekväma med.",
+      ],
+      withoutBall: [
+        "Pressa högt och snabbt vid Raków:s uppspel – deras GK och mittbackar är inte pressavä under Allsvenskan-standard. HIF:s PPDA 4,93 (1:a) möter ett lag med ~9,5 – trycket är enormt om det appliceras konsekvent.",
+        "ALDRIG tappa bollen högt mot deras defensiva transition (topp 5 Ekstraklasa). De reagerar snabbt och disciplinerat – bolltapp i Raków:s halva utan backup ger farliga kontringslägen. Alltid en säker utväg bakåt.",
+        "Håll tätt i 76–90'-fönstret: Raków:s scoring ökar mot slutet (3 mål 76-90' i Ekstraklasa) – slutet av matcher är deras starka period. Håll strukturen och var disciplinerade när HIF är trött.",
+        "⚠️ Set piece-disciplin: Raków:s hörna/frispraks-situationer är deras farligaste offensiva vapen. Billong och andra mittbackar är hot vid varje stillastående situation. HIF:s blockeringsorganisation vid dödboll är kritisk.",
+      ],
+      matchManagement: [
+        "Tvåmatchstie: ett mål hemma är minimum. 0-0 vid Tele2 Arena = svag position inför retur i Częstochowa (~34 000 fans). Tryck på mål tidigt och i 61–75'-fönstret (HIF:s starkaste scoring-period, 8 mål).",
+        "Raków är ett lag som disciplinerat försvarar ett resultat – om Hammarby leder med 1-0 öppnas spelet och ytterligare mål blir möjliga. Håll pressing intensiteten hög för att inte ge Raków ro att organisera sig defensivt.",
+        "I 46–60' (HIF:s näst starkaste period, 7 mål) och 61–75' (8 mål): öka intensiteten tidigt i 2H. Det är HIF:s bästa fönster att ta ner matcherna.",
+        "Returmatchen i Częstochowa: Stadion Miejski med ~34 000 fans är en tuff bortestarena. Men ett 1-0 eller 2-0 hemma gör bortamatchen hanterbar. Borta-0-0 räcker efter 1-0 hemma.",
+      ],
+    },
+    spotlightKey:
+      "Raków är ett välorganiserat polskt topplag med stark defensiv transition och aerial-dominans – men med tydliga svagheter: svag boxpenetration (~19% final third to box), låg konvertering (10,2%) och måttlig press (PPDA ~9,5). Hammarbys nyckel: utnyttja snabb pressing (PPDA 4,93) mot deras uppspel bakifrån, kombinera in i deras box via rörlighet i djupled och håll luftduelerna. Tvåmatchstie: ett hemmasegermål är avgörande – 0-0 är ett dåligt resultat inför Częstochowa.",
+    glossary: [
+      {
+        term: "PPDA (Passes Per Defensive Action, Twelve)",
+        explanation:
+          "Motståndarens passningar per defensiv aktion. Lägre = hårdare press. Raków ~9,5 i Ekstraklasa (måttlig). Hammarby 4,93 (1:a Allsvenskan). HIF pressar nästan dubbelt hårdare.",
+      },
+      {
+        term: "Final third to box % (Twelve)",
+        explanation:
+          "Andel av bollinnehaven i den sista tredjedelen som når straffboxen. Raków ~19% (Ekstraklasa nedre halva). Svag penetration trots att de når slutfasen – kompakt försvar håller dem ute.",
+      },
+      {
+        term: "Defensiv transition (Twelve)",
+        explanation:
+          "Förmåga att begränsa motståndarens kontringshot direkt efter bollförlust. Raków topp 5 Ekstraklasa – tappar sällan boll (~28/match) och reagerar snabbt. ALDRIG tappa bollen okontrollerat högt.",
+      },
+      {
+        term: "np xG (Non-Penalty Expected Goals, Twelve)",
+        explanation:
+          "Förväntade mål exklusive straffar. Raków ~1,60/match (Ekstraklasa topp 5). Hammarby 2,21/match (1:a Allsvenskan) – HIF skapar ~38% mer. Stor fördel i offensiv effektivitet.",
+      },
+      {
+        term: "Luftdueller vunna % (Ekstraklasa/Twelve)",
+        explanation:
+          "Andel luftdueller (koppar, huvud) laget vinner. Raków ~58% (Ekstraklasa topp 3 i aerial). Hammarbys mittbackspar måste vinna sina luftdueller – framför allt vid Raków:s dödbollssituationer.",
+      },
+      {
+        term: "Ekstraklasa (Polsk toppliga)",
+        explanation:
+          "Polens högsta fotbollsliga, 18 lag. UEFA-koefficient för polska lag är generellt lägre än belgiska/svenska topplag men Raków har etablerat sig i Europa via UECL-gruppspelet 2023/24.",
       },
     ],
   },
