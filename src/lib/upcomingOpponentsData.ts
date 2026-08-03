@@ -4342,14 +4342,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         note: "Raków förlorar bollen extremt högt – 35:e av 36! HIF:s counterpress efter Raków:s bolltapp skapar direkta chanser.",
       },
     ],
-    goalWindows: [
-      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 1 },
-      { window: "16–30'", hammarbyGoals: 3, opponentConcededGoals: 0 },
-      { window: "31–45+'", hammarbyGoals: 5, opponentConcededGoals: 1 },
-      { window: "46–60'", hammarbyGoals: 6, opponentConcededGoals: 1 },
-      { window: "61–75'", hammarbyGoals: 6, opponentConcededGoals: 2 },
-      { window: "76–90+'", hammarbyGoals: 4, opponentConcededGoals: 1 },
-    ],
+    goalWindows: [],
     goalTypeNotes: [
       {
         label: "Raków offensivt i Europa (Twelve · UECL 25/26)",

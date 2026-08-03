@@ -400,7 +400,7 @@ export default function BroadcasterDashboard() {
             </div>
 
             {/* Strategiska målfönster */}
-            <div className="flex flex-col rounded-3xl border border-amber-700/40 bg-gradient-to-b from-amber-950/60 to-neutral-950 p-6 sm:p-7">
+            {report.goalWindows.length > 0 && <div className="flex flex-col rounded-3xl border border-amber-700/40 bg-gradient-to-b from-amber-950/60 to-neutral-950 p-6 sm:p-7">
               <div className="mb-5 flex items-center gap-3">
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-xl">⏱️</span>
                 <div>
@@ -435,7 +435,7 @@ export default function BroadcasterDashboard() {
                   );
                 })}
               </div>
-            </div>
+            </div>}
           </div>
         </section>
 
