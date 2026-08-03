@@ -22,16 +22,22 @@ export default function MatchStatisticsRoutePage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
           <Link
+            href="/matchstatistik/europakval-2026"
+            className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/60 bg-emerald-500/20 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/30"
+          >
+            🇪🇺 Ny: Europakval 2026 – EL + UECL Playoff vs Raków
+          </Link>
+          <Link
             href="/matchstatistik/anderlecht-kvalet-retur"
             className="inline-flex items-center gap-2 rounded-lg border border-red-400/60 bg-red-500/20 px-3 py-1.5 text-xs font-bold text-red-100 hover:border-red-300 hover:bg-red-500/30"
           >
-            🇪🇺 Ny: Anderlecht 3–1 HIF – EL-kval retur 30 juli
+            🇧🇪 Anderlecht 3–1 HIF – EL-kval retur 30 juli
           </Link>
           <Link
             href="/matchstatistik/anderlecht-kvalet"
             className="inline-flex items-center gap-2 rounded-lg border border-sky-400/60 bg-sky-500/20 px-3 py-1.5 text-xs font-bold text-sky-100 hover:border-sky-300 hover:bg-sky-500/30"
           >
-            🇪🇺 HIF 1–1 Anderlecht – EL-kval 23 juli
+            🇧🇪 HIF 1–1 Anderlecht – EL-kval 23 juli
           </Link>
           <Link
             href="/matchstatistik/omgang/11"
@@ -49,7 +55,7 @@ export default function MatchStatisticsRoutePage() {
               href="/matchstatistik/kommande"
               className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 hover:border-emerald-400 hover:text-emerald-100"
             >
-              🧭 Nytt: Kommande motståndare (start omgång 7)
+              🧭 Kommande: Raków Częstochowa – UECL Playoff
             </Link>
             <Link
               href="/matchstatistik/domaranalys"
@@ -144,13 +150,18 @@ export default function MatchStatisticsRoutePage() {
             href="/matchstatistik/kommande"
             className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
           >
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
+              UPPDATERAD · RAKÓW UECL
+            </div>
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
               🧭
             </div>
             <h2 className="text-xl font-semibold text-white">Kommande motståndare</h2>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-emerald-400">
+              Nu: Raków Częstochowa · UECL Playoff
+            </p>
             <p className="mt-2 text-sm text-slate-300">
-              Taktisk scouting med fokus på nästa omgång: styrkor, sårbarheter, spelstil
-              och konkret matchplan för Hammarby.
+              Taktisk scouting inför UECL Playoff-hinmatchen mot polska mästare Raków Częstochowa: styrkor, sårbarheter, spelstil och konkret matchplan.
             </p>
             <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
               Öppna motståndaranalys →
@@ -171,6 +182,28 @@ export default function MatchStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-amber-300 group-hover:text-amber-200">
               Öppna intern jämförelse →
+            </p>
+          </Link>
+
+          <Link
+            href="/matchstatistik/europakval-2026"
+            className="group rounded-2xl border border-emerald-500/40 bg-[#071a0f] p-6 transition-colors hover:border-emerald-400/60 hover:bg-[#0b2419] md:col-span-2 lg:col-span-2"
+          >
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
+              NY · KAMPANJÖVERSIKT
+            </div>
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-2xl">
+              🇪🇺
+            </div>
+            <h2 className="text-xl font-semibold text-white">Europakval 2026 – Hammarbys väg</h2>
+            <p className="mt-1 text-xs font-bold uppercase tracking-wide text-emerald-400">
+              EL Q2 Anderlecht + UECL Playoff Raków Częstochowa
+            </p>
+            <p className="mt-2 text-sm text-slate-300">
+              Komplett kampanjöversikt: 1–1 &amp; 3–1 mot Anderlecht (agg 4–2) → UECL Playoff vs Raków. Vinnaren → UECL-gruppspel – historisk chans för HIF.
+            </p>
+            <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
+              Öppna kampanjöversikt →
             </p>
           </Link>
 

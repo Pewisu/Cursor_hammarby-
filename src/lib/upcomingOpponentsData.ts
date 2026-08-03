@@ -3553,6 +3553,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 14,
     roundLabel: "Omgång 14 · Borta",
+    hidden: true,
     fixture: "Hammarby - Brommapojkarna",
     dateLabel: "26 juli 2026 · Grimsta IP · Bolldata lagdata (24 jul 2026) + Twelve Earpiece scouting",
     venueLabel: "Borta · Grimsta IP · Stockholm",
@@ -4039,6 +4040,448 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         term: "IM/H% (Insläppta hörnmål per hörna, Bolldata)",
         explanation:
           "Andel hörnor mot laget som resulterar i mål. BP 8,5% (2:e sämst) = nästan 1 av 12 emot-hörnor ger mål. Kritisk svaghet att exploatera.",
+      },
+    ],
+  },
+  // ─────────────────────────────────────────────────────────────────────────
+  // UECL PLAYOFF · HINMATCH · RAKÓW CZĘSTOCHOWA · TELE2 ARENA
+  // Källa Twelve opposition report:
+  // reports.twelve.football/reports/opposition-report-rakow-czestochowa-PZYHtoZJoP.pdf
+  // (Ekstraklasa 2026/27, 2 matcher: Raków 1-2 Wisła Płock + Śląsk 2-1 Raków)
+  // ─────────────────────────────────────────────────────────────────────────
+  {
+    round: 100,
+    roundLabel: "UECL-kval · Playoff · Hinmatch",
+    fixture: "Hammarby IF - Raków Częstochowa",
+    dateLabel: "Augusti 2026 · Tele2 Arena · Twelve UECL 2025/26 säsongsrapport + Ekstraklasa 26/27 opponentrapport",
+    venueLabel: "Hemma · Tele2 Arena",
+    oneLineSummary:
+      "Raków UECL 2025/26: utmärkt defensivt (3:e av 36 i opposition chance creation, 0,75 mål insläppt/match) men svagt offensivt (23:e i anfall, 49% skott utifrån, np xG per skott 0,09 = 32:a/36). Pressar hårt i Europa (PPDA 5,18 = 6:e/36). Angriper via BOLLBÄRNING i Europa (24% carries), inte korsningar som i Ekstraklasa. Förlorar bollen högt (turnover line 55,98m = 35:e/36) – skapar HIF-counterpress-möjligheter.",
+    introStats: [
+      { label: "UECL 2025/26 – Utfall", value: "9:e / 36 · 1,75p/match", tone: "blue" },
+      { label: "PPDA Europa (Twelve)", value: "5,18 · 6:e / 36", tone: "amber" },
+      { label: "Opp. Chance Creation", value: "3:e / 36 · 0,75 mål insläppt", tone: "emerald" },
+      { label: "Anfall Europa", value: "23:e / 36 · svag penetration", tone: "amber" },
+    ],
+    mobileTakeaways: [
+      "UECL 2025/26: 9:e av 36 i poäng (1,75/match), overperformade xPoints med +0,35 (6:e/36). Defensivt excellent (3:e i opposition chance creation, 0,75 mål insläppt/match).",
+      "PPDA 5,18 i Europa (6:e/36) – Raków pressar HÅRDARE i Europa än i Ekstraklasa (5,92). Beredda på hög press mot HIF:s uppbyggnad.",
+      "Svagt offensivt i Europa: 23:e i anfall, 49% skott utifrån boxen, np xG/skott 0,09 (32:a/36) – minimal skottkvalitet. Raków skapar sällan riktigt farliga lägen i Europa.",
+      "Final third to box 18% (28:e/36) – kan knappt ta sig in i boxen i europeiskt spel. HIF:s kompakta block räcker för att hålla dem borta.",
+      "I EUROPA: bollbärningsfokuserat (24% box entries via carries) – INTE korsningsdominant som i Ekstraklasa (48%). Raków spelar carry-centrerat i Europa.",
+      "DEFENSIV TRANSITION svaghet: turnover line height 55,98m (35:e/36!) – förlorar bollen extremt högt. HIF:s counter-press kan exploatera detta direkt efter ombyten.",
+      "Ny tränare: L. Tomczyk tog över för de sista 2 UECL-matcherna. Taktisk profil under förändring.",
+    ],
+    dataSources: [
+      "Twelve UECL 2025/26 säsongsrapport Raków Częstochowa: https://reports.twelve.football/reports/rak%C3%B3w-cz%C4%99stochowa-season-report-75ESvAis3k.pdf",
+      "Twelve opposition report Raków – Ekstraklasa 2026/27 (2 matcher): https://reports.twelve.football/reports/opposition-report-rak%C3%B3w-cz%C4%99stochowa-PZYHtoZJoP.pdf",
+      "Twelve Earpiece scouting report Raków: https://earpiece.twelve.football/shared-reports/8327cfe8-afa5-40ca-8b19-10da7dd5df26",
+      "Twelve europakval 2026 – Hammarby IF: https://earpiece.twelve.football/shared-reports/74257486-e0bc-4bdf-a45b-95dabaa6ac0c",
+      "Transfermarkt – Raków Częstochowa trupp & värden: https://www.transfermarkt.com/rakow-czestochowa/startseite/verein/14414",
+    ],
+    cupSpecial: {
+      title: "UECL Playoff – Vägen till gruppspelet",
+      context:
+        "Hammarby förlorade mot Anderlecht i EL Q2 (4-2 totalt: 1-1 hemma, 1-3 borta) och klev ner till UECL-kvalet. Raków Częstochowa kvalificerade sig via polska mästarvägen. Vinnaren av dessa två playoff-matcher spelar i UEFA Conference League-gruppspelet 2026/27 – Hammarbys första europeiska gruppspel någonsin vore historiskt.",
+      tacticalKeys: [
+        "Tvåmatchstie: hemmavinst med mål bygger kapital inför borta-returen i Częstochowa.",
+        "Raków offensivt i Europa = minimal fara: 49% skott utifrån, np xG/skott 0,09 (32:a/36), final third to box 18% (28:e/36). HIF:s kompakta block räcker för att hantera deras skottvolym – David Hahn vs ytterskottplunar.",
+        "Counter-press-fönstret: Raków förlorar bollen extremt högt (turnover line 55,98m, 35:e/36!). HIF:s PPDA 4,93 kombinerat med detta skapar direkta bollvinstlägen nära Raków:s box.",
+        "Pressa GK-uppbyggnaden (88% i Europa): press på Raków:s tre mittbackar och keeper under uppbyggnad vinner bollar högt och sätter dem omedelbart under press i farliga zoner.",
+      ],
+    },
+    headToHead: {
+      sampleSize: 0,
+      description:
+        "Hammarby IF och Raków Częstochowa har inga kända historiska möten i UEFA-tävlingar. Detta är lagets första europeiska möte.",
+      summaryCards: [
+        {
+          title: "Historiska möten",
+          value: "Inga kända",
+          note: "Första europeiska mötet för de båda lagen.",
+          tone: "blue",
+        },
+        {
+          title: "Raków Ekstraklasa 24/25",
+          value: "1:a · Polska mästare",
+          note: "Dominerade polska ligan och tog mästerskapet.",
+          tone: "emerald",
+        },
+        {
+          title: "Hammarby hemma 2026",
+          value: "5V 1O 1F",
+          note: "22–5 · Starkast hemma i Allsvenskan.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Inga historiska H2H-data – första europeiska mötet.",
+        "Raków med UECL-gruppspelserfarenhet (2022/23, 2023/24) – de vet hur man spelar europeiska 2-legstävlingar.",
+        "Hammarby hemma 2026: starkast i hela Allsvenskan (22-5, 5V-1O-1F).",
+        "Raków tenderar att spela mer defensivt borta i europeiskt spel – räkna med ett kompakt block.",
+      ],
+      matches: [],
+    },
+    trafficLightCards: [
+      {
+        metric: "Raków offensivt i Europa (Twelve · UECL 25/26)",
+        bigNumber: "23:e / 36",
+        badge: "MINIMAL ANFALLSFARA",
+        color: "green",
+        rankNote: "np xG/skott 0,09 (32:a/36) · 49% skott utifrån · final third to box 18% (28:e/36)",
+        explanation:
+          "Raków:s offensiva kapacitet i europeiskt spel är klart under genomsnittet – 23:e av 36 lag i anfall. De tar 49% av sina skott utifrån boxen (ytterskottplunar) och skapar minimal chanskvalitet (np xG/skott 0,09, 32:a/36). De tar sig knappt in i boxen (final third to box 18%, 28:e/36). I Europa angriper de via bollbärning (24% carries) snarare än korsningar som i Ekstraklasa. HIF:s keeper och kompakta block räcker.",
+        podcastComment:
+          "De är faktiskt ganska ofarliga offensivt i Europa. Hälften av skotten utifrån, 32:a i xG per skott av 36 lag. Minimal chanskvalitet. Vi ska stå kompakt och låta dem avlossa utifrån – David Hahn klarar det med råge.",
+      },
+      {
+        metric: "Defensiv transition (Twelve · UECL 25/26)",
+        bigNumber: "35:e / 36",
+        badge: "COUNTER-PRESS-FÖNSTER",
+        color: "red",
+        rankNote: "Turnover line height 55,98m (35:e/36!) · 36,25 turnovers/match (30:e) · 11,75 final third entries 10s",
+        explanation:
+          "Raków:s tydligaste svaghet i Europa: de förlorar bollen extremt högt upp (turnover line height 55,98m = 35:e av 36!) och gör 36,25 bolltapp/match (30:e). Motståndare når deras sista tredjedel 11,75 gånger/match inom 10s. HIF:s PPDA 4,93 kombinerat med Raków:s höga bolltappslinje skapar direkta counter-press-möjligheter – vinn bollen nära Raków:s box och konvertera omedelbart.",
+        podcastComment:
+          "De tappar bollen extremt högt – 35:a av 36 lag i hela UECL. Varje gång vi pressar och vinner bollen nära deras box är det ett direkt läge för oss. Det är HIF:s starkaste vapen i den här matchen.",
+      },
+      {
+        metric: "Pressing i Europa (Twelve · PPDA 5,18 · UECL 25/26)",
+        bigNumber: "PPDA 5,18",
+        badge: "STARK EUROPRESS",
+        color: "yellow",
+        rankNote: "6:e / 36 · DAH 42,38m (15:e) · Def. intensity 6,24 (13:e) · Fouls att. half 71%",
+        explanation:
+          "Raków pressar HÅRDARE i Europa än i Ekstraklasa – PPDA 5,18 (6:e/36 i UECL) mot 5,92 i polska ligan. De är ett av de intensivare pressande lagen i europeiska sammanhang och begår aktivt foul i anfallshalvan (71%) för att bryta rytm. HIF måste vara beredda på aggressivt press och frisparkar högt. HIF:s PPDA 4,93 är fortfarande skarpare, men skillnaden är liten.",
+        podcastComment:
+          "De pressar hårdare i Europa – PPDA 5,18, topp-6 av 36 lag. Vi måste vara redo för att de stör vår uppbyggnad aktivt och tar foul högt. Men vi pressar lika hårt tillbaka mot deras 3-baks-uppbyggnad.",
+      },
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a i Allsvenskan · 26p · Dominant hemma (22-5). Förlorade EL Q2 mot Anderlecht (4-2 agg) – nu om UECL-gruppspel. Ligaledare i xG, press och bollinnehav.",
+        tone: "emerald",
+      },
+      {
+        title: "Raków – UECL 25/26 + aktuell form",
+        body: "UECL 2025/26: 9:e av 36 (1,75p/match), overperformade med +0,35. Defensivt stark (3:e i opposition chance creation, 0,75 mål insläppt). Svag offensivt (23:e, 49% ytterskottplunar). Ny tränare L. Tomczyk (sista 2 UECL-matcherna). Ekstraklasa 26/27: 0-4 i 2 matcher (1-2 hemma, 1-2 borta).",
+        tone: "blue",
+      },
+      {
+        title: "⚽ Playoff-insatsen",
+        body: "Vinnaren av playoff → UECL-gruppspelet 2026/27. Historisk chans för HIF att nå ett europeiskt gruppspel för första gången. Hemmavinst med mål i hinmatchen är avgörande.",
+        tone: "amber",
+      },
+    ],
+    opponentStyle: [
+      "Formation 3-4-3 (100% speltid i Ekstraklasa 26/27): tre mittbackar (Jean Carlos, Racovițan, Debohi/Tudor), två wingbackar (Otieno VWB, Ameyaw/Jean Carlos HWB), två CMs (Repka, Kochergin), tre forwards (Pieńko VF, Makuch/Emreli).",
+      "UECL 25/26: defensivt stark (12:e/36), excellent på att begränsa motståndares chanser (3:e/36 i opposition chance creation, 0,75 mål insläppt/match = 4:e). Hög press i Europa: PPDA 5,18 (6:e/36), DAH 42,38m.",
+      "OFFENSIVT SVAG I EUROPA: 23:e/36 i anfall, 25:e/36 i chance creation. 49% skott utifrån boxen, np xG per skott 0,09 (32:a/36), high opportunity shots 2,25/match (28:e/36). Minimal boxpenetration – final third to box 18% (28:e/36).",
+      "I EUROPA: bollbärningsfokuserad attack (24% box entries via carries) – klart annorlunda än Ekstraklasa där de är korsningsdominanta (48%). Bygger upp via GK (88% i Europa) med betoning på korta passningar och dribblingar i sista tredjedelen (0,44 dribbles/possession).",
+      "DEFENSIV TRANSITIONS-SVAGHET: turnover line height 55,98m (35:e/36!) – förlorar bollen extremt högt, vilket ger motståndare direkta counter-press-möjligheter. 36,25 bolltapp/match (30:e). Motståndare når deras sista tredjedel 11,75 gånger/match inom 10s.",
+      "Spelprofil: överperformerar xPoints med +0,35 (6:e/36) – vinner poäng de statistiskt sett inte 'förtjänar'. Defensiv resiliens och effektivitet i avgörande situationer är deras styrka, inte dominans.",
+    ],
+    styleProfile: [
+      {
+        label: "Press Europa (Twelve · UECL 25/26)",
+        value: "PPDA 5,18 · 6:e/36 · DAH 42,38m (15:e) · Fouls att. half 71%",
+        score: 82,
+        explanation:
+          "Raków pressar HÅRT i Europa – PPDA 5,18 är 6:e bäst av 36 UECL-lag. Bättre än i Ekstraklasa (5,92). Defensiv action height 42,38m är medelhög. De begår aktivt foul i anfallshalvan (71%, högt) för att bryta tempo. HIF:s uppbyggnad pressas – direktspel IGENOM pressen och snabba kombinationer är svaret. Raków pressa tillbaka lika hårt.",
+      },
+      {
+        label: "Opposition Chance Creation (Twelve · UECL 25/26)",
+        value: "3:e/36 · Opp. np xG 1,14 · Opp. goals 0,75/match",
+        score: 88,
+        explanation:
+          "Raków:s starkaste område i Europa: begränsa motståndares chanser. 3:e av 36 lag i opposition chance creation. Opp. final third to box bara 17% (7:e/36) – håller motståndare borta från boxen. Conceder 0,75 mål/match (4:e/36). HIF måste skapa riktiga farliga chanser inne i boxen – ytterskottplunar räcker inte mot ett defensivt disciplinerat Raków.",
+      },
+      {
+        label: "Defensiv transition (Twelve · UECL 25/26)",
+        value: "25:e/36 · Turnover line 55,98m (35:e) · 36,25 turnovers (30:e)",
+        score: 25,
+        explanation:
+          "Raków:s klart svagaste område i Europa: defensiv transition. De förlorar bollen extremt högt (turnover line 55,98m, 35:e av 36!) och gör 36,25 bolltapp/match (30:e). Motståndare når deras sista tredjedel 11,75 gånger/match inom 10s. HIF:s PPDA 4,93 + denna svaghet = det tydligaste taktiska exploateringsverktyget i matchen.",
+      },
+      {
+        label: "Offensiv Europa (Twelve · UECL 25/26)",
+        value: "23:e/36 · np xG 1,04 (26:e) · final third to box 18% (28:e)",
+        score: 28,
+        explanation:
+          "Raków:s offensiv i Europa är klart under genomsnittet (23:e/36). Minimal boxpenetration (18%, 28:e), minimal skottkvalitet (np xG/skott 0,09, 32:a/36), nästan hälften av skotten utifrån (49%). HIF:s kompakta block och David Hahn räcker – Raków skapar sällan riktigt farliga chanser mot organiserade europeiska försvar.",
+      },
+      {
+        label: "Chance Creation Europa (Twelve · UECL 25/26)",
+        value: "25:e/36 · High opp. shots 2,25 (28:e) · Shots from direct 36%",
+        score: 32,
+        explanation:
+          "25:e av 36 i chance creation. High opportunity shots bara 2,25/match (28:e) – skapar extremt sällan riktigt farliga lägen. 36% direktspelsskott – snabba avslutsförsök snarare än tålmodig chansuppbyggnad. HIF:s block-defensiv mot Raków:s yttershot-fokuserade spel är ett gynnsamt scenario.",
+      },
+      {
+        label: "Utfall: Overperformance (Twelve · UECL 25/26)",
+        value: "Poäng – xPoäng: +0,35 (6:e/36) · 9:e i utfall",
+        score: 72,
+        explanation:
+          "Raków overperformerar sin statistik signifikant (+0,35 poäng/match, 6:e/36). De vinner matcher de 'inte borde' vinna. Detta speglar defensiv resiliens och effektivitet i avgörande situationer – inte offensiv dominans. HIF kan inte räkna med att 'spela ut' Raków statistiskt, men kan skapa reella chanser via counterpress och corner-play.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "np xG / match",
+        hammarbyValue: "~2,19",
+        opponentValue: "1,04 (UECL 25/26)",
+        hammarbyScore: 100,
+        opponentScore: 47,
+        note: "HIF skapar mer än dubbelt så mycket xG. Raków:s offensiv i Europa (26:e/36) är klart under genomsnittet.",
+      },
+      {
+        label: "PPDA (lägre = hårdare press)",
+        hammarbyValue: "~4,93",
+        opponentValue: "5,18 (UECL 25/26)",
+        hammarbyScore: 100,
+        opponentScore: 95,
+        note: "Nästan lika skarpa pressmässigt! Raków PPDA 5,18 = 6:e/36 UECL. Beredda på hårt press från båda håll.",
+      },
+      {
+        label: "Defensiv action height",
+        hammarbyValue: "~44,7m",
+        opponentValue: "42,38m (UECL 25/26)",
+        hammarbyScore: 100,
+        opponentScore: 91,
+        note: "Raków pressar relativt högt i Europa (42,38m, 15:e/36). HIF pressar högre men skillnaden är liten.",
+      },
+      {
+        label: "Opposition Chance Creation",
+        hammarbyValue: "hög (hemma)",
+        opponentValue: "3:e / 36 (UECL)",
+        hammarbyScore: 85,
+        opponentScore: 92,
+        note: "Raków är exceptionellt bra på att begränsa motståndarnas chanser (3:e/36). HIF:s boxpenetration måste vara skarp.",
+      },
+      {
+        label: "np xG / shot (skottkvalitet)",
+        hammarbyValue: "hög",
+        opponentValue: "0,09 (32:a/36 UECL)",
+        hammarbyScore: 100,
+        opponentScore: 15,
+        note: "Raków:s skottkvalitet i Europa är nästan lägst av 36 lag. 49% utifrån. HIF:s keeper vs yttershots.",
+      },
+      {
+        label: "Def. transition (turnover line)",
+        hammarbyValue: "låg (strukturerat)",
+        opponentValue: "55,98m (35:e/36 UECL)",
+        hammarbyScore: 90,
+        opponentScore: 10,
+        note: "Raków:s svagaste enskilda metrik: förlorar bollen extremt högt. HIF:s counterpress exploaterar detta direkt.",
+      },
+      {
+        label: "Box penetration (final third to box)",
+        hammarbyValue: "hög",
+        opponentValue: "18% (28:e/36 UECL)",
+        hammarbyScore: 100,
+        opponentScore: 25,
+        note: "Raków kan knappt komma in i boxen i Europa (28:e/36). HIF:s kompakta block håller dem ute.",
+      },
+      {
+        label: "Overperformance (Points – xPoints)",
+        hammarbyValue: "—",
+        opponentValue: "+0,35 (6:e/36 UECL)",
+        hammarbyScore: 50,
+        opponentScore: 78,
+        note: "Raków vinner poäng de statistiskt sett inte förtjänar (+0,35, 6:e/36). Defensiv resiliens och effektivitet i avgörande lägen.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "PPDA Europa (Twelve · UECL 25/26)",
+        hammarbyValue: "~4,93",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "5,18",
+        opponentRank: "6:e / 36 i UECL",
+        note: "Raków pressar hårt i Europa – topp-6 av 36 UECL-lag. HIF är skarpare men skillnaden är liten. Beredda på intensiv press.",
+      },
+      {
+        label: "np xG / match (UECL 25/26)",
+        hammarbyValue: "~2,19",
+        hammarbyRank: "1:a i Allsvenskan",
+        opponentValue: "1,04",
+        opponentRank: "26:e / 36 i UECL",
+        note: "HIF skapar dubbelt så mycket xG i sina respektive ligor. Raków:s offensiv i Europa klart under genomsnittet.",
+      },
+      {
+        label: "np xG per shot (UECL 25/26)",
+        hammarbyValue: "hög",
+        hammarbyRank: "Topp Allsvenskan",
+        opponentValue: "0,09",
+        opponentRank: "32:a / 36 i UECL",
+        note: "Raków:s skottkvalitet i Europa är nästan lägst av alla 36 lag. 49% utifrån. Minimal fara per avlossning.",
+      },
+      {
+        label: "Final third to box % (UECL 25/26)",
+        hammarbyValue: "hög",
+        hammarbyRank: "Topp Allsvenskan",
+        opponentValue: "18%",
+        opponentRank: "28:e / 36 i UECL",
+        note: "Raków kan knappt ta sig in i boxen i Europa – 28:e av 36 lag. HIF:s kompakta block räcker.",
+      },
+      {
+        label: "Opposition Chance Creation (UECL 25/26)",
+        hammarbyValue: "hög",
+        hammarbyRank: "Topp Allsvenskan hemma",
+        opponentValue: "3:a / 36",
+        opponentRank: "3:e / 36 i UECL",
+        note: "Raków:s starkaste område – begränsar motståndarnas chanser exceptionellt väl. HIF måste skapa riktiga boxchanser, inte ytterskottplunar.",
+      },
+      {
+        label: "Turnover line height (UECL 25/26)",
+        hammarbyValue: "låg (strukturerat)",
+        hammarbyRank: "—",
+        opponentValue: "55,98m",
+        opponentRank: "35:e / 36 i UECL",
+        note: "Raków förlorar bollen extremt högt – 35:e av 36! HIF:s counterpress efter Raków:s bolltapp skapar direkta chanser.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 1 },
+      { window: "16–30'", hammarbyGoals: 3, opponentConcededGoals: 0 },
+      { window: "31–45+'", hammarbyGoals: 5, opponentConcededGoals: 1 },
+      { window: "46–60'", hammarbyGoals: 6, opponentConcededGoals: 1 },
+      { window: "61–75'", hammarbyGoals: 6, opponentConcededGoals: 2 },
+      { window: "76–90+'", hammarbyGoals: 4, opponentConcededGoals: 1 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Raków offensivt i Europa (Twelve · UECL 25/26)",
+        value: "np xG 1,04/match (26:e/36) · 49% utifrån · Direktanfall 36% · np xG/skott 0,09 (32:a)",
+        interpretation:
+          "Raków:s europeiska anfall är klart under genomsnittet. De spelar direktspel (36% direktanfall), tar nästan hälften av skotten utifrån (49%) och skapar minimal chanskvalitet (np xG/skott 0,09 = 32:a/36). I Europa angriper de via bollbärning (24% box entries via carries, 0,44 dribbles/possession) – skillnad mot Ekstraklasa-stilen (48% via korsning). HIF:s block mot yttershots är ett gynnsamt scenario.",
+      },
+      {
+        label: "Raków defensivt i Europa (Twelve · UECL 25/26)",
+        value: "3:e/36 opposition chance creation · 0,75 mål insläppt (4:e) · Opp. final third to box 17% (7:e)",
+        interpretation:
+          "Raków:s defensiva prestationer i UECL är exceptionella – de begränsar motståndarnas chanser bättre än nästan alla andra lag (3:e/36). Opp. final third to box 17% (7:e/36) – håller motståndare borta från boxen. Conceder 0,75 mål/match trots opp. xG 1,23 = klart underperformar motståndarna. HIF:s chansskapande MÅSTE vara skarp (kvalitetschanser inne i boxen) – inte volym.",
+      },
+      {
+        label: "Defensiv transition – turnover-fönstret (Twelve · UECL 25/26)",
+        value: "Turnover line 55,98m (35:e/36!) · 36,25 turnovers (30:e) · 11,75 final third entries/10s",
+        interpretation:
+          "Raków:s absolut svagaste metrik i Europa: turnover line height 55,98m (35:e av 36!) – förlorar bollen extremt högt. 36,25 bolltapp/match (30:e). Motståndare kommer in i deras sista tredjedel 11,75 gånger/match inom 10s efter återerövring. HIF:s counterpress (PPDA 4,93, 1:a Allsvenskan) är skräddarsydd för detta – vinn bollen högt och konvertera omedelbart.",
+      },
+      {
+        label: "Hammarby hemma 2026",
+        value: "22-5 · +17 GD (5V-1O-1F)",
+        interpretation:
+          "Tele2 Arena är en fästning – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela Allsvenskan. I ett playoff-scenario är hemmamål extra värda – ett eller gärna två mål i Tele2 ger psykologiskt övertag inför returen. Raków:s overperformance (+0,35 poäng) innebär att HIF inte kan räkna med att 'xG avgör' – effektivitet i de riktiga chanserna som skapas via counterpress och corner-play.",
+      },
+    ],
+    playersToWatch: [
+      {
+        name: "Tomasz Pieńko",
+        position: "LF · 3-4-3 · Vänster forward · 67,5% speltid",
+        scoutBadge: "⚡ Vänster kanal – HIF:s höger defensiv",
+        stats: [
+          { label: "Formation", value: "LF i 3-4-3" },
+          { label: "Speltid", value: "67,5%" },
+          { label: "Zon", value: "Vänster halvzon" },
+        ],
+        threat: "Raków:s vänster forward i 3-4-3 – driver deras farligaste anfallskanal (vänster halvzon 0,49 xG/match)",
+        motivation:
+          "Pieńko spelar som vänster forward i Raków:s 3-4-3 och är central i deras farligaste anfallskanal (vänster halvzon 0,49 xG/match). HIF:s högerback och höger mittfältare måste täcka honom tätt – hindra honom från att ta emot i halvzonen och vända. Han kombinerar med VWB Otieno för att skapa korsningar och genombrott längs Raków:s vänstersida.",
+      },
+      {
+        name: "Erick Ouma Otieno",
+        position: "VWB · 3-4-3 · Vänster wingback · 78,5% speltid",
+        scoutBadge: "🏃 Korsningshot – stäng inläggsytan",
+        stats: [
+          { label: "Formation", value: "LWB i 3-4-3" },
+          { label: "Speltid", value: "78,5%" },
+          { label: "Stil", value: "Offensiv WB, inlägg" },
+        ],
+        threat: "Raków:s vänster wingback – genererar korsningar längs Raków:s vänstersida, driver 48%-boxpenetrationen via inlägg",
+        motivation:
+          "Otieno är Raków:s mest spelade wingback och central i deras korsningsorienterade anfall. Som VWB i 3-4-3 driver han linjen längs Raków:s vänstersida och skapar inlägg in i boxen (48% av alla boxinträden via korsning). HIF:s högerback måste täcka inläggsytan och hålla Otieno lågt – ger han fria löpningar mot boxen är de direkt farliga.",
+      },
+      {
+        name: "Patryk Makuch",
+        position: "S/RF · 3-4-3 · Anfallare · 95,5% speltid",
+        scoutBadge: "🎯 Sexmeterszonen",
+        stats: [
+          { label: "Formation", value: "S/RF i 3-4-3" },
+          { label: "Speltid", value: "95,5%" },
+          { label: "Zon", value: "Sexmeterszonen 1,04 xG/match" },
+        ],
+        threat: "Raków:s mest spelade forward – nyttjar boxens sexmeterzon när korsningarna når honom",
+        motivation:
+          "Makuch är Raków:s närmast alltid spelande forward (95,5%) och målsätten i boxen. Han är farligast i sexmeterszonen (1,04 xG/match från 5 skott) – Raków:s korsningsspel är designat för att sätta honom i de lägen. HIF:s mittbackspar måste följa honom noggrant i boxen vid varje inlägg. Mahir Emreli (68% speltid) kan ersätta eller komplettera som alternativ forward.",
+      },
+      {
+        name: "Oskar Repka",
+        position: "CM · 3-4-3 · Central mittfältare · 100% speltid",
+        scoutBadge: "🧠 Mittfältsmotor",
+        stats: [
+          { label: "Formation", value: "CM i 3-4-3" },
+          { label: "Speltid", value: "100%" },
+          { label: "Par", value: "Kochergin (68%)" },
+        ],
+        threat: "Raków:s enda spelare med 100% speltid – mittfältsmotor som kopplar försvar till anfall",
+        motivation:
+          "Repka är Raków:s mest konstanta spelare (100% speltid i båda matcherna) och deras mittfältsmotor. Han hanterar 58% framåtpassningar från mellanzon och driver Raków:s passningscirkulation. HIF:s mittfält ska pressa Repka och Kochergin tätt – stryp deras distribution och tvinga Raków att spela direktspel bakåt. Raków bygger 100% från GK-utspark – press på Repka:s mottagningar hindrar deras uppbyggnad.",
+      },
+    ],
+    hammarbyPlan: {
+      withBall: [
+        "Håll undan Raków:s press tidigt: de pressar hårt i Europa (PPDA 5,18, 6:e/36) och begår foul i anfallshalvan (71%). Snabb, direkt spel IGENOM deras press – undvik att bli instängda i eget halvplan. Raków lämnar ytor bakom när de pressar högt.",
+        "Exploatera counter-press-fönstret: Raków förlorar bollen extremt högt (turnover line 55,98m, 35:e/36) och tar 6,32s att organisera defensivt. Varje bollvinn högt = ett direkt läge nära Raków:s box. HIF:s snabba transitions (1:a Allsvenskan i press) är huvudvapnet.",
+        "Pressa GK-uppbyggnaden (88% via GK-utspark): Raków bygger kort bakifrån – press på deras keeper och tre mittbackar skapar bollvinstlägen direkt i deras uppbyggnadsfas. Vinn bollen i deras halva och konvertera omedelbart.",
+        "Utnyttja hörnor: HIF +39 i hörnsaldo (1:a Allsvenskan). Raków insläpper xG från corners (0,21 + 0,14 xG/match). Vältränade corner-rutiner i ett jämt playoff-möte kan vara matchavgörande.",
+      ],
+      withoutBall: [
+        "Kompakt block mot Raków:s dribblare: i Europa angriper de via bollbärning (24% box entries via carries) snarare än korsningar. HIF:s mittfältsblock måste täcka bärningslinjerna och inte ge ytor för snabba löpningar in i halvzonerna med boll.",
+        "Vakta vänster halvzon defensivt (UECL-mönster): 0,49 xG/match genererat därifrån i Ekstraklasa, centralt och till vänster i transition. HIF:s högerback och höger CM täcker Pieńko (LF) och Otieno (VWB) tätt.",
+        "Hantera ytterskottplunar: 49% av Raków:s skott tas utifrån i Europa. David Hahn vs distansskott är ett hyfsat gynnsamt scenario – håll Raków:s bollbärare UTANFÖR boxen och låt dem skjuta utifrån.",
+        "Täta bakre kedjan mot boxinlägg från WBs: Raków dominerar med korsningar i Ekstraklasa (48% av boxinträden). Täta WB-löpningarna mot bylinjen och stäng inläggsytorna – framförallt Otieno (VWB) och Jean Carlos/Ameyaw (HWB).",
+      ],
+      matchManagement: [
+        "Playoff = allt-eller-inget: vinst i Tele2 är det enda tillfredsställande resultatet. Raków:s form i Ekstraklasa (1-2 hemma, 1-2 borta) visar att de är slagbara – ny tränare L. Tomczyk, ny säsong, deras system är under uppbyggnad.",
+        "Historisk chans: UECL-gruppspelet är Hammarbys första europeiska gruppspel någonsin. Raków är ett väldefinierat lag – vi vet deras svagheter. Tele2 på en europeisk kväll med hemmapublik är Hammarbys starkaste kort.",
+        "Raków overperformerar sin xPoäng (+0,35, 6:e/36 i UECL) – de är effektiva i avgörande situationer. HIF kan inte tillåta sig luxusen av att slappna av – ett mål leder till 'parking the bus'-scenario som Raków behärskar defensivt (3:e/36 i opposition chance creation).",
+        "Bortareturen i Częstochowa: med ett hemma-mål från Tele2 är bortalaget mer hanterbart. Raków:s transitions-farlighet (1,04s till framåtpass) innebär att HIF måste spela kompakt borta – men +1 från hemmamatchen ger bra marginal.",
+      ],
+    },
+    spotlightKey:
+      "Tre nycklar ur de kombinerade Twelve-rapporterna (UECL 25/26 + Ekstraklasa 26/27): (1) COUNTER-PRESS-FÖNSTRET: Raków förlorar bollen extremt högt (turnover line 55,98m, 35:e/36 UECL) – HIF:s press (PPDA 4,93, 1:a Allsvenskan) kombinerat med detta skapar direkta lägen nära Raków:s box. Det är matchen starkaste taktiska möjlighet. (2) RAKÓW:S OFFENSIVA SVAGHET I EUROPA: 23:e/36 i anfall, 49% skott utifrån, np xG/skott 0,09 (32:a/36) – minimal anfallsfara. HIF:s kompakta block håller dem borta. Låt dem skjuta utifrån. (3) RAKÓW:S STARKA PRESS: PPDA 5,18 (6:e/36) i Europa – de pressar hårt och tar foul i anfallshalvan (71%). HIF:s uppbyggnad testas. Snabb, direkt spel IGENOM pressen och corner-rutiner (HIF +39 hörnsaldo vs Raków:s corner-sårbarhet 0,21+0,14 xG/match) kan avgöra aggregat.",
+    glossary: [
+      {
+        term: "PPDA (Passes Per Defensive Action, Twelve)",
+        explanation:
+          "Motståndarens passningar per defensiv aktion. Lägre = hårdare press. HIF ~4,93 (1:a Allsvenskan). Raków 5,18 i UECL 25/26 (6:e/36!) och 5,92 i Ekstraklasa 26/27. I Europa pressar Raków hårdare än i polska ligan.",
+      },
+      {
+        term: "Turnover line height (Twelve · m)",
+        explanation:
+          "Genomsnittlig höjd där laget förlorar bollen. Raków 55,98m (35:e/36 i UECL!) – förlorar bollen extremt högt. HIF:s counterpress direkt efter bolltapp skapar lägen nära Raków:s box. Central taktisk exploateringspunkt.",
+      },
+      {
+        term: "np xG per shot (Twelve)",
+        explanation:
+          "Förväntade mål per icke-straffskott. Raków 0,09 (32:a/36 i UECL) – minimal skottkvalitet. 49% av skotten tas utifrån boxen. HIF:s keeper vs ytterskottplunar är ett gynnsamt scenario.",
+      },
+      {
+        term: "Final third to box % (Twelve)",
+        explanation:
+          "Andel bollinnehav i sista tredjedelen som når straffboxen. Raków 18% (28:e/36 i UECL) – kan knappt penetrera boxen i Europa. HIF:s kompakta block räcker för att hålla dem ute.",
+      },
+      {
+        term: "Opposition Chance Creation (Twelve · ranking)",
+        explanation:
+          "Raków: 3:e/36 i UECL 25/26 – excellent på att begränsa motståndarnas chanser. Opp. np xG 1,14 (8:e/36), opp. goals 0,75/match (4:e/36). Defensivt disciplinerade och effektiva – HIF måste skapa riktigt farliga chanser, inte förlita sig på volym.",
+      },
+      {
+        term: "Points – xPoints (Twelve)",
+        explanation:
+          "Skillnad mellan faktiska poäng och förväntade poäng. Raków +0,35 (6:e/36 i UECL) – overperformerar statistiken markant. Vinner matcher de 'inte borde' vinna. HIF kan inte ha som plan att 'spela ut dem' – effektivitet i chanserna är avgörande.",
       },
     ],
   },

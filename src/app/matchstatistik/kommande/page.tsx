@@ -4,8 +4,8 @@ import { upcomingOpponents, type StyleChip } from "@/lib/upcomingOpponentsData";
 import SpiderComparisonChart from "@/components/SpiderComparisonChart";
 
 export const metadata: Metadata = {
-  title: "Broadcaster Dashboard | Hammarby 2026",
-  description: "Broadcast-ready matchanalys för Hammarby IF – Allsvenskan 2026.",
+  title: "Kommande: Raków Częstochowa – UECL Playoff | Hammarby 2026",
+  description: "Scoutingrapport inför UECL Playoff-hinmatchen mot Raków Częstochowa. Polska mästare 2024/25, truppvärde ~€35m. Vinnaren → UECL-gruppspelet. Taktisk analys via Twelve Earpiece.",
 };
 
 const trafficCfg = {
