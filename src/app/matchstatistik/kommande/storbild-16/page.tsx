@@ -29,11 +29,14 @@ const HACKEN_AWAY_2026 = [
 
 const TRANSFERS = {
   sold: [
-    { name: "Silas Andersen", pos: "MF", to: "Sporting Lissabon", note: "Scorade i Ø10. Kreativ frirollad mittfältare – deras stora förlust" },
+    { name: "Silas Andersen", pos: "MF", to: "Sporting Lissabon", note: "Scorade solo-dribblingsmålet i Ø10 (55'). Kreativ frirollad mittfältare – deras stora förlust" },
+    { name: "Amor Layouni", pos: "MF/VY", to: "AEK Larnaca (gratis)", note: "Scorade straff i Ø10 (48') – startade Häckens comeback. Lämnade 13 juni" },
+    { name: "Danilo Al Saed", pos: "VY", to: "HamKam (lån)", note: "Utlånad till norska HamKam till dec 2026" },
+    { name: "Srdjan Hrstic", pos: "MF", to: "Altach", note: "Såldes för 5,5 mn kr. Viktig länk i mittfältet" },
   ],
   bought: [
     { name: "Simen Hestnes", pos: "MF", from: "KFUM Oslo", note: "30 år, norsk. Direktersättare för Andersen. Fri transfer" },
-    { name: "Harun Ibrahim", pos: "MF", from: "Sharjah FC (lån)", note: "23 år, ex-GAIS (88 mater, 8 mål). Stark mentalitet, bred" },
+    { name: "Harun Ibrahim", pos: "MF", from: "Sharjah FC (lån)", note: "23 år, ex-GAIS (88 matcher, 8 mål). Stark mentalitet, bred" },
   ],
 };
 
