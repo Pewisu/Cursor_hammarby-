@@ -122,6 +122,28 @@ export interface IntroStat {
   tone?: "emerald" | "amber" | "blue";
 }
 
+export interface PreviousMeetingScorer {
+  team: "hammarby" | "opponent";
+  player: string;
+  minute: number;
+  isPenalty?: boolean;
+}
+
+export interface PreviousMeeting {
+  date: string;
+  fixture: string;
+  result: string;
+  venue: "home" | "away";
+  outcome: "win" | "draw" | "loss";
+  halfTimeScore?: string;
+  scorers?: PreviousMeetingScorer[];
+  xgHammarby?: number;
+  xgOpponent?: number;
+  contextNote: string;
+  keyStory: string;
+  seriesTurnedNote?: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -131,6 +153,7 @@ export interface UpcomingOpponentReport {
   venueLabel?: string;
   introStats?: IntroStat[];
   hidden?: boolean;
+  previousMeeting?: PreviousMeeting;
   styleChips?: StyleChip[];
   mobileTakeaways: string[];
   playersToWatch?: OpponentPlayerToWatch[];
@@ -160,6 +183,498 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
+  {
+    round: 16,
+    roundLabel: "Omgång 16",
+    hidden: false,
+    fixture: "Hammarby - BK Häcken",
+    dateLabel: "Söndag 9 augusti 2026 · 14:00 · 3Arena, Stockholm",
+    venueLabel: "3Arena (hemmaplan)",
+    oneLineSummary:
+      "Häcken är 3:a i tabellen (25p på 15 matcher) och kom tillbaka från 0–2 till 3–2 senast vi möttes – nu är serien vänd och HIF tar revansch på hemmaplan. Häckens dalning (2 raka förluster mot Djurgårdsn och Örgryte) möter Hammarbys starka hemmafas.",
+    introStats: [
+      { label: "Tabellplats", value: "3:a (25p)", tone: "amber" },
+      { label: "Form", value: "DD W LL", tone: "amber" },
+      { label: "Gjorda/insläppta", value: "28–23", tone: "amber" },
+      { label: "xG / match", value: "1,65", tone: "amber" },
+      { label: "Hammarby hemma", value: "1:a i GD", tone: "emerald" },
+    ],
+    previousMeeting: {
+      date: "2026-05-31",
+      fixture: "BK Häcken - Hammarby",
+      result: "3–2",
+      venue: "away",
+      outcome: "loss",
+      halfTimeScore: "0–2",
+      scorers: [
+        { team: "hammarby", player: "Victor Lind", minute: 9 },
+        { team: "hammarby", player: "Victor Lind", minute: 39 },
+        { team: "opponent", player: "Amor Layouni", minute: 48, isPenalty: true },
+        { team: "opponent", player: "Silas Andersen", minute: 55 },
+        { team: "opponent", player: "Adrian Svanbäck", minute: 80 },
+      ],
+      xgHammarby: 1.27,
+      xgOpponent: 2.82,
+      contextNote:
+        "Victor Lind (9', 39') fick Hammarby att leda 2–0 till halvtid. I andra halvlek fick Häcken straff direkt (Layouni 48'), Silas Andersen kvitterade solo-dribbel från mittplan (55'), och Svanbäck avgjorde med tio minuter kvar (80'). Hammarby hade aldrig vunnit på Bravida Arena.",
+      keyStory:
+        "Häcken hade 2,82 xG mot Hammarbys 1,27 – statistiskt dominerade de matchen trots att de låg under. Hammarbys halvtid var lysande defensivt, men urladdat i andra halvlek efter en tät period. Kalle Karlssons sista matcher som tränare präglades av tappa ledningar.",
+      seriesTurnedNote:
+        "Sedan dess: Hammarby är numera 2:a (26p) under Rydström, medan Häcken tappade två raka (2–4 vs Djurgårdsn, 3–4 vs Örgryte) men hämtade sig. Matchbilden ser annorlunda ut nu – på HIF:s hemmaplan.",
+    },
+    mobileTakeaways: [
+      "Häcken 3:a (25p, 6V-7O-2F). Form: DDWLL – dalat efter VM-uppehållet.",
+      "Förra mötet: Häcken 3–2 (HT 0–2). Häcken hade 2,82 xG vs HIF 1,27.",
+      "Häcken lever på inlägg: ~42% box entries via inlägg. Stäng ytterbanorna.",
+      "Häcken passivare press (PPDA ~6,0) vs HIF:s ligaledande PPDA 4,9.",
+      "HIF hemma 2026: starkast i ligan offensivt. 3Arena är en fästning.",
+      "Silas Andersen ryktas till Sporting Lissabon – kan vara sista chansen att se honom i Allsvenskan.",
+      "Häcken tappar bollen ~35 gånger/match. HIF:s kontra exploaterar det.",
+    ],
+    dataSources: [
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 5 aug 2026)",
+      "Twelve season report Häcken: https://reports.twelve.football/reports/h%C3%A4cken-season-report-WjVnPuPADs.pdf (aug 2026)",
+      "Allsvenskantabellen.se – resultat och spelschema 2026",
+      "Transfermarkt – matchfakta BK Häcken–Hammarby 31 maj 2026",
+      "FotMob / BBC Sport – statistik och händelser",
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a (26p), 8V-2O-4F på 14 matcher. Stark hemmaform. Rydström bygger ett lag med tydlig spelmodell.",
+        tone: "emerald",
+      },
+      {
+        title: "Häcken just nu",
+        body: "3:a (25p), 6V-7O-2F. Dalat med 2 raka L efter VM-pausen men hämtat sig med W + D + D.",
+        tone: "amber",
+      },
+      {
+        title: "Nyckelduell: inlägg vs press",
+        body: "Häckens inläggsspel (42% box entries) möter HIF:s ligaledande press (PPDA 4,9). Blockera ytterbanorna.",
+        tone: "blue",
+      },
+    ],
+    styleChips: [
+      { label: "🏃 Inläggsmaskinen", sub: "42% box entries via inlägg – störst i ligan", color: "border-amber-600/50 bg-amber-950/60 text-amber-200" },
+      { label: "😴 Passiv press", sub: "PPDA ~6,0 – faller hellre tillbaka", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" },
+      { label: "🔄 Bolltappare", sub: "~35 turnovers/match – exploaterbart", color: "border-rose-600/50 bg-rose-950/60 text-rose-200" },
+      { label: "📉 Form-dip", sub: "2 raka förluster efter VM-pausen", color: "border-rose-600/50 bg-rose-950/60 text-rose-200" },
+      { label: "⚡ Effektiva", sub: "Gör mål av lite – 1,87 gjorda vs 1,65 xG", color: "border-amber-600/50 bg-amber-950/60 text-amber-200" },
+    ],
+    opponentStyle: [
+      "Häcken lever på inlägg: ~42% av box entries kommer via inlägg (ligans mest inläggsberoende lag, Twelve).",
+      "Direkta anfall: ~30% av skotten via snabba, raka anfall – söker inte tålmodig uppbyggnad.",
+      "Defensivt: Häcken sitter relativt djupt (DAH ~40m) med passivare press (PPDA ~6,0). Faller hellre tillbaka.",
+      "Tappar bollen ofta: ~35 turnovers/match – Hammarbys omställningar ska straffa varje bolltapp.",
+      "Häcken har bara ~10% recoveries within 5s – långsamma att reagera efter bolltapp (Twelve).",
+      "Silas Andersen ryktas gå till Sporting Lissabon – extra motiverad att prestera.",
+    ],
+    styleProfile: [
+      {
+        label: "Inläggsberoende (Twelve)",
+        value: "~42% box entries via inlägg",
+        score: 85,
+        explanation: "Häckens mest utpräglade drag. Alla anfall söker vägarna ut till kanterna för att slå in bollar i boxen.",
+      },
+      {
+        label: "Offensiv effektivitet",
+        value: "1,87 gjorda vs 1,65 xG – 14% över förväntan",
+        score: 72,
+        explanation: "Häcken gör fler mål än xG motiverar – effektiva framför mål. Begränsa deras chanser.",
+      },
+      {
+        label: "Turnovers (Twelve)",
+        value: "~35/match – bland de högsta i ligan",
+        score: 25,
+        explanation: "Häcken tappar bollen ofta. Hammarbys omställningsspel bör kunna exploatera detta.",
+      },
+      {
+        label: "Press-intensitet (Twelve)",
+        value: "PPDA ~6,0 – passivt i ligan",
+        score: 30,
+        explanation: "Häcken möter inte pressen högt. De faller tillbaka och försvarar med struktur snarare än intensitet.",
+      },
+      {
+        label: "Field tilt (Twelve)",
+        value: "~49–52% – nära snitt",
+        score: 45,
+        explanation: "Häcken dominerar inte sista tredjedelen. Balanserat mot motståndarna offensivt.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,19",
+        opponentValue: "1,65",
+        hammarbyScore: 100,
+        opponentScore: 63,
+        note: "Hammarby skapar 33% mer xG per match. Tydlig kvalitetsfördel i chanskreation.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,8",
+        opponentValue: "14,9",
+        hammarbyScore: 100,
+        opponentScore: 60,
+        note: "Hammarby skjuter 33% mer per match – stark volymfördel.",
+      },
+      {
+        label: "Bollinnehav (%)",
+        hammarbyValue: "61%",
+        opponentValue: "52%",
+        hammarbyScore: 100,
+        opponentScore: 70,
+        note: "Hammarby dominerar bollen. Häcken behöver inte bollen för att vara farliga.",
+      },
+      {
+        label: "Field tilt (%)",
+        hammarbyValue: "69%",
+        opponentValue: "50%",
+        hammarbyScore: 100,
+        opponentScore: 43,
+        note: "Hammarbys STÖRSTA fördel – dominerar sista tredjedelen totalt.",
+      },
+      {
+        label: "PPDA (press)",
+        hammarbyValue: "4,90",
+        opponentValue: "6,00",
+        hammarbyScore: 100,
+        opponentScore: 50,
+        note: "Hammarby pressar MYCKET hårdare. Häckens passiva press ger oss utrymme.",
+      },
+      {
+        label: "Boxberöringar / match",
+        hammarbyValue: "28,5",
+        opponentValue: "20,1",
+        hammarbyScore: 100,
+        opponentScore: 58,
+        note: "Hammarby penetrerar boxen 42% oftare – mer direkta chanser.",
+      },
+      {
+        label: "HQ-skott / match",
+        hammarbyValue: "4,80",
+        opponentValue: "3,40",
+        hammarbyScore: 90,
+        opponentScore: 62,
+        note: "Hammarby skapar fler farliga chanser per match.",
+      },
+      {
+        label: "Turnovers / match",
+        hammarbyValue: "30,5",
+        opponentValue: "35,0",
+        hammarbyScore: 78,
+        opponentScore: 52,
+        note: "Häcken tappar bollen mer – Hammarbys omställningar ska straffa varje bolltapp.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,19",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "1,65",
+        opponentRank: "~5:e av 16",
+        note: "Hammarby skapar mest xG i ligan. Häcken genomsnittligt offensivt.",
+      },
+      {
+        label: "PPDA",
+        hammarbyValue: "4,90",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "6,00",
+        opponentRank: "~10:e av 16",
+        note: "Hammarby pressar intensivast. Häckens passivare press ger oss fritt uppspel.",
+      },
+      {
+        label: "Field tilt (%)",
+        hammarbyValue: "69%",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "50%",
+        opponentRank: "~8:e av 16",
+        note: "Hammarby dominerar sista tredjedelen totalt. Häcken nära snitt.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "19,8",
+        hammarbyRank: "1:a av 16",
+        opponentValue: "14,9",
+        opponentRank: "~8:e av 16",
+        note: "Hammarbys avslutsvolym bäst i ligan. Häcken under snittet.",
+      },
+      {
+        label: "Turnovers / match",
+        hammarbyValue: "30,5",
+        hammarbyRank: "~5:e av 16",
+        opponentValue: "35,0",
+        opponentRank: "~13:e av 16",
+        note: "Häcken tappar bollen ofta. Hammarbys recoveries ska exploatera det.",
+      },
+      {
+        label: "Konvertering (Goals/xG)",
+        hammarbyValue: "~1,00",
+        hammarbyRank: "~8:e av 16",
+        opponentValue: "1,13",
+        opponentRank: "~4:e av 16",
+        note: "Häcken konverterar BÄTTRE än förväntat. Ge dem inga billiga chanser.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 4, opponentConcededGoals: 2 },
+      { window: "16–30'", hammarbyGoals: 4, opponentConcededGoals: 3 },
+      { window: "31–45+'", hammarbyGoals: 6, opponentConcededGoals: 3 },
+      { window: "46–60'", hammarbyGoals: 5, opponentConcededGoals: 4 },
+      { window: "61–75'", hammarbyGoals: 7, opponentConcededGoals: 3 },
+      { window: "76–90+'", hammarbyGoals: 5, opponentConcededGoals: 3 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Häckens inläggsberoende",
+        value: "~42% box entries via inlägg – störst i Allsvenskan",
+        interpretation: "Stäng ytterbanorna och blockera inlägg = eliminera deras primära angreppssätt.",
+      },
+      {
+        label: "Häcken överkonverterar",
+        value: "1,87 gjorda mål vs 1,65 xG/match",
+        interpretation: "Inte hållbart i längden. Begränsa deras chanser och låt regressionen jobba.",
+      },
+      {
+        label: "Häcken tappar bollen mycket",
+        value: "~35 turnovers/match, bara ~10% recovery within 5s",
+        interpretation: "Hammarbys omställningsspel ska straffa varje bolltapp direkt.",
+      },
+    ],
+    trafficLightCards: [
+      {
+        metric: "PPDA – Presskvalitet",
+        bigNumber: "4,9",
+        badge: "HAMMARBY",
+        color: "green",
+        rankNote: "1:a i Allsvenskan",
+        explanation:
+          "Hammarby pressar hårdast i hela ligan (PPDA 4,9 vs Häckens ~6,0). Det betyder att Häcken tvingas göra misstag tidigt.",
+        podcastComment:
+          "Det är nästan 50% hårdare press. Varje gång Häcken ska bygga upp bakifrån har vi redan en spelare på dem.",
+      },
+      {
+        metric: "Inlägg per possession",
+        bigNumber: "42%",
+        badge: "HÄCKEN",
+        color: "yellow",
+        rankNote: "Mest inläggsberoende i ligan",
+        explanation:
+          "42% av alla Häckens boxintrång sker via inlägg. Blockera ytterbanorna så stryper vi deras anfallsspel.",
+        podcastComment:
+          "Deras hela anfallsspel bygger på inlägg. Stänger vi kanterna har de egentligen inget plan B att prata om.",
+      },
+      {
+        metric: "Vändningens xG (förra mötet)",
+        bigNumber: "2,82",
+        badge: "HÄCKEN xG",
+        color: "red",
+        rankNote: "Häcken 2,82 – Hammarby 1,27 xG",
+        explanation:
+          "Statistiskt dominerade Häcken förra mötet trots 0–2-underläget i HT. Hammarby fick två mål men skapade bara 1,27 xG – på hemmaplan ser det ut att bli ett hårdare test.",
+        podcastComment:
+          "Det är viktig läxan härifrån: Häcken var faktiskt bättre. Nu är vi hemma – det ska avgöra.",
+      },
+    ],
+    spotlightKey:
+      "Hemmaplan och revansch. 3Arena mot ett Häcken i form-dip. Hammarby har vunnit 4 av de 5 senaste inbördes mötena – men aldrig på Bravida. Nu är rollerna ombytta.",
+    hammarbyPlan: {
+      withBall: [
+        "Utnyttja field tilt-fördelen (69% vs 50%). Dominera sista tredjedelen och håll bollen där. Häcken saknar strukturen att pressa oss ut.",
+        "Attackera CENTRALT. Häcken försvarar brett för att möta inlägg – de centrala ytorna bör vara öppna. Box entries via carries och kombinationsspel.",
+        "Hammarbys boxberöringar (28,5/match) mot Häckens 20,1 – volymfördelen ska skapa HQ-skott. Sikta på 5+ höga chanser.",
+        "Tålamod i uppspelet. Häcken faller tillbaka (DAH ~40m) – bygg upp lugnt och sök vertikala passningar genom mittfältet.",
+      ],
+      withoutBall: [
+        "Press FULLT UT. PPDA 4,9 vs ~6,0 – vi pressar nästan 50% hårdare. Stör deras uppspel och forcera deras ~35 turnovers/match.",
+        "BLOCKERA INLÄGGEN. Häckens ~42% box entries via inlägg är deras livsnerv. Halvbacks och ytterbackar måste stänga de yttre banorna.",
+        "Exploatera Häckens bolltapp (~35/match, bara ~10% recovery within 5s). Press omedelbart efter varje bolltapp.",
+        "Häcken är LÅNGSAMMA att re-organisera – efter bolltapp tar det länge för dem att strukturera sig. Kontra DIREKT.",
+      ],
+      matchManagement: [
+        "Hammarby gör flest mål 61–75'. Behåll intensiteten sent – Häckens defensiv tröttnar.",
+        "Häcken konverterar bra (~1,13x xG) – ge dem INGA billiga chanser. Kontrollera matchen.",
+        "Vid ledning: Häckens passivitet (PPDA ~6,0) gör att de inte kan pressa effektivt för att vända.",
+        "Lär av förra mötet: kom ut med full intensitet i 2H. Tappa inte ledningar.",
+      ],
+    },
+    headToHead: {
+      sampleSize: 5,
+      description:
+        "Senaste 5 inbördes möten Hammarby–Häcken i Allsvenskan, 2024–2026. HIF 3V–1O–1F.",
+      summaryCards: [
+        {
+          title: "Senaste 5 möten",
+          value: "3V–1O–1F (HIF)",
+          note: "Hammarby har vunnit 3 av 5 och aldrig under Rydström.",
+          tone: "emerald",
+        },
+        {
+          title: "Förra mötet (maj 2026)",
+          value: "3–2 till Häcken",
+          note: "HT 0–2 → FT 3–2. Victor Lind gjorde bägge HIF-målen.",
+          tone: "amber",
+        },
+        {
+          title: "Senaste hemmasegern",
+          value: "4–0 (sep 2025)",
+          note: "Hammarbys historiskt tydligaste seger mot Häcken.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Hammarby vann 4–0 hemma mot Häcken i september 2025.",
+        "Häcken vann senast på bortaplan mot HIF (3–2, maj 2026) – revanschläge.",
+        "H2H totalt (alla tävlingar): Häcken 12V–16O–10F mot Hammarby (40 matcher).",
+        "Hammarby har aldrig vunnit på Bravida Arena – men nu är det hemmaplan.",
+      ],
+      matches: [
+        {
+          date: "2026-05-31",
+          fixture: "BK Häcken - Hammarby",
+          result: "3-2",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 2,
+          opponentGoals: 3,
+          hammarbyXg: 1.27,
+          opponentXg: 2.82,
+          hammarbyShots: 16,
+          opponentShots: 20,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-05-31/bk-hacken-hammarby-3-2",
+        },
+        {
+          date: "2025-09-21",
+          fixture: "Hammarby - BK Häcken",
+          result: "4-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 4,
+          opponentGoals: 0,
+          hammarbyXg: 2.1,
+          opponentXg: 0.6,
+          hammarbyShots: 18,
+          opponentShots: 8,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-09-21/hammarby-bk-hacken-4-0",
+        },
+        {
+          date: "2025-04-27",
+          fixture: "BK Häcken - Hammarby",
+          result: "1-1",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 1,
+          opponentGoals: 1,
+          hammarbyXg: 1.1,
+          opponentXg: 1.3,
+          hammarbyShots: 13,
+          opponentShots: 14,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2025/2025-04-27/bk-hacken-hammarby-1-1",
+        },
+        {
+          date: "2024-09-26",
+          fixture: "Hammarby - BK Häcken",
+          result: "2-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 0,
+          hammarbyXg: 1.5,
+          opponentXg: 0.8,
+          hammarbyShots: 16,
+          opponentShots: 11,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2024/2024-09-26/hammarby-bk-hacken-2-0",
+        },
+        {
+          date: "2024-04-21",
+          fixture: "BK Häcken - Hammarby",
+          result: "2-1",
+          venue: "away",
+          outcome: "loss",
+          hammarbyGoals: 1,
+          opponentGoals: 2,
+          hammarbyXg: 1.2,
+          opponentXg: 1.8,
+          hammarbyShots: 12,
+          opponentShots: 15,
+          sourceUrl: "https://bolldata.se/allsvenskan/matcher/2024/2024-04-21/bk-hacken-hammarby-2-1",
+        },
+      ],
+    },
+    playersToWatch: [
+      {
+        name: "Silas Andersen",
+        position: "CM/AM · Danmark",
+        scoutBadge: "⚡ Ryktas till Sporting",
+        stats: [
+          { label: "Mål", value: "4" },
+          { label: "Assist", value: "3" },
+          { label: "Nat.", value: "Danmark" },
+        ],
+        threat:
+          "Häckens mest kreative spelare och drivande kraft. Kvitterade 2–2 med solo-dribbel från mittplan i förra mötet (55').",
+        motivation:
+          "Andersen är Häckens motor i mittfältet och ryktas vara på väg till Sporting Lissabon. Extra motiverad i matchens rampljus. Skärmade sig med soloprestation i förra mötet. HIF måste dubbeltäcka honom och hindra honom från att vända i halvzonen.",
+      },
+      {
+        name: "Adrian Svanbäck",
+        position: "Forward · Sverige",
+        scoutBadge: "🎯 Matchvinnaren",
+        stats: [
+          { label: "Mål", value: "6" },
+          { label: "Nat.", value: "Sverige" },
+          { label: "Omg 10", value: "3–2 ⚽" },
+        ],
+        threat:
+          "Häckens skyttekonung 2026. Satte vinnarmålet 3–2 i förra mötet (80'). Farligast på genombrott och i boxen.",
+        motivation:
+          "Svanbäck avgjorde förra mötet och är Häckens mest effektive anfallare. HIF:s backfyra måste hålla koll på hans djupledslöpningar – han är snabb och hittar ytan bakom backlinje.",
+      },
+      {
+        name: "Amor Layouni",
+        position: "AM/Forward · Tunisien",
+        scoutBadge: "🔥 Straffspecialist",
+        stats: [
+          { label: "Mål", value: "5" },
+          { label: "Assist", value: "4" },
+          { label: "Nat.", value: "Tunisien" },
+        ],
+        threat:
+          "Satte reduceringsstraffet 1–2 (48') i förra mötet. Farlig i och kring boxen och på fasta situationer.",
+        motivation:
+          "Layouni är en av Häckens mest mångsidige offensiva spelare. Hanterar fasta situationer och är skicklig på att ta sig till straffpunkten. HIF måste undvika onödiga frisparkar i farliga lägen.",
+      },
+    ],
+    glossary: [
+      {
+        term: "Field tilt",
+        explanation:
+          "Andel av possessionerna i sista tredjedelen. Hammarbys 69% vs Häckens 50% visar hur mycket vi dominerar i anfallarean.",
+      },
+      {
+        term: "PPDA (Passes Per Defensive Action)",
+        explanation:
+          "Hur många pass motståndaren tillåts spela innan vi gör en defensiv aktion. HIF:s 4,90 = extremt aggressiv press.",
+      },
+      {
+        term: "Box entries from crosses",
+        explanation:
+          "Andel av box-penetrationerna som sker via inlägg. Häckens ~42% visar deras extrema beroende av kantspel.",
+      },
+      {
+        term: "Turnovers",
+        explanation:
+          "Bollförluster per match. Häckens ~35 gör dem exponerade för omställningar – Hammarbys styrka.",
+      },
+      {
+        term: "Recovery within 5s",
+        explanation:
+          "Andel bollåtervinningar inom 5 sekunder. Häckens ~10% innebär att de är långsamma att reagera efter bolltapp.",
+      },
+    ],
+  },
   {
     round: 8,
     roundLabel: "Omgång 8",
