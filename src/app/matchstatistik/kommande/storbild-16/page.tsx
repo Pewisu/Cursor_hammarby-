@@ -41,6 +41,7 @@ const PREV_MEETING = {
   xgHIF: 1.27,
   xgHacken: 2.82,
   keyStory: "Hammarby dominerade defensivt i HT och ledde 2–0. I andra halvlek tappade laget energin – Häcken fick ett tidigt straff (48') och vände matchen med Andersens solo (55') och Svanbäcks avslut (80'). Statistiskt sett dominerade Häcken hela matchen med 2,82 xG vs 1,27.",
+  tacticalContext: "Matchen exponerade sårbarheten i det man-mot-man-försvar som Kalle Karlsson använde. Häcken utnyttjade det med rörelselek och positionsbyte – framför allt Silas Andersen och Layouni löpte ur sina markeringar upprepade gånger i andra halvlek. Under Rydström har försvaret strukturerats om med tydligare zonprinciper och bättre kompakthet.",
   lesson: "Håll intensiteten i hela 90 min. Tappa aldrig en 2–0-ledning mot Häcken.",
 };
 
@@ -240,6 +241,9 @@ function Slide1() {
               ))}
             </div>
             <p className="text-xs leading-relaxed text-slate-400">{PREV_MEETING.keyStory}</p>
+            <p className="mt-2 rounded-lg border border-violet-500/30 bg-violet-950/20 px-3 py-1.5 text-xs leading-relaxed text-violet-200">
+              🔍 <span className="font-bold">Taktisk kontext:</span> {PREV_MEETING.tacticalContext}
+            </p>
             <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-950/20 px-3 py-1.5 text-xs font-bold text-amber-300">
               ⚡ Läxa: {PREV_MEETING.lesson}
             </p>
