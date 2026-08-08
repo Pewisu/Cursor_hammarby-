@@ -228,7 +228,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Häcken lever på inlägg: ~42% box entries via inlägg. Stäng ytterbanorna.",
       "Häcken passivare press (PPDA ~6,0) vs HIF:s ligaledande PPDA 4,9.",
       "HIF hemma 2026: starkast i ligan offensivt. 3Arena är en fästning.",
-      "Silas Andersen ryktas till Sporting Lissabon – kan vara sista chansen att se honom i Allsvenskan.",
+      "Simen Hestnes (30, Norge, ex-KFUM Oslo) tog över Andersens roll i mittfältet. Harun Ibrahim (23, ex-GAIS) debuterade från start i Omg 15.",
       "Häcken tappar bollen ~35 gånger/match. HIF:s kontra exploaterar det.",
     ],
     dataSources: [
@@ -260,7 +260,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       { label: "😴 Passiv press", sub: "PPDA ~6,0 – faller hellre tillbaka", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" },
       { label: "🔄 Bolltappare", sub: "~35 turnovers/match – exploaterbart", color: "border-rose-600/50 bg-rose-950/60 text-rose-200" },
       { label: "📉 Form-dip", sub: "2 raka förluster efter VM-pausen", color: "border-rose-600/50 bg-rose-950/60 text-rose-200" },
-      { label: "⚡ Effektiva", sub: "Gör mål av lite – 1,87 gjorda vs 1,65 xG", color: "border-amber-600/50 bg-amber-950/60 text-amber-200" },
+      { label: "🚪 Andersen borta", sub: "Hestnes + Ibrahim ny mittfälduo", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" },
     ],
     opponentStyle: [
       "Häcken lever på inlägg: ~42% av box entries kommer via inlägg (ligans mest inläggsberoende lag, Twelve).",
@@ -268,7 +268,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Defensivt: Häcken sitter relativt djupt (DAH ~40m) med passivare press (PPDA ~6,0). Faller hellre tillbaka.",
       "Tappar bollen ofta: ~35 turnovers/match – Hammarbys omställningar ska straffa varje bolltapp.",
       "Häcken har bara ~10% recoveries within 5s – långsamma att reagera efter bolltapp (Twelve).",
-      "Silas Andersen ryktas gå till Sporting Lissabon – extra motiverad att prestera.",
+      "Andersen (Sporting) och Hrstić (lån till Altach) borta – Hestnes (30, Norge) + Harun Ibrahim (lån, ex-GAIS) är inne.",
     ],
     styleProfile: [
       {
@@ -605,46 +605,46 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     },
     playersToWatch: [
       {
-        name: "Silas Andersen",
-        position: "CM/AM · Danmark",
-        scoutBadge: "⚡ Ryktas till Sporting",
+        name: "Adrian Svanbäck",
+        position: "Forward/Yttermitt · Sverige",
+        scoutBadge: "🎯 Säsongens bäste",
         stats: [
           { label: "Mål", value: "4" },
-          { label: "Assist", value: "3" },
-          { label: "Nat.", value: "Danmark" },
+          { label: "Assist", value: "4" },
+          { label: "Matcher", value: "12" },
         ],
         threat:
-          "Häckens mest kreative spelare och drivande kraft. Kvitterade 2–2 med solo-dribbel från mittplan i förra mötet (55').",
+          "Häckens bäste målskytt och mest produktive spelare 2026 (4M+4A på 12 matcher). Satte vinnarmålet 3–2 i förra mötet (80'). Farligast på genombrott och i djupled.",
         motivation:
-          "Andersen är Häckens motor i mittfältet och ryktas vara på väg till Sporting Lissabon. Extra motiverad i matchens rampljus. Skärmade sig med soloprestation i förra mötet. HIF måste dubbeltäcka honom och hindra honom från att vända i halvzonen.",
-      },
-      {
-        name: "Adrian Svanbäck",
-        position: "Forward · Sverige",
-        scoutBadge: "🎯 Matchvinnaren",
-        stats: [
-          { label: "Mål", value: "6" },
-          { label: "Nat.", value: "Sverige" },
-          { label: "Omg 10", value: "3–2 ⚽" },
-        ],
-        threat:
-          "Häckens skyttekonung 2026. Satte vinnarmålet 3–2 i förra mötet (80'). Farligast på genombrott och i boxen.",
-        motivation:
-          "Svanbäck avgjorde förra mötet och är Häckens mest effektive anfallare. HIF:s backfyra måste hålla koll på hans djupledslöpningar – han är snabb och hittar ytan bakom backlinje.",
+          "Svanbäck är Häckens motor offensivt efter Andersens avfärd – 8 direkta målpoäng på 12 matcher. Han spelar som ytterforward i 4-2-3-1 och drar mot kanten innan han drar inåt mot mål. HIF:s backfyra måste hålla koll på hans djupledslöpningar och skära av hans snitt inåt från höger.",
       },
       {
         name: "Amor Layouni",
-        position: "AM/Forward · Tunisien",
-        scoutBadge: "🔥 Straffspecialist",
+        position: "AM/Mittfält · Tunisien",
+        scoutBadge: "🔑 Kreativ motor",
         stats: [
-          { label: "Mål", value: "5" },
-          { label: "Assist", value: "4" },
-          { label: "Nat.", value: "Tunisien" },
+          { label: "Mål", value: "1" },
+          { label: "Assist", value: "6" },
+          { label: "Matcher", value: "9" },
         ],
         threat:
-          "Satte reduceringsstraffet 1–2 (48') i förra mötet. Farlig i och kring boxen och på fasta situationer.",
+          "Häckens ledande assisterare (6A på 9 matcher). Satte reduceringsstraffet 1–2 i förra mötet (48'). Styr Häckens anfallsspel med passningar och löpningar.",
         motivation:
-          "Layouni är en av Häckens mest mångsidige offensiva spelare. Hanterar fasta situationer och är skicklig på att ta sig till straffpunkten. HIF måste undvika onödiga frisparkar i farliga lägen.",
+          "Layouni är Häckens mest kreative spelare med 6 assists på bara 9 matcher. Han hanterar fasta situationer och hittar alltid nyckelpassen till Svanbäck och Lindgren. HIF:s mittfält måste täcka honom tätt – hindra honom från att vända och spela framåt i halvzonen.",
+      },
+      {
+        name: "Harun Ibrahim",
+        position: "AM/Mittfält · Sverige (ex-GAIS)",
+        scoutBadge: "🆕 Lån från Sharjah",
+        stats: [
+          { label: "Nat.", value: "Sverige" },
+          { label: "Ålder", value: "23" },
+          { label: "Debut", value: "Omg 15" },
+        ],
+        threat:
+          "Ny lånespelare (ex-GAIS, 88 matcher). Debuterade från start mot Kalmar. Snabb och teknisk – kan orsaka problem i övergångsspelet.",
+        motivation:
+          "Harun Ibrahim (23) kom på lån från Sharjah FC och spelade sin första match från start i Omg 15 mot Kalmar. Tidigare GAIS-profil med 88 allsvenska matcher – känd i Sverige men ny i Häcken-systemet. HIF:s spelare känner honom sedan GAIS-åren. Smart och teknisk – stäng honom av i halvrummet och låt honom inte vända med boll.",
       },
     ],
     glossary: [
