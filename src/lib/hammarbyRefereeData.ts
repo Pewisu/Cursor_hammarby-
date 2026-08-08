@@ -195,22 +195,46 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     opponent: { name: "Elfsborg", freeKicks: 2, fouls: 9, foulsSuffered: 7, yellowCards: 1, redCards: 0 },
   },
   {
-    // Omgång 12 – Hammarby - Kalmar FF 2-0 (12 jul 2026)
-    // Källa: bolldata.se matchsida. Fouls/kort härledda via diff mot säsongsaggregat
-    // (HIF fouls: 138tot−127prev=11; foulsSuffered: 187tot−176prev=11; GK: 13tot−12prev=1)
-    // (FF: 40tot−39prev=1; FE: 24tot−23prev=1)
     key: "omgang-12",
     gameweek: 12,
     date: "2026-07-12",
     matchName: "Hammarby - Kalmar FF, 2-0",
     sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-07-12/hammarby-kalmar-2-0",
     referee: "Kristoffer Karlsson",
-    effectivePlayingTimeS: 3214,
+    effectivePlayingTimeS: 3786,
     totalTimeMin: 95,
     totalFreeKicks: 2,
     totalCards: 2,
-    hammarby: { freeKicks: 1, fouls: 11, foulsSuffered: 11, yellowCards: 1, redCards: 0, isHome: true },
-    opponent: { name: "Kalmar", freeKicks: 1, fouls: 11, foulsSuffered: 11, yellowCards: 1, redCards: 0 },
+    hammarby: { freeKicks: 1, fouls: 11, foulsSuffered: 11, yellowCards: 2, redCards: 0, isHome: true },
+    opponent: { name: "Kalmar FF", freeKicks: 1, fouls: 11, foulsSuffered: 11, yellowCards: 0, redCards: 0 },
+  },
+  {
+    key: "omgang-13",
+    gameweek: 13,
+    date: "2026-07-19",
+    matchName: "Hammarby - Degerfors IF, 4-0",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-07-19/hammarby-degerfors-4-0",
+    referee: "Mohammed Al Hakim",
+    effectivePlayingTimeS: 3468,
+    totalTimeMin: 93,
+    totalFreeKicks: 7,
+    totalCards: 1,
+    hammarby: { freeKicks: 4, fouls: 11, foulsSuffered: 7, yellowCards: 0, redCards: 0, isHome: true },
+    opponent: { name: "Degerfors IF", freeKicks: 3, fouls: 7, foulsSuffered: 11, yellowCards: 1, redCards: 0 },
+  },
+  {
+    key: "omgang-14",
+    gameweek: 14,
+    date: "2026-07-26",
+    matchName: "IF Brommapojkarna - Hammarby, 1-1",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-07-26/brommapojkarna-hammarby-1-1",
+    referee: "Adi Aganovic",
+    effectivePlayingTimeS: 3653,
+    totalTimeMin: 94,
+    totalFreeKicks: 5,
+    totalCards: 2,
+    hammarby: { freeKicks: 3, fouls: 13, foulsSuffered: 9, yellowCards: 1, redCards: 0, isHome: false },
+    opponent: { name: "IF Brommapojkarna", freeKicks: 2, fouls: 9, foulsSuffered: 13, yellowCards: 1, redCards: 0 },
   },
   {
     key: "omgang-15",
@@ -243,4 +267,72 @@ export function calcCardDiff(match: RefereeMatchStats): number {
   const hamCards = match.hammarby.yellowCards + match.hammarby.redCards * 2;
   const oppCards = match.opponent.yellowCards + match.opponent.redCards * 2;
   return oppCards - hamCards;
+}
+
+export type DomarRating = {
+  label: string;
+  emoji: string;
+  color: string;
+  bg: string;
+  border: string;
+  description: string;
+};
+
+export function getDomarRating(index: number): DomarRating {
+  if (index <= -6) return {
+    label: "Sopa",
+    emoji: "🗑️",
+    color: "text-red-400",
+    bg: "bg-red-950/50",
+    border: "border-red-700/60",
+    description: "Katastrofalt. Hammarby kördes över från första till sista minut.",
+  };
+  if (index <= -3) return {
+    label: "Idiot",
+    emoji: "🤦",
+    color: "text-rose-400",
+    bg: "bg-rose-950/40",
+    border: "border-rose-700/50",
+    description: "Upprörande domslut. Hammarby behandlades märkbart orättvist.",
+  };
+  if (index <= -1) return {
+    label: "Svag",
+    emoji: "😒",
+    color: "text-orange-400",
+    bg: "bg-orange-950/30",
+    border: "border-orange-700/40",
+    description: "Lite för mycket åt motståndarens håll. Kan göras bättre.",
+  };
+  if (index === 0) return {
+    label: "Neutral",
+    emoji: "⚖️",
+    color: "text-slate-300",
+    bg: "bg-slate-800/40",
+    border: "border-slate-600/40",
+    description: "Perfekt balans. Domarens bästa prestation är att synas minst.",
+  };
+  if (index <= 2) return {
+    label: "Godkänd",
+    emoji: "👍",
+    color: "text-sky-300",
+    bg: "bg-sky-950/30",
+    border: "border-sky-700/40",
+    description: "Tillräckligt bra. Inget att klaga på den här gången.",
+  };
+  if (index <= 5) return {
+    label: "Bra",
+    emoji: "✅",
+    color: "text-emerald-300",
+    bg: "bg-emerald-950/30",
+    border: "border-emerald-700/40",
+    description: "Tydliga beslut och rättvis hantering. Hammarby gynnades.",
+  };
+  return {
+    label: "Utmärkt",
+    emoji: "⭐",
+    color: "text-yellow-300",
+    bg: "bg-yellow-950/30",
+    border: "border-yellow-700/40",
+    description: "Exemplarisk domarinsats. Hammarby fick vad de förtjänade.",
+  };
 }
