@@ -120,9 +120,12 @@ export default function BroadcasterDashboard() {
           <Link href="/matchstatistik" className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors">
             ← Matchstatistik
           </Link>
-          <span className="rounded-full border border-[#008050]/40 bg-[#008050]/10 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-[#008050]">
-            Storbild · Broadcaster
-          </span>
+          <Link
+            href="/matchstatistik/kommande/storbild-16"
+            className="rounded-full border border-violet-500/50 bg-violet-900/20 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-violet-300 hover:border-violet-400 hover:bg-violet-900/40 transition-colors"
+          >
+            🖥️ Presentationsläge (200-personers-vy)
+          </Link>
           <span className="text-sm text-neutral-600">{report.dateLabel}</span>
         </div>
       </div>
