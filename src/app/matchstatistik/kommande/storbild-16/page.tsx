@@ -27,6 +27,62 @@ const HACKEN_AWAY_2026 = [
   { round: 13, home: "Halmstads BK", score: "0–2", outcome: "W" as const },
 ];
 
+const PREV_MEETING = {
+  score: "3–2 (HT 0–2)",
+  date: "31 maj 2026",
+  venue: "Bravida Arena (Häcken hemma)",
+  scorers: [
+    { team: "hif",    player: "Victor Lind",     minute: "9'",  note: "" },
+    { team: "hif",    player: "Victor Lind",     minute: "39'", note: "" },
+    { team: "hacken", player: "Amor Layouni",    minute: "48'", note: "Straff (nu lämnat klubben)" },
+    { team: "hacken", player: "Silas Andersen",  minute: "55'", note: "Solo-dribbling mittplan (nu Sporting)" },
+    { team: "hacken", player: "Adrian Svanbäck", minute: "80'", note: "Vinnarmål (KVAR i truppen!)" },
+  ],
+  xgHIF: 1.27,
+  xgHacken: 2.82,
+  keyStory: "Hammarby dominerade defensivt i HT och ledde 2–0. I andra halvlek tappade laget energin – Häcken fick ett tidigt straff (48') och vände matchen med Andersens solo (55') och Svanbäcks avslut (80'). Statistiskt sett dominerade Häcken hela matchen med 2,82 xG vs 1,27.",
+  lesson: "Håll intensiteten i hela 90 min. Tappa aldrig en 2–0-ledning mot Häcken.",
+};
+
+const PLAYERS_TO_WATCH = [
+  {
+    name: "Adrian Svanbäck",
+    pos: "YF/RM · Sverige",
+    badge: "🎯 Satte vinnarmålet i Ø10",
+    stats: "4 mål + 4 assist på 12 matcher",
+    threat: "Häckens farligaste spelare. Spelar som ytterforward i 4-2-3-1, drar inåt från höger mot mål. Satte 3–2 på 80' i Ø10. Farligast på genombrott och djupledslöpningar.",
+    counter: "HIF:s backfyra måste skära av hans snitt inåt. Stäng höger kanal tidigt.",
+    color: "border-rose-500/40 bg-rose-950/20",
+  },
+  {
+    name: "Harun Ibrahim",
+    pos: "AM/MF · Sverige (lån Sharjah)",
+    badge: "🆕 Nyförvärv – debuterade Ø15",
+    stats: "88 allsvenska matcher för GAIS (8 mål)",
+    threat: "Ny i Häcken-systemet men välbekant i Allsvenskan. Teknisk och smart – söker halvrummet och kan vända snabbt. Spelade sin första match från start mot Kalmar i Ø15.",
+    counter: "HIF:s spjutspetsar känner honom från GAIS. Stäng halvrummen och hindra honom att vända med boll.",
+    color: "border-amber-500/40 bg-amber-950/20",
+  },
+];
+
+const HAMMARBY_PLAN = {
+  withBall: [
+    "Dominera field tilt (69% vs 50%). Häcken sitter djupt – håll bollen i deras halvplan och tvinga dem att springa.",
+    "Attackera CENTRALT. Häcken försvarar brett för inlägg – de centrala ytorna är öppna. Box entries via carries och kombinationsspel.",
+    "Tålamod i uppspelet. Häcken faller tillbaka (DAH ~40m) – bygg upp lugnt och sök vertikala passningar genom mittfältet.",
+  ],
+  withoutBall: [
+    "Press FULLT UT direkt. PPDA 4,9 vs ~6,0 – vi pressar nästan 50% hårdare. Störa deras uppspel och forcera bolttapp.",
+    "BLOCKERA INLÄGGEN. Häckens ~42% box entries via inlägg är deras livsnerv. Halvbacks och ytterbackar stänger ytterbanorna.",
+    "Kontra DIREKT vid varje bolttapp. Häcken har bara ~10% recovery within 5s – de reagerar sakta.",
+  ],
+  matchManagement: [
+    "Hammarby gör flest mål 61–75' – behåll intensiteten hela vägen. Häckens defensiv tröttnar.",
+    "LÄR av Ø10: kom ut med full intensitet i 2H. Tappa aldrig en ledning.",
+    "Häcken konverterar 14% över xG – ge dem noll billiga chanser. En chans = ett potentiellt mål.",
+  ],
+};
+
 const TRANSFERS = {
   sold: [
     { name: "Silas Andersen", pos: "MF", to: "Sporting Lissabon", note: "Scorade solo-dribblingsmålet i Ø10 (55'). Kreativ frirollad mittfältare – deras stora förlust" },
@@ -157,6 +213,35 @@ function Slide1() {
             </div>
             <p className="mt-3 text-xs text-slate-400">
               Senaste bortamatch: Halmstad 0–2 (V, Ø13 · 19 jul). Däremellan bortaförlust mot Örgryte 4–3.
+            </p>
+          </div>
+
+          {/* Ø10 match breakdown */}
+          <div className="rounded-2xl border border-slate-600/40 bg-slate-800/30 p-4">
+            <p className="mb-3 text-xs font-black uppercase tracking-widest text-slate-400">
+              Senaste mötet · Ø10 · {PREV_MEETING.date}
+            </p>
+            <div className="mb-3 flex items-center gap-3 flex-wrap">
+              <span className="text-2xl font-black text-white">{PREV_MEETING.score}</span>
+              <span className="rounded-full border border-rose-500/40 bg-rose-900/20 px-2 py-0.5 text-xs font-bold text-rose-300">Häcken vann</span>
+              <span className="ml-auto text-xs text-slate-500">xG HIF {PREV_MEETING.xgHIF} – Häcken {PREV_MEETING.xgHacken}</span>
+            </div>
+            <div className="mb-3 flex flex-wrap gap-2">
+              {PREV_MEETING.scorers.map((s, i) => (
+                <div key={i} className={`rounded-lg border px-2.5 py-1.5 text-xs ${
+                  s.team === "hif"
+                    ? "border-emerald-500/30 bg-emerald-950/20 text-emerald-300"
+                    : "border-rose-500/30 bg-rose-950/20 text-rose-300"
+                }`}>
+                  <span className="font-mono font-bold">{s.minute}</span>{" "}
+                  <span className="font-semibold">{s.player}</span>
+                  {s.note && <span className="ml-1 text-slate-500 text-[10px]">({s.note})</span>}
+                </div>
+              ))}
+            </div>
+            <p className="text-xs leading-relaxed text-slate-400">{PREV_MEETING.keyStory}</p>
+            <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-950/20 px-3 py-1.5 text-xs font-bold text-amber-300">
+              ⚡ Läxa: {PREV_MEETING.lesson}
             </p>
           </div>
 
@@ -440,7 +525,7 @@ function Slide3() {
           </div>
         </section>
 
-        {/* Häcken threats + HIF advantages */}
+        {/* Threats + Advantages */}
         <div className="grid gap-4 sm:grid-cols-2">
           <section>
             <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-rose-400">⚠️ Se upp med Häcken</h3>
@@ -465,6 +550,69 @@ function Slide3() {
             </div>
           </section>
         </div>
+
+        {/* Players to watch */}
+        <section className="rounded-2xl border border-rose-700/30 bg-slate-900/60 p-5">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-rose-400">👁️ Häcken – spelare att hålla koll på</h3>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {PLAYERS_TO_WATCH.map((p) => (
+              <div key={p.name} className={`rounded-xl border p-4 ${p.color}`}>
+                <div className="mb-2 flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-black text-white text-base">{p.name}</p>
+                    <p className="text-[10px] text-slate-400">{p.pos}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full border border-slate-600/40 bg-slate-800/50 px-2 py-0.5 text-[10px] font-bold text-slate-300">{p.badge}</span>
+                </div>
+                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-500">{p.stats}</p>
+                <p className="text-xs leading-relaxed text-slate-300">{p.threat}</p>
+                <div className="mt-2 rounded-lg border border-emerald-500/20 bg-emerald-950/20 px-3 py-1.5">
+                  <p className="text-[10px] font-bold text-emerald-400">HIF-svar: {p.counter}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Hammarbys spelplan */}
+        <section className="rounded-2xl border border-[#008050]/30 bg-slate-900/60 p-5">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-[#008050]">🟢 Hammarbys spelplan</h3>
+          <div className="grid gap-4 sm:grid-cols-3">
+            <div>
+              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-emerald-400">Med bollen</p>
+              <ul className="space-y-2">
+                {HAMMARBY_PLAN.withBall.map((p, i) => (
+                  <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
+                    <span className="mt-0.5 shrink-0 h-1.5 w-1.5 rounded-full bg-[#008050]" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-rose-400">Utan bollen</p>
+              <ul className="space-y-2">
+                {HAMMARBY_PLAN.withoutBall.map((p, i) => (
+                  <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
+                    <span className="mt-0.5 shrink-0 h-1.5 w-1.5 rounded-full bg-rose-500" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-amber-400">Matchhantering</p>
+              <ul className="space-y-2">
+                {HAMMARBY_PLAN.matchManagement.map((p, i) => (
+                  <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
+                    <span className="mt-0.5 shrink-0 h-1.5 w-1.5 rounded-full bg-amber-400" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </section>
 
         {/* Goal windows */}
         <section className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-5">
