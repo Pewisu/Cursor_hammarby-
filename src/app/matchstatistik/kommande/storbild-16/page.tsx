@@ -6,13 +6,25 @@ import { hammarbyRefereeMatches, calcDomarindex, getDomarRating } from "@/lib/ha
 
 /* ─── Data ─────────────────────────────────────────────────────────── */
 
+// All = senaste 5 matcher (för kontext). isAway markerar Häcken som bortalag.
 const HACKEN_FORM = [
-  { round: 10, home: "Häcken", away: "Hammarby", score: "3–2", outcome: "W" as const, note: "Vann från 0–2 (HT). Silas Andersen solo, Svanbäck avgjorde" },
-  { round: 11, home: "Häcken", away: "Djurgårdsn", score: "2–4", outcome: "L" as const, note: "Hemmakross. 2–4, störst förlusten sedan maj" },
-  { round: 12, home: "Örgryte", away: "Häcken", score: "4–3", outcome: "L" as const, note: "Bortaförlust. Tre goda chanser i slutminuterna men for sent" },
-  { round: 13, home: "Halmstad", away: "Häcken", score: "0–2", outcome: "W" as const, note: "Enda bortasegern sedan maj. Halmstad i form-dipp" },
-  { round: 14, home: "Häcken", away: "AIK",      score: "0–0", outcome: "D" as const, note: "Ingen av lagen skapade. Häcken utan mål hemma i 180 min" },
-  { round: 15, home: "Häcken", away: "Kalmar",   score: "1–1", outcome: "D" as const, note: "Hilvenius kvitterade (nick, hörna, 24'). Al-Hakim dömde" },
+  { round: 10, home: "Häcken",  away: "Hammarby",  score: "3–2", outcome: "W" as const, isAway: false, note: "Förra mötet (hemma). Vann från 0–2 (HT). Silas Andersen avgjorde" },
+  { round: 11, home: "Häcken",  away: "Djurgårdsn", score: "2–4", outcome: "L" as const, isAway: false, note: "Hemma. Kross efter sommarpausen" },
+  { round: 12, home: "Örgryte", away: "Häcken",    score: "4–3", outcome: "L" as const, isAway: true,  note: "Borta. Förlorade trots att de ledde" },
+  { round: 13, home: "Halmstad", away: "Häcken",   score: "0–2", outcome: "W" as const, isAway: true,  note: "Borta. Senaste bortasegern (19 jul)" },
+  { round: 14, home: "Häcken",  away: "AIK",       score: "0–0", outcome: "D" as const, isAway: false, note: "Hemma. 0–0, utan mål hemma i 180 min" },
+  { round: 15, home: "Häcken",  away: "Kalmar",    score: "1–1", outcome: "D" as const, isAway: false, note: "Hemma. Kryss. Al-Hakim dömde" },
+];
+
+// Häckens fullständiga bortastatistik 2026
+const HACKEN_AWAY_2026 = [
+  { round: 2,  home: "IFK Göteborg", score: "0–2", outcome: "W" as const },
+  { round: 4,  home: "Västerås SK",  score: "3–3", outcome: "D" as const },
+  { round: 6,  home: "Degerfors IF", score: "1–1", outcome: "D" as const },
+  { round: 8,  home: "Mjällby AIF",  score: "0–1", outcome: "W" as const },
+  { round: 9,  home: "IF Elfsborg",  score: "1–1", outcome: "D" as const },
+  { round: 12, home: "Örgryte IS",   score: "4–3", outcome: "L" as const },
+  { round: 13, home: "Halmstads BK", score: "0–2", outcome: "W" as const },
 ];
 
 const TRANSFERS = {
@@ -95,8 +107,10 @@ function OutcomeBadge({ o }: { o: "W" | "L" | "D" }) {
 /* ─── Slide components ─────────────────────────────────────────────── */
 
 function Slide1() {
-  const homeWins = HACKEN_FORM.slice(1).filter((m) => m.home === "Häcken" && m.outcome === "W").length;
-  const homeTotal = HACKEN_FORM.slice(1).filter((m) => m.home === "Häcken").length;
+  const awayW = HACKEN_AWAY_2026.filter((m) => m.outcome === "W").length;
+  const awayD = HACKEN_AWAY_2026.filter((m) => m.outcome === "D").length;
+  const awayL = HACKEN_AWAY_2026.filter((m) => m.outcome === "L").length;
+  const awayPts = awayW * 3 + awayD;
 
   return (
     <div className="flex h-full flex-col overflow-y-auto px-8 py-8 lg:px-16 lg:py-10">
@@ -111,19 +125,46 @@ function Slide1() {
       </div>
 
       <div className="grid flex-1 gap-6 lg:grid-cols-[1fr_380px]">
-        {/* Form */}
+        {/* Form + bortastatistik */}
         <div className="space-y-4">
+          {/* Bortastatistik 2026 — det relevanta */}
+          <div className="rounded-2xl border border-sky-500/30 bg-sky-950/20 p-4">
+            <p className="mb-3 text-xs font-black uppercase tracking-widest text-sky-400">
+              Häcken borta 2026 (7 matcher) — spelar BORTA på 3Arena
+            </p>
+            <div className="mb-3 flex items-center gap-4">
+              <span className="text-3xl font-black text-white">{awayW}V {awayD}O {awayL}F</span>
+              <span className="rounded-full border border-sky-500/40 bg-sky-900/30 px-3 py-1 text-sm font-bold text-sky-300">
+                {awayPts} poäng
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {HACKEN_AWAY_2026.map((m) => (
+                <div key={m.round} className="flex flex-col items-center gap-1">
+                  <span className="text-[10px] text-slate-600">Ø{m.round}</span>
+                  <OutcomeBadge o={m.outcome} />
+                  <span className="text-[10px] font-mono text-slate-500">{m.score}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-3 text-xs text-slate-400">
+              Senaste bortamatch: Halmstad 0–2 (V, Ø13 · 19 jul). Däremellan bortaförlust mot Örgryte 4–3.
+            </p>
+          </div>
+
           <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">
-            Form sedan Ø10 (31 maj)
+            Senaste 5 matcher (alla)
           </h3>
           <div className="space-y-2">
             {HACKEN_FORM.map((m) => (
               <div
                 key={m.round}
                 className={`flex items-center gap-3 rounded-xl border px-4 py-3 ${
-                  m.round === 10
+                  m.isAway
+                    ? "border-sky-600/30 bg-sky-950/20"
+                    : m.round === 10
                     ? "border-slate-600/40 bg-slate-800/30"
-                    : "border-slate-700/30 bg-slate-900/30"
+                    : "border-slate-700/20 bg-slate-900/20"
                 }`}
               >
                 <span className="w-7 text-right text-xs font-bold text-slate-500">Ø{m.round}</span>
@@ -137,16 +178,13 @@ function Slide1() {
                     : m.outcome === "L" ? "border-rose-500/40 bg-rose-900/30 text-rose-400"
                     : "border-amber-500/40 bg-amber-900/30 text-amber-300"
                   }`}>{m.score}</span>
+                  {m.isAway && (
+                    <span className="shrink-0 rounded border border-sky-500/40 bg-sky-900/30 px-1.5 py-0.5 text-[10px] font-bold text-sky-400">BORTA</span>
+                  )}
                 </div>
                 <p className="hidden max-w-xs text-right text-xs text-slate-500 lg:block">{m.note}</p>
               </div>
             ))}
-          </div>
-
-          <div className="mt-2 rounded-xl border border-rose-500/30 bg-rose-950/20 px-4 py-3">
-            <p className="text-sm font-bold text-rose-300">
-              🏠 Häcken hemma sedan Ø10: {homeWins}/{homeTotal} vinster — senast hemmaseger i MAJ.
-            </p>
           </div>
         </div>
 
