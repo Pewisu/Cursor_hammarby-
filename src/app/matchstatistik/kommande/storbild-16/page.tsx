@@ -46,42 +46,47 @@ const LADEBACK_DATA = (() => {
   };
 })();
 
-const TACTICAL_POINTS = [
-  {
-    icon: "🔴",
-    title: "Stäng ytterbanorna",
-    body: "42% av Häckens box entries kommer via inlägg – ligans mest inläggsberoende lag (Twelve). Viktor Gyökeres-lookalike Sadiku lever på centring. Hammarby måste hålla ytterbackarna höga och stänga inläggsytorna tidigt.",
-    tag: "Kritiskt",
-    tagColor: "bg-rose-600/30 text-rose-300 border-rose-500/40",
-  },
-  {
-    icon: "⚡",
-    title: "Pressa direkt efter bolltapp",
-    body: "Häcken reagerar långsamt vid bolttapp – bara ~10% recoveries within 5s (Twelve). Hammarbys ligaledande PPDA 4,9 vs Häckens ~6,0 ger ett pressgap på nästan 50%. Varje gång Häcken bygger upp bakifrån är vi redan på dem.",
-    tag: "Fördel",
-    tagColor: "bg-emerald-600/30 text-emerald-300 border-emerald-500/40",
-  },
-  {
-    icon: "🏃",
-    title: "Utnyttja övergångar",
-    body: "Häcken tappar bollen ~35 ggr/match (Twelve) – fler än genomsnittet. Hammarbys snabba omställning via Elanga/Andrade är skräddarsydd för att exploatera detta. Positiva kontringar mot deras djupa försvarslinje.",
-    tag: "Nyckel",
-    tagColor: "bg-amber-600/30 text-amber-300 border-amber-500/40",
-  },
-  {
-    icon: "🎯",
-    title: "Kontrollera boxen",
-    body: "Häcken konverterar BÄTTRE än xG motiverar. De är effektiva. Ge dem inga billiga chanceer – varje avslut de får är potentiellt mer värt än statistiken säger. Håll 0 chanser i boxen i god position.",
-    tag: "Varning",
-    tagColor: "bg-orange-600/30 text-orange-300 border-orange-500/40",
-  },
-  {
-    icon: "📌",
-    title: "Utnyttja hemmaplan",
-    body: "Hammarby har vunnit 4 av 7 hemmamatcher med 3+ mål. Häcken har INTE vunnit borta sedan maj. Hemmaeffekten är real – ytterbankarna och publiken driver press framåt. Börja högt, håll tempot, slå tidigt.",
-    tag: "Fördel",
-    tagColor: "bg-emerald-600/30 text-emerald-300 border-emerald-500/40",
-  },
+// Adam Ladebäck 2026 Allsvenskan – hemma vs borta frisparkar/kort
+// Källa: bolldata.se API, 6 av 10 matcher (övriga ej tillgängliga)
+const LADEBACK_MATCHES_2026 = [
+  { home: "AIK",           away: "Halmstad",    h_fk: 12, a_fk: 11, h_y: 3, a_y: 1 },
+  { home: "Kalmar",        away: "IFK Göteborg",h_fk: 10, a_fk:  8, h_y: 0, a_y: 3 },
+  { home: "GAIS",          away: "Örgryte",     h_fk: 14, a_fk: 13, h_y: 0, a_y: 1 },
+  { home: "Häcken",        away: "Malmö FF",    h_fk: 10, a_fk: 13, h_y: 3, a_y: 1 },
+  { home: "Brommapojkarna",away: "Kalmar",      h_fk: 12, a_fk: 10, h_y: 4, a_y: 0 },
+  { home: "Hammarby",      away: "AIK",         h_fk: 18, a_fk: 11, h_y: 1, a_y: 4, isHammarby: true },
+];
+
+// KPI rankings – Hammarby vs Häcken (Bolldata/Twelve, aug 2026)
+const KPI_RANKINGS = [
+  { label: "xG / match",        hif: "2,19", hif_rank: "1:a", opp: "1,65", opp_rank: "~5:e", hif_score: 100, opp_score: 63,  winner: "hif" as const },
+  { label: "Avslut / match",    hif: "19,8", hif_rank: "1:a", opp: "14,9", opp_rank: "~8:e", hif_score: 100, opp_score: 60,  winner: "hif" as const },
+  { label: "Field tilt (%)",    hif: "69%",  hif_rank: "~1:a", opp: "50%",  opp_rank: "~8:e", hif_score: 100, opp_score: 43,  winner: "hif" as const },
+  { label: "PPDA (press)",       hif: "4,9",  hif_rank: "~1:a", opp: "6,0",  opp_rank: "~10:e",hif_score: 100, opp_score: 50,  winner: "hif" as const },
+  { label: "Bollinnehav (%)",   hif: "61%",  hif_rank: "~2:a", opp: "52%",  opp_rank: "~7:e", hif_score: 100, opp_score: 70,  winner: "hif" as const },
+  { label: "Boxberöringar/match",hif: "28,5", hif_rank: "~1:a", opp: "20,1", opp_rank: "~8:e", hif_score: 100, opp_score: 58,  winner: "hif" as const },
+  { label: "Turnovers / match", hif: "30,5", hif_rank: "~5:e", opp: "35,0", opp_rank: "~13:e",hif_score: 78,  opp_score: 52,  winner: "hif" as const },
+  { label: "Konvertering (G/xG)",hif: "~1,00",hif_rank: "~8:e", opp: "1,13", opp_rank: "~4:e", hif_score: 55,  opp_score: 75,  winner: "opp" as const },
+];
+
+const HACKEN_THREATS = [
+  { icon: "⚠️", label: "Inläggsmaskin", detail: "~42% av box entries via inlägg – störst i Allsvenskan. Sadiku lever på centring.", color: "border-rose-500/40 bg-rose-950/20 text-rose-300" },
+  { icon: "🎯", label: "Överkonverterar", detail: "1,87 gjorda mål vs 1,65 xG – 14% över förväntan. Varje chans är farligare än den ser ut.", color: "border-orange-500/40 bg-orange-950/20 text-orange-300" },
+];
+
+const HAMMARBY_ADVANTAGES = [
+  { icon: "⚡", label: "Press 50% hårdare", detail: "PPDA 4,9 vs 6,0. Häcken tvingas göra misstag i uppspel redan från start.", color: "border-emerald-500/40 bg-emerald-950/20 text-emerald-300" },
+  { icon: "🏃", label: "Utnyttja turnovers", detail: "Häcken tappar ~35 bollar/match, bara ~10% recovery within 5s. Snabb omställning dödar dem.", color: "border-emerald-500/40 bg-emerald-950/20 text-emerald-300" },
+  { icon: "📌", label: "Hemmaplan + form", detail: "HIF: 4 hemmamatcher med 3+ mål. Häcken: inga bortamål senaste 2 bortaturer.", color: "border-emerald-500/40 bg-emerald-950/20 text-emerald-300" },
+];
+
+const GOAL_WINDOWS = [
+  { window: "0–15'",   hif: 4, opp_conceded: 2 },
+  { window: "16–30'",  hif: 4, opp_conceded: 3 },
+  { window: "31–45+'", hif: 6, opp_conceded: 3 },
+  { window: "46–60'",  hif: 5, opp_conceded: 4 },
+  { window: "61–75'",  hif: 7, opp_conceded: 3 },
+  { window: "76–90+'", hif: 5, opp_conceded: 3 },
 ];
 
 /* ─── Helpers ───────────────────────────────────────────────────────── */
@@ -236,123 +241,133 @@ function Slide1() {
   );
 }
 
+function FKBar({ homeFK, awayFK, isHammarby }: { homeFK: number; awayFK: number; isHammarby?: boolean }) {
+  const total = homeFK + awayFK || 1;
+  const homePct = Math.round((homeFK / total) * 100);
+  return (
+    <div className="flex items-center gap-2 text-xs">
+      <span className={`w-14 text-right font-mono font-bold tabular-nums ${isHammarby ? "text-emerald-300" : "text-slate-300"}`}>{homeFK}</span>
+      <div className="relative h-4 flex-1 overflow-hidden rounded-full bg-slate-800">
+        <div className="absolute inset-y-0 left-0 rounded-full bg-[#008050]/70" style={{ width: `${homePct}%` }} />
+        <div className="absolute inset-y-0 right-0 rounded-full bg-slate-600/70" style={{ width: `${100 - homePct}%` }} />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-full w-px bg-slate-500/50" style={{ marginLeft: `${homePct}%` }} />
+        </div>
+      </div>
+      <span className="w-8 font-mono tabular-nums text-slate-400">{awayFK}</span>
+    </div>
+  );
+}
+
 function Slide2() {
   const m = LADEBACK_DATA.match;
   const idx = LADEBACK_DATA.domarindex;
   const rating = LADEBACK_DATA.rating;
   const stoppage = m.totalTimeMin - 90;
+  const avgHomeFk = LADEBACK_MATCHES_2026.reduce((s, r) => s + r.h_fk, 0) / LADEBACK_MATCHES_2026.length;
+  const avgAwayFk = LADEBACK_MATCHES_2026.reduce((s, r) => s + r.a_fk, 0) / LADEBACK_MATCHES_2026.length;
+  const avgHomeY  = LADEBACK_MATCHES_2026.reduce((s, r) => s + r.h_y,  0) / LADEBACK_MATCHES_2026.length;
+  const avgAwayY  = LADEBACK_MATCHES_2026.reduce((s, r) => s + r.a_y,  0) / LADEBACK_MATCHES_2026.length;
 
   return (
     <div className="flex h-full flex-col overflow-y-auto px-8 py-8 lg:px-16 lg:py-10">
-      <div className="mb-6 flex items-center gap-4">
+      <div className="mb-5 flex items-center gap-4">
         <div className="h-12 w-1.5 rounded-full bg-violet-500" />
         <div>
           <p className="text-[11px] font-black uppercase tracking-[0.3em] text-violet-400">Del 2 av 3 · Domaranalys</p>
-          <h2 className="text-2xl font-black uppercase tracking-tight text-white lg:text-4xl">
-            Omgångens domare
-          </h2>
+          <h2 className="text-2xl font-black uppercase tracking-tight text-white lg:text-4xl">Adam Ladebäck</h2>
+        </div>
+        <div className="ml-auto hidden items-center gap-3 sm:flex">
+          <span className="rounded-full border border-violet-500/40 bg-violet-950/20 px-3 py-1 text-xs font-bold text-violet-300">FIFA-badge</span>
+          <span className="rounded-full border border-slate-600/40 bg-slate-800/40 px-3 py-1 text-xs font-bold text-slate-400">2026: 10 matcher</span>
         </div>
       </div>
 
-      <div className="grid flex-1 gap-6 lg:grid-cols-[1fr_320px]">
-        {/* Main info */}
-        <div className="space-y-5">
-          <div className="rounded-2xl border border-violet-500/30 bg-violet-950/20 p-6">
-            <p className="text-xs font-bold uppercase tracking-widest text-violet-400">Utsedd domare</p>
-            <p className="mt-2 text-4xl font-black text-white lg:text-5xl">Adam Ladebäck</p>
-            <p className="mt-1 text-sm text-slate-400">FIFA-badge · UEFA Second · Allsvenskan 2026: 10 matcher</p>
-          </div>
-
+      <div className="grid flex-1 gap-5 lg:grid-cols-[1fr_300px]">
+        <div className="space-y-4">
+          {/* Season summary pills */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <div className="rounded-xl border border-slate-700/40 bg-slate-800/50 p-4 text-center">
-              <p className="text-[10px] uppercase tracking-wide text-slate-500">Gula/match</p>
-              <p className="mt-1 text-3xl font-black text-yellow-300">3.1</p>
-              <p className="text-[10px] text-slate-600">säsnitt 2026</p>
-            </div>
-            <div className="rounded-xl border border-slate-700/40 bg-slate-800/50 p-4 text-center">
-              <p className="text-[10px] uppercase tracking-wide text-slate-500">Borta fler kort</p>
-              <p className="mt-1 text-3xl font-black text-rose-300">1.7</p>
-              <p className="text-[10px] text-slate-600">vs 1.5 hemma</p>
-            </div>
-            <div className="rounded-xl border border-slate-700/40 bg-slate-800/50 p-4 text-center">
-              <p className="text-[10px] uppercase tracking-wide text-slate-500">Straffar/match</p>
-              <p className="mt-1 text-3xl font-black text-sky-300">0.1</p>
-              <p className="text-[10px] text-slate-600">1 på 10 matcher</p>
-            </div>
-            <div className="rounded-xl border border-slate-700/40 bg-slate-800/50 p-4 text-center">
-              <p className="text-[10px] uppercase tracking-wide text-slate-500">Fouls/match</p>
-              <p className="mt-1 text-3xl font-black text-slate-300">23.2</p>
-              <p className="text-[10px] text-slate-600">2026 Allsvenskan</p>
-            </div>
+            {[
+              { label: "Gula/match", value: "3,1", sub: "sässnitt 2026", color: "text-yellow-300" },
+              { label: "Straffar totalt", value: "1", sub: "på 10 matcher", color: "text-sky-300" },
+              { label: "Eff. speltid (Ham-match)", value: formatSecs(m.effectivePlayingTimeS), sub: "lägst i vår data", color: "text-sky-300" },
+              { label: "Tillägg (Ham-match)", value: `+${stoppage} min`, sub: "mest i vår data", color: "text-amber-300" },
+            ].map((s) => (
+              <div key={s.label} className="rounded-xl border border-slate-700/40 bg-slate-800/50 p-3 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-slate-500">{s.label}</p>
+                <p className={`mt-1 text-2xl font-black tabular-nums ${s.color}`}>{s.value}</p>
+                <p className="text-[10px] text-slate-600">{s.sub}</p>
+              </div>
+            ))}
           </div>
 
-          {/* Ham vs Ladebäck */}
-          <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-5">
-            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-slate-400">
-              Hammarbys enda match med Ladebäck i år
-            </p>
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <a
-                  href={m.sourceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-lg font-bold text-white hover:text-slate-200"
-                >
-                  {m.matchName}
-                </a>
-                <p className="text-sm text-slate-400">Omgång {m.gameweek} · {m.date}</p>
-                <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-                  <div>
-                    <p className="text-[10px] text-slate-500">Eff. speltid</p>
-                    <p className="font-mono text-lg font-bold text-sky-300">{formatSecs(m.effectivePlayingTimeS)}</p>
-                    <p className="text-[10px] text-slate-600">Lägst i vår data</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-slate-500">Tillägg</p>
-                    <p className="font-mono text-lg font-bold text-amber-300">+{stoppage} min</p>
-                    <p className="text-[10px] text-slate-600">Mest i vår data</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-slate-500">Frisparkar Ham–AIK</p>
-                    <p className="font-mono text-lg font-bold text-emerald-300">5 – 0</p>
-                    <p className="text-[10px] text-slate-600">Extremt Hammarby</p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-slate-500">Gula Ham–AIK</p>
-                    <p className="font-mono text-lg font-bold text-emerald-300">1 – 3</p>
-                    <p className="text-[10px] text-slate-600">AIK mest bestraffad</p>
-                  </div>
-                </div>
+          {/* Per-match FK chart */}
+          <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-4">
+            <div className="mb-3 flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                Frisparkar vunna — Hemmalag vs Bortalag (6 matcher 2026)
+              </p>
+              <div className="flex items-center gap-4 text-[10px] text-slate-500">
+                <span className="flex items-center gap-1"><span className="h-2 w-4 rounded-full bg-[#008050]/70" /> Hemma</span>
+                <span className="flex items-center gap-1"><span className="h-2 w-4 rounded-full bg-slate-600/70" /> Borta</span>
               </div>
             </div>
+            <div className="space-y-2">
+              {LADEBACK_MATCHES_2026.map((r, i) => (
+                <div key={i} className={`rounded-lg px-3 py-2 ${r.isHammarby ? "border border-emerald-500/30 bg-emerald-950/20" : "bg-slate-800/20"}`}>
+                  <div className="mb-1 flex items-center justify-between text-[10px]">
+                    <span className={`font-semibold ${r.isHammarby ? "text-emerald-300" : "text-slate-400"}`}>
+                      {r.home}(H) vs {r.away}(B){r.isHammarby ? " ← Hammarby" : ""}
+                    </span>
+                    <span className="text-slate-600">
+                      Gula: {r.h_y}–{r.a_y}
+                    </span>
+                  </div>
+                  <FKBar homeFK={r.h_fk} awayFK={r.a_fk} isHammarby={r.isHammarby} />
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 flex items-center justify-between rounded-lg border border-slate-600/30 bg-slate-800/40 px-3 py-2 text-xs">
+              <span className="font-bold text-white">Snitt</span>
+              <FKBar homeFK={Math.round(avgHomeFk * 10) / 10} awayFK={Math.round(avgAwayFk * 10) / 10} />
+              <span className="text-slate-500">Gula: {avgHomeY.toFixed(1)}–{avgAwayY.toFixed(1)}</span>
+            </div>
+            <p className="mt-2 text-[10px] text-slate-600">
+              Hemmalag vinner i snitt {avgHomeFk.toFixed(1)} frisparkar, bortalag {avgAwayFk.toFixed(1)} — hemmalag +{(avgHomeFk - avgAwayFk).toFixed(1)} per match.
+            </p>
           </div>
 
-          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-4">
+          <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3">
             <p className="text-sm font-bold text-emerald-300">
-              ✅ Hammarby spelar HEMMA — Ladebäck ger bortalagets mer kort (1.7 vs 1.5). Historiskt domarindex: <strong>+7</strong> för Hammarby.
+              ✅ Hammarby spelar HEMMA · Ladebäck ger hemmalag fler frisparkar (+{(avgHomeFk - avgAwayFk).toFixed(1)}/match snitt) · PlaymakerAI neutralitetsindex −6,2 (gynnar hemmalag)
             </p>
           </div>
         </div>
 
-        {/* Rating */}
-        <div className="flex flex-col gap-4">
-          <div className={`flex flex-col items-center justify-center rounded-2xl border p-8 text-center ${rating.bg} ${rating.border}`}>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Betyg för Hammarby</p>
-            <p className="mt-3 text-6xl">{rating.emoji}</p>
-            <p className={`mt-2 text-4xl font-black ${rating.color}`}>{rating.label}</p>
-            <p className={`mt-1 text-5xl font-black tabular-nums ${idx > 0 ? "text-emerald-300" : "text-rose-400"}`}>
+        {/* Rating + Ham-match details */}
+        <div className="space-y-4">
+          <div className={`flex flex-col items-center rounded-2xl border p-6 text-center ${rating.bg} ${rating.border}`}>
+            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Betyg Hammarby Ø9</p>
+            <p className="mt-2 text-5xl">{rating.emoji}</p>
+            <p className={`mt-1 text-3xl font-black ${rating.color}`}>{rating.label}</p>
+            <p className={`text-4xl font-black tabular-nums ${idx > 0 ? "text-emerald-300" : "text-rose-400"}`}>
               {idx > 0 ? `+${idx}` : idx}
             </p>
-            <p className="mt-0.5 text-xs text-slate-500">domarindex Ø9</p>
-            <p className="mt-4 text-xs italic leading-relaxed text-slate-400">
-              &ldquo;{rating.description}&rdquo;
-            </p>
+            <p className="text-[10px] text-slate-500">domarindex</p>
+            <p className="mt-3 text-[10px] italic leading-relaxed text-slate-400">&ldquo;{rating.description}&rdquo;</p>
           </div>
 
-          <div className="rounded-xl border border-slate-700/30 bg-slate-900/40 p-4 text-xs text-slate-400">
-            <p className="font-bold text-slate-300 mb-1">PlaymakerAI om Ladebäck:</p>
-            <p>Neutralitetsindex −6,2 i hela Allsvenskan 2026 — dvs. han ger bortalagets mer frisparkar och kort. Med Hammarby på hemmaplan är det en fördel.</p>
+          <div className="rounded-xl border border-slate-700/30 bg-slate-900/40 p-4">
+            <a href={m.sourceUrl} target="_blank" rel="noopener noreferrer"
+              className="text-sm font-bold text-white hover:text-slate-200">{m.matchName}</a>
+            <p className="mt-2 grid grid-cols-2 gap-2 text-xs">
+              <span className="text-slate-500">Frisparkar</span>
+              <span className="font-mono font-bold text-emerald-300 text-right">Ham 18 – AIK 11</span>
+              <span className="text-slate-500">Set piece FK</span>
+              <span className="font-mono font-bold text-emerald-300 text-right">Ham 5 – AIK 0</span>
+              <span className="text-slate-500">Gula</span>
+              <span className="font-mono font-bold text-emerald-300 text-right">Ham 1 – AIK 4</span>
+            </p>
           </div>
         </div>
       </div>
@@ -360,47 +375,154 @@ function Slide2() {
   );
 }
 
-function Slide3() {
+function KpiBar({ hifScore, oppScore, winner }: { hifScore: number; oppScore: number; winner: "hif" | "opp" }) {
   return (
-    <div className="flex h-full flex-col overflow-y-auto px-8 py-8 lg:px-16 lg:py-10">
+    <div className="flex items-center gap-2">
+      <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-slate-800">
+        <div
+          className={`h-full rounded-full ${winner === "hif" ? "bg-[#008050]" : "bg-slate-600"}`}
+          style={{ width: `${hifScore}%` }}
+        />
+      </div>
+      <div className="h-2.5 flex-1 overflow-hidden rounded-full bg-slate-800">
+        <div
+          className={`h-full rounded-full ${winner === "opp" ? "bg-amber-500" : "bg-slate-700"}`}
+          style={{ width: `${oppScore}%` }}
+        />
+      </div>
+    </div>
+  );
+}
+
+function Slide3() {
+  const maxGoals = Math.max(...GOAL_WINDOWS.map((g) => Math.max(g.hif, g.opp_conceded)));
+
+  return (
+    <div className="overflow-y-auto px-8 py-8 lg:px-16 lg:py-10" style={{ maxHeight: "calc(100vh - 110px)" }}>
       <div className="mb-6 flex items-center gap-4">
         <div className="h-12 w-1.5 rounded-full bg-[#008050]" />
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#008050]">Del 3 av 3 · Spelplan</p>
+          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#008050]">Del 3 av 3 · Matchanalys</p>
           <h2 className="text-2xl font-black uppercase tracking-tight text-white lg:text-4xl">
-            Så vinner Hammarby
+            Hammarby vs BK Häcken — Data
           </h2>
         </div>
       </div>
 
-      <div className="grid flex-1 grid-cols-1 gap-4 lg:grid-cols-2 lg:grid-rows-3">
-        {TACTICAL_POINTS.map((p) => (
-          <div
-            key={p.title}
-            className="flex gap-4 rounded-2xl border border-slate-700/40 bg-slate-900/50 p-5"
-          >
-            <span className="text-3xl leading-none">{p.icon}</span>
-            <div className="min-w-0">
-              <div className="flex flex-wrap items-center gap-2">
-                <h3 className="text-base font-black text-white">{p.title}</h3>
-                <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${p.tagColor}`}>
-                  {p.tag}
-                </span>
-              </div>
-              <p className="mt-1.5 text-sm leading-relaxed text-slate-300">{p.body}</p>
+      <div className="space-y-6">
+        {/* KPI ranking table */}
+        <section className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-5">
+          <div className="mb-3 flex items-center justify-between">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-300">KPI-jämförelse · Allsvenskan 2026</h3>
+            <div className="flex items-center gap-4 text-[10px]">
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-5 rounded-full bg-[#008050]" /> <span className="text-emerald-300 font-bold">Hammarby</span></span>
+              <span className="flex items-center gap-1.5"><span className="h-2.5 w-5 rounded-full bg-amber-500" /> <span className="text-amber-300 font-bold">Häcken</span></span>
             </div>
           </div>
-        ))}
-
-        {/* Summary CTA */}
-        <div className="flex items-center gap-4 rounded-2xl border border-[#008050]/40 bg-[#008050]/10 p-5 lg:col-span-2">
-          <span className="text-3xl">🏠</span>
-          <div>
-            <p className="font-black text-white text-lg">Slutsats</p>
-            <p className="text-sm leading-relaxed text-emerald-100/80">
-              Hammarby är klart bättre i press och bollinnehav. Häcken saknar sin kreativa motor (Andersen) och vinner inte borta. På 3Arena, med Adam Ladebäck som dömer och Häcken i form-dipp — <strong className="text-emerald-300">ta 3 poäng.</strong>
-            </p>
+          <div className="space-y-3">
+            {KPI_RANKINGS.map((k) => (
+              <div key={k.label} className="grid items-center gap-3" style={{ gridTemplateColumns: "9rem 5rem 1fr 5rem" }}>
+                <span className="text-xs text-slate-400 truncate">{k.label}</span>
+                <div className="text-right">
+                  <span className={`text-sm font-black tabular-nums ${k.winner === "hif" ? "text-emerald-300" : "text-slate-300"}`}>{k.hif}</span>
+                  <p className="text-[9px] text-slate-600">{k.hif_rank}</p>
+                </div>
+                <KpiBar hifScore={k.hif_score} oppScore={k.opp_score} winner={k.winner} />
+                <div className="text-left">
+                  <span className={`text-sm font-black tabular-nums ${k.winner === "opp" ? "text-amber-300" : "text-slate-400"}`}>{k.opp}</span>
+                  <p className="text-[9px] text-slate-600">{k.opp_rank}</p>
+                </div>
+              </div>
+            ))}
           </div>
+        </section>
+
+        {/* Häcken threats + HIF advantages */}
+        <div className="grid gap-4 sm:grid-cols-2">
+          <section>
+            <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-rose-400">⚠️ Se upp med Häcken</h3>
+            <div className="space-y-2">
+              {HACKEN_THREATS.map((t) => (
+                <div key={t.label} className={`rounded-xl border p-4 ${t.color}`}>
+                  <p className="font-black">{t.icon} {t.label}</p>
+                  <p className="mt-1 text-xs opacity-80">{t.detail}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+          <section>
+            <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-emerald-400">✅ Hammarbys fördelar</h3>
+            <div className="space-y-2">
+              {HAMMARBY_ADVANTAGES.map((a) => (
+                <div key={a.label} className={`rounded-xl border p-4 ${a.color}`}>
+                  <p className="font-black">{a.icon} {a.label}</p>
+                  <p className="mt-1 text-xs opacity-80">{a.detail}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* Goal windows */}
+        <section className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-5">
+          <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-slate-300">
+            Mål per tidsfönster — HIF gjorda vs Häcken insläppta (2026)
+          </h3>
+          <div className="flex items-end gap-3">
+            {GOAL_WINDOWS.map((g) => (
+              <div key={g.window} className="flex flex-1 flex-col items-center gap-1">
+                <div className="flex w-full items-end gap-1" style={{ height: "80px" }}>
+                  <div className="flex-1 rounded-t-md bg-[#008050]/70 transition-all"
+                    style={{ height: `${(g.hif / maxGoals) * 80}px` }} />
+                  <div className="flex-1 rounded-t-md bg-amber-500/40 transition-all"
+                    style={{ height: `${(g.opp_conceded / maxGoals) * 80}px` }} />
+                </div>
+                <div className="flex w-full justify-between text-[10px] font-mono">
+                  <span className="text-emerald-400">{g.hif}</span>
+                  <span className="text-amber-400/70">{g.opp_conceded}</span>
+                </div>
+                <span className="text-[9px] text-slate-600">{g.window}</span>
+              </div>
+            ))}
+            <div className="ml-2 space-y-1 self-center text-[9px]">
+              <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-[#008050]/70" /> HIF gjorda</span>
+              <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-amber-500/40" /> Häcken insläppta</span>
+            </div>
+          </div>
+          <p className="mt-2 text-[10px] text-slate-600">Hammarby farligast 61–75'. Häcken starkast i andra halvlek — håll nollan tidigt.</p>
+        </section>
+
+        {/* Häcken spelstil */}
+        <section className="rounded-2xl border border-amber-600/30 bg-amber-950/10 p-5">
+          <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-amber-400">Häckens spelstil (Twelve)</h3>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {[
+              { label: "Inläggsberoende", value: "~42%", sub: "box entries via inlägg — störst i ligan", score: 85, color: "bg-rose-500" },
+              { label: "Offensiv effektivitet", value: "1,87 mål/xG 1,65", sub: "+14% över förväntan", score: 72, color: "bg-orange-400" },
+              { label: "Press-intensitet", value: "PPDA ~6,0", sub: "passivt — faller hellre tillbaka", score: 30, color: "bg-slate-500" },
+              { label: "Turnovers", value: "~35/match", sub: "bland de flesta i ligan", score: 25, color: "bg-slate-500" },
+              { label: "Recovery speed", value: "~10% within 5s", sub: "långsamt att reagera (Twelve)", score: 20, color: "bg-slate-600" },
+              { label: "Field tilt", value: "~50%", sub: "nära ligasnittet", score: 45, color: "bg-slate-500" },
+            ].map((s) => (
+              <div key={s.label} className="rounded-xl border border-slate-700/30 bg-slate-900/40 p-3">
+                <p className="text-xs font-bold text-slate-200">{s.label}</p>
+                <p className="mt-0.5 text-sm font-black text-amber-300">{s.value}</p>
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
+                  <div className={`h-full rounded-full ${s.color}`} style={{ width: `${s.score}%` }} />
+                </div>
+                <p className="mt-1 text-[10px] text-slate-500">{s.sub}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Conclusion */}
+        <div className="flex items-center gap-4 rounded-2xl border border-[#008050]/40 bg-[#008050]/10 p-5">
+          <span className="text-3xl">🏠</span>
+          <p className="text-sm leading-relaxed text-emerald-100/80">
+            Hammarby leder på VARJE offensiv KPI. Häcken saknar Andersen, vinner inte borta och tappar bollen ofta.
+            Med Ladebäck som dömer hemmaplan och Häcken i form-dipp — <strong className="text-emerald-300">ta 3 poäng.</strong>
+          </p>
         </div>
       </div>
     </div>
