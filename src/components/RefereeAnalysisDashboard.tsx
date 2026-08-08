@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import {
   hammarbyRefereeMatches,
   calcDomarindex,
   calcFreeKickDiff,
   calcCardDiff,
+  getDomarRating,
   type RefereeMatchStats,
 } from "@/lib/hammarbyRefereeData";
 
@@ -232,6 +234,113 @@ function buildProfiles(rows: MatchRow[], aggs: RefereeAggregate[]): ProfileCard[
   ];
 }
 
+function OmgangensDomare({ rows }: { rows: MatchRow[] }) {
+  const chronological = [...rows].sort(
+    (a, b) => new Date(a.match.date).getTime() - new Date(b.match.date).getTime()
+  );
+  const [selectedIdx, setSelectedIdx] = useState(chronological.length - 1);
+  const row = chronological[selectedIdx];
+  const rating = getDomarRating(row.domarindex);
+
+  return (
+    <section>
+      <div className="mb-3 flex items-center justify-between">
+        <div>
+          <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+            Segment
+          </p>
+          <h2 className="text-base font-bold text-white">Omgångens domare</h2>
+        </div>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={() => setSelectedIdx((i) => Math.max(0, i - 1))}
+            disabled={selectedIdx === 0}
+            className="rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1.5 text-xs text-slate-300 disabled:opacity-30 hover:border-slate-600 hover:text-white"
+          >
+            ←
+          </button>
+          <span className="px-2 text-xs text-slate-400">
+            Ø{row.match.gameweek} / {chronological.length}
+          </span>
+          <button
+            onClick={() => setSelectedIdx((i) => Math.min(chronological.length - 1, i + 1))}
+            disabled={selectedIdx === chronological.length - 1}
+            className="rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1.5 text-xs text-slate-300 disabled:opacity-30 hover:border-slate-600 hover:text-white"
+          >
+            →
+          </button>
+        </div>
+      </div>
+
+      <div className={`rounded-2xl border p-6 ${rating.bg} ${rating.border}`}>
+        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+          {/* Left: referee info */}
+          <div className="flex-1">
+            <p className="text-xs text-slate-400">
+              Omgång {row.match.gameweek} · {formatDate(row.match.date)}
+            </p>
+            <a
+              href={row.match.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 block text-lg font-semibold text-white hover:text-slate-200"
+            >
+              {row.match.matchName}
+            </a>
+            <p className="mt-3 text-2xl font-black text-white">{row.match.referee}</p>
+
+            <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="rounded-xl border border-slate-700/40 bg-slate-900/40 p-3 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-slate-500">Eff. speltid</p>
+                <p className="mt-1 text-lg font-black text-sky-300">
+                  {formatSeconds(row.match.effectivePlayingTimeS)}
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-700/40 bg-slate-900/40 p-3 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-slate-500">Tilläggstid</p>
+                <p className="mt-1 text-lg font-black text-amber-300">+{row.stoppageMin} min</p>
+              </div>
+              <div className="rounded-xl border border-slate-700/40 bg-slate-900/40 p-3 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-slate-500">Frisparkar</p>
+                <p className="mt-1 text-lg font-black text-emerald-300">
+                  {row.match.hammarby.freeKicks}
+                  <span className="text-slate-500">–</span>
+                  {row.match.opponent.freeKicks}
+                </p>
+                <p className="text-[9px] text-slate-600">Ham – Mot</p>
+              </div>
+              <div className="rounded-xl border border-slate-700/40 bg-slate-900/40 p-3 text-center">
+                <p className="text-[10px] uppercase tracking-wide text-slate-500">Kort</p>
+                <p className="mt-1 text-lg font-black text-emerald-300">
+                  {row.match.hammarby.yellowCards + row.match.hammarby.redCards}
+                  <span className="text-slate-500">–</span>
+                  {row.match.opponent.yellowCards + row.match.opponent.redCards}
+                </p>
+                <p className="text-[9px] text-slate-600">Ham – Mot</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: rating */}
+          <div className="flex shrink-0 flex-col items-center justify-center rounded-2xl border border-slate-700/30 bg-slate-900/50 px-8 py-6 text-center md:min-w-[160px]">
+            <p className="text-4xl">{rating.emoji}</p>
+            <p className={`mt-2 text-3xl font-black ${rating.color}`}>{rating.label}</p>
+            <p className={`mt-1 text-4xl font-black tabular-nums ${
+              row.domarindex > 0 ? "text-emerald-300" : row.domarindex < 0 ? "text-rose-400" : "text-slate-400"
+            }`}>
+              {row.domarindex > 0 ? `+${row.domarindex}` : row.domarindex}
+            </p>
+            <p className="mt-0.5 text-[10px] text-slate-500">domarindex</p>
+            <p className="mt-3 max-w-[140px] text-[10px] leading-relaxed text-slate-400 italic">
+              &ldquo;{rating.description}&rdquo;
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function RefereeAnalysisDashboard() {
   const rows = buildRows();
   const refereeAggregates = buildRefereeAggregates(rows);
@@ -340,6 +449,9 @@ export default function RefereeAnalysisDashboard() {
           </div>
         </section>
 
+        {/* Omgångens domare */}
+        <OmgangensDomare rows={rows} />
+
         {/* Per-match bar chart */}
         <section className="rounded-2xl border border-slate-700/50 bg-slate-900/60 p-5">
           <h2 className="mb-4 text-base font-semibold text-white">Domarindex per match</h2>
@@ -386,6 +498,7 @@ export default function RefereeAnalysisDashboard() {
                 <th className="px-3 py-3 text-center font-medium" colSpan={2}>Gula</th>
                 <th className="px-3 py-3 text-center font-medium" colSpan={2}>Röda</th>
                 <th className="px-3 py-3 text-right font-medium">Index</th>
+                <th className="px-3 py-3 text-right font-medium">Betyg</th>
               </tr>
               <tr className="border-b border-slate-800 text-slate-500">
                 <th className="px-3 pb-2" />
@@ -399,6 +512,7 @@ export default function RefereeAnalysisDashboard() {
                 <th className="px-3 pb-2 text-center">Mot</th>
                 <th className="px-3 pb-2 text-center text-emerald-500/70">Ham</th>
                 <th className="px-3 pb-2 text-center">Mot</th>
+                <th className="px-3 pb-2" />
                 <th className="px-3 pb-2" />
               </tr>
             </thead>
@@ -498,6 +612,16 @@ export default function RefereeAnalysisDashboard() {
                         {idx > 0 ? `+${idx}` : idx}
                       </span>
                     </td>
+                    <td className="px-3 py-2.5 text-right">
+                      {(() => {
+                        const r = getDomarRating(idx);
+                        return (
+                          <span className={`text-xs font-bold ${r.color}`}>
+                            {r.emoji} {r.label}
+                          </span>
+                        );
+                      })()}
+                    </td>
                   </tr>
                 );
               })}
@@ -520,6 +644,7 @@ export default function RefereeAnalysisDashboard() {
                 <td className={`px-3 py-2.5 text-right font-mono font-black ${totalIndex > 0 ? "text-emerald-300" : "text-rose-400"}`}>
                   {totalIndex > 0 ? `+${totalIndex}` : totalIndex}
                 </td>
+                <td className="px-3 py-2.5" />
               </tr>
             </tfoot>
           </table>
