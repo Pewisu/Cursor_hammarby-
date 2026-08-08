@@ -18,7 +18,6 @@ const HACKEN_FORM = [
 const TRANSFERS = {
   sold: [
     { name: "Silas Andersen", pos: "MF", to: "Sporting Lissabon", note: "Scorade i Ø10. Kreativ frirollad mittfältare – deras stora förlust" },
-    { name: "Felicia Schröder", pos: "Dam", to: "–", note: "Dyraste svenska damtransfern. Ej relevant herrlaget" },
   ],
   bought: [
     { name: "Simen Hestnes", pos: "MF", from: "KFUM Oslo", note: "30 år, norsk. Direktersättare för Andersen. Fri transfer" },
@@ -155,7 +154,7 @@ function Slide1() {
         <div className="space-y-5">
           <div>
             <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-rose-400">
-              Avgångna sedan Ø10
+              Transfer ut sedan Ø10
             </h3>
             <div className="space-y-2">
               {TRANSFERS.sold.map((p) => (
