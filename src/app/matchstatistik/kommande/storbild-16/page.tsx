@@ -8,11 +8,11 @@ import { hammarbyRefereeMatches, calcDomarindex, getDomarRating } from "@/lib/ha
 
 // All = senaste 5 matcher (för kontext). isAway markerar Häcken som bortalag.
 const HACKEN_FORM = [
-  { round: 10, home: "Häcken",  away: "Hammarby",  score: "3–2", outcome: "W" as const, isAway: false, note: "Förra mötet (hemma). Vann från 0–2 (HT). Silas Andersen avgjorde" },
-  { round: 11, home: "Häcken",  away: "Djurgårdsn", score: "2–4", outcome: "L" as const, isAway: false, note: "Hemma. Kross efter sommarpausen" },
+  { round: 10, home: "Häcken",  away: "Hammarby",  score: "3–2", outcome: "W" as const, isAway: false, note: "Förra mötet (hemma). Vann från 0–2 (HT). Svanbäck avgjorde 80'" },
+  { round: 11, home: "Häcken",  away: "Djurgården", score: "2–4", outcome: "L" as const, isAway: false, note: "Hemma. Förlust 2–4 efter VM-pausen" },
   { round: 12, home: "Örgryte", away: "Häcken",    score: "4–3", outcome: "L" as const, isAway: true,  note: "Borta. Förlorade trots att de ledde" },
   { round: 13, home: "Halmstad", away: "Häcken",   score: "0–2", outcome: "W" as const, isAway: true,  note: "Borta. Senaste bortasegern (19 jul)" },
-  { round: 14, home: "Häcken",  away: "AIK",       score: "0–0", outcome: "D" as const, isAway: false, note: "Hemma. 0–0, utan mål hemma i 180 min" },
+  { round: 14, home: "Häcken",  away: "AIK",       score: "0–0", outcome: "D" as const, isAway: false, note: "Hemma. 0–0, ingen hemmaseger sedan Ø10 (31 maj)" },
   { round: 15, home: "Häcken",  away: "Kalmar",    score: "1–1", outcome: "D" as const, isAway: false, note: "Hemma. Kryss. Al-Hakim dömde" },
 ];
 
@@ -114,7 +114,7 @@ const LADEBACK_MATCHES_2026 = [
   { home: "GAIS",          away: "Örgryte",     h_fk: 14, a_fk: 13, h_y: 0, a_y: 1 },
   { home: "Häcken",        away: "Malmö FF",    h_fk: 10, a_fk: 13, h_y: 3, a_y: 1 },
   { home: "Brommapojkarna",away: "Kalmar",      h_fk: 12, a_fk: 10, h_y: 4, a_y: 0 },
-  { home: "Hammarby",      away: "AIK",         h_fk: 18, a_fk: 11, h_y: 1, a_y: 4, isHammarby: true },
+  { home: "Hammarby",      away: "AIK",         h_fk: 18, a_fk: 11, h_y: 1, a_y: 3, isHammarby: true },
 ];
 
 // KPI rankings – Hammarby vs Häcken (Bolldata/Twelve, aug 2026)
@@ -380,7 +380,7 @@ function Slide2() {
           {/* Season summary pills */}
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {[
-              { label: "Gula/match", value: "3,1", sub: "sässnitt 2026", color: "text-yellow-300" },
+              { label: "Gula/match", value: "3,1", sub: "säsongsnitt 2026", color: "text-yellow-300" },
               { label: "Straffar totalt", value: "1", sub: "på 10 matcher", color: "text-sky-300" },
               { label: "Eff. speltid (Ham-match)", value: formatSecs(m.effectivePlayingTimeS), sub: "lägst i vår data", color: "text-sky-300" },
               { label: "Tillägg (Ham-match)", value: `+${stoppage} min`, sub: "mest i vår data", color: "text-amber-300" },
