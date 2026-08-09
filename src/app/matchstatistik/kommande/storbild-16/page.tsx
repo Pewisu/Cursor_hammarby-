@@ -555,6 +555,25 @@ function Slide3() {
           </section>
         </div>
 
+        {/* Injury list */}
+        <section className="rounded-2xl border border-rose-600/50 bg-rose-950/30 p-5">
+          <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-rose-300">🏥 Häcken – borta idag (skador)</h3>
+          <div className="flex flex-wrap gap-3">
+            {[
+              { name: "Linde",          note: "Skada · ej med i truppen" },
+              { name: "Julius Lindberg",note: "Skada · ej med i truppen" },
+            ].map((p) => (
+              <div key={p.name} className="flex items-center gap-3 rounded-xl border border-rose-500/30 bg-rose-900/20 px-4 py-3">
+                <span className="text-xl">❌</span>
+                <div>
+                  <p className="text-base font-black text-white">{p.name}</p>
+                  <p className="text-sm text-rose-300">{p.note}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Players to watch */}
         <section className="rounded-2xl border border-rose-700/30 bg-slate-900/60 p-5">
           <h3 className="mb-4 text-base font-bold uppercase tracking-widest text-rose-400">👁️ Häcken – spelare att hålla koll på</h3>
