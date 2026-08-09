@@ -182,8 +182,8 @@ function Slide1() {
       <div className="mb-6 flex items-center gap-4">
         <div className="h-12 w-1.5 rounded-full bg-rose-500" />
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-rose-400">Del 1 av 3 · Motståndaren</p>
-          <h2 className="text-2xl font-black uppercase tracking-tight text-white lg:text-4xl">
+          <p className="text-sm font-black uppercase tracking-[0.3em] text-rose-400">Del 1 av 3 · Motståndaren</p>
+          <h2 className="text-3xl font-black uppercase tracking-tight text-white lg:text-6xl">
             Häcken sedan senast
           </h2>
         </div>
@@ -194,11 +194,11 @@ function Slide1() {
         <div className="space-y-4">
           {/* Bortastatistik 2026 — det relevanta */}
           <div className="rounded-2xl border border-sky-500/30 bg-sky-950/20 p-4">
-            <p className="mb-3 text-xs font-black uppercase tracking-widest text-sky-400">
+            <p className="mb-3 text-sm font-black uppercase tracking-widest text-sky-400">
               Häcken borta 2026 (7 matcher) — spelar BORTA på 3Arena
             </p>
             <div className="mb-3 flex items-center gap-4">
-              <span className="text-3xl font-black text-white">{awayW}V {awayD}O {awayL}F</span>
+              <span className="text-4xl font-black text-white">{awayW}V {awayD}O {awayL}F</span>
               <span className="rounded-full border border-sky-500/40 bg-sky-900/30 px-3 py-1 text-sm font-bold text-sky-300">
                 {awayPts} poäng
               </span>
@@ -206,30 +206,30 @@ function Slide1() {
             <div className="flex flex-wrap gap-2">
               {HACKEN_AWAY_2026.map((m) => (
                 <div key={m.round} className="flex flex-col items-center gap-1">
-                  <span className="text-[10px] text-slate-600">Ø{m.round}</span>
+                  <span className="text-xs text-slate-600">Ø{m.round}</span>
                   <OutcomeBadge o={m.outcome} />
                   <span className="text-[10px] font-mono text-slate-500">{m.score}</span>
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-xs text-slate-400">
+            <p className="mt-3 text-sm text-slate-400">
               Senaste bortamatch: Halmstad 0–2 (V, Ø13 · 19 jul). Däremellan bortaförlust mot Örgryte 4–3.
             </p>
           </div>
 
           {/* Ø10 match breakdown */}
           <div className="rounded-2xl border border-slate-600/40 bg-slate-800/30 p-4">
-            <p className="mb-3 text-xs font-black uppercase tracking-widest text-slate-400">
+            <p className="mb-3 text-sm font-black uppercase tracking-widest text-slate-400">
               Senaste mötet · Ø10 · {PREV_MEETING.date}
             </p>
             <div className="mb-3 flex items-center gap-3 flex-wrap">
-              <span className="text-2xl font-black text-white">{PREV_MEETING.score}</span>
+              <span className="text-4xl font-black text-white">{PREV_MEETING.score}</span>
               <span className="rounded-full border border-rose-500/40 bg-rose-900/20 px-2 py-0.5 text-xs font-bold text-rose-300">Häcken vann</span>
               <span className="ml-auto text-xs text-slate-500">xG HIF {PREV_MEETING.xgHIF} – Häcken {PREV_MEETING.xgHacken}</span>
             </div>
             <div className="mb-3 flex flex-wrap gap-2">
               {PREV_MEETING.scorers.map((s, i) => (
-                <div key={i} className={`rounded-lg border px-2.5 py-1.5 text-xs ${
+                <div key={i} className={`rounded-lg border px-3 py-2 text-sm ${
                   s.team === "hif"
                     ? "border-emerald-500/30 bg-emerald-950/20 text-emerald-300"
                     : "border-rose-500/30 bg-rose-950/20 text-rose-300"
@@ -240,11 +240,11 @@ function Slide1() {
                 </div>
               ))}
             </div>
-            <p className="text-xs leading-relaxed text-slate-400">{PREV_MEETING.keyStory}</p>
-            <p className="mt-2 rounded-lg border border-violet-500/30 bg-violet-950/20 px-3 py-1.5 text-xs leading-relaxed text-violet-200">
+            <p className="text-sm leading-relaxed text-slate-400">{PREV_MEETING.keyStory}</p>
+            <p className="mt-2 rounded-lg border border-violet-500/30 bg-violet-950/20 px-3 py-2 text-sm leading-relaxed text-violet-200">
               🔍 <span className="font-bold">Taktisk kontext:</span> {PREV_MEETING.tacticalContext}
             </p>
-            <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-950/20 px-3 py-1.5 text-xs font-bold text-amber-300">
+            <p className="mt-2 rounded-lg border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm font-bold text-amber-300">
               ⚡ Läxa: {PREV_MEETING.lesson}
             </p>
           </div>
@@ -264,22 +264,22 @@ function Slide1() {
                     : "border-slate-700/20 bg-slate-900/20"
                 }`}
               >
-                <span className="w-7 text-right text-xs font-bold text-slate-500">Ø{m.round}</span>
+                <span className="w-8 text-right text-sm font-bold text-slate-500">Ø{m.round}</span>
                 <OutcomeBadge o={m.outcome} />
                 <div className="flex min-w-0 flex-1 items-center gap-2">
-                  <span className="text-sm font-semibold text-white">
+                  <span className="text-base font-semibold text-white">
                     {m.home} <span className="text-slate-500">–</span> {m.away}
                   </span>
-                  <span className={`shrink-0 rounded-md border px-2 py-0.5 text-xs font-black ${
+                  <span className={`shrink-0 rounded-md border px-2 py-0.5 text-sm font-black ${
                     m.outcome === "W" ? "border-emerald-500/40 bg-emerald-900/30 text-emerald-300"
                     : m.outcome === "L" ? "border-rose-500/40 bg-rose-900/30 text-rose-400"
                     : "border-amber-500/40 bg-amber-900/30 text-amber-300"
                   }`}>{m.score}</span>
                   {m.isAway && (
-                    <span className="shrink-0 rounded border border-sky-500/40 bg-sky-900/30 px-1.5 py-0.5 text-[10px] font-bold text-sky-400">BORTA</span>
+                    <span className="shrink-0 rounded border border-sky-500/40 bg-sky-900/30 px-1.5 py-0.5 text-xs font-bold text-sky-400">BORTA</span>
                   )}
                 </div>
-                <p className="hidden max-w-xs text-right text-xs text-slate-500 lg:block">{m.note}</p>
+                <p className="hidden max-w-xs text-right text-sm text-slate-500 lg:block">{m.note}</p>
               </div>
             ))}
           </div>
@@ -288,17 +288,17 @@ function Slide1() {
         {/* Transfers */}
         <div className="space-y-5">
           <div>
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-rose-400">
+            <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-rose-400">
               Transfer ut sedan Ø10
             </h3>
             <div className="space-y-2">
               {TRANSFERS.sold.map((p) => (
                 <div key={p.name} className="rounded-xl border border-rose-500/20 bg-rose-950/20 p-3">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white">{p.name}</span>
-                    <span className="text-xs text-rose-300">→ {p.to}</span>
+                    <span className="text-base font-bold text-white">{p.name}</span>
+                    <span className="text-sm text-rose-300">→ {p.to}</span>
                   </div>
-                  <p className="mt-1 text-xs text-slate-400">{p.note}</p>
+                  <p className="mt-1 text-sm text-slate-400">{p.note}</p>
                 </div>
               ))}
             </div>
@@ -312,18 +312,18 @@ function Slide1() {
               {TRANSFERS.bought.map((p) => (
                 <div key={p.name} className="rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-3">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-bold text-white">{p.name}</span>
-                    <span className="text-xs text-emerald-300">← {p.from}</span>
+                    <span className="text-base font-bold text-white">{p.name}</span>
+                    <span className="text-sm text-emerald-300">← {p.from}</span>
                   </div>
-                  <p className="mt-1 text-xs text-slate-400">{p.note}</p>
+                  <p className="mt-1 text-sm text-slate-400">{p.note}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="rounded-xl border border-amber-500/30 bg-amber-950/20 p-4">
-            <p className="text-xs font-black uppercase tracking-widest text-amber-400">Sammanfattning</p>
-            <p className="mt-2 text-sm text-slate-200 leading-relaxed">
+            <p className="text-sm font-black uppercase tracking-widest text-amber-400">Sammanfattning</p>
+            <p className="mt-2 text-base text-slate-200 leading-relaxed">
               Häcken tappade sin kreative motor (Andersen) och har inte hittat rytmen sedan VM-pausen. 2 av 4 hemmamatcher slutade oavgjort. De ersätter med erfarenhet men saknar Andersens direkthet.
             </p>
           </div>
@@ -366,8 +366,8 @@ function Slide2() {
       <div className="mb-5 flex items-center gap-4">
         <div className="h-12 w-1.5 rounded-full bg-violet-500" />
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-violet-400">Del 2 av 3 · Domaranalys</p>
-          <h2 className="text-2xl font-black uppercase tracking-tight text-white lg:text-4xl">Adam Ladebäck</h2>
+          <p className="text-sm font-black uppercase tracking-[0.3em] text-violet-400">Del 2 av 3 · Domaranalys</p>
+          <h2 className="text-3xl font-black uppercase tracking-tight text-white lg:text-6xl">Adam Ladebäck</h2>
         </div>
         <div className="ml-auto hidden items-center gap-3 sm:flex">
           <span className="rounded-full border border-violet-500/40 bg-violet-950/20 px-3 py-1 text-xs font-bold text-violet-300">FIFA-badge</span>
@@ -387,8 +387,8 @@ function Slide2() {
             ].map((s) => (
               <div key={s.label} className="rounded-xl border border-slate-700/40 bg-slate-800/50 p-3 text-center">
                 <p className="text-[10px] uppercase tracking-wide text-slate-500">{s.label}</p>
-                <p className={`mt-1 text-2xl font-black tabular-nums ${s.color}`}>{s.value}</p>
-                <p className="text-[10px] text-slate-600">{s.sub}</p>
+                <p className={`mt-1 text-3xl font-black tabular-nums ${s.color}`}>{s.value}</p>
+                <p className="text-xs text-slate-600">{s.sub}</p>
               </div>
             ))}
           </div>
@@ -396,7 +396,7 @@ function Slide2() {
           {/* Per-match FK chart */}
           <div className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-4">
             <div className="mb-3 flex items-center justify-between">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+              <p className="text-sm font-bold uppercase tracking-widest text-slate-400">
                 Frisparkar vunna — Hemmalag vs Bortalag (6 matcher 2026)
               </p>
               <div className="flex items-center gap-4 text-[10px] text-slate-500">
@@ -408,7 +408,7 @@ function Slide2() {
               {LADEBACK_MATCHES_2026.map((r, i) => (
                 <div key={i} className={`rounded-lg px-3 py-2 ${r.isHammarby ? "border border-emerald-500/30 bg-emerald-950/20" : "bg-slate-800/20"}`}>
                   <div className="mb-1 flex items-center justify-between text-[10px]">
-                    <span className={`font-semibold ${r.isHammarby ? "text-emerald-300" : "text-slate-400"}`}>
+                    <span className={`text-sm font-semibold ${r.isHammarby ? "text-emerald-300" : "text-slate-400"}`}>
                       {r.home}(H) vs {r.away}(B){r.isHammarby ? " ← Hammarby" : ""}
                     </span>
                     <span className="text-slate-600">
@@ -420,17 +420,17 @@ function Slide2() {
               ))}
             </div>
             <div className="mt-3 flex items-center justify-between rounded-lg border border-slate-600/30 bg-slate-800/40 px-3 py-2 text-xs">
-              <span className="font-bold text-white">Snitt</span>
+              <span className="text-base font-bold text-white">Snitt</span>
               <FKBar homeFK={Math.round(avgHomeFk * 10) / 10} awayFK={Math.round(avgAwayFk * 10) / 10} />
               <span className="text-slate-500">Gula: {avgHomeY.toFixed(1)}–{avgAwayY.toFixed(1)}</span>
             </div>
-            <p className="mt-2 text-[10px] text-slate-600">
+            <p className="mt-2 text-xs text-slate-600">
               Hemmalag vinner i snitt {avgHomeFk.toFixed(1)} frisparkar, bortalag {avgAwayFk.toFixed(1)} — hemmalag +{(avgHomeFk - avgAwayFk).toFixed(1)} per match.
             </p>
           </div>
 
           <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/20 p-3">
-            <p className="text-sm font-bold text-emerald-300">
+            <p className="text-base font-bold text-emerald-300">
               ✅ Hammarby spelar HEMMA · Ladebäck ger hemmalag fler frisparkar (+{(avgHomeFk - avgAwayFk).toFixed(1)}/match snitt) · PlaymakerAI neutralitetsindex −6,2 (gynnar hemmalag)
             </p>
           </div>
@@ -439,19 +439,19 @@ function Slide2() {
         {/* Rating + Ham-match details */}
         <div className="space-y-4">
           <div className={`flex flex-col items-center rounded-2xl border p-6 text-center ${rating.bg} ${rating.border}`}>
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Betyg Hammarby Ø9</p>
-            <p className="mt-2 text-5xl">{rating.emoji}</p>
-            <p className={`mt-1 text-3xl font-black ${rating.color}`}>{rating.label}</p>
-            <p className={`text-4xl font-black tabular-nums ${idx > 0 ? "text-emerald-300" : "text-rose-400"}`}>
+            <p className="text-xs font-black uppercase tracking-widest text-slate-500">Betyg Hammarby Ø9</p>
+            <p className="mt-2 text-6xl">{rating.emoji}</p>
+            <p className={`mt-1 text-4xl font-black ${rating.color}`}>{rating.label}</p>
+            <p className={`text-5xl font-black tabular-nums ${idx > 0 ? "text-emerald-300" : "text-rose-400"}`}>
               {idx > 0 ? `+${idx}` : idx}
             </p>
             <p className="text-[10px] text-slate-500">domarindex</p>
-            <p className="mt-3 text-[10px] italic leading-relaxed text-slate-400">&ldquo;{rating.description}&rdquo;</p>
+            <p className="mt-3 text-xs italic leading-relaxed text-slate-400">&ldquo;{rating.description}&rdquo;</p>
           </div>
 
           <div className="rounded-xl border border-slate-700/30 bg-slate-900/40 p-4">
             <a href={m.sourceUrl} target="_blank" rel="noopener noreferrer"
-              className="text-sm font-bold text-white hover:text-slate-200">{m.matchName}</a>
+              className="text-sm text-base font-bold text-white hover:text-slate-200">{m.matchName}</a>
             <p className="mt-2 grid grid-cols-2 gap-2 text-xs">
               <span className="text-slate-500">Frisparkar</span>
               <span className="font-mono font-bold text-emerald-300 text-right">Ham 18 – AIK 11</span>
@@ -494,8 +494,8 @@ function Slide3() {
       <div className="mb-6 flex items-center gap-4">
         <div className="h-12 w-1.5 rounded-full bg-[#008050]" />
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.3em] text-[#008050]">Del 3 av 3 · Matchanalys</p>
-          <h2 className="text-2xl font-black uppercase tracking-tight text-white lg:text-4xl">
+          <p className="text-sm font-black uppercase tracking-[0.3em] text-[#008050]">Del 3 av 3 · Matchanalys</p>
+          <h2 className="text-3xl font-black uppercase tracking-tight text-white lg:text-6xl">
             Hammarby vs BK Häcken — Data
           </h2>
         </div>
@@ -505,7 +505,7 @@ function Slide3() {
         {/* KPI ranking table */}
         <section className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-5">
           <div className="mb-3 flex items-center justify-between">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-300">KPI-jämförelse · Allsvenskan 2026</h3>
+            <h3 className="text-base font-bold uppercase tracking-widest text-slate-300">KPI-jämförelse · Allsvenskan 2026</h3>
             <div className="flex items-center gap-4 text-[10px]">
               <span className="flex items-center gap-1.5"><span className="h-2.5 w-5 rounded-full bg-[#008050]" /> <span className="text-emerald-300 font-bold">Hammarby</span></span>
               <span className="flex items-center gap-1.5"><span className="h-2.5 w-5 rounded-full bg-amber-500" /> <span className="text-amber-300 font-bold">Häcken</span></span>
@@ -513,16 +513,16 @@ function Slide3() {
           </div>
           <div className="space-y-3">
             {KPI_RANKINGS.map((k) => (
-              <div key={k.label} className="grid items-center gap-3" style={{ gridTemplateColumns: "9rem 5rem 1fr 5rem" }}>
-                <span className="text-xs text-slate-400 truncate">{k.label}</span>
+              <div key={k.label} className="grid items-center gap-3" style={{ gridTemplateColumns: "11rem 6rem 1fr 6rem" }}>
+                <span className="text-sm text-slate-400 truncate">{k.label}</span>
                 <div className="text-right">
-                  <span className={`text-sm font-black tabular-nums ${k.winner === "hif" ? "text-emerald-300" : "text-slate-300"}`}>{k.hif}</span>
-                  <p className="text-[9px] text-slate-600">{k.hif_rank}</p>
+                  <span className={`text-base font-black tabular-nums ${k.winner === "hif" ? "text-emerald-300" : "text-slate-300"}`}>{k.hif}</span>
+                  <p className="text-xs text-slate-600">{k.hif_rank}</p>
                 </div>
                 <KpiBar hifScore={k.hif_score} oppScore={k.opp_score} winner={k.winner} />
                 <div className="text-left">
-                  <span className={`text-sm font-black tabular-nums ${k.winner === "opp" ? "text-amber-300" : "text-slate-400"}`}>{k.opp}</span>
-                  <p className="text-[9px] text-slate-600">{k.opp_rank}</p>
+                  <span className={`text-base font-black tabular-nums ${k.winner === "opp" ? "text-amber-300" : "text-slate-400"}`}>{k.opp}</span>
+                  <p className="text-xs text-slate-600">{k.opp_rank}</p>
                 </div>
               </div>
             ))}
@@ -532,23 +532,23 @@ function Slide3() {
         {/* Threats + Advantages */}
         <div className="grid gap-4 sm:grid-cols-2">
           <section>
-            <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-rose-400">⚠️ Se upp med Häcken</h3>
+            <h3 className="mb-3 text-sm font-black uppercase tracking-widest text-rose-400">⚠️ Se upp med Häcken</h3>
             <div className="space-y-2">
               {HACKEN_THREATS.map((t) => (
                 <div key={t.label} className={`rounded-xl border p-4 ${t.color}`}>
-                  <p className="font-black">{t.icon} {t.label}</p>
-                  <p className="mt-1 text-xs opacity-80">{t.detail}</p>
+                  <p className="text-base font-black">{t.icon} {t.label}</p>
+                  <p className="mt-1 text-sm opacity-80">{t.detail}</p>
                 </div>
               ))}
             </div>
           </section>
           <section>
-            <h3 className="mb-3 text-xs font-black uppercase tracking-widest text-emerald-400">✅ Hammarbys fördelar</h3>
+            <h3 className="mb-3 text-sm font-black uppercase tracking-widest text-emerald-400">✅ Hammarbys fördelar</h3>
             <div className="space-y-2">
               {HAMMARBY_ADVANTAGES.map((a) => (
                 <div key={a.label} className={`rounded-xl border p-4 ${a.color}`}>
-                  <p className="font-black">{a.icon} {a.label}</p>
-                  <p className="mt-1 text-xs opacity-80">{a.detail}</p>
+                  <p className="text-base font-black">{a.icon} {a.label}</p>
+                  <p className="mt-1 text-sm opacity-80">{a.detail}</p>
                 </div>
               ))}
             </div>
@@ -557,21 +557,21 @@ function Slide3() {
 
         {/* Players to watch */}
         <section className="rounded-2xl border border-rose-700/30 bg-slate-900/60 p-5">
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-rose-400">👁️ Häcken – spelare att hålla koll på</h3>
+          <h3 className="mb-4 text-base font-bold uppercase tracking-widest text-rose-400">👁️ Häcken – spelare att hålla koll på</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {PLAYERS_TO_WATCH.map((p) => (
               <div key={p.name} className={`rounded-xl border p-4 ${p.color}`}>
                 <div className="mb-2 flex items-start justify-between gap-2">
                   <div>
-                    <p className="font-black text-white text-base">{p.name}</p>
-                    <p className="text-[10px] text-slate-400">{p.pos}</p>
+                    <p className="font-black text-white text-lg">{p.name}</p>
+                    <p className="text-xs text-slate-400">{p.pos}</p>
                   </div>
                   <span className="shrink-0 rounded-full border border-slate-600/40 bg-slate-800/50 px-2 py-0.5 text-[10px] font-bold text-slate-300">{p.badge}</span>
                 </div>
-                <p className="mb-1 text-[10px] font-bold uppercase tracking-wide text-slate-500">{p.stats}</p>
-                <p className="text-xs leading-relaxed text-slate-300">{p.threat}</p>
+                <p className="mb-1 text-xs font-bold uppercase tracking-wide text-slate-500">{p.stats}</p>
+                <p className="text-sm leading-relaxed text-slate-300">{p.threat}</p>
                 <div className="mt-2 rounded-lg border border-emerald-500/20 bg-emerald-950/20 px-3 py-1.5">
-                  <p className="text-[10px] font-bold text-emerald-400">HIF-svar: {p.counter}</p>
+                  <p className="text-xs font-bold text-emerald-400">HIF-svar: {p.counter}</p>
                 </div>
               </div>
             ))}
@@ -580,13 +580,13 @@ function Slide3() {
 
         {/* Hammarbys spelplan */}
         <section className="rounded-2xl border border-[#008050]/30 bg-slate-900/60 p-5">
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-[#008050]">🟢 Hammarbys spelplan</h3>
+          <h3 className="mb-4 text-base font-bold uppercase tracking-widest text-[#008050]">🟢 Hammarbys spelplan</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-emerald-400">Med bollen</p>
+              <p className="mb-2 text-xs font-black uppercase tracking-widest text-emerald-400">Med bollen</p>
               <ul className="space-y-2">
                 {HAMMARBY_PLAN.withBall.map((p, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
+                  <li key={i} className="flex gap-2 text-sm text-slate-300 leading-relaxed">
                     <span className="mt-0.5 shrink-0 h-1.5 w-1.5 rounded-full bg-[#008050]" />
                     {p}
                   </li>
@@ -594,10 +594,10 @@ function Slide3() {
               </ul>
             </div>
             <div>
-              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-rose-400">Utan bollen</p>
+              <p className="mb-2 text-xs font-black uppercase tracking-widest text-rose-400">Utan bollen</p>
               <ul className="space-y-2">
                 {HAMMARBY_PLAN.withoutBall.map((p, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
+                  <li key={i} className="flex gap-2 text-sm text-slate-300 leading-relaxed">
                     <span className="mt-0.5 shrink-0 h-1.5 w-1.5 rounded-full bg-rose-500" />
                     {p}
                   </li>
@@ -605,10 +605,10 @@ function Slide3() {
               </ul>
             </div>
             <div>
-              <p className="mb-2 text-[10px] font-black uppercase tracking-widest text-amber-400">Matchhantering</p>
+              <p className="mb-2 text-xs font-black uppercase tracking-widest text-amber-400">Matchhantering</p>
               <ul className="space-y-2">
                 {HAMMARBY_PLAN.matchManagement.map((p, i) => (
-                  <li key={i} className="flex gap-2 text-xs text-slate-300 leading-relaxed">
+                  <li key={i} className="flex gap-2 text-sm text-slate-300 leading-relaxed">
                     <span className="mt-0.5 shrink-0 h-1.5 w-1.5 rounded-full bg-amber-400" />
                     {p}
                   </li>
@@ -620,7 +620,7 @@ function Slide3() {
 
         {/* Goal windows */}
         <section className="rounded-2xl border border-slate-700/40 bg-slate-900/60 p-5">
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-widest text-slate-300">
+          <h3 className="mb-4 text-base font-bold uppercase tracking-widest text-slate-300">
             Mål per tidsfönster — HIF gjorda vs Häcken insläppta (2026)
           </h3>
           <div className="flex items-end gap-3">
@@ -636,7 +636,7 @@ function Slide3() {
                   <span className="text-emerald-400">{g.hif}</span>
                   <span className="text-amber-400/70">{g.opp_conceded}</span>
                 </div>
-                <span className="text-[9px] text-slate-600">{g.window}</span>
+                <span className="text-xs text-slate-600">{g.window}</span>
               </div>
             ))}
             <div className="ml-2 space-y-1 self-center text-[9px]">
@@ -644,12 +644,12 @@ function Slide3() {
               <span className="flex items-center gap-1"><span className="h-2 w-3 rounded bg-amber-500/40" /> Häcken insläppta</span>
             </div>
           </div>
-          <p className="mt-2 text-[10px] text-slate-600">Hammarby farligast 61–75'. Häcken starkast i andra halvlek — håll nollan tidigt.</p>
+          <p className="mt-2 text-xs text-slate-600">Hammarby farligast 61–75'. Häcken starkast i andra halvlek — håll nollan tidigt.</p>
         </section>
 
         {/* Häcken spelstil */}
         <section className="rounded-2xl border border-amber-600/30 bg-amber-950/10 p-5">
-          <h3 className="mb-3 text-sm font-bold uppercase tracking-widest text-amber-400">Häckens spelstil (Twelve)</h3>
+          <h3 className="mb-3 text-base font-bold uppercase tracking-widest text-amber-400">Häckens spelstil (Twelve)</h3>
           <div className="grid gap-3 sm:grid-cols-3">
             {[
               { label: "Inläggsberoende", value: "~42%", sub: "box entries via inlägg — störst i ligan", score: 85, color: "bg-rose-500" },
@@ -660,12 +660,12 @@ function Slide3() {
               { label: "Field tilt", value: "~50%", sub: "nära ligasnittet", score: 45, color: "bg-slate-500" },
             ].map((s) => (
               <div key={s.label} className="rounded-xl border border-slate-700/30 bg-slate-900/40 p-3">
-                <p className="text-xs font-bold text-slate-200">{s.label}</p>
-                <p className="mt-0.5 text-sm font-black text-amber-300">{s.value}</p>
+                <p className="text-sm font-bold text-slate-200">{s.label}</p>
+                <p className="mt-0.5 text-base font-black text-amber-300">{s.value}</p>
                 <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
                   <div className={`h-full rounded-full ${s.color}`} style={{ width: `${s.score}%` }} />
                 </div>
-                <p className="mt-1 text-[10px] text-slate-500">{s.sub}</p>
+                <p className="mt-1 text-xs text-slate-500">{s.sub}</p>
               </div>
             ))}
           </div>
@@ -674,7 +674,7 @@ function Slide3() {
         {/* Conclusion */}
         <div className="flex items-center gap-4 rounded-2xl border border-[#008050]/40 bg-[#008050]/10 p-5">
           <span className="text-3xl">🏠</span>
-          <p className="text-sm leading-relaxed text-emerald-100/80">
+          <p className="text-base leading-relaxed text-emerald-100/80">
             Hammarby leder på VARJE offensiv KPI. Häcken saknar Andersen, vinner inte borta och tappar bollen ofta.
             Med Ladebäck som dömer hemmaplan och Häcken i form-dipp — <strong className="text-emerald-300">ta 3 poäng.</strong>
           </p>
@@ -718,7 +718,7 @@ export default function StorbildPage() {
             ← Tillbaka
           </Link>
           <span className="text-neutral-700">|</span>
-          <span className="text-sm font-bold text-white">Hammarby – BK Häcken</span>
+          <span className="text-sm text-base font-bold text-white">Hammarby – BK Häcken</span>
           <span className="rounded-full border border-[#008050]/40 bg-[#008050]/10 px-3 py-0.5 text-[11px] font-bold uppercase tracking-widest text-[#008050]">
             Omgång 16 · 9 aug
           </span>
@@ -774,7 +774,7 @@ export default function StorbildPage() {
         <button
           onClick={next}
           disabled={slide === SLIDES.length - 1}
-          className="flex items-center gap-2 rounded-xl border border-[#008050]/50 bg-[#008050]/20 px-5 py-2.5 text-sm font-bold text-emerald-300 transition-colors disabled:opacity-20 hover:border-[#008050] hover:bg-[#008050]/30"
+          className="flex items-center gap-2 rounded-xl border border-[#008050]/50 bg-[#008050]/20 px-5 py-2.5 text-base font-bold text-emerald-300 transition-colors disabled:opacity-20 hover:border-[#008050] hover:bg-[#008050]/30"
         >
           Nästa →
         </button>
