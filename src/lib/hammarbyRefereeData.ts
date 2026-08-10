@@ -250,6 +250,20 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     hammarby: { freeKicks: 5, fouls: 11, foulsSuffered: 15, yellowCards: 1, redCards: 1, isHome: false },
     opponent: { name: "GAIS", freeKicks: 1, fouls: 15, foulsSuffered: 10, yellowCards: 2, redCards: 0 },
   },
+  {
+    key: "omgang-16",
+    gameweek: 16,
+    date: "2026-08-09",
+    matchName: "Hammarby - BK Häcken, 3-0",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-08-09/hammarby-hacken-3-0",
+    referee: "Adam Ladebäck",
+    effectivePlayingTimeS: 3186,
+    totalTimeMin: 95,
+    totalFreeKicks: 5,
+    totalCards: 2,
+    hammarby: { freeKicks: 3, fouls: 12, foulsSuffered: 17, yellowCards: 1, redCards: 0, isHome: true },
+    opponent: { name: "BK Häcken", freeKicks: 2, fouls: 17, foulsSuffered: 12, yellowCards: 1, redCards: 0 },
+  },
 ];
 
 export function calcDomarindex(match: RefereeMatchStats): number {
