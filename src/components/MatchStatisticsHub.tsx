@@ -71,7 +71,11 @@ import {
   hackenRound16SnapshotStats,
   hackenRound16Takeaways,
   hackenRound16RefereeData,
+  hackenRound16Momentum,
+  hackenRound16MomentumGoals,
+  hackenRound16TwelveKpis,
 } from "@/lib/hackenRound16AnalysisData";
+import { MatchMomentumChart } from "@/components/MatchMomentumChart";
 import {
   calcDomarindex,
   getDomarRating,
@@ -2943,6 +2947,171 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             />
           </div>
         )}
+
+        {/* ── Round 16: Matchmomentum ── */}
+        {isRound16Dashboard && (
+          <MatchMomentumChart
+            momentum={hackenRound16Momentum}
+            goals={hackenRound16MomentumGoals}
+            homeTeam="Hammarby"
+            awayTeam="BK Häcken"
+            homeLabel="HIF"
+            awayLabel="HÄC"
+          />
+        )}
+
+        {/* ── Round 16: Twelve KPI – Field Tilt, PPDA, rankings ── */}
+        {isRound16Dashboard && (() => {
+          const kpi = hackenRound16TwelveKpis;
+          type RankKey = keyof typeof kpi.rankings;
+          const rankKeys = Object.keys(kpi.rankings) as RankKey[];
+
+          function KpiBar({ value, avg, higherIsBetter }: { value: number; avg: number; higherIsBetter: boolean }) {
+            const isBetter = higherIsBetter ? value >= avg : value <= avg;
+            const pct = Math.min((value / (avg * 2)) * 100, 100);
+            const avgPct = Math.min((avg / (avg * 2)) * 100, 100);
+            return (
+              <div className="relative mt-2 h-2 w-full overflow-hidden rounded-full bg-emerald-950/60">
+                <div
+                  className={`absolute left-0 top-0 h-full rounded-full ${isBetter ? "bg-emerald-400" : "bg-amber-400"}`}
+                  style={{ width: `${pct}%` }}
+                />
+                <div
+                  className="absolute top-0 h-full w-0.5 bg-white/30"
+                  style={{ left: `${avgPct}%` }}
+                  title="Säsongssnitt"
+                />
+              </div>
+            );
+          }
+
+          function RankBadge({ rank, total, label }: { rank: number; total: number; label: string }) {
+            const isTop = rank <= 3;
+            const isBottom = rank >= total - 3;
+            return (
+              <div className={`flex flex-col items-center rounded-xl border px-3 py-2.5 ${
+                isTop ? "border-emerald-500/40 bg-emerald-950/30" : isBottom ? "border-rose-500/25 bg-rose-950/20" : "border-white/[0.06] bg-[#1a2d26]"
+              }`}>
+                <span className={`text-[10px] font-semibold uppercase tracking-wide ${
+                  isTop ? "text-emerald-400/80" : isBottom ? "text-rose-400/70" : "text-neutral-500"
+                }`}>{label}</span>
+                <span className={`mt-1 text-2xl font-black tabular-nums ${
+                  isTop ? "text-emerald-300" : isBottom ? "text-rose-400" : "text-neutral-200"
+                }`}>
+                  #{rank}
+                </span>
+                <span className="text-[10px] text-neutral-600">av {total}</span>
+              </div>
+            );
+          }
+
+          return (
+            <section className="overflow-hidden rounded-2xl border border-emerald-700/35 bg-[#1a2d26]">
+              {/* Header */}
+              <div className="flex flex-wrap items-start justify-between gap-2 px-5 pt-5 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Twelve nyckeltal</p>
+                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">Field Tilt · PPDA · Matchranking</h3>
+                  <p className="mt-0.5 text-xs text-neutral-400">
+                    Omgång 16 vs säsongssnitt (omg 1–15). Källa: Twelve Football match report.
+                  </p>
+                </div>
+                <a
+                  href="https://reports.twelve.football/reports/hammarby-match-report-vs-h%C3%A4cken-tZDmG5YCq5.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-emerald-700/40 bg-emerald-900/20 px-3 py-1.5 text-[11px] font-medium text-emerald-300 hover:border-emerald-500/60 hover:text-emerald-200"
+                >
+                  Twelve rapport →
+                </a>
+              </div>
+
+              {/* Primary KPI row: Field Tilt + PPDA */}
+              <div className="grid grid-cols-2 gap-3 px-5 pb-4 sm:grid-cols-4">
+                {/* Field Tilt */}
+                <div className="col-span-2 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-4 sm:col-span-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/70">Field Tilt</p>
+                  <p className="mt-1 text-5xl font-black tabular-nums text-emerald-300">
+                    {kpi.fieldTiltPct}<span className="text-2xl text-emerald-500/70">%</span>
+                  </p>
+                  <KpiBar value={kpi.fieldTiltPct} avg={kpi.fieldTiltAvgPct} higherIsBetter />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">
+                    Snitt: {kpi.fieldTiltAvgPct}% &nbsp;·&nbsp;
+                    <span className="text-emerald-400">+{kpi.fieldTiltPct - kpi.fieldTiltAvgPct}pp</span>
+                  </p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Andel av det totala anfallstrycket i sista tredjedelen.</p>
+                </div>
+
+                {/* PPDA */}
+                <div className="col-span-2 rounded-xl border border-amber-500/15 bg-amber-950/10 p-4 sm:col-span-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400/70">PPDA (press)</p>
+                  <p className="mt-1 text-5xl font-black tabular-nums text-amber-300">
+                    {kpi.ppda.toFixed(2)}
+                  </p>
+                  <KpiBar value={kpi.ppda} avg={kpi.ppdaAvg} higherIsBetter={false} />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">
+                    Snitt: {kpi.ppdaAvg.toFixed(2)} &nbsp;·&nbsp;
+                    <span className="text-amber-300">+{(kpi.ppda - kpi.ppdaAvg).toFixed(2)} (lägre press)</span>
+                  </p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Passningar per defensiv aktion – lägre = hårdare press.</p>
+                </div>
+
+                {/* xT */}
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">xT (HIF)</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">{kpi.xt.toFixed(2)}</p>
+                  <KpiBar value={kpi.xt} avg={kpi.xtAvg} higherIsBetter />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">Snitt: {kpi.xtAvg.toFixed(2)}</p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Förväntat offensivt hot.</p>
+                </div>
+
+                {/* Opp xT */}
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">xT (Häcken)</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-emerald-200">{kpi.oppXt.toFixed(2)}</p>
+                  <KpiBar value={kpi.oppXt} avg={kpi.oppXtAvg} higherIsBetter={false} />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">Snitt: {kpi.oppXtAvg.toFixed(2)}</p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Häckens offensiva hot.</p>
+                </div>
+              </div>
+
+              {/* Secondary stats row */}
+              <div className="grid grid-cols-3 gap-2 px-5 pb-4 sm:grid-cols-3">
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Def. aktionshöjd</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.defensiveActionHeightM}<span className="text-sm text-neutral-500"> m</span></p>
+                  <p className="mt-0.5 text-[10px] text-neutral-500">Snitt: {kpi.defensiveActionHeightAvg} m &nbsp;·&nbsp; <span className="text-emerald-400">kompaktare block</span></p>
+                </div>
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Box touches (HIF)</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.boxTouches}</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-500">Snitt: {kpi.boxTouchesAvg} &nbsp;·&nbsp; <span className="text-emerald-400">+{kpi.boxTouches - kpi.boxTouchesAvg}</span></p>
+                </div>
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Press (intensity)</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.defensiveIntensity.toFixed(2)}</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-500">Snitt: {kpi.defensiveIntensityAvg.toFixed(2)} &nbsp;·&nbsp; <span className="text-amber-400">något lägre</span></p>
+                </div>
+              </div>
+
+              {/* Twelve match rankings */}
+              <div className="border-t border-emerald-700/20 px-5 py-4">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                  Twelve matchranking (jämfört med alla Hammarby-matcher 2026, ur 28)
+                </p>
+                <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                  {rankKeys.map((k) => {
+                    const r = kpi.rankings[k];
+                    return <RankBadge key={k} rank={r.rank} total={r.total} label={r.label} />;
+                  })}
+                </div>
+                <p className="mt-3 text-[10px] text-neutral-500">
+                  Källa: Twelve Football match report 9 aug 2026. Ranking avser Hammarbys prestation jämfört med sina egna matcher 2026 – inte mot ligasnitt.
+                </p>
+              </div>
+            </section>
+          );
+        })()}
 
         {/* ── Round 16: Domaranalys – Adam Ladebäck ── */}
         {isRound16Dashboard && round16RefereeMatch && (

@@ -234,6 +234,93 @@ export const hackenRound16Recap = {
   hammarbySourceUrl: "https://www.hammarbyfotboll.se/matcher/",
 };
 
+/** Twelve KPI-data för omgång 16. Säsongssnitt = HIF Allsvenskan 2026 omg 1-15. */
+export const hackenRound16TwelveKpis = {
+  /** Field tilt = HIF:s andel av final-third-xT (%). Twelve-rapport: 72%. Snitt omg 1-15: ~64%. */
+  fieldTiltPct: 72,
+  fieldTiltAvgPct: 64,
+  /** PPDA = Passes Per Defensive Action. Lägre = hårdare press. Match: 5.70. Snitt omg 1-15: ~4.0. */
+  ppda: 5.70,
+  ppdaAvg: 4.03,
+  /** xT – förväntat hot. Match: 1.67. */
+  xt: 1.67,
+  xtAvg: 1.28,
+  /** Motst. xT. Match: 0.66. */
+  oppXt: 0.66,
+  oppXtAvg: 0.93,
+  /** Defensiv aktionshöjd (m). Match: 42.54. Lägre = mer kompakt block. */
+  defensiveActionHeightM: 42.54,
+  defensiveActionHeightAvg: 44.10,
+  /** Passningar in i box. Match: 34 boxberöringar (Twelve: 34 Box touches). */
+  boxTouches: 34,
+  boxTouchesAvg: 22,
+  /** Presstäthet – Twelve defensive intensity metric. Match: 5.94. */
+  defensiveIntensity: 5.94,
+  defensiveIntensityAvg: 5.47,
+  /** Twelve ranking (ur 28 lag i ligan) för denna match. Lägre rank = bättre. */
+  rankings: {
+    chanceCreation: { rank: 2, total: 28, label: "Chanskapande" },
+    oppChanceCreation: { rank: 2, total: 28, label: "Mot. chanskapande" },
+    attack: { rank: 21, total: 28, label: "Attack" },
+    defence: { rank: 14, total: 28, label: "Försvar" },
+    defTransition: { rank: 12, total: 28, label: "Def. transition" },
+    attTransition: { rank: 19, total: 28, label: "Off. transition" },
+  },
+} as const;
+
+export interface MomentumPoint {
+  minute: number;
+  /** Positive = Hammarby press, negative = Häcken press */
+  value: number;
+}
+
+export interface MomentumGoal {
+  minute: number;
+  team: "hammarby" | "opponent";
+  label: string;
+}
+
+/**
+ * Matchmomentum omgång 16 – Hammarby vs BK Häcken
+ * Härledd från Twelve xT per 15-minutersperiod och xG-progression.
+ * Positiva värden = Hammarby-dominans, negativa = Häcken-dominans.
+ *
+ * xT per period (Hammarby / Häcken):
+ *   0-15: 0.17 / 0.16  · 15-30: 0.44 / 0.05  · 30-HT: 0.64 / 0.07
+ *   45-60: 0.23 / 0.09 · 60-75: 0.11 / 0.18  · 75-FT: 0.09 / 0.11
+ */
+export const hackenRound16Momentum: MomentumPoint[] = [
+  { minute: 0,  value: 0   },
+  { minute: 5,  value: 5   },
+  { minute: 10, value: 12  },
+  { minute: 15, value: 8   },
+  { minute: 20, value: 28  },
+  { minute: 25, value: 45  },
+  { minute: 29, value: 60  },  // Renecke 1-0
+  { minute: 32, value: 52  },
+  { minute: 35, value: 62  },
+  { minute: 38, value: 75  },  // V. Lind 2-0
+  { minute: 42, value: 58  },
+  { minute: 45, value: 48  },
+  { minute: 48, value: 38  },
+  { minute: 52, value: 45  },
+  { minute: 56, value: 55  },  // P. Abraham 3-0
+  { minute: 60, value: 30  },
+  { minute: 63, value: 10  },
+  { minute: 67, value: -8  },
+  { minute: 72, value: -12 },
+  { minute: 75, value: -10 },
+  { minute: 80, value: -6  },
+  { minute: 85, value: -4  },
+  { minute: 90, value: 3   },
+];
+
+export const hackenRound16MomentumGoals: MomentumGoal[] = [
+  { minute: 29, team: "hammarby", label: "Renecke 1–0" },
+  { minute: 38, team: "hammarby", label: "V. Lind 2–0" },
+  { minute: 56, team: "hammarby", label: "Abraham 3–0" },
+];
+
 /** Referee mini-analysis for round 16 */
 export const hackenRound16RefereeData = {
   refereeName: "Adam Ladebäck",
