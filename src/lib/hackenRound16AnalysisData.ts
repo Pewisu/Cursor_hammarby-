@@ -330,8 +330,8 @@ export const hackenRound16RefereeData = {
   matchYellowOpp: 1,
   matchRedHIF: 0,
   matchRedOpp: 0,
-  /** domarindex för denna match: freeKickDiff + cardDiff */
-  domarindexThisMatch: 2,
+  /** domarindex för denna match: freeKickDiff + cardDiff. Häcken 17 fouls, HIF 12 → +5 frispark-diff. */
+  domarindexThisMatch: 5,
   /** Previous Hammarby match with this referee (omgång 9 vs AIK) */
   previousMatch: {
     gameweek: 9,
