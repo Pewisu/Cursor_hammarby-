@@ -153,6 +153,12 @@ export interface UpcomingOpponentReport {
   venueLabel?: string;
   introStats?: IntroStat[];
   hidden?: boolean;
+  /** Short badge strings shown under Hammarby's name in the match header, e.g. ["2:a Allsvenskan", "26p"] */
+  hifBadges?: string[];
+  /** Short badge strings shown under the opponent's name in the match header */
+  opponentBadges?: string[];
+  /** Label shown in the H2H comparison section (defaults to "Allsvenskan 2026") */
+  comparisonLabel?: string;
   previousMeeting?: PreviousMeeting;
   styleChips?: StyleChip[];
   mobileTakeaways: string[];
@@ -4573,6 +4579,9 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     fixture: "Hammarby IF - Raków Częstochowa",
     dateLabel: "14 Augusti 2026 · Tele2 Arena · Returen efter 0–0 borta (6 aug)",
     venueLabel: "Hemma · Tele2 Arena",
+    hifBadges: ["2:a Allsvenskan", "UECL Playoff"],
+    opponentBadges: ["Polska mästare 24/25", "Ekstraklasa"],
+    comparisonLabel: "UECL Playoff 2026",
     oneLineSummary:
       "Bortaleg 0–0 (Raków xG 1,63 – HIF xG 0,91): fantastiskt bortatåg trots offensiva svårigheter. Hinmatchen på Tele2 är nu avgörande – HIF behöver vinst för att nå UECL-gruppspelet. Raków defensivt excellent (3:e/36 UECL) men offensivt svaga (23:e/36). Counter-press-fönstret (turnover line 55,98m, 35:e/36) är fortfarande HIF:s tydligaste vapen.",
     introStats: [
