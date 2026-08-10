@@ -3,15 +3,25 @@ import Link from "next/link";
 import { upcomingOpponents, type StyleChip } from "@/lib/upcomingOpponentsData";
 import SpiderComparisonChart from "@/components/SpiderComparisonChart";
 
-export const metadata: Metadata = {
-  title: "Kommande: Hammarby – BK Häcken · Omgång 16 | 3Arena 9 aug",
-  description:
-    "Storbild-presentation inför Allsvenskan omgång 16: Hammarby vs BK Häcken. Data från Bolldata lagdata + Twelve season report. Förra mötet: Häcken 3–2 (HT 0–2).",
-};
+export function generateMetadata(): Metadata {
+  const report = upcomingOpponents.find((r) => !r.hidden);
+  if (!report) return { title: "Kommande motstånd | Hammarby IF" };
+  const parts = report.fixture.split("-").map((p) => p.trim());
+  const opponent = parts[1] ?? "Motståndaren";
+  return {
+    title: `Kommande: ${parts[0] ?? "Hammarby"} – ${opponent} · ${report.roundLabel ?? ""} | ${report.dateLabel}`,
+    description: report.oneLineSummary,
+  };
+}
 
 /* ─────────────────────────────────────────────
    Helpers
 ───────────────────────────────────────────── */
+const SV_MONTHS = ["jan", "feb", "mar", "apr", "maj", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+function formatSwedishDate(isoDate: string): string {
+  const d = new Date(isoDate);
+  return `${d.getUTCDate()} ${SV_MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
 const trafficCfg = {
   red: {
     cardBg: "bg-gradient-to-br from-rose-950/80 to-neutral-950",
@@ -144,14 +154,15 @@ export default function BroadcasterDashboard() {
               <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-50 lg:text-6xl xl:text-7xl">
                 {hifShort}
               </h1>
-              <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-end">
-                <span className="rounded-xl border border-emerald-700/40 bg-emerald-950/50 px-3 py-1 text-sm font-semibold text-emerald-200">
-                  2:a i Allsvenskan
-                </span>
-                <span className="rounded-xl border border-emerald-700/40 bg-emerald-950/50 px-3 py-1 text-sm font-semibold text-emerald-200">
-                  26p
-                </span>
-              </div>
+              {(report.hifBadges ?? ["2:a i Allsvenskan", "26p"]).length > 0 && (
+                <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-end">
+                  {(report.hifBadges ?? ["2:a i Allsvenskan", "26p"]).map((badge) => (
+                    <span key={badge} className="rounded-xl border border-emerald-700/40 bg-emerald-950/50 px-3 py-1 text-sm font-semibold text-emerald-200">
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Centre: match info */}
@@ -163,7 +174,7 @@ export default function BroadcasterDashboard() {
                 VS
               </div>
               <p className="text-center text-sm font-bold text-neutral-400">
-                Söndag 9 aug · 14:00
+                {report.dateLabel}
               </p>
               {/* Intro stat pills */}
               <div className="flex flex-wrap justify-center gap-2">
@@ -191,14 +202,15 @@ export default function BroadcasterDashboard() {
               <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-50 lg:text-6xl xl:text-7xl">
                 {difShort}
               </h1>
-              <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-start">
-                <span className="rounded-xl border border-amber-700/40 bg-amber-950/50 px-3 py-1 text-sm font-semibold text-amber-200">
-                  3:a i Allsvenskan
-                </span>
-                <span className="rounded-xl border border-amber-700/40 bg-amber-950/50 px-3 py-1 text-sm font-semibold text-amber-200">
-                  25p
-                </span>
-              </div>
+              {(report.opponentBadges ?? ["3:a i Allsvenskan", "25p"]).length > 0 && (
+                <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-start">
+                  {(report.opponentBadges ?? ["3:a i Allsvenskan", "25p"]).map((badge) => (
+                    <span key={badge} className="rounded-xl border border-amber-700/40 bg-amber-950/50 px-3 py-1 text-sm font-semibold text-amber-200">
+                      {badge}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
@@ -262,7 +274,7 @@ export default function BroadcasterDashboard() {
                 {/* Left: Match facts */}
                 <div className="lg:min-w-56">
                   <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
-                    Omgång 10 · 31 maj 2026
+                    {formatSwedishDate(pm.date)}
                   </p>
                   <p className="text-sm font-semibold text-neutral-400">{pm.fixture}</p>
                   <div className="mt-4 flex items-baseline gap-3">
@@ -285,7 +297,7 @@ export default function BroadcasterDashboard() {
                     {pm.xgOpponent !== undefined && (
                       <div className="rounded-xl border border-amber-700/40 bg-amber-950/20 p-3 text-center">
                         <p className="text-xl font-black tabular-nums text-amber-400">{pm.xgOpponent}</p>
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-600">HÄK xG</p>
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-600">{difShort} xG</p>
                       </div>
                     )}
                   </div>
@@ -544,7 +556,7 @@ export default function BroadcasterDashboard() {
                 {hifShort}
               </p>
               <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-600">
-                Allsvenskan 2026
+                {report.comparisonLabel ?? "Allsvenskan 2026"}
               </p>
               <p className="text-left text-lg font-black uppercase tracking-wider text-amber-400 lg:text-2xl xl:text-3xl">
                 {difShort}
