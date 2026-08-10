@@ -186,7 +186,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 16,
     roundLabel: "Omgång 16",
-    hidden: false,
+    hidden: true,
     fixture: "Hammarby - BK Häcken",
     dateLabel: "Söndag 9 augusti 2026 · 14:00 · 3Arena, Stockholm",
     venueLabel: "3Arena (hemmaplan)",
@@ -4563,31 +4563,51 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   // Källa Twelve opposition report:
   // reports.twelve.football/reports/opposition-report-rakow-czestochowa-PZYHtoZJoP.pdf
   // (Ekstraklasa 2026/27, 2 matcher: Raków 1-2 Wisła Płock + Śląsk 2-1 Raków)
+  // Bortaleg 6 aug 2026: Raków 0–0 HIF (xG 1,63–0,91)
+  // Källa matchrapport: reports.twelve.football/reports/hammarby-match-report-vs-rakow-czestochowa-6thZSrmbRj.pdf
   // ─────────────────────────────────────────────────────────────────────────
   {
     round: 100,
-    roundLabel: "UECL-kval · Playoff · Hinmatch",
+    roundLabel: "UECL-kval · Playoff · Hinmatch (2:a leg)",
+    hidden: false,
     fixture: "Hammarby IF - Raków Częstochowa",
-    dateLabel: "Augusti 2026 · Tele2 Arena · Twelve UECL 2025/26 säsongsrapport + Ekstraklasa 26/27 opponentrapport",
+    dateLabel: "14 Augusti 2026 · Tele2 Arena · Returen efter 0–0 borta (6 aug)",
     venueLabel: "Hemma · Tele2 Arena",
     oneLineSummary:
-      "Raków UECL 2025/26: utmärkt defensivt (3:e av 36 i opposition chance creation, 0,75 mål insläppt/match) men svagt offensivt (23:e i anfall, 49% skott utifrån, np xG per skott 0,09 = 32:a/36). Pressar hårt i Europa (PPDA 5,18 = 6:e/36). Angriper via BOLLBÄRNING i Europa (24% carries), inte korsningar som i Ekstraklasa. Förlorar bollen högt (turnover line 55,98m = 35:e/36) – skapar HIF-counterpress-möjligheter.",
+      "Bortaleg 0–0 (Raków xG 1,63 – HIF xG 0,91): fantastiskt bortatåg trots offensiva svårigheter. Hinmatchen på Tele2 är nu avgörande – HIF behöver vinst för att nå UECL-gruppspelet. Raków defensivt excellent (3:e/36 UECL) men offensivt svaga (23:e/36). Counter-press-fönstret (turnover line 55,98m, 35:e/36) är fortfarande HIF:s tydligaste vapen.",
     introStats: [
-      { label: "UECL 2025/26 – Utfall", value: "9:e / 36 · 1,75p/match", tone: "blue" },
+      { label: "1:a leg (6 aug, borta)", value: "0–0 · HIF xG 0,91", tone: "emerald" },
+      { label: "Raków xG borta", value: "1,63 · 6 high opp. shots", tone: "amber" },
       { label: "PPDA Europa (Twelve)", value: "5,18 · 6:e / 36", tone: "amber" },
       { label: "Opp. Chance Creation", value: "3:e / 36 · 0,75 mål insläppt", tone: "emerald" },
-      { label: "Anfall Europa", value: "23:e / 36 · svag penetration", tone: "amber" },
+      { label: "Anfall Europa", value: "23:e / 36 · svag penetration", tone: "blue" },
     ],
     mobileTakeaways: [
-      "UECL 2025/26: 9:e av 36 i poäng (1,75/match), overperformade xPoints med +0,35 (6:e/36). Defensivt excellent (3:e i opposition chance creation, 0,75 mål insläppt/match).",
+      "BORTALEG KLAR: 0–0 i Częstochowa (6 aug). Raków skapade mer (xG 1,63 mot HIF:s 0,91) men HIF höll nollan – fantastiskt bortatåg. Hinmatchen på Tele2 avgör allt.",
+      "Raków 10 skott (4 på mål) varav 6 high opportunity shots. HIF 14 skott (4 på mål) men bara 1 high opportunity shot. HIF behöver skarpare i boxen hemma.",
+      "HIF:s defensiva transition var ett problem borta: 33 bollflippar, Raków skapade 0,99 xT inom 10s. Tele2-publiken ska pressa Raków tillbaka – aggressivare transitions hemma.",
       "PPDA 5,18 i Europa (6:e/36) – Raków pressar HÅRDARE i Europa än i Ekstraklasa (5,92). Beredda på hög press mot HIF:s uppbyggnad.",
-      "Svagt offensivt i Europa: 23:e i anfall, 49% skott utifrån boxen, np xG/skott 0,09 (32:a/36) – minimal skottkvalitet. Raków skapar sällan riktigt farliga lägen i Europa.",
-      "Final third to box 18% (28:e/36) – kan knappt ta sig in i boxen i europeiskt spel. HIF:s kompakta block räcker för att hålla dem borta.",
-      "I EUROPA: bollbärningsfokuserat (24% box entries via carries) – INTE korsningsdominant som i Ekstraklasa (48%). Raków spelar carry-centrerat i Europa.",
-      "DEFENSIV TRANSITION svaghet: turnover line height 55,98m (35:e/36!) – förlorar bollen extremt högt. HIF:s counter-press kan exploatera detta direkt efter ombyten.",
-      "Ny tränare: L. Tomczyk tog över för de sista 2 UECL-matcherna. Taktisk profil under förändring.",
+      "Raków offensivt i Europa: 23:e/36, 49% skott utifrån boxen, np xG/skott 0,09 (32:a/36). Bortaleg visade att de skapar men inte konverterar – Hahn och blocket håller dem ute.",
+      "DEFENSIV TRANSITION svaghet kvarstår: turnover line height 55,98m (35:e/36!) – exploatera bollflippar högt i Tele2.",
+      "Aggregatstatus: 0–0. HIF vinner om de vinner i Tele2. Oavgjort efter 90 min = förlängning. Raków vinner om de slår HIF oavsett mål.",
     ],
+    previousMeeting: {
+      date: "2026-08-06",
+      fixture: "Raków Częstochowa - Hammarby IF",
+      result: "0–0",
+      venue: "away",
+      outcome: "draw",
+      xgHammarby: 0.91,
+      xgOpponent: 1.63,
+      contextNote:
+        "Bortaleg i Częstochowa. Raków dominerade xG-mässigt (1,63–0,91) med 6 high opportunity shots, men HIF höll nollan defensivt trots tuffa stunder. HIF hade 56% bollinnehav och 14 skott men skapade ytterst lite inne i boxen (1 high opportunity shot). Bästa chansen för HIF kom via vänsterkanten. Slutresultat 0–0 är ett utmärkt bortatåg.",
+      keyStory:
+        "HIF:s defensiva transition var svag (33 turnovers, Raków fick 0,99 xT inom 10s efter HIF-förluster). Offensivt kämpade HIF med att omvandla 56% bollinnehav till farliga lägen – field tilt 63% men np xG/skott 0,06 (1 high opportunity shot). Raków:s high opportunity shots (6 st, xG 1,63) visade att de skapar lägen när de väl får bollen, men David Hahn och blocket stod emot.",
+      seriesTurnedNote:
+        "Aggregat 0–0. Allt avgörs på Tele2 Arena 14 aug: HIF-vinst → UECL-grupp. Oavgjort 90 min → förlängning. Raków-seger → Raków vidare.",
+    },
     dataSources: [
+      "Twelve matchrapport Raków–Hammarby (bortaleg 6 aug): https://reports.twelve.football/reports/hammarby-match-report-vs-rak%C3%B3w-cz%C4%99stochowa-6thZSrmbRj.pdf",
       "Twelve UECL 2025/26 säsongsrapport Raków Częstochowa: https://reports.twelve.football/reports/rak%C3%B3w-cz%C4%99stochowa-season-report-75ESvAis3k.pdf",
       "Twelve opposition report Raków – Ekstraklasa 2026/27 (2 matcher): https://reports.twelve.football/reports/opposition-report-rak%C3%B3w-cz%C4%99stochowa-PZYHtoZJoP.pdf",
       "Twelve Earpiece scouting report Raków: https://earpiece.twelve.football/shared-reports/8327cfe8-afa5-40ca-8b19-10da7dd5df26",
@@ -4595,25 +4615,25 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Transfermarkt – Raków Częstochowa trupp & värden: https://www.transfermarkt.com/rakow-czestochowa/startseite/verein/14414",
     ],
     cupSpecial: {
-      title: "UECL Playoff – Vägen till gruppspelet",
+      title: "UECL Playoff – Allt avgörs på Tele2 (aggregat 0–0)",
       context:
-        "Hammarby förlorade mot Anderlecht i EL Q2 (4-2 totalt: 1-1 hemma, 1-3 borta) och klev ner till UECL-kvalet. Raków Częstochowa kvalificerade sig via polska mästarvägen. Vinnaren av dessa två playoff-matcher spelar i UEFA Conference League-gruppspelet 2026/27 – Hammarbys första europeiska gruppspel någonsin vore historiskt.",
+        "Bortaleg 0–0 i Częstochowa (6 aug): Hammarby höll nollan borta trots att Raków skapade mer (xG 1,63–0,91). Hinmatchen på Tele2 Arena 14 aug avgör allt. Hammarby förlorade mot Anderlecht i EL Q2 (4-2 totalt) och klev ner till UECL-kvalet. Vinnaren av playoff spelar i UEFA Conference League-gruppspelet 2026/27 – Hammarbys första europeiska gruppspel någonsin.",
       tacticalKeys: [
-        "Tvåmatchstie: hemmavinst med mål bygger kapital inför borta-returen i Częstochowa.",
-        "Raków offensivt i Europa = minimal fara: 49% skott utifrån, np xG/skott 0,09 (32:a/36), final third to box 18% (28:e/36). HIF:s kompakta block räcker för att hantera deras skottvolym – David Hahn vs ytterskottplunar.",
-        "Counter-press-fönstret: Raków förlorar bollen extremt högt (turnover line 55,98m, 35:e/36!). HIF:s PPDA 4,93 kombinerat med detta skapar direkta bollvinstlägen nära Raków:s box.",
-        "Pressa GK-uppbyggnaden (88% i Europa): press på Raków:s tre mittbackar och keeper under uppbyggnad vinner bollar högt och sätter dem omedelbart under press i farliga zoner.",
+        "Aggregat 0–0: HIF vinner med valfri seger. Oavgjort 90 min → förlängning. Inga bortamål-regeln längre – alla mål räknas lika.",
+        "Bortaleg-lärdomar: Raków skapar lägen via high opportunity shots (6 st) men konverterar inte – håll blocket kompakt och pressa högt när HIF har bollen.",
+        "Counter-press-fönstret kvarstår: Raków turnover line 55,98m (35:e/36). Bortaleg: 33 HIF-bolltapp mot Raków 0,99 xT inom 10s. Tele2-trycket gör counter-pressen ännu farligare.",
+        "HIF offensivt hemma: field tilt 63% borta men bara 1 high opportunity shot. Hemma på Tele2 (22–5 GD, starkast i Allsvenskan) → fler chanser i boxen via combinationer och hörnor.",
       ],
     },
     headToHead: {
-      sampleSize: 0,
+      sampleSize: 1,
       description:
-        "Hammarby IF och Raków Częstochowa har inga kända historiska möten i UEFA-tävlingar. Detta är lagets första europeiska möte.",
+        "Hammarby och Raków Częstochowa möttes för första gången i en UEFA-tävling 6 aug 2026 (bortaleg). Matchen slutade 0–0. Returen på Tele2 avgör playoff-aggregatet.",
       summaryCards: [
         {
-          title: "Historiska möten",
-          value: "Inga kända",
-          note: "Första europeiska mötet för de båda lagen.",
+          title: "Bortaleg (6 aug 2026)",
+          value: "Raków 0–0 HIF",
+          note: "Raków xG 1,63 · HIF xG 0,91 · Aggregat: 0–0",
           tone: "blue",
         },
         {
@@ -4625,17 +4645,33 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         {
           title: "Hammarby hemma 2026",
           value: "5V 1O 1F",
-          note: "22–5 · Starkast hemma i Allsvenskan.",
+          note: "22–5 GD · Starkast hemma i Allsvenskan.",
           tone: "emerald",
         },
       ],
       trendBullets: [
-        "Inga historiska H2H-data – första europeiska mötet.",
+        "Bortaleg: 0–0 i Częstochowa (6 aug). HIF höll nollan trots Raków:s 1,63 xG och 6 high opportunity shots.",
+        "HIF offensivt borta: 56% bollinnehav, 14 skott, men bara 1 high opportunity shot (xG 0,91). Mer offensiv skärpa krävs hemma.",
         "Raków med UECL-gruppspelserfarenhet (2022/23, 2023/24) – de vet hur man spelar europeiska 2-legstävlingar.",
-        "Hammarby hemma 2026: starkast i hela Allsvenskan (22-5, 5V-1O-1F).",
-        "Raków tenderar att spela mer defensivt borta i europeiskt spel – räkna med ett kompakt block.",
+        "Hammarby hemma 2026: starkast i hela Allsvenskan (22-5, 5V-1O-1F). Tele2 på europakväll är HIF:s starkaste kort.",
       ],
-      matches: [],
+      matches: [
+        {
+          date: "2026-08-06",
+          fixture: "Raków Częstochowa - Hammarby IF",
+          result: "0–0",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 0,
+          opponentGoals: 0,
+          hammarbyXg: 0.91,
+          opponentXg: 1.63,
+          hammarbyShots: 14,
+          opponentShots: 10,
+          sourceUrl:
+            "https://reports.twelve.football/reports/hammarby-match-report-vs-rak%C3%B3w-cz%C4%99stochowa-6thZSrmbRj.pdf",
+        },
+      ],
     },
     trafficLightCards: [
       {
@@ -4675,17 +4711,17 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "2:a i Allsvenskan · 26p · Dominant hemma (22-5). Förlorade EL Q2 mot Anderlecht (4-2 agg) – nu om UECL-gruppspel. Ligaledare i xG, press och bollinnehav.",
+        body: "2:a i Allsvenskan · Bortaleg 0–0 i Częstochowa (6 aug) – höll nollan trots Raków:s 1,63 xG. Hinmatch på Tele2 14 aug avgör UECL-gruppspelet. Ligaledare i xG, press och bollinnehav.",
         tone: "emerald",
       },
       {
-        title: "Raków – UECL 25/26 + aktuell form",
-        body: "UECL 2025/26: 9:e av 36 (1,75p/match), overperformade med +0,35. Defensivt stark (3:e i opposition chance creation, 0,75 mål insläppt). Svag offensivt (23:e, 49% ytterskottplunar). Ny tränare L. Tomczyk (sista 2 UECL-matcherna). Ekstraklasa 26/27: 0-4 i 2 matcher (1-2 hemma, 1-2 borta).",
+        title: "Raków – bortaleg + aktuell form",
+        body: "Bortaleg: skapade mer (xG 1,63, 6 high opp. shots) men slog inte igenom HIF:s block. UECL 2025/26: 9:e/36, defensivt excellent (3:e i opp. chance creation). Svag offensivt i Europa (23:e/36). Ekstraklasa 26/27: 0-4 i 2 matcher.",
         tone: "blue",
       },
       {
-        title: "⚽ Playoff-insatsen",
-        body: "Vinnaren av playoff → UECL-gruppspelet 2026/27. Historisk chans för HIF att nå ett europeiskt gruppspel för första gången. Hemmavinst med mål i hinmatchen är avgörande.",
+        title: "Aggregat: 0–0 – allt avgörs",
+        body: "HIF-vinst → UECL-grupp. Oavgjort 90 min → förlängning. Raków-seger → Raków vidare. Historisk chans: UECL-gruppspel vore Hammarbys första europeiska grupp någonsin.",
         tone: "amber",
       },
     ],
@@ -4952,14 +4988,15 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Täta bakre kedjan mot boxinlägg från WBs: Raków dominerar med korsningar i Ekstraklasa (48% av boxinträden). Täta WB-löpningarna mot bylinjen och stäng inläggsytorna – framförallt Otieno (VWB) och Jean Carlos/Ameyaw (HWB).",
       ],
       matchManagement: [
-        "Playoff = allt-eller-inget: vinst i Tele2 är det enda tillfredsställande resultatet. Raków:s form i Ekstraklasa (1-2 hemma, 1-2 borta) visar att de är slagbara – ny tränare L. Tomczyk, ny säsong, deras system är under uppbyggnad.",
+        "Aggregat 0–0: HIF vinner med valfri seger. Håll aggregatet jämnt i inledningen – låt Tele2-publiken bygga trycket. Tidigt mål sätter Raków under press och tvingar dem att öppna upp.",
+        "Bortaleg-lärdomen: HIF hade 56% bollinnehav men skapade lite (1 high opportunity shot, np xG 0,91). Hemma på Tele2 → kombinera djupare och snabbare in i boxen istället för att cirkulera i mellanrummen.",
+        "Håll nollan i 45 min: Raków skapade mest borta i 1:a halvlek (xG 0,51 på 30 min). HIF:s defensiva transition (33 turnovers borta) måste förbättras – framförallt i mellanzon-segmentet.",
+        "Raków overperformerar sin xPoäng (+0,35, 6:e/36 i UECL) – de är effektiva i avgörande situationer. Vakna: ett Raków-mål = 90-minuters defensiv kamp. Varje HIF-möjlighet måste utnyttjas.",
         "Historisk chans: UECL-gruppspelet är Hammarbys första europeiska gruppspel någonsin. Raków är ett väldefinierat lag – vi vet deras svagheter. Tele2 på en europeisk kväll med hemmapublik är Hammarbys starkaste kort.",
-        "Raków overperformerar sin xPoäng (+0,35, 6:e/36 i UECL) – de är effektiva i avgörande situationer. HIF kan inte tillåta sig luxusen av att slappna av – ett mål leder till 'parking the bus'-scenario som Raków behärskar defensivt (3:e/36 i opposition chance creation).",
-        "Bortareturen i Częstochowa: med ett hemma-mål från Tele2 är bortalaget mer hanterbart. Raków:s transitions-farlighet (1,04s till framåtpass) innebär att HIF måste spela kompakt borta – men +1 från hemmamatchen ger bra marginal.",
       ],
     },
     spotlightKey:
-      "Tre nycklar ur de kombinerade Twelve-rapporterna (UECL 25/26 + Ekstraklasa 26/27): (1) COUNTER-PRESS-FÖNSTRET: Raków förlorar bollen extremt högt (turnover line 55,98m, 35:e/36 UECL) – HIF:s press (PPDA 4,93, 1:a Allsvenskan) kombinerat med detta skapar direkta lägen nära Raków:s box. Det är matchen starkaste taktiska möjlighet. (2) RAKÓW:S OFFENSIVA SVAGHET I EUROPA: 23:e/36 i anfall, 49% skott utifrån, np xG/skott 0,09 (32:a/36) – minimal anfallsfara. HIF:s kompakta block håller dem borta. Låt dem skjuta utifrån. (3) RAKÓW:S STARKA PRESS: PPDA 5,18 (6:e/36) i Europa – de pressar hårt och tar foul i anfallshalvan (71%). HIF:s uppbyggnad testas. Snabb, direkt spel IGENOM pressen och corner-rutiner (HIF +39 hörnsaldo vs Raków:s corner-sårbarhet 0,21+0,14 xG/match) kan avgöra aggregat.",
+      "Fyra nycklar inför hinmatchen (aggregat 0–0): (1) BORTALEG-LÄRDOMEN: HIF skapade lite offensivt borta (1 high opp. shot, xG 0,91 mot Raków:s 1,63). Hemma på Tele2 → fler kombinationer in i boxen, fler hörnor. (2) COUNTER-PRESS-FÖNSTRET: Raków turnover line 55,98m (35:e/36) och tog 6,32s att organisera defensivt – bekräftades i bortamatch. 33 HIF-bolltapp gav 0,99 xT, men HIF:s egna counter-press-möjligheter var underutnyttjade. Hemma med publiken → exploatera detta hårdare. (3) RAKÓW:S OFFENSIVA SVAGHET I EUROPA: 23:e/36 i anfall, 49% skott utifrån, 6 high opportunity shots i bortaleg men 0 mål. HIF:s block + Hahn håller dem ute. (4) PRESSMATCHNING: PPDA 5,18 (6:e/36) – Raków pressar hårt. HIF måste spela snabbt och direkt IGENOM pressen med corner-rutiner (HIF +39 hörnsaldo, Raków corner-sårbarhet 0,21+0,14 xG/match) som potentiell joker.",
     glossary: [
       {
         term: "PPDA (Passes Per Defensive Action, Twelve)",
