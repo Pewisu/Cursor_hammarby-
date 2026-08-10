@@ -259,10 +259,12 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     referee: "Adam Ladebäck",
     effectivePlayingTimeS: 3186,
     totalTimeMin: 95,
-    totalFreeKicks: 5,
+    // Häcken begick 17 fouls mot Hammarbys 12 → netto +5 frisparkar för HIF.
+    // Bolldata detaljstat ej uppdaterad ännu; frispark-differential baseras på fouldata.
+    totalFreeKicks: 7,
     totalCards: 2,
-    hammarby: { freeKicks: 3, fouls: 12, foulsSuffered: 17, yellowCards: 1, redCards: 0, isHome: true },
-    opponent: { name: "BK Häcken", freeKicks: 2, fouls: 17, foulsSuffered: 12, yellowCards: 1, redCards: 0 },
+    hammarby: { freeKicks: 6, fouls: 12, foulsSuffered: 17, yellowCards: 1, redCards: 0, isHome: true },
+    opponent: { name: "BK Häcken", freeKicks: 1, fouls: 17, foulsSuffered: 12, yellowCards: 1, redCards: 0 },
   },
 ];
 
