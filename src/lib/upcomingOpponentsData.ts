@@ -4579,7 +4579,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     fixture: "Hammarby IF - Raków Częstochowa",
     dateLabel: "14 Augusti 2026 · Tele2 Arena · Returen efter 0–0 borta (6 aug)",
     venueLabel: "Hemma · Tele2 Arena",
-    hifBadges: ["2:a Allsvenskan", "UECL Playoff"],
+    hifBadges: ["2:a · 30p", "UECL Playoff"],
     opponentBadges: ["Polska mästare 24/25", "Ekstraklasa"],
     comparisonLabel: "UECL Playoff 2026",
     oneLineSummary:
@@ -4631,7 +4631,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Aggregat 0–0: HIF vinner med valfri seger. Oavgjort 90 min → förlängning. Inga bortamål-regeln längre – alla mål räknas lika.",
         "Bortaleg-lärdomar: Raków skapar lägen via high opportunity shots (6 st) men konverterar inte – håll blocket kompakt och pressa högt när HIF har bollen.",
         "Counter-press-fönstret kvarstår: Raków turnover line 55,98m (35:e/36). Bortaleg: 33 HIF-bolltapp mot Raków 0,99 xT inom 10s. Tele2-trycket gör counter-pressen ännu farligare.",
-        "HIF offensivt hemma: field tilt 63% borta men bara 1 high opportunity shot. Hemma på Tele2 (22–5 GD, starkast i Allsvenskan) → fler chanser i boxen via combinationer och hörnor.",
+        "HIF offensivt hemma: field tilt 63% borta men bara 1 high opportunity shot. Hemma på Tele2 (25–5 GD, 6V-1O-1F, starkast hemma i Allsvenskan) → fler chanser i boxen via combinationer och hörnor.",
       ],
     },
     headToHead: {
@@ -4653,8 +4653,8 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         },
         {
           title: "Hammarby hemma 2026",
-          value: "5V 1O 1F",
-          note: "22–5 GD · Starkast hemma i Allsvenskan.",
+          value: "6V 1O 1F",
+          note: "25–5 GD · Starkast hemma i Allsvenskan.",
           tone: "emerald",
         },
       ],
@@ -4662,7 +4662,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         "Bortaleg: 0–0 i Częstochowa (6 aug). HIF höll nollan trots Raków:s 1,63 xG och 6 high opportunity shots.",
         "HIF offensivt borta: 56% bollinnehav, 14 skott, men bara 1 high opportunity shot (xG 0,91). Mer offensiv skärpa krävs hemma.",
         "Raków med UECL-gruppspelserfarenhet (2022/23, 2023/24) – de vet hur man spelar europeiska 2-legstävlingar.",
-        "Hammarby hemma 2026: starkast i hela Allsvenskan (22-5, 5V-1O-1F). Tele2 på europakväll är HIF:s starkaste kort.",
+        "Hammarby hemma 2026: starkast i hela Allsvenskan (25-5, 6V-1O-1F). Tele2 på europakväll är HIF:s starkaste kort.",
       ],
       matches: [
         {
@@ -4720,7 +4720,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     quickStatusCards: [
       {
         title: "Hammarby just nu",
-        body: "2:a i Allsvenskan · Bortaleg 0–0 i Częstochowa (6 aug) – höll nollan trots Raków:s 1,63 xG. Hinmatch på Tele2 14 aug avgör UECL-gruppspelet. Ligaledare i xG, press och bollinnehav.",
+        body: "2:a · 30p · 9V-3O-4F · 36-15 mål. Vann omgång 16 mot Häcken 3–0 (Renecke 29', V.Lind 38', Abraham 56'). Bortaleg 0–0 i Częstochowa (6 aug). Hinmatch på Tele2 14 aug avgör UECL-gruppspelet.",
         tone: "emerald",
       },
       {
@@ -4924,9 +4924,9 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         label: "Hammarby hemma 2026",
-        value: "22-5 · +17 GD (5V-1O-1F)",
+        value: "25-5 · +20 GD (6V-1O-1F)",
         interpretation:
-          "Tele2 Arena är en fästning – 22 gjorda och 5 insläppta på 7 hemmamatcher. Starkast hemma i hela Allsvenskan. I ett playoff-scenario är hemmamål extra värda – ett eller gärna två mål i Tele2 ger psykologiskt övertag inför returen. Raków:s overperformance (+0,35 poäng) innebär att HIF inte kan räkna med att 'xG avgör' – effektivitet i de riktiga chanserna som skapas via counterpress och corner-play.",
+          "Tele2 Arena är en fästning – 25 gjorda och 5 insläppta på 8 hemmamatcher (senast 3–0 mot Häcken). Starkast hemma i hela Allsvenskan. I ett playoff-scenario är hemmamål extra värda – ett eller gärna två mål i Tele2 ger psykologiskt övertag. Raków:s overperformance (+0,35 poäng) innebär att HIF inte kan räkna med att 'xG avgör' – effektivitet i de riktiga chanserna som skapas via counterpress och corner-play.",
       },
     ],
     playersToWatch: [
