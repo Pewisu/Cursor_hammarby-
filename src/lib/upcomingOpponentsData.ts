@@ -192,6 +192,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 17,
     roundLabel: "Omgång 17",
+    hidden: false,
     fixture: "Kalmar FF - Hammarby",
     dateLabel: "Söndag 16 augusti 2026 · 16:30 · Guldfågeln Arena, Kalmar",
     venueLabel: "Guldfågeln Arena (bortaplan)",
@@ -5051,7 +5052,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
     round: 100,
     roundLabel: "UECL-kval · Playoff · Hinmatch (2:a leg)",
-    hidden: false,
+    hidden: true,
     fixture: "Hammarby IF - Raków Częstochowa",
     dateLabel: "14 Augusti 2026 · Tele2 Arena · Returen efter 0–0 borta (6 aug)",
     venueLabel: "Hemma · Tele2 Arena",
