@@ -235,7 +235,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       "Kalmar begränsar chanser väl (3:a i ligan, 2,56 opp. HQ shots/match) – skapa KVALITETSCHANSER.",
       "Kalmar svag i defensiva dueller: 15:a (57% vunna) – HIF vinner närkamper och andraboxar.",
       "Kalmar långsammast i pass tempo (15:a i ligan, 19,13/min) – HIF:s press tvingar misstag.",
-      "Rony Jansson (CB, 3 mål) och Charles Sagoe Jr. (2M+8A) är Kalmars farligaste profiler.",
+      "Rony Jansson (CB, 3 mål) och Charles Sagoe Jr. (3M+8A) är Kalmars farligaste profiler.",
     ],
     dataSources: [
       "Twelve season report Kalmar: https://reports.twelve.football/reports/kalmar-season-report-W5qiqZGkLq.pdf (aug 2026)",
@@ -430,7 +430,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       },
       {
         label: "Charles Sagoe Jr – kreativ motor",
-        value: "2 mål + 8 assists på 15 matcher",
+        value: "3 mål + 8 assists på 16 matcher",
         interpretation: "Sagoe Jr. skapar det mesta av Kalmars spel. Neutralisera honom i halvzonen för att strypa Kalmars anfallsspel.",
       },
     ],
@@ -481,7 +481,7 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
       withoutBall: [
         "Press tidigt och hårt. PPDA-fördelen (4,9 vs 6,84) + Kalmars lägsta pass tempo i ligan (15:a, 19,13/min) = perfekta förutsättningar att pressa dem till fel.",
         "Vakna på Rony Jansson (CB, 3 mål!). Stäng VARJE dödboll och hörna tätt – Kalmars CB:er är livsfarliga på set pieces och kan avgöra matchen.",
-        "Neutralisera Charles Sagoe Jr. (2M+8A). Kalmars kreativa motor skapar allt. HIF:s mittfält ska täcka honom tätt och hindra honom från att vända med boll.",
+        "Neutralisera Charles Sagoe Jr. (3M+8A). Kalmars kreativa motor skapar allt. HIF:s mittfält ska täcka honom tätt och hindra honom från att vända med boll.",
         "Kompakt defensiv block. Kalmar skjuter 45% utifrån boxen – tillåt ytterskottplunar men stäng centralt och skydda boxen från inlägg.",
       ],
       matchManagement: [
@@ -600,14 +600,14 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
         position: "Vänsteryttermitt · Ghana · 22 år",
         scoutBadge: "🎨 Kreativ motor",
         stats: [
-          { label: "Mål", value: "2" },
+          { label: "Mål", value: "3" },
           { label: "Assist", value: "8" },
-          { label: "Matcher", value: "15" },
+          { label: "Matcher", value: "16" },
         ],
         threat:
-          "Kalmars absolut mest kreativa spelare – 8 assists på 15 matcher (ligans toppskikt). Skapar lägen för Rosenqvist och Olusanya. Farlig när han får vända med boll i halvzonen.",
+          "Kalmars absolut mest kreativa spelare – 3 mål och 8 assists på 16 matcher (ligans toppskikt). Skapar lägen för Rosenqvist och Olusanya. Farlig när han får vända med boll i halvzonen.",
         motivation:
-          "Sagoe Jr. (22, Ghana) är Kalmars kreativa nav. Hans 8 assists är ett remarkabelt tal och visar att han är en constant-threat i halvrummet. HIF:s mittfält måste täcka honom tätt och hindra honom från att vända – hans progressiva passningar är startpunkten för de flesta Kalmar-anfall. Stäng av Sagoe Jr., stäng av Kalmar.",
+          "Sagoe Jr. (22, Ghana) är Kalmars kreativa nav. Hans 3 mål och 8 assists är ett remarkabelt tal och visar att han är en constant-threat i halvrummet. HIF:s mittfält måste täcka honom tätt och hindra honom från att vända – hans progressiva passningar är startpunkten för de flesta Kalmar-anfall. Stäng av Sagoe Jr., stäng av Kalmar.",
       },
       {
         name: "Charlie Rosenqvist",
