@@ -198,8 +198,8 @@ export const upcomingOpponents: UpcomingOpponentReport[] = [
     venueLabel: "Guldfågeln Arena (bortaplan)",
     oneLineSummary:
       "Hammarby (30p, 2:a) åker till Guldfågeln efter att ha vunnit H2H 4–0 i senaste fem Allsvenskan-möten – inkl. 4–1 borta 2024. Kalmar (18p, 11:a) är stark hemma (5V–2O–1F, 2,13p/match) men skapar lite xG (12:a) och vinner knappt dueller (15:a). HIF:s press och fysik bör vara avgörande.",
-    hifBadges: ["2:a i Allsvenskan", "30p", "Form: WWWDW"],
-    opponentBadges: ["11:a i Allsvenskan", "18p", "5V–2O–1F hemma"],
+    hifBadges: ["11:a i Allsvenskan", "18p", "5V–2O–1F hemma"],
+    opponentBadges: ["2:a i Allsvenskan", "30p", "Form: WWWDW"],
     comparisonLabel: "Allsvenskan 2026",
     introStats: [
       { label: "Kalmar tabellplats", value: "11:a (18p)", tone: "amber" },
