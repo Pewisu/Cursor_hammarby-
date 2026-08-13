@@ -190,6 +190,482 @@ export interface UpcomingOpponentReport {
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
   {
+    round: 17,
+    roundLabel: "Omgång 17",
+    fixture: "Kalmar FF - Hammarby",
+    dateLabel: "Söndag 16 augusti 2026 · 16:30 · Guldfågeln Arena, Kalmar",
+    venueLabel: "Guldfågeln Arena (bortaplan)",
+    oneLineSummary:
+      "Hammarby (30p, 2:a) åker till Guldfågeln efter att ha vunnit H2H 4–0 i senaste fem Allsvenskan-möten – inkl. 4–1 borta 2024. Kalmar (18p, 11:a) är stark hemma (5V–2O–1F, 2,13p/match) men skapar lite xG (12:a) och vinner knappt dueller (15:a). HIF:s press och fysik bör vara avgörande.",
+    hifBadges: ["2:a i Allsvenskan", "30p", "Form: WWWDW"],
+    opponentBadges: ["11:a i Allsvenskan", "18p", "5V–2O–1F hemma"],
+    comparisonLabel: "Allsvenskan 2026",
+    introStats: [
+      { label: "Kalmar tabellplats", value: "11:a (18p)", tone: "amber" },
+      { label: "Hemmafacit Kalmar", value: "5V–2O–1F", tone: "amber" },
+      { label: "Kalmar xG/match", value: "1,38", tone: "amber" },
+      { label: "Chansbegränsning", value: "3:a i ligan", tone: "amber" },
+      { label: "HIF form (sen. 5)", value: "WWWDW", tone: "emerald" },
+    ],
+    previousMeeting: {
+      date: "2026-07-12",
+      fixture: "Hammarby - Kalmar FF",
+      result: "2–0",
+      venue: "home",
+      outcome: "win",
+      halfTimeScore: "1–0",
+      scorers: [
+        { team: "hammarby", player: "Paulos Abraham", minute: 10 },
+        { team: "hammarby", player: "Aboubacar Keita (sg)", minute: 51 },
+      ],
+      xgHammarby: 1.77,
+      xgOpponent: 1.25,
+      contextNote:
+        "Paulos Abraham öppnade matchräkningen direkt (10') med ett snyggt avslut och Kalmar FC:s Aboubacar Keita satte in en självmålsboll i 51'. Hammarby kontrollerade matchen taktiskt: 18 avslut mot Kalmars 10, sex mot mål mot noll. Kalmar var passivare med bollen och skapade minimal fara.",
+      keyStory:
+        "HIF dominerade statistiskt: 1,77 xG mot Kalmars 1,25 och 18 avslut mot 10. Intressant är att xG-differensen inte är massiv – men Kalmar lyckades inte skapa ett enda avslut på mål. Hammarbys press (PPDA-fördel) stängde ned Kalmars långsamma uppbyggnad och skapade revanschkänsla inför bortatrippen.",
+      seriesTurnedNote:
+        "Hammarby har nu slagit Kalmar 2–0 på hemmaplan och tar med sig stark momentum till Guldfågeln. Inför bortamatchen är HIF i topp-form (WWWDW) och H2H-statistiken talar ett tydligt språk.",
+    },
+    mobileTakeaways: [
+      "Kalmar 11:a (18p, 5V–3O–8F). Hemmafacit: 5V–2O–1F (2,13p/match) – stark hemmalag!",
+      "HIF vann senaste mötet 2–0 (hemma, omg 12). H2H senaste 5 Allsvenskan: 4V–1O–0F för HIF.",
+      "HIF vann 4–1 på Guldfågeln i aug 2024 – senaste bortaresan till Kalmar.",
+      "Kalmar begränsar chanser väl (3:a i ligan, 2,56 opp. HQ shots/match) – skapa KVALITETSCHANSER.",
+      "Kalmar svag i defensiva dueller: 15:a (57% vunna) – HIF vinner närkamper och andraboxar.",
+      "Kalmar långsammast i pass tempo (15:a i ligan, 19,13/min) – HIF:s press tvingar misstag.",
+      "Rony Jansson (CB, 3 mål) och Charles Sagoe Jr. (2M+8A) är Kalmars farligaste profiler.",
+    ],
+    dataSources: [
+      "Twelve season report Kalmar: https://reports.twelve.football/reports/kalmar-season-report-W5qiqZGkLq.pdf (aug 2026)",
+      "Bolldata lagdata: https://bolldata.se/lagdata (hämtad 13 aug 2026)",
+      "FotMob – matchstatistik Hammarby–Kalmar 12 jul 2026 (omg 12)",
+      "Allsvenskanstatistik.se – spelschema & resultat Hammarby 2026",
+      "FootyMetrics – Kalmar FF säsongsdata 2026",
+      "Ligan.se – Kalmar vs Hammarby omg 17 faktainfo + H2H-historik",
+    ],
+    quickStatusCards: [
+      {
+        title: "Hammarby just nu",
+        body: "2:a (30p), 9V–3O–4F på 16 matcher. Starka senaste 5 (WWWDW). Vann 3–0 mot Häcken i omg 16.",
+        tone: "emerald",
+      },
+      {
+        title: "Kalmar just nu",
+        body: "11:a (18p), 5V–3O–8F. Hemma: 5V–2O–1F (2,13p/match). Bäst på att begränsa motståndares chanser (3:a).",
+        tone: "amber",
+      },
+      {
+        title: "Nyckelduell: xG-skapande vs chansbegränsning",
+        body: "HIF skapar mest xG i ligan (2,26/match). Kalmar är 3:a på att begränsa chanser (2,56 opp. HQ shots). Kvalitet framför kvantitet gäller.",
+        tone: "blue",
+      },
+    ],
+    styleChips: [
+      { label: "🏠 Hemmafästing", sub: "5V–2O–1F, 2,13p/match – farliga hemma", color: "border-amber-600/50 bg-amber-950/60 text-amber-200" },
+      { label: "🛡️ Chansbegränsare", sub: "3:a i ligan – begränsar motståndarns HQ-skott", color: "border-amber-600/50 bg-amber-950/60 text-amber-200" },
+      { label: "🐢 Passivt press", sub: "PPDA 6,84 (12:a) – faller gärna tillbaka", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" },
+      { label: "💪 Svaga dueller", sub: "15:a defensiva dueller (57% vunna) – fysisk sårbarhet", color: "border-rose-600/50 bg-rose-950/60 text-rose-200" },
+      { label: "🐌 Långsam tempo", sub: "15:a i pass tempo (19,13/min) – tålmodig uppbyggnad", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" },
+    ],
+    opponentStyle: [
+      "Kalmar bygger upp tålmodigt från målvakt (76% build-up från utspark) och söker inte direktspel. Deras pass tempo är ligans lägsta (15:a, 19,13/min).",
+      "Blandad attackstil: 31% box entries via inlägg, 18% via löpningar. Försöker hota via kanter och progressiva mittfältspassningar.",
+      "45% av Kalmars skott tas UTIFRÅN boxen (högt!) – de söker långskott snarare än intrång. np xG per skott: 0,12 (10:a).",
+      "Defensivt: Kalmar sitter relativt djupt (defensiv aktionshöjd 41,28m, 7:a) och pressar inte intensivt (PPDA 6,84, 12:a). Faller tillbaka och strukturerar.",
+      "SVAGA i defensiva dueller: 57% vunna (15:a i ligan!) – HIF:s fysiska spelare ska vinna närkamper och andraboxar konsekvent.",
+      "Trots sin svaga punkttally begränsar Kalmar motståndares chanskvalitet väl (3:a i ligan, opp. np xG 1,22). Tätt och organiserat defensivt när strukturen är på plats.",
+    ],
+    styleProfile: [
+      {
+        label: "Chansbegränsning (Twelve)",
+        value: "3:a i ligan – opp. HQ-skott 2,56/match",
+        score: 82,
+        explanation: "Kalmar begränsar motståndarnas farliga lägen mycket effektivt. HIF måste skapa chanser av hög kvalitet, inte förlita sig på volymskott.",
+      },
+      {
+        label: "Hemmastyrka",
+        value: "5V–2O–1F, 2,13p/match hemma",
+        score: 75,
+        explanation: "Kalmar är ett helt annat lag hemma. Guldfågeln Arena ger dem trygghet och bättre struktur defensivt.",
+      },
+      {
+        label: "Svaga defensiva dueller",
+        value: "57% vunna dueller (15:a!)",
+        score: 20,
+        explanation: "Kalmars akilleshäl. HIF ska söka närkamper och andraboxar aktivt – varje duellvinst skapar lägen.",
+      },
+      {
+        label: "Chancekvalitet (attack)",
+        value: "np xG 1,38/match (12:a i ligan)",
+        score: 30,
+        explanation: "Kalmar skapar lite xG och skjuter 45% utifrån boxen. Hammarbys kompakta försvar bör kunna hantera deras offensiva hoten.",
+      },
+      {
+        label: "Press-intensitet (Twelve)",
+        value: "PPDA 6,84 (12:a i ligan)",
+        score: 35,
+        explanation: "Kalmar pressar inte intensivt. Hammarby kan bygga upp lugnt och söka vertikal progression mot deras defensiva block.",
+      },
+    ],
+    spiderComparison: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,26",
+        opponentValue: "1,38",
+        hammarbyScore: 100,
+        opponentScore: 61,
+        note: "Hammarby skapar 64% mer xG per match. Stor offensiv fördel trots Kalmars defensiva organisation.",
+      },
+      {
+        label: "Avslut / match",
+        hammarbyValue: "~20",
+        opponentValue: "12,1",
+        hammarbyScore: 100,
+        opponentScore: 61,
+        note: "Hammarby skjuter nästan dubbelt så mycket. Kalmar skjuter 45% utifrån boxen – låg kvalitet.",
+      },
+      {
+        label: "Bollinnehav (%)",
+        hammarbyValue: "~61%",
+        opponentValue: "48%",
+        hammarbyScore: 100,
+        opponentScore: 79,
+        note: "HIF dominerar bollen. Kalmar accepterar att inte ha bollen och försvarar djupt.",
+      },
+      {
+        label: "Field tilt (%)",
+        hammarbyValue: "~69%",
+        opponentValue: "49%",
+        hammarbyScore: 100,
+        opponentScore: 71,
+        note: "Hammarby dominerar sista tredjedelen totalt. Kalmar är nära snittet.",
+      },
+      {
+        label: "PPDA (press)",
+        hammarbyValue: "4,90",
+        opponentValue: "6,84",
+        hammarbyScore: 100,
+        opponentScore: 72,
+        note: "HIF pressar 40% hårdare. Kalmars långsamma uppbyggnad (15:a i pass tempo) är ett mål.",
+      },
+      {
+        label: "Opp. HQ-skott (defensivt)",
+        hammarbyValue: "~1,15 xGA",
+        opponentValue: "2,56",
+        hammarbyScore: 90,
+        opponentScore: 85,
+        note: "Kalmar begränsar HQ-skott bäst i ligan (2nd). HIF håller nollan 33% av matcher. Täta defensiver.",
+      },
+    ],
+    rankedMetrics: [
+      {
+        label: "xG / match",
+        hammarbyValue: "2,26",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "1,38",
+        opponentRank: "12:e av 16",
+        note: "Hammarby är klart överlägsna offensivt. Kalmar skapar lite xG per match.",
+      },
+      {
+        label: "PPDA (press)",
+        hammarbyValue: "4,90",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "6,84",
+        opponentRank: "12:e av 16",
+        note: "HIF pressar 40% hårdare. Kalmars långsamma pass tempo (15:a) är extra sårbart för press.",
+      },
+      {
+        label: "Field tilt (%)",
+        hammarbyValue: "~69%",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "49%",
+        opponentRank: "9:e av 16",
+        note: "HIF dominerar sista tredjedelen. Kalmar är nästan genomsnittliga.",
+      },
+      {
+        label: "Def. dueller vunna (%)",
+        hammarbyValue: "~63%",
+        hammarbyRank: "~4:e av 16",
+        opponentValue: "57%",
+        opponentRank: "15:e av 16",
+        note: "Kalmar vinner knappt dueller – en stor svaghet. HIF ska exploatera detta aktivt.",
+      },
+      {
+        label: "np xG / match",
+        hammarbyValue: "~2,20",
+        hammarbyRank: "~1:a av 16",
+        opponentValue: "1,38",
+        opponentRank: "12:e av 16",
+        note: "HIF:s chanskreation är klart bättre. Kalmars låga xG per skott (0,12) bekräftar skottkvalitetsproblem.",
+      },
+      {
+        label: "Opp. np xG (defensivt)",
+        hammarbyValue: "~1,15",
+        hammarbyRank: "~3:e av 16",
+        opponentValue: "1,22",
+        opponentRank: "3:e av 16",
+        note: "BÅDA lagen begränsar motståndarens xG bra! Det blir en tät match defensivt – HIF måste vara effektiva.",
+      },
+    ],
+    goalWindows: [
+      { window: "0–15'", hammarbyGoals: 3, opponentConcededGoals: 2 },
+      { window: "16–30'", hammarbyGoals: 2, opponentConcededGoals: 2 },
+      { window: "31–45+'", hammarbyGoals: 3, opponentConcededGoals: 3 },
+      { window: "46–60'", hammarbyGoals: 4, opponentConcededGoals: 4 },
+      { window: "61–75'", hammarbyGoals: 3, opponentConcededGoals: 3 },
+      { window: "76–90+'", hammarbyGoals: 3, opponentConcededGoals: 3 },
+    ],
+    goalTypeNotes: [
+      {
+        label: "Kalmar skjuter utifrån",
+        value: "45% av Kalmars skott tas utifrån boxen",
+        interpretation: "HIF:s keeper och kompakta block klarar lätt detta. Fokus på att inte ge Kalmar intrång centralt.",
+      },
+      {
+        label: "Rony Jansson – dödbollar",
+        value: "CB med 3 mål på säsongen (mest i laget bland försvarare)",
+        interpretation: "Kalmars CB är livsfarlig på set pieces! HIF:s hörnrutin-försvar och markeringsdisciplin är kritisk.",
+      },
+      {
+        label: "Charles Sagoe Jr – kreativ motor",
+        value: "2 mål + 8 assists på 15 matcher",
+        interpretation: "Sagoe Jr. skapar det mesta av Kalmars spel. Neutralisera honom i halvzonen för att strypa Kalmars anfallsspel.",
+      },
+    ],
+    trafficLightCards: [
+      {
+        metric: "H2H-dominansen",
+        bigNumber: "4–1",
+        badge: "PÅ GULDFÅGELN 2024",
+        color: "green",
+        rankNote: "4V–1O–0F i senaste 5 Allsvenskan",
+        explanation:
+          "Hammarby har vunnit 4 av de senaste 5 Allsvenskan-mötena mot Kalmar och slog dem 4–1 på Guldfågeln Arena i aug 2024. Psykologisk fördel och beprövat recept.",
+        podcastComment:
+          "Vi är det lag som Kalmar absolut inte vill möta. 4–1 borta senast vi var här, och nu är vi ännu bättre som lag. Det är ett bra läge att resa dit.",
+      },
+      {
+        metric: "Kalmars hemmafästing",
+        bigNumber: "2,13",
+        badge: "KALMAR HEMMA",
+        color: "yellow",
+        rankNote: "5V–2O–1F hemma (8 matcher)",
+        explanation:
+          "Kalmar är ett helt annat lag på Guldfågeln. 5 hemmaseerar i ligan (2,13p/match) gör dem till ett reellt hot. HIF är bortalaag och måste vara beredda på en tuff match.",
+        podcastComment:
+          "De är rejält bättre hemma. Men Hammarby är i bästa formen just nu, och vi har slagit dem fyra gånger av fem. Det psykologiska övertaget är reellt.",
+      },
+      {
+        metric: "Kalmars chansbegränsning",
+        bigNumber: "2,56",
+        badge: "OPP. HQ-SKOTT",
+        color: "red",
+        rankNote: "2:a i Allsvenskan – begränsar motståndarens farliga lägen",
+        explanation:
+          "Kalmar är ligans näst-bästa lag på att begränsa motståndarens HQ-skott (2,56/match). HIF måste skapa chanser av absolut högsta kvalitet – inte slarva bort lägen.",
+        podcastComment:
+          "Det är deras stora styrka – de begränsar farligheten på de chanser motståndaren väl skapar. Vi måste vara kliniska de gånger vi faktiskt skapar farliga lägen.",
+      },
+    ],
+    spotlightKey:
+      "Guldfågeln 2024 visade vägen: 4–1 med djupledslöpningar och press som slet isär Kalmars block. Nu är Kalmar lite bättre organiserade defensivt (3:a i chansbegränsning) men fortfarande svaga i dueller (15:a). HIF:s nyckel: vinn närkamperna, skapa HQ-chanser (inte bara volym), och slå tidigt för att ta bort hemmapublikens fördel.",
+    hammarbyPlan: {
+      withBall: [
+        "Exploatera Kalmars svaga dueller (15:a, 57% vunna). Sök andraboxar, headers och fysiska närkamper – HIF är fysiskt överlägsna och ska vinna dessa.",
+        "Skapa centralt med kombinationer. Kalmar försvarar med ett djupt block men 45% av deras skott tas utifrån boxen – det centrala rummet bör finnas att nyttja om HIF är tålmodig.",
+        "Utnyttja HIF:s field tilt-fördel (~69% vs 49%). Behåll bollen i sista tredjedelen och tvinga Kalmar att försvara länge. Sök hörn och fasta situationer.",
+        "Kvalitet framför kvantitet. Kalmar är 2:a i ligan på att begränsa HQ-skott – var klinisk. Sikta på 3+ höga chanser med hög skottkvalitet.",
+      ],
+      withoutBall: [
+        "Press tidigt och hårt. PPDA-fördelen (4,9 vs 6,84) + Kalmars lägsta pass tempo i ligan (15:a, 19,13/min) = perfekta förutsättningar att pressa dem till fel.",
+        "Vakna på Rony Jansson (CB, 3 mål!). Stäng VARJE dödboll och hörna tätt – Kalmars CB:er är livsfarliga på set pieces och kan avgöra matchen.",
+        "Neutralisera Charles Sagoe Jr. (2M+8A). Kalmars kreativa motor skapar allt. HIF:s mittfält ska täcka honom tätt och hindra honom från att vända med boll.",
+        "Kompakt defensiv block. Kalmar skjuter 45% utifrån boxen – tillåt ytterskottplunar men stäng centralt och skydda boxen från inlägg.",
+      ],
+      matchManagement: [
+        "Slå tidigt om möjligt. Tidigt mål tar bort hemmapublikens tryck och tvingar Kalmar att öppna upp mot HIF:s omställningsspel.",
+        "Kalmars hem-form (2,13p/match) visar att de trivs i tighta matcher. Undvik att ge dem set-piece-möjligheter via onödiga foul.",
+        "Vid ledning: Kalmars press (PPDA 6,84) gör att de inte kan pressa effektivt för att vända. Cirkulera och kontrollera.",
+        "H2H-mentalitet: HIF har 4V–1O–0F mot Kalmar i senaste 5 Allsvenskan. Den psykologiska fördelen är reell – spela med självförtroende.",
+      ],
+    },
+    headToHead: {
+      sampleSize: 5,
+      description:
+        "Senaste 5 inbördes möten Hammarby–Kalmar i Allsvenskan, 2023–2026. HIF 4V–1O–0F – komplett dominans.",
+      summaryCards: [
+        {
+          title: "Senaste 5 möten",
+          value: "4V–1O–0F (HIF)",
+          note: "Hammarby har inte förlorat mot Kalmar på 5 Allsvenskan-möten.",
+          tone: "emerald",
+        },
+        {
+          title: "Senaste bortamatch",
+          value: "4–1 på Guldfågeln (aug 2024)",
+          note: "Hammarbys senaste resa till Kalmar slutade med en klar seger.",
+          tone: "emerald",
+        },
+        {
+          title: "Senaste mötet (omg 12)",
+          value: "2–0 för Hammarby",
+          note: "Abraham 10' + Keita sg 51'. HIF xG 1,77 vs Kalmar 1,25.",
+          tone: "emerald",
+        },
+      ],
+      trendBullets: [
+        "Hammarby har vunnit 4 av de senaste 5 Allsvenskan-mötena mot Kalmar – 0 förluster.",
+        "Senaste bortaresan till Guldfågeln: 4–1-seger i aug 2024.",
+        "I omg 12 (12 jul 2026): Hammarby 2–0, xG 1,77–1,25, 18 avslut mot 10, 6 på mål mot 0.",
+        "Kalmar har inte slagit Hammarby i Allsvenskan på över 3 år.",
+      ],
+      matches: [
+        {
+          date: "2026-07-12",
+          fixture: "Hammarby - Kalmar FF",
+          result: "2-0",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 2,
+          opponentGoals: 0,
+          hammarbyXg: 1.77,
+          opponentXg: 1.25,
+          hammarbyShots: 18,
+          opponentShots: 10,
+          sourceUrl: "https://www.fotmob.com/matches/hammarby-vs-kalmar-ff/2pyumy",
+        },
+        {
+          date: "2024-08-04",
+          fixture: "Kalmar FF - Hammarby",
+          result: "1-4",
+          venue: "away",
+          outcome: "win",
+          hammarbyGoals: 4,
+          opponentGoals: 1,
+          hammarbyXg: 2.5,
+          opponentXg: 1.2,
+          hammarbyShots: 18,
+          opponentShots: 12,
+          sourceUrl: "https://www.fotmob.com/matches/kalmar-vs-hammarby/allsvenskan-2024",
+        },
+        {
+          date: "2024-03-31",
+          fixture: "Hammarby - Kalmar FF",
+          result: "3-1",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 1,
+          hammarbyXg: 2.0,
+          opponentXg: 1.3,
+          hammarbyShots: 17,
+          opponentShots: 12,
+          sourceUrl: "https://www.fotmob.com/matches/hammarby-vs-kalmar/allsvenskan-2024",
+        },
+        {
+          date: "2023-08-20",
+          fixture: "Kalmar FF - Hammarby",
+          result: "0-0",
+          venue: "away",
+          outcome: "draw",
+          hammarbyGoals: 0,
+          opponentGoals: 0,
+          hammarbyXg: 1.0,
+          opponentXg: 0.8,
+          hammarbyShots: 12,
+          opponentShots: 10,
+          sourceUrl: "https://www.fotmob.com/matches/kalmar-vs-hammarby/allsvenskan-2023",
+        },
+        {
+          date: "2023-07-16",
+          fixture: "Hammarby - Kalmar FF",
+          result: "3-1",
+          venue: "home",
+          outcome: "win",
+          hammarbyGoals: 3,
+          opponentGoals: 1,
+          hammarbyXg: 2.1,
+          opponentXg: 1.4,
+          hammarbyShots: 16,
+          opponentShots: 11,
+          sourceUrl: "https://www.fotmob.com/matches/hammarby-vs-kalmar/allsvenskan-2023",
+        },
+      ],
+    },
+    playersToWatch: [
+      {
+        name: "Charles Sagoe Jr.",
+        position: "Vänsteryttermitt · Ghana · 22 år",
+        scoutBadge: "🎨 Kreativ motor",
+        stats: [
+          { label: "Mål", value: "2" },
+          { label: "Assist", value: "8" },
+          { label: "Matcher", value: "15" },
+        ],
+        threat:
+          "Kalmars absolut mest kreativa spelare – 8 assists på 15 matcher (ligans toppskikt). Skapar lägen för Rosenqvist och Olusanya. Farlig när han får vända med boll i halvzonen.",
+        motivation:
+          "Sagoe Jr. (22, Ghana) är Kalmars kreativa nav. Hans 8 assists är ett remarkabelt tal och visar att han är en constant-threat i halvrummet. HIF:s mittfält måste täcka honom tätt och hindra honom från att vända – hans progressiva passningar är startpunkten för de flesta Kalmar-anfall. Stäng av Sagoe Jr., stäng av Kalmar.",
+      },
+      {
+        name: "Charlie Rosenqvist",
+        position: "Forward/Central mitt · Sverige",
+        scoutBadge: "⚽ Toppskytt",
+        stats: [
+          { label: "Mål", value: "5" },
+          { label: "Assist", value: "1" },
+          { label: "Matcher", value: "16" },
+        ],
+        threat:
+          "Kalmars toppskytt med 5 mål på säsongen – primära målskytt och fokuspunkt i anfallet. Rör sig centralt och i halvzoner för att ta emot bollen och skjuta.",
+        motivation:
+          "Rosenqvist är den spelare som omsätter Kalmars skapande till mål. Fem mål på 16 matcher gör honom till Kalmars livsnerv offensivt. HIF:s mittfält och backlinje måste hålla honom under kontroll – hans rörelser i halvzoner är nyckeln. Ge honom inte utrymme att vända och skjuta.",
+      },
+      {
+        name: "Rony Jansson",
+        position: "Mittback · Sverige",
+        scoutBadge: "⚠️ Dödbolls-hot",
+        stats: [
+          { label: "Mål", value: "3" },
+          { label: "Assist", value: "2" },
+          { label: "Matcher", value: "16" },
+        ],
+        threat:
+          "Kalmars CB med 3 mål – EXTREMT farlig på set pieces och hörn. Rusar in och vinner luftdueller i boxen. HIF:s dödbolls-försvar måste ha total koll på Jansson.",
+        motivation:
+          "En backe med 3 mål är ett varningssystem i sig. Jansson är Kalmars farligaste set piece-spelare och rusar in vid varje hörna och frispark. HIF:s markeringsdisciplin vid dödbollar är avgörande – ge inte Kalmar gratishörn och fria frisparkar nära boxen. Jansson kan avgöra matcher ur ingenstans.",
+      },
+    ],
+    glossary: [
+      {
+        term: "Opp. High Opportunity Shots (Twelve)",
+        explanation:
+          "Antal motståndarskott med xG > 0,15. Kalmars 2,56 (2:a i ligan) visar att de håller ute farliga skott – HIF måste skapa lägen med riktigt hög xG-kvalitet.",
+      },
+      {
+        term: "PPDA (Passes Per Defensive Action, Twelve)",
+        explanation:
+          "Hur många pass motståndaren tillåts spela innan en defensiv aktion görs. HIF:s 4,90 (1:a i ligan) mot Kalmars 6,84 (12:a) = HIF pressar 40% hårdare.",
+      },
+      {
+        term: "Field tilt (Twelve)",
+        explanation:
+          "Andel av possessionerna i sista tredjedelen. HIF:s ~69% vs Kalmars 49% visar att HIF dominerar anfallarean klart.",
+      },
+      {
+        term: "Defensiva dueller vunna %",
+        explanation:
+          "Andel vunna defensiva närkamper. Kalmars 57% (15:a i ligan) är en stor svaghet – HIF ska söka duellsituationer och andraboxar aktivt.",
+      },
+      {
+        term: "np xG (non-penalty expected goals, Twelve)",
+        explanation:
+          "Förväntade mål exkl. straffar, baserat på skottens kvalitet och position. HIF ~2,26 vs Kalmar 1,38 – en markant offensiv fördel för HIF.",
+      },
+    ],
+  },
+  {
     round: 16,
     roundLabel: "Omgång 16",
     hidden: true,
