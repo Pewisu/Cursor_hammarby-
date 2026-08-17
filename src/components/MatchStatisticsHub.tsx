@@ -32,6 +32,7 @@ import { round9AikPredictionVsOutcome } from "@/lib/predictionVsOutcomeRound9Aik
 import { round10PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound10Data";
 import { round11PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound11Data";
 import { round13PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound13Data";
+import { round17PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound17Data";
 import {
   elfsborgRound11Goals,
   elfsborgRound11MatchSpider,
@@ -2783,6 +2784,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     <span>Match 4-0</span>
                   </a>
                   <a
+                    href="#analys-utfall"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                  >
+                    <span>🎯</span>
+                    <span>Analys vs utfall</span>
+                  </a>
+                  <a
                     href="#domar-analys"
                     className="flex shrink-0 items-center gap-1.5 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors hover:border-amber-300/60 hover:bg-amber-400/20"
                   >
@@ -3407,6 +3415,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               sourceUrl={kalmarRound17Recap.sourceUrl}
               hammarbySourceUrl={kalmarRound17Recap.hammarbySourceUrl}
             />
+          </div>
+        )}
+
+        {/* ── Round 17: Analys vs utfall ── */}
+        {isRound17Dashboard && (
+          <div id="analys-utfall" className={ROUND11_SURFACE}>
+            <PredictionVsOutcome embedded {...round17PredictionVsOutcome} />
           </div>
         )}
 
