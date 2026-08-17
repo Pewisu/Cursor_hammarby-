@@ -3593,9 +3593,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Twelve · xT per 15-min period</p>
                 <h3 className="mt-1 text-base font-bold text-white md:text-lg">Expected Threat (xT)</h3>
                 <p className="mt-1 text-xs text-neutral-400">
-                  Uttalas: <span className="font-semibold text-neutral-200">ek-SPEK-ted THRET</span>
-                  {" "}– sv. fonetiskt: <span className="font-semibold text-neutral-200">ek-SPEK-tid TRET</span>
-                  {" "}(th-ljudet finns ej på svenska).
+                  Uttalas: <span className="font-semibold text-neutral-200">ek-SPEK-tid THRET</span>
+                  {" "}– "threat" rimmar med <span className="italic text-neutral-300">met, set, net</span>.{" "}
+                  "th" är ett eget engelskt ljud (/θ/, tungan mot tänderna) som inte finns på svenska – svenska talare ersätter det oftast med ett T:{" "}
+                  <span className="font-semibold text-neutral-200">ek-SPEK-tid TRET</span>.
                 </p>
               </div>
 
