@@ -74,10 +74,10 @@ export const kalmarRound17MatchSpider: SpiderComparisonAxis[] = [
   buildMatchSpiderAxis(
     "Boxberöringar / match",
     33,
-    8,
+    4,
     "33",
-    "8",
-    "4× fler beröringar i Kalmars straffområde – konstant offensivt tryck.",
+    "4",
+    "8× fler beröringar i Kalmars straffområde – konstant offensivt tryck. (Twelve: Opp. Box touches 4)",
   ),
   buildMatchSpiderAxis(
     "Hörnor",
@@ -168,7 +168,7 @@ export const kalmarRound17Takeaways: MatchRecapTakeaway[] = [
     id: "dominance",
     title: "Totaldominans borta – 3,78 xG mot 0,42",
     body:
-      "Hammarby skapade 3,78 xG mot Kalmars 0,42 – nästan 9× överlägsenhet. 25 avslut mot 4, 13 på mål mot 2, 33 boxberöringar mot 8. Twelve rankade Oppositionen Chance Creation som bäst i ligan (1/28) i denna match.",
+      "Hammarby skapade 3,78 xG mot Kalmars 0,42 – nästan 9× överlägsenhet. 25 avslut mot 4, 13 på mål mot 2, 33 boxberöringar mot 4. Twelve rankade Oppositionen Chance Creation som bäst i ligan (1/28) i denna match.",
     tone: "emerald",
     stat: "3,78 xG · 25 avslut · 13 på mål",
   },
@@ -192,7 +192,7 @@ export const kalmarRound17Takeaways: MatchRecapTakeaway[] = [
     id: "defence",
     title: "Defensiv nolla – Opp Chance Creation #1 i ligan",
     body:
-      "Kalmar begränsades till 4 avslut (2 på mål), 8 boxberöringar och 0,42 xG. Twelve rankade Hammarbys defensiva prestation som bäst i ligan denna omgång (1/28 i opposition chance creation).",
+      "Kalmar begränsades till 4 avslut (2 på mål), 4 boxberöringar och 0,42 xG. Twelve rankade Hammarbys defensiva prestation som bäst i ligan denna omgång (1/28 i opposition chance creation).",
     tone: "blue",
     stat: "0,42 xG (Kalmar) · PPDA 5,26",
   },
@@ -210,7 +210,7 @@ export const kalmarRound17SnapshotStats: MatchSnapshotStat[] = [
   { label: "xG", hammarbyValue: 3.78, opponentValue: 0.42, hammarbyDisplay: "3,78", opponentDisplay: "0,42" },
   { label: "Avslut", hammarbyValue: 25, opponentValue: 4, hammarbyDisplay: "25", opponentDisplay: "4" },
   { label: "Bollinnehav", hammarbyValue: 64, opponentValue: 36, hammarbyDisplay: "64%", opponentDisplay: "36%" },
-  { label: "Boxberöringar", hammarbyValue: 33, opponentValue: 8, hammarbyDisplay: "33", opponentDisplay: "8" },
+  { label: "Boxberöringar", hammarbyValue: 33, opponentValue: 4, hammarbyDisplay: "33", opponentDisplay: "4" },
 ];
 
 export const kalmarRound17SnapshotPills: MatchSnapshotPill[] = [
