@@ -5,12 +5,16 @@ import { type HammarbyMatchAnalysisRound } from "@/lib/hammarbyMatchAnalysisData
 import { hammarbyRoundMatchStats } from "@/lib/matchStatisticsOverviewData";
 
 // Twelve-indexed gameweeks per coach (2026 season)
-const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-const RYDSTROM_GAMEWEEKS = new Set([12, 13]);
+// Rydström from round 11; round 15 (GAIS) was under Karlsson as head coach.
+// Twelve analysis data exists for rounds 1–13 and 17 (not 14, 15, 16).
+const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+const RYDSTROM_GAMEWEEKS = new Set([11, 12, 13, 17]);
 
-// Bolldata overview gameweeks per coach (pass & result data)
+// Bolldata overview gameweeks per coach (pass & result data – all rounds available)
+// Karlsson: rounds 1–10 + round 15 (GAIS, Karlsson as HC despite Rydström period)
+// Rydström: rounds 11–14, 16–17 (6 matches)
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
-const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12]);
+const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17]);
 
 type Tab = "oversikt" | "anfall" | "press" | "defensiv";
 
@@ -458,7 +462,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
 
       <div className="border-t border-slate-700/40 px-5 py-2.5 text-[9px] leading-relaxed text-slate-600">
         Källa: Twelve / hammarbyfotboll.se (xG, PPDA, press) · Bolldata (passningar, hörnsparkar) ·
-        Rydström = omg 12–13 (Elfsborg bort + Kalmar hem) · Karlsson = omg 1–11
+        Rydström = omg 11–14, 16–17 (6 matcher, exkl. omg 15 GAIS som räknas på Karlsson) · Karlsson = omg 1–10 + 15
       </div>
     </section>
   );
