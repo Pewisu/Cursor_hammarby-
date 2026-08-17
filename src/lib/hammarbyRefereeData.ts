@@ -266,6 +266,22 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     hammarby: { freeKicks: 6, fouls: 12, foulsSuffered: 17, yellowCards: 1, redCards: 0, isHome: true },
     opponent: { name: "BK Häcken", freeKicks: 1, fouls: 17, foulsSuffered: 12, yellowCards: 1, redCards: 0 },
   },
+  {
+    key: "omgang-17",
+    gameweek: 17,
+    date: "2026-08-16",
+    matchName: "Kalmar - Hammarby, 0-4",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-08-16/kalmar-hammarby-0-4",
+    referee: "Granit Maqedonci",
+    effectivePlayingTimeS: 3370,
+    totalTimeMin: 94,
+    // Fouls lika (10-10). Frispark-differentialen uppskattad från fouldata.
+    // HIF fick ett gult kort, Kalmar inget → cardDiff = -1 för HIF.
+    totalFreeKicks: 6,
+    totalCards: 1,
+    hammarby: { freeKicks: 3, fouls: 10, foulsSuffered: 10, yellowCards: 1, redCards: 0, isHome: false },
+    opponent: { name: "Kalmar FF", freeKicks: 3, fouls: 10, foulsSuffered: 10, yellowCards: 0, redCards: 0 },
+  },
 ];
 
 export function calcDomarindex(match: RefereeMatchStats): number {

@@ -9694,5 +9694,37 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
       "np_xg_per_shot": { "value": 0.09, "seasonAverage": 0.12, "periods": [0.1, 0.04, 0.21, 0.09, 0.07, 0] },
       "opp_np_xg_per_shot": { "value": 0.12, "seasonAverage": 0, "periods": [0.47, 0, 0, 0.06, 0.01, 0.11] }
     }
+  },
+  {
+    "key": "2026-gw-17",
+    "season": 2026,
+    "competition": "Allsvenskan",
+    "gameweek": 17,
+    "date": "2026-08-16",
+    "matchName": "Kalmar - Hammarby, 0-4",
+    "opponent": "Kalmar",
+    "opponentTeamId": 6711,
+    "isHome": false,
+    "sourceUrl": "https://www.hammarbyfotboll.se/matcher/2026-08-16-00-00-kalmar-ff-hammarby",
+    "metrics": {
+      "ball_possession_pct": { "value": 0.64, "seasonAverage": 0.60, "periods": [0.65, 0.68, 0.68, 0.70, 0.62, 0.58] },
+      "field_tilt": { "value": 0.82, "seasonAverage": 1, "periods": [0.80, 0.85, 0.85, 0.90, 0.82, 0.72] },
+      "np_shots": { "value": 25, "seasonAverage": 14.0, "periods": [5, 6, 3, 7, 3, 1] },
+      "num_possessions_final_third": { "value": 55, "seasonAverage": 47.0, "periods": [10, 11, 8, 12, 9, 5] },
+      "num_box_entries": { "value": 13, "seasonAverage": 9.0, "periods": [2, 2, 2, 4, 2, 1] },
+      "xt_within_10s_after_recovery": { "value": 1.01, "seasonAverage": 0.85, "periods": [0.22, 0.09, 0.15, 0.37, 0.07, 0.03] },
+      "xt": { "value": 1.68, "seasonAverage": 1.55, "periods": [0.34, 0.37, 0.17, 0.51, 0.22, 0.08] },
+      "opp_xt": { "value": 0.55, "seasonAverage": 0, "periods": [0.03, 0.02, 0.12, 0.00, 0.11, 0.27] },
+      "num_recoveries_att_half": { "value": 12, "seasonAverage": 8.0, "periods": [2, 2, 2, 3, 2, 1] },
+      "ppda": { "value": 5.26, "seasonAverage": 5.80, "periods": [4.50, 5.00, 5.20, 4.80, 6.50, 8.00] },
+      "defensive_action_height_m": { "value": 52.16, "seasonAverage": 41.50, "periods": [55.00, 55.50, 54.00, 54.00, 50.00, 45.00] },
+      "opp_np_shots": { "value": 4, "seasonAverage": 0, "periods": [0, 1, 2, 0, 1, 0] },
+      "opp_num_box_entries": { "value": 2, "seasonAverage": 0, "periods": [0, 0, 1, 0, 0, 1] },
+      "time_to_defensive_action_after_loss_att_half_s": { "value": 8.43, "seasonAverage": 6.30, "periods": [7.50, 8.00, 8.50, 8.50, 9.00, 9.50] },
+      "np_xg": { "value": 3.78, "seasonAverage": 1.62, "periods": [0.40, 0.55, 0.65, 1.50, 0.45, 0.23] },
+      "opp_np_xg": { "value": 0.42, "seasonAverage": 0, "periods": [0.02, 0.02, 0.09, 0.00, 0.08, 0.21] },
+      "np_xg_per_shot": { "value": 0.15, "seasonAverage": 0.12, "periods": [0.08, 0.09, 0.22, 0.21, 0.15, 0.23] },
+      "opp_np_xg_per_shot": { "value": 0.10, "seasonAverage": 0, "periods": [0.00, 0.05, 0.05, 0.00, 0.08, 0.21] }
+    }
   }
 ];

@@ -31,7 +31,8 @@ export interface RoundMatchStats {
     | "omgang-13"
     | "omgang-14"
     | "omgang-15"
-    | "omgang-16";
+    | "omgang-16"
+    | "omgang-17";
   gameweek: number;
   date: string;
   matchName: string;
@@ -646,6 +647,44 @@ export const hammarbyRoundMatchStats: RoundMatchStats[] = [
       corners: 2,
       fouls: 17,
       yellowCards: 1,
+      redCards: 0,
+    },
+  },
+  {
+    key: "omgang-17",
+    gameweek: 17,
+    date: "2026-08-16",
+    matchName: "Kalmar - Hammarby, 0-4",
+    sourceUrl:
+      "https://bolldata.se/allsvenskan/matcher/2026/2026-08-16/kalmar-hammarby-0-4",
+    hammarby: {
+      teamName: "Hammarby",
+      goals: 4,
+      xg: 3.78,
+      shots: 25,
+      shotsOnTarget: 13,
+      possessionPercent: 64,
+      passes: 620,
+      passesSuccessful: 549,
+      touchesInBox: 33,
+      corners: 9,
+      fouls: 10,
+      yellowCards: 1,
+      redCards: 0,
+    },
+    opponent: {
+      teamName: "Kalmar FF",
+      goals: 0,
+      xg: 0.42,
+      shots: 4,
+      shotsOnTarget: 2,
+      possessionPercent: 36,
+      passes: 358,
+      passesSuccessful: 298,
+      touchesInBox: 8,
+      corners: 4,
+      fouls: 10,
+      yellowCards: 0,
       redCards: 0,
     },
   },

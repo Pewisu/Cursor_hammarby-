@@ -75,6 +75,19 @@ import {
   hackenRound16MomentumGoals,
   hackenRound16TwelveKpis,
 } from "@/lib/hackenRound16AnalysisData";
+import {
+  kalmarRound17Goals,
+  kalmarRound17MatchSpider,
+  kalmarRound17MatchStory,
+  kalmarRound17Recap,
+  kalmarRound17SnapshotPills,
+  kalmarRound17SnapshotStats,
+  kalmarRound17Takeaways,
+  kalmarRound17RefereeData,
+  kalmarRound17Momentum,
+  kalmarRound17MomentumGoals,
+  kalmarRound17TwelveKpis,
+} from "@/lib/kalmarRound17AnalysisData";
 import { MatchMomentumChart } from "@/components/MatchMomentumChart";
 import {
   calcDomarindex,
@@ -1660,6 +1673,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const isRound13Dashboard = mode === "round" && round === 13;
   const isRound14Dashboard = mode === "round" && round === 14;
   const isRound16Dashboard = mode === "round" && round === 16;
+  const isRound17Dashboard = mode === "round" && round === 17;
   const matchesThroughRound = sortedMatches.filter((match) => match.gameweek <= comparisonRound);
   const matchCountThroughRound = matchesThroughRound.length;
   const round11MatchPoints =
@@ -1759,6 +1773,34 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const round16DomarRating = getDomarRating(round16DomarIndex);
   const round9RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 9);
   const round9DomarIndex = round9RefereeMatch ? calcDomarindex(round9RefereeMatch) : 0;
+  const round17MatchPoints =
+    selectedRoundMatch === null
+      ? 0
+      : getMatchPoints(selectedRoundMatch.hammarby.goals, selectedRoundMatch.opponent.goals);
+  const round17PointsBeforeMatch = season2026PointsThroughRound - round17MatchPoints;
+  const round17MatchCountBefore = Math.max(matchCountThroughRound - 1, 0);
+  const round17PpgBefore =
+    round17MatchCountBefore > 0 ? round17PointsBeforeMatch / round17MatchCountBefore : 0;
+  const round17PpgAfter =
+    matchCountThroughRound > 0 ? season2026PointsThroughRound / matchCountThroughRound : 0;
+  const round17PointsContext: MatchPointsContext | null = isRound17Dashboard
+    ? {
+        seasonLabel: "2026",
+        roundNumber: comparisonRound,
+        matchPoints: round17MatchPoints,
+        seasonPointsAfter: season2026PointsThroughRound,
+        seasonPpgAfter: round17PpgAfter,
+        seasonPpgBefore: round17PpgBefore,
+        matchDeltaVsPpg: round17MatchPoints - round17PpgBefore,
+        projectedSeasonPoints: Math.round(round17PpgAfter * ALLSVENSKAN_TOTAL_ROUNDS),
+        matchesPlayed: matchCountThroughRound,
+      }
+    : null;
+  const round17RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 17);
+  const round17DomarIndex = round17RefereeMatch ? calcDomarindex(round17RefereeMatch) : 0;
+  const round17DomarRating = getDomarRating(round17DomarIndex);
+  const round3RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 3);
+  const round3DomarIndex = round3RefereeMatch ? calcDomarindex(round3RefereeMatch) : 0;
   const effectiveMatchAnalysisViewMode: MatchAnalysisViewMode =
     mode === "combined" ? "season-average" : matchAnalysisViewMode;
 
@@ -2543,10 +2585,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   }
 
   return (
-    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
+    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
       <header
         className={`sticky top-0 z-50 border-b backdrop-blur-sm ${
-          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard)
+          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard)
             ? "border-emerald-800/45 bg-[#163028]/95"
             : "border-white/[0.06] bg-[#0d1117]/90"
         }`}
@@ -2554,7 +2596,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         <div className="mx-auto max-w-6xl px-4 py-4">
           <p
             className={`text-xs uppercase tracking-[0.2em] ${
-              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard) ? "text-emerald-300/90" : "text-blue-400"
+              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard) ? "text-emerald-300/90" : "text-blue-400"
             }`}
           >
             Matchstatistik
@@ -2614,10 +2656,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </div>
-        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 13 || round === 15 || round === 16) && (
+        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 13 || round === 15 || round === 16 || round === 17) && (
           <div
             className={`border-t ${
-              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
+              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
             }`}
           >
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
@@ -2724,7 +2766,39 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </a>
                 </>
               )}
-              {round !== 11 && round !== 13 && round !== 16 && (
+              {round === 17 && (
+                <>
+                  <a
+                    href="#season-points"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-100 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/25"
+                  >
+                    <span>📈</span>
+                    <span>Poängsnitt</span>
+                  </a>
+                  <a
+                    href="#match-recap"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/60 hover:bg-emerald-500/20"
+                  >
+                    <span>⚽</span>
+                    <span>Match 4-0</span>
+                  </a>
+                  <a
+                    href="#domar-analys"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors hover:border-amber-300/60 hover:bg-amber-400/20"
+                  >
+                    <span>🟨</span>
+                    <span>Domaranalys</span>
+                  </a>
+                  <a
+                    href="#bolldata-spider"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
+                  >
+                    <span>🕸️</span>
+                    <span>Matchspindel</span>
+                  </a>
+                </>
+              )}
+              {round !== 11 && round !== 13 && round !== 16 && round !== 17 && (
               <a
                 href="#matchgenomgang"
                 className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
@@ -2742,7 +2816,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   <span>Omgångens spelare</span>
                 </a>
               )}
-              {round !== 11 && round !== 13 && round !== 16 && (
+              {round !== 11 && round !== 13 && round !== 16 && round !== 17 && (
               <a
                 href="#prediction-vs-outcome"
                 className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
@@ -2759,8 +2833,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </div>
         )}
 
-        {/* ── Tab navigation (round mode only, not special rounds 11/13/14/16) ── */}
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && (
+        {/* ── Tab navigation (round mode only, not special rounds 11/13/14/16/17) ── */}
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && (
           <div className="border-t border-white/[0.05] bg-[#0d1117]/95">
             <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 py-2.5">
               {(
@@ -2793,7 +2867,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
       <main
         className={`mx-auto flex max-w-6xl flex-col px-4 py-8 ${
-          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard) ? "gap-4" : "gap-8"
+          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard) ? "gap-4" : "gap-8"
         }`}
       >
         {mode === "round" && isRound11Dashboard && (
@@ -3205,7 +3279,299 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </section>
         )}
 
-        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {/* ── Round 17: Kalmar 0-4 Hammarby ── */}
+        {mode === "round" && isRound17Dashboard && (
+          <PointsComparisonSection
+            comparisonRound={comparisonRound}
+            pointsComparisonRows={pointsComparisonRows}
+            matchContext={round17PointsContext}
+            className={`${ROUND11_SURFACE} p-4 md:p-5`}
+          />
+        )}
+
+        {isRound17Dashboard && (
+          <div id="match-recap" className={ROUND11_SURFACE}>
+            <MatchRecapSection
+              embedded
+              headline={kalmarRound17Recap.headline}
+              tagline={kalmarRound17Recap.tagline}
+              dateLabel={kalmarRound17Recap.dateLabel}
+              opponentLabel="Kalmar FF"
+              opponentScore={kalmarRound17Recap.opponentScore}
+              hammarbyScore={kalmarRound17Recap.hammarbyScore}
+              opponentXg={kalmarRound17Recap.opponentXg}
+              hammarbyXg={kalmarRound17Recap.hammarbyXg}
+              halftimeScore={kalmarRound17Recap.halftimeScore}
+              snapshotStats={kalmarRound17SnapshotStats}
+              snapshotPills={kalmarRound17SnapshotPills}
+              matchStory={kalmarRound17MatchStory}
+              goals={kalmarRound17Goals}
+              takeaways={kalmarRound17Takeaways}
+              spiderAxes={kalmarRound17MatchSpider}
+              sourceUrl={kalmarRound17Recap.sourceUrl}
+              hammarbySourceUrl={kalmarRound17Recap.hammarbySourceUrl}
+            />
+          </div>
+        )}
+
+        {/* ── Round 17: Matchmomentum ── */}
+        {isRound17Dashboard && (
+          <MatchMomentumChart
+            momentum={kalmarRound17Momentum}
+            goals={kalmarRound17MomentumGoals}
+            homeTeam="Kalmar FF"
+            awayTeam="Hammarby"
+            homeLabel="KAL"
+            awayLabel="HIF"
+          />
+        )}
+
+        {/* ── Round 17: Twelve KPI – Field Tilt, PPDA, rankings ── */}
+        {isRound17Dashboard && (() => {
+          const kpi = kalmarRound17TwelveKpis;
+          type RankKey = keyof typeof kpi.rankings;
+          const rankKeys = Object.keys(kpi.rankings) as RankKey[];
+
+          function KpiBar({ value, avg, higherIsBetter }: { value: number; avg: number; higherIsBetter: boolean }) {
+            const isBetter = higherIsBetter ? value >= avg : value <= avg;
+            const pct = Math.min((value / (avg * 2)) * 100, 100);
+            const avgPct = Math.min((avg / (avg * 2)) * 100, 100);
+            return (
+              <div className="relative mt-2 h-2 w-full overflow-hidden rounded-full bg-emerald-950/60">
+                <div
+                  className={`absolute left-0 top-0 h-full rounded-full ${isBetter ? "bg-emerald-400" : "bg-amber-400"}`}
+                  style={{ width: `${pct}%` }}
+                />
+                <div
+                  className="absolute top-0 h-full w-0.5 bg-white/30"
+                  style={{ left: `${avgPct}%` }}
+                  title="Säsongssnitt"
+                />
+              </div>
+            );
+          }
+
+          function RankBadge({ rank, total, label }: { rank: number; total: number; label: string }) {
+            const isTop = rank <= 3;
+            const isBottom = rank >= total - 3;
+            return (
+              <div className={`flex flex-col items-center rounded-xl border px-3 py-2.5 ${
+                isTop ? "border-emerald-500/40 bg-emerald-950/30" : isBottom ? "border-rose-500/25 bg-rose-950/20" : "border-white/[0.06] bg-[#1a2d26]"
+              }`}>
+                <span className={`text-[10px] font-semibold uppercase tracking-wide ${
+                  isTop ? "text-emerald-400/80" : isBottom ? "text-rose-400/70" : "text-neutral-500"
+                }`}>{label}</span>
+                <span className={`mt-1 text-2xl font-black tabular-nums ${
+                  isTop ? "text-emerald-300" : isBottom ? "text-rose-400" : "text-neutral-200"
+                }`}>
+                  #{rank}
+                </span>
+                <span className="text-[10px] text-neutral-600">av {total}</span>
+              </div>
+            );
+          }
+
+          return (
+            <section className="overflow-hidden rounded-2xl border border-emerald-700/35 bg-[#1a2d26]">
+              {/* Header */}
+              <div className="flex flex-wrap items-start justify-between gap-2 px-5 pt-5 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Twelve nyckeltal</p>
+                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">Field Tilt · PPDA · Matchranking</h3>
+                  <p className="mt-0.5 text-xs text-neutral-400">
+                    Omgång 17 vs säsongssnitt (omg 1–16). Källa: Twelve Football match report.
+                  </p>
+                </div>
+                <a
+                  href="https://reports.twelve.football/reports/hammarby-match-report-vs-kalmar-hqPXh2p8ec.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border border-emerald-700/40 bg-emerald-900/20 px-3 py-1.5 text-[11px] font-medium text-emerald-300 hover:border-emerald-500/60 hover:text-emerald-200"
+                >
+                  Twelve rapport →
+                </a>
+              </div>
+
+              {/* Primary KPI row: Field Tilt + PPDA */}
+              <div className="grid grid-cols-2 gap-3 px-5 pb-4 sm:grid-cols-4">
+                {/* Field Tilt */}
+                <div className="col-span-2 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-4 sm:col-span-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/70">Field Tilt</p>
+                  <p className="mt-1 text-5xl font-black tabular-nums text-emerald-300">
+                    {kpi.fieldTiltPct}<span className="text-2xl text-emerald-500/70">%</span>
+                  </p>
+                  <KpiBar value={kpi.fieldTiltPct} avg={kpi.fieldTiltAvgPct} higherIsBetter />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">
+                    Snitt: {kpi.fieldTiltAvgPct}% &nbsp;·&nbsp;
+                    <span className="text-emerald-400">+{kpi.fieldTiltPct - kpi.fieldTiltAvgPct}pp</span>
+                  </p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Andel av det totala anfallstrycket i sista tredjedelen.</p>
+                </div>
+
+                {/* PPDA */}
+                <div className="col-span-2 rounded-xl border border-emerald-500/20 bg-emerald-950/20 p-4 sm:col-span-1">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/70">PPDA (press)</p>
+                  <p className="mt-1 text-5xl font-black tabular-nums text-emerald-300">
+                    {kpi.ppda.toFixed(2)}
+                  </p>
+                  <KpiBar value={kpi.ppda} avg={kpi.ppdaAvg} higherIsBetter={false} />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">
+                    Snitt: {kpi.ppdaAvg.toFixed(2)} &nbsp;·&nbsp;
+                    <span className="text-emerald-400">bättre press än snitt</span>
+                  </p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Passningar per defensiv aktion – lägre = hårdare press.</p>
+                </div>
+
+                {/* xT */}
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">xT (HIF)</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">{kpi.xt.toFixed(2)}</p>
+                  <KpiBar value={kpi.xt} avg={kpi.xtAvg} higherIsBetter />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">Snitt: {kpi.xtAvg.toFixed(2)}</p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Förväntat offensivt hot.</p>
+                </div>
+
+                {/* Opp xT */}
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">xT (Kalmar)</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-emerald-200">{kpi.oppXt.toFixed(2)}</p>
+                  <KpiBar value={kpi.oppXt} avg={kpi.oppXtAvg} higherIsBetter={false} />
+                  <p className="mt-1.5 text-[10px] text-neutral-500">Snitt: {kpi.oppXtAvg.toFixed(2)}</p>
+                  <p className="mt-1 text-[10px] text-neutral-400">Kalmars offensiva hot.</p>
+                </div>
+              </div>
+
+              {/* Secondary stats row */}
+              <div className="grid grid-cols-3 gap-2 px-5 pb-4 sm:grid-cols-3">
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Def. aktionshöjd</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.defensiveActionHeightM}<span className="text-sm text-neutral-500"> m</span></p>
+                  <p className="mt-0.5 text-[10px] text-neutral-500">Snitt: {kpi.defensiveActionHeightAvg} m &nbsp;·&nbsp; <span className="text-emerald-400">mer aggressivt</span></p>
+                </div>
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Box touches (HIF)</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.boxTouches}</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-500">Snitt: {kpi.boxTouchesAvg} &nbsp;·&nbsp; <span className="text-emerald-400">+{kpi.boxTouches - kpi.boxTouchesAvg}</span></p>
+                </div>
+                <div className="rounded-xl border border-white/[0.06] bg-[#162622] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">High opp. shots</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.rankings.chanceCreation.rank === 3 ? "9" : "–"}</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-500">Twelve: högt xG-avslut &nbsp;·&nbsp; <span className="text-emerald-400">9 st</span></p>
+                </div>
+              </div>
+
+              {/* Twelve match rankings */}
+              <div className="border-t border-emerald-700/20 px-5 py-4">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                  Twelve matchranking (jämfört med alla Hammarby-matcher 2026, ur 28)
+                </p>
+                <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                  {rankKeys.map((k) => {
+                    const r = kpi.rankings[k];
+                    return <RankBadge key={k} rank={r.rank} total={r.total} label={r.label} />;
+                  })}
+                </div>
+                <p className="mt-3 text-[10px] text-neutral-500">
+                  Källa: Twelve Football match report 16 aug 2026. Ranking avser Hammarbys prestation jämfört med sina egna matcher 2026 – inte mot ligasnitt.
+                </p>
+              </div>
+            </section>
+          );
+        })()}
+
+        {/* ── Round 17: Domaranalys – Granit Maqedonci ── */}
+        {isRound17Dashboard && round17RefereeMatch && (
+          <section id="domar-analys" className={`${ROUND11_SURFACE} p-5 md:p-6`}>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-amber-400/80">Domaranalys</p>
+                <h2 className="mt-1 text-xl font-bold text-white md:text-2xl">
+                  {kalmarRound17RefereeData.refereeName}
+                </h2>
+                <p className="mt-0.5 text-sm text-neutral-400">Omgång 17 · 16 aug 2026 · Kalmar – Hammarby</p>
+              </div>
+              <div className={`flex flex-col items-center rounded-xl border px-5 py-3 ${round17DomarRating.border} ${round17DomarRating.bg}`}>
+                <span className="text-2xl">{round17DomarRating.emoji}</span>
+                <span className={`mt-1 text-sm font-bold ${round17DomarRating.color}`}>{round17DomarRating.label}</span>
+                <span className="mt-0.5 text-[10px] text-neutral-500">Domarindex</span>
+                <span className={`text-2xl font-black tabular-nums ${round17DomarIndex > 0 ? "text-emerald-300" : round17DomarIndex < 0 ? "text-rose-400" : "text-slate-300"}`}>
+                  {round17DomarIndex > 0 ? `+${round17DomarIndex}` : round17DomarIndex}
+                </span>
+              </div>
+            </div>
+
+            {/* Stat grid */}
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Fouls (HIF)</p>
+                <p className="mt-1 text-4xl font-black tabular-nums text-white">{kalmarRound17RefereeData.matchFoulsHIF}</p>
+                <p className="mt-1 text-[10px] text-neutral-600">begångna av Hammarby</p>
+              </div>
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Fouls (Kalmar)</p>
+                <p className="mt-1 text-4xl font-black tabular-nums text-emerald-300">{kalmarRound17RefereeData.matchFoulsOpp}</p>
+                <p className="mt-1 text-[10px] text-neutral-600">begångna av Kalmar</p>
+              </div>
+              <div className="rounded-xl border border-amber-500/15 bg-amber-950/20 p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-amber-500/70">Gula kort</p>
+                <p className="mt-1 text-4xl font-black tabular-nums text-amber-300">
+                  {kalmarRound17RefereeData.matchYellowHIF}–{kalmarRound17RefereeData.matchYellowOpp}
+                </p>
+                <p className="mt-1 text-[10px] text-neutral-600">HIF – Kalmar</p>
+              </div>
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Röda kort</p>
+                <p className="mt-1 text-4xl font-black tabular-nums text-slate-300">
+                  {kalmarRound17RefereeData.matchRedHIF}–{kalmarRound17RefereeData.matchRedOpp}
+                </p>
+                <p className="mt-1 text-[10px] text-neutral-600">HIF – Kalmar</p>
+              </div>
+            </div>
+
+            {/* Analysis text */}
+            <div className="mt-4 rounded-xl border border-amber-500/15 bg-amber-950/10 p-4">
+              <p className="text-sm leading-relaxed text-neutral-300">
+                {kalmarRound17RefereeData.analysis}
+              </p>
+            </div>
+
+            {/* Previous match with this referee */}
+            <div className="mt-4">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                Maqedonci&#39;s tidigare Hammarby-match 2026
+              </p>
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-medium text-neutral-300">
+                      Omgång {kalmarRound17RefereeData.previousMatch.gameweek} · {kalmarRound17RefereeData.previousMatch.date}
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-white">{kalmarRound17RefereeData.previousMatch.matchName}</p>
+                    <p className="mt-1 text-[11px] text-neutral-400">{kalmarRound17RefereeData.previousMatch.note}</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-xs text-neutral-500">Domarindex</span>
+                    <span className={`text-3xl font-black tabular-nums ${round3DomarIndex > 0 ? "text-emerald-300" : round3DomarIndex < 0 ? "text-rose-400" : "text-slate-300"}`}>
+                      {round3DomarIndex > 0 ? `+${round3DomarIndex}` : round3DomarIndex}
+                    </span>
+                    <span className="text-xs font-semibold text-slate-400">{kalmarRound17RefereeData.previousMatch.ratingLabel}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center justify-end">
+              <a
+                href="/matchstatistik/domaranalys"
+                className="rounded-lg border border-amber-400/30 bg-amber-400/10 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors hover:border-amber-300/60 hover:bg-amber-400/20"
+              >
+                → Full domarstatistik 2026
+              </a>
+            </div>
+          </section>
+        )}
+
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section id="matchgenomgang" className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {/* Hammarby goals */}
           <div className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-[#0d1f12] p-5">
@@ -3259,7 +3625,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && roundTab === "sasong" && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && roundTab === "sasong" && (
           <PointsComparisonSection
             comparisonRound={comparisonRound}
             pointsComparisonRows={pointsComparisonRows}
@@ -3267,14 +3633,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {/* ── Matchanalys KPI cards (Twelve data) ── */}
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
           <MatchAnalysisKpiSection
             roundData={resolvedAnalysisRound}
             matchLabel={selectedRoundMatch ? `${selectedRoundMatch.matchName}` : ""}
           />
         )}
 
-        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && roundTab === "matchen" && (
+        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && roundTab === "matchen" && (
           <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -3710,7 +4076,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
-        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-neutral-400">
@@ -3791,7 +4157,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && (mode === "combined" || roundTab === "sasong") && (
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && (mode === "combined" || roundTab === "sasong") && (
         <>
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -5018,7 +5384,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         <footer
           className={
-            (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard)
+            (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard)
               ? "rounded-2xl border border-emerald-800/35 bg-[#13231d]/80 p-5 text-xs leading-relaxed text-neutral-400"
               : "rounded-2xl border border-white/[0.06] bg-neutral-900/60 p-5 text-xs leading-relaxed text-neutral-400"
           }
