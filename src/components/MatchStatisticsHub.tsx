@@ -3289,6 +3289,101 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           />
         )}
 
+        {/* ── Round 17: Poängsnitt per tränare ── */}
+        {isRound17Dashboard && (() => {
+          const K_MATCHES = 11;
+          const K_POINTS  = 17;
+          const R_MATCHES = 6;
+          const R_POINTS  = 16;
+          const totalMatches = K_MATCHES + R_MATCHES;
+          const totalPoints  = K_POINTS  + R_POINTS;
+          const totalPpg     = totalPoints / totalMatches;
+          const kPpg         = K_POINTS   / K_MATCHES;
+          const rPpg         = R_POINTS   / R_MATCHES;
+          const barMax       = Math.max(kPpg, rPpg, 0.001);
+
+          return (
+            <section className="overflow-hidden rounded-2xl border border-emerald-700/30 bg-[#1a2d26]">
+              {/* Header */}
+              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-emerald-800/30 px-5 pt-5 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Tränarjämförelse</p>
+                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">Poängsnitt per tränare · Allsvenskan 2026</h3>
+                </div>
+                <a
+                  href="/matchstatistik/coachjamforelse"
+                  className="rounded-lg border border-emerald-700/40 bg-emerald-900/20 px-3 py-1.5 text-[11px] font-medium text-emerald-300 hover:border-emerald-500/60 hover:text-emerald-200"
+                >
+                  Full jämförelse →
+                </a>
+              </div>
+
+              {/* 2026 totalt */}
+              <div className="flex items-center justify-between gap-4 px-5 py-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">2026 totalt</p>
+                  <p className="mt-0.5 text-2xl font-black tabular-nums text-white">
+                    {totalPpg.toFixed(2).replace(".", ",")}
+                    <span className="ml-1 text-sm font-normal text-neutral-400">p/m</span>
+                  </p>
+                </div>
+                <div className="text-right text-xs text-neutral-500">
+                  <p>{totalMatches} matcher · {totalPoints} poäng</p>
+                  <p className="mt-0.5 text-[10px]">Allsvenskan omg 1–17</p>
+                </div>
+              </div>
+
+              {/* Coach rows */}
+              <div className="grid grid-cols-2 divide-x divide-emerald-800/30 border-t border-emerald-800/30">
+                {/* Karlsson */}
+                <div className="px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400/80">K. Karlsson</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-amber-300">
+                    {kPpg.toFixed(2).replace(".", ",")}
+                    <span className="ml-1 text-sm font-normal text-amber-500/60">p/m</span>
+                  </p>
+                  <p className="mt-1 text-[11px] text-neutral-500">{K_MATCHES} matcher · {K_POINTS} poäng</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-600">Omg 1–10 + 15</p>
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
+                    <div
+                      className="h-full rounded-full bg-amber-400/70"
+                      style={{ width: `${(kPpg / barMax) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Rydström */}
+                <div className="px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-teal-400/80">H. Rydström</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-teal-300">
+                    {rPpg.toFixed(2).replace(".", ",")}
+                    <span className="ml-1 text-sm font-normal text-teal-500/60">p/m</span>
+                  </p>
+                  <p className="mt-1 text-[11px] text-neutral-500">{R_MATCHES} matcher · {R_POINTS} poäng</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-600">Omg 11–14, 16–17</p>
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
+                    <div
+                      className="h-full rounded-full bg-teal-400/70"
+                      style={{ width: `${(rPpg / barMax) * 100}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Delta callout */}
+              <div className="border-t border-emerald-800/30 bg-emerald-950/30 px-5 py-3">
+                <p className="text-[11px] text-neutral-400">
+                  Rydström har ett snitt som är{" "}
+                  <span className="font-bold text-teal-300">
+                    +{((rPpg - kPpg) / kPpg * 100).toFixed(0)}%
+                  </span>{" "}
+                  högre än Karlsson ({rPpg.toFixed(2).replace(".", ",")} vs {kPpg.toFixed(2).replace(".", ",")} p/m).
+                </p>
+              </div>
+            </section>
+          );
+        })()}
+
         {isRound17Dashboard && (
           <div id="match-recap" className={ROUND11_SURFACE}>
             <MatchRecapSection
