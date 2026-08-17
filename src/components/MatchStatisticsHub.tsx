@@ -3575,6 +3575,119 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
+        {/* ── Round 17: Expected Threat (xT) ── */}
+        {isRound17Dashboard && (() => {
+          const PERIODS = ["0–15", "15–30", "30–HT", "45–60", "60–75", "75–FT"];
+          const HIF_XT  = [0.34, 0.37, 0.17, 0.51, 0.22, 0.08];
+          const KAL_XT  = [0.03, 0.02, 0.12, 0.00, 0.11, 0.27];
+          const HIF_TOTAL = 1.68;
+          const KAL_TOTAL = 0.55;
+          const HIF_AVG   = 1.32;
+          const KAL_AVG   = 0.92;
+          const barMax = Math.max(...HIF_XT, ...KAL_XT, 0.001);
+
+          return (
+            <section className="overflow-hidden rounded-2xl border border-emerald-700/30 bg-[#1a2d26]">
+              {/* Header */}
+              <div className="border-b border-emerald-800/30 px-5 pt-5 pb-4">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Twelve · xT per 15-min period</p>
+                <h3 className="mt-1 text-base font-bold text-white md:text-lg">Expected Threat (xT)</h3>
+                <p className="mt-1 text-xs text-neutral-400">
+                  Uttalas: <span className="font-semibold text-neutral-200">ek-SPEK-ted THRET</span>
+                  {" "}– sv. fonetiskt: <span className="font-semibold text-neutral-200">ek-SPEK-tid TRET</span>
+                  {" "}(th-ljudet finns ej på svenska).
+                </p>
+              </div>
+
+              {/* What is xT */}
+              <div className="border-b border-emerald-800/20 bg-emerald-950/20 px-5 py-4">
+                <p className="text-[11px] leading-relaxed text-neutral-300">
+                  <span className="font-semibold text-white">xT mäter hur mycket ett drag – ett pass eller en löpning – ökar laget sannolikheten att göra mål.</span>{" "}
+                  Varje position på planen tilldelas ett värde (0–1) baserat på historiska data: ju närmre motståndarens mål och ju mer centralt, desto högre xT.
+                  Ett pass från mitten till straffområdet kan ge ett xT-lyft på 0,05–0,10, medan ett hörnläge i anfallszonen värderas ännu högre.
+                  Till skillnad från xG (som bara räknar avslut) fångar xT värdet av <em>hela kedjan</em> som leder fram till chansen.
+                </p>
+              </div>
+
+              {/* Totals row */}
+              <div className="grid grid-cols-2 divide-x divide-emerald-800/30 border-b border-emerald-800/30">
+                <div className="px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/80">Hammarby</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-emerald-300">
+                    {HIF_TOTAL.toFixed(2).replace(".", ",")}
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-neutral-500">
+                    Snitt omg 1–16: {HIF_AVG.toFixed(2).replace(".", ",")} &nbsp;·&nbsp;
+                    <span className="text-emerald-400">+{(HIF_TOTAL - HIF_AVG).toFixed(2).replace(".", ",")} över snitt</span>
+                  </p>
+                </div>
+                <div className="px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-neutral-500">Kalmar FF</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-neutral-300">
+                    {KAL_TOTAL.toFixed(2).replace(".", ",")}
+                  </p>
+                  <p className="mt-0.5 text-[11px] text-neutral-500">
+                    Snitt mot HIF 2026: {KAL_AVG.toFixed(2).replace(".", ",")} &nbsp;·&nbsp;
+                    <span className="text-emerald-400/80">−{(KAL_AVG - KAL_TOTAL).toFixed(2).replace(".", ",")} under snitt</span>
+                  </p>
+                </div>
+              </div>
+
+              {/* Period bars */}
+              <div className="px-5 py-4">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">xT per 15-minutersperiod</p>
+                <div className="space-y-3">
+                  {PERIODS.map((period, i) => {
+                    const hif = HIF_XT[i];
+                    const kal = KAL_XT[i];
+                    return (
+                      <div key={period}>
+                        <div className="mb-1 flex items-center justify-between">
+                          <span className="text-[10px] font-semibold text-neutral-500">{period}</span>
+                          <div className="flex gap-3 text-[10px] tabular-nums">
+                            <span className="text-emerald-400">HIF {hif.toFixed(2)}</span>
+                            <span className="text-neutral-600">KAL {kal.toFixed(2)}</span>
+                          </div>
+                        </div>
+                        {/* HIF bar */}
+                        <div className="mb-0.5 h-2 w-full overflow-hidden rounded-full bg-emerald-950/60">
+                          <div
+                            className="h-full rounded-full bg-emerald-400"
+                            style={{ width: `${(hif / barMax) * 100}%` }}
+                          />
+                        </div>
+                        {/* Kalmar bar */}
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
+                          <div
+                            className="h-full rounded-full bg-neutral-500/50"
+                            style={{ width: `${(kal / barMax) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-3 flex items-center gap-4 text-[10px] text-neutral-600">
+                  <span className="flex items-center gap-1.5"><span className="h-2 w-3 rounded-sm bg-emerald-400 inline-block" />Hammarby</span>
+                  <span className="flex items-center gap-1.5"><span className="h-1.5 w-3 rounded-sm bg-neutral-500/50 inline-block" />Kalmar FF</span>
+                </div>
+              </div>
+
+              {/* Insight callout */}
+              <div className="border-t border-emerald-800/30 bg-emerald-950/30 px-5 py-3">
+                <p className="text-[11px] leading-relaxed text-neutral-400">
+                  Hammarbys totala xT ({HIF_TOTAL.toFixed(2).replace(".", ",")}) var{" "}
+                  <span className="font-bold text-emerald-300">
+                    {(HIF_TOTAL / KAL_TOTAL).toFixed(1).replace(".", ",")}×
+                  </span>{" "}
+                  högre än Kalmars ({KAL_TOTAL.toFixed(2).replace(".", ",")}). Toppperioden var 45–60 (0,51 xT) direkt efter paus – samma period Hammarby
+                  petade in tre mål. Kalmars högsta period (75–FT: 0,27) kom när matchen redan var avgjord.
+                </p>
+              </div>
+            </section>
+          );
+        })()}
+
         {/* ── Round 17: Domaranalys – Granit Maqedonci ── */}
         {isRound17Dashboard && round17RefereeMatch && (
           <section id="domar-analys" className={`${ROUND11_SURFACE} p-5 md:p-6`}>
