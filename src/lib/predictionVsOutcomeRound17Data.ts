@@ -57,7 +57,7 @@ export const round17PredictionVsOutcome: PredictionVsOutcomeProps = {
     partially: predictions.filter((p) => p.verdict === "partially").length,
     missed: predictions.filter((p) => p.verdict === "missed").length,
   },
-  headline: "Analysen stämde – men utfallet sprängde alla ramar",
+  headline: "Analys vs utfall",
   subheadline:
-    "Press, dueller och xG-fördel pekades ut inför matchen – alla tre slog in. Men varken Kalmars hemmastyrka (5V-2O-1F) eller deras chansbegränsning (3:a i ligan) höll mot ett Hammarby i toppform. Resultatet 0-4 med 3,78 xG var analytiskt sett osannolikt – och ändå hände det.",
+    "3 av 4 prediktioner prickat. Press, dueller och xG-fördel slog in. Kalmars hemmastyrka (5V-2O-1F) höll inte – 0-4 och 3,78 xG mot ett lag som begränsar chanser bäst i ligan.",
 };
