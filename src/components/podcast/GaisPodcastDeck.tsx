@@ -114,6 +114,257 @@ function FormPips({ results, label }: { results: ("W" | "D" | "L")[]; label: str
   );
 }
 
+const SV_MONTHS_SHORT = [
+  "jan",
+  "feb",
+  "mar",
+  "apr",
+  "maj",
+  "jun",
+  "jul",
+  "aug",
+  "sep",
+  "okt",
+  "nov",
+  "dec",
+];
+
+function formatMeetingDate(iso: string) {
+  const d = new Date(`${iso}T12:00:00Z`);
+  return `${d.getUTCDate()} ${SV_MONTHS_SHORT[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
+function outcomeToPip(outcome: "win" | "draw" | "loss"): "W" | "D" | "L" {
+  if (outcome === "win") return "W";
+  if (outcome === "draw") return "D";
+  return "L";
+}
+
+function H2HMeetingsBoard({
+  h2h,
+  mode,
+}: {
+  h2h: NonNullable<typeof report.headToHead>;
+  mode: ViewMode;
+}) {
+  const wins = h2h.matches.filter((m) => m.outcome === "win").length;
+  const draws = h2h.matches.filter((m) => m.outcome === "draw").length;
+  const losses = h2h.matches.filter((m) => m.outcome === "loss").length;
+  const hifGoals = h2h.matches.reduce((s, m) => s + m.hammarbyGoals, 0);
+  const gaisGoals = h2h.matches.reduce((s, m) => s + m.opponentGoals, 0);
+  const goalMax = Math.max(hifGoals, gaisGoals, 1);
+  // Chronological for the result ribbon (oldest → newest)
+  const chronological = [...h2h.matches].reverse();
+  const scoreSize =
+    mode === "bigscreen" ? "text-4xl md:text-5xl lg:text-6xl" : mode === "desktop" ? "text-3xl md:text-4xl" : "text-3xl";
+
+  return (
+    <div className="space-y-8">
+      <p className="max-w-3xl text-base leading-relaxed text-white/60 md:text-lg">{h2h.description}</p>
+
+      {/* Record strip */}
+      <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-[1.2fr_1fr_1fr]">
+        <div className="rounded-3xl border border-white/10 bg-black/40 p-5 md:p-6">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+            HIF facit · senaste {h2h.sampleSize}
+          </p>
+          <div className="mt-4 flex items-end gap-4 md:gap-6">
+            {[
+              { n: wins, l: "V", c: HIF_GREEN },
+              { n: draws, l: "O", c: "#9ca3af" },
+              { n: losses, l: "F", c: "#71717a" },
+            ].map((x) => (
+              <div key={x.l} className="text-center">
+                <p
+                  className="font-[family-name:var(--font-podcast-display)] text-5xl font-black tabular-nums leading-none md:text-6xl"
+                  style={{ color: x.c }}
+                >
+                  {x.n}
+                </p>
+                <p className="mt-2 text-xs font-black uppercase tracking-widest text-white/40">{x.l}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.25em] text-white/35">
+              Serie (äldst → nyast)
+            </p>
+            <div className="flex gap-1.5">
+              {chronological.map((m) => {
+                const pip = outcomeToPip(m.outcome);
+                return (
+                  <div
+                    key={m.date}
+                    className="h-3 flex-1 rounded-sm"
+                    title={`${formatMeetingDate(m.date)} · ${m.result}`}
+                    style={{
+                      background:
+                        pip === "W" ? HIF_GREEN : pip === "D" ? "#6b7280" : "#3f3f46",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-black/40 p-5 md:p-6">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">Mål i mötena</p>
+          <div className="mt-4 space-y-4">
+            <div>
+              <div className="mb-1 flex justify-between text-xs font-bold uppercase tracking-wide">
+                <span style={{ color: HIF_GREEN }}>Hammarby</span>
+                <span className="tabular-nums text-white">{hifGoals}</span>
+              </div>
+              <div className="h-3 overflow-hidden rounded-full bg-white/5">
+                <div
+                  className="h-3 rounded-full"
+                  style={{ width: `${(hifGoals / goalMax) * 100}%`, background: HIF_GREEN }}
+                />
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 flex justify-between text-xs font-bold uppercase tracking-wide">
+                <span style={{ color: GAIS_MUTED }}>GAIS</span>
+                <span className="tabular-nums text-white">{gaisGoals}</span>
+              </div>
+              <div className="h-3 overflow-hidden rounded-full bg-white/5">
+                <div
+                  className="h-3 rounded-full"
+                  style={{ width: `${(gaisGoals / goalMax) * 100}%`, background: GAIS_MUTED }}
+                />
+              </div>
+            </div>
+          </div>
+          <p className="mt-4 text-sm text-white/45">
+            Målskillnad senaste {h2h.sampleSize}: {hifGoals - gaisGoals > 0 ? "+" : ""}
+            {hifGoals - gaisGoals}
+          </p>
+        </div>
+
+        <div className="rounded-3xl border border-white/10 bg-black/40 p-5 md:p-6 sm:col-span-3 lg:col-span-1">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">Läget kort</p>
+          <ul className="mt-4 space-y-3">
+            {h2h.trendBullets.slice(0, 3).map((b) => (
+              <li key={b} className="flex gap-2 text-sm leading-snug text-white/65">
+                <span style={{ color: HIF_GREEN }}>▸</span>
+                <span>{b}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Match list */}
+      <div className="space-y-3">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Match för match</p>
+        {h2h.matches.map((m, idx) => {
+          const isWin = m.outcome === "win";
+          const isDraw = m.outcome === "draw";
+          const accent = isWin ? HIF_GREEN : isDraw ? "#9ca3af" : GAIS_MUTED;
+          const outcomeLabel = isWin ? "HIF VINST" : isDraw ? "OAVGJORT" : "GAIS VINST";
+          const homeAway = m.venue === "home" ? "Hemma · 3Arena" : "Borta";
+          const hasXg = m.hammarbyXg > 0 || m.opponentXg > 0;
+          const maxGoals = Math.max(m.hammarbyGoals, m.opponentGoals, 1);
+
+          return (
+            <article
+              key={m.date}
+              className="overflow-hidden rounded-3xl border border-white/10 bg-black/35"
+              style={{ borderLeftWidth: 4, borderLeftColor: accent }}
+            >
+              <div
+                className={`grid items-center gap-4 p-4 md:p-5 ${
+                  mode === "mobile" ? "grid-cols-1" : "md:grid-cols-[140px_1fr_auto]"
+                }`}
+              >
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/35">
+                    #{String(idx + 1).padStart(2, "0")} · {homeAway}
+                  </p>
+                  <p className="mt-1 text-sm font-black uppercase tracking-wide text-white/80">
+                    {formatMeetingDate(m.date)}
+                  </p>
+                  <p className="mt-0.5 text-xs text-white/40">{m.fixture}</p>
+                </div>
+
+                <div className="flex flex-wrap items-center justify-center gap-3 md:gap-5">
+                  <div className="min-w-[72px] text-right">
+                    <p
+                      className="text-xs font-black uppercase tracking-widest"
+                      style={{ color: HIF_GREEN }}
+                    >
+                      HIF
+                    </p>
+                  </div>
+                  <div className="flex items-baseline gap-2 md:gap-3">
+                    <span
+                      className={`font-[family-name:var(--font-podcast-display)] font-black tabular-nums leading-none ${scoreSize}`}
+                      style={{ color: isWin ? HIF_GREEN : "#fff" }}
+                    >
+                      {m.hammarbyGoals}
+                    </span>
+                    <span className="text-2xl font-black text-white/25 md:text-3xl">–</span>
+                    <span
+                      className={`font-[family-name:var(--font-podcast-display)] font-black tabular-nums leading-none ${scoreSize}`}
+                      style={{ color: !isWin && !isDraw ? "#e5e5e5" : "rgba(255,255,255,0.7)" }}
+                    >
+                      {m.opponentGoals}
+                    </span>
+                  </div>
+                  <div className="min-w-[72px] text-left">
+                    <p className="text-xs font-black uppercase tracking-widest text-white/55">GAIS</p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col items-start gap-2 md:items-end">
+                  <span
+                    className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest text-white"
+                    style={{ background: `${accent}33`, color: accent, border: `1px solid ${accent}66` }}
+                  >
+                    {outcomeLabel}
+                  </span>
+                  {hasXg && (
+                    <p className="text-[11px] tabular-nums text-white/40">
+                      xG {m.hammarbyXg.toFixed(2).replace(".", ",")} –{" "}
+                      {m.opponentXg.toFixed(2).replace(".", ",")}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Mini goal bars */}
+              <div className="grid grid-cols-[1fr_2px_1fr] gap-0 border-t border-white/5 px-4 py-3 md:px-5">
+                <div className="flex h-2 justify-end overflow-hidden rounded-l-full bg-white/5">
+                  <div
+                    className="h-2 rounded-l-full"
+                    style={{
+                      width: `${(m.hammarbyGoals / maxGoals) * 100}%`,
+                      background: HIF_GREEN,
+                      minWidth: m.hammarbyGoals > 0 ? 8 : 0,
+                    }}
+                  />
+                </div>
+                <div className="bg-white/10" />
+                <div className="flex h-2 justify-start overflow-hidden rounded-r-full bg-white/5">
+                  <div
+                    className="h-2 rounded-r-full"
+                    style={{
+                      width: `${(m.opponentGoals / maxGoals) * 100}%`,
+                      background: GAIS_MUTED,
+                      minWidth: m.opponentGoals > 0 ? 8 : 0,
+                    }}
+                  />
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function PitchHeatmap({
   zones,
   accent,
@@ -506,8 +757,17 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 02 Mätvärden */}
-        <SectionShell num="02" eyebrow="Head to head" title="Nyckeltal per match" mode={mode}>
+        {/* 02 Inbördesmöten */}
+        <SectionShell num="02" eyebrow="Inbördesmöten" title="Senaste fem" mode={mode}>
+          {report.headToHead ? (
+            <H2HMeetingsBoard h2h={report.headToHead} mode={mode} />
+          ) : (
+            <p className="text-white/50">Ingen inbördes data tillgänglig.</p>
+          )}
+        </SectionShell>
+
+        {/* 03 Mätvärden */}
+        <SectionShell num="03" eyebrow="Säsongsdata" title="Nyckeltal per match" mode={mode}>
           <div className="mb-10 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
             <p className="max-w-2xl text-white/60">
               Grön stapel = Hammarby. Grå = GAIS. Längre stapel = starkare värde på mätetalet.
@@ -691,8 +951,8 @@ export default function GaisPodcastDeck() {
           )}
         </SectionShell>
 
-        {/* 03 Poddens analys */}
-        <SectionShell num="03" eyebrow="Analys" title="Tre nyckelpunkter" mode={mode}>
+        {/* 04 Poddens analys */}
+        <SectionShell num="04" eyebrow="Analys" title="Tre nyckelpunkter" mode={mode}>
           <div className="grid gap-6 lg:grid-cols-3">
             {(report.trafficLightCards ?? []).map((card) => (
               <article
@@ -740,8 +1000,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 04 Scouting */}
-        <SectionShell num="04" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
+        {/* 05 Scouting */}
+        <SectionShell num="05" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
           <div className="grid gap-6 lg:grid-cols-3">
             {(report.playersToWatch ?? []).slice(0, 3).map((player) => (
               <article key={player.name} className="overflow-hidden rounded-3xl border border-white/10 bg-black/40">
@@ -793,8 +1053,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 05 Plan */}
-        <SectionShell num="05" eyebrow="Matchplan" title="Så kan HIF vinna" mode={mode}>
+        {/* 06 Plan */}
+        <SectionShell num="06" eyebrow="Matchplan" title="Så kan HIF vinna" mode={mode}>
           {report.spotlightKey && (
             <div
               className="mb-8 rounded-3xl p-6 md:p-8"
@@ -877,8 +1137,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 06 Goal windows */}
-        <SectionShell num="06" eyebrow="Målfönstret" title="När målen faller" mode={mode}>
+        {/* 07 Goal windows */}
+        <SectionShell num="07" eyebrow="Målfönstret" title="När målen faller" mode={mode}>
           <p className="mb-6 max-w-3xl text-white/60">
             HIF-mål (grön densitet) vs GAIS insläppta (grå densitet) per 15-minutersfönster. Mörkare =
             högre volym.
@@ -960,8 +1220,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 07 Summary */}
-        <SectionShell num="07" eyebrow="Summering" title="Källor & ordlista" mode={mode}>
+        {/* 08 Summary */}
+        <SectionShell num="08" eyebrow="Summering" title="Källor & ordlista" mode={mode}>
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
               <p className="text-lg leading-relaxed text-white/75 md:text-xl">{report.oneLineSummary}</p>
