@@ -1,3 +1,5 @@
+import { gaisRound18Report } from "@/lib/gaisRound18UpcomingData";
+
 export interface TrafficLightCard {
   metric: string;
   bigNumber: string;
@@ -144,6 +146,25 @@ export interface PreviousMeeting {
   seriesTurnedNote?: string;
 }
 
+/** Twelve overall-performance phase ranks (1 = best of 16). */
+export interface TwelvePhaseRank {
+  label: string;
+  hammarbyRank: number;
+  opponentRank: number;
+  talkTrack: string;
+}
+
+/** Bolldata league ranking row for broadcast-friendly off/def/style boards. */
+export interface BolldataRankMetric {
+  label: string;
+  group: "offensiv" | "defensiv" | "stil";
+  hammarbyValue: string;
+  hammarbyRank: number;
+  opponentValue: string;
+  opponentRank: number;
+  talkTrack: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -168,6 +189,10 @@ export interface UpcomingOpponentReport {
   headToHead?: HeadToHeadSection;
   trafficLightCards?: TrafficLightCard[];
   spotlightKey?: string;
+  /** Twelve season-report phase ranks (Defence → Outcome), easy to talk through on air. */
+  twelvePhaseRanks?: TwelvePhaseRank[];
+  /** Bolldata lagdata rankings split by offensiv / defensiv / stil. */
+  bolldataRankings?: BolldataRankMetric[];
   quickStatusCards: {
     title: string;
     body: string;
@@ -189,10 +214,11 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
+  gaisRound18Report,
   {
     round: 17,
     roundLabel: "Omgång 17",
-    hidden: false,
+    hidden: true,
     fixture: "Kalmar FF - Hammarby",
     dateLabel: "Söndag 16 augusti 2026 · 16:30 · Guldfågeln Arena, Kalmar",
     venueLabel: "Guldfågeln Arena (bortaplan)",

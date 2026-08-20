@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { upcomingOpponents, type StyleChip } from "@/lib/upcomingOpponentsData";
+import {
+  upcomingOpponents,
+  type StyleChip,
+  type TwelvePhaseRank,
+  type BolldataRankMetric,
+} from "@/lib/upcomingOpponentsData";
 import SpiderComparisonChart from "@/components/SpiderComparisonChart";
 
 export function generateMetadata(): Metadata {
@@ -86,6 +91,245 @@ function shortName(name: string) {
   return name.replace(/ IF$/, "").replace(/ FF$/, "").replace(/ BK$/, "").replace(/ FK$/, "");
 }
 
+/** Rank 1 = far right (Better). Returns 0–100 position on the scale. */
+function rankToBetterPct(rank: number, total = 16): number {
+  return ((total - rank) / (total - 1)) * 100;
+}
+
+function RankDot({
+  rank,
+  tone,
+  label,
+}: {
+  rank: number;
+  tone: "hif" | "opp";
+  label: string;
+}) {
+  const pct = rankToBetterPct(rank);
+  const isHif = tone === "hif";
+  return (
+    <div
+      className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
+      style={{ left: `${pct}%` }}
+      title={`${label}: ${rank} av 16`}
+    >
+      <div
+        className={`flex h-8 w-8 items-center justify-center rounded-md border-2 text-[11px] font-black tabular-nums shadow-lg lg:h-9 lg:w-9 lg:text-xs ${
+          isHif
+            ? "border-emerald-300 bg-[#008050] text-white"
+            : "border-amber-200 bg-amber-500 text-neutral-950"
+        }`}
+      >
+        {rank}
+      </div>
+    </div>
+  );
+}
+
+function TwelvePhaseBoard({
+  phases,
+  hifLabel,
+  oppLabel,
+}: {
+  phases: TwelvePhaseRank[];
+  hifLabel: string;
+  oppLabel: string;
+}) {
+  return (
+    <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-6 lg:p-8">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#008050]">
+            Twelve · Overall performance
+          </p>
+          <h3 className="mt-1 text-xl font-black uppercase tracking-wide text-slate-100 lg:text-2xl">
+            Rankingtavla · 7 faser
+          </h3>
+          <p className="mt-2 max-w-2xl text-sm text-neutral-400">
+            1 = bäst i Allsvenskan. Skalan går från Sämre (vänster) till Bättre (höger) – samma
+            logik som Twelve-hexagonerna.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-3 text-xs font-bold uppercase tracking-wide">
+          <span className="inline-flex items-center gap-2 rounded-xl border border-emerald-700/40 bg-emerald-950/40 px-3 py-1.5 text-emerald-200">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-[#008050] text-[10px] text-white">
+              #
+            </span>
+            {hifLabel}
+          </span>
+          <span className="inline-flex items-center gap-2 rounded-xl border border-amber-700/40 bg-amber-950/40 px-3 py-1.5 text-amber-200">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-amber-500 text-[10px] text-neutral-950">
+              #
+            </span>
+            {oppLabel}
+          </span>
+        </div>
+      </div>
+
+      <div className="mb-3 hidden grid-cols-[minmax(7rem,11rem)_1fr_auto] items-center gap-3 px-1 text-[10px] font-bold uppercase tracking-widest text-neutral-600 lg:grid">
+        <span />
+        <div className="flex justify-between px-1">
+          <span>Sämre</span>
+          <span>Snitt</span>
+          <span>Bättre</span>
+        </div>
+        <span className="w-28 text-right lg:w-36">Talk track</span>
+      </div>
+
+      <div className="space-y-3">
+        {phases.map((phase) => {
+          const hWins = phase.hammarbyRank < phase.opponentRank;
+          const tie = phase.hammarbyRank === phase.opponentRank;
+          return (
+            <div
+              key={phase.label}
+              className="grid grid-cols-1 gap-2 rounded-2xl border border-neutral-800 bg-neutral-950/60 p-3 lg:grid-cols-[minmax(7rem,11rem)_1fr_auto] lg:items-center lg:gap-3 lg:p-3.5"
+            >
+              <div>
+                <p className="text-sm font-black uppercase tracking-wide text-slate-200">
+                  {phase.label}
+                </p>
+                <p className="mt-0.5 text-[11px] tabular-nums text-neutral-500">
+                  <span className="text-[#008050]">
+                    {hifLabel} {phase.hammarbyRank}
+                  </span>
+                  <span className="mx-1.5 text-neutral-700">·</span>
+                  <span className="text-amber-400">
+                    {oppLabel} {phase.opponentRank}
+                  </span>
+                  <span className="text-neutral-700"> /16</span>
+                </p>
+              </div>
+
+              <div className="relative h-10 rounded-full border border-neutral-800 bg-gradient-to-r from-rose-950/40 via-neutral-900 to-emerald-950/50">
+                <div className="absolute left-1/2 top-0 h-full w-px bg-neutral-700/80" />
+                <RankDot rank={phase.hammarbyRank} tone="hif" label={hifLabel} />
+                <RankDot rank={phase.opponentRank} tone="opp" label={oppLabel} />
+              </div>
+
+              <div className="lg:w-36">
+                <p
+                  className={`text-[11px] font-bold uppercase tracking-wide ${
+                    tie ? "text-neutral-400" : hWins ? "text-[#008050]" : "text-amber-400"
+                  }`}
+                >
+                  {tie ? "Lika" : hWins ? `${hifLabel} före` : `${oppLabel} före`}
+                </p>
+                <p className="mt-1 text-xs leading-snug text-neutral-400">{phase.talkTrack}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function BolldataRankBoard({
+  rows,
+  hifLabel,
+  oppLabel,
+}: {
+  rows: BolldataRankMetric[];
+  hifLabel: string;
+  oppLabel: string;
+}) {
+  const groups: { key: BolldataRankMetric["group"]; title: string; blurb: string }[] = [
+    { key: "offensiv", title: "Offensiv", blurb: "Skapande, volym och boll" },
+    { key: "defensiv", title: "Defensiv", blurb: "xGA, insläppta, recoveries" },
+    { key: "stil", title: "Stil & kontext", blurb: "Direktspel, precision, xP" },
+  ];
+
+  return (
+    <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-6 lg:p-8">
+      <div className="mb-6">
+        <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-amber-500/80">
+          Bolldata · Lagdata
+        </p>
+        <h3 className="mt-1 text-xl font-black uppercase tracking-wide text-slate-100 lg:text-2xl">
+          Ranking · Offensiv &amp; Defensiv
+        </h3>
+        <p className="mt-2 max-w-3xl text-sm text-neutral-400">
+          Siffror per match (17 omgångar). Lägre rank = bättre. Bygg presentationen runt gapen –
+          speciellt mål vs xG och långbollar.
+        </p>
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-3">
+        {groups.map((group) => {
+          const items = rows.filter((r) => r.group === group.key);
+          if (items.length === 0) return null;
+          return (
+            <div
+              key={group.key}
+              className="rounded-2xl border border-neutral-800 bg-neutral-950/70 p-4 lg:p-5"
+            >
+              <div className="mb-4 border-b border-neutral-800 pb-3">
+                <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-500">
+                  {group.blurb}
+                </p>
+                <h4 className="text-lg font-black uppercase tracking-wide text-slate-100">
+                  {group.title}
+                </h4>
+              </div>
+              <div className="space-y-4">
+                {items.map((row) => {
+                  const hPct = rankToBetterPct(row.hammarbyRank);
+                  const oPct = rankToBetterPct(row.opponentRank);
+                  const hWins = row.hammarbyRank < row.opponentRank;
+                  return (
+                    <div key={row.label}>
+                      <div className="mb-1.5 flex items-start justify-between gap-2">
+                        <p className="text-xs font-bold uppercase tracking-wide text-slate-300">
+                          {row.label}
+                        </p>
+                        <p className="shrink-0 text-[10px] font-bold uppercase tracking-wide text-neutral-600">
+                          {hWins ? hifLabel : oppLabel} före
+                        </p>
+                      </div>
+                      <div className="mb-1.5 grid grid-cols-2 gap-2 text-sm">
+                        <div className="rounded-xl border border-emerald-800/40 bg-emerald-950/30 px-2.5 py-2">
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-[#008050]/70">
+                            {hifLabel} · {row.hammarbyRank}:a
+                          </p>
+                          <p className="text-lg font-black tabular-nums text-emerald-100">
+                            {row.hammarbyValue}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border border-amber-800/40 bg-amber-950/30 px-2.5 py-2">
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-amber-500/70">
+                            {oppLabel} · {row.opponentRank}:a
+                          </p>
+                          <p className="text-lg font-black tabular-nums text-amber-100">
+                            {row.opponentValue}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="relative h-2.5 overflow-hidden rounded-full bg-neutral-800">
+                        <div
+                          className="absolute inset-y-0 left-0 rounded-full bg-[#008050]/80"
+                          style={{ width: `${hPct}%` }}
+                        />
+                        <div
+                          className="absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-amber-400"
+                          style={{ left: `calc(${oPct}% - 4px)` }}
+                        />
+                      </div>
+                      <p className="mt-1.5 text-[11px] leading-snug text-neutral-500">
+                        {row.talkTrack}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ─────────────────────────────────────────────
    Page
 ───────────────────────────────────────────── */
@@ -102,6 +346,7 @@ export default function BroadcasterDashboard() {
   const parts = report.fixture.split("-").map((p) => p.trim());
   const hifShort = shortName(parts[0] ?? "Hammarby");
   const difShort = shortName(parts[1] ?? "Motståndaren");
+  const hifIsHome = (parts[0] ?? "").toLowerCase().includes("hammarby");
 
   const h2hMatches = report.headToHead?.matches ?? [];
   const h2hWins = h2hMatches.filter((m) => m.outcome === "win").length;
@@ -121,18 +366,22 @@ export default function BroadcasterDashboard() {
   }
 
   const pm = report.previousMeeting;
+  const hasTwelve = (report.twelvePhaseRanks?.length ?? 0) > 0;
+  const hasBolldata = (report.bolldataRankings?.length ?? 0) > 0;
 
   return (
     <div className="min-h-screen bg-neutral-950 text-slate-100">
-      {/* ── Nav bar ── */}
       <div className="border-b border-neutral-800 bg-neutral-950/95 px-6 py-3 backdrop-blur-sm">
         <div className="mx-auto flex max-w-screen-2xl items-center justify-between gap-2">
-          <Link href="/matchstatistik" className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors">
+          <Link
+            href="/matchstatistik"
+            className="text-sm text-neutral-500 transition-colors hover:text-neutral-300"
+          >
             ← Matchstatistik
           </Link>
           <Link
             href="/matchstatistik/kommande/storbild-16"
-            className="rounded-full border border-violet-500/50 bg-violet-900/20 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-violet-300 hover:border-violet-400 hover:bg-violet-900/40 transition-colors"
+            className="rounded-full border border-violet-500/50 bg-violet-900/20 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-violet-300 transition-colors hover:border-violet-400 hover:bg-violet-900/40"
           >
             🖥️ Presentationsläge (200-personers-vy)
           </Link>
@@ -141,23 +390,22 @@ export default function BroadcasterDashboard() {
       </div>
 
       <div className="mx-auto max-w-screen-2xl space-y-10 px-6 py-8 lg:px-10 lg:py-10">
-
-        {/* ══════════════════════════════════════════════════════
-            MATCH HEADER  —  full width, landscape-first
-        ══════════════════════════════════════════════════════ */}
         <header className="rounded-3xl border border-neutral-800 bg-neutral-900 px-8 py-8 lg:px-10 lg:py-10">
           <div className="grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center lg:gap-8">
-
-            {/* Left: Hammarby */}
             <div className="text-center lg:text-right">
-              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#008050]">Hemmalag</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#008050]">
+                {hifIsHome ? "Hemmalag" : "Bortalag"}
+              </p>
               <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-50 lg:text-6xl xl:text-7xl">
                 {hifShort}
               </h1>
               {(report.hifBadges ?? ["2:a i Allsvenskan", "26p"]).length > 0 && (
                 <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-end">
                   {(report.hifBadges ?? ["2:a i Allsvenskan", "26p"]).map((badge) => (
-                    <span key={badge} className="rounded-xl border border-emerald-700/40 bg-emerald-950/50 px-3 py-1 text-sm font-semibold text-emerald-200">
+                    <span
+                      key={badge}
+                      className="rounded-xl border border-emerald-700/40 bg-emerald-950/50 px-3 py-1 text-sm font-semibold text-emerald-200"
+                    >
                       {badge}
                     </span>
                   ))}
@@ -165,7 +413,6 @@ export default function BroadcasterDashboard() {
               )}
             </div>
 
-            {/* Centre: match info */}
             <div className="flex flex-col items-center gap-3">
               <p className="text-center text-xs font-bold uppercase tracking-[0.25em] text-neutral-500">
                 {report.roundLabel} · {report.venueLabel ?? ""}
@@ -173,10 +420,7 @@ export default function BroadcasterDashboard() {
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl border-2 border-neutral-700 bg-neutral-800 text-lg font-black text-neutral-400 lg:h-20 lg:w-20 lg:text-2xl">
                 VS
               </div>
-              <p className="text-center text-sm font-bold text-neutral-400">
-                {report.dateLabel}
-              </p>
-              {/* Intro stat pills */}
+              <p className="text-center text-sm font-bold text-neutral-400">{report.dateLabel}</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {report.introStats?.map((s) => (
                   <span
@@ -196,16 +440,20 @@ export default function BroadcasterDashboard() {
               </div>
             </div>
 
-            {/* Right: Häcken */}
             <div className="text-center lg:text-left">
-              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-amber-500/70">Bortalag</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.3em] text-amber-500/70">
+                {hifIsHome ? "Bortalag" : "Hemmalag"}
+              </p>
               <h1 className="mt-2 text-4xl font-black uppercase tracking-tight text-slate-50 lg:text-6xl xl:text-7xl">
                 {difShort}
               </h1>
               {(report.opponentBadges ?? ["3:a i Allsvenskan", "25p"]).length > 0 && (
                 <div className="mt-3 flex flex-wrap justify-center gap-2 lg:justify-start">
                   {(report.opponentBadges ?? ["3:a i Allsvenskan", "25p"]).map((badge) => (
-                    <span key={badge} className="rounded-xl border border-amber-700/40 bg-amber-950/50 px-3 py-1 text-sm font-semibold text-amber-200">
+                    <span
+                      key={badge}
+                      className="rounded-xl border border-amber-700/40 bg-amber-950/50 px-3 py-1 text-sm font-semibold text-amber-200"
+                    >
                       {badge}
                     </span>
                   ))}
@@ -214,7 +462,6 @@ export default function BroadcasterDashboard() {
             </div>
           </div>
 
-          {/* H2H strip */}
           {h2hMatches.length > 0 && (
             <div className="mt-6 rounded-2xl border border-neutral-800 bg-neutral-800/40 p-5">
               <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
@@ -247,10 +494,17 @@ export default function BroadcasterDashboard() {
                       }`}
                     >
                       <span className="font-bold text-neutral-400">{m.date.slice(0, 7)}</span>
-                      <span className={`font-black ${
-                        m.outcome === "win" ? "text-emerald-300" :
-                        m.outcome === "draw" ? "text-amber-300" : "text-rose-300"
-                      }`}>{m.result}</span>
+                      <span
+                        className={`font-black ${
+                          m.outcome === "win"
+                            ? "text-emerald-300"
+                            : m.outcome === "draw"
+                              ? "text-amber-300"
+                              : "text-rose-300"
+                        }`}
+                      >
+                        {m.result}
+                      </span>
                       <span className="text-xs uppercase text-neutral-600">
                         {m.venue === "home" ? "H" : "B"}
                       </span>
@@ -262,16 +516,11 @@ export default function BroadcasterDashboard() {
           )}
         </header>
 
-        {/* ══════════════════════════════════════════════════════
-            FÖRRA MÖTET  —  narrative section
-        ══════════════════════════════════════════════════════ */}
         {pm && (
           <section>
             <SectionLabel num="01" sub="Minnet som bränns" title="Förra mötet" />
             <div className="rounded-3xl border border-rose-800/40 bg-gradient-to-br from-rose-950/30 via-neutral-900 to-neutral-950 p-6 lg:p-8">
               <div className="grid gap-6 lg:grid-cols-[auto_1fr_auto]">
-
-                {/* Left: Match facts */}
                 <div className="lg:min-w-56">
                   <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
                     {formatSwedishDate(pm.date)}
@@ -284,26 +533,34 @@ export default function BroadcasterDashboard() {
                   </div>
                   {pm.halfTimeScore && (
                     <p className="mt-1 text-sm text-neutral-500">
-                      Halvtid: <span className="font-bold text-neutral-300">{pm.halfTimeScore}</span>
+                      Halvtid:{" "}
+                      <span className="font-bold text-neutral-300">{pm.halfTimeScore}</span>
                     </p>
                   )}
                   <div className="mt-4 grid grid-cols-2 gap-2">
                     {pm.xgHammarby !== undefined && (
                       <div className="rounded-xl border border-neutral-700 bg-neutral-800/60 p-3 text-center">
-                        <p className="text-xl font-black tabular-nums text-[#008050]">{pm.xgHammarby}</p>
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-600">HIF xG</p>
+                        <p className="text-xl font-black tabular-nums text-[#008050]">
+                          {pm.xgHammarby}
+                        </p>
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-600">
+                          HIF xG
+                        </p>
                       </div>
                     )}
                     {pm.xgOpponent !== undefined && (
                       <div className="rounded-xl border border-amber-700/40 bg-amber-950/20 p-3 text-center">
-                        <p className="text-xl font-black tabular-nums text-amber-400">{pm.xgOpponent}</p>
-                        <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-600">{difShort} xG</p>
+                        <p className="text-xl font-black tabular-nums text-amber-400">
+                          {pm.xgOpponent}
+                        </p>
+                        <p className="text-[10px] font-bold uppercase tracking-wide text-neutral-600">
+                          {difShort} xG
+                        </p>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Centre: Goal timeline */}
                 <div>
                   <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
                     Målkedjan
@@ -320,14 +577,26 @@ export default function BroadcasterDashboard() {
                               : "border border-amber-700/30 bg-amber-950/30"
                           }`}
                         >
-                          <span className={`shrink-0 text-sm font-black tabular-nums ${isHif ? "text-[#008050]" : "text-amber-400"}`}>
+                          <span
+                            className={`shrink-0 text-sm font-black tabular-nums ${
+                              isHif ? "text-[#008050]" : "text-amber-400"
+                            }`}
+                          >
                             {s.minute}&apos;
                           </span>
                           <span className="text-base font-bold text-slate-200">
                             {s.player}
-                            {s.isPenalty ? <span className="ml-1.5 text-xs font-normal text-neutral-500">(str)</span> : ""}
+                            {s.isPenalty ? (
+                              <span className="ml-1.5 text-xs font-normal text-neutral-500">(str)</span>
+                            ) : (
+                              ""
+                            )}
                           </span>
-                          <span className={`ml-auto text-xs font-bold uppercase tracking-widest ${isHif ? "text-[#008050]/70" : "text-amber-400/70"}`}>
+                          <span
+                            className={`ml-auto text-xs font-bold uppercase tracking-widest ${
+                              isHif ? "text-[#008050]/70" : "text-amber-400/70"
+                            }`}
+                          >
                             {isHif ? hifShort : difShort}
                           </span>
                         </div>
@@ -336,7 +605,6 @@ export default function BroadcasterDashboard() {
                   </div>
                 </div>
 
-                {/* Right: Story + Serien vänt */}
                 <div className="lg:min-w-72 xl:min-w-80">
                   <div className="rounded-2xl border border-rose-700/30 bg-rose-950/20 p-5">
                     <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-rose-500/70">
@@ -355,7 +623,9 @@ export default function BroadcasterDashboard() {
                           <p className="mb-1 text-[10px] font-bold uppercase tracking-widest text-[#008050]">
                             Serien har vänt
                           </p>
-                          <p className="text-sm leading-relaxed text-slate-200">{pm.seriesTurnedNote}</p>
+                          <p className="text-sm leading-relaxed text-slate-200">
+                            {pm.seriesTurnedNote}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -366,24 +636,52 @@ export default function BroadcasterDashboard() {
           </section>
         )}
 
-        {/* ══════════════════════════════════════════════════════
-            KPI-ANALYS  —  3 wide cards
-        ══════════════════════════════════════════════════════ */}
+        {(hasTwelve || hasBolldata) && (
+          <section className="space-y-5">
+            <SectionLabel num="02" sub="Rankingtavlan" title="Twelve & Bolldata" />
+            {hasTwelve && report.twelvePhaseRanks && (
+              <TwelvePhaseBoard
+                phases={report.twelvePhaseRanks}
+                hifLabel={hifShort}
+                oppLabel={difShort}
+              />
+            )}
+            {hasBolldata && report.bolldataRankings && (
+              <BolldataRankBoard
+                rows={report.bolldataRankings}
+                hifLabel={hifShort}
+                oppLabel={difShort}
+              />
+            )}
+          </section>
+        )}
+
         {report.trafficLightCards && report.trafficLightCards.length > 0 && (
           <section>
-            <SectionLabel num="02" sub="The Hook" title="KPI-Analys" />
+            <SectionLabel
+              num={hasTwelve || hasBolldata ? "03" : "02"}
+              sub="The Hook"
+              title="KPI-Analys"
+            />
             <div className="grid gap-5 lg:grid-cols-3">
               {report.trafficLightCards.map((card) => {
                 const cfg = trafficCfg[card.color];
                 return (
-                  <div key={card.metric} className={`flex flex-col rounded-3xl border p-7 ${cfg.cardBg} ${cfg.border}`}>
+                  <div
+                    key={card.metric}
+                    className={`flex flex-col rounded-3xl border p-7 ${cfg.cardBg} ${cfg.border}`}
+                  >
                     <div className="flex items-center justify-between">
-                      <span className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${cfg.badgeBg}`}>
+                      <span
+                        className={`rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${cfg.badgeBg}`}
+                      >
                         {card.badge}
                       </span>
                       <span className="text-2xl">{cfg.icon}</span>
                     </div>
-                    <p className={`mt-5 text-7xl font-black leading-none tabular-nums xl:text-8xl ${cfg.numColor}`}>
+                    <p
+                      className={`mt-5 text-7xl font-black leading-none tabular-nums xl:text-8xl ${cfg.numColor}`}
+                    >
                       {card.bigNumber}
                     </p>
                     <p className="mt-3 text-base font-bold uppercase tracking-wide text-slate-200">
@@ -391,9 +689,13 @@ export default function BroadcasterDashboard() {
                     </p>
                     <p className="mt-1 text-xs text-neutral-500">{card.rankNote}</p>
                     <div className={`my-4 h-0.5 w-12 rounded-full ${cfg.accent}`} />
-                    <p className="flex-1 text-sm leading-relaxed text-neutral-300">{card.explanation}</p>
+                    <p className="flex-1 text-sm leading-relaxed text-neutral-300">
+                      {card.explanation}
+                    </p>
                     <div className="mt-5 rounded-2xl border border-white/5 bg-black/40 p-4">
-                      <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-neutral-600">🎙️ Podd</p>
+                      <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                        🎙️ Podd
+                      </p>
                       <p className="text-sm italic leading-relaxed text-neutral-300">
                         &ldquo;{card.podcastComment}&rdquo;
                       </p>
@@ -405,29 +707,39 @@ export default function BroadcasterDashboard() {
           </section>
         )}
 
-        {/* ══════════════════════════════════════════════════════
-            MOTSTÅNDARPROFIL + MATCHPLAN  —  side by side
-        ══════════════════════════════════════════════════════ */}
         <section>
-          <SectionLabel num="03" sub="Spelanalys" title={`Profil & Plan`} />
+          <SectionLabel
+            num={hasTwelve || hasBolldata ? "04" : "03"}
+            sub="Spelanalys"
+            title="Profil & Plan"
+          />
           <div className="grid gap-5 lg:grid-cols-2">
-
-            {/* Left: Så spelar Häcken */}
             <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-6 lg:p-7">
               <div className="mb-5 flex items-center gap-3">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-xl">🔍</span>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 text-xl">
+                  🔍
+                </span>
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500/80">Motståndarprofil</p>
-                  <h3 className="text-xl font-black uppercase tracking-wide text-amber-100">Så spelar {difShort}</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500/80">
+                    Motståndarprofil
+                  </p>
+                  <h3 className="text-xl font-black uppercase tracking-wide text-amber-100">
+                    Så spelar {difShort}
+                  </h3>
                 </div>
               </div>
 
-              {/* Style chips */}
               <div className="mb-5 flex flex-wrap gap-2">
                 {[
                   ...(report.styleChips ?? []),
                   ...(suspended.length > 0
-                    ? [{ label: `🚫 AVSTÄNGDA`, sub: "anfallet försvagat", color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300" } as StyleChip]
+                    ? [
+                        {
+                          label: `🚫 AVSTÄNGDA`,
+                          sub: "anfallet försvagat",
+                          color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300",
+                        } as StyleChip,
+                      ]
                     : []),
                 ].map((chip) => (
                   <div key={chip.label} className={`rounded-2xl border px-3 py-2 ${chip.color}`}>
@@ -437,18 +749,30 @@ export default function BroadcasterDashboard() {
                 ))}
               </div>
 
-              {/* Style bars */}
               <div className="space-y-3">
                 {report.styleProfile.map((sig) => (
-                  <div key={sig.label} className="rounded-xl border border-neutral-800 bg-neutral-800/50 p-3.5">
+                  <div
+                    key={sig.label}
+                    className="rounded-xl border border-neutral-800 bg-neutral-800/50 p-3.5"
+                  >
                     <div className="mb-2 flex items-start justify-between gap-2">
-                      <p className="text-xs font-bold uppercase tracking-wide text-slate-300">{sig.label}</p>
-                      <span className="shrink-0 text-sm font-black tabular-nums text-slate-400">{sig.score}</span>
+                      <p className="text-xs font-bold uppercase tracking-wide text-slate-300">
+                        {sig.label}
+                      </p>
+                      <span className="shrink-0 text-sm font-black tabular-nums text-slate-400">
+                        {sig.score}
+                      </span>
                     </div>
                     <p className="mb-2 text-xs text-neutral-500">{sig.value}</p>
                     <div className="h-2 overflow-hidden rounded-full bg-neutral-800">
                       <div
-                        className={`h-2 rounded-full ${sig.score >= 70 ? "bg-amber-500" : sig.score >= 40 ? "bg-neutral-500" : "bg-rose-600"}`}
+                        className={`h-2 rounded-full ${
+                          sig.score >= 70
+                            ? "bg-amber-500"
+                            : sig.score >= 40
+                              ? "bg-neutral-500"
+                              : "bg-rose-600"
+                        }`}
                         style={{ width: `${sig.score}%` }}
                       />
                     </div>
@@ -456,9 +780,10 @@ export default function BroadcasterDashboard() {
                 ))}
               </div>
 
-              {/* Key bullets */}
               <div className="mt-5 rounded-xl border border-neutral-800 bg-neutral-800/30 p-4">
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">Spelstil i korthet</p>
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                  Spelstil i korthet
+                </p>
                 <ul className="space-y-2">
                   {report.opponentStyle.map((pt, i) => (
                     <li key={i} className="flex gap-2 text-sm leading-snug text-slate-300">
@@ -470,10 +795,7 @@ export default function BroadcasterDashboard() {
               </div>
             </div>
 
-            {/* Right: Matchplanen */}
             <div className="flex flex-col gap-4">
-
-              {/* X-Factor */}
               {report.spotlightKey && (
                 <div
                   className="rounded-3xl border border-[#008050]/50 bg-[#008050]/8 p-6"
@@ -484,46 +806,66 @@ export default function BroadcasterDashboard() {
                       ⚡
                     </span>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#008050]">X-Factor</p>
-                      <h3 className="text-lg font-black uppercase tracking-wide text-emerald-100">Nyckeln till 3 poäng</h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-200">{report.spotlightKey}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#008050]">
+                        X-Factor
+                      </p>
+                      <h3 className="text-lg font-black uppercase tracking-wide text-emerald-100">
+                        Nyckeln till 3 poäng
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-slate-200">
+                        {report.spotlightKey}
+                      </p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* Med boll */}
               <div className="flex-1 rounded-3xl border border-emerald-700/40 bg-gradient-to-br from-emerald-950/60 to-neutral-950 p-6">
                 <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/20 text-lg">⚽</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/20 text-lg">
+                    ⚽
+                  </span>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#008050]">Anfallsvapen</p>
-                    <h3 className="text-lg font-black uppercase tracking-wide text-emerald-100">Med boll</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#008050]">
+                      Anfallsvapen
+                    </p>
+                    <h3 className="text-lg font-black uppercase tracking-wide text-emerald-100">
+                      Med boll
+                    </h3>
                   </div>
                 </div>
                 <ul className="space-y-2.5">
                   {report.hammarbyPlan.withBall.map((pt, i) => (
                     <li key={i} className="flex gap-3 text-sm leading-snug text-slate-300">
-                      <span className="mt-0.5 shrink-0 font-black text-[#008050]">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="mt-0.5 shrink-0 font-black text-[#008050]">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                       <span>{pt}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* Utan boll */}
               <div className="flex-1 rounded-3xl border border-neutral-700 bg-gradient-to-br from-neutral-800/60 to-neutral-950 p-6">
                 <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neutral-700/50 text-lg">🛡️</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neutral-700/50 text-lg">
+                    🛡️
+                  </span>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-500">Defensiva nycklar</p>
-                    <h3 className="text-lg font-black uppercase tracking-wide text-slate-100">Utan boll</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-neutral-500">
+                      Defensiva nycklar
+                    </p>
+                    <h3 className="text-lg font-black uppercase tracking-wide text-slate-100">
+                      Utan boll
+                    </h3>
                   </div>
                 </div>
                 <ul className="space-y-2.5">
                   {report.hammarbyPlan.withoutBall.map((pt, i) => (
                     <li key={i} className="flex gap-3 text-sm leading-snug text-slate-300">
-                      <span className="mt-0.5 shrink-0 font-black text-neutral-600">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="mt-0.5 shrink-0 font-black text-neutral-600">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                       <span>{pt}</span>
                     </li>
                   ))}
@@ -543,14 +885,13 @@ export default function BroadcasterDashboard() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════
-            HEAD TO HEAD  —  comparison bars + spider
-        ══════════════════════════════════════════════════════ */}
         <section>
-          <SectionLabel num="04" sub="The Comparison" title="Head to Head" />
+          <SectionLabel
+            num={hasTwelve || hasBolldata ? "05" : "04"}
+            sub="The Comparison"
+            title="Head to Head"
+          />
           <div className="rounded-3xl border border-neutral-800 bg-neutral-900 p-6 lg:p-8">
-
-            {/* Team name row */}
             <div className="mb-8 grid grid-cols-[1fr_auto_1fr] items-center gap-4">
               <p className="text-right text-lg font-black uppercase tracking-wider text-[#008050] lg:text-2xl xl:text-3xl">
                 {hifShort}
@@ -563,7 +904,6 @@ export default function BroadcasterDashboard() {
               </p>
             </div>
 
-            {/* Comparison bars */}
             <div className="grid gap-x-10 gap-y-6 lg:grid-cols-2">
               {report.spiderComparison.slice(0, 6).map((axis) => {
                 const hPct = Math.min(axis.hammarbyScore, 100);
@@ -578,7 +918,9 @@ export default function BroadcasterDashboard() {
                           {axis.hammarbyValue}
                         </p>
                         {hRank && (
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-[#008050]/60">{hRank}</p>
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-[#008050]/60">
+                            {hRank}
+                          </p>
                         )}
                       </div>
                       <p className="min-w-[120px] text-center text-[10px] font-bold uppercase tracking-widest text-neutral-500 lg:min-w-[150px] lg:text-[11px]">
@@ -589,26 +931,35 @@ export default function BroadcasterDashboard() {
                           {axis.opponentValue}
                         </p>
                         {oRank && (
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-amber-500/60">{oRank}</p>
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-amber-500/60">
+                            {oRank}
+                          </p>
                         )}
                       </div>
                     </div>
                     <div className="grid grid-cols-[1fr_2px_1fr] items-stretch">
                       <div className="flex h-5 justify-end overflow-hidden rounded-l-full bg-neutral-800">
-                        <div className="h-5 rounded-l-full bg-[#008050] transition-all" style={{ width: `${hPct}%` }} />
+                        <div
+                          className="h-5 rounded-l-full bg-[#008050] transition-all"
+                          style={{ width: `${hPct}%` }}
+                        />
                       </div>
                       <div className="bg-neutral-700" />
                       <div className="flex h-5 justify-start overflow-hidden rounded-r-full bg-neutral-800">
-                        <div className="h-5 rounded-r-full bg-amber-500/70 transition-all" style={{ width: `${oPct}%` }} />
+                        <div
+                          className="h-5 rounded-r-full bg-amber-500/70 transition-all"
+                          style={{ width: `${oPct}%` }}
+                        />
                       </div>
                     </div>
-                    <p className="mt-1 text-center text-[10px] text-neutral-600 lg:text-[11px]">{axis.note}</p>
+                    <p className="mt-1 text-center text-[10px] text-neutral-600 lg:text-[11px]">
+                      {axis.note}
+                    </p>
                   </div>
                 );
               })}
             </div>
 
-            {/* Spider chart */}
             <div className="mt-8 border-t border-neutral-800 pt-7">
               <p className="mb-4 text-center text-[10px] font-bold uppercase tracking-widest text-neutral-600">
                 Spindel · Bolldata + Twelve
@@ -618,34 +969,39 @@ export default function BroadcasterDashboard() {
           </div>
         </section>
 
-        {/* ══════════════════════════════════════════════════════
-            MÅLFÖNSTER  —  alongside Scouting
-        ══════════════════════════════════════════════════════ */}
         <section>
-          <SectionLabel num="05" sub="The Scout" title="Scouting & Målfönster" />
+          <SectionLabel
+            num={hasTwelve || hasBolldata ? "06" : "05"}
+            sub="The Scout"
+            title="Scouting & Målfönster"
+          />
           <div className="grid gap-5 lg:grid-cols-[1fr_auto]">
-
-            {/* Player cards */}
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {report.playersToWatch?.slice(0, 3).map((player) => {
                 const isSuspended = player.scoutBadge?.includes("AVSTÄNGD");
                 return (
                   <div
                     key={player.name}
-                    className={`flex flex-col overflow-hidden rounded-3xl border border-neutral-700 bg-neutral-900 ${isSuspended ? "opacity-60" : ""}`}
+                    className={`flex flex-col overflow-hidden rounded-3xl border border-neutral-700 bg-neutral-900 ${
+                      isSuspended ? "opacity-60" : ""
+                    }`}
                   >
-                    <div className={`h-1.5 w-full ${
-                      isSuspended
-                        ? "bg-neutral-700"
-                        : "bg-gradient-to-r from-amber-500 via-amber-400/50 to-transparent"
-                    }`} />
+                    <div
+                      className={`h-1.5 w-full ${
+                        isSuspended
+                          ? "bg-neutral-700"
+                          : "bg-gradient-to-r from-amber-500 via-amber-400/50 to-transparent"
+                      }`}
+                    />
                     <div className="flex flex-1 flex-col p-6">
                       {player.scoutBadge && (
-                        <span className={`mb-4 self-start rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${
-                          isSuspended
-                            ? "border-neutral-600 bg-neutral-800 text-neutral-500"
-                            : "border-amber-500/50 bg-amber-500/15 text-amber-300"
-                        }`}>
+                        <span
+                          className={`mb-4 self-start rounded-full border px-3 py-1 text-xs font-black uppercase tracking-widest ${
+                            isSuspended
+                              ? "border-neutral-600 bg-neutral-800 text-neutral-500"
+                              : "border-amber-500/50 bg-amber-500/15 text-amber-300"
+                          }`}
+                        >
                           {player.scoutBadge}
                         </span>
                       )}
@@ -658,7 +1014,10 @@ export default function BroadcasterDashboard() {
                       <p className="mt-3 text-sm font-semibold text-amber-300">{player.threat}</p>
                       <div className="mt-4 grid grid-cols-3 gap-2">
                         {player.stats.map((stat) => (
-                          <div key={`${player.name}-${stat.label}`} className="rounded-xl border border-neutral-700 bg-neutral-800 p-3 text-center">
+                          <div
+                            key={`${player.name}-${stat.label}`}
+                            className="rounded-xl border border-neutral-700 bg-neutral-800 p-3 text-center"
+                          >
                             <span className="block text-2xl font-black tabular-nums leading-none text-slate-50">
                               {stat.value}
                             </span>
@@ -680,21 +1039,30 @@ export default function BroadcasterDashboard() {
               })}
             </div>
 
-            {/* Goal windows */}
             {report.goalWindows.length > 0 && (
               <div className="rounded-3xl border border-amber-700/40 bg-gradient-to-b from-amber-950/60 to-neutral-950 p-6 lg:min-w-56">
                 <div className="mb-5 flex items-center gap-3">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-lg">⏱️</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-lg">
+                    ⏱️
+                  </span>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500/80">Tidsfönster</p>
-                    <h3 className="text-lg font-black uppercase tracking-wide text-amber-100">Målfönster</h3>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-amber-500/80">
+                      Tidsfönster
+                    </p>
+                    <h3 className="text-lg font-black uppercase tracking-wide text-amber-100">
+                      Målfönster
+                    </h3>
                   </div>
                 </div>
-                <p className="mb-3 text-xs text-neutral-600">HIF-mål vs {difShort} insläppta</p>
+                <p className="mb-3 text-xs text-neutral-600">
+                  HIF-mål vs {difShort} insläppta
+                </p>
                 <div className="space-y-2">
                   {report.goalWindows.map((w) => {
                     const total = w.hammarbyGoals + w.opponentConcededGoals;
-                    const maxTotal = Math.max(...report.goalWindows.map((x) => x.hammarbyGoals + x.opponentConcededGoals));
+                    const maxTotal = Math.max(
+                      ...report.goalWindows.map((x) => x.hammarbyGoals + x.opponentConcededGoals),
+                    );
                     const isHot = total >= maxTotal - 1;
                     return (
                       <div
@@ -705,7 +1073,11 @@ export default function BroadcasterDashboard() {
                             : "border border-neutral-800 bg-neutral-800/30"
                         }`}
                       >
-                        <span className={`text-sm font-bold ${isHot ? "text-amber-200" : "text-neutral-400"}`}>
+                        <span
+                          className={`text-sm font-bold ${
+                            isHot ? "text-amber-200" : "text-neutral-400"
+                          }`}
+                        >
                           {w.window} {isHot && "🔥"}
                         </span>
                         <div className="flex items-center gap-2 text-sm font-bold">
@@ -722,19 +1094,24 @@ export default function BroadcasterDashboard() {
           </div>
         </section>
 
-        {/* ── Footer ── */}
         <footer className="rounded-2xl border border-neutral-800 bg-neutral-900/40 p-6">
           <div className="grid gap-5 lg:grid-cols-[1fr_1fr_1fr]">
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">Datakällor</p>
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                Datakällor
+              </p>
               <ul className="space-y-1.5">
                 {report.dataSources.map((s, i) => (
-                  <li key={i} className="text-xs leading-relaxed text-neutral-700">· {s}</li>
+                  <li key={i} className="text-xs leading-relaxed text-neutral-700">
+                    · {s}
+                  </li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">Ordlista</p>
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                Ordlista
+              </p>
               <dl className="space-y-2">
                 {report.glossary.slice(0, 4).map((g) => (
                   <div key={g.term}>
@@ -745,7 +1122,9 @@ export default function BroadcasterDashboard() {
               </dl>
             </div>
             <div className="rounded-xl border border-neutral-800 bg-neutral-800/40 p-4">
-              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-neutral-600">Summering</p>
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-neutral-600">
+                Summering
+              </p>
               <p className="text-xs leading-relaxed text-neutral-500">{report.oneLineSummary}</p>
             </div>
           </div>
