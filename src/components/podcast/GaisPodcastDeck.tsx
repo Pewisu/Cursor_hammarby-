@@ -246,11 +246,7 @@ export default function GaisPodcastDeck() {
 
   const phases = report.twelvePhaseRanks ?? [];
   const boll = report.bolldataRankings ?? [];
-  const highlightBoll = boll.filter((b) =>
-    ["xG / match", "Gjorda mål / match", "xGA / match", "Långa bollar / match", "Bollinnehav %"].includes(
-      b.label,
-    ),
-  );
+  const h2hAxes = report.spiderComparison.slice(0, 6);
 
   const modeClass = useMemo(() => {
     if (mode === "mobile") return "max-w-md mx-auto text-[15px]";
@@ -295,10 +291,10 @@ export default function GaisPodcastDeck() {
       <div className="sticky top-0 z-50 border-b border-white/10 bg-[#111111]/95 backdrop-blur-md">
         <div className={`flex flex-wrap items-center justify-between gap-3 py-3 ${heroPad} !py-3`}>
           <Link
-            href="/matchstatistik/kommande/"
+            href="/matchstatistik"
             className="text-xs font-semibold uppercase tracking-widest text-white/50 hover:text-white"
           >
-            ← Datavy
+            ← Matchstatistik
           </Link>
           <div className="flex flex-wrap gap-2">
             {(
@@ -337,7 +333,7 @@ export default function GaisPodcastDeck() {
           />
           <div className="relative">
             <p className="text-xs font-bold uppercase tracking-[0.4em]" style={{ color: HIF_GREEN }}>
-              Allsvenskan · Omgång 18 · Podcast Deck
+              Allsvenskan · Omgång 18 · Kommande motstånd
             </p>
             <h1
               className={`mt-4 font-[family-name:var(--font-podcast-display)] font-black uppercase leading-[0.9] text-white ${
@@ -345,10 +341,11 @@ export default function GaisPodcastDeck() {
               }`}
               style={{ letterSpacing: "-0.03em" }}
             >
-              Next Match:
-              <br />
-              <span style={{ color: HIF_GREEN }}>Revanschdagen.</span>
+              Hammarby – GAIS
             </h1>
+            <p className="mt-3 text-base text-white/55 md:text-lg">
+              Söndag 23 augusti 2026 · 16:30 · 3Arena
+            </p>
 
             <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]">
               <div className="flex flex-col items-center gap-4 lg:items-end">
@@ -405,13 +402,15 @@ export default function GaisPodcastDeck() {
             </div>
 
             <p className="mt-10 max-w-3xl text-base leading-relaxed text-white/65 md:text-lg">
-              {report.oneLineSummary}
+              Hammarby 2:a (33p) mot GAIS 9:a (23p). HIF är ligans bästa hemmalag (7V–1O–1F).
+              GAIS är 4:a i xP och etta i xGA – starkare under ytan än tabellen visar. Senaste
+              mötet: GAIS 2–0 (20 maj).
             </p>
           </div>
         </header>
 
         {/* 01 Bakgrund */}
-        <SectionShell num="01" eyebrow="Bakgrunden" title="Maj-minnet" mode={mode}>
+        <SectionShell num="01" eyebrow="Förra mötet" title="GAIS 2–0 · 20 maj" mode={mode}>
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="mb-6 flex flex-wrap items-center gap-4">
@@ -448,54 +447,70 @@ export default function GaisPodcastDeck() {
               </div>
             </div>
 
-            {/* Timeline 0-90 */}
+            {/* Timeline – vertical list (no overlapping labels) */}
             <div className="rounded-3xl border border-white/10 bg-black/40 p-6">
-              <p className="mb-6 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
-                Match-timeline · 0–90+
+              <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                Matchhändelser · 0–90+
               </p>
-              <div className="relative mx-2 mb-16 mt-10 h-3 rounded-full bg-white/10">
+              <div className="relative mb-6 h-2 rounded-full bg-white/10">
                 <div
                   className="absolute inset-y-0 left-0 rounded-full"
                   style={{ width: "100%", background: `linear-gradient(90deg, #222, ${HIF_GREEN}33)` }}
                 />
+                {[25, 70, 80].map((m) => (
+                  <div
+                    key={m}
+                    className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#111]"
+                    style={{
+                      left: `${(m / 90) * 100}%`,
+                      background: m === 70 ? "#ef4444" : GAIS_ACCENT,
+                    }}
+                  />
+                ))}
+                <span className="absolute -left-0.5 -top-5 text-[10px] font-bold text-white/35">0&apos;</span>
+                <span className="absolute -right-1 -top-5 text-[10px] font-bold text-white/35">90+</span>
+              </div>
+              <div className="space-y-3">
                 {[
-                  { m: 25, label: "⚽ Petrovic", sub: "1–0 GAIS", color: GAIS_ACCENT },
-                  { m: 70, label: "🟥 Skoglund", sub: "Rött (2:a gula)", color: "#ef4444" },
-                  { m: 80, label: "⚽ Salter", sub: "2–0 GAIS", color: GAIS_ACCENT },
+                  { m: 25, label: "Petrovic", sub: "1–0 GAIS", tone: "goal" as const },
+                  { m: 70, label: "Skoglund", sub: "Rött kort (2:a gula)", tone: "card" as const },
+                  { m: 80, label: "Salter", sub: "2–0 GAIS", tone: "goal" as const },
                 ].map((ev) => (
                   <div
                     key={ev.m}
-                    className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2"
-                    style={{ left: `${(ev.m / 90) * 100}%` }}
+                    className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3"
                   >
-                    <div
-                      className="h-5 w-5 rounded-full border-2 border-[#111]"
-                      style={{ background: ev.color }}
-                    />
-                    <div className="absolute left-1/2 top-7 w-28 -translate-x-1/2 text-center sm:w-36">
-                      <p className="text-xs font-black text-white">{ev.label}</p>
-                      <p className="text-[10px] text-white/50">
-                        {ev.m}&apos; · {ev.sub}
+                    <span
+                      className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg text-sm font-black tabular-nums"
+                      style={{
+                        background: ev.tone === "card" ? "#7f1d1d66" : `${GAIS_ACCENT}22`,
+                        color: ev.tone === "card" ? "#fca5a5" : GAIS_ACCENT,
+                      }}
+                    >
+                      {ev.m}&apos;
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-black text-white">
+                        {ev.tone === "card" ? "🟥" : "⚽"} {ev.label}
                       </p>
+                      <p className="text-xs text-white/50">{ev.sub}</p>
                     </div>
                   </div>
                 ))}
-                <span className="absolute -left-1 -top-6 text-[10px] font-bold text-white/35">0&apos;</span>
-                <span className="absolute -right-2 -top-6 text-[10px] font-bold text-white/35">90+</span>
               </div>
-              <p className="mt-8 text-sm leading-relaxed text-white/55">
-                {report.previousMeeting?.seriesTurnedNote}
+              <p className="mt-5 text-sm leading-relaxed text-white/55">
+                Sedan den matchen: HIF 4V–1O i senaste fem, senast 4–0 borta mot Kalmar. GAIS
+                tog senast 0–1 hemma mot Malmö.
               </p>
             </div>
           </div>
         </SectionShell>
 
         {/* 02 Mätvärden */}
-        <SectionShell num="02" eyebrow="Mätvärdenas kamp" title="Twelve vs Bolldata" mode={mode}>
+        <SectionShell num="02" eyebrow="Head to head" title="Nyckeltal per match" mode={mode}>
           <div className="mb-10 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
             <p className="max-w-2xl text-white/60">
-              Visualiserad ranking – inte tabeller. Grön = Hammarby. Grå = GAIS. 1 = bäst i
-              Allsvenskan.
+              Grön stapel = Hammarby. Grå = GAIS. Längre stapel = starkare värde på mätetalet.
             </p>
             <button
               type="button"
@@ -503,8 +518,80 @@ export default function GaisPodcastDeck() {
               className="rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-widest text-white"
               style={{ background: HIF_GREEN }}
             >
-              {expandTwelve ? "Dölj detaljerad Twelve" : "Expand Detailed Twelve"}
+              {expandTwelve ? "Dölj Bolldata-detaljer" : "Visa Bolldata-detaljer"}
             </button>
+          </div>
+
+          <div className="mb-10 rounded-3xl border border-white/10 bg-black/30 p-5 md:p-7">
+            <div className="mb-6 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+              <p className="text-right text-sm font-black uppercase tracking-wider md:text-lg" style={{ color: HIF_GREEN }}>
+                Hammarby
+              </p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
+                {report.comparisonLabel ?? "Allsvenskan 2026"}
+              </p>
+              <p className="text-left text-sm font-black uppercase tracking-wider text-white/70 md:text-lg">
+                GAIS
+              </p>
+            </div>
+            <div className="grid gap-x-10 gap-y-6 lg:grid-cols-2">
+              {h2hAxes.map((axis) => {
+                const hPct = Math.min(axis.hammarbyScore, 100);
+                const oPct = Math.min(axis.opponentScore, 100);
+                const hLead = axis.hammarbyScore >= axis.opponentScore;
+                return (
+                  <div key={axis.label}>
+                    <div className="mb-2 grid grid-cols-[1fr_auto_1fr] items-end gap-3">
+                      <div className="text-right">
+                        <p
+                          className="text-2xl font-black tabular-nums md:text-3xl"
+                          style={{ color: hLead ? HIF_GREEN : "#e5e5e5" }}
+                        >
+                          {axis.hammarbyValue}
+                        </p>
+                      </div>
+                      <p className="min-w-[110px] text-center text-[10px] font-bold uppercase tracking-widest text-white/45 md:min-w-[140px]">
+                        {axis.label}
+                      </p>
+                      <div className="text-left">
+                        <p
+                          className="text-2xl font-black tabular-nums md:text-3xl"
+                          style={{ color: !hLead ? "#d4d4d8" : "rgba(255,255,255,0.55)" }}
+                        >
+                          {axis.opponentValue}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="relative grid grid-cols-[1fr_2px_1fr] items-stretch">
+                      <div className="flex h-5 justify-end overflow-hidden rounded-l-full bg-white/5">
+                        <div
+                          className="h-5 rounded-l-full transition-all"
+                          style={{
+                            width: `${hPct}%`,
+                            background: HIF_GREEN,
+                            opacity: hLead ? 1 : 0.55,
+                            boxShadow: hLead ? `0 0 16px ${HIF_GREEN}66` : undefined,
+                          }}
+                        />
+                      </div>
+                      <div className="bg-white/20" />
+                      <div className="flex h-5 justify-start overflow-hidden rounded-r-full bg-white/5">
+                        <div
+                          className="h-5 rounded-r-full transition-all"
+                          style={{
+                            width: `${oPct}%`,
+                            background: GAIS_MUTED,
+                            opacity: !hLead ? 1 : 0.5,
+                            boxShadow: !hLead ? `0 0 16px ${GAIS_MUTED}88` : undefined,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <p className="mt-1.5 text-center text-[11px] text-white/40">{axis.note}</p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <div className="grid gap-10 xl:grid-cols-[0.9fr_1.1fr]">
@@ -556,51 +643,56 @@ export default function GaisPodcastDeck() {
 
           {expandTwelve && (
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {boll.map((b) => (
-                <div key={b.label} className="rounded-2xl border border-white/10 bg-black/40 p-4">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
-                    {b.group} · Bolldata
-                  </p>
-                  <p className="mt-1 text-sm font-black uppercase text-white">{b.label}</p>
-                  <div className="mt-3 flex items-baseline justify-between gap-2">
-                    <div>
-                      <p className="text-2xl font-black tabular-nums" style={{ color: HIF_GREEN }}>
-                        {b.hammarbyValue}
-                      </p>
-                      <p className="text-[10px] text-white/40">{b.hammarbyRank}:a</p>
+              {boll.map((b) => {
+                const hBetter = b.hammarbyRank <= b.opponentRank;
+                const hScore = rankToScore(b.hammarbyRank);
+                const oScore = rankToScore(b.opponentRank);
+                return (
+                  <div key={b.label} className="rounded-2xl border border-white/10 bg-black/40 p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
+                      {b.group} · Bolldata
+                    </p>
+                    <p className="mt-1 text-sm font-black uppercase text-white">{b.label}</p>
+                    <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-end gap-2">
+                      <div className="text-right">
+                        <p className="text-xl font-black tabular-nums" style={{ color: HIF_GREEN }}>
+                          {b.hammarbyValue}
+                        </p>
+                        <p className="text-[10px] text-white/40">{b.hammarbyRank}:a</p>
+                      </div>
+                      <span className="pb-1 text-[10px] text-white/25">vs</span>
+                      <div className="text-left">
+                        <p className="text-xl font-black tabular-nums" style={{ color: GAIS_MUTED }}>
+                          {b.opponentValue}
+                        </p>
+                        <p className="text-[10px] text-white/40">{b.opponentRank}:a</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <p className="text-2xl font-black tabular-nums" style={{ color: GAIS_MUTED }}>
-                        {b.opponentValue}
-                      </p>
-                      <p className="text-[10px] text-white/40">{b.opponentRank}:a</p>
+                    <div className="mt-3 grid grid-cols-[1fr_2px_1fr] items-stretch">
+                      <div className="flex h-2.5 justify-end overflow-hidden rounded-l-full bg-white/5">
+                        <div
+                          className="h-2.5 rounded-l-full"
+                          style={{ width: `${hScore}%`, background: HIF_GREEN, opacity: hBetter ? 1 : 0.5 }}
+                        />
+                      </div>
+                      <div className="bg-white/15" />
+                      <div className="flex h-2.5 justify-start overflow-hidden rounded-r-full bg-white/5">
+                        <div
+                          className="h-2.5 rounded-r-full"
+                          style={{ width: `${oScore}%`, background: GAIS_MUTED, opacity: !hBetter ? 1 : 0.5 }}
+                        />
+                      </div>
                     </div>
+                    <p className="mt-2 text-xs text-white/50">{b.talkTrack}</p>
                   </div>
-                  <p className="mt-2 text-xs text-white/50">{b.talkTrack}</p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
-
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-            {highlightBoll.map((b) => (
-              <div
-                key={b.label}
-                className="rounded-3xl p-5 text-center"
-                style={{ background: "linear-gradient(180deg, #16241c 0%, #111 100%)", border: `1px solid ${HIF_GREEN}44` }}
-              >
-                <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">{b.label}</p>
-                <p className="mt-2 font-[family-name:var(--font-podcast-display)] text-4xl font-black tabular-nums" style={{ color: HIF_GREEN }}>
-                  {b.hammarbyValue}
-                </p>
-                <p className="text-xs text-white/45">vs {b.opponentValue} GAIS</p>
-              </div>
-            ))}
-          </div>
         </SectionShell>
 
         {/* 03 Poddens analys */}
-        <SectionShell num="03" eyebrow="Poddens analys" title="Key Insights" mode={mode}>
+        <SectionShell num="03" eyebrow="Analys" title="Tre nyckelpunkter" mode={mode}>
           <div className="grid gap-6 lg:grid-cols-3">
             {(report.trafficLightCards ?? []).map((card) => (
               <article
@@ -649,7 +741,7 @@ export default function GaisPodcastDeck() {
         </SectionShell>
 
         {/* 04 Scouting */}
-        <SectionShell num="04" eyebrow="Scouting" title="Target Profiles" mode={mode}>
+        <SectionShell num="04" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
           <div className="grid gap-6 lg:grid-cols-3">
             {(report.playersToWatch ?? []).slice(0, 3).map((player) => (
               <article key={player.name} className="overflow-hidden rounded-3xl border border-white/10 bg-black/40">
@@ -662,7 +754,7 @@ export default function GaisPodcastDeck() {
                       />
                     </div>
                     <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-widest text-white/35">
-                      Activity map
+                      Aktivitetskarta
                     </p>
                   </div>
                   <div className="p-5">
@@ -702,14 +794,14 @@ export default function GaisPodcastDeck() {
         </SectionShell>
 
         {/* 05 Plan */}
-        <SectionShell num="05" eyebrow="Revansch-planen" title="Match Strategy" mode={mode}>
+        <SectionShell num="05" eyebrow="Matchplan" title="Så kan HIF vinna" mode={mode}>
           {report.spotlightKey && (
             <div
               className="mb-8 rounded-3xl p-6 md:p-8"
               style={{ background: `linear-gradient(135deg, ${HIF_GREEN}33, #111 60%)`, border: `1px solid ${HIF_GREEN}66` }}
             >
               <p className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: HIF_GREEN }}>
-                X-Factor · Nyckeln till 3 poäng
+                Matchnyckel
               </p>
               <p className="mt-3 text-lg leading-relaxed text-white md:text-xl">{report.spotlightKey}</p>
             </div>

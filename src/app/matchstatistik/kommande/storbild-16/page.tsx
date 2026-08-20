@@ -185,7 +185,7 @@ function SlidePreviousAndPlan() {
             Del 2 av 3 · Förra mötet &amp; plan
           </p>
           <h2 className="text-3xl font-black uppercase tracking-tight text-white lg:text-5xl">
-            Revansch på 3Arena
+            Hemmamatch på 3Arena
           </h2>
         </div>
       </div>
