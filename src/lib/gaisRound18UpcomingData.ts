@@ -575,7 +575,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
       {
         title: "Form nu",
         value: "HIF 4V–1O senast 5",
-        note: "HIF hetare – men GAIS har H2H-psykologin.",
+        note: "HIF starkare i aktuell form; GAIS leder den senaste inbördes-serien.",
         tone: "emerald",
       },
     ],
