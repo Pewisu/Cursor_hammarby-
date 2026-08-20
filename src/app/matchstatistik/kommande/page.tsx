@@ -379,12 +379,20 @@ export default function BroadcasterDashboard() {
           >
             ← Matchstatistik
           </Link>
-          <Link
-            href="/matchstatistik/kommande/storbild-16"
-            className="rounded-full border border-violet-500/50 bg-violet-900/20 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-violet-300 transition-colors hover:border-violet-400 hover:bg-violet-900/40"
-          >
-            🖥️ Presentationsläge (200-personers-vy)
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/matchstatistik/kommande/podcast"
+              className="rounded-full border border-emerald-500/50 bg-emerald-900/20 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-emerald-300 transition-colors hover:border-emerald-400 hover:bg-emerald-900/40"
+            >
+              🎙️ Big Screen / Podcast
+            </Link>
+            <Link
+              href="/matchstatistik/kommande/storbild-16"
+              className="rounded-full border border-neutral-600/50 bg-neutral-900/40 px-4 py-1 text-[11px] font-bold uppercase tracking-widest text-neutral-400 transition-colors hover:border-neutral-400 hover:text-neutral-200"
+            >
+              🖥️ Storbild (slides)
+            </Link>
+          </div>
           <span className="text-sm text-neutral-600">{report.dateLabel}</span>
         </div>
       </div>

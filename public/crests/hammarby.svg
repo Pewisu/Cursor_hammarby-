@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="Hammarby IF">
+  <defs>
+    <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a7a45"/>
+      <stop offset="100%" stop-color="#006633"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#hg)" d="M100 8 L178 38 L178 120 C178 176 140 214 100 232 C60 214 22 176 22 120 L22 38 Z"/>
+  <path fill="none" stroke="#fff" stroke-width="6" d="M100 22 L164 46 L164 118 C164 164 132 196 100 212 C68 196 36 164 36 118 L36 46 Z"/>
+  <text x="100" y="108" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="54" font-weight="900" fill="#fff">HIF</text>
+  <text x="100" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="3" fill="#c8f0d8">1897</text>
+  <rect x="58" y="168" width="84" height="10" fill="#fff" opacity=".9"/>
+  <rect x="58" y="182" width="84" height="10" fill="#006633"/>
+  <rect x="58" y="182" width="84" height="10" fill="url(#stripe)" opacity="0"/>
+</svg>
