@@ -61,7 +61,7 @@ export default function MatchStatisticsRoutePage() {
               href="/matchstatistik/kommande"
               className="inline-flex items-center gap-2 rounded-lg border border-emerald-500/50 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-200 hover:border-emerald-400 hover:text-emerald-100"
             >
-              🧭 Kommande: Raków Częstochowa – UECL Playoff
+              🧭 Kommande: Hammarby – GAIS (omg 18)
             </Link>
             <Link
               href="/matchstatistik/domaranalys"
