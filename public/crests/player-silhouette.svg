@@ -1,4 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" role="img" aria-label="Player">
-  <ellipse cx="60" cy="28" rx="18" ry="20" fill="#006633"/>
-  <path fill="#006633" d="M60 48 C38 50 28 62 24 88 L18 148 H42 L48 100 L56 148 H64 L72 100 L78 148 H102 L96 88 C92 62 82 50 60 48Z"/>
-</svg>

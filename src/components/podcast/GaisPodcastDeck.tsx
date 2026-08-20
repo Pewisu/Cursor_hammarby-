@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { gaisRound18Report as report } from "@/lib/gaisRound18UpcomingData";
 
-const BASE = "/Cursor_hammarby-";
 const HIF_GREEN = "#006633";
 const GAIS_MUTED = "#8a9096";
 const GAIS_ACCENT = "#c4a035";
@@ -12,10 +11,6 @@ const GAIS_ACCENT = "#c4a035";
 type ViewMode = "mobile" | "desktop" | "bigscreen";
 
 const MATCH_KICKOFF = new Date("2026-08-23T14:30:00Z"); // 16:30 Stockholm (CEST)
-
-function crest(name: "hammarby" | "gais" | "player") {
-  return `${BASE}/crests/${name === "player" ? "player-silhouette" : name}.svg`;
-}
 
 function rankToScore(rank: number, total = 16) {
   return ((total - rank + 1) / total) * 100;
@@ -300,7 +295,7 @@ export default function GaisPodcastDeck() {
       <div className="sticky top-0 z-50 border-b border-white/10 bg-[#111111]/95 backdrop-blur-md">
         <div className={`flex flex-wrap items-center justify-between gap-3 py-3 ${heroPad} !py-3`}>
           <Link
-            href={`${BASE}/matchstatistik/kommande/`}
+            href="/matchstatistik/kommande/"
             className="text-xs font-semibold uppercase tracking-widest text-white/50 hover:text-white"
           >
             ← Datavy
@@ -357,9 +352,11 @@ export default function GaisPodcastDeck() {
 
             <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]">
               <div className="flex flex-col items-center gap-4 lg:items-end">
-                <img src={crest("hammarby")} alt="Hammarby" className="h-28 w-auto md:h-40" />
                 <div className="text-center lg:text-right">
-                  <p className="font-[family-name:var(--font-podcast-display)] text-3xl font-black uppercase md:text-5xl">
+                  <p
+                    className="font-[family-name:var(--font-podcast-display)] text-4xl font-black uppercase md:text-6xl"
+                    style={{ color: HIF_GREEN }}
+                  >
                     Hammarby
                   </p>
                   <p className="mt-1 text-sm text-white/55">2:a · 33p · Bästa hemmalag</p>
@@ -397,9 +394,8 @@ export default function GaisPodcastDeck() {
               </div>
 
               <div className="flex flex-col items-center gap-4 lg:items-start">
-                <img src={crest("gais")} alt="GAIS" className="h-28 w-auto opacity-90 md:h-40" />
                 <div className="text-center lg:text-left">
-                  <p className="font-[family-name:var(--font-podcast-display)] text-3xl font-black uppercase text-white/85 md:text-5xl">
+                  <p className="font-[family-name:var(--font-podcast-display)] text-4xl font-black uppercase text-white/85 md:text-6xl">
                     GAIS
                   </p>
                   <p className="mt-1 text-sm text-white/45">9:a · 23p · 4:a i xP</p>
@@ -419,11 +415,13 @@ export default function GaisPodcastDeck() {
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="mb-6 flex flex-wrap items-center gap-4">
-                <img src={crest("gais")} alt="" className="h-14 w-auto opacity-80" />
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-white/50">GAIS</p>
                 <p className="font-[family-name:var(--font-podcast-display)] text-5xl font-black tabular-nums text-white md:text-7xl">
                   2–0
                 </p>
-                <img src={crest("hammarby")} alt="" className="h-14 w-auto" />
+                <p className="text-sm font-black uppercase tracking-[0.2em]" style={{ color: HIF_GREEN }}>
+                  HIF
+                </p>
               </div>
               <p className="text-sm font-bold uppercase tracking-widest text-white/40">
                 GAIS – Hammarby · 20 maj 2026 · HT 1–0
@@ -655,20 +653,17 @@ export default function GaisPodcastDeck() {
           <div className="grid gap-6 lg:grid-cols-3">
             {(report.playersToWatch ?? []).slice(0, 3).map((player) => (
               <article key={player.name} className="overflow-hidden rounded-3xl border border-white/10 bg-black/40">
-                <div className="grid grid-cols-[0.85fr_1fr] gap-0">
-                  <div className="relative flex items-end justify-center bg-[#0a0a0a] p-4">
-                    <img
-                      src={crest("player")}
-                      alt=""
-                      className="h-40 w-auto opacity-90"
-                      style={{ filter: "brightness(0) saturate(100%) invert(18%) sepia(64%) saturate(900%) hue-rotate(110deg)" }}
-                    />
-                    <div className="absolute inset-x-3 bottom-3 top-3 opacity-90">
+                <div className="grid grid-cols-[0.9fr_1.1fr] gap-0">
+                  <div className="relative bg-[#0a0a0a] p-4">
+                    <div className="aspect-[5/7] w-full">
                       <PitchHeatmap
                         zones={playerHeat[player.name] ?? [{ x: 50, y: 50, r: 14, opacity: 0.4 }]}
                         accent={HIF_GREEN}
                       />
                     </div>
+                    <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-widest text-white/35">
+                      Activity map
+                    </p>
                   </div>
                   <div className="p-5">
                     {player.scoutBadge && (
@@ -929,10 +924,11 @@ export default function GaisPodcastDeck() {
           </div>
 
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-8">
-            <div className="flex items-center gap-4">
-              <img src={crest("hammarby")} alt="" className="h-12 w-auto" />
-              <img src={crest("gais")} alt="" className="h-12 w-auto opacity-70" />
-            </div>
+            <p className="text-sm font-black uppercase tracking-[0.2em]">
+              <span style={{ color: HIF_GREEN }}>Hammarby</span>
+              <span className="mx-2 text-white/25">·</span>
+              <span className="text-white/55">GAIS</span>
+            </p>
             <p className="text-xs text-white/35">
               Hammarby IF · Big Screen Podcast Deck · Omgång 18 2026
             </p>

@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 240" role="img" aria-label="GAIS">
-  <circle cx="100" cy="120" r="92" fill="#1a1a1a" stroke="#c4a035" stroke-width="8"/>
-  <circle cx="100" cy="120" r="78" fill="none" stroke="#4a5560" stroke-width="3"/>
-  <text x="100" y="118" text-anchor="middle" font-family="Arial Black, Impact, sans-serif" font-size="48" font-weight="900" fill="#e8e8e8">GAIS</text>
-  <text x="100" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="700" letter-spacing="2" fill="#c4a035">1894</text>
-</svg>
