@@ -94,6 +94,16 @@ export interface HeadToHeadSection {
   matches: HeadToHeadMeeting[];
 }
 
+/** Pre-match referee briefing for kommande / podcast deck */
+export interface RefereePreview {
+  name: string;
+  role: string;
+  fixtureLabel: string;
+  /** Short factual talk-track for podcast / big screen */
+  talkTrack: string;
+  takeaways: string[];
+}
+
 export interface PositionProfile {
   position: string;
   formation: string;
@@ -187,6 +197,8 @@ export interface UpcomingOpponentReport {
   dataSources: string[];
   cupSpecial?: CupSpecialSection;
   headToHead?: HeadToHeadSection;
+  /** Appointed referee preview for the upcoming fixture */
+  refereePreview?: RefereePreview;
   trafficLightCards?: TrafficLightCard[];
   spotlightKey?: string;
   /** Twelve season-report phase ranks (Defence → Outcome), easy to talk through on air. */

@@ -3,6 +3,13 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { gaisRound18Report as report } from "@/lib/gaisRound18UpcomingData";
+import {
+  calcDomarindex,
+  calcFreeKickDiff,
+  calcCardDiff,
+  getDomarRating,
+  hammarbyRefereeMatches,
+} from "@/lib/hammarbyRefereeData";
 
 const HIF_GREEN = "#006633";
 const GAIS_MUTED = "#8a9096";
@@ -596,6 +603,13 @@ export default function GaisPodcastDeck() {
             </h1>
             <p className="mt-3 text-base text-white/55 md:text-lg">
               Söndag 23 augusti 2026 · 16:30 · 3Arena
+              {report.refereePreview && (
+                <>
+                  {" "}
+                  · Domare{" "}
+                  <span className="font-semibold text-white/80">{report.refereePreview.name}</span>
+                </>
+              )}
             </p>
 
             <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]">
@@ -1053,8 +1067,169 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 06 Plan */}
-        <SectionShell num="06" eyebrow="Matchplan" title="Så kan HIF vinna" mode={mode}>
+        {/* 06 Domaranalys */}
+        <SectionShell num="06" eyebrow="Domaranalys" title="Victor Wolf" mode={mode}>
+          {(() => {
+            const preview = report.refereePreview;
+            const prior = hammarbyRefereeMatches.filter((m) => m.referee === "Victor Wolf");
+            const last = prior[0] ?? hammarbyRefereeMatches.find((m) => m.gameweek === 7);
+            const idx = last ? calcDomarindex(last) : 0;
+            const fkDiff = last ? calcFreeKickDiff(last) : 0;
+            const cardDiff = last ? calcCardDiff(last) : 0;
+            const rating = getDomarRating(idx);
+            if (!preview) return <p className="text-white/50">Ingen domarinfo tillgänglig.</p>;
+
+            return (
+              <div className="space-y-8">
+                <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+                  <div>
+                    <div className="mb-4 flex flex-wrap items-end gap-3">
+                      <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                        {preview.role}
+                      </p>
+                      <span
+                        className="rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-widest"
+                        style={{
+                          background: `${HIF_GREEN}22`,
+                          color: HIF_GREEN,
+                          border: `1px solid ${HIF_GREEN}55`,
+                        }}
+                      >
+                        Utsedd · Omgång 18
+                      </span>
+                    </div>
+                    <p className="text-sm font-bold uppercase tracking-widest text-white/45">
+                      {preview.fixtureLabel}
+                    </p>
+                    <p className="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
+                      {preview.talkTrack}
+                    </p>
+                    <ul className="mt-6 space-y-3">
+                      {preview.takeaways.map((t) => (
+                        <li key={t} className="flex gap-3 text-sm leading-snug text-white/65 md:text-base">
+                          <span style={{ color: HIF_GREEN }}>▸</span>
+                          <span>{t}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      href="/matchstatistik/domaranalys"
+                      className="mt-6 inline-flex rounded-full px-5 py-2.5 text-xs font-black uppercase tracking-widest text-white transition hover:opacity-90"
+                      style={{ background: HIF_GREEN }}
+                    >
+                      Full domarstatistik 2026 →
+                    </Link>
+                  </div>
+
+                  <div
+                    className="rounded-3xl border p-6"
+                    style={{ borderColor: `${HIF_GREEN}44`, background: "rgba(0,102,51,0.12)" }}
+                  >
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+                      HIF-facit med Wolf 2026
+                    </p>
+                    <div className="mt-4 flex items-end justify-between gap-4">
+                      <div>
+                        <p className="font-[family-name:var(--font-podcast-display)] text-5xl font-black tabular-nums md:text-6xl"
+                          style={{ color: idx > 0 ? HIF_GREEN : idx < 0 ? "#f87171" : "#fff" }}
+                        >
+                          {idx > 0 ? `+${idx}` : idx}
+                        </p>
+                        <p className="mt-1 text-xs font-bold uppercase tracking-widest text-white/40">
+                          Domarindex
+                        </p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-2xl font-black text-white">{rating.label}</p>
+                        <p className="mt-1 text-xs text-white/45">{prior.length} match{prior.length === 1 ? "" : "er"}</p>
+                      </div>
+                    </div>
+                    <div className="mt-6 grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl bg-black/35 p-4 text-center">
+                        <p className="text-2xl font-black tabular-nums text-white">
+                          {fkDiff > 0 ? `+${fkDiff}` : fkDiff}
+                        </p>
+                        <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                          Frisparksdiff
+                        </p>
+                      </div>
+                      <div className="rounded-2xl bg-black/35 p-4 text-center">
+                        <p className="text-2xl font-black tabular-nums text-white">
+                          {cardDiff > 0 ? `+${cardDiff}` : cardDiff}
+                        </p>
+                        <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                          Kortdiff
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {last && (
+                  <div className="rounded-3xl border border-white/10 bg-black/40 p-5 md:p-6">
+                    <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                      Tidigare möte · Omgång {last.gameweek}
+                    </p>
+                    <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
+                      <div>
+                        <p className="font-[family-name:var(--font-podcast-display)] text-2xl font-black uppercase text-white md:text-3xl">
+                          {last.matchName}
+                        </p>
+                        <p className="mt-1 text-sm text-white/45">
+                          {formatMeetingDate(last.date)} · {last.hammarby.isHome ? "Hemma" : "Borta"}
+                        </p>
+                        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/60">
+                          Frisparkar {last.hammarby.freeKicks}–{last.opponent.freeKicks}. Fouls{" "}
+                          {last.hammarby.fouls}–{last.opponent.fouls}. Gula kort{" "}
+                          {last.hammarby.yellowCards}–{last.opponent.yellowCards}. Röda{" "}
+                          {last.hammarby.redCards}–{last.opponent.redCards}.
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+                        {[
+                          { l: "FK HIF", v: last.hammarby.freeKicks, c: HIF_GREEN },
+                          { l: "FK Motst.", v: last.opponent.freeKicks, c: GAIS_MUTED },
+                          {
+                            l: "Gula",
+                            v: `${last.hammarby.yellowCards}–${last.opponent.yellowCards}`,
+                            c: GAIS_ACCENT,
+                          },
+                          {
+                            l: "Fouls",
+                            v: `${last.hammarby.fouls}–${last.opponent.fouls}`,
+                            c: "#fff",
+                          },
+                        ].map((s) => (
+                          <div key={s.l} className="rounded-2xl bg-white/5 p-3 text-center">
+                            <p className="text-xl font-black tabular-nums" style={{ color: s.c }}>
+                              {s.v}
+                            </p>
+                            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/35">
+                              {s.l}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    {last.sourceUrl && (
+                      <a
+                        href={last.sourceUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="mt-4 inline-block text-xs text-white/40 underline-offset-2 hover:text-white/70 hover:underline"
+                      >
+                        Källa: bolldata.se →
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+        </SectionShell>
+
+        {/* 07 Plan */}
+        <SectionShell num="07" eyebrow="Matchplan" title="Så kan HIF vinna" mode={mode}>
           {report.spotlightKey && (
             <div
               className="mb-8 rounded-3xl p-6 md:p-8"
@@ -1137,8 +1312,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 07 Goal windows */}
-        <SectionShell num="07" eyebrow="Målfönstret" title="När målen faller" mode={mode}>
+        {/* 08 Goal windows */}
+        <SectionShell num="08" eyebrow="Målfönstret" title="När målen faller" mode={mode}>
           <p className="mb-6 max-w-3xl text-white/60">
             HIF-mål (grön densitet) vs GAIS insläppta (grå densitet) per 15-minutersfönster. Mörkare =
             högre volym.
@@ -1220,8 +1395,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 08 Summary */}
-        <SectionShell num="08" eyebrow="Summering" title="Källor & ordlista" mode={mode}>
+        {/* 09 Summary */}
+        <SectionShell num="09" eyebrow="Summering" title="Källor & ordlista" mode={mode}>
           <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
               <p className="text-lg leading-relaxed text-white/75 md:text-xl">{report.oneLineSummary}</p>
