@@ -64,6 +64,12 @@ export default function MatchStatisticsRoutePage() {
               🧭 Kommande: Hammarby – GAIS (omg 18)
             </Link>
             <Link
+              href="/matchstatistik/kommande/podcast"
+              className="inline-flex items-center gap-2 rounded-lg border border-[#006633]/70 bg-[#006633]/25 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-[#006633] hover:bg-[#006633]/40"
+            >
+              🎙️ Podcast Big Screen: Revanschdagen
+            </Link>
+            <Link
               href="/matchstatistik/domaranalys"
               className="inline-flex items-center gap-2 rounded-lg border border-violet-400/60 bg-violet-500/15 px-3 py-1.5 text-xs font-bold text-violet-100 hover:border-violet-300 hover:bg-violet-500/25"
             >
