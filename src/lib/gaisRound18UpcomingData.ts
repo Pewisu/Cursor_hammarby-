@@ -48,6 +48,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
     "Förra mötet 20 maj: GAIS 2–0. Petrovic 25', Salter 80'. Skoglund rött 70'.",
     "Twelve (20 aug): HIF 1:a i Defence/Attack/Chance Creation/Outcome. GAIS 1:a i Def. Transition + Opp. Chance Creation.",
     "Bolldata: HIF 1:a i xG (2,42), avslut (20,1) och boll (60 %). GAIS 1:a i långa bollar och recoveries.",
+    "Domare: Victor Wolf. Tidigare HIF-match 2026: IFK Göteborg 0–1 (omg 7), domarindex +6.",
     "GAIS konverterar uselt (0,63 mål/xG, 14:e i mål/match) – HIF måste vara kliniska själva.",
     "HIF bästa hemmalag (7V–1O–1F, 22p, 29–5). Spela med field tilt och tålamod mot deras press.",
     "Nyckel: vinna andrabollen mot deras långbollar, inte ge kontringar, och straffa dem i boxen.",
@@ -659,7 +660,24 @@ export const gaisRound18Report: UpcomingOpponentReport = {
       },
     ],
   },
+  refereePreview: {
+    name: "Victor Wolf",
+    role: "Huvuddomare",
+    fixtureLabel: "Hammarby – GAIS · Omgång 18 · 23 aug 2026",
+    talkTrack:
+      "Victor Wolf dömer på 3Arena. Enda HIF-matchen 2026 hittills: IFK Göteborg 0–1 (omg 7, 9 maj). Där fick Hammarby 5–1 i frisparkar och 0–2 i gula kort – domarindex +6. Mot GAIS, som pressar hårt och spelar många långbollar, blir dueller och andrabollar avgörande – disciplin i duellspelet minskar risken för gula i press.",
+    takeaways: [
+      "Wolf har dömt HIF en gång 2026 (borta mot IFK Göteborg) med starkt positivt domarindex (+6).",
+      "Frisparksfördel 5–1 och kort 0–2 i den matchen – tydlig linje i duellbedömningen.",
+      "GAIS spelar fysiskt i transition: håll 11 man och undvik onödiga gula i pressdueller (Skoglund rött 70' i maj).",
+    ],
+  },
   glossary: [
+    {
+      term: "Domarindex",
+      explanation:
+        "Netto av frisparks- och kortdifferens för Hammarby i en match. Positivt = fördel HIF, negativt = nackdel.",
+    },
     {
       term: "Twelve-fas",
       explanation:
