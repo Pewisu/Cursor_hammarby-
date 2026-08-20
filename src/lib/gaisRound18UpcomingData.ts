@@ -48,7 +48,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
     "Förra mötet 20 maj: GAIS 2–0. Petrovic 25', Salter 80'. Skoglund rött 70'.",
     "Twelve (20 aug): HIF 1:a i Defence/Attack/Chance Creation/Outcome. GAIS 1:a i Def. Transition + Opp. Chance Creation.",
     "Bolldata: HIF 1:a i xG (2,42), avslut (20,1) och boll (60 %). GAIS 1:a i långa bollar och recoveries.",
-    "Domare: Victor Wolf. Tidigare HIF-match 2026: IFK Göteborg 0–1 (omg 7), domarindex +6.",
+    "Domare: Victor Wolf. Serie 2026: bortalag fler gula (2,0 vs 1,1). HIF-möte: +6 index (Göteborg).",
     "GAIS konverterar uselt (0,63 mål/xG, 14:e i mål/match) – HIF måste vara kliniska själva.",
     "HIF bästa hemmalag (7V–1O–1F, 22p, 29–5). Spela med field tilt och tålamod mot deras press.",
     "Nyckel: vinna andrabollen mot deras långbollar, inte ge kontringar, och straffa dem i boxen.",
@@ -665,11 +665,11 @@ export const gaisRound18Report: UpcomingOpponentReport = {
     role: "Huvuddomare",
     fixtureLabel: "Hammarby – GAIS · Omgång 18 · 23 aug 2026",
     talkTrack:
-      "Victor Wolf dömer på 3Arena. Enda HIF-matchen 2026 hittills: IFK Göteborg 0–1 (omg 7, 9 maj). Där fick Hammarby 5–1 i frisparkar och 0–2 i gula kort – domarindex +6. Mot GAIS, som pressar hårt och spelar många långbollar, blir dueller och andrabollar avgörande – disciplin i duellspelet minskar risken för gula i press.",
+      "Victor Wolf dömer på 3Arena. I Allsvenskan 2026 (10 matcher) får bortalag fler gula (2,0 vs 1,1/match) och något fler frisparkar. HIF hemma kan alltså räkna med något mildare kortlinje än GAIS borta – men duelldisciplin gäller fortfarande. Enda HIF-matchen tidigare: IFK Göteborg 0–1 (omg 7), domarindex +6.",
     takeaways: [
-      "Wolf har dömt HIF en gång 2026 (borta mot IFK Göteborg) med starkt positivt domarindex (+6).",
-      "Frisparksfördel 5–1 och kort 0–2 i den matchen – tydlig linje i duellbedömningen.",
-      "GAIS spelar fysiskt i transition: håll 11 man och undvik onödiga gula i pressdueller (Skoglund rött 70' i maj).",
+      "Serieprofil 2026: bortalag får fler gula i 6 av 10 matcher (snitt 2,0 vs 1,1 hemma).",
+      "Frisparkar tilldelas oftare bortalaget (2,7 vs 1,7/match) – hemmaplan ger inte automatisk FK-fördel.",
+      "HIF:s enda möte med Wolf 2026 (borta): frisparkar 5–1, gula 0–2, domarindex +6.",
     ],
   },
   glossary: [
