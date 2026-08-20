@@ -13,7 +13,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
   venueLabel: "3Arena (hemmaplan)",
   comparisonLabel: "Allsvenskan 2026 · 17 omgångar",
   oneLineSummary:
-    "Revansch hemma: GAIS vann 2–0 i maj (Petrovic + Salter, Skoglund rött 70'). Nu är HIF 2:a (33p) och ligans bästa hemmalag (7V–1O–1F), medan GAIS är 9:a (23p) men 4:a i xP och etta i xGA – elite defensivt, svag finish (0,63 mål/xG).",
+    "Hemma på 3Arena: GAIS vann 2–0 i maj (Petrovic + Salter, Skoglund rött 70'). HIF är 2:a (33p) och ligans bästa hemmalag (7V–1O–1F). GAIS är 9:a (23p) men 4:a i xP och etta i xGA – stark defensiv, svag finish (0,63 mål/xG).",
   hifBadges: ["2:a i Allsvenskan", "33p", "Bästa hemmalag (22p)"],
   opponentBadges: ["9:a i Allsvenskan", "23p", "4:a i xP · 1:a xGA"],
   introStats: [
@@ -39,7 +39,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
     contextNote:
       "GAIS slog tidigt (Petrovic 25') och avgjorde sent (Salter 80'). Hammarby hade 61 % boll och 16 avslut – men bara 3 på mål mot GAIS 7. Hampus Skoglund fick gult 23' och rött 70' (andra gula) – HIF spelade sista 20 minuterna med 10 man.",
     keyStory:
-      "Statistiskt jämn match i volym (16–16 avslut) men GAIS vann kvalitetsstriden: 2,64 xG mot 2,02 och klart fler skott på mål. HIF:s finish och den röda kortet avgjorde. Revanschen på 3Arena handlar om att omsätta dominans i mål – och undvika samma omställningsfällor.",
+      "Statistiskt jämn match i volym (16–16 avslut) men GAIS vann kvalitetsstriden: 2,64 xG mot 2,02 och klart fler skott på mål. HIF:s finish och det röda kortet avgjorde. På 3Arena handlar det om att omsätta dominans i mål – och undvika samma omställningsfällor.",
     seriesTurnedNote:
       "Sedan förlusten har HIF vunnit 5, spelat 1 oavgjort och förlorat 0 i ligan (exkl. den matchen i formräkningen senast) och kommer in efter 4–0 borta mot Kalmar. Formkurvan pekar rakt upp – men GAIS är fortfarande det lag som senast stängde dörren.",
   },
@@ -445,7 +445,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
       label: "Förra mötets facit",
       value: "Petrovic 25' · Salter 80' · Skoglund rött 70'",
       interpretation:
-        "Tidigt mål + sent avgörande. Disciplin i dueller och boxförsvar avgör revanschen.",
+        "Tidigt mål + sent avgörande. Disciplin i dueller och boxförsvar är avgörande på hemmaplan.",
     },
     {
       label: "HIF hemmastyrka",
@@ -464,7 +464,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
       explanation:
         "GAIS vann kvalitetsstriden (2,64–2,02 xG) trots att HIF hade mer boll. Samma misstag – billiga omställningar och svag finish – får inte upprepas på 3Arena.",
       podcastComment:
-        "De slog oss rättvist i maj. Nu är vi hetare i form, men deras defensiv är fortfarande elite. Revansch kräver mer klinisk finish än sist.",
+        "De vann rättvist i maj. HIF har starkare form nu, men GAIS defensiv är fortfarande elite. Skillnaden avgörs i finish och disciplin.",
     },
     {
       metric: "Twelve Outcome",
@@ -490,7 +490,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
     },
   ],
   spotlightKey:
-    "Revanschreceptet: äg andrabollen mot deras långbollar, låt inte counterpressen starta kontringar, och omsätt 3Arenas field tilt i boxchanser av hög kvalitet. GAIS är ligans bästa på att begränsa chanser och snabbast i defensiv transition – men sämst bland topp-xG-lag på att sätta bollen i nät. Vinn duellerna, håll 11 man, och var kliniska.",
+    "Matchnyckel: äg andrabollen mot deras långbollar, låt inte counterpressen starta kontringar, och omsätt 3Arenas field tilt i boxchanser av hög kvalitet. GAIS är ligans bästa på att begränsa chanser och snabbast i defensiv transition – men sämst bland topp-xG-lag på att sätta bollen i nät. Vinn duellerna, håll 11 man, och var kliniska.",
   hammarbyPlan: {
     withBall: [
       "Cirkulera under deras höga press (PPDA 5,71). Spela dig ur första vågen – HIF:s 87 % passningsprecision är vapnet mot deras counterpress.",
@@ -582,7 +582,7 @@ export const gaisRound18Report: UpcomingOpponentReport = {
     trendBullets: [
       "GAIS har vunnit de tre senaste inbördes mötena (2–0, 1–2, 3–2).",
       "Förra mötet 2026: GAIS 2,64 xG – HIF 2,02 xG, men HIF 0 mål.",
-      "HIF är ligans bästa hemmalag 2026 (22p på 9 matcher) – platstrenden talar för revansch.",
+      "HIF är ligans bästa hemmalag 2026 (22p på 9 matcher) – hemmaplansfördelen är tydlig.",
       "Underliggande 2026: båda topp-4 i xP. Kvalitetsmatch, inte tabellkrock 2 vs 9.",
     ],
     matches: [

@@ -15,12 +15,12 @@ const body = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Revanschdagen · Hammarby vs GAIS · Big Screen Podcast",
-  description:
-    "Hammarby-branded big screen podcast deck inför omgång 18 mot GAIS – Twelve, Bolldata, scouting och matchplan.",
+  title: "Kommande: Hammarby – GAIS · Omgång 18",
+  description: "Kommande motstånd GAIS – Twelve, Bolldata, scouting och matchplan.",
 };
 
-export default function GaisPodcastPage() {
+/** Alias: samma vy som /kommande */
+export default function PodcastAliasPage() {
   return (
     <div className={`${display.variable} ${body.variable}`}>
       <GaisPodcastDeck />
