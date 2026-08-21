@@ -1,9 +1,9 @@
 // Hammarby Allsvenskan 2026 – domarstatistik per match
-// Källa: bolldata.se – frisparkar (freeKicks), fouls, gula/röda kort per match
+// Källa: bolldata.se – fouls (regelfel), freeKicks (set piece), gula/röda kort per match
 // Omg. 1–11, 15: hämtad direkt från bolldata.se matchsidor
 // Omg. 12 (Hammarby–Kalmar 2-0): fouls/freeKicks härledda via diff mot bolldata.se säsongsaggregat
-// Domarindex = (Ham. frisparkar − Motst. frisparkar) + (Motst. kort − Ham. kort)
-// Positivt = fördel Hammarby, negativt = nackdel Hammarby
+// Domarindex = (Motst. fouls − Ham. fouls) + (Motst. kort − Ham. kort)
+// Positivt = fördel Hammarby (motståndaren dömdes för fler regelfel / fick fler kort)
 // Senast uppdaterad: 15 juli 2026 (13 matcher, omgång 12 tillagd)
 
 export interface RefereeMatchStats {
@@ -285,12 +285,19 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
 ];
 
 export function calcDomarindex(match: RefereeMatchStats): number {
-  const freeKickDiff = match.hammarby.freeKicks - match.opponent.freeKicks;
+  // Regelfel: fler fouls dömda mot motståndaren = fördel Hammarby
+  const foulDiff = match.opponent.fouls - match.hammarby.fouls;
   const hamCards = match.hammarby.yellowCards + match.hammarby.redCards * 2;
   const oppCards = match.opponent.yellowCards + match.opponent.redCards * 2;
-  return freeKickDiff + (oppCards - hamCards);
+  return foulDiff + (oppCards - hamCards);
 }
 
+/** Motst. fouls − Ham. fouls. Positivt = fler regelfel dömda mot motståndaren. */
+export function calcFoulDiff(match: RefereeMatchStats): number {
+  return match.opponent.fouls - match.hammarby.fouls;
+}
+
+/** @deprecated Prefer calcFoulDiff for domarindex. Set-piece free kicks only. */
 export function calcFreeKickDiff(match: RefereeMatchStats): number {
   return match.hammarby.freeKicks - match.opponent.freeKicks;
 }

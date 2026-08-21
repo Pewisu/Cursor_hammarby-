@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   hammarbyRefereeMatches,
   calcDomarindex,
-  calcFreeKickDiff,
+  calcFoulDiff,
   calcCardDiff,
   getDomarRating,
   type RefereeMatchStats,
@@ -78,7 +78,7 @@ function CardPip({ color }: { color: "yellow" | "red" }) {
 type MatchRow = {
   match: RefereeMatchStats;
   domarindex: number;
-  freeKickDiff: number;
+  foulDiff: number;
   cardDiff: number;
   stoppageMin: number;
 };
@@ -87,12 +87,12 @@ function buildRows(): MatchRow[] {
   return [...hammarbyRefereeMatches]
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .map((m) => ({
-      match: m,
-      domarindex: calcDomarindex(m),
-      freeKickDiff: calcFreeKickDiff(m),
-      cardDiff: calcCardDiff(m),
-      stoppageMin: m.totalTimeMin - 90,
-    }));
+    match: m,
+    domarindex: calcDomarindex(m),
+    foulDiff: calcFoulDiff(m),
+    cardDiff: calcCardDiff(m),
+    stoppageMin: m.totalTimeMin - 90,
+  }));
 }
 
 type RefereeAggregate = {
@@ -102,9 +102,9 @@ type RefereeAggregate = {
   avgEffPlayingTimeS: number;
   avgStoppageMin: number;
   avgTotalCards: number;
-  totalFreeKickDiff: number;
-  hamTotalFK: number;
-  oppTotalFK: number;
+  totalFoulDiff: number;
+  hamTotalFouls: number;
+  oppTotalFouls: number;
   hamTotalCards: number;
   oppTotalCards: number;
 };
@@ -123,9 +123,9 @@ function buildRefereeAggregates(rows: MatchRow[]): RefereeAggregate[] {
       const avgEffPlayingTimeS = matches.reduce((s, r) => s + r.match.effectivePlayingTimeS, 0) / n;
       const avgStoppageMin = matches.reduce((s, r) => s + r.stoppageMin, 0) / n;
       const avgTotalCards = matches.reduce((s, r) => s + r.match.totalCards, 0) / n;
-      const totalFreeKickDiff = matches.reduce((s, r) => s + r.freeKickDiff, 0);
-      const hamTotalFK = matches.reduce((s, r) => s + r.match.hammarby.freeKicks, 0);
-      const oppTotalFK = matches.reduce((s, r) => s + r.match.opponent.freeKicks, 0);
+      const totalFoulDiff = matches.reduce((s, r) => s + r.foulDiff, 0);
+      const hamTotalFouls = matches.reduce((s, r) => s + r.match.hammarby.fouls, 0);
+      const oppTotalFouls = matches.reduce((s, r) => s + r.match.opponent.fouls, 0);
       const hamTotalCards = matches.reduce(
         (s, r) => s + r.match.hammarby.yellowCards + r.match.hammarby.redCards * 2, 0
       );
@@ -134,7 +134,7 @@ function buildRefereeAggregates(rows: MatchRow[]): RefereeAggregate[] {
       );
       return {
         referee, matches, avgIndex, avgEffPlayingTimeS, avgStoppageMin,
-        avgTotalCards, totalFreeKickDiff, hamTotalFK, oppTotalFK,
+        avgTotalCards, totalFoulDiff, hamTotalFouls, oppTotalFouls,
         hamTotalCards, oppTotalCards,
       };
     })
@@ -163,11 +163,11 @@ function buildProfiles(rows: MatchRow[], aggs: RefereeAggregate[]): ProfileCard[
   const bestMatch = [...rows].sort((a, b) => b.domarindex - a.domarindex)[0];
   // Most unfavorable
   const worstMatch = [...rows].sort((a, b) => a.domarindex - b.domarindex)[0];
-  // Neutral FK split (closest to 50/50 across all their matches)
-  const mostNeutralFK = [...aggs].sort(
+  // Neutral foul split (closest to 50/50 across all their matches)
+  const mostNeutralFouls = [...aggs].sort(
     (a, b) =>
-      Math.abs(a.hamTotalFK - a.oppTotalFK) -
-      Math.abs(b.hamTotalFK - b.oppTotalFK)
+      Math.abs(a.hamTotalFouls - a.oppTotalFouls) -
+      Math.abs(b.hamTotalFouls - b.oppTotalFouls)
   )[0];
 
   return [
@@ -202,11 +202,11 @@ function buildProfiles(rows: MatchRow[], aggs: RefereeAggregate[]): ProfileCard[
       border: "border-yellow-600/30",
     },
     {
-      label: "Neutralast frisparkar",
+      label: "Neutralast regelfel",
       sublabel: "jämnast fördelning Ham vs Mot",
-      winner: mostNeutralFK.referee,
-      value: `${mostNeutralFK.hamTotalFK}–${mostNeutralFK.oppTotalFK}`,
-      valueNote: `Ham–Motst. (${mostNeutralFK.matches.length > 1 ? `${mostNeutralFK.matches.length} matcher` : "1 match"})`,
+      winner: mostNeutralFouls.referee,
+      value: `${mostNeutralFouls.hamTotalFouls}–${mostNeutralFouls.oppTotalFouls}`,
+      valueNote: `Ham–Motst. fouls (${mostNeutralFouls.matches.length > 1 ? `${mostNeutralFouls.matches.length} matcher` : "1 match"})`,
       accent: "text-sky-300",
       bg: "bg-sky-900/20",
       border: "border-sky-600/30",
@@ -301,11 +301,11 @@ function OmgangensDomare({ rows }: { rows: MatchRow[] }) {
                 <p className="mt-1 text-lg font-black text-amber-300">+{row.stoppageMin} min</p>
               </div>
               <div className="rounded-xl border border-slate-700/40 bg-slate-900/40 p-3 text-center">
-                <p className="text-[10px] uppercase tracking-wide text-slate-500">Frisparkar</p>
+                <p className="text-[10px] uppercase tracking-wide text-slate-500">Regelfel</p>
                 <p className="mt-1 text-lg font-black text-emerald-300">
-                  {row.match.hammarby.freeKicks}
+                  {row.match.hammarby.fouls}
                   <span className="text-slate-500">–</span>
-                  {row.match.opponent.freeKicks}
+                  {row.match.opponent.fouls}
                 </p>
                 <p className="text-[9px] text-slate-600">Ham – Mot</p>
               </div>
@@ -351,8 +351,8 @@ export default function RefereeAnalysisDashboard() {
     1
   );
 
-  const totalHamFK = rows.reduce((s, r) => s + r.match.hammarby.freeKicks, 0);
-  const totalOppFK = rows.reduce((s, r) => s + r.match.opponent.freeKicks, 0);
+  const totalHamFouls = rows.reduce((s, r) => s + r.match.hammarby.fouls, 0);
+  const totalOppFouls = rows.reduce((s, r) => s + r.match.opponent.fouls, 0);
   const totalHamY = rows.reduce((s, r) => s + r.match.hammarby.yellowCards, 0);
   const totalOppY = rows.reduce((s, r) => s + r.match.opponent.yellowCards, 0);
   const totalHamR = rows.reduce((s, r) => s + r.match.hammarby.redCards, 0);
@@ -376,13 +376,13 @@ export default function RefereeAnalysisDashboard() {
             Domarstatistik 2026
           </h1>
           <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
-            Frisparkar, gula/röda kort, effektiv speltid och tilläggstid per match.{" "}
+            Regelfel (fouls), gula/röda kort, effektiv speltid och tilläggstid per match.{" "}
             <span className="font-medium text-emerald-300">Domarindex</span> =
-            (Ham. frisparkar − Motst. frisparkar) + (Motst. kort − Ham. kort).
+            (Motst. fouls − Ham. fouls) + (Motst. kort − Ham. kort).
             Positivt = fördel Hammarby.
           </p>
           <p className="mt-1 text-xs text-slate-500">
-            Källa: bolldata.se · omgång 1–11 + 15 · Allsvenskan 2026
+            Källa: bolldata.se · omgång 1–17 · Allsvenskan 2026
           </p>
         </div>
       </header>
@@ -391,9 +391,9 @@ export default function RefereeAnalysisDashboard() {
         {/* Season summary */}
         <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
-            <p className="text-xs uppercase tracking-wide text-slate-400">Ham. frisparkar</p>
-            <p className="mt-1 text-3xl font-black text-emerald-300">{totalHamFK}</p>
-            <p className="mt-0.5 text-xs text-slate-500">Motst. {totalOppFK}</p>
+            <p className="text-xs uppercase tracking-wide text-slate-400">Ham. regelfel</p>
+            <p className="mt-1 text-3xl font-black text-emerald-300">{totalHamFouls}</p>
+            <p className="mt-0.5 text-xs text-slate-500">Motst. {totalOppFouls}</p>
           </div>
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/60 p-4 text-center">
             <p className="text-xs uppercase tracking-wide text-slate-400">Ham. gula</p>
@@ -494,7 +494,7 @@ export default function RefereeAnalysisDashboard() {
                 <th className="px-3 py-3 font-medium">Domare</th>
                 <th className="px-3 py-3 text-center font-medium">Eff. tid</th>
                 <th className="px-3 py-3 text-center font-medium">Tillägg</th>
-                <th className="px-3 py-3 text-center font-medium" colSpan={2}>Frisparkar</th>
+                <th className="px-3 py-3 text-center font-medium" colSpan={2}>Regelfel</th>
                 <th className="px-3 py-3 text-center font-medium" colSpan={2}>Gula</th>
                 <th className="px-3 py-3 text-center font-medium" colSpan={2}>Röda</th>
                 <th className="px-3 py-3 text-right font-medium">Index</th>
@@ -550,10 +550,10 @@ export default function RefereeAnalysisDashboard() {
                       +{row.stoppageMin}
                     </td>
                     <td className="px-3 py-2.5 text-center font-mono font-semibold text-emerald-300">
-                      {row.match.hammarby.freeKicks}
+                      {row.match.hammarby.fouls}
                     </td>
                     <td className="px-3 py-2.5 text-center font-mono text-slate-400">
-                      {row.match.opponent.freeKicks}
+                      {row.match.opponent.fouls}
                     </td>
                     <td className="px-3 py-2.5 text-center">
                       <span className="font-mono font-semibold text-emerald-300">
@@ -635,8 +635,8 @@ export default function RefereeAnalysisDashboard() {
                 <td className="px-3 py-2.5 text-center font-mono text-amber-300">
                   +{avgStoppage}
                 </td>
-                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamFK}</td>
-                <td className="px-3 py-2.5 text-center font-mono text-slate-400">{totalOppFK}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamFouls}</td>
+                <td className="px-3 py-2.5 text-center font-mono text-slate-400">{totalOppFouls}</td>
                 <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamY}</td>
                 <td className="px-3 py-2.5 text-center font-mono text-slate-400">{totalOppY}</td>
                 <td className="px-3 py-2.5 text-center font-mono text-emerald-300">{totalHamR}</td>
@@ -690,11 +690,11 @@ export default function RefereeAnalysisDashboard() {
 
         <section className="rounded-xl border border-slate-700/30 bg-slate-900/30 p-4 text-xs text-slate-500">
           <p>
-            <strong className="text-slate-400">Om frisparkar:</strong>{" "}
-            &ldquo;Frisparkar&rdquo; i Bolldata avser direkta frisparksavslut och frisparkar i
-            farliga lägen (set piece free kicks), inte totala frisparkar från regelöverträdelser.
-            Effektiv speltid och tilläggstid hämtas från bolldata.se (effectivePlayingTimeS / totalTime).
-            Röda kort räknas ×2 i domarindex.
+            <strong className="text-slate-400">Om regelfel:</strong>{" "}
+            Domarindex bygger på Bolldatas <em>fouls</em> (totalt antal regelfel per lag), inte på
+            set piece-frisparkar. Positiv foul-diff betyder att motståndaren dömdes för fler
+            regelfel. Röda kort räknas ×2 i kortdelen av indexet. Effektiv speltid och tilläggstid
+            hämtas från bolldata.se (effectivePlayingTimeS / totalTime).
           </p>
         </section>
       </main>

@@ -67,7 +67,7 @@ export default function MatchStatisticsRoutePage() {
               href="/matchstatistik/domaranalys"
               className="inline-flex items-center gap-2 rounded-lg border border-violet-400/60 bg-violet-500/15 px-3 py-1.5 text-xs font-bold text-violet-100 hover:border-violet-300 hover:bg-violet-500/25"
             >
-              🟨 Ny: Domaranalys 2026 – frisparkar &amp; kort
+              🟨 Ny: Domaranalys 2026 – regelfel &amp; kort
             </Link>
           </div>
         </div>
@@ -263,7 +263,7 @@ export default function MatchStatisticsRoutePage() {
             </div>
             <h2 className="text-xl font-semibold text-white">Domaranalys</h2>
             <p className="mt-2 text-sm text-slate-300">
-              Frisparkar, gula och röda kort per match och domare. Domarindex
+              Regelfel, gula och röda kort per match och domare. Domarindex
               visar nettoeffekten av domarbeslut för Hammarby i varje match.
             </p>
             <p className="mt-4 text-sm font-medium text-violet-300 group-hover:text-violet-200">

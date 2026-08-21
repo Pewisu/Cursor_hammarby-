@@ -5,11 +5,15 @@ import Link from "next/link";
 import { gaisRound18Report as report } from "@/lib/gaisRound18UpcomingData";
 import {
   calcDomarindex,
-  calcFreeKickDiff,
+  calcFoulDiff,
   calcCardDiff,
   getDomarRating,
   hammarbyRefereeMatches,
 } from "@/lib/hammarbyRefereeData";
+import {
+  getVictorWolfHomeAwayProfile,
+  victorWolfAllsvenskan2026Matches,
+} from "@/lib/victorWolfReferee2026";
 
 const HIF_GREEN = "#006633";
 const GAIS_MUTED = "#8a9096";
@@ -1074,7 +1078,7 @@ export default function GaisPodcastDeck() {
             const prior = hammarbyRefereeMatches.filter((m) => m.referee === "Victor Wolf");
             const last = prior[0] ?? hammarbyRefereeMatches.find((m) => m.gameweek === 7);
             const idx = last ? calcDomarindex(last) : 0;
-            const fkDiff = last ? calcFreeKickDiff(last) : 0;
+            const foulDiff = last ? calcFoulDiff(last) : 0;
             const cardDiff = last ? calcCardDiff(last) : 0;
             const rating = getDomarRating(idx);
             if (!preview) return <p className="text-white/50">Ingen domarinfo tillgänglig.</p>;
@@ -1147,10 +1151,10 @@ export default function GaisPodcastDeck() {
                     <div className="mt-6 grid grid-cols-2 gap-3">
                       <div className="rounded-2xl bg-black/35 p-4 text-center">
                         <p className="text-2xl font-black tabular-nums text-white">
-                          {fkDiff > 0 ? `+${fkDiff}` : fkDiff}
+                          {foulDiff > 0 ? `+${foulDiff}` : foulDiff}
                         </p>
                         <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
-                          Frisparksdiff
+                          Regelfeldiff
                         </p>
                       </div>
                       <div className="rounded-2xl bg-black/35 p-4 text-center">
@@ -1179,24 +1183,24 @@ export default function GaisPodcastDeck() {
                           {formatMeetingDate(last.date)} · {last.hammarby.isHome ? "Hemma" : "Borta"}
                         </p>
                         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/60">
-                          Frisparkar {last.hammarby.freeKicks}–{last.opponent.freeKicks}. Fouls{" "}
-                          {last.hammarby.fouls}–{last.opponent.fouls}. Gula kort{" "}
+                          Regelfel {last.hammarby.fouls}–{last.opponent.fouls}. Frisparkar (set piece){" "}
+                          {last.hammarby.freeKicks}–{last.opponent.freeKicks}. Gula kort{" "}
                           {last.hammarby.yellowCards}–{last.opponent.yellowCards}. Röda{" "}
                           {last.hammarby.redCards}–{last.opponent.redCards}.
                         </p>
                       </div>
                       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
                         {[
-                          { l: "FK HIF", v: last.hammarby.freeKicks, c: HIF_GREEN },
-                          { l: "FK Motst.", v: last.opponent.freeKicks, c: GAIS_MUTED },
+                          { l: "Regelfel HIF", v: last.hammarby.fouls, c: HIF_GREEN },
+                          { l: "Regelfel Motst.", v: last.opponent.fouls, c: GAIS_MUTED },
                           {
                             l: "Gula",
                             v: `${last.hammarby.yellowCards}–${last.opponent.yellowCards}`,
                             c: GAIS_ACCENT,
                           },
                           {
-                            l: "Fouls",
-                            v: `${last.hammarby.fouls}–${last.opponent.fouls}`,
+                            l: "FK set piece",
+                            v: `${last.hammarby.freeKicks}–${last.opponent.freeKicks}`,
                             c: "#fff",
                           },
                         ].map((s) => (
@@ -1223,6 +1227,204 @@ export default function GaisPodcastDeck() {
                     )}
                   </div>
                 )}
+
+                {(() => {
+                  const profile = getVictorWolfHomeAwayProfile();
+                  const season = [...victorWolfAllsvenskan2026Matches].reverse();
+                  const yMax = Math.max(profile.homeYellowAvg, profile.awayYellowAvg, 0.1);
+                  const careerMax = Math.max(profile.careerCards.home, profile.careerCards.away);
+
+                  return (
+                    <div className="space-y-6">
+                      <div className="rounded-3xl border border-white/10 bg-black/40 p-5 md:p-7">
+                        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+                          <div>
+                            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                              Hemma vs borta · Allsvenskan 2026
+                            </p>
+                            <p className="mt-2 max-w-2xl text-sm text-white/55 md:text-base">
+                              {profile.matches} matcher. Bortalag får fler gula i {profile.awayMoreYellows} av{" "}
+                              {profile.matches} matcher. Regelfel är nästan jämna hemma/borta.
+                            </p>
+                          </div>
+                          <p className="text-xs font-bold uppercase tracking-widest text-white/35">
+                            Resultat när Wolf dömer: {profile.homeWins}H–{profile.draws}O–{profile.awayWins}B
+                          </p>
+                        </div>
+
+                        <div className="grid gap-6 lg:grid-cols-2">
+                          {[
+                            {
+                              label: "Regelfel / match",
+                              home: profile.homeFoulAvg,
+                              away: profile.awayFoulAvg,
+                              max: Math.max(profile.homeFoulAvg, profile.awayFoulAvg, 0.1),
+                              homeNote: "fouls av hemmalag",
+                              awayNote: "fouls av bortalag",
+                            },
+                            {
+                              label: "Gula kort / match",
+                              home: profile.homeYellowAvg,
+                              away: profile.awayYellowAvg,
+                              max: yMax,
+                              homeNote: `${profile.homeYellowTotal} totalt`,
+                              awayNote: `${profile.awayYellowTotal} totalt`,
+                            },
+                          ].map((row) => (
+                            <div key={row.label}>
+                              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+                                {row.label}
+                              </p>
+                              <div className="space-y-3">
+                                <div>
+                                  <div className="mb-1 flex justify-between text-xs font-bold uppercase tracking-wide">
+                                    <span style={{ color: HIF_GREEN }}>Hemma</span>
+                                    <span className="tabular-nums text-white">
+                                      {row.home.toFixed(1).replace(".", ",")}
+                                      <span className="ml-2 font-normal text-white/35">{row.homeNote}</span>
+                                    </span>
+                                  </div>
+                                  <div className="h-3 overflow-hidden rounded-full bg-white/5">
+                                    <div
+                                      className="h-3 rounded-full"
+                                      style={{
+                                        width: `${(row.home / row.max) * 100}%`,
+                                        background: HIF_GREEN,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                                <div>
+                                  <div className="mb-1 flex justify-between text-xs font-bold uppercase tracking-wide">
+                                    <span style={{ color: GAIS_MUTED }}>Borta</span>
+                                    <span className="tabular-nums text-white">
+                                      {row.away.toFixed(1).replace(".", ",")}
+                                      <span className="ml-2 font-normal text-white/35">{row.awayNote}</span>
+                                    </span>
+                                  </div>
+                                  <div className="h-3 overflow-hidden rounded-full bg-white/5">
+                                    <div
+                                      className="h-3 rounded-full"
+                                      style={{
+                                        width: `${(row.away / row.max) * 100}%`,
+                                        background: GAIS_MUTED,
+                                      }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+
+                        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+                          <div className="rounded-2xl bg-white/5 p-4 text-center">
+                            <p className="text-2xl font-black tabular-nums text-white">
+                              {profile.yellowPerMatch.toFixed(1).replace(".", ",")}
+                            </p>
+                            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                              Gula / match
+                            </p>
+                          </div>
+                          <div className="rounded-2xl bg-white/5 p-4 text-center">
+                            <p className="text-2xl font-black tabular-nums text-white">
+                              {profile.homeFoulAvg.toFixed(1).replace(".", ",")}–{profile.awayFoulAvg.toFixed(1).replace(".", ",")}
+                            </p>
+                            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                              Fouls hemma–borta
+                            </p>
+                          </div>
+                          <div className="rounded-2xl bg-white/5 p-4 text-center">
+                            <p className="text-sm font-black text-white">
+                              Karriär kort {profile.careerCards.home}–{profile.careerCards.away}
+                            </p>
+                            <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
+                              Hemma–borta · {profile.careerCards.source}
+                            </p>
+                            <div className="mt-3 grid grid-cols-[1fr_2px_1fr] items-stretch">
+                              <div className="flex h-2 justify-end overflow-hidden rounded-l-full bg-white/5">
+                                <div
+                                  className="h-2 rounded-l-full"
+                                  style={{
+                                    width: `${(profile.careerCards.home / careerMax) * 100}%`,
+                                    background: HIF_GREEN,
+                                  }}
+                                />
+                              </div>
+                              <div className="bg-white/15" />
+                              <div className="flex h-2 justify-start overflow-hidden rounded-r-full bg-white/5">
+                                <div
+                                  className="h-2 rounded-r-full"
+                                  style={{
+                                    width: `${(profile.careerCards.away / careerMax) * 100}%`,
+                                    background: GAIS_MUTED,
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                          Wolfs seriematcher 2026 · nyast först
+                        </p>
+                        <div className="space-y-2">
+                          {season.map((m) => {
+                            const awayCardsLead = m.awayYellow > m.homeYellow;
+                            const homeCardsLead = m.homeYellow > m.awayYellow;
+                            return (
+                              <div
+                                key={m.date + m.fixture}
+                                className="grid items-center gap-3 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 md:grid-cols-[120px_1fr_auto]"
+                              >
+                                <div>
+                                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
+                                    {formatMeetingDate(m.date)}
+                                  </p>
+                                  <p className="mt-0.5 text-sm font-black tabular-nums text-white">
+                                    {m.homeGoals}–{m.awayGoals}
+                                  </p>
+                                </div>
+                                <div className="min-w-0">
+                                  <p className="truncate text-sm font-bold text-white/85">{m.fixture}</p>
+                                  <p className="mt-1 text-[11px] text-white/40">
+                                    Regelfel {m.homeFouls}–{m.awayFouls} · FK set piece {m.homeFreeKicks}–{m.awayFreeKicks}
+                                  </p>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <span
+                                    className="rounded-full px-2.5 py-1 text-[10px] font-black tabular-nums tracking-wide"
+                                    style={{
+                                      background: homeCardsLead ? `${HIF_GREEN}33` : "rgba(255,255,255,0.06)",
+                                      color: homeCardsLead ? HIF_GREEN : "#a1a1aa",
+                                    }}
+                                  >
+                                    H {m.homeYellow}
+                                  </span>
+                                  <span className="text-[10px] text-white/25">gula</span>
+                                  <span
+                                    className="rounded-full px-2.5 py-1 text-[10px] font-black tabular-nums tracking-wide"
+                                    style={{
+                                      background: awayCardsLead ? "rgba(138,144,150,0.35)" : "rgba(255,255,255,0.06)",
+                                      color: awayCardsLead ? "#d4d4d8" : "#a1a1aa",
+                                    }}
+                                  >
+                                    B {m.awayYellow}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <p className="mt-3 text-[11px] text-white/35">
+                          Källa: bolldata.se · Allsvenskan 2026. Gula = kort mot respektive lag.
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
             );
           })()}
