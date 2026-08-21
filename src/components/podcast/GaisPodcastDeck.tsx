@@ -5,7 +5,7 @@ import Link from "next/link";
 import { gaisRound18Report as report } from "@/lib/gaisRound18UpcomingData";
 import {
   calcDomarindex,
-  calcFreeKickDiff,
+  calcFoulDiff,
   calcCardDiff,
   getDomarRating,
   hammarbyRefereeMatches,
@@ -1078,7 +1078,7 @@ export default function GaisPodcastDeck() {
             const prior = hammarbyRefereeMatches.filter((m) => m.referee === "Victor Wolf");
             const last = prior[0] ?? hammarbyRefereeMatches.find((m) => m.gameweek === 7);
             const idx = last ? calcDomarindex(last) : 0;
-            const fkDiff = last ? calcFreeKickDiff(last) : 0;
+            const foulDiff = last ? calcFoulDiff(last) : 0;
             const cardDiff = last ? calcCardDiff(last) : 0;
             const rating = getDomarRating(idx);
             if (!preview) return <p className="text-white/50">Ingen domarinfo tillgänglig.</p>;
@@ -1151,10 +1151,10 @@ export default function GaisPodcastDeck() {
                     <div className="mt-6 grid grid-cols-2 gap-3">
                       <div className="rounded-2xl bg-black/35 p-4 text-center">
                         <p className="text-2xl font-black tabular-nums text-white">
-                          {fkDiff > 0 ? `+${fkDiff}` : fkDiff}
+                          {foulDiff > 0 ? `+${foulDiff}` : foulDiff}
                         </p>
                         <p className="mt-1 text-[10px] font-bold uppercase tracking-widest text-white/40">
-                          Frisparksdiff
+                          Regelfeldiff
                         </p>
                       </div>
                       <div className="rounded-2xl bg-black/35 p-4 text-center">
@@ -1183,24 +1183,24 @@ export default function GaisPodcastDeck() {
                           {formatMeetingDate(last.date)} · {last.hammarby.isHome ? "Hemma" : "Borta"}
                         </p>
                         <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/60">
-                          Frisparkar {last.hammarby.freeKicks}–{last.opponent.freeKicks}. Fouls{" "}
-                          {last.hammarby.fouls}–{last.opponent.fouls}. Gula kort{" "}
+                          Regelfel {last.hammarby.fouls}–{last.opponent.fouls}. Frisparkar (set piece){" "}
+                          {last.hammarby.freeKicks}–{last.opponent.freeKicks}. Gula kort{" "}
                           {last.hammarby.yellowCards}–{last.opponent.yellowCards}. Röda{" "}
                           {last.hammarby.redCards}–{last.opponent.redCards}.
                         </p>
                       </div>
                       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
                         {[
-                          { l: "FK HIF", v: last.hammarby.freeKicks, c: HIF_GREEN },
-                          { l: "FK Motst.", v: last.opponent.freeKicks, c: GAIS_MUTED },
+                          { l: "Regelfel HIF", v: last.hammarby.fouls, c: HIF_GREEN },
+                          { l: "Regelfel Motst.", v: last.opponent.fouls, c: GAIS_MUTED },
                           {
                             l: "Gula",
                             v: `${last.hammarby.yellowCards}–${last.opponent.yellowCards}`,
                             c: GAIS_ACCENT,
                           },
                           {
-                            l: "Fouls",
-                            v: `${last.hammarby.fouls}–${last.opponent.fouls}`,
+                            l: "FK set piece",
+                            v: `${last.hammarby.freeKicks}–${last.opponent.freeKicks}`,
                             c: "#fff",
                           },
                         ].map((s) => (
@@ -1232,7 +1232,6 @@ export default function GaisPodcastDeck() {
                   const profile = getVictorWolfHomeAwayProfile();
                   const season = [...victorWolfAllsvenskan2026Matches].reverse();
                   const yMax = Math.max(profile.homeYellowAvg, profile.awayYellowAvg, 0.1);
-                  const fkMax = Math.max(profile.homeFreeKickAvg, profile.awayFreeKickAvg, 0.1);
                   const careerMax = Math.max(profile.careerCards.home, profile.careerCards.away);
 
                   return (
@@ -1245,7 +1244,7 @@ export default function GaisPodcastDeck() {
                             </p>
                             <p className="mt-2 max-w-2xl text-sm text-white/55 md:text-base">
                               {profile.matches} matcher. Bortalag får fler gula i {profile.awayMoreYellows} av{" "}
-                              {profile.matches} matcher. Frisparkar tilldelas oftare bortalaget.
+                              {profile.matches} matcher. Regelfel är nästan jämna hemma/borta.
                             </p>
                           </div>
                           <p className="text-xs font-bold uppercase tracking-widest text-white/35">
@@ -1256,20 +1255,20 @@ export default function GaisPodcastDeck() {
                         <div className="grid gap-6 lg:grid-cols-2">
                           {[
                             {
+                              label: "Regelfel / match",
+                              home: profile.homeFoulAvg,
+                              away: profile.awayFoulAvg,
+                              max: Math.max(profile.homeFoulAvg, profile.awayFoulAvg, 0.1),
+                              homeNote: "fouls av hemmalag",
+                              awayNote: "fouls av bortalag",
+                            },
+                            {
                               label: "Gula kort / match",
                               home: profile.homeYellowAvg,
                               away: profile.awayYellowAvg,
                               max: yMax,
                               homeNote: `${profile.homeYellowTotal} totalt`,
                               awayNote: `${profile.awayYellowTotal} totalt`,
-                            },
-                            {
-                              label: "Frisparkar tilldelade / match",
-                              home: profile.homeFreeKickAvg,
-                              away: profile.awayFreeKickAvg,
-                              max: fkMax,
-                              homeNote: "FK till hemmalag",
-                              awayNote: "FK till bortalag",
                             },
                           ].map((row) => (
                             <div key={row.label}>
@@ -1391,7 +1390,7 @@ export default function GaisPodcastDeck() {
                                 <div className="min-w-0">
                                   <p className="truncate text-sm font-bold text-white/85">{m.fixture}</p>
                                   <p className="mt-1 text-[11px] text-white/40">
-                                    FK {m.homeFreeKicks}–{m.awayFreeKicks} · Fouls {m.homeFouls}–{m.awayFouls}
+                                    Regelfel {m.homeFouls}–{m.awayFouls} · FK set piece {m.homeFreeKicks}–{m.awayFreeKicks}
                                   </p>
                                 </div>
                                 <div className="flex items-center gap-2">
