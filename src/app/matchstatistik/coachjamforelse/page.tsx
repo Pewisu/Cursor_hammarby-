@@ -43,7 +43,7 @@ export default function CoachComparisonPage() {
             </Link>
             <Link
               href="/matchstatistik/omgang/12"
-              className="inline-flex text-[#c4a035] hover:text-[#e2c45e]"
+              className="inline-flex text-[#5fd39a] hover:text-white"
             >
               Omgång 12 – Kalmar →
             </Link>

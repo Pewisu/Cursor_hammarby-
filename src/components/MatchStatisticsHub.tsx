@@ -3352,23 +3352,23 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               {/* Coach rows */}
               <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
                 {/* Karlsson */}
-                <div className="bg-[#c4a035]/10 px-5 py-4">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#c4a035]">K. Karlsson</p>
-                  <p className="mt-1 text-3xl font-black tabular-nums text-[#d6b64b]">
+                <div className="bg-white/[0.04] px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/55">K. Karlsson</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-white">
                     {kPpg.toFixed(2).replace(".", ",")}
-                    <span className="ml-1 text-sm font-normal text-[#c4a035]/70">p/m</span>
+                    <span className="ml-1 text-sm font-normal text-white/45">p/m</span>
                   </p>
-                  <p className="mt-2 inline-flex rounded-md border border-[#c4a035]/35 bg-[#c4a035]/15 px-2 py-1 text-sm font-bold tabular-nums text-[#e2c45e]">
+                  <p className="mt-2 inline-flex rounded-md border border-white/20 bg-white/10 px-2 py-1 text-sm font-bold tabular-nums text-white">
                     {K_POINTS} poäng totalt
                   </p>
                   <p className="mt-1 text-[11px] text-white/40">{K_MATCHES} matcher</p>
                   <p className="mt-0.5 text-[11px] text-white/40">
                     {K_GF}–{K_GA} &nbsp;·&nbsp;
-                    <span className="text-[#c4a035]">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
+                    <span className="text-white/70">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
                   </p>
                   <p className="mt-0.5 text-[10px] text-white/25">{karlsson.roundsLabel}</p>
                   <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-                    <div className="h-full rounded-full bg-[#c4a035]" style={{ width: `${(kPpg / barMax) * 100}%` }} />
+                    <div className="h-full rounded-full bg-white/70" style={{ width: `${(kPpg / barMax) * 100}%` }} />
                   </div>
                 </div>
 

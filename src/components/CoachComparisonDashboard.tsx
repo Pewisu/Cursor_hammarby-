@@ -176,7 +176,7 @@ function CompareRow({
         <span
           className={`inline-block rounded px-2.5 py-1 text-sm font-bold tabular-nums ${
             kBetter && isSignificant
-              ? "bg-[#c4a035] text-black"
+              ? "bg-white text-[#006633]"
               : "bg-white/10 text-white/70"
           }`}
         >
@@ -187,7 +187,7 @@ function CompareRow({
       {/* Delta + metric name */}
       <div className="w-40 px-1 text-center">
         {deltaLabel && (
-          <p className={`mb-0.5 text-[9px] font-bold ${rBetter ? "text-[#5fd39a]" : "text-[#c4a035]"}`}>
+          <p className={`mb-0.5 text-[9px] font-bold ${rBetter ? "text-[#5fd39a]" : "text-white/70"}`}>
             {deltaLabel}
           </p>
         )}
@@ -235,7 +235,7 @@ function StatTile({
       <p className="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/35">{label}</p>
       <div className="flex items-end justify-between gap-1">
         <div className="text-center">
-          <p className={`text-base font-extrabold tabular-nums ${fmt === "k-better" ? "text-[#c4a035]" : "text-white/60"}`}>
+          <p className={`text-base font-extrabold tabular-nums ${fmt === "k-better" ? "text-white" : "text-white/60"}`}>
             {kVal}
           </p>
           <p className="mt-0.5 text-[8px] text-white/30">Karlsson</p>
@@ -323,13 +323,13 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           Tränarskiftet · Allsvenskan 2026
         </p>
         <h2 className="mt-2 text-2xl font-black tracking-tight text-white">
-          <span className="text-[#c4a035]">Karlsson</span>
-          <span className="mx-2 font-light text-white/25">→</span>
+          <span className="text-white">Karlsson</span>
+          <span className="mx-2 font-light text-[#5fd39a]">→</span>
           <span className="text-[#5fd39a]">Rydström</span>
         </h2>
         <p className="mt-1.5 text-xs text-white/40">
           Resultatfacit under respektive tränarperiod.{" "}
-          <span className="text-[#c4a035]">{kRecord.matches} matcher (Karlsson)</span>
+          <span className="text-white/75">{kRecord.matches} matcher (Karlsson)</span>
           {" · "}
           <span className="text-[#5fd39a]">{rRecord.matches} matcher (Rydström)</span>
           <span className="mt-1 block text-white/30">
@@ -368,7 +368,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
 
       {/* ── Column labels ── */}
       <div className="grid grid-cols-[1fr_auto_auto_1fr] items-center border-b border-white/10 bg-black/30 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider">
-        <span className="text-[#c4a035]">K. Karlsson</span>
+        <span className="text-white/75">K. Karlsson</span>
         <span className="w-40 text-center text-white/30">Mätvärde</span>
         <span className="w-1" />
         <span className="text-right text-[#5fd39a]">H. Rydström</span>
@@ -379,12 +379,12 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
         <div>
           {/* Era banners */}
           <div className="grid grid-cols-2 divide-x divide-white/10">
-            <div className="bg-[#c4a035]/10 px-4 py-4">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-[#c4a035]">Karlsson-eran</p>
-              <p className="mt-1 text-2xl font-black text-[#d6b64b]">
+            <div className="bg-white/[0.04] px-4 py-4">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-white/55">Karlsson-eran</p>
+              <p className="mt-1 text-2xl font-black text-white">
                 {kRecord.wins}V {kRecord.draws}O {kRecord.losses}F
               </p>
-              <p className="mt-2 inline-flex rounded-md border border-[#c4a035]/35 bg-[#c4a035]/15 px-2 py-1 text-sm font-black tabular-nums text-[#e2c45e]">
+              <p className="mt-2 inline-flex rounded-md border border-white/20 bg-white/10 px-2 py-1 text-sm font-black tabular-nums text-white">
                 {kRecord.points} poäng totalt
               </p>
               <p className="mt-0.5 text-xs text-white/40">
@@ -489,7 +489,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           ))}
 
           <div className="border-t border-white/10 bg-black/40 px-5 py-4">
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#c4a035]">Analytikerns not</p>
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#5fd39a]">Analytikerns not</p>
             <p className="mt-1 text-xs leading-relaxed text-white/55">
               Rydström valde ett mer positionsbaserat press i sin debut mot Elfsborg borta (PPDA{" "}
               {rAvg["ppda"]?.toFixed(2)}). Trots lägre pressintensitet vann Hammarby xG-uppgörelsen
