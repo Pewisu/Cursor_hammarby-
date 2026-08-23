@@ -3325,12 +3325,12 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Tränarjämförelse</p>
                   <h3 className="mt-1 text-base font-bold text-white md:text-lg">Poängsnitt per tränare · Allsvenskan 2026</h3>
                 </div>
-                <a
+                <Link
                   href="/matchstatistik/coachjamforelse"
                   className="rounded-lg border border-emerald-700/40 bg-emerald-900/20 px-3 py-1.5 text-[11px] font-medium text-emerald-300 hover:border-emerald-500/60 hover:text-emerald-200"
                 >
                   Full jämförelse →
-                </a>
+                </Link>
               </div>
 
               {/* 2026 totalt */}
