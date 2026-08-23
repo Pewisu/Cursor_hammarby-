@@ -6,7 +6,7 @@ import { hammarbyMatchAnalysisRounds } from "@/lib/hammarbyMatchAnalysisRoundsDa
 export const metadata: Metadata = {
   title: "Rydström vs Karlsson | Hammarby 2026",
   description:
-    "Coachjämförelse: Henrik Rydströms 6 matcher (omg 11–14, 16–17) mot Kalle Karlssons 11 matcher (omg 1–10 + 15) i Allsvenskan 2026.",
+    "Coachjämförelse: Henrik Rydströms 7 matcher och 19 poäng mot Kalle Karlssons 11 matcher och 17 poäng i Allsvenskan 2026.",
 };
 
 export default function CoachComparisonPage() {

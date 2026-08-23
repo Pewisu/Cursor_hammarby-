@@ -3,6 +3,10 @@
 import { useMemo, useState } from "react";
 import { type HammarbyMatchAnalysisRound } from "@/lib/hammarbyMatchAnalysisData";
 import { hammarbyRoundMatchStats } from "@/lib/matchStatisticsOverviewData";
+import {
+  coachRecords2026,
+  getCoachRecordAverages,
+} from "@/lib/coachComparison2026Data";
 
 // Twelve-indexed gameweeks per coach (2026 season)
 // Rydström from round 11; round 15 (GAIS) was under Karlsson as head coach.
@@ -10,9 +14,7 @@ import { hammarbyRoundMatchStats } from "@/lib/matchStatisticsOverviewData";
 const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 const RYDSTROM_GAMEWEEKS = new Set([11, 12, 13, 17]);
 
-// Bolldata overview gameweeks per coach (pass & result data – all rounds available)
-// Karlsson: rounds 1–10 + round 15 (GAIS, Karlsson as HC despite Rydström period)
-// Rydström: rounds 11–14, 16–17 (6 matches)
+// Bolldata overview gameweeks per coach (pass data available through round 17).
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
 const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17]);
 
@@ -108,20 +110,6 @@ function computePassAverages(gameweeks: Set<number>): Record<string, number> {
     touchesInBox:  avg(rounds.map((r) => r.hammarby.touchesInBox)),
     corners:       avg(rounds.map((r) => r.hammarby.corners)),
   };
-}
-
-function computeRecord(gameweeks: Set<number>) {
-  const rounds = hammarbyRoundMatchStats.filter((r) => gameweeks.has(r.gameweek));
-  let w = 0, d = 0, l = 0, gf = 0, gc = 0;
-  for (const r of rounds) {
-    gf += r.hammarby.goals;
-    gc += r.opponent.goals;
-    if (r.hammarby.goals > r.opponent.goals) w++;
-    else if (r.hammarby.goals === r.opponent.goals) d++;
-    else l++;
-  }
-  const n = rounds.length || 1;
-  return { w, d, l, gf, gc, n, ptsPerGame: (w * 3 + d) / n, gfPerGame: gf / n, gcPerGame: gc / n };
 }
 
 // ─── Section divider ──────────────────────────────────────────────────────────
@@ -256,8 +244,20 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   const kPassAvg = useMemo(() => computePassAverages(KARLSSON_BD_GAMEWEEKS), []);
   const rPassAvg = useMemo(() => computePassAverages(RYDSTROM_BD_GAMEWEEKS), []);
 
-  const kRecord = useMemo(() => computeRecord(KARLSSON_BD_GAMEWEEKS), []);
-  const rRecord = useMemo(() => computeRecord(RYDSTROM_BD_GAMEWEEKS), []);
+  const kRecord = useMemo(() => {
+    const averages = getCoachRecordAverages(coachRecords2026.karlsson);
+    return {
+      ...coachRecords2026.karlsson,
+      ...averages,
+    };
+  }, []);
+  const rRecord = useMemo(() => {
+    const averages = getCoachRecordAverages(coachRecords2026.rydstrom);
+    return {
+      ...coachRecords2026.rydstrom,
+      ...averages,
+    };
+  }, []);
 
   if (karlssonRounds.length === 0 || rydstromRounds.length === 0) return null;
 
@@ -286,10 +286,13 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           <span className="text-teal-400">Rydström</span>
         </h2>
         <p className="mt-1.5 text-xs text-slate-500">
-          Matchsnitt under respektive tränarperiod.{" "}
-          <span className="text-amber-400/80">{karlssonRounds.length} matcher (Karlsson)</span>
+          Resultatfacit under respektive tränarperiod.{" "}
+          <span className="text-amber-400/80">{kRecord.matches} matcher (Karlsson)</span>
           {" · "}
-          <span className="text-teal-400/80">{rydstromRounds.length} matcher – {rydstromOpponents} (Rydström)</span>
+          <span className="text-teal-400/80">{rRecord.matches} matcher (Rydström)</span>
+          <span className="block mt-1 text-slate-600">
+            Spelmåtten från Twelve omfattar tillgängliga rapporter: {rydstromOpponents}.
+          </span>
         </p>
       </div>
 
@@ -328,19 +331,19 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
             <div className="bg-amber-950/20 px-4 py-4">
               <p className="text-[9px] font-bold uppercase tracking-widest text-amber-600">Karlsson-eran</p>
               <p className="mt-1 text-2xl font-black text-amber-300">
-                {kRecord.w}V {kRecord.d}O {kRecord.l}F
+                {kRecord.wins}V {kRecord.draws}O {kRecord.losses}F
               </p>
               <p className="mt-0.5 text-xs text-slate-500">
-                {kRecord.gf}–{kRecord.gc} · {(kRecord.ptsPerGame).toFixed(2)} p/m
+                {kRecord.goalsFor}–{kRecord.goalsAgainst} · {kRecord.pointsPerGame.toFixed(2)} p/m
               </p>
             </div>
             <div className="bg-teal-950/20 px-4 py-4">
               <p className="text-[9px] font-bold uppercase tracking-widest text-teal-600">Rydström-eran</p>
               <p className="mt-1 text-2xl font-black text-teal-300">
-                {rRecord.w}V {rRecord.d}O {rRecord.l}F
+                {rRecord.wins}V {rRecord.draws}O {rRecord.losses}F
               </p>
               <p className="mt-0.5 text-xs text-slate-500">
-                {rRecord.gf}–{rRecord.gc} · {(rRecord.ptsPerGame).toFixed(2)} p/m
+                {rRecord.goalsFor}–{rRecord.goalsAgainst} · {rRecord.pointsPerGame.toFixed(2)} p/m
               </p>
             </div>
           </div>
@@ -349,24 +352,24 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           <div className="grid grid-cols-2 gap-2 p-3 sm:grid-cols-4">
             <StatTile
               label="Poäng / match"
-              kVal={kRecord.ptsPerGame.toFixed(2)}
-              rVal={rRecord.ptsPerGame.toFixed(2)}
+              kVal={kRecord.pointsPerGame.toFixed(2)}
+              rVal={rRecord.pointsPerGame.toFixed(2)}
               higherIsBetter
-              fmt={rRecord.ptsPerGame > kRecord.ptsPerGame ? "r-better" : "k-better"}
+              fmt={rRecord.pointsPerGame > kRecord.pointsPerGame ? "r-better" : "k-better"}
             />
             <StatTile
               label="Mål / match"
-              kVal={kRecord.gfPerGame.toFixed(2)}
-              rVal={rRecord.gfPerGame.toFixed(2)}
+              kVal={kRecord.goalsForPerGame.toFixed(2)}
+              rVal={rRecord.goalsForPerGame.toFixed(2)}
               higherIsBetter
-              fmt={rRecord.gfPerGame > kRecord.gfPerGame ? "r-better" : kRecord.gfPerGame > rRecord.gfPerGame ? "k-better" : "equal"}
+              fmt={rRecord.goalsForPerGame > kRecord.goalsForPerGame ? "r-better" : kRecord.goalsForPerGame > rRecord.goalsForPerGame ? "k-better" : "equal"}
             />
             <StatTile
               label="Insläppta / match"
-              kVal={kRecord.gcPerGame.toFixed(2)}
-              rVal={rRecord.gcPerGame.toFixed(2)}
+              kVal={kRecord.goalsAgainstPerGame.toFixed(2)}
+              rVal={rRecord.goalsAgainstPerGame.toFixed(2)}
               higherIsBetter={false}
-              fmt={rRecord.gcPerGame < kRecord.gcPerGame ? "r-better" : "k-better"}
+              fmt={rRecord.goalsAgainstPerGame < kRecord.goalsAgainstPerGame ? "r-better" : "k-better"}
             />
             <StatTile
               label="xG-balans / match"
@@ -461,8 +464,9 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
       )}
 
       <div className="border-t border-slate-700/40 px-5 py-2.5 text-[9px] leading-relaxed text-slate-600">
-        Källa: Twelve / hammarbyfotboll.se (xG, PPDA, press) · Bolldata (passningar, hörnsparkar) ·
-        Rydström = omg 11–14, 16–17 (6 matcher, exkl. omg 15 GAIS som räknas på Karlsson) · Karlsson = omg 1–10 + 15
+        Resultatfacit efter Hammarby–GAIS 2–0: Rydström = omg 11–14, 16–18 (7 matcher,
+        19 poäng) · Karlsson = omg 1–10 + 15 (11 matcher, 17 poäng). Övriga spelmått
+        bygger fortsatt på tillgängliga Twelve- och Bolldata-rapporter.
       </div>
     </section>
   );

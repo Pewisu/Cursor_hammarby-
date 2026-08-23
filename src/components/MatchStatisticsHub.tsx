@@ -100,6 +100,10 @@ import StandoutPlayerCard from "@/components/StandoutPlayerCard";
 import { round8Standout } from "@/lib/round8StandoutData";
 import { CoachComparisonDashboard } from "@/components/CoachComparisonDashboard";
 import { MatchAnalysisKpiSection } from "@/components/MatchAnalysisKpiSection";
+import {
+  coachRecords2026,
+  getCoachRecordAverages,
+} from "@/lib/coachComparison2026Data";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -3299,14 +3303,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         {/* ── Round 17: Poängsnitt per tränare ── */}
         {isRound17Dashboard && (() => {
-          const K_MATCHES = 11, K_POINTS = 17, K_GF = 24, K_GA = 13;
-          const R_MATCHES = 6,  R_POINTS = 16, R_GF = 16, R_GA = 2;
+          const karlsson = coachRecords2026.karlsson;
+          const rydstrom = coachRecords2026.rydstrom;
+          const kAverages = getCoachRecordAverages(karlsson);
+          const rAverages = getCoachRecordAverages(rydstrom);
+          const K_MATCHES = karlsson.matches, K_POINTS = karlsson.points, K_GF = karlsson.goalsFor, K_GA = karlsson.goalsAgainst;
+          const R_MATCHES = rydstrom.matches, R_POINTS = rydstrom.points, R_GF = rydstrom.goalsFor, R_GA = rydstrom.goalsAgainst;
           const totalMatches = K_MATCHES + R_MATCHES;
           const totalPoints  = K_POINTS  + R_POINTS;
           const totalGF = K_GF + R_GF, totalGA = K_GA + R_GA;
           const totalPpg = totalPoints / totalMatches;
-          const kPpg     = K_POINTS / K_MATCHES;
-          const rPpg     = R_POINTS / R_MATCHES;
+          const kPpg     = kAverages.pointsPerGame;
+          const rPpg     = rAverages.pointsPerGame;
           const barMax   = Math.max(kPpg, rPpg, 0.001);
 
           return (
@@ -3337,7 +3345,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                 <div className="text-right text-xs text-neutral-500">
                   <p>{totalMatches} matcher · {totalPoints} poäng</p>
                   <p className="mt-0.5">{totalGF}–{totalGA} · MS {totalGF - totalGA > 0 ? "+" : ""}{totalGF - totalGA}</p>
-                  <p className="mt-0.5 text-[10px]">Allsvenskan omg 1–17</p>
+                  <p className="mt-0.5 text-[10px]">Allsvenskan omg 1–18</p>
                 </div>
               </div>
 
@@ -3355,7 +3363,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {K_GF}–{K_GA} &nbsp;·&nbsp;
                     <span className="text-amber-400/80">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
                   </p>
-                  <p className="mt-0.5 text-[10px] text-neutral-600">Omg 1–10 + 15</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-600">{karlsson.roundsLabel}</p>
                   <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
                     <div className="h-full rounded-full bg-amber-400/70" style={{ width: `${(kPpg / barMax) * 100}%` }} />
                   </div>
@@ -3373,7 +3381,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {R_GF}–{R_GA} &nbsp;·&nbsp;
                     <span className="text-teal-400/80">MS +{R_GF - R_GA}</span>
                   </p>
-                  <p className="mt-0.5 text-[10px] text-neutral-600">Omg 11–14, 16–17</p>
+                  <p className="mt-0.5 text-[10px] text-neutral-600">{rydstrom.roundsLabel}</p>
                   <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
                     <div className="h-full rounded-full bg-teal-400/70" style={{ width: `${(rPpg / barMax) * 100}%` }} />
                   </div>
@@ -3383,7 +3391,8 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               {/* Delta callout */}
               <div className="border-t border-emerald-800/30 bg-emerald-950/30 px-5 py-3">
                 <p className="text-[11px] text-neutral-400">
-                  Rydström har ett snitt som är{" "}
+                  Efter 2–0 mot GAIS har Rydström gått förbi Karlsson i totalpoäng:{" "}
+                  <span className="font-bold text-teal-300">{R_POINTS} mot {K_POINTS}</span>. Poängsnittet är{" "}
                   <span className="font-bold text-teal-300">+{((rPpg - kPpg) / kPpg * 100).toFixed(0)}%</span>{" "}
                   högre än Karlsson ({rPpg.toFixed(2).replace(".", ",")} vs {kPpg.toFixed(2).replace(".", ",")} p/m) –
                   med målskillnad {R_GF - R_GA > 0 ? "+" : ""}{R_GF - R_GA} mot {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}.
