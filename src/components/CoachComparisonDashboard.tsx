@@ -251,7 +251,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   const karlssonRounds = useMemo(() => rounds2026.filter((r) => KARLSSON_GAMEWEEKS.has(r.gameweek)), [rounds2026]);
   const rydstromRounds = useMemo(() => rounds2026.filter((r) => RYDSTROM_GAMEWEEKS.has(r.gameweek)), [rounds2026]);
 
-  const kAvg = useMemo(() => {
+  const kAvg = useMemo<Record<string, number>>(() => {
     const analysis = computeAnalysisAverages(karlssonRounds);
     const xg = computeXgAverages(KARLSSON_BD_GAMEWEEKS);
     return {
@@ -261,7 +261,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
       _xg_diff: xg.xgDifference,
     };
   }, [karlssonRounds]);
-  const rAvg = useMemo(() => {
+  const rAvg = useMemo<Record<string, number>>(() => {
     const analysis = computeAnalysisAverages(rydstromRounds);
     const xg = computeXgAverages(RYDSTROM_BD_GAMEWEEKS);
     return {
