@@ -113,6 +113,25 @@ export default function PlayerStatisticsRoutePage() {
           </Link>
 
           <Link
+            href="/spelarstatistik/filip-jakobsson"
+            className="group rounded-2xl border border-lime-500/30 bg-slate-800/80 p-6 transition-colors hover:border-lime-400/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-lime-500/20 text-lime-300">
+              🧠
+            </div>
+            <h2 className="text-xl font-semibold text-white">
+              Filip Jakobsson
+            </h2>
+            <p className="mt-2 text-sm text-slate-300">
+              U19-mittfältaren som satt på bänken mot GAIS – Twelve-spindel,
+              rankings och spelarprofil.
+            </p>
+            <p className="mt-4 text-sm font-medium text-lime-300 group-hover:text-lime-200">
+              Öppna scoutinganalys →
+            </p>
+          </Link>
+
+          <Link
             href="/spelarstatistik/besara-jamforelse"
             className="group rounded-2xl border border-amber-500/30 bg-slate-800/80 p-6 transition-colors hover:border-amber-400/60 hover:bg-slate-800"
           >
