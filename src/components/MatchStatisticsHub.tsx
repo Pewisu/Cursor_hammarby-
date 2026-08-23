@@ -3318,16 +3318,16 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           const barMax   = Math.max(kPpg, rPpg, 0.001);
 
           return (
-            <section className="overflow-hidden rounded-2xl border border-emerald-700/30 bg-[#1a2d26]">
+            <section className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
               {/* Header */}
-              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-emerald-800/30 px-5 pt-5 pb-4">
+              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-white/10 px-5 pt-5 pb-4">
                 <div>
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-emerald-400/70">Tränarjämförelse</p>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5fd39a]">Tränarjämförelse</p>
                   <h3 className="mt-1 text-base font-bold text-white md:text-lg">Poängsnitt per tränare · Allsvenskan 2026</h3>
                 </div>
                 <Link
                   href="/matchstatistik/coachjamforelse"
-                  className="rounded-lg border border-emerald-700/40 bg-emerald-900/20 px-3 py-1.5 text-[11px] font-medium text-emerald-300 hover:border-emerald-500/60 hover:text-emerald-200"
+                  className="rounded-lg border border-[#006633]/60 bg-[#006633]/20 px-3 py-1.5 text-[11px] font-medium text-[#5fd39a] hover:border-[#5fd39a]/60 hover:text-white"
                 >
                   Full jämförelse →
                 </Link>
@@ -3336,13 +3336,13 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               {/* 2026 totalt */}
               <div className="flex items-center justify-between gap-4 px-5 py-4">
                 <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">2026 totalt</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/35">2026 totalt</p>
                   <p className="mt-0.5 text-2xl font-black tabular-nums text-white">
                     {totalPpg.toFixed(2).replace(".", ",")}
-                    <span className="ml-1 text-sm font-normal text-neutral-400">p/m</span>
+                    <span className="ml-1 text-sm font-normal text-white/45">p/m</span>
                   </p>
                 </div>
-                <div className="text-right text-xs text-neutral-500">
+                <div className="text-right text-xs text-white/35">
                   <p>{totalMatches} matcher · {totalPoints} poäng</p>
                   <p className="mt-0.5">{totalGF}–{totalGA} · MS {totalGF - totalGA > 0 ? "+" : ""}{totalGF - totalGA}</p>
                   <p className="mt-0.5 text-[10px]">Allsvenskan omg 1–18</p>
@@ -3350,56 +3350,56 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               </div>
 
               {/* Coach rows */}
-              <div className="grid grid-cols-2 divide-x divide-emerald-800/30 border-t border-emerald-800/30">
+              <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
                 {/* Karlsson */}
-                <div className="px-5 py-4">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-amber-400/80">K. Karlsson</p>
-                  <p className="mt-1 text-3xl font-black tabular-nums text-amber-300">
+                <div className="bg-[#c4a035]/10 px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#c4a035]">K. Karlsson</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-[#d6b64b]">
                     {kPpg.toFixed(2).replace(".", ",")}
-                    <span className="ml-1 text-sm font-normal text-amber-500/60">p/m</span>
+                    <span className="ml-1 text-sm font-normal text-[#c4a035]/70">p/m</span>
                   </p>
-                  <p className="mt-2 inline-flex rounded-md border border-amber-500/25 bg-amber-500/10 px-2 py-1 text-sm font-bold tabular-nums text-amber-200">
+                  <p className="mt-2 inline-flex rounded-md border border-[#c4a035]/35 bg-[#c4a035]/15 px-2 py-1 text-sm font-bold tabular-nums text-[#e2c45e]">
                     {K_POINTS} poäng totalt
                   </p>
-                  <p className="mt-1 text-[11px] text-neutral-500">{K_MATCHES} matcher</p>
-                  <p className="mt-0.5 text-[11px] text-neutral-500">
+                  <p className="mt-1 text-[11px] text-white/40">{K_MATCHES} matcher</p>
+                  <p className="mt-0.5 text-[11px] text-white/40">
                     {K_GF}–{K_GA} &nbsp;·&nbsp;
-                    <span className="text-amber-400/80">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
+                    <span className="text-[#c4a035]">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
                   </p>
-                  <p className="mt-0.5 text-[10px] text-neutral-600">{karlsson.roundsLabel}</p>
-                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
-                    <div className="h-full rounded-full bg-amber-400/70" style={{ width: `${(kPpg / barMax) * 100}%` }} />
+                  <p className="mt-0.5 text-[10px] text-white/25">{karlsson.roundsLabel}</p>
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-[#c4a035]" style={{ width: `${(kPpg / barMax) * 100}%` }} />
                   </div>
                 </div>
 
                 {/* Rydström */}
-                <div className="px-5 py-4">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-teal-400/80">H. Rydström</p>
-                  <p className="mt-1 text-3xl font-black tabular-nums text-teal-300">
+                <div className="bg-[#006633]/20 px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#5fd39a]">H. Rydström</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-white">
                     {rPpg.toFixed(2).replace(".", ",")}
-                    <span className="ml-1 text-sm font-normal text-teal-500/60">p/m</span>
+                    <span className="ml-1 text-sm font-normal text-[#5fd39a]/70">p/m</span>
                   </p>
-                  <p className="mt-2 inline-flex rounded-md border border-teal-500/25 bg-teal-500/10 px-2 py-1 text-sm font-bold tabular-nums text-teal-200">
+                  <p className="mt-2 inline-flex rounded-md border border-[#5fd39a]/35 bg-[#006633]/50 px-2 py-1 text-sm font-bold tabular-nums text-white">
                     {R_POINTS} poäng totalt
                   </p>
-                  <p className="mt-1 text-[11px] text-neutral-500">{R_MATCHES} matcher</p>
-                  <p className="mt-0.5 text-[11px] text-neutral-500">
+                  <p className="mt-1 text-[11px] text-white/45">{R_MATCHES} matcher</p>
+                  <p className="mt-0.5 text-[11px] text-white/45">
                     {R_GF}–{R_GA} &nbsp;·&nbsp;
-                    <span className="text-teal-400/80">MS +{R_GF - R_GA}</span>
+                    <span className="text-[#5fd39a]">MS +{R_GF - R_GA}</span>
                   </p>
-                  <p className="mt-0.5 text-[10px] text-neutral-600">{rydstrom.roundsLabel}</p>
-                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-emerald-950/60">
-                    <div className="h-full rounded-full bg-teal-400/70" style={{ width: `${(rPpg / barMax) * 100}%` }} />
+                  <p className="mt-0.5 text-[10px] text-white/25">{rydstrom.roundsLabel}</p>
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-[#006633]" style={{ width: `${(rPpg / barMax) * 100}%` }} />
                   </div>
                 </div>
               </div>
 
               {/* Delta callout */}
-              <div className="border-t border-emerald-800/30 bg-emerald-950/30 px-5 py-3">
-                <p className="text-[11px] text-neutral-400">
+              <div className="border-t border-white/10 bg-black/40 px-5 py-3">
+                <p className="text-[11px] text-white/55">
                   Efter 2–0 mot GAIS har Rydström gått förbi Karlsson i totalpoäng:{" "}
-                  <span className="font-bold text-teal-300">{R_POINTS} mot {K_POINTS}</span>. Poängsnittet är{" "}
-                  <span className="font-bold text-teal-300">+{((rPpg - kPpg) / kPpg * 100).toFixed(0)}%</span>{" "}
+                  <span className="font-bold text-[#5fd39a]">{R_POINTS} mot {K_POINTS}</span>. Poängsnittet är{" "}
+                  <span className="font-bold text-[#5fd39a]">+{((rPpg - kPpg) / kPpg * 100).toFixed(0)}%</span>{" "}
                   högre än Karlsson ({rPpg.toFixed(2).replace(".", ",")} vs {kPpg.toFixed(2).replace(".", ",")} p/m) –
                   med målskillnad {R_GF - R_GA > 0 ? "+" : ""}{R_GF - R_GA} mot {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}.
                 </p>

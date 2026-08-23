@@ -139,9 +139,9 @@ function computeXgAverages(
 
 function SectionDivider({ title, accent = false }: { title: string; accent?: boolean }) {
   return (
-    <div className={`flex items-center gap-3 px-4 py-2 ${accent ? "bg-teal-950/30" : "bg-slate-900/60"}`}>
-      <div className={`h-3.5 w-0.5 rounded-full ${accent ? "bg-teal-500" : "bg-slate-600"}`} />
-      <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${accent ? "text-teal-400" : "text-slate-500"}`}>
+    <div className={`flex items-center gap-3 px-4 py-2 ${accent ? "bg-[#006633]/20" : "bg-black/50"}`}>
+      <div className={`h-3.5 w-0.5 rounded-full ${accent ? "bg-[#006633]" : "bg-[#8a9096]"}`} />
+      <span className={`text-[10px] font-bold uppercase tracking-[0.18em] ${accent ? "text-[#5fd39a]" : "text-white/45"}`}>
         {title}
       </span>
     </div>
@@ -176,8 +176,8 @@ function CompareRow({
         <span
           className={`inline-block rounded px-2.5 py-1 text-sm font-bold tabular-nums ${
             kBetter && isSignificant
-              ? "bg-amber-400 text-slate-900"
-              : "bg-slate-700/50 text-slate-300"
+              ? "bg-[#c4a035] text-black"
+              : "bg-white/10 text-white/70"
           }`}
         >
           {fmtVal(kVal, row)}
@@ -187,12 +187,12 @@ function CompareRow({
       {/* Delta + metric name */}
       <div className="w-40 px-1 text-center">
         {deltaLabel && (
-          <p className={`mb-0.5 text-[9px] font-bold ${rBetter ? "text-teal-400" : "text-amber-400"}`}>
+          <p className={`mb-0.5 text-[9px] font-bold ${rBetter ? "text-[#5fd39a]" : "text-[#c4a035]"}`}>
             {deltaLabel}
           </p>
         )}
-        <p className="text-[11px] leading-snug text-slate-400">{row.label}</p>
-        {row.sublabel && <p className="mt-0.5 text-[8px] text-slate-600">{row.sublabel}</p>}
+        <p className="text-[11px] leading-snug text-white/60">{row.label}</p>
+        {row.sublabel && <p className="mt-0.5 text-[8px] text-white/30">{row.sublabel}</p>}
       </div>
 
       {/* Spacer to keep 4-col layout aligned */}
@@ -203,8 +203,8 @@ function CompareRow({
         <span
           className={`inline-block rounded px-2.5 py-1 text-sm font-bold tabular-nums ${
             rBetter && isSignificant
-              ? "bg-teal-400 text-slate-900"
-              : "bg-slate-700/50 text-slate-300"
+              ? "bg-[#006633] text-white"
+              : "bg-white/10 text-white/70"
           }`}
         >
           {fmtVal(rVal, row)}
@@ -231,21 +231,21 @@ function StatTile({
 }) {
   // fmt is derived externally so parent decides colouring
   return (
-    <div className="rounded-lg border border-slate-700/40 bg-slate-900/60 p-3">
-      <p className="mb-2 text-[9px] font-semibold uppercase tracking-widest text-slate-600">{label}</p>
+    <div className="rounded-lg border border-white/10 bg-black/40 p-3">
+      <p className="mb-2 text-[9px] font-semibold uppercase tracking-widest text-white/35">{label}</p>
       <div className="flex items-end justify-between gap-1">
         <div className="text-center">
-          <p className={`text-base font-extrabold tabular-nums ${fmt === "k-better" ? "text-amber-300" : "text-slate-400"}`}>
+          <p className={`text-base font-extrabold tabular-nums ${fmt === "k-better" ? "text-[#c4a035]" : "text-white/60"}`}>
             {kVal}
           </p>
-          <p className="mt-0.5 text-[8px] text-slate-600">Karlsson</p>
+          <p className="mt-0.5 text-[8px] text-white/30">Karlsson</p>
         </div>
-        <div className="pb-4 text-[8px] text-slate-700">|</div>
+        <div className="pb-4 text-[8px] text-white/15">|</div>
         <div className="text-center">
-          <p className={`text-base font-extrabold tabular-nums ${fmt === "r-better" ? "text-teal-300" : "text-slate-400"}`}>
+          <p className={`text-base font-extrabold tabular-nums ${fmt === "r-better" ? "text-[#5fd39a]" : "text-white/60"}`}>
             {rVal}
           </p>
-          <p className="mt-0.5 text-[8px] text-slate-600">Rydström</p>
+          <p className="mt-0.5 text-[8px] text-white/30">Rydström</p>
         </div>
       </div>
     </div>
@@ -316,31 +316,39 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   const defensePct = Math.round((1 - rAvg["opp_np_xg_per_shot"] / kAvg["opp_np_xg_per_shot"]) * 100);
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-800/80">
+    <section className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
       {/* ── Header ── */}
-      <div className="border-b border-slate-700/50 bg-slate-900/40 px-5 py-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-500">
+      <div className="border-b border-white/10 bg-black/40 px-5 py-5">
+        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/35">
           Tränarskiftet · Allsvenskan 2026
         </p>
         <h2 className="mt-2 text-2xl font-black tracking-tight text-white">
-          <span className="text-amber-400">Karlsson</span>
-          <span className="mx-2 text-slate-600 font-light">→</span>
-          <span className="text-teal-400">Rydström</span>
+          <span className="text-[#c4a035]">Karlsson</span>
+          <span className="mx-2 font-light text-white/25">→</span>
+          <span className="text-[#5fd39a]">Rydström</span>
         </h2>
-        <p className="mt-1.5 text-xs text-slate-500">
+        <p className="mt-1.5 text-xs text-white/40">
           Resultatfacit under respektive tränarperiod.{" "}
-          <span className="text-amber-400/80">{kRecord.matches} matcher (Karlsson)</span>
+          <span className="text-[#c4a035]">{kRecord.matches} matcher (Karlsson)</span>
           {" · "}
-          <span className="text-teal-400/80">{rRecord.matches} matcher (Rydström)</span>
-          <span className="block mt-1 text-slate-600">
+          <span className="text-[#5fd39a]">{rRecord.matches} matcher (Rydström)</span>
+          <span className="mt-1 block text-white/30">
             Twelve-spelmåtten omfattar 3 Rydström-rapporter (Elfsborg samt Kalmar hemma och borta).
             xG-snittet omfattar samtliga 7 matcher t.o.m. omgång 18.
           </span>
         </p>
+        <div
+          className="mt-4 h-2.5 w-full opacity-80"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(90deg, #006633 0 14px, #ffffff 14px 28px)",
+          }}
+          aria-hidden
+        />
       </div>
 
       {/* ── Pill tab navigation ── */}
-      <div className="border-b border-slate-700/50 bg-slate-900/60 px-3 py-2">
+      <div className="border-b border-white/10 bg-black/60 px-3 py-2">
         <div className="flex gap-1.5 overflow-x-auto">
           {tabs.map((tab) => (
             <button
@@ -348,8 +356,8 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
               onClick={() => setActiveTab(tab.id)}
               className={`whitespace-nowrap rounded-full px-3.5 py-1.5 text-[11px] font-semibold transition-all ${
                 activeTab === tab.id
-                  ? "bg-teal-500/20 text-teal-300 ring-1 ring-teal-500/40"
-                  : "text-slate-500 hover:bg-slate-800 hover:text-slate-300"
+                  ? "bg-[#006633] text-white ring-1 ring-[#5fd39a]/50"
+                  : "text-white/40 hover:bg-white/5 hover:text-white/75"
               }`}
             >
               {tab.label}
@@ -359,39 +367,39 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
       </div>
 
       {/* ── Column labels ── */}
-      <div className="grid grid-cols-[1fr_auto_auto_1fr] items-center border-b border-slate-700/30 bg-slate-900/30 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider">
-        <span className="text-amber-500">K. Karlsson</span>
-        <span className="w-40 text-center text-slate-600">Mätvärde</span>
+      <div className="grid grid-cols-[1fr_auto_auto_1fr] items-center border-b border-white/10 bg-black/30 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider">
+        <span className="text-[#c4a035]">K. Karlsson</span>
+        <span className="w-40 text-center text-white/30">Mätvärde</span>
         <span className="w-1" />
-        <span className="text-right text-teal-400">H. Rydström</span>
+        <span className="text-right text-[#5fd39a]">H. Rydström</span>
       </div>
 
       {/* ══ FACIT tab ══════════════════════════════════════════════════════════ */}
       {activeTab === "oversikt" && (
         <div>
           {/* Era banners */}
-          <div className="grid grid-cols-2 divide-x divide-slate-700/40">
-            <div className="bg-amber-950/20 px-4 py-4">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-amber-600">Karlsson-eran</p>
-              <p className="mt-1 text-2xl font-black text-amber-300">
+          <div className="grid grid-cols-2 divide-x divide-white/10">
+            <div className="bg-[#c4a035]/10 px-4 py-4">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-[#c4a035]">Karlsson-eran</p>
+              <p className="mt-1 text-2xl font-black text-[#d6b64b]">
                 {kRecord.wins}V {kRecord.draws}O {kRecord.losses}F
               </p>
-              <p className="mt-2 inline-flex rounded-md border border-amber-500/25 bg-amber-500/10 px-2 py-1 text-sm font-black tabular-nums text-amber-200">
+              <p className="mt-2 inline-flex rounded-md border border-[#c4a035]/35 bg-[#c4a035]/15 px-2 py-1 text-sm font-black tabular-nums text-[#e2c45e]">
                 {kRecord.points} poäng totalt
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-white/40">
                 {kRecord.goalsFor}–{kRecord.goalsAgainst} · {kRecord.pointsPerGame.toFixed(2)} p/m
               </p>
             </div>
-            <div className="bg-teal-950/20 px-4 py-4">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-teal-600">Rydström-eran</p>
-              <p className="mt-1 text-2xl font-black text-teal-300">
+            <div className="bg-[#006633]/20 px-4 py-4">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-[#5fd39a]">Rydström-eran</p>
+              <p className="mt-1 text-2xl font-black text-white">
                 {rRecord.wins}V {rRecord.draws}O {rRecord.losses}F
               </p>
-              <p className="mt-2 inline-flex rounded-md border border-teal-500/25 bg-teal-500/10 px-2 py-1 text-sm font-black tabular-nums text-teal-200">
+              <p className="mt-2 inline-flex rounded-md border border-[#5fd39a]/35 bg-[#006633]/50 px-2 py-1 text-sm font-black tabular-nums text-white">
                 {rRecord.points} poäng totalt
               </p>
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-white/45">
                 {rRecord.goalsFor}–{rRecord.goalsAgainst} · {rRecord.pointsPerGame.toFixed(2)} p/m
               </p>
             </div>
@@ -442,12 +450,12 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           ))}
 
           {/* Highlight callout */}
-          <div className="border-t border-teal-900/50 bg-teal-950/30 px-5 py-4">
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-teal-500">Skarpaste förbättringen</p>
-            <p className="mt-1 text-sm font-bold text-teal-200">
+          <div className="border-t border-[#006633]/50 bg-[#006633]/20 px-5 py-4">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#5fd39a]">Skarpaste förbättringen</p>
+            <p className="mt-1 text-sm font-bold text-white">
               Motståndarna avlossar {defensePct}% farligare skott per avslut under Karlsson
             </p>
-            <p className="mt-0.5 text-[11px] text-slate-500">
+            <p className="mt-0.5 text-[11px] text-white/40">
               Skottkvalitet mot: {fmtVal(kAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Karlsson) →{" "}
               {fmtVal(rAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Rydström)
             </p>
@@ -480,9 +488,9 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
             <CompareRow key={row.key} row={row} kVal={kAvg[row.key]} rVal={rAvg[row.key]} />
           ))}
 
-          <div className="border-t border-slate-700/40 bg-slate-900/40 px-5 py-4">
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">Analytikerns not</p>
-            <p className="mt-1 text-xs leading-relaxed text-slate-400">
+          <div className="border-t border-white/10 bg-black/40 px-5 py-4">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#c4a035]">Analytikerns not</p>
+            <p className="mt-1 text-xs leading-relaxed text-white/55">
               Rydström valde ett mer positionsbaserat press i sin debut mot Elfsborg borta (PPDA{" "}
               {rAvg["ppda"]?.toFixed(2)}). Trots lägre pressintensitet vann Hammarby xG-uppgörelsen
               klart (2.48 vs 1.03) — ett tecken på att spelkontrollen var god ändå.
@@ -499,12 +507,12 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
             <CompareRow key={row.key} row={row} kVal={kAvg[row.key]} rVal={rAvg[row.key]} />
           ))}
 
-          <div className="border-t border-teal-900/50 bg-teal-950/30 px-5 py-4">
-            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-teal-500">Skarpaste förbättringen</p>
-            <p className="mt-1 text-sm font-bold text-teal-200">
+          <div className="border-t border-[#006633]/50 bg-[#006633]/20 px-5 py-4">
+            <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-[#5fd39a]">Skarpaste förbättringen</p>
+            <p className="mt-1 text-sm font-bold text-white">
               Motståndarna avlossar {defensePct}% farligare skott per avslut under Karlsson
             </p>
-            <p className="mt-0.5 text-[11px] text-slate-500">
+            <p className="mt-0.5 text-[11px] text-white/40">
               Skottkvalitet mot: {fmtVal(kAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Karlsson) →{" "}
               {fmtVal(rAvg["opp_np_xg_per_shot"], oppXgPerShotRow)} (Rydström)
             </p>
@@ -512,7 +520,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
         </div>
       )}
 
-      <div className="border-t border-slate-700/40 px-5 py-2.5 text-[9px] leading-relaxed text-slate-600">
+      <div className="border-t border-white/10 px-5 py-2.5 text-[9px] leading-relaxed text-white/30">
         Resultatfacit efter Hammarby–GAIS 2–0: Rydström = omg 11–14, 16–18 (7 matcher,
         19 poäng) · Karlsson = omg 1–10 + 15 (11 matcher, 17 poäng). Övriga spelmått
         bygger fortsatt på tillgängliga Twelve- och Bolldata-rapporter. xG-snittet för
