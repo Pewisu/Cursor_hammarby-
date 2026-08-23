@@ -8,11 +8,11 @@ import {
   getCoachRecordAverages,
 } from "@/lib/coachComparison2026Data";
 
-// Twelve-indexed gameweeks per coach (2026 season)
-// Rydström from round 11; round 15 (GAIS) was under Karlsson as head coach.
-// Twelve analysis data exists for rounds 1–13 and 17 (not 14, 15, 16).
-const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-const RYDSTROM_GAMEWEEKS = new Set([11, 12, 13, 17]);
+// Twelve uses the scheduled gameweek, while the site presents matches in played
+// order. The postponed GAIS match is therefore the source of a one-round shift:
+// Twelve GW11 = Häcken (Karlsson), GW12 = Elfsborg (Rydström).
+const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
+const RYDSTROM_GAMEWEEKS = new Set([12, 13, 17]);
 
 // Bolldata overview gameweeks per coach (pass data available through round 17).
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
@@ -38,7 +38,7 @@ const ANFALL_METRICS: MetricRow[] = [
   { key: "num_possessions_final_third",  label: "Attacker in i sista tredj.", format: "decimal", higherIsBetter: true,  decimals: 1 },
   { key: "num_box_entries",              label: "Inbrytningar i straffom.",   format: "decimal", higherIsBetter: true,  decimals: 1 },
   { key: "np_shots",                     label: "Skott totalt",               format: "decimal", higherIsBetter: true,  decimals: 1 },
-  { key: "np_xg",                        label: "Eget xG (ej straff)",        format: "decimal", higherIsBetter: true,  decimals: 2 },
+  { key: "np_xg",                        label: "Eget xG / match",             sublabel: "alla matcher med xG-data t.o.m. omg 17", format: "decimal", higherIsBetter: true,  decimals: 2 },
   { key: "np_xg_per_shot",               label: "Skottkvalitet (xG/skott)",   format: "decimal", higherIsBetter: true,  decimals: 3 },
   { key: "xt_within_10s_after_recovery", label: "Direkthot efter bolltapp",   sublabel: "xT inom 10 sek", format: "decimal", higherIsBetter: true, decimals: 2 },
 ];
@@ -61,7 +61,7 @@ const DEFENSIV_METRICS: MetricRow[] = [
   { key: "opp_num_box_entries", label: "Motst. inbrytningar i box",  format: "decimal", higherIsBetter: false, decimals: 1 },
   { key: "opp_np_shots",        label: "Motst. skott totalt",        format: "decimal", higherIsBetter: false, decimals: 1 },
   { key: "opp_xt",              label: "Motst. xT (hot mot mål)",    format: "decimal", higherIsBetter: false, decimals: 2 },
-  { key: "opp_np_xg",           label: "Motst. xG (ej straff)",      format: "decimal", higherIsBetter: false, decimals: 2 },
+  { key: "opp_np_xg",           label: "Motst. xG / match",           sublabel: "alla matcher med xG-data t.o.m. omg 17", format: "decimal", higherIsBetter: false, decimals: 2 },
   { key: "opp_np_xg_per_shot",  label: "Motst. skottkvalitet",       sublabel: "xG per skott · lägre = defensivt starkare", format: "decimal", higherIsBetter: false, decimals: 3 },
   { key: "time_to_defensive_action_after_loss_att_half_s", label: "Reaktionstid efter bollapp", sublabel: "sek tills defensiv aktion · lägre = snabbare", format: "s", higherIsBetter: false, decimals: 2 },
   { key: "_xg_diff",            label: "xG-balans",                  sublabel: "eget xG minus motst. xG per match", format: "diff", higherIsBetter: true, decimals: 2 },
@@ -109,6 +109,19 @@ function computePassAverages(gameweeks: Set<number>): Record<string, number> {
     shotsOnTarget: avg(rounds.map((r) => r.hammarby.shotsOnTarget)),
     touchesInBox:  avg(rounds.map((r) => r.hammarby.touchesInBox)),
     corners:       avg(rounds.map((r) => r.hammarby.corners)),
+  };
+}
+
+function computeXgAverages(gameweeks: Set<number>) {
+  const rounds = hammarbyRoundMatchStats.filter((round) => gameweeks.has(round.gameweek));
+  const count = rounds.length;
+  const hammarbyXg = rounds.reduce((sum, round) => sum + round.hammarby.xg, 0) / count;
+  const opponentXg = rounds.reduce((sum, round) => sum + round.opponent.xg, 0) / count;
+
+  return {
+    hammarbyXg,
+    opponentXg,
+    xgDifference: hammarbyXg - opponentXg,
   };
 }
 
@@ -238,8 +251,26 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   const karlssonRounds = useMemo(() => rounds2026.filter((r) => KARLSSON_GAMEWEEKS.has(r.gameweek)), [rounds2026]);
   const rydstromRounds = useMemo(() => rounds2026.filter((r) => RYDSTROM_GAMEWEEKS.has(r.gameweek)), [rounds2026]);
 
-  const kAvg = useMemo(() => computeAnalysisAverages(karlssonRounds), [karlssonRounds]);
-  const rAvg = useMemo(() => computeAnalysisAverages(rydstromRounds), [rydstromRounds]);
+  const kAvg = useMemo(() => {
+    const analysis = computeAnalysisAverages(karlssonRounds);
+    const xg = computeXgAverages(KARLSSON_BD_GAMEWEEKS);
+    return {
+      ...analysis,
+      np_xg: xg.hammarbyXg,
+      opp_np_xg: xg.opponentXg,
+      _xg_diff: xg.xgDifference,
+    };
+  }, [karlssonRounds]);
+  const rAvg = useMemo(() => {
+    const analysis = computeAnalysisAverages(rydstromRounds);
+    const xg = computeXgAverages(RYDSTROM_BD_GAMEWEEKS);
+    return {
+      ...analysis,
+      np_xg: xg.hammarbyXg,
+      opp_np_xg: xg.opponentXg,
+      _xg_diff: xg.xgDifference,
+    };
+  }, [rydstromRounds]);
 
   const kPassAvg = useMemo(() => computePassAverages(KARLSSON_BD_GAMEWEEKS), []);
   const rPassAvg = useMemo(() => computePassAverages(RYDSTROM_BD_GAMEWEEKS), []);
@@ -260,8 +291,6 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   }, []);
 
   if (karlssonRounds.length === 0 || rydstromRounds.length === 0) return null;
-
-  const rydstromOpponents = rydstromRounds.map((r) => r.opponent).join(" & ");
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "oversikt", label: "Facit" },
@@ -291,7 +320,8 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           {" · "}
           <span className="text-teal-400/80">{rRecord.matches} matcher (Rydström)</span>
           <span className="block mt-1 text-slate-600">
-            Spelmåtten från Twelve omfattar tillgängliga rapporter: {rydstromOpponents}.
+            Twelve-spelmåtten omfattar 3 Rydström-rapporter (Elfsborg samt Kalmar hemma och borta).
+            xG-snittet omfattar samtliga 6 matcher med xG-data t.o.m. omgång 17.
           </span>
         </p>
       </div>
@@ -472,7 +502,9 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
       <div className="border-t border-slate-700/40 px-5 py-2.5 text-[9px] leading-relaxed text-slate-600">
         Resultatfacit efter Hammarby–GAIS 2–0: Rydström = omg 11–14, 16–18 (7 matcher,
         19 poäng) · Karlsson = omg 1–10 + 15 (11 matcher, 17 poäng). Övriga spelmått
-        bygger fortsatt på tillgängliga Twelve- och Bolldata-rapporter.
+        bygger fortsatt på tillgängliga Twelve- och Bolldata-rapporter. xG-snittet för
+        Rydström omfattar 6 matcher t.o.m. omgång 17; xG från omgång 18 läggs till när
+        matchrapporten finns.
       </div>
     </section>
   );
