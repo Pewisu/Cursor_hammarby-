@@ -333,6 +333,9 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
               <p className="mt-1 text-2xl font-black text-amber-300">
                 {kRecord.wins}V {kRecord.draws}O {kRecord.losses}F
               </p>
+              <p className="mt-2 inline-flex rounded-md border border-amber-500/25 bg-amber-500/10 px-2 py-1 text-sm font-black tabular-nums text-amber-200">
+                {kRecord.points} poäng totalt
+              </p>
               <p className="mt-0.5 text-xs text-slate-500">
                 {kRecord.goalsFor}–{kRecord.goalsAgainst} · {kRecord.pointsPerGame.toFixed(2)} p/m
               </p>
@@ -341,6 +344,9 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
               <p className="text-[9px] font-bold uppercase tracking-widest text-teal-600">Rydström-eran</p>
               <p className="mt-1 text-2xl font-black text-teal-300">
                 {rRecord.wins}V {rRecord.draws}O {rRecord.losses}F
+              </p>
+              <p className="mt-2 inline-flex rounded-md border border-teal-500/25 bg-teal-500/10 px-2 py-1 text-sm font-black tabular-nums text-teal-200">
+                {rRecord.points} poäng totalt
               </p>
               <p className="mt-0.5 text-xs text-slate-500">
                 {rRecord.goalsFor}–{rRecord.goalsAgainst} · {rRecord.pointsPerGame.toFixed(2)} p/m

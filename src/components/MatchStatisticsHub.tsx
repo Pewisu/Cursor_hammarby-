@@ -3358,7 +3358,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {kPpg.toFixed(2).replace(".", ",")}
                     <span className="ml-1 text-sm font-normal text-amber-500/60">p/m</span>
                   </p>
-                  <p className="mt-1 text-[11px] text-neutral-500">{K_MATCHES} matcher · {K_POINTS} poäng</p>
+                  <p className="mt-2 inline-flex rounded-md border border-amber-500/25 bg-amber-500/10 px-2 py-1 text-sm font-bold tabular-nums text-amber-200">
+                    {K_POINTS} poäng totalt
+                  </p>
+                  <p className="mt-1 text-[11px] text-neutral-500">{K_MATCHES} matcher</p>
                   <p className="mt-0.5 text-[11px] text-neutral-500">
                     {K_GF}–{K_GA} &nbsp;·&nbsp;
                     <span className="text-amber-400/80">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
@@ -3376,7 +3379,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {rPpg.toFixed(2).replace(".", ",")}
                     <span className="ml-1 text-sm font-normal text-teal-500/60">p/m</span>
                   </p>
-                  <p className="mt-1 text-[11px] text-neutral-500">{R_MATCHES} matcher · {R_POINTS} poäng</p>
+                  <p className="mt-2 inline-flex rounded-md border border-teal-500/25 bg-teal-500/10 px-2 py-1 text-sm font-bold tabular-nums text-teal-200">
+                    {R_POINTS} poäng totalt
+                  </p>
+                  <p className="mt-1 text-[11px] text-neutral-500">{R_MATCHES} matcher</p>
                   <p className="mt-0.5 text-[11px] text-neutral-500">
                     {R_GF}–{R_GA} &nbsp;·&nbsp;
                     <span className="text-teal-400/80">MS +{R_GF - R_GA}</span>
