@@ -13,11 +13,11 @@ import { gaisRound18PartialMatchData } from "@/lib/gaisRound18PartialMatchData";
 // order. The postponed GAIS match is therefore the source of a one-round shift:
 // Twelve GW11 = Häcken (Karlsson), GW12 = Elfsborg (Rydström).
 const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-const RYDSTROM_GAMEWEEKS = new Set([12, 13, 17]);
+const RYDSTROM_GAMEWEEKS = new Set([12, 13, 17, 18]);
 
-// Bolldata overview gameweeks per coach (pass data available through round 17).
+// Bolldata overview gameweeks per coach (pass + xG data available through round 18).
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
-const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17]);
+const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17, 18]);
 
 type Tab = "oversikt" | "anfall" | "press" | "defensiv";
 
@@ -333,7 +333,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           {" · "}
           <span className="text-[#5fd39a]">{rRecord.matches} matcher (Rydström)</span>
           <span className="mt-1 block text-white/30">
-            Twelve-spelmåtten omfattar 3 Rydström-rapporter (Elfsborg samt Kalmar hemma och borta).
+            Twelve-spelmåtten omfattar Rydström-matcher med synkad rapport (bl.a. Elfsborg, Kalmar, GAIS).
             xG-snittet omfattar samtliga 7 matcher t.o.m. omgång 18.
           </span>
         </p>
