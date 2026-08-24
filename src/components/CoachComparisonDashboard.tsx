@@ -15,7 +15,7 @@ import { gaisRound18PartialMatchData } from "@/lib/gaisRound18PartialMatchData";
 const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
 const RYDSTROM_GAMEWEEKS = new Set([12, 13, 17, 18]);
 
-// Bolldata overview gameweeks per coach (pass data available through round 17).
+// Bolldata overview gameweeks per coach (pass + xG data available through round 18).
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
 const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17, 18]);
 

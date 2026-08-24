@@ -5,8 +5,8 @@ import {
   getRunningMatchForGameweek,
 } from "@/components/RoundRunningStatsSection";
 
-const LATEST_ROUND = 17;
-const LATEST_RESULT = "Kalmar FF 0–4 Hammarby";
+const LATEST_ROUND = 18;
+const LATEST_RESULT = "Hammarby 2–0 GAIS";
 
 export default function Home() {
   const latestRunning = getRunningMatchForGameweek(

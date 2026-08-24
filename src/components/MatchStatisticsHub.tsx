@@ -122,6 +122,11 @@ import {
   coachRecords2026,
   getCoachRecordAverages,
 } from "@/lib/coachComparison2026Data";
+import { hammarbyRunningMatches } from "@/lib/hammarbyRunningData";
+import {
+  RoundRunningStatsSection,
+  getRunningMatchForGameweek,
+} from "@/components/RoundRunningStatsSection";
 
 type MatchStatisticsHubProps = {
   mode: "combined" | "round";
@@ -1849,6 +1854,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const round18RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 18);
   const round18DomarIndex = round18RefereeMatch ? calcDomarindex(round18RefereeMatch) : 0;
   const round18DomarRating = getDomarRating(round18DomarIndex);
+  const round18RunningMatch = isRound18Dashboard
+    ? getRunningMatchForGameweek(hammarbyRunningMatches, 18)
+    : null;
   const round3RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 3);
   const round3DomarIndex = round3RefereeMatch ? calcDomarindex(round3RefereeMatch) : 0;
   const effectiveMatchAnalysisViewMode: MatchAnalysisViewMode =
@@ -2904,6 +2912,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   >
                     <span>📈</span>
                     <span>Tränare</span>
+                  </a>
+                  <a
+                    href="#lopdata"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND18_HIF_GREEN}66`,
+                      backgroundColor: `${ROUND18_HIF_GREEN}22`,
+                      color: ROUND18_HIF_LIGHT,
+                    }}
+                  >
+                    <span>🏃</span>
+                    <span>Löpdata</span>
                   </a>
                   <a
                     href="#domar-analys"
@@ -4219,6 +4239,45 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </section>
           );
         })()}
+
+        {isRound18Dashboard && round18RunningMatch && (
+          <section id="lopdata" className="space-y-3">
+            <div className="flex flex-wrap items-end justify-between gap-2 px-1">
+              <div>
+                <p
+                  className="text-[10px] font-bold uppercase tracking-[0.25em]"
+                  style={{ color: ROUND18_HIF_LIGHT }}
+                >
+                  Löpdata · Allsvenskan GPS
+                </p>
+                <h3 className="mt-1 text-base font-bold text-white md:text-lg">
+                  Hammarby mot GAIS · omgång 18
+                </h3>
+                <p className="mt-0.5 text-xs text-white/45">
+                  Lagsträcka {(round18RunningMatch.hammarbyTeamDistanceMeters / 1000).toLocaleString("sv-SE", { maximumFractionDigits: 1 })} km · toppfart{" "}
+                  {round18RunningMatch.hammarbyTopSpeedKmh.toLocaleString("sv-SE", { maximumFractionDigits: 1 })} km/h
+                </p>
+              </div>
+              <a
+                href={round18RunningMatch.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border px-3 py-1.5 text-[11px] font-medium"
+                style={{
+                  borderColor: `${ROUND18_HIF_GREEN}88`,
+                  backgroundColor: `${ROUND18_HIF_GREEN}22`,
+                  color: ROUND18_HIF_LIGHT,
+                }}
+              >
+                Allsvenskan.se →
+              </a>
+            </div>
+            <RoundRunningStatsSection
+              match={round18RunningMatch}
+              allDetailMatches={hammarbyRunningMatches}
+            />
+          </section>
+        )}
 
         {isRound18Dashboard && round18RefereeMatch && (
           <section id="domar-analys" className={`${ROUND11_SURFACE} p-5 md:p-6`}>
