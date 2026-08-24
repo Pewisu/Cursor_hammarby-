@@ -97,9 +97,9 @@ export const gaisRound18MatchSpider: SpiderComparisonAxis[] = [
     "Lyckade passningar",
     592,
     264,
-    "592 (88%)",
-    "264 (77%)",
-    "Mer än dubbelt så många lyckade passningar med högre precision.",
+    "592 (88,4%)",
+    "264 (76,7%)",
+    "Mer än dubbelt så många lyckade passningar med högre precision (Bolldata).",
   ),
   buildMatchSpiderAxis(
     "Stora möjligheter",
@@ -107,7 +107,7 @@ export const gaisRound18MatchSpider: SpiderComparisonAxis[] = [
     3,
     "6",
     "3",
-    "Twelve high opportunity shots: HIF 6, GAIS 3 – men bara HIF satte dem.",
+    "Twelve high opportunity shots (xG > 0,15): HIF 6, GAIS 3 – men bara HIF satte dem.",
   ),
 ];
 
