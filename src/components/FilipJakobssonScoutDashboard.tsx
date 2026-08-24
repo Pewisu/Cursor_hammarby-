@@ -176,11 +176,11 @@ export function FilipJakobssonScoutDashboard() {
       <header className="border-b border-slate-700/50 bg-[#0b1220]/90">
         <div className="mx-auto max-w-6xl px-4 py-8">
           <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.22em] text-emerald-300/90">
-            <Link href="/spelarstatistik" className="hover:text-emerald-200">
-              Spelarstatistik
+            <Link href="/spelare" className="hover:text-emerald-200">
+              Spelare
             </Link>
             <span className="text-slate-600">/</span>
-            <span>Scouting</span>
+            <span>Filip Jakobsson</span>
           </div>
           <div className="mt-4 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
@@ -407,11 +407,8 @@ export function FilipJakobssonScoutDashboard() {
             </a>
           </p>
           <p className="mt-2">
-            <Link
-              href="/spelarstatistik"
-              className="text-slate-400 hover:text-white"
-            >
-              ← Tillbaka till spelarstatistik
+            <Link href="/spelare" className="text-slate-400 hover:text-white">
+              ← Tillbaka till Spelare
             </Link>
           </p>
         </footer>
