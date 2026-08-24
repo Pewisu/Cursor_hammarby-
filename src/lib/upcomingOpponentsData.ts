@@ -1,4 +1,5 @@
 import { gaisRound18Report } from "@/lib/gaisRound18UpcomingData";
+import { fcStockholmCupReport } from "@/lib/fcStockholmCupUpcomingData";
 
 export interface TrafficLightCard {
   metric: string;
@@ -226,7 +227,8 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
-  gaisRound18Report,
+  fcStockholmCupReport,
+  { ...gaisRound18Report, hidden: true },
   {
     round: 17,
     roundLabel: "Omgång 17",
