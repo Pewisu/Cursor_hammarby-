@@ -1698,13 +1698,6 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const isRound16Dashboard = mode === "round" && round === 16;
   const isRound17Dashboard = mode === "round" && round === 17;
   const isRound18Dashboard = mode === "round" && round === 18;
-  const isSpecialRoundDashboard =
-    isRound11Dashboard ||
-    isRound13Dashboard ||
-    isRound14Dashboard ||
-    isRound16Dashboard ||
-    isRound17Dashboard ||
-    isRound18Dashboard;
   const matchesThroughRound = sortedMatches.filter((match) => match.gameweek <= comparisonRound);
   const matchCountThroughRound = matchesThroughRound.length;
   const round11MatchPoints =
