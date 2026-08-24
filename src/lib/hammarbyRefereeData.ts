@@ -282,6 +282,21 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     hammarby: { freeKicks: 3, fouls: 10, foulsSuffered: 10, yellowCards: 1, redCards: 0, isHome: false },
     opponent: { name: "Kalmar FF", freeKicks: 3, fouls: 10, foulsSuffered: 10, yellowCards: 0, redCards: 0 },
   },
+  {
+    key: "omgang-18",
+    gameweek: 18,
+    date: "2026-08-23",
+    matchName: "Hammarby - GAIS, 2-0",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-08-23/hammarby-gais-2-0",
+    referee: "Victor Wolf",
+    effectivePlayingTimeS: 3235,
+    totalTimeMin: 95,
+    // Fouls 11–18 (HIF–GAIS). Gula 0–2. Frispark-diff uppskattad från fouldata.
+    totalFreeKicks: 8,
+    totalCards: 2,
+    hammarby: { freeKicks: 6, fouls: 11, foulsSuffered: 18, yellowCards: 0, redCards: 0, isHome: true },
+    opponent: { name: "GAIS", freeKicks: 2, fouls: 18, foulsSuffered: 11, yellowCards: 2, redCards: 0 },
+  },
 ];
 
 export function calcDomarindex(match: RefereeMatchStats): number {
