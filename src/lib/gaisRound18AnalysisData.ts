@@ -153,6 +153,14 @@ export const gaisRound18MatchStory: MatchStoryPhase[] = [
 
 export const gaisRound18Takeaways: MatchRecapTakeaway[] = [
   {
+    id: "scout-plan",
+    title: "Förhandsanalysen prickade 1H – planen blev matchbilden",
+    body:
+      "Kommande-rapporten sa: tidigt mål, field tilt hemma, boxchanser, kväv långbollarna och lita på GAIS svaga finish. Hammarby gjorde precis det före paus – 2–0 på 11 minuter, 74 % boll, 1,78 xG och 21–2 i avslut. Sex av sju prediktioner i Analys vs utfall blev prickade.",
+    tone: "emerald",
+    stat: "6/7 prediktioner prickade · 0 missade",
+  },
+  {
     id: "first-half",
     title: "Första halvlek avgjorde allt",
     body:
@@ -162,7 +170,7 @@ export const gaisRound18Takeaways: MatchRecapTakeaway[] = [
   },
   {
     id: "revenge",
-    title: "Revansch för maj – samma resultat, omvänd roller",
+    title: "Revansch för maj – samma resultat, omvända roller",
     body:
       "I maj vann GAIS 2–0 på Gamla Ullevi. Nu vann HIF 2–0 hemma – med bättre finish, bättre press (PPDA 3,83) och utan röda kort. Disciplin och klinisk start var skillnaden.",
     tone: "emerald",
@@ -253,6 +261,7 @@ export const gaisRound18FirstHalf = {
     "Lind 5' (assist Madjed) + Abraham 10' (assist Lind) – matchen avgjord innan 12 minuter.",
     "Twelve np-xG i 1H: ≈ 2,46 av matchens 2,88–3,00 – nästan allt skapades före paus.",
     "GAIS: 2 avslut och 0 på mål i 1H (FotMob) – ligans bästa xGA-lag fick knappt ett avslut till.",
+    "Scoutingplanen inför (tidigt mål · field tilt · box · kväv långboll) utfördes nästan exakt i 1H.",
   ],
 } as const;
 
