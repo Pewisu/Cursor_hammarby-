@@ -7,7 +7,7 @@ import type { UpcomingOpponentReport } from "@/lib/upcomingOpponentsData";
 export const gaisRound18Report: UpcomingOpponentReport = {
   round: 18,
   roundLabel: "Omgång 18",
-  hidden: false,
+  hidden: true,
   fixture: "Hammarby - GAIS",
   dateLabel: "Söndag 23 augusti 2026 · 16:30 · 3Arena, Stockholm",
   venueLabel: "3Arena (hemmaplan)",

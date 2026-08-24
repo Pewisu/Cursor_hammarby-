@@ -15,8 +15,9 @@ const body = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Kommande: Hammarby – GAIS · Omgång 18",
-  description: "Kommande motstånd GAIS – Twelve, Bolldata, scouting och matchplan.",
+  title: "Kommande: FC Stockholm – Hammarby · Svenska Cupen",
+  description:
+    "Kommande motstånd FC Stockholm Internazionale i Svenska Cupen – Twelve Ettan-rapport, nivåskillnad och matchplan.",
 };
 
 /** Alias: samma vy som /kommande */
