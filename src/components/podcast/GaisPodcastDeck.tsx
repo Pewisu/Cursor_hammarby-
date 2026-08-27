@@ -866,7 +866,7 @@ export default function GaisPodcastDeck() {
         </SectionShell>
 
         {/* 02 Inbördesmöten */}
-        <SectionShell num="02" eyebrow="Inbördesmöten" title="Senaste cupmöte" mode={mode}>
+        <SectionShell num="02" eyebrow="Inbördesmöten" title="Senaste mötet" mode={mode}>
           {report.headToHead ? (
             <H2HMeetingsBoard h2h={report.headToHead} mode={mode} />
           ) : (
