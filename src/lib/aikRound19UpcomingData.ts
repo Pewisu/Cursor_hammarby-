@@ -113,7 +113,7 @@ export const aikRound19Report: UpcomingOpponentReport = {
     keyStory:
       "Klassiskt derby där volym inte räckte. HIF skapade mer men AIK var iskalla i de få högkvalitativa lägena (Hove 0,79 xG på kvitteringen). På Strawberry Arena måste HIF omsätta field tilt och tempo i mål – och inte släppa in dem i omställningsfickor.",
     seriesTurnedNote:
-      "Sedan derbyförlusten har HIF 7V–2O–2F i ligan och kommer in efter 4–0 borta mot Kalmar och 2–0 hemma mot GAIS. Formkurvan pekar upp – men AIK har också vunnit två raka (3–1 Djurgården, 4–3 Örgryte) och leder den senaste inbördes-duellen.",
+      "Sedan derbyförlusten har HIF 6V–1O–1F i ligan och kommer in efter 4–0 borta mot Kalmar och 2–0 hemma mot GAIS. Formkurvan pekar upp – men AIK har också vunnit två raka (3–1 Djurgården, 4–3 Örgryte) och leder den senaste inbördes-duellen.",
   },
   mobileTakeaways: [
     "xP: HIF 2,10/match (2:a) vs AIK 1,06/match (12:a). Tabell 2 vs 6 – underliggande gapet är större.",
@@ -501,23 +501,23 @@ export const aikRound19Report: UpcomingOpponentReport = {
     },
   ],
   goalWindows: [
-    { window: "0–15'", hammarbyGoals: 6, opponentConcededGoals: 6 },
+    { window: "0–15'", hammarbyGoals: 6, opponentConcededGoals: 5 },
     { window: "16–30'", hammarbyGoals: 4, opponentConcededGoals: 4 },
     { window: "31–45+'", hammarbyGoals: 8, opponentConcededGoals: 3 },
-    { window: "46–60'", hammarbyGoals: 11, opponentConcededGoals: 3 },
+    { window: "46–60'", hammarbyGoals: 10, opponentConcededGoals: 3 },
     { window: "61–75'", hammarbyGoals: 8, opponentConcededGoals: 3 },
     { window: "76–90+'", hammarbyGoals: 5, opponentConcededGoals: 6 },
   ],
   goalTypeNotes: [
     {
       label: "AIK sårbar tidigt & sent",
-      value: "6 insläppta 0–15 · 6 insläppta 76–90+",
+      value: "5 insläppta 0–15 · 6 insläppta 76–90+",
       interpretation:
         "Öppningen och slutet är AIK:s svagaste fönster. Sätt ton tidigt och behåll intensitet sent.",
     },
     {
       label: "HIF starkast 46–60",
-      value: "11 mål i 46–60'",
+      value: "10 mål i 46–60'",
       interpretation:
         "Andra halvlekens start är HIF:s mest produktiva period – perfekt mot ett AIK som ofta tappat sent.",
     },
@@ -585,8 +585,8 @@ export const aikRound19Report: UpcomingOpponentReport = {
       "Vid bollvinst: AIK Att. Transition 12:a – de är långsamma framåt. Straffa den ytan bakom deras linje direkt.",
     ],
     matchManagement: [
-      "0–15: tryck DIREKT. AIK släpper in 6 mål i öppningen. Sätt ton på Strawberry innan hemmapubliken hinner växa.",
-      "46–60: HIF:s bästa fönster (11 mål). Extra energi efter paus – förra derbyt vändes just där.",
+      "0–15: tryck DIREKT. AIK släpper in 5 mål i öppningen. Sätt ton på Strawberry innan hemmapubliken hinner växa.",
+      "46–60: HIF:s bästa fönster (10 mål). Extra energi efter paus – förra derbyt vändes just där.",
       "76–90+: AIK:s variance-zon – Carlstrand och sena mål. Håll struktur OCH intensitet; deras överprestation lever här.",
       "Vid ledning: AIK överpresterar via defensiv tur, inte elitvolym. Kontrollera bollen, ge dem ytterskott, döda omställningarna.",
     ],
@@ -602,7 +602,7 @@ export const aikRound19Report: UpcomingOpponentReport = {
         { label: "Min", value: "1179" },
       ],
       threat:
-        "Startat alla 13 matcher han spelat. Länkspelare som tar emot mellan linjerna, sätter tempo och hitttar den vertikala passningen. Inte AIK:s målrobot – men den som får deras låga passtempo att ändå nå boxen.",
+        "Startat alla 13 matcher han spelat. Länkspelare som tar emot mellan linjerna, sätter tempo och hittar den vertikala passningen. Inte AIK:s målrobot – men den som får deras låga passtempo att ändå nå boxen.",
       motivation:
         "Stäng vändningen. Pressa första mottagningen, tvinga honom bakåt/sidledes. När Beširović får tid får Carlstrand och Hove ytor framför sig.",
     },

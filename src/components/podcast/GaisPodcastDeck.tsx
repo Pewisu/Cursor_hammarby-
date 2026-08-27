@@ -527,6 +527,22 @@ export default function GaisPodcastDeck() {
   const boll = report.bolldataRankings ?? [];
   const h2hAxes = report.spiderComparison.slice(0, 6);
 
+  const fixtureParts = report.fixture.split("-").map((p) => p.trim());
+  const hammarbyIsAway = !/hammarby/i.test(fixtureParts[0] ?? "Hammarby");
+  const homeTeamShort = hammarbyIsAway ? OPP_SHORT : "Hammarby";
+  const awayTeamShort = hammarbyIsAway ? "Hammarby" : OPP_SHORT;
+  const homeBadges = hammarbyIsAway ? report.opponentBadges : report.hifBadges;
+  const awayBadges = hammarbyIsAway ? report.hifBadges : report.opponentBadges;
+  const homeForm: ("W" | "D" | "L")[] = hammarbyIsAway
+    ? ["W", "D", "L", "W", "W"]
+    : ["W", "D", "W", "W", "W"];
+  const awayForm: ("W" | "D" | "L")[] = hammarbyIsAway
+    ? ["W", "D", "W", "W", "W"]
+    : ["W", "D", "L", "W", "W"];
+  const homeFormLabel = hammarbyIsAway ? `${OPP_FORM_LABEL} (5)` : "HIF form (5)";
+  const awayFormLabel = hammarbyIsAway ? "HIF form (5)" : `${OPP_FORM_LABEL} (5)`;
+  const homeIsHif = !hammarbyIsAway;
+
   const modeClass = useMemo(() => {
     if (mode === "mobile") return "max-w-md mx-auto text-[15px]";
     if (mode === "desktop") return "max-w-6xl mx-auto";
@@ -616,7 +632,7 @@ export default function GaisPodcastDeck() {
               }`}
               style={{ letterSpacing: "-0.03em" }}
             >
-              Hammarby – {OPP_SHORT}
+              {homeTeamShort} – {awayTeamShort}
             </h1>
             <p className="mt-3 text-base text-white/55 md:text-lg">
               {report.dateLabel}
@@ -629,20 +645,40 @@ export default function GaisPodcastDeck() {
               )}
             </p>
 
-            <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]">
-              <div className="flex flex-col items-center gap-4 lg:items-end">
-                <div className="text-center lg:text-right">
+            <div
+              className={
+                mode === "mobile"
+                  ? "mt-10 grid items-center gap-8"
+                  : "mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]"
+              }
+            >
+              {/* Hemmalag först (AIK i derbyt) – även i staplad mobilläge */}
+              <div
+                className={
+                  mode === "mobile"
+                    ? "flex flex-col items-center gap-4"
+                    : "flex flex-col items-center gap-4 lg:items-end"
+                }
+              >
+                <div
+                  className={
+                    mode === "mobile" ? "text-center" : "text-center lg:text-right"
+                  }
+                >
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+                    Hemma
+                  </p>
                   <p
                     className="font-[family-name:var(--font-podcast-display)] text-4xl font-black uppercase md:text-6xl"
-                    style={{ color: HIF_GREEN }}
+                    style={{ color: homeIsHif ? HIF_GREEN : "rgba(255,255,255,0.88)" }}
                   >
-                    Hammarby
+                    {homeTeamShort}
                   </p>
                   <p className="mt-1 text-sm text-white/55">
-                    {(report.hifBadges ?? []).slice(0, 3).join(" · ")}
+                    {(homeBadges ?? []).slice(0, 3).join(" · ")}
                   </p>
                 </div>
-                <FormPips results={["W", "D", "W", "W", "W"]} label="HIF form (5)" />
+                <FormPips results={homeForm} label={homeFormLabel} />
               </div>
 
               <div className="flex flex-col items-center gap-4">
@@ -676,16 +712,32 @@ export default function GaisPodcastDeck() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center gap-4 lg:items-start">
-                <div className="text-center lg:text-left">
-                  <p className="font-[family-name:var(--font-podcast-display)] text-4xl font-black uppercase text-white/85 md:text-6xl">
-                    {OPP_SHORT}
+              <div
+                className={
+                  mode === "mobile"
+                    ? "flex flex-col items-center gap-4"
+                    : "flex flex-col items-center gap-4 lg:items-start"
+                }
+              >
+                <div
+                  className={
+                    mode === "mobile" ? "text-center" : "text-center lg:text-left"
+                  }
+                >
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
+                    Borta
+                  </p>
+                  <p
+                    className="font-[family-name:var(--font-podcast-display)] text-4xl font-black uppercase md:text-6xl"
+                    style={{ color: homeIsHif ? "rgba(255,255,255,0.88)" : HIF_GREEN }}
+                  >
+                    {awayTeamShort}
                   </p>
                   <p className="mt-1 text-sm text-white/45">
-                    {(report.opponentBadges ?? []).slice(0, 3).join(" · ")}
+                    {(awayBadges ?? []).slice(0, 3).join(" · ")}
                   </p>
                 </div>
-                <FormPips results={["W", "D", "L", "W", "W"]} label={`${OPP_FORM_LABEL} (5)`} />
+                <FormPips results={awayForm} label={awayFormLabel} />
               </div>
             </div>
 
@@ -1865,7 +1917,7 @@ export default function GaisPodcastDeck() {
               <span className="text-white/55">{OPP_SHORT}</span>
             </p>
             <p className="text-xs text-white/35">
-              Hammarby IF · Big Screen Podcast Deck · Omgång 19 · AIK · 2026
+              {homeTeamShort} – {awayTeamShort} · Big Screen Podcast Deck · {report.roundLabel} · 2026
             </p>
           </div>
         </SectionShell>
