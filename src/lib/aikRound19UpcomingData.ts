@@ -175,12 +175,12 @@ export const aikRound19Report: UpcomingOpponentReport = {
     },
   ],
   opponentStyle: [
-    "Twelve: balanserad defensiv med effektiv counterpress. Defensiva aktioner på 40,7 m – lägre än HIF:s 45,4 m. PPDA 6,65 (passivare än HIF 5,05).",
-    "Direkt men kontrollerat anfallsspel: långboll 14 %, passtempo 18,19 (sämst i ligan). Penetration via carries (23 % box entries) mer än inlägg (29 %).",
-    "Stark defensiv transition (Twelve 3:a): begränsar opp. till final third efter recover. Turnovers 30,9/match.",
-    "Svag chansbegränsning (Opp. Chance Creation 14:e): opp. HQ-skott 5,24, opp. np xG 2,03, opp. box touches 20,8 – boxförsvaret är den öppna dörren.",
-    "Outcome 8:a trots Attack 8 / Chance Creation 10 – poängen drivs av överkonvertering och matchlycka (p−xP 1:a), inte underliggande dominans.",
-    "Bolldata: 1,43 xG/match (11:a) men 1,47 mål – finish ok. Defensivt 2,03 xGA (13:e) mot bara 1,47 insläppta – turen har hållit.",
+    "Anfaller långsamt och kontrollerat: passtempo 18,19 (sämst i ligan), ~14 % långboll. Vill döda rytmen innan de går framåt.",
+    "Penetration via carries in i boxen (23 % av box entries) mer än rena inlägg (29 %). Beširović tar emot mellan linjerna och sätter den vertikala passningen.",
+    "Carlstrand är finish-vapnet sent – klinisk inhoppare (4 mål / 229 min). AIK:s anfall är medel (Attack 8 / CC 10); poängen kommer mer från defensiv tur.",
+    "Stark defensiv transition (Twelve 3:a): counterpress efter bollvinst. HIF får inte tappa billigt i anfallshalvan.",
+    "Svag chansbegränsning (Opp. Chance Creation 14:e): opp. HQ-skott 5,24, opp. np xG 2,03, opp. box touches 20,8 – boxen är den öppna dörren.",
+    "Bolldata: 1,43 xG/match (11:a) men 1,47 mål. Defensivt 2,03 xGA (13:e) mot bara 1,47 insläppta – turen har hållit.",
   ],
   styleProfile: [
     {
