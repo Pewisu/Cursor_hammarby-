@@ -193,6 +193,14 @@ export interface XpComparisonSection {
   headline: string;
   rows: XpComparisonRow[];
   takeaway: string;
+  /** Why the opponent (or gap) exists – drivers behind p−xP over/underperformance. */
+  overperformanceTitle?: string;
+  overperformanceSummary?: string;
+  overperformanceDrivers?: {
+    label: string;
+    value: string;
+    explanation: string;
+  }[];
 }
 
 export interface UpcomingOpponentReport {

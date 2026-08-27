@@ -113,6 +113,32 @@ function SlideRankings() {
             ))}
           </div>
           <p className="mt-3 text-sm font-semibold text-amber-200">{xp.takeaway}</p>
+          {xp.overperformanceDrivers && xp.overperformanceDrivers.length > 0 && (
+            <div className="mt-4 rounded-xl border border-amber-700/40 bg-amber-950/20 p-4">
+              <p className="mb-1 text-xs font-black uppercase tracking-[0.25em] text-amber-300">
+                {xp.overperformanceTitle ?? "Varför överpresterar AIK?"}
+              </p>
+              {xp.overperformanceSummary && (
+                <p className="mb-3 text-sm leading-relaxed text-amber-100/80">
+                  {xp.overperformanceSummary}
+                </p>
+              )}
+              <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                {xp.overperformanceDrivers.map((d) => (
+                  <div
+                    key={d.label}
+                    className="rounded-lg border border-slate-700/50 bg-slate-950/50 p-3"
+                  >
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-slate-300">
+                      {d.label}
+                    </p>
+                    <p className="mt-1 text-sm font-black tabular-nums text-amber-200">{d.value}</p>
+                    <p className="mt-1 text-[11px] leading-snug text-slate-500">{d.explanation}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

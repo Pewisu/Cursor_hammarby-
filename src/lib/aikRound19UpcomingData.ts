@@ -64,6 +64,35 @@ export const aikRound19Report: UpcomingOpponentReport = {
     ],
     takeaway:
       "Derbynarrativet: AIK ser farligare ut i tabellen än i xP. HIF ska lita på processen – 2,10 xP/match mot 1,06 – och straffa den läckande boxen tills turen tar slut.",
+    overperformanceTitle: "Varför överpresterar AIK?",
+    overperformanceSummary:
+      "Överprestationen (+0,59 p−xP, 1:a i ligan) kommer nästan helt från defensiv tur – inte från elitfinish i volym. AIK skapar lite (1,43 xG/match, 11:a) men släpper in långt färre mål än deras opp. xG säger att de borde (+0,56 mål/match i xGA−GA). Resultaten byggs av smala bortasegrar trots förlorad chansbild.",
+    overperformanceDrivers: [
+      {
+        label: "Defensiv tur (huvudorsak)",
+        value: "+9,5 mål sparade vs xGA",
+        explanation:
+          "Snitt xGA−GA +0,56/match. Motståndare skapar HQ-chanser (opp. np xG 2,03 · Opp. CC 14:e) men sätter dem inte – räddningar, ribba, slarv. Exempel: Häcken 0–0 (AIK 0,29 xG vs 2,44), Mjällby 1–2 (1,28 vs 4,79).",
+      },
+      {
+        label: "Vinster trots sämre xG",
+        value: "5 av 8 segrar",
+        explanation:
+          "Inkl. derbyt mot HIF (1,42–2,03), Göteborg, Mjällby, Örgryte och Djurgården. AIK vinner matcher de 'förlorar' under ytan – klassiskt variance-mönster.",
+      },
+      {
+        label: "Smala resultat",
+        value: "6 av 8 segrar med 1 måls marginal",
+        explanation:
+          "2–1 / 1–0-maskin borta. Små marginaler förstärker p−xP när finish och målvaktsspel går deras väg.",
+      },
+      {
+        label: "Offensiv finish ≈ snitt",
+        value: "GF−xG bara +0,04/match",
+        explanation:
+          "De gör ungefär så många mål som xG säger. Överprestationen är alltså inte 'de sätter allt' i volym – utan att motståndaren missar mer. Undantag: kliniska inhopp (Carlstrand 4 mål på ~1,2 xG).",
+      },
+    ],
   },
   previousMeeting: {
     date: "2026-05-24",
@@ -88,13 +117,12 @@ export const aikRound19Report: UpcomingOpponentReport = {
   },
   mobileTakeaways: [
     "xP: HIF 2,10/match (2:a) vs AIK 1,06/match (12:a). Tabell 2 vs 6 – underliggande gapet är större.",
-    "AIK p−xP +0,59 (1:a i ligan): ~18 xP → 28 poäng. Spela mot spelet, inte poängraden.",
+    "Varför AIK överpresterar: defensiv tur (+0,56 xGA−GA/match), 5/8 vinster trots sämre xG, 6/8 med 1 måls marginal.",
+    "Håll koll: Beširović (mittfältsnav, 13 starter) och Carlstrand (4 mål / 229 min, klinisk).",
     "HIF 2:a (36p, 18 omg), AIK 6:a (28p, 17 omg).",
     "Förra mötet 24 maj: AIK 2–1 på 3Arena. Fofana 47', Hove 57', Celina 83'. HIF 2,03 xG – AIK 1,42.",
-    "Twelve (27 aug): AIK Def. Transition 3:a, Outcome 8:a, Opp. Chance Creation 14:e. HIF (20 aug) 1:a i fem faser.",
-    "AIK hemmafacit 2026: 3V–0O–4F, 7–12 i mål. Borta är de starkare (5V–4O–1F, 19p).",
-    "Passtempo 18,19 (16:e) – de vill sakta ner. Opp. HQ-skott 5,24 och opp. np xG 2,03 = boxen läcker.",
-    "Nyckel: forcera tempo, attackera boxen med volym, och straffa deras hemmasvaghet innan derbyt hinner låsa sig.",
+    "AIK hemmafacit 2026: 3V–0O–4F, 7–12 i mål. Opp. HQ-skott 5,24 · opp. np xG 2,03 = boxen läcker.",
+    "Nyckel: forcera tempo, omsätt HQ-chanser (deras tur tar slut om HIF sätter), stäng Beširović→Carlstrand.",
   ],
   dataSources: [
     "Twelve season report AIK: https://reports.twelve.football/reports/aik-season-report-YkxxozHmCB.pdf (27 aug 2026)",
@@ -534,11 +562,11 @@ export const aikRound19Report: UpcomingOpponentReport = {
       bigNumber: "+0,59",
       badge: "1:A I ÖVERPRESTATION",
       color: "yellow",
-      rankNote: "~18 xP → 28 poäng · Opp. CC 14:e",
+      rankNote: "Defensiv tur · 5/8 vinster trots sämre xG",
       explanation:
-        "AIK tar poäng de inte förtjänar utifrån chansbilden, samtidigt som boxen läcker (opp. np xG 2,03). Undervärdera inte poängraden i derbyt – men lita på underliggande spelet.",
+        "Huvudorsak: xGA−GA +0,56/match (+9,5 mål 'sparade'). AIK skapar lite men vinner smala matcher trots förlorad chansbild – variance, inte underliggande dominans.",
       podcastComment:
-        "Tabellen säger 6:a. xP säger 12:a. Vi måste lita på processen och inte bli skrämda av deras resultat.",
+        "De är inte bättre än xP – de har haft tur i boxen bakåt. Om HIF sätter sina HQ-chanser tar överprestationen slut.",
     },
   ],
   spotlightKey:
@@ -552,59 +580,45 @@ export const aikRound19Report: UpcomingOpponentReport = {
     ],
     withoutBall: [
       "Pressa HÖGT men SMART (PPDA-duell: HIF 5,05 vs AIK 6,65). Pressa första passningen – AIK vill ha tid på bollen.",
-      "Stäng Hove mellan linjerna och Carlstrand i boxen. Hove avgjorde derbyt (57'), Carlstrand har 4 mål på 229 min.",
+      "Stäng Beširović mellan linjerna och Carlstrand i boxen. Beširović är navet (13 starter); Carlstrand straffar slarv (4 mål / 229 min).",
       "Begränsa carries in i boxen (23 % av AIK:s box entries). Tvinga dem ut mot kanten och inlägg där HIF är starkare.",
       "Vid bollvinst: AIK Att. Transition 12:a – de är långsamma framåt. Straffa den ytan bakom deras linje direkt.",
     ],
     matchManagement: [
       "0–15: tryck DIREKT. AIK släpper in 6 mål i öppningen. Sätt ton på Strawberry innan hemmapubliken hinner växa.",
       "46–60: HIF:s bästa fönster (11 mål). Extra energi efter paus – förra derbyt vändes just där.",
-      "76–90+: AIK släpper in 6 mål sent men gjorde också Celina 83' sist. Håll struktur OCH intensitet.",
-      "Vid ledning: AIK överpresterar men underliggande xG är svagt. Kontrollera bollen, ge dem ytterskott, döda omställningarna.",
+      "76–90+: AIK:s variance-zon – Carlstrand och sena mål. Håll struktur OCH intensitet; deras överprestation lever här.",
+      "Vid ledning: AIK överpresterar via defensiv tur, inte elitvolym. Kontrollera bollen, ge dem ytterskott, döda omställningarna.",
     ],
   },
   playersToWatch: [
     {
-      name: "Johan Hove",
-      position: "Midfielder · Norge",
-      scoutBadge: "⚡ 5 mål · kvitterade derbyt (57')",
+      name: "Dino Beširović",
+      position: "Midfielder · Bosnien/Hercegovina",
+      scoutBadge: "🧠 13 starter · mittfältets nav",
       stats: [
-        { label: "Mål", value: "5" },
-        { label: "Assist", value: "1" },
-        { label: "Min", value: "1470" },
+        { label: "Mål", value: "1" },
+        { label: "Assist", value: "2" },
+        { label: "Min", value: "1179" },
       ],
       threat:
-        "AIK:s främsta målskytt och derbyhjälte. Dyker upp i boxen från mittfältet och avslutar med hög xG när ytan öppnas.",
+        "Startat alla 13 matcher han spelat. Länkspelare som tar emot mellan linjerna, sätter tempo och hitttar den vertikala passningen. Inte AIK:s målrobot – men den som får deras låga passtempo att ändå nå boxen.",
       motivation:
-        "Skugga i halvrummet. Låt honom inte få fri löpning in i straffområdet efter andraboll eller hörna.",
+        "Stäng vändningen. Pressa första mottagningen, tvinga honom bakåt/sidledes. När Beširović får tid får Carlstrand och Hove ytor framför sig.",
     },
     {
       name: "Linus Carlstrand",
       position: "Forward · Sverige",
-      scoutBadge: "🎯 4 mål på 229 min – klinisk",
+      scoutBadge: "🎯 4 mål på 229 min · 4 på ~1,2 xG",
       stats: [
         { label: "Mål", value: "4" },
         { label: "Assist", value: "1" },
         { label: "Min", value: "229" },
       ],
       threat:
-        "Extrem effektivitet per minut. Kommer ofta från bänken och straffar slarv i boxen. Farligast sent i matchen.",
+        "Klinisk inhoppare/finish-specialist: 4 mål på bara 229 minuter och ~1,2 xG i de målen – extrem överkonvertering. Farligast sent (bl.a. 83') när HIF:s backlinje tröttnar. En del av AIK:s poängvariance i boxen.",
       motivation:
-        "Koncentration 70–90'. Markera tight vid inbyten. Ge honom inte samma friläge som AIK:s andra finishers fick i maj.",
-    },
-    {
-      name: "Bersant Celina",
-      position: "Midfielder · Kosovo",
-      scoutBadge: "🧠 Avgjorde derbyt 83'",
-      stats: [
-        { label: "Mål", value: "2" },
-        { label: "Assist", value: "1" },
-        { label: "Min", value: "861" },
-      ],
-      threat:
-        "Teknisk tioa/åttå som kan låsa upp kompakt försvar. Satte 2–1 sent på 3Arena – derbykyla.",
-      motivation:
-        "Stäng vändningen mellan linjerna. Tvinga honom sidledes – aldrig den fria diagonalen in i Hove/Yohanna.",
+        "Koncentration 60–90' och vid inbyten. Markera tight i boxen, vinn förstakontakt vid inlägg/andraboll. Ge honom inte frilägen – det är exakt så AIK tar 'orättvisa' poäng.",
     },
   ],
   headToHead: {

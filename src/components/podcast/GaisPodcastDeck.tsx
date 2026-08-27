@@ -525,20 +525,17 @@ export default function GaisPodcastDeck() {
     string,
     { x: number; y: number; r: number; opacity: number }[]
   > = {
-    "Johan Hove": [
-      { x: 50, y: 28, r: 16, opacity: 0.5 },
-      { x: 42, y: 38, r: 12, opacity: 0.35 },
-      { x: 58, y: 38, r: 12, opacity: 0.35 },
+    "Dino Beširović": [
+      { x: 50, y: 48, r: 16, opacity: 0.5 },
+      { x: 38, y: 52, r: 11, opacity: 0.32 },
+      { x: 62, y: 52, r: 11, opacity: 0.32 },
+      { x: 50, y: 36, r: 10, opacity: 0.28 },
     ],
     "Linus Carlstrand": [
       { x: 50, y: 16, r: 18, opacity: 0.55 },
-      { x: 38, y: 24, r: 11, opacity: 0.32 },
-      { x: 62, y: 24, r: 11, opacity: 0.32 },
-    ],
-    "Bersant Celina": [
-      { x: 50, y: 42, r: 15, opacity: 0.45 },
-      { x: 35, y: 48, r: 11, opacity: 0.3 },
-      { x: 65, y: 48, r: 11, opacity: 0.3 },
+      { x: 38, y: 22, r: 11, opacity: 0.32 },
+      { x: 62, y: 22, r: 11, opacity: 0.32 },
+      { x: 50, y: 28, r: 10, opacity: 0.3 },
     ],
   };
 
@@ -889,6 +886,43 @@ export default function GaisPodcastDeck() {
                 </span>
                 {report.xpComparison.takeaway}
               </p>
+
+              {report.xpComparison.overperformanceDrivers &&
+                report.xpComparison.overperformanceDrivers.length > 0 && (
+                  <div className="mt-8 rounded-3xl border border-white/10 bg-black/50 p-5 md:p-7">
+                    <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: OPP_ACCENT }}>
+                      {report.xpComparison.overperformanceTitle ?? "Varför överpresterar de?"}
+                    </p>
+                    {report.xpComparison.overperformanceSummary && (
+                      <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/70 md:text-base">
+                        {report.xpComparison.overperformanceSummary}
+                      </p>
+                    )}
+                    <div className="mt-6 grid gap-4 md:grid-cols-2">
+                      {report.xpComparison.overperformanceDrivers.map((d) => (
+                        <div
+                          key={d.label}
+                          className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5"
+                        >
+                          <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                            <p className="text-sm font-black uppercase tracking-wide text-white">
+                              {d.label}
+                            </p>
+                            <p
+                              className="text-sm font-black tabular-nums md:text-base"
+                              style={{ color: OPP_ACCENT }}
+                            >
+                              {d.value}
+                            </p>
+                          </div>
+                          <p className="text-xs leading-relaxed text-white/55 md:text-sm">
+                            {d.explanation}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
             </div>
           )}
 
@@ -1127,7 +1161,11 @@ export default function GaisPodcastDeck() {
 
         {/* 05 Scouting */}
         <SectionShell num="05" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div
+            className={`grid gap-6 ${
+              (report.playersToWatch?.length ?? 0) <= 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"
+            }`}
+          >
             {(report.playersToWatch ?? []).slice(0, 3).map((player) => (
               <article key={player.name} className="overflow-hidden rounded-3xl border border-white/10 bg-black/40">
                 <div className="grid grid-cols-[0.9fr_1.1fr] gap-0">
