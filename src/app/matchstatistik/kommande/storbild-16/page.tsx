@@ -45,6 +45,7 @@ function SlideRankings() {
   const off = rows.filter((r) => r.group === "offensiv");
   const def = rows.filter((r) => r.group === "defensiv");
   const stil = rows.filter((r) => r.group === "stil");
+  const xp = report.xpComparison;
 
   return (
     <div className="flex h-full flex-col overflow-y-auto px-8 py-8 lg:px-14 lg:py-10">
@@ -62,6 +63,58 @@ function SlideRankings() {
           </p>
         </div>
       </div>
+
+      {xp && (
+        <div className="mb-5 rounded-2xl border border-[#008050]/40 bg-[#008050]/10 p-5">
+          <div className="mb-4 flex flex-col gap-1 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#008050]">
+                {xp.title}
+              </p>
+              <h3 className="text-2xl font-black uppercase text-white lg:text-3xl">
+                Tabell vs underliggande
+              </h3>
+            </div>
+            <p className="max-w-2xl text-sm leading-relaxed text-emerald-100/80 lg:text-right">
+              {xp.headline}
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {xp.rows.map((row) => (
+              <div
+                key={row.label}
+                className="rounded-xl border border-slate-700/50 bg-slate-950/60 p-3"
+              >
+                <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                  {row.label}
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded-lg border border-emerald-800/40 bg-emerald-950/30 px-2 py-2 text-center">
+                    <p className="text-[10px] text-[#008050]">{hif}</p>
+                    <p className="text-2xl font-black tabular-nums text-emerald-100">
+                      {row.hammarbyValue}
+                    </p>
+                    {row.hammarbyRank && (
+                      <p className="text-[10px] text-emerald-200/70">{row.hammarbyRank}</p>
+                    )}
+                  </div>
+                  <div className="rounded-lg border border-amber-800/40 bg-amber-950/30 px-2 py-2 text-center">
+                    <p className="text-[10px] text-amber-500">{opp}</p>
+                    <p className="text-2xl font-black tabular-nums text-amber-100">
+                      {row.opponentValue}
+                    </p>
+                    {row.opponentRank && (
+                      <p className="text-[10px] text-amber-200/70">{row.opponentRank}</p>
+                    )}
+                  </div>
+                </div>
+                <p className="mt-2 text-center text-[11px] leading-snug text-slate-500">{row.note}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-sm font-semibold text-amber-200">{xp.takeaway}</p>
+        </div>
+      )}
 
       <div className="grid flex-1 gap-5 xl:grid-cols-[1.1fr_1fr]">
         {/* Twelve phases */}
@@ -188,7 +241,7 @@ function SlidePreviousAndPlan() {
             Del 2 av 3 · Förra mötet &amp; plan
           </p>
           <h2 className="text-3xl font-black uppercase tracking-tight text-white lg:text-5xl">
-            Hemmamatch på 3Arena
+            {report.venueLabel ?? report.fixture}
           </h2>
         </div>
       </div>

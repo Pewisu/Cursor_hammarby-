@@ -177,6 +177,24 @@ export interface BolldataRankMetric {
   talkTrack: string;
 }
 
+/** Side-by-side expected points board (tabell vs underliggande). */
+export interface XpComparisonRow {
+  label: string;
+  hammarbyValue: string;
+  hammarbyRank?: string;
+  opponentValue: string;
+  opponentRank?: string;
+  note: string;
+}
+
+export interface XpComparisonSection {
+  title: string;
+  subtitle: string;
+  headline: string;
+  rows: XpComparisonRow[];
+  takeaway: string;
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -207,6 +225,8 @@ export interface UpcomingOpponentReport {
   twelvePhaseRanks?: TwelvePhaseRank[];
   /** Bolldata lagdata rankings split by offensiv / defensiv / stil. */
   bolldataRankings?: BolldataRankMetric[];
+  /** Explicit points vs xP comparison for broadcast (optional). */
+  xpComparison?: XpComparisonSection;
   quickStatusCards: {
     title: string;
     body: string;

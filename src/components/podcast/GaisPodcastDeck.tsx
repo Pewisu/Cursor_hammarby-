@@ -812,6 +812,86 @@ export default function GaisPodcastDeck() {
 
         {/* 03 Mätvärden */}
         <SectionShell num="03" eyebrow="Säsongsdata" title="Nyckeltal per match" mode={mode}>
+          {report.xpComparison && (
+            <div
+              className="mb-10 overflow-hidden rounded-3xl border p-5 md:p-8"
+              style={{
+                borderColor: `${HIF_GREEN}66`,
+                background: `linear-gradient(145deg, ${HIF_GREEN}22, #111 55%)`,
+              }}
+            >
+              <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: HIF_GREEN }}>
+                    {report.xpComparison.title}
+                  </p>
+                  <h3 className="mt-1 font-[family-name:var(--font-podcast-display)] text-3xl font-black uppercase text-white md:text-4xl">
+                    Tabell vs underliggande
+                  </h3>
+                  <p className="mt-1 text-xs text-white/45">{report.xpComparison.subtitle}</p>
+                </div>
+                <p className="max-w-xl text-sm leading-relaxed text-white/70 md:text-right md:text-base">
+                  {report.xpComparison.headline}
+                </p>
+              </div>
+
+              <div className="mb-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-1">
+                <p className="text-right text-sm font-black uppercase tracking-wider" style={{ color: HIF_GREEN }}>
+                  Hammarby
+                </p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">vs</p>
+                <p className="text-left text-sm font-black uppercase tracking-wider text-white/70">
+                  {OPP_SHORT}
+                </p>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                {report.xpComparison.rows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="rounded-2xl border border-white/10 bg-black/45 p-4 md:p-5"
+                  >
+                    <p className="mb-3 text-center text-[10px] font-bold uppercase tracking-[0.28em] text-white/40">
+                      {row.label}
+                    </p>
+                    <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-3">
+                      <div className="text-right">
+                        <p className="text-3xl font-black tabular-nums md:text-4xl" style={{ color: HIF_GREEN }}>
+                          {row.hammarbyValue}
+                        </p>
+                        {row.hammarbyRank && (
+                          <p className="mt-1 text-[11px] font-semibold text-white/45">{row.hammarbyRank}</p>
+                        )}
+                      </div>
+                      <span className="pb-2 text-[10px] font-bold uppercase tracking-widest text-white/25">
+                        vs
+                      </span>
+                      <div className="text-left">
+                        <p className="text-3xl font-black tabular-nums text-white/80 md:text-4xl">
+                          {row.opponentValue}
+                        </p>
+                        {row.opponentRank && (
+                          <p className="mt-1 text-[11px] font-semibold text-white/40">{row.opponentRank}</p>
+                        )}
+                      </div>
+                    </div>
+                    <p className="mt-3 text-center text-xs leading-snug text-white/50">{row.note}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p
+                className="mt-6 rounded-2xl border px-4 py-3 text-sm leading-relaxed text-white/80 md:text-base"
+                style={{ borderColor: `${OPP_ACCENT}55`, background: `${OPP_ACCENT}14` }}
+              >
+                <span className="font-black uppercase tracking-wide" style={{ color: OPP_ACCENT }}>
+                  Takeaway ·{" "}
+                </span>
+                {report.xpComparison.takeaway}
+              </p>
+            </div>
+          )}
+
           <div className="mb-10 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
             <p className="max-w-2xl text-white/60">
               Grön stapel = Hammarby. Grå = {OPP_SHORT}. Längre stapel = starkare värde på mätetalet.
