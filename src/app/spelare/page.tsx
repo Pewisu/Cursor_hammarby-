@@ -21,7 +21,7 @@ const players = [
     name: "Ali Habeşoğlu",
     role: "Anfallare · Bodrumspor",
     blurb:
-      "Luftstark poacher i Turkish 1. Lig – Twelve-spindel, rankings och profil.",
+      "Luftstark anfallare i Turkish 1. Lig – spindeldiagram, rankingar och profil.",
     accent: "orange" as const,
   },
   {

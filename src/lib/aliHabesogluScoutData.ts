@@ -34,7 +34,7 @@ export const aliHabesogluScout = {
   sourceUrl:
     "https://reports.twelve.football/reports/ali-habesoglu-scouting-report-bvhwiSBafD.pdf",
   contextNote:
-    "Twelve-scoutingrapport från Turkish 1. Lig 2025/2026. Jämförelse mot övriga anfallare i ligan.",
+    "Scoutingdata från Turkish 1. Lig 2025/2026, jämfört med övriga anfallare i ligan.",
   player: {
     name: "Ali Habeşoğlu",
     club: "Bodrumspor",
@@ -56,32 +56,32 @@ export const aliHabesogluScout = {
     redCards: 0,
   },
   summaryHeader:
-    "Luftstark poacher och målskytt – behöver utveckla hold-up och pressingspel.",
+    "Stark i luften och farlig målskytt – svagare med bollbevarande och press.",
   summary:
-    "Ali Habeşoğlu är en 22-årig anfallare i Bodrumspor som i Turkish 1. Lig 2025/2026 gjort 12 mål och 5 assists på 3005 minuter. Hans tydligaste styrka är luftspelet – bland de absolut bästa anfallarna i ligan – kombinerat med poaching, boxnärvaro och solid avslutning. Han är en straffområdesspelare mer än en hold-up-ni:a: under press tappar han boll ofta, och pressingspelet är under snittet. Profilen passar en target/poacher som ska vinna nickdueller, attackera boxen och avsluta – inte en modern pressande länkspelare.",
+    "Ali Habeşoğlu är 22 år och anfallare i Bodrumspor. Under Turkish 1. Lig-säsongen 2025/2026 har han gjort 12 mål och 5 assist på 3005 minuter. Det som sticker ut är luftspelet – han tillhör ligan absolut bästa anfallare där – i kombination med måljägande, närvaro i straffområdet och starkt avslut. Han är mer straffområdesforward än länkspelare: under press tappar han ofta bollen, och hans pressarbete ligger under snittet. Profilen passar en forward som ska vinna nickdueller, ta sig in i straffområdet och avsluta – inte en modern anfallare som ska leda pressen högt.",
   narrativeBullets: [
-    "12 mål + 5 assists på 41 matcher (33 starter) – etablerad anfallare i 1. Lig.",
-    "Luftfarlighet #5/94 bland anfallare: nickvinster, anfallande nickar och headed plays i absolut toppklass.",
-    "Hold-up (#79) och pressing (#71) är säsongens stora utvecklingsområden.",
+    "12 mål och 5 assist på 41 matcher (33 starter) – etablerad anfallare i 1. Lig.",
+    "5:a av 94 i luftfarlighet – bland de bästa i nickdueller, anfallande huvudspel och huvudspel.",
+    "Bollbevarande (plats 79) och pressing (plats 71) – de tydligaste utvecklingsområdena.",
   ],
   strengths: [
     {
       name: "Luftfarlighet",
       rank: 5,
       outOf: 94,
-      note: "Dominerar i luften offensivt – farlig på fasta och i boxen.",
+      note: "Stark offensivt i luften – farlig på fasta situationer och i straffområdet.",
     },
     {
-      name: "Poaching",
+      name: "Måljägande",
       rank: 27,
       outOf: 94,
-      note: "Bra xG per skott och förmåga att hitta avslutslägen.",
+      note: "Hittar bra avslutslägen och har hög xG per skott.",
     },
     {
       name: "Löpkvalitet",
       rank: 28,
       outOf: 94,
-      note: "Konsekvent boxnärvaro och mottagningar i straffområdet.",
+      note: "Kommer ofta till i straffområdet och tar emot passningar där.",
     },
   ] satisfies ScoutQualityNote[],
   weaknesses: [
@@ -89,19 +89,19 @@ export const aliHabesogluScout = {
       name: "Delaktighet",
       rank: 53,
       outOf: 94,
-      note: "Färre beröringar och defensiva aktioner – mer boxjägare än bollhållare.",
+      note: "Få bollkontakter och få defensiva insatser – mer avslutare än uppspelspelare.",
     },
     {
       name: "Pressing",
       rank: 71,
       outOf: 94,
-      note: "Låg defensiv intensitet, få interceptions och counterpress-aktioner.",
+      note: "Låg defensiv intensitet, få brytningar och få återerövringar efter bolltapp.",
     },
     {
-      name: "Hold-up-spel",
+      name: "Bollbevarande",
       rank: 79,
       outOf: 94,
-      note: "Svag bollhållning under press trots bra mottagning av långbollar.",
+      note: "Tappar bollen ofta under press, trots att han tar emot långbollar bra.",
     },
   ] satisfies ScoutQualityNote[],
   spider: [
@@ -116,8 +116,8 @@ export const aliHabesogluScout = {
     },
     {
       key: "poaching",
-      label: "Poaching",
-      shortLabel: "Poaching",
+      label: "Måljägande",
+      shortLabel: "Måljägande",
       percentile: 71.8,
       rank: 27,
       outOf: 94,
@@ -170,8 +170,8 @@ export const aliHabesogluScout = {
     },
     {
       key: "holdUp",
-      label: "Hold-up-spel",
-      shortLabel: "Hold-up",
+      label: "Bollbevarande",
+      shortLabel: "Bollbeh.",
       percentile: 16.5,
       rank: 79,
       outOf: 94,
@@ -204,7 +204,7 @@ export const aliHabesogluScout = {
       category: "Luftfarlighet",
     },
     {
-      label: "Headed plays",
+      label: "Huvudspel",
       valuePer90: "1,63 / 90",
       rank: 6,
       outOf: 94,
@@ -217,7 +217,7 @@ export const aliHabesogluScout = {
       rank: 13,
       outOf: 94,
       percentile: 86.7,
-      category: "Hold-up",
+      category: "Bollbevarande",
     },
     {
       label: "Boxmottagningar",
@@ -249,7 +249,7 @@ export const aliHabesogluScout = {
       rank: 21,
       outOf: 94,
       percentile: 78.2,
-      category: "Poaching",
+      category: "Måljägande",
     },
     {
       label: "np xG",
@@ -257,7 +257,7 @@ export const aliHabesogluScout = {
       rank: 22,
       outOf: 94,
       percentile: 77.1,
-      category: "Poaching",
+      category: "Måljägande",
     },
   ] satisfies ScoutStandoutMetric[],
 } as const;
