@@ -43,16 +43,31 @@ function useCountdown(target: Date) {
   return { days, hours, mins, secs, done: diff === 0 };
 }
 
-function StripeDivider() {
+function StripeDivider({ className = "my-2" }: { className?: string }) {
   return (
     <div
-      className="my-2 h-3 w-full"
+      className={`h-3 w-full ${className}`}
       style={{
         backgroundImage: `repeating-linear-gradient(90deg, ${HIF_GREEN} 0 14px, #ffffff 14px 28px)`,
         opacity: 0.85,
       }}
       aria-hidden
     />
+  );
+}
+
+function ColorLegend() {
+  return (
+    <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-[0.22em]">
+      <span className="inline-flex items-center gap-2" style={{ color: HIF_GREEN }}>
+        <span className="inline-block h-2.5 w-5 rounded-sm" style={{ background: HIF_GREEN }} />
+        Hammarby
+      </span>
+      <span className="inline-flex items-center gap-2 text-white/70">
+        <span className="inline-block h-2.5 w-5 rounded-sm bg-white" />
+        {OPP_SHORT}
+      </span>
+    </div>
   );
 }
 
@@ -817,7 +832,7 @@ export default function GaisPodcastDeck() {
                 background: `linear-gradient(145deg, ${HIF_GREEN}22, #111 55%)`,
               }}
             >
-              <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: HIF_GREEN }}>
                     {report.xpComparison.title}
@@ -832,12 +847,17 @@ export default function GaisPodcastDeck() {
                 </p>
               </div>
 
+              <StripeDivider className="mb-5 mt-4" />
+              <div className="mb-5">
+                <ColorLegend />
+              </div>
+
               <div className="mb-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-1">
                 <p className="text-right text-sm font-black uppercase tracking-wider" style={{ color: HIF_GREEN }}>
                   Hammarby
                 </p>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">vs</p>
-                <p className="text-left text-sm font-black uppercase tracking-wider text-white/70">
+                <p className="text-left text-sm font-black uppercase tracking-wider text-white">
                   {OPP_SHORT}
                 </p>
               </div>
@@ -846,9 +866,13 @@ export default function GaisPodcastDeck() {
                 {report.xpComparison.rows.map((row) => (
                   <div
                     key={row.label}
-                    className="rounded-2xl border border-white/10 bg-black/45 p-4 md:p-5"
+                    className="rounded-2xl border bg-black/45 p-4 md:p-5"
+                    style={{ borderColor: `${HIF_GREEN}33` }}
                   >
-                    <p className="mb-3 text-center text-[10px] font-bold uppercase tracking-[0.28em] text-white/40">
+                    <p
+                      className="mb-3 text-center text-[10px] font-bold uppercase tracking-[0.28em]"
+                      style={{ color: HIF_GREEN }}
+                    >
                       {row.label}
                     </p>
                     <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-3">
@@ -864,24 +888,32 @@ export default function GaisPodcastDeck() {
                         vs
                       </span>
                       <div className="text-left">
-                        <p className="text-3xl font-black tabular-nums text-white/80 md:text-4xl">
+                        <p className="text-3xl font-black tabular-nums text-white md:text-4xl">
                           {row.opponentValue}
                         </p>
                         {row.opponentRank && (
-                          <p className="mt-1 text-[11px] font-semibold text-white/40">{row.opponentRank}</p>
+                          <p className="mt-1 text-[11px] font-semibold text-white/45">{row.opponentRank}</p>
                         )}
                       </div>
                     </div>
+                    <div
+                      className="mt-4 h-1.5 w-full rounded-full"
+                      style={{
+                        backgroundImage: `repeating-linear-gradient(90deg, ${HIF_GREEN} 0 8px, #ffffff 8px 16px)`,
+                        opacity: 0.7,
+                      }}
+                      aria-hidden
+                    />
                     <p className="mt-3 text-center text-xs leading-snug text-white/50">{row.note}</p>
                   </div>
                 ))}
               </div>
 
               <p
-                className="mt-6 rounded-2xl border px-4 py-3 text-sm leading-relaxed text-white/80 md:text-base"
-                style={{ borderColor: `${OPP_ACCENT}55`, background: `${OPP_ACCENT}14` }}
+                className="mt-6 rounded-2xl border px-4 py-3 text-sm leading-relaxed text-white/85 md:text-base"
+                style={{ borderColor: `${HIF_GREEN}66`, background: `${HIF_GREEN}18` }}
               >
-                <span className="font-black uppercase tracking-wide" style={{ color: OPP_ACCENT }}>
+                <span className="font-black uppercase tracking-wide" style={{ color: HIF_GREEN }}>
                   Takeaway ·{" "}
                 </span>
                 {report.xpComparison.takeaway}
@@ -889,12 +921,16 @@ export default function GaisPodcastDeck() {
 
               {report.xpComparison.overperformanceDrivers &&
                 report.xpComparison.overperformanceDrivers.length > 0 && (
-                  <div className="mt-8 rounded-3xl border border-white/10 bg-black/50 p-5 md:p-7">
-                    <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: OPP_ACCENT }}>
+                  <div
+                    className="mt-8 rounded-3xl border bg-black/50 p-5 md:p-7"
+                    style={{ borderColor: `${HIF_GREEN}44` }}
+                  >
+                    <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: HIF_GREEN }}>
                       {report.xpComparison.overperformanceTitle ?? "Varför överpresterar de?"}
                     </p>
+                    <StripeDivider className="mb-4 mt-3" />
                     {report.xpComparison.overperformanceSummary && (
-                      <p className="mt-3 max-w-4xl text-sm leading-relaxed text-white/70 md:text-base">
+                      <p className="max-w-4xl text-sm leading-relaxed text-white/70 md:text-base">
                         {report.xpComparison.overperformanceSummary}
                       </p>
                     )}
@@ -902,7 +938,8 @@ export default function GaisPodcastDeck() {
                       {report.xpComparison.overperformanceDrivers.map((d) => (
                         <div
                           key={d.label}
-                          className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5"
+                          className="rounded-2xl border bg-white/[0.03] p-4 md:p-5"
+                          style={{ borderColor: `${HIF_GREEN}33` }}
                         >
                           <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                             <p className="text-sm font-black uppercase tracking-wide text-white">
@@ -910,7 +947,7 @@ export default function GaisPodcastDeck() {
                             </p>
                             <p
                               className="text-sm font-black tabular-nums md:text-base"
-                              style={{ color: OPP_ACCENT }}
+                              style={{ color: HIF_GREEN }}
                             >
                               {d.value}
                             </p>
@@ -1182,7 +1219,7 @@ export default function GaisPodcastDeck() {
                   </div>
                   <div className="p-5">
                     {player.scoutBadge && (
-                      <p className="mb-2 text-[10px] font-black uppercase tracking-widest" style={{ color: OPP_ACCENT }}>
+                      <p className="mb-2 text-[10px] font-black uppercase tracking-widest" style={{ color: HIF_GREEN }}>
                         {player.scoutBadge}
                       </p>
                     )}
