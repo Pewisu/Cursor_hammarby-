@@ -291,7 +291,7 @@ function H2HMeetingsBoard({
           const isDraw = m.outcome === "draw";
           const accent = isWin ? HIF_GREEN : isDraw ? "#9ca3af" : OPP_MUTED;
           const outcomeLabel = isWin ? "HIF VINST" : isDraw ? "OAVGJORT" : `${OPP_SHORT} VINST`;
-          const homeAway = m.venue === "home" ? "Hemma" : "Borta · Strawberry Arena";
+          const homeAway = m.venue === "home" ? "Hemma" : "Borta";
           const hasXg = m.hammarbyXg > 0 || m.opponentXg > 0;
           const maxGoals = Math.max(m.hammarbyGoals, m.opponentGoals, 1);
 
