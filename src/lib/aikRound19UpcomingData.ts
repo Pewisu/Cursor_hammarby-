@@ -621,6 +621,18 @@ export const aikRound19Report: UpcomingOpponentReport = {
         "Koncentration 60–90' och vid inbyten. Markera tight i boxen, vinn förstakontakt vid inlägg/andraboll. Ge honom inte frilägen – det är exakt så AIK tar 'orättvisa' poäng.",
     },
   ],
+  refereePreview: {
+    name: "Glenn Nyberg",
+    role: "Huvuddomare",
+    fixtureLabel: "AIK – Hammarby · Omgång 19 · 30 aug 2026",
+    talkTrack:
+      "Glenn Nyberg dömer derbyt på Strawberry Arena. HIF har mött honom två gånger i Allsvenskan 2026 – båda borta. Sirius 2–0 (domarindex 0) och Djurgården 1–1 (+12). Snitt +6: fler regelfel dömda mot motståndaren (fouls snitt 10–17), medan gula gått lätt mer åt HIF (1,5–0,5/match).",
+    takeaways: [
+      "2 HIF-matcher 2026 (båda borta) · snitt domarindex +6.",
+      "Djurgården omg 5: regelfel 8–20, gula 1–1, index +12.",
+      "Sirius omg 2: regelfel 12–14, gula 2–0, index 0 – jämnare linje.",
+    ],
+  },
   headToHead: {
     sampleSize: 3,
     description:
@@ -670,6 +682,11 @@ export const aikRound19Report: UpcomingOpponentReport = {
     ],
   },
   glossary: [
+    {
+      term: "Domarindex",
+      explanation:
+        "Netto av regelfel-differens (motståndarens fouls minus HIF:s) och kortdifferens. Positivt = fördel HIF.",
+    },
     {
       term: "Twelve-fas",
       explanation:

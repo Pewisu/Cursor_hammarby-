@@ -1311,11 +1311,28 @@ export default function GaisPodcastDeck() {
           {(() => {
             const preview = report.refereePreview!;
             const prior = hammarbyRefereeMatches.filter((m) => m.referee === preview.name);
-            const last = prior[0];
-            const idx = last ? calcDomarindex(last) : 0;
-            const foulDiff = last ? calcFoulDiff(last) : 0;
-            const cardDiff = last ? calcCardDiff(last) : 0;
+            const last = prior.length > 0 ? prior[prior.length - 1] : undefined;
+            const idx =
+              prior.length > 0
+                ? Math.round(
+                    prior.reduce((sum, m) => sum + calcDomarindex(m), 0) / prior.length,
+                  )
+                : 0;
+            const foulDiff =
+              prior.length > 0
+                ? Math.round(
+                    (prior.reduce((sum, m) => sum + calcFoulDiff(m), 0) / prior.length) * 10,
+                  ) / 10
+                : 0;
+            const cardDiff =
+              prior.length > 0
+                ? Math.round(
+                    (prior.reduce((sum, m) => sum + calcCardDiff(m), 0) / prior.length) * 10,
+                  ) / 10
+                : 0;
             const rating = getDomarRating(idx);
+            const refereeLastName = preview.name.split(" ").slice(-1)[0] ?? preview.name;
+            const showWolfLeagueProfile = preview.name === "Victor Wolf";
 
             return (
               <div className="space-y-8">
@@ -1364,7 +1381,7 @@ export default function GaisPodcastDeck() {
                     style={{ borderColor: `${HIF_GREEN}44`, background: "rgba(0,102,51,0.12)" }}
                   >
                     <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-                      HIF-facit med Wolf 2026
+                      HIF-facit med {refereeLastName} 2026
                     </p>
                     <div className="mt-4 flex items-end justify-between gap-4">
                       <div>
@@ -1406,7 +1423,7 @@ export default function GaisPodcastDeck() {
                 {last && (
                   <div className="rounded-3xl border border-white/10 bg-black/40 p-5 md:p-6">
                     <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
-                      Tidigare möte · Omgång {last.gameweek}
+                      Senaste möte · Omgång {last.gameweek}
                     </p>
                     <div className="grid gap-6 lg:grid-cols-[1fr_auto]">
                       <div>
@@ -1462,7 +1479,8 @@ export default function GaisPodcastDeck() {
                   </div>
                 )}
 
-                {(() => {
+                {showWolfLeagueProfile &&
+                  (() => {
                   const profile = getVictorWolfHomeAwayProfile();
                   const season = [...victorWolfAllsvenskan2026Matches].reverse();
                   const yMax = Math.max(profile.homeYellowAvg, profile.awayYellowAvg, 0.1);
@@ -1659,6 +1677,50 @@ export default function GaisPodcastDeck() {
                     </div>
                   );
                 })()}
+
+                {prior.length > 1 && (
+                  <div>
+                    <p className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
+                      Alla HIF-möten med {refereeLastName} 2026 · nyast först
+                    </p>
+                    <div className="space-y-2">
+                      {[...prior].reverse().map((m) => {
+                        const mIdx = calcDomarindex(m);
+                        return (
+                          <div
+                            key={m.key}
+                            className="grid items-center gap-3 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 md:grid-cols-[120px_1fr_auto]"
+                          >
+                            <div>
+                              <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
+                                Omg {m.gameweek}
+                              </p>
+                              <p
+                                className="mt-0.5 text-sm font-black tabular-nums"
+                                style={{
+                                  color: mIdx > 0 ? HIF_GREEN : mIdx < 0 ? "#f87171" : "#fff",
+                                }}
+                              >
+                                {mIdx > 0 ? `+${mIdx}` : mIdx}
+                              </p>
+                            </div>
+                            <div className="min-w-0">
+                              <p className="truncate text-sm font-bold text-white/85">{m.matchName}</p>
+                              <p className="mt-1 text-[11px] text-white/40">
+                                Regelfel {m.hammarby.fouls}–{m.opponent.fouls} · Gula{" "}
+                                {m.hammarby.yellowCards}–{m.opponent.yellowCards} ·{" "}
+                                {m.hammarby.isHome ? "Hemma" : "Borta"}
+                              </p>
+                            </div>
+                            <div className="text-right text-[10px] font-bold uppercase tracking-widest text-white/35">
+                              Index
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })()}
