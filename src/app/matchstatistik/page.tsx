@@ -61,7 +61,7 @@ export default function MatchStatisticsRoutePage() {
               href="/matchstatistik/kommande"
               className="inline-flex items-center gap-2 rounded-lg border border-[#006633]/70 bg-[#006633]/25 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-[#006633] hover:bg-[#006633]/40"
             >
-              🖥️ Kommande: AIK · Omgång 19
+              🖥️ Kommande: AIK – Hammarby · Omg 19
             </Link>
             <Link
               href="/matchstatistik/domaranalys"
@@ -164,7 +164,7 @@ export default function MatchStatisticsRoutePage() {
             </div>
             <h2 className="text-xl font-semibold text-white">Kommande motståndare</h2>
             <p className="mt-1 text-xs font-bold uppercase tracking-wide text-emerald-400">
-              Nu: AIK · Allsvenskan omg 19
+              Nu: AIK – Hammarby · borta · omg 19
             </p>
             <p className="mt-2 text-sm text-slate-300">
               Taktisk scouting inför Stockholmsderbyt borta på Strawberry Arena: Twelve-faser, Bolldata-rankingar, förra mötet 1–2 och matchplan.
