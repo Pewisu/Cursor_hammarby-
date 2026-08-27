@@ -196,7 +196,7 @@ export function AliHabesogluScoutDashboard() {
               <p className="mt-2 max-w-2xl text-sm text-slate-300 md:text-base">
                 {scout.player.position} · {scout.player.club} ·{" "}
                 {scout.player.age} år ({scout.player.birthDate}) ·{" "}
-                {scout.player.strongFoot}fot · {scout.season.competition}
+                {scout.player.strongFoot} · {scout.season.competition}
               </p>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-400">
                 {scout.contextNote}

@@ -42,7 +42,7 @@ export const aliHabesogluScout = {
     birthDate: "2004-07-29",
     age: 22,
     position: "Anfallare",
-    strongFoot: "Höger",
+    strongFoot: "Högerfot",
   },
   season: {
     competition: "Turkish 1. Lig 2025/2026",
