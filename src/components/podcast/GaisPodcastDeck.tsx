@@ -645,9 +645,26 @@ export default function GaisPodcastDeck() {
               )}
             </p>
 
-            <div className="mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]">
-              <div className="flex flex-col items-center gap-4 lg:items-end">
-                <div className="text-center lg:text-right">
+            <div
+              className={
+                mode === "mobile"
+                  ? "mt-10 grid items-center gap-8"
+                  : "mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]"
+              }
+            >
+              {/* Hemmalag först (AIK i derbyt) – även i staplad mobilläge */}
+              <div
+                className={
+                  mode === "mobile"
+                    ? "flex flex-col items-center gap-4"
+                    : "flex flex-col items-center gap-4 lg:items-end"
+                }
+              >
+                <div
+                  className={
+                    mode === "mobile" ? "text-center" : "text-center lg:text-right"
+                  }
+                >
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
                     Hemma
                   </p>
@@ -695,8 +712,18 @@ export default function GaisPodcastDeck() {
                 </p>
               </div>
 
-              <div className="flex flex-col items-center gap-4 lg:items-start">
-                <div className="text-center lg:text-left">
+              <div
+                className={
+                  mode === "mobile"
+                    ? "flex flex-col items-center gap-4"
+                    : "flex flex-col items-center gap-4 lg:items-start"
+                }
+              >
+                <div
+                  className={
+                    mode === "mobile" ? "text-center" : "text-center lg:text-left"
+                  }
+                >
                   <p className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
                     Borta
                   </p>
