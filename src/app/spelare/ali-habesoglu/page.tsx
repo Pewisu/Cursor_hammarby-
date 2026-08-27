@@ -4,7 +4,7 @@ import { AliHabesogluScoutDashboard } from "@/components/AliHabesogluScoutDashbo
 export const metadata: Metadata = {
   title: "Ali Habeşoğlu – scoutinganalys | Hammarby",
   description:
-    "Twelve-analys av Ali Habeşoğlu (Bodrumspor): spindel, rankings där han utmärker sig och sammanfattning av spelarprofilen i Turkish 1. Lig 2025/2026.",
+    "Scoutinganalys av Ali Habeşoğlu (Bodrumspor) med spindeldiagram, rankingar och profilsammanfattning från Turkish 1. Lig 2025/2026.",
 };
 
 export default function AliHabesogluScoutPage() {

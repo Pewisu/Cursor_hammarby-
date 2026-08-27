@@ -232,7 +232,7 @@ export function AliHabesogluScoutDashboard() {
       <main className="mx-auto max-w-6xl space-y-8 px-4 py-8">
         <section className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-[#0d2818] via-[#12261c] to-[#0f172a] p-5 md:p-6">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-emerald-300/80">
-            Sammanfattning – hur han är som spelare
+            Profil i korthet
           </p>
           <h2 className="mt-2 text-xl font-bold text-white md:text-2xl">
             {scout.summaryHeader}
@@ -257,7 +257,7 @@ export function AliHabesogluScoutDashboard() {
             <div className="mb-2 flex flex-wrap items-end justify-between gap-2">
               <div>
                 <h2 className="text-lg font-semibold text-white">
-                  Spindel – Twelve-kvaliteter
+                  Spindeldiagram – Twelve-kvaliteter
                 </h2>
                 <p className="mt-1 text-xs text-slate-400">
                   {scout.season.comparisonGroup} · {scout.season.minutes} min
@@ -285,7 +285,7 @@ export function AliHabesogluScoutDashboard() {
               Där han utmärker sig
             </h2>
             <p className="mt-1 text-xs text-slate-400">
-              Kvalitetsranking mot övriga anfallare i 1. Lig
+              Ranking mot övriga anfallare i ligan
             </p>
             <div className="mt-4 space-y-3">
               {topAxes.map((axis) => (
@@ -335,10 +335,10 @@ export function AliHabesogluScoutDashboard() {
 
         <section className="rounded-2xl border border-slate-700/60 bg-slate-900/70 p-5 md:p-6">
           <h2 className="text-lg font-semibold text-white">
-            Ranking – nyckeltal där han sticker ut
+            Nyckeltal där han sticker ut
           </h2>
           <p className="mt-1 text-xs text-slate-400">
-            Topprankade enskilda KPI:er (per 90) i Turkish 1. Lig
+            Bäst rankade statistik per 90 i Turkish 1. Lig
           </p>
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {scout.standoutMetrics.map((m) => (
@@ -396,7 +396,7 @@ export function AliHabesogluScoutDashboard() {
 
         <footer className="border-t border-slate-800 pt-6 text-xs text-slate-500">
           <p>
-            Data: Twelve Earpiece-scoutingrapport ({scout.season.competition}).{" "}
+            Data: Twelve-scoutingrapport ({scout.season.competition}).{" "}
             <a
               href={scout.sourceUrl}
               target="_blank"
