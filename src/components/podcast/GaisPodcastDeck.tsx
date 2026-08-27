@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { fcStockholmCupReport as report } from "@/lib/fcStockholmCupUpcomingData";
+import { aikRound19Report as report } from "@/lib/aikRound19UpcomingData";
 import {
   calcDomarindex,
   calcFoulDiff,
@@ -18,12 +18,12 @@ import {
 const HIF_GREEN = "#006633";
 const OPP_MUTED = "#8a9096";
 const OPP_ACCENT = "#c4a035";
-const OPP_SHORT = "FC Stockholm";
-const OPP_FORM_LABEL = "Inter form";
+const OPP_SHORT = "AIK";
+const OPP_FORM_LABEL = "AIK form";
 
 type ViewMode = "mobile" | "desktop" | "bigscreen";
 
-const MATCH_KICKOFF = new Date("2026-08-26T16:30:00Z"); // 18:30 Stockholm (CEST)
+const MATCH_KICKOFF = new Date("2026-08-30T12:00:00Z"); // 14:00 Stockholm (CEST)
 
 function rankToScore(rank: number, total = 16) {
   return ((total - rank + 1) / total) * 100;
@@ -276,7 +276,7 @@ function H2HMeetingsBoard({
           const isDraw = m.outcome === "draw";
           const accent = isWin ? HIF_GREEN : isDraw ? "#9ca3af" : OPP_MUTED;
           const outcomeLabel = isWin ? "HIF VINST" : isDraw ? "OAVGJORT" : `${OPP_SHORT} VINST`;
-          const homeAway = m.venue === "home" ? "Hemma" : "Borta · Stockholms Stadion";
+          const homeAway = m.venue === "home" ? "Hemma" : "Borta · Strawberry Arena";
           const hasXg = m.hammarbyXg > 0 || m.opponentXg > 0;
           const maxGoals = Math.max(m.hammarbyGoals, m.opponentGoals, 1);
 
@@ -525,20 +525,20 @@ export default function GaisPodcastDeck() {
     string,
     { x: number; y: number; r: number; opacity: number }[]
   > = {
-    "Lukas Sunesson": [
-      { x: 50, y: 18, r: 18, opacity: 0.55 },
-      { x: 38, y: 28, r: 12, opacity: 0.35 },
-      { x: 62, y: 28, r: 12, opacity: 0.35 },
+    "Johan Hove": [
+      { x: 50, y: 28, r: 16, opacity: 0.5 },
+      { x: 42, y: 38, r: 12, opacity: 0.35 },
+      { x: 58, y: 38, r: 12, opacity: 0.35 },
     ],
-    "Höjdpress-kollektivet": [
-      { x: 30, y: 35, r: 14, opacity: 0.4 },
-      { x: 50, y: 30, r: 16, opacity: 0.45 },
-      { x: 70, y: 35, r: 14, opacity: 0.4 },
+    "Linus Carlstrand": [
+      { x: 50, y: 16, r: 18, opacity: 0.55 },
+      { x: 38, y: 24, r: 11, opacity: 0.32 },
+      { x: 62, y: 24, r: 11, opacity: 0.32 },
     ],
-    "Omställningsvapnet": [
-      { x: 50, y: 40, r: 16, opacity: 0.45 },
-      { x: 40, y: 55, r: 12, opacity: 0.35 },
-      { x: 60, y: 55, r: 12, opacity: 0.35 },
+    "Bersant Celina": [
+      { x: 50, y: 42, r: 15, opacity: 0.45 },
+      { x: 35, y: 48, r: 11, opacity: 0.3 },
+      { x: 65, y: 48, r: 11, opacity: 0.3 },
     ],
   };
 
@@ -630,7 +630,7 @@ export default function GaisPodcastDeck() {
                     {(report.hifBadges ?? []).slice(0, 3).join(" · ")}
                   </p>
                 </div>
-                <FormPips results={["W", "W", "D", "W", "W"]} label="HIF form (5)" />
+                <FormPips results={["W", "D", "W", "W", "W"]} label="HIF form (5)" />
               </div>
 
               <div className="flex flex-col items-center gap-4">
@@ -656,10 +656,10 @@ export default function GaisPodcastDeck() {
                   ))}
                 </div>
                 <p className="max-w-xs text-center text-sm text-white/60">
-                  Onsdag 26 augusti 2026 · 18:30
+                  Söndag 30 augusti 2026 · 14:00
                   <br />
                   <span className="font-bold text-white">
-                    {report.venueLabel ?? "Stockholms Stadion"}
+                    {report.venueLabel ?? "Strawberry Arena"}
                   </span>
                 </p>
               </div>
@@ -673,7 +673,7 @@ export default function GaisPodcastDeck() {
                     {(report.opponentBadges ?? []).slice(0, 3).join(" · ")}
                   </p>
                 </div>
-                <FormPips results={["W", "W", "W", "W", "D"]} label={`${OPP_FORM_LABEL} (5)`} />
+                <FormPips results={["W", "D", "L", "W", "W"]} label={`${OPP_FORM_LABEL} (5)`} />
               </div>
             </div>
 
@@ -689,7 +689,7 @@ export default function GaisPodcastDeck() {
           eyebrow="Förra mötet"
           title={
             report.previousMeeting
-              ? `${report.previousMeeting.result} · cup feb 2025`
+              ? `${report.previousMeeting.result} · derby maj 2026`
               : "Förra mötet"
           }
           mode={mode}
@@ -1710,7 +1710,7 @@ export default function GaisPodcastDeck() {
               <span className="text-white/55">{OPP_SHORT}</span>
             </p>
             <p className="text-xs text-white/35">
-              Hammarby IF · Big Screen Podcast Deck · Svenska Cupen omg 2 · 2026
+              Hammarby IF · Big Screen Podcast Deck · Omgång 19 · AIK · 2026
             </p>
           </div>
         </SectionShell>

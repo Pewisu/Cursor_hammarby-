@@ -9,7 +9,7 @@ import type { UpcomingOpponentReport } from "@/lib/upcomingOpponentsData";
 export const fcStockholmCupReport: UpcomingOpponentReport = {
   round: 201,
   roundLabel: "Svenska Cupen · Omgång 2",
-  hidden: false,
+  hidden: true,
   fixture: "FC Stockholm - Hammarby",
   dateLabel: "Onsdag 26 augusti 2026 · 18:30 · Stockholms Stadion",
   venueLabel: "Stockholms Stadion (bortaplan)",

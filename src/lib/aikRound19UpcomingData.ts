@@ -1,0 +1,648 @@
+import type { UpcomingOpponentReport } from "@/lib/upcomingOpponentsData";
+
+/**
+ * Omgång 19 · AIK – Hammarby · 30 aug 2026 · Strawberry Arena
+ * Källor: Twelve season report AIK (27 aug 2026) + Hammarby (20 aug 2026) + Bolldata (27 aug 2026)
+ */
+export const aikRound19Report: UpcomingOpponentReport = {
+  round: 19,
+  roundLabel: "Omgång 19",
+  hidden: false,
+  fixture: "AIK - Hammarby",
+  dateLabel: "Söndag 30 augusti 2026 · 14:00 · Strawberry Arena, Solna",
+  venueLabel: "Strawberry Arena (bortaplan)",
+  comparisonLabel: "Allsvenskan 2026 · 17–18 omgångar",
+  oneLineSummary:
+    "Stockholmsderby borta: AIK vann 2–1 på 3Arena i maj (Hove + Celina). HIF är 2:a (36p) efter 2–0 mot GAIS. AIK är 6:a (28p) men 12:a i xP – ligans största överprestation (+0,59 p−xP). De är svaga hemma (3V–0O–4F) och sårbara i boxen (opp. np xG 2,03 · Opp. Chance Creation 14:e).",
+  hifBadges: ["2:a i Allsvenskan", "36p", "Form: WDWWW"],
+  opponentBadges: ["6:a i Allsvenskan", "28p", "1:a i p−xP-överprestation"],
+  introStats: [
+    { label: "HIF tabell", value: "2:a (36p)", tone: "emerald" },
+    { label: "AIK tabell / xP", value: "6:a / 12:a", tone: "amber" },
+    { label: "Förra mötet", value: "AIK 2–1", tone: "amber" },
+    { label: "AIK hemma", value: "3V–0O–4F", tone: "emerald" },
+    { label: "Twelve Outcome", value: "HIF 1:a · AIK 8:a", tone: "blue" },
+  ],
+  previousMeeting: {
+    date: "2026-05-24",
+    fixture: "Hammarby - AIK",
+    result: "1–2",
+    venue: "home",
+    outcome: "loss",
+    halfTimeScore: "0–0",
+    scorers: [
+      { team: "hammarby", player: "I. Fofana", minute: 47 },
+      { team: "opponent", player: "Johan Hove", minute: 57 },
+      { team: "opponent", player: "Bersant Celina", minute: 83 },
+    ],
+    xgHammarby: 2.03,
+    xgOpponent: 1.42,
+    contextNote:
+      "0–0 i paus. Fofana nickade in 1–0 (47'), men Hove kvitterade (57') och Celina avgjorde sent (83'). HIF hade mer xG (2,03–1,42) och fler avslut (18–11) – AIK vann på finish. Bollinnehav 50–50; AIK mer långbollar (45 vs 31).",
+    keyStory:
+      "Klassiskt derby där volym inte räckte. HIF skapade mer men AIK var iskalla i de få högkvalitativa lägena (Hove 0,79 xG på kvitteringen). På Strawberry Arena måste HIF omsätta field tilt och tempo i mål – och inte släppa in dem i omställningsfickor.",
+    seriesTurnedNote:
+      "Sedan derbyförlusten har HIF 7V–2O–2F i ligan och kommer in efter 4–0 borta mot Kalmar och 2–0 hemma mot GAIS. Formkurvan pekar upp – men AIK har också vunnit två raka (3–1 Djurgården, 4–3 Örgryte) och leder den senaste inbördes-duellen.",
+  },
+  mobileTakeaways: [
+    "HIF 2:a (36p, 18 omg), AIK 6:a (28p, 17 omg) – men AIK bara 12:a i xP (1,06/match).",
+    "Förra mötet 24 maj: AIK 2–1 på 3Arena. Fofana 47', Hove 57', Celina 83'. HIF 2,03 xG – AIK 1,42.",
+    "Twelve (27 aug): AIK Def. Transition 3:a, Outcome 8:a, Opp. Chance Creation 14:e. HIF (20 aug) 1:a i fem faser.",
+    "AIK hemmafacit 2026: 3V–0O–4F, 7–12 i mål. Borta är de starkare (5V–4O–1F, 19p).",
+    "Passtempo 18,19 (16:e) – de vill sakta ner. Opp. HQ-skott 5,24 och opp. np xG 2,03 = boxen läcker.",
+    "Bolldata: HIF 1:a i xG (2,46), avslut (20,4), boll (60 %). AIK 11:a i xG, 13:e i xGA (2,03).",
+    "Nyckel: forcera tempo, attackera boxen med volym, och straffa deras hemmasvaghet innan derbyt hinner låsa sig.",
+  ],
+  dataSources: [
+    "Twelve season report AIK: https://reports.twelve.football/reports/aik-season-report-YkxxozHmCB.pdf (27 aug 2026)",
+    "Twelve season report Hammarby: https://reports.twelve.football/reports/hammarby-season-report-N7BNDjoAkn.pdf (20 aug 2026)",
+    "Bolldata lagdata/API: matches/team/stats + goals (hämtad 27 aug 2026)",
+    "Bolldata match: https://bolldata.se/allsvenskan/matcher/2026/2026-05-24/hammarby-aik-1-2",
+  ],
+  quickStatusCards: [
+    {
+      title: "Hammarby just nu",
+      body: "2:a (36p), 11V–3O–4F, 42–15 i mål. Ligans bästa xG (2,46) och lägsta insläppta (0,83/match). Senaste 5: WDWWW inkl. 2–0 mot GAIS.",
+      tone: "emerald",
+    },
+    {
+      title: "AIK just nu",
+      body: "6:a (28p) på 17 matcher men 12:a i xP. Ligans största p−xP-gap (+0,59). Senaste: 3–1 borta mot Djurgården efter 4–3 borta mot Örgryte.",
+      tone: "amber",
+    },
+    {
+      title: "Nyckelduell: tempo vs tur",
+      body: "HIF skapar mest (2,46 xG). AIK släpper till mest farligt under ytan (opp. np xG 2,03, Opp. CC 14:e) men tar poäng ändå. Derby + hemmapress – data säger HIF, historiken säger varning.",
+      tone: "blue",
+    },
+  ],
+  styleChips: [
+    {
+      label: "🛡️ Def. transition",
+      sub: "Twelve 3:a · snabb recover + struktur",
+      color: "border-amber-600/50 bg-amber-950/60 text-amber-200",
+    },
+    {
+      label: "🐢 Lågt passtempo",
+      sub: "18,19 · 16:e av 16 – vill döda rytmen",
+      color: "border-neutral-600/50 bg-neutral-800/60 text-neutral-300",
+    },
+    {
+      label: "💥 Boxen läcker",
+      sub: "Opp. Chance Creation 14:e · opp. np xG 2,03",
+      color: "border-emerald-600/50 bg-emerald-950/60 text-emerald-200",
+    },
+    {
+      label: "🎲 Överpresterar",
+      sub: "p−xP +0,59 (1:a) · xP bara 12:a",
+      color: "border-rose-600/50 bg-rose-950/60 text-rose-200",
+    },
+    {
+      label: "🏠 Svaga hemma",
+      sub: "3V–0O–4F · 7–12 i mål på Friends",
+      color: "border-amber-600/50 bg-amber-950/60 text-amber-200",
+    },
+  ],
+  opponentStyle: [
+    "Twelve: balanserad defensiv med effektiv counterpress. Defensiva aktioner på 40,7 m – lägre än HIF:s 45,4 m. PPDA 6,65 (passivare än HIF 5,05).",
+    "Direkt men kontrollerat anfallsspel: långboll 14 %, passtempo 18,19 (sämst i ligan). Penetration via carries (23 % box entries) mer än inlägg (29 %).",
+    "Stark defensiv transition (Twelve 3:a): begränsar opp. till final third efter recover. Turnovers 30,9/match.",
+    "Svag chansbegränsning (Opp. Chance Creation 14:e): opp. HQ-skott 5,24, opp. np xG 2,03, opp. box touches 20,8 – boxförsvaret är den öppna dörren.",
+    "Outcome 8:a trots Attack 8 / Chance Creation 10 – poängen drivs av överkonvertering och matchlycka (p−xP 1:a), inte underliggande dominans.",
+    "Bolldata: 1,43 xG/match (11:a) men 1,47 mål – finish ok. Defensivt 2,03 xGA (13:e) mot bara 1,47 insläppta – turen har hållit.",
+  ],
+  styleProfile: [
+    {
+      label: "Defensiv transition (Twelve)",
+      value: "3:a av 16 – snabb recover + stängda ytor",
+      score: 82,
+      explanation:
+        "AIK:s tydligaste styrka. HIF får inte tappa billigt i anfallshalvan – då startar deras struktur.",
+    },
+    {
+      label: "Passtempo (Twelve)",
+      value: "18,19 – 16:e av 16",
+      score: 12,
+      explanation:
+        "De vill sänka tempot och kontrollera rytmen. HIF måste forcera och tvinga dem att springa.",
+    },
+    {
+      label: "Chansbegränsning (Twelve)",
+      value: "Opp. Chance Creation 14:e · opp. np xG 2,03",
+      score: 22,
+      explanation:
+        "Största svagheten. Volym och kvalitet i boxen straffar dem – exakt HIF:s spelidé.",
+    },
+    {
+      label: "Överprestation (Twelve Outcome)",
+      value: "p−xP +0,59 (1:a) · xP 1,06 (12:a)",
+      score: 35,
+      explanation:
+        "Poängraden ljuger uppåt. Spela mot deras spelet (svagt under ytan), inte mot tabellplatsen.",
+    },
+    {
+      label: "Hemmaplan 2026 (Bolldata)",
+      value: "3V–0O–4F · 9p · 7–12 i mål",
+      score: 28,
+      explanation:
+        "Strawberry har inte varit en fästning. HIF:s bortafacit är ojämnt – men AIK:s hemmafacit ger öppning.",
+    },
+  ],
+  twelvePhaseRanks: [
+    {
+      label: "Defence",
+      hammarbyRank: 1,
+      opponentRank: 7,
+      talkTrack: "HIF elite i press/struktur. AIK medel – håller form men inte intensitet.",
+    },
+    {
+      label: "Defensive Transition",
+      hammarbyRank: 2,
+      opponentRank: 3,
+      talkTrack: "Båda topp-3. AIK:s tydligaste vapen – respektera counterpressen.",
+    },
+    {
+      label: "Opp. Chance Creation",
+      hammarbyRank: 2,
+      opponentRank: 14,
+      talkTrack: "Största gapet. AIK släpper till HQ-chanser – HIF ska straffa boxen.",
+    },
+    {
+      label: "Attacking Transition",
+      hammarbyRank: 1,
+      opponentRank: 12,
+      talkTrack: "HIF etta i omställningsattack. AIK långsamma efter bollvinst.",
+    },
+    {
+      label: "Attack",
+      hammarbyRank: 1,
+      opponentRank: 8,
+      talkTrack: "HIF dominerar etablerat anfall. AIK medel utan fart.",
+    },
+    {
+      label: "Chance Creation",
+      hammarbyRank: 1,
+      opponentRank: 10,
+      talkTrack: "HIF skapar mest och bäst. AIK snitt utan skärpa.",
+    },
+    {
+      label: "Outcome",
+      hammarbyRank: 1,
+      opponentRank: 8,
+      talkTrack: "HIF omsätter spelet. AIK poängsatta via överprestation.",
+    },
+  ],
+  bolldataRankings: [
+    {
+      label: "xG / match",
+      group: "offensiv",
+      hammarbyValue: "2,46",
+      hammarbyRank: 1,
+      opponentValue: "1,43",
+      opponentRank: 11,
+      talkTrack: "HIF skapar mest. AIK under snittet – stor offensiv klyfta.",
+    },
+    {
+      label: "Gjorda mål / match",
+      group: "offensiv",
+      hammarbyValue: "2,33",
+      hammarbyRank: 2,
+      opponentValue: "1,47",
+      opponentRank: 8,
+      talkTrack: "HIF sätter fler. AIK medel i finish.",
+    },
+    {
+      label: "Avslut / match",
+      group: "offensiv",
+      hammarbyValue: "20,4",
+      hammarbyRank: 1,
+      opponentValue: "12,5",
+      opponentRank: 9,
+      talkTrack: "Volymfördel HIF – exakt vapnet mot AIK:s läckande box.",
+    },
+    {
+      label: "Skott på mål / match",
+      group: "offensiv",
+      hammarbyValue: "7,2",
+      hammarbyRank: 1,
+      opponentValue: "4,5",
+      opponentRank: 8,
+      talkTrack: "HIF träffar mål oftare. Kräv samma i derbyt.",
+    },
+    {
+      label: "Boxberöringar / match",
+      group: "offensiv",
+      hammarbyValue: "31,8",
+      hammarbyRank: 1,
+      opponentValue: "19,9",
+      opponentRank: 12,
+      talkTrack: "HIF lever i straffområdet. AIK kommer dit för sällan.",
+    },
+    {
+      label: "Nyckelpassningar / match",
+      group: "offensiv",
+      hammarbyValue: "6,39",
+      hammarbyRank: 1,
+      opponentValue: "3,71",
+      opponentRank: 14,
+      talkTrack: "Kreativ klyfta. Besara/Abraham ska diktera sista passningen.",
+    },
+    {
+      label: "Bollinnehav %",
+      group: "offensiv",
+      hammarbyValue: "60,4%",
+      hammarbyRank: 1,
+      opponentValue: "54,2%",
+      opponentRank: 3,
+      talkTrack: "Båda vill ha boll – men HIF gör mer med den.",
+    },
+    {
+      label: "xGA / match",
+      group: "defensiv",
+      hammarbyValue: "1,22",
+      hammarbyRank: 2,
+      opponentValue: "2,03",
+      opponentRank: 13,
+      talkTrack: "AIK släpper till näst mest xG – öppet mål för HIF:s anfall.",
+    },
+    {
+      label: "Insläppta / match",
+      group: "defensiv",
+      hammarbyValue: "0,83",
+      hammarbyRank: 1,
+      opponentValue: "1,47",
+      opponentRank: 8,
+      talkTrack: "HIF tightast i verkliga mål. AIK medel – och underliggande sämre.",
+    },
+    {
+      label: "Recoveries / match",
+      group: "defensiv",
+      hammarbyValue: "87,9",
+      hammarbyRank: 4,
+      opponentValue: "78,9",
+      opponentRank: 14,
+      talkTrack: "HIF vinner bollen oftare. AIK mer sparsam med dueller.",
+    },
+    {
+      label: "Långa bollar / match",
+      group: "stil",
+      hammarbyValue: "35,2",
+      hammarbyRank: 16,
+      opponentValue: "42,2",
+      opponentRank: 12,
+      talkTrack: "AIK mer direkt. HIF kort-kort – andraboll vid deras långa.",
+    },
+    {
+      label: "Progressiva passningar",
+      group: "stil",
+      hammarbyValue: "74,9",
+      hammarbyRank: 2,
+      opponentValue: "66,1",
+      opponentRank: 14,
+      talkTrack: "HIF driver framåt. AIK mer laterala trots possession.",
+    },
+    {
+      label: "Passningsprecision",
+      group: "stil",
+      hammarbyValue: "86,8%",
+      hammarbyRank: 1,
+      opponentValue: "83,1%",
+      opponentRank: 8,
+      talkTrack: "HIF säkrare under press – viktigt mot deras counterpress.",
+    },
+    {
+      label: "xP-tabell (Twelve)",
+      group: "stil",
+      hammarbyValue: "1:a Outcome",
+      hammarbyRank: 1,
+      opponentValue: "1,06 xP/m (12:a)",
+      opponentRank: 12,
+      talkTrack: "AIK 6:a i poäng, 12:a i xP – tabellen ljuger uppåt.",
+    },
+  ],
+  spiderComparison: [
+    {
+      label: "xG / match",
+      hammarbyValue: "2,46",
+      opponentValue: "1,43",
+      hammarbyScore: 100,
+      opponentScore: 58,
+      note: "HIF 1:a, AIK 11:a. Tydlig offensiv fördel.",
+    },
+    {
+      label: "Avslut / match",
+      hammarbyValue: "20,4",
+      opponentValue: "12,5",
+      hammarbyScore: 100,
+      opponentScore: 61,
+      note: "Volymfördel HIF – vapnet mot läckande box.",
+    },
+    {
+      label: "Bollinnehav (%)",
+      hammarbyValue: "60%",
+      opponentValue: "54%",
+      hammarbyScore: 100,
+      opponentScore: 85,
+      note: "Båda vill ha boll. Tempo och penetration avgör.",
+    },
+    {
+      label: "xGA / match",
+      hammarbyValue: "1,22",
+      opponentValue: "2,03",
+      hammarbyScore: 95,
+      opponentScore: 40,
+      note: "AIK släpper till klart mer xG – sårbara defensivt.",
+    },
+    {
+      label: "Boxberöringar",
+      hammarbyValue: "31,8",
+      opponentValue: "19,9",
+      hammarbyScore: 100,
+      opponentScore: 63,
+      note: "HIF i straffområdet. AIK kommer dit för sällan.",
+    },
+    {
+      label: "Passtempo",
+      hammarbyValue: "högt",
+      opponentValue: "18,19 (16:e)",
+      hammarbyScore: 90,
+      opponentScore: 15,
+      note: "AIK sist i tempo. Forcera – låt dem inte sakta ner derbyt.",
+    },
+  ],
+  rankedMetrics: [
+    {
+      label: "xG / match",
+      hammarbyValue: "2,46",
+      hammarbyRank: "1:a av 16",
+      opponentValue: "1,43",
+      opponentRank: "11:a av 16",
+      note: "Hammarby skapar mest. AIK under snittet.",
+    },
+    {
+      label: "xGA / match",
+      hammarbyValue: "1,22",
+      hammarbyRank: "2:a av 16",
+      opponentValue: "2,03",
+      opponentRank: "13:e av 16",
+      note: "AIK släpper till näst mest xG – boxen är öppen.",
+    },
+    {
+      label: "Avslut / match",
+      hammarbyValue: "20,4",
+      hammarbyRank: "1:a av 16",
+      opponentValue: "12,5",
+      opponentRank: "9:a av 16",
+      note: "Volymfördel HIF. Förra mötet: 18–11 men AIK vann på finish.",
+    },
+    {
+      label: "Passtempo (Twelve)",
+      hammarbyValue: "högt press-tempo",
+      hammarbyRank: "topp",
+      opponentValue: "18,19",
+      opponentRank: "16:e av 16",
+      note: "AIK sist. Tempokampen är matchnyckeln.",
+    },
+    {
+      label: "Opp. Chance Creation",
+      hammarbyValue: "2:a (Twelve)",
+      hammarbyRank: "2:a av 16",
+      opponentValue: "14:e (Twelve)",
+      opponentRank: "14:e av 16",
+      note: "Största fas-gapet. Straffa dem i boxen.",
+    },
+    {
+      label: "p − xP (Twelve)",
+      hammarbyValue: "Outcome 1:a",
+      hammarbyRank: "1:a av 16",
+      opponentValue: "+0,59",
+      opponentRank: "1:a (överprestation)",
+      note: "AIK tar fler poäng än spelet förtjänar. Lita på processen.",
+    },
+  ],
+  goalWindows: [
+    { window: "0–15'", hammarbyGoals: 6, opponentConcededGoals: 6 },
+    { window: "16–30'", hammarbyGoals: 4, opponentConcededGoals: 4 },
+    { window: "31–45+'", hammarbyGoals: 8, opponentConcededGoals: 3 },
+    { window: "46–60'", hammarbyGoals: 11, opponentConcededGoals: 3 },
+    { window: "61–75'", hammarbyGoals: 8, opponentConcededGoals: 3 },
+    { window: "76–90+'", hammarbyGoals: 5, opponentConcededGoals: 6 },
+  ],
+  goalTypeNotes: [
+    {
+      label: "AIK sårbar tidigt & sent",
+      value: "6 insläppta 0–15 · 6 insläppta 76–90+",
+      interpretation:
+        "Öppningen och slutet är AIK:s svagaste fönster. Sätt ton tidigt och behåll intensitet sent.",
+    },
+    {
+      label: "HIF starkast 46–60",
+      value: "11 mål i 46–60'",
+      interpretation:
+        "Andra halvlekens start är HIF:s mest produktiva period – perfekt mot ett AIK som ofta tappat sent.",
+    },
+    {
+      label: "Förra mötets facit",
+      value: "Fofana 47' · Hove 57' · Celina 83'",
+      interpretation:
+        "AIK vann på finish trots sämre xG. Den här gången: omsätt volym, stäng deras få HQ-lägen.",
+    },
+    {
+      label: "AIK hemmafacit",
+      value: "3V–0O–4F · 7–12 i mål",
+      interpretation:
+        "Strawberry har inte varit fästning 2026. HIF ska attackera hemmaplansmyten direkt.",
+    },
+  ],
+  trafficLightCards: [
+    {
+      metric: "Förra mötet",
+      bigNumber: "1–2",
+      badge: "AIK VANN I MAJ",
+      color: "red",
+      rankNote: "Fofana 47' · Hove 57' · Celina 83' · HIF 2,03 xG",
+      explanation:
+        "HIF hade mer xG och fler avslut men förlorade på finish. Samma misstag – låta AIK få ett fåtal iskalla lägen – får inte upprepas på Strawberry.",
+      podcastComment:
+        "Vi skapade mer, de satte mer. Derbyt avgörs inte av volym ensam – men utan volym i boxen vinner vi inte heller.",
+    },
+    {
+      metric: "Twelve Opp. CC",
+      bigNumber: "2 vs 14",
+      badge: "HIF 2:A · AIK 14:E",
+      color: "green",
+      rankNote: "Chansbegränsning · 27 aug 2026",
+      explanation:
+        "AIK är 14:e på att begränsa motståndarchanser (opp. np xG 2,03, HQ-skott 5,24). HIF är 2:a. Det är matchens tydligaste mismatch.",
+      podcastComment:
+        "Titta på rankingtavlan: vi är bredare bäst, de läcker i boxen. Det är där derbyt ska avgöras.",
+    },
+    {
+      metric: "AIK p−xP",
+      bigNumber: "+0,59",
+      badge: "1:A I ÖVERPRESTATION",
+      color: "yellow",
+      rankNote: "xP 1,06 (12:a) · Points 1,65 (5:a)",
+      explanation:
+        "AIK tar poäng de inte förtjänar utifrån chansbilden. Undervärdera inte poängraden – men spela mot deras spelet, som är medel eller sämre.",
+      podcastComment:
+        "Tabellen säger 6:a. xP säger 12:a. Vi måste lita på processen och inte bli skrämda av deras resultat.",
+    },
+  ],
+  spotlightKey:
+    "Matchnyckel: forcera tempot mot ligans långsammaste passtempo, fyll boxen (AIK Opp. CC 14:e) och straffa deras usla hemmafacit innan derbyt låser sig. Respektera defensiv transition (Twelve 3:a) – inga billiga tapp högt – men lita på att underliggande spelet (xP 12:a, xGA 2,03) inte matchar poängraden. Revansch för 1–2 i maj kräver finish, inte bara field tilt.",
+  hammarbyPlan: {
+    withBall: [
+      "Forcera tempot OMEDELBART. AIK passtempo 18,19 (16:e) – spela i HIF:s rytm och tvinga dem att springa i egen arena.",
+      "Attackera boxen med volym: AIK släpper till 5,24 HQ-skott och 2,03 opp. np xG/match. Halvrum + sista passning, inte ytterskott.",
+      "Cirkulera under deras counterpress (Def. Transition 3:a). HIF:s 86,8 % passningsprecision är vapnet – tappa inte billigt högt.",
+      "Utnyttja Attacking Transition-fördelen (Twelve 1:a vs 12:a). När AIK backar efter egen press – slå vertikalt direkt in i boxen.",
+    ],
+    withoutBall: [
+      "Pressa HÖGT men SMART (PPDA-duell: HIF 5,05 vs AIK 6,65). Pressa första passningen – AIK vill ha tid på bollen.",
+      "Stäng Hove mellan linjerna och Carlstrand i boxen. Hove avgjorde derbyt (57'), Carlstrand har 4 mål på 229 min.",
+      "Begränsa carries in i boxen (23 % av AIK:s box entries). Tvinga dem ut mot kanten och inlägg där HIF är starkare.",
+      "Vid bollvinst: AIK Att. Transition 12:a – de är långsamma framåt. Straffa den ytan bakom deras linje direkt.",
+    ],
+    matchManagement: [
+      "0–15: tryck DIREKT. AIK släpper in 6 mål i öppningen. Sätt ton på Strawberry innan hemmapubliken hinner växa.",
+      "46–60: HIF:s bästa fönster (11 mål). Extra energi efter paus – förra derbyt vändes just där.",
+      "76–90+: AIK släpper in 6 mål sent men gjorde också Celina 83' sist. Håll struktur OCH intensitet.",
+      "Vid ledning: AIK överpresterar men underliggande xG är svagt. Kontrollera bollen, ge dem ytterskott, döda omställningarna.",
+    ],
+  },
+  playersToWatch: [
+    {
+      name: "Johan Hove",
+      position: "Midfielder · Norge",
+      scoutBadge: "⚡ 5 mål · kvitterade derbyt (57')",
+      stats: [
+        { label: "Mål", value: "5" },
+        { label: "Assist", value: "1" },
+        { label: "Min", value: "1470" },
+      ],
+      threat:
+        "AIK:s främsta målskytt och derbyhjälte. Dyker upp i boxen från mittfältet och avslutar med hög xG när ytan öppnas.",
+      motivation:
+        "Skugga i halvrummet. Låt honom inte få fri löpning in i straffområdet efter andraboll eller hörna.",
+    },
+    {
+      name: "Linus Carlstrand",
+      position: "Forward · Sverige",
+      scoutBadge: "🎯 4 mål på 229 min – klinisk",
+      stats: [
+        { label: "Mål", value: "4" },
+        { label: "Assist", value: "1" },
+        { label: "Min", value: "229" },
+      ],
+      threat:
+        "Extrem effektivitet per minut. Kommer ofta från bänken och straffar slarv i boxen. Farligast sent i matchen.",
+      motivation:
+        "Koncentration 70–90'. Markera tight vid inbyten. Ge honom inte samma friläge som AIK:s andra finishers fick i maj.",
+    },
+    {
+      name: "Bersant Celina",
+      position: "Midfielder · Kosovo",
+      scoutBadge: "🧠 Avgjorde derbyt 83'",
+      stats: [
+        { label: "Mål", value: "2" },
+        { label: "Assist", value: "1" },
+        { label: "Min", value: "861" },
+      ],
+      threat:
+        "Teknisk tioa/åttå som kan låsa upp kompakt försvar. Satte 2–1 sent på 3Arena – derbykyla.",
+      motivation:
+        "Stäng vändningen mellan linjerna. Tvinga honom sidledes – aldrig den fria diagonalen in i Hove/Yohanna.",
+    },
+  ],
+  headToHead: {
+    sampleSize: 3,
+    description:
+      "Senaste Allsvenskan-derbyna 2025–2026. AIK vann senaste mötet; HIF har poäng att bevisa på Strawberry.",
+    summaryCards: [
+      {
+        title: "Senaste mötet",
+        value: "HIF 1–2 AIK (maj 2026)",
+        note: "Fofana · Hove · Celina. HIF mer xG.",
+        tone: "amber",
+      },
+      {
+        title: "AIK hemma 2026",
+        value: "3V–0O–4F (9p)",
+        note: "Svagt hemmafacit – öppning för HIF.",
+        tone: "emerald",
+      },
+      {
+        title: "Form nu",
+        value: "HIF WDWWW · AIK WDLWW",
+        note: "Båda i positiv trend; HIF stabilare.",
+        tone: "emerald",
+      },
+    ],
+    trendBullets: [
+      "Senaste derbyt 2026: AIK vann 2–1 trots sämre xG (1,42 vs 2,03).",
+      "AIK tar flest poäng borta (19p) – men den här matchen är hemma där de läckt (7–12).",
+      "HIF har 25p på 10 hemmamatcher och 11p på 8 bortamatcher – bortafacitet måste lyfta i derbyt.",
+      "Underliggande 2026: HIF Outcome 1:a, AIK xP 12:a. Kvalitetsgapet är större än tabellgapet 2 vs 6.",
+    ],
+    matches: [
+      {
+        date: "2026-05-24",
+        fixture: "Hammarby - AIK",
+        result: "1-2",
+        venue: "home",
+        outcome: "loss",
+        hammarbyGoals: 1,
+        opponentGoals: 2,
+        hammarbyXg: 2.03,
+        opponentXg: 1.42,
+        hammarbyShots: 18,
+        opponentShots: 11,
+        sourceUrl:
+          "https://bolldata.se/allsvenskan/matcher/2026/2026-05-24/hammarby-aik-1-2",
+      },
+    ],
+  },
+  glossary: [
+    {
+      term: "Twelve-fas",
+      explanation:
+        "Twelve delar in lagprestation i sju faser (Defence → Outcome). Rank 1 av 16 = bäst i Allsvenskan.",
+    },
+    {
+      term: "xGA",
+      explanation:
+        "Expected Goals Against – hur många mål motståndaren förväntas göra utifrån chanskvalitet.",
+    },
+    {
+      term: "xP",
+      explanation:
+        "Expected Points – poäng laget 'förtjänat' utifrån matchernas xG-bilder. AIK 12:a trots 6:a i tabellen.",
+    },
+    {
+      term: "p − xP",
+      explanation:
+        "Poäng minus expected points. Positivt = överprestation. AIK +0,59 är ligans högsta.",
+    },
+    {
+      term: "Passtempo",
+      explanation:
+        "Passningar per minut med boll. AIK:s 18,19 är sämst i ligan – de vill döda tempot.",
+    },
+    {
+      term: "Opp. Chance Creation",
+      explanation:
+        "Hur bra laget begränsar motståndarens chanser. AIK 14:e = läcker många HQ-lägen.",
+    },
+    {
+      term: "Defensive Transition",
+      explanation:
+        "Sekunderna efter bollförlust. AIK 3:a – deras starkaste Twelve-fas.",
+    },
+    {
+      term: "PPDA",
+      explanation:
+        "Passningar per defensiv aktion. Lägre = hårdare press. HIF 5,05 · AIK 6,65.",
+    },
+  ],
+};

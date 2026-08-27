@@ -1,3 +1,4 @@
+import { aikRound19Report } from "@/lib/aikRound19UpcomingData";
 import { gaisRound18Report } from "@/lib/gaisRound18UpcomingData";
 import { fcStockholmCupReport } from "@/lib/fcStockholmCupUpcomingData";
 
@@ -227,7 +228,8 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
-  fcStockholmCupReport,
+  aikRound19Report,
+  { ...fcStockholmCupReport, hidden: true },
   { ...gaisRound18Report, hidden: true },
   {
     round: 17,

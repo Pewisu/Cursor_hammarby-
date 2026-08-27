@@ -11,8 +11,11 @@ function shortName(name: string) {
 }
 
 const parts = report.fixture.split("-").map((p) => p.trim());
-const hif = shortName(parts[0] ?? "Hammarby");
-const opp = shortName(parts[1] ?? "Motståndare");
+const hammarbyIdx = parts.findIndex((p) => /hammarby/i.test(p));
+const hif = shortName(parts[hammarbyIdx >= 0 ? hammarbyIdx : 0] ?? "Hammarby");
+const opp = shortName(
+  parts[hammarbyIdx === 0 ? 1 : hammarbyIdx === 1 ? 0 : 1] ?? "Motståndare"
+);
 
 function rankPct(rank: number, total = 16) {
   return ((total - rank) / (total - 1)) * 100;
@@ -55,7 +58,7 @@ function SlideRankings() {
             Twelve &amp; Bolldata
           </h2>
           <p className="mt-1 text-base text-slate-400">
-            {hif} vs {opp} · Allsvenskan 2026 · 17 omgångar · 20 aug
+            {hif} vs {opp} · {report.comparisonLabel ?? "Allsvenskan 2026"}
           </p>
         </div>
       </div>
