@@ -634,9 +634,9 @@ export const aikRound19Report: UpcomingOpponentReport = {
     ],
   },
   headToHead: {
-    sampleSize: 3,
+    sampleSize: 5,
     description:
-      "Senaste Allsvenskan-derbyna 2025–2026. AIK vann senaste mötet; HIF har poäng att bevisa på Strawberry.",
+      "Senaste 5 Allsvenskan-derbyna 2024–2026. Jämnt facit (2V–1O–2F) – AIK vann senaste mötet, HIF de två hemmamötena före det.",
     summaryCards: [
       {
         title: "Senaste mötet",
@@ -645,10 +645,10 @@ export const aikRound19Report: UpcomingOpponentReport = {
         tone: "amber",
       },
       {
-        title: "AIK hemma 2026",
-        value: "3V–0O–4F (9p)",
-        note: "Svagt hemmafacit – öppning för HIF.",
-        tone: "emerald",
+        title: "Senaste på Strawberry",
+        value: "AIK 0–0 HIF (maj 2025)",
+        note: "Senaste bortalaget på Friends/Strawberry.",
+        tone: "amber",
       },
       {
         title: "Form nu",
@@ -659,8 +659,8 @@ export const aikRound19Report: UpcomingOpponentReport = {
     ],
     trendBullets: [
       "Senaste derbyt 2026: AIK vann 2–1 trots sämre xG (1,42 vs 2,03).",
-      "AIK tar flest poäng borta (19p) – men den här matchen är hemma där de läckt (7–12).",
-      "HIF har 25p på 10 hemmamatcher och 11p på 8 bortamatcher – bortafacitet måste lyfta i derbyt.",
+      "HIF har vunnit båda hemmamötena 2024–2025 (2–1, 2–1) – men förlorade senaste hemma.",
+      "På AIK:s hemmaplan 2024–2025: 0–1 och 0–0 – HIF har inte vunnit borta i serien på sistone.",
       "Underliggande 2026: HIF Outcome 1:a, AIK xP 12:a. Kvalitetsgapet är större än tabellgapet 2 vs 6.",
     ],
     matches: [
@@ -678,6 +678,66 @@ export const aikRound19Report: UpcomingOpponentReport = {
         opponentShots: 11,
         sourceUrl:
           "https://bolldata.se/allsvenskan/matcher/2026/2026-05-24/hammarby-aik-1-2",
+      },
+      {
+        date: "2025-10-19",
+        fixture: "Hammarby - AIK",
+        result: "2-1",
+        venue: "home",
+        outcome: "win",
+        hammarbyGoals: 2,
+        opponentGoals: 1,
+        hammarbyXg: 1.39,
+        opponentXg: 1.03,
+        hammarbyShots: 12,
+        opponentShots: 10,
+        sourceUrl:
+          "https://bolldata.se/allsvenskan/matcher/2025/2025-10-19/hammarby-aik-2-1",
+      },
+      {
+        date: "2025-05-18",
+        fixture: "AIK - Hammarby",
+        result: "0-0",
+        venue: "away",
+        outcome: "draw",
+        hammarbyGoals: 0,
+        opponentGoals: 0,
+        hammarbyXg: 0.63,
+        opponentXg: 1.14,
+        hammarbyShots: 8,
+        opponentShots: 13,
+        sourceUrl:
+          "https://bolldata.se/allsvenskan/matcher/2025/2025-05-18/aik-hammarby-0-0",
+      },
+      {
+        date: "2024-09-29",
+        fixture: "AIK - Hammarby",
+        result: "1-0",
+        venue: "away",
+        outcome: "loss",
+        hammarbyGoals: 0,
+        opponentGoals: 1,
+        hammarbyXg: 0.31,
+        opponentXg: 2.04,
+        hammarbyShots: 4,
+        opponentShots: 10,
+        sourceUrl:
+          "https://bolldata.se/allsvenskan/matcher/2024/2024-09-29/aik-hammarby-1-0",
+      },
+      {
+        date: "2024-05-19",
+        fixture: "Hammarby - AIK",
+        result: "2-1",
+        venue: "home",
+        outcome: "win",
+        hammarbyGoals: 2,
+        opponentGoals: 1,
+        hammarbyXg: 0.97,
+        opponentXg: 0.7,
+        hammarbyShots: 14,
+        opponentShots: 10,
+        sourceUrl:
+          "https://bolldata.se/allsvenskan/matcher/2024/2024-05-19/hammarby-aik-2-1",
       },
     ],
   },

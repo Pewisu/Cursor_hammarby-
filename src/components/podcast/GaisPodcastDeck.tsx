@@ -291,7 +291,7 @@ function H2HMeetingsBoard({
           const isDraw = m.outcome === "draw";
           const accent = isWin ? HIF_GREEN : isDraw ? "#9ca3af" : OPP_MUTED;
           const outcomeLabel = isWin ? "HIF VINST" : isDraw ? "OAVGJORT" : `${OPP_SHORT} VINST`;
-          const homeAway = m.venue === "home" ? "Hemma" : "Borta · Strawberry Arena";
+          const homeAway = m.venue === "home" ? "Hemma" : "Borta";
           const hasXg = m.hammarbyXg > 0 || m.opponentXg > 0;
           const maxGoals = Math.max(m.hammarbyGoals, m.opponentGoals, 1);
 
@@ -866,7 +866,7 @@ export default function GaisPodcastDeck() {
         </SectionShell>
 
         {/* 02 Inbördesmöten */}
-        <SectionShell num="02" eyebrow="Inbördesmöten" title="Senaste cupmöte" mode={mode}>
+        <SectionShell num="02" eyebrow="Inbördesmöten" title="Senaste mötet" mode={mode}>
           {report.headToHead ? (
             <H2HMeetingsBoard h2h={report.headToHead} mode={mode} />
           ) : (
