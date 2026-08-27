@@ -11,8 +11,11 @@ function shortName(name: string) {
 }
 
 const parts = report.fixture.split("-").map((p) => p.trim());
-const hif = shortName(parts[0] ?? "Hammarby");
-const opp = shortName(parts[1] ?? "Motståndare");
+const hammarbyIdx = parts.findIndex((p) => /hammarby/i.test(p));
+const hif = shortName(parts[hammarbyIdx >= 0 ? hammarbyIdx : 0] ?? "Hammarby");
+const opp = shortName(
+  parts[hammarbyIdx === 0 ? 1 : hammarbyIdx === 1 ? 0 : 1] ?? "Motståndare"
+);
 
 function rankPct(rank: number, total = 16) {
   return ((total - rank) / (total - 1)) * 100;
@@ -42,6 +45,7 @@ function SlideRankings() {
   const off = rows.filter((r) => r.group === "offensiv");
   const def = rows.filter((r) => r.group === "defensiv");
   const stil = rows.filter((r) => r.group === "stil");
+  const xp = report.xpComparison;
 
   return (
     <div className="flex h-full flex-col overflow-y-auto px-8 py-8 lg:px-14 lg:py-10">
@@ -55,10 +59,124 @@ function SlideRankings() {
             Twelve &amp; Bolldata
           </h2>
           <p className="mt-1 text-base text-slate-400">
-            {hif} vs {opp} · Allsvenskan 2026 · 17 omgångar · 20 aug
+            {hif} vs {opp} · {report.comparisonLabel ?? "Allsvenskan 2026"}
           </p>
         </div>
       </div>
+
+      {xp && (
+        <div className="mb-5 rounded-2xl border border-[#006633]/50 bg-[#006633]/10 p-5">
+          <div className="mb-3 flex flex-col gap-1 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.28em] text-[#006633]">
+                {xp.title}
+              </p>
+              <h3 className="text-2xl font-black uppercase text-white lg:text-3xl">
+                Tabell vs underliggande
+              </h3>
+            </div>
+            <p className="max-w-2xl text-sm leading-relaxed text-white/70 lg:text-right">
+              {xp.headline}
+            </p>
+          </div>
+          <div
+            className="mb-4 h-3 w-full"
+            style={{
+              backgroundImage: "repeating-linear-gradient(90deg, #006633 0 14px, #ffffff 14px 28px)",
+              opacity: 0.85,
+            }}
+            aria-hidden
+          />
+          <div className="mb-4 flex flex-wrap gap-4 text-[10px] font-black uppercase tracking-[0.22em]">
+            <span className="inline-flex items-center gap-2 text-[#006633]">
+              <span className="inline-block h-2.5 w-5 rounded-sm bg-[#006633]" />
+              {hif}
+            </span>
+            <span className="inline-flex items-center gap-2 text-white/80">
+              <span className="inline-block h-2.5 w-5 rounded-sm bg-white" />
+              {opp}
+            </span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            {xp.rows.map((row) => (
+              <div
+                key={row.label}
+                className="rounded-xl border border-[#006633]/30 bg-slate-950/60 p-3"
+              >
+                <p className="mb-2 text-center text-[10px] font-bold uppercase tracking-widest text-[#006633]">
+                  {row.label}
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="rounded-lg border border-[#006633]/40 bg-[#006633]/20 px-2 py-2 text-center">
+                    <p className="text-[10px] text-[#5fd39a]">{hif}</p>
+                    <p className="text-2xl font-black tabular-nums text-[#5fd39a]">
+                      {row.hammarbyValue}
+                    </p>
+                    {row.hammarbyRank && (
+                      <p className="text-[10px] text-emerald-200/70">{row.hammarbyRank}</p>
+                    )}
+                  </div>
+                  <div className="rounded-lg border border-white/20 bg-white/5 px-2 py-2 text-center">
+                    <p className="text-[10px] text-white/55">{opp}</p>
+                    <p className="text-2xl font-black tabular-nums text-white">
+                      {row.opponentValue}
+                    </p>
+                    {row.opponentRank && (
+                      <p className="text-[10px] text-white/45">{row.opponentRank}</p>
+                    )}
+                  </div>
+                </div>
+                <div
+                  className="mt-3 h-1.5 w-full rounded-full"
+                  style={{
+                    backgroundImage: "repeating-linear-gradient(90deg, #006633 0 8px, #ffffff 8px 16px)",
+                    opacity: 0.7,
+                  }}
+                  aria-hidden
+                />
+                <p className="mt-2 text-center text-[11px] leading-snug text-slate-500">{row.note}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 rounded-xl border border-[#006633]/40 bg-[#006633]/15 px-3 py-2 text-sm font-semibold text-white/85">
+            {xp.takeaway}
+          </p>
+          {xp.overperformanceDrivers && xp.overperformanceDrivers.length > 0 && (
+            <div className="mt-4 rounded-xl border border-[#006633]/40 bg-black/40 p-4">
+              <p className="mb-1 text-xs font-black uppercase tracking-[0.25em] text-[#006633]">
+                {xp.overperformanceTitle ?? "Varför överpresterar AIK?"}
+              </p>
+              <div
+                className="mb-3 h-2 w-full"
+                style={{
+                  backgroundImage: "repeating-linear-gradient(90deg, #006633 0 10px, #ffffff 10px 20px)",
+                  opacity: 0.8,
+                }}
+                aria-hidden
+              />
+              {xp.overperformanceSummary && (
+                <p className="mb-3 text-sm leading-relaxed text-white/70">
+                  {xp.overperformanceSummary}
+                </p>
+              )}
+              <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                {xp.overperformanceDrivers.map((d) => (
+                  <div
+                    key={d.label}
+                    className="rounded-lg border border-[#006633]/25 bg-slate-950/50 p-3"
+                  >
+                    <p className="text-[11px] font-bold uppercase tracking-wide text-slate-300">
+                      {d.label}
+                    </p>
+                    <p className="mt-1 text-sm font-black tabular-nums text-[#5fd39a]">{d.value}</p>
+                    <p className="mt-1 text-[11px] leading-snug text-slate-500">{d.explanation}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="grid flex-1 gap-5 xl:grid-cols-[1.1fr_1fr]">
         {/* Twelve phases */}
@@ -185,7 +303,7 @@ function SlidePreviousAndPlan() {
             Del 2 av 3 · Förra mötet &amp; plan
           </p>
           <h2 className="text-3xl font-black uppercase tracking-tight text-white lg:text-5xl">
-            Hemmamatch på 3Arena
+            {report.venueLabel ?? report.fixture}
           </h2>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Oswald, DM_Sans } from "next/font/google";
 import GaisPodcastDeck from "@/components/podcast/GaisPodcastDeck";
+import { upcomingOpponents } from "@/lib/upcomingOpponentsData";
 
 const display = Oswald({
   subsets: ["latin"],
@@ -14,11 +15,15 @@ const body = DM_Sans({
   variable: "--font-podcast-body",
 });
 
-export const metadata: Metadata = {
-  title: "Kommande: FC Stockholm – Hammarby · Svenska Cupen",
-  description:
-    "Kommande motstånd FC Stockholm Internazionale i Svenska Cupen – Twelve Ettan-rapport, nivåskillnad och matchplan.",
-};
+export function generateMetadata(): Metadata {
+  const report = upcomingOpponents.find((r) => !r.hidden);
+  if (!report) return { title: "Kommande motstånd | Hammarby IF" };
+  const parts = report.fixture.split("-").map((p) => p.trim());
+  return {
+    title: `Kommande: ${parts[0] ?? "Motståndare"} – ${parts[1] ?? "Hammarby"} · ${report.roundLabel ?? ""}`,
+    description: report.oneLineSummary,
+  };
+}
 
 /** Alias: samma vy som /kommande */
 export default function PodcastAliasPage() {

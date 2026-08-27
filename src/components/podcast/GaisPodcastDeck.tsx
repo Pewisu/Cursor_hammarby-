@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { fcStockholmCupReport as report } from "@/lib/fcStockholmCupUpcomingData";
+import { aikRound19Report as report } from "@/lib/aikRound19UpcomingData";
 import {
   calcDomarindex,
   calcFoulDiff,
@@ -18,12 +18,12 @@ import {
 const HIF_GREEN = "#006633";
 const OPP_MUTED = "#8a9096";
 const OPP_ACCENT = "#c4a035";
-const OPP_SHORT = "FC Stockholm";
-const OPP_FORM_LABEL = "Inter form";
+const OPP_SHORT = "AIK";
+const OPP_FORM_LABEL = "AIK form";
 
 type ViewMode = "mobile" | "desktop" | "bigscreen";
 
-const MATCH_KICKOFF = new Date("2026-08-26T16:30:00Z"); // 18:30 Stockholm (CEST)
+const MATCH_KICKOFF = new Date("2026-08-30T12:00:00Z"); // 14:00 Stockholm (CEST)
 
 function rankToScore(rank: number, total = 16) {
   return ((total - rank + 1) / total) * 100;
@@ -43,16 +43,31 @@ function useCountdown(target: Date) {
   return { days, hours, mins, secs, done: diff === 0 };
 }
 
-function StripeDivider() {
+function StripeDivider({ className = "my-2" }: { className?: string }) {
   return (
     <div
-      className="my-2 h-3 w-full"
+      className={`h-3 w-full ${className}`}
       style={{
         backgroundImage: `repeating-linear-gradient(90deg, ${HIF_GREEN} 0 14px, #ffffff 14px 28px)`,
         opacity: 0.85,
       }}
       aria-hidden
     />
+  );
+}
+
+function ColorLegend() {
+  return (
+    <div className="flex flex-wrap items-center gap-4 text-[10px] font-black uppercase tracking-[0.22em]">
+      <span className="inline-flex items-center gap-2" style={{ color: HIF_GREEN }}>
+        <span className="inline-block h-2.5 w-5 rounded-sm" style={{ background: HIF_GREEN }} />
+        Hammarby
+      </span>
+      <span className="inline-flex items-center gap-2 text-white/70">
+        <span className="inline-block h-2.5 w-5 rounded-sm bg-white" />
+        {OPP_SHORT}
+      </span>
+    </div>
   );
 }
 
@@ -276,7 +291,7 @@ function H2HMeetingsBoard({
           const isDraw = m.outcome === "draw";
           const accent = isWin ? HIF_GREEN : isDraw ? "#9ca3af" : OPP_MUTED;
           const outcomeLabel = isWin ? "HIF VINST" : isDraw ? "OAVGJORT" : `${OPP_SHORT} VINST`;
-          const homeAway = m.venue === "home" ? "Hemma" : "Borta · Stockholms Stadion";
+          const homeAway = m.venue === "home" ? "Hemma" : "Borta · Strawberry Arena";
           const hasXg = m.hammarbyXg > 0 || m.opponentXg > 0;
           const maxGoals = Math.max(m.hammarbyGoals, m.opponentGoals, 1);
 
@@ -525,20 +540,17 @@ export default function GaisPodcastDeck() {
     string,
     { x: number; y: number; r: number; opacity: number }[]
   > = {
-    "Lukas Sunesson": [
-      { x: 50, y: 18, r: 18, opacity: 0.55 },
-      { x: 38, y: 28, r: 12, opacity: 0.35 },
-      { x: 62, y: 28, r: 12, opacity: 0.35 },
+    "Dino Beširović": [
+      { x: 50, y: 48, r: 16, opacity: 0.5 },
+      { x: 38, y: 52, r: 11, opacity: 0.32 },
+      { x: 62, y: 52, r: 11, opacity: 0.32 },
+      { x: 50, y: 36, r: 10, opacity: 0.28 },
     ],
-    "Höjdpress-kollektivet": [
-      { x: 30, y: 35, r: 14, opacity: 0.4 },
-      { x: 50, y: 30, r: 16, opacity: 0.45 },
-      { x: 70, y: 35, r: 14, opacity: 0.4 },
-    ],
-    "Omställningsvapnet": [
-      { x: 50, y: 40, r: 16, opacity: 0.45 },
-      { x: 40, y: 55, r: 12, opacity: 0.35 },
-      { x: 60, y: 55, r: 12, opacity: 0.35 },
+    "Linus Carlstrand": [
+      { x: 50, y: 16, r: 18, opacity: 0.55 },
+      { x: 38, y: 22, r: 11, opacity: 0.32 },
+      { x: 62, y: 22, r: 11, opacity: 0.32 },
+      { x: 50, y: 28, r: 10, opacity: 0.3 },
     ],
   };
 
@@ -630,7 +642,7 @@ export default function GaisPodcastDeck() {
                     {(report.hifBadges ?? []).slice(0, 3).join(" · ")}
                   </p>
                 </div>
-                <FormPips results={["W", "W", "D", "W", "W"]} label="HIF form (5)" />
+                <FormPips results={["W", "D", "W", "W", "W"]} label="HIF form (5)" />
               </div>
 
               <div className="flex flex-col items-center gap-4">
@@ -656,10 +668,10 @@ export default function GaisPodcastDeck() {
                   ))}
                 </div>
                 <p className="max-w-xs text-center text-sm text-white/60">
-                  Onsdag 26 augusti 2026 · 18:30
+                  Söndag 30 augusti 2026 · 14:00
                   <br />
                   <span className="font-bold text-white">
-                    {report.venueLabel ?? "Stockholms Stadion"}
+                    {report.venueLabel ?? "Strawberry Arena"}
                   </span>
                 </p>
               </div>
@@ -673,7 +685,7 @@ export default function GaisPodcastDeck() {
                     {(report.opponentBadges ?? []).slice(0, 3).join(" · ")}
                   </p>
                 </div>
-                <FormPips results={["W", "W", "W", "W", "D"]} label={`${OPP_FORM_LABEL} (5)`} />
+                <FormPips results={["W", "D", "L", "W", "W"]} label={`${OPP_FORM_LABEL} (5)`} />
               </div>
             </div>
 
@@ -689,7 +701,7 @@ export default function GaisPodcastDeck() {
           eyebrow="Förra mötet"
           title={
             report.previousMeeting
-              ? `${report.previousMeeting.result} · cup feb 2025`
+              ? `${report.previousMeeting.result} · derby maj 2026`
               : "Förra mötet"
           }
           mode={mode}
@@ -812,6 +824,145 @@ export default function GaisPodcastDeck() {
 
         {/* 03 Mätvärden */}
         <SectionShell num="03" eyebrow="Säsongsdata" title="Nyckeltal per match" mode={mode}>
+          {report.xpComparison && (
+            <div
+              className="mb-10 overflow-hidden rounded-3xl border p-5 md:p-8"
+              style={{
+                borderColor: `${HIF_GREEN}66`,
+                background: `linear-gradient(145deg, ${HIF_GREEN}22, #111 55%)`,
+              }}
+            >
+              <div className="mb-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: HIF_GREEN }}>
+                    {report.xpComparison.title}
+                  </p>
+                  <h3 className="mt-1 font-[family-name:var(--font-podcast-display)] text-3xl font-black uppercase text-white md:text-4xl">
+                    Tabell vs underliggande
+                  </h3>
+                  <p className="mt-1 text-xs text-white/45">{report.xpComparison.subtitle}</p>
+                </div>
+                <p className="max-w-xl text-sm leading-relaxed text-white/70 md:text-right md:text-base">
+                  {report.xpComparison.headline}
+                </p>
+              </div>
+
+              <StripeDivider className="mb-5 mt-4" />
+              <div className="mb-5">
+                <ColorLegend />
+              </div>
+
+              <div className="mb-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-1">
+                <p className="text-right text-sm font-black uppercase tracking-wider" style={{ color: HIF_GREEN }}>
+                  Hammarby
+                </p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">vs</p>
+                <p className="text-left text-sm font-black uppercase tracking-wider text-white">
+                  {OPP_SHORT}
+                </p>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-2">
+                {report.xpComparison.rows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="rounded-2xl border bg-black/45 p-4 md:p-5"
+                    style={{ borderColor: `${HIF_GREEN}33` }}
+                  >
+                    <p
+                      className="mb-3 text-center text-[10px] font-bold uppercase tracking-[0.28em]"
+                      style={{ color: HIF_GREEN }}
+                    >
+                      {row.label}
+                    </p>
+                    <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-3">
+                      <div className="text-right">
+                        <p className="text-3xl font-black tabular-nums md:text-4xl" style={{ color: HIF_GREEN }}>
+                          {row.hammarbyValue}
+                        </p>
+                        {row.hammarbyRank && (
+                          <p className="mt-1 text-[11px] font-semibold text-white/45">{row.hammarbyRank}</p>
+                        )}
+                      </div>
+                      <span className="pb-2 text-[10px] font-bold uppercase tracking-widest text-white/25">
+                        vs
+                      </span>
+                      <div className="text-left">
+                        <p className="text-3xl font-black tabular-nums text-white md:text-4xl">
+                          {row.opponentValue}
+                        </p>
+                        {row.opponentRank && (
+                          <p className="mt-1 text-[11px] font-semibold text-white/45">{row.opponentRank}</p>
+                        )}
+                      </div>
+                    </div>
+                    <div
+                      className="mt-4 h-1.5 w-full rounded-full"
+                      style={{
+                        backgroundImage: `repeating-linear-gradient(90deg, ${HIF_GREEN} 0 8px, #ffffff 8px 16px)`,
+                        opacity: 0.7,
+                      }}
+                      aria-hidden
+                    />
+                    <p className="mt-3 text-center text-xs leading-snug text-white/50">{row.note}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p
+                className="mt-6 rounded-2xl border px-4 py-3 text-sm leading-relaxed text-white/85 md:text-base"
+                style={{ borderColor: `${HIF_GREEN}66`, background: `${HIF_GREEN}18` }}
+              >
+                <span className="font-black uppercase tracking-wide" style={{ color: HIF_GREEN }}>
+                  Takeaway ·{" "}
+                </span>
+                {report.xpComparison.takeaway}
+              </p>
+
+              {report.xpComparison.overperformanceDrivers &&
+                report.xpComparison.overperformanceDrivers.length > 0 && (
+                  <div
+                    className="mt-8 rounded-3xl border bg-black/50 p-5 md:p-7"
+                    style={{ borderColor: `${HIF_GREEN}44` }}
+                  >
+                    <p className="text-xs font-black uppercase tracking-[0.35em]" style={{ color: HIF_GREEN }}>
+                      {report.xpComparison.overperformanceTitle ?? "Varför överpresterar de?"}
+                    </p>
+                    <StripeDivider className="mb-4 mt-3" />
+                    {report.xpComparison.overperformanceSummary && (
+                      <p className="max-w-4xl text-sm leading-relaxed text-white/70 md:text-base">
+                        {report.xpComparison.overperformanceSummary}
+                      </p>
+                    )}
+                    <div className="mt-6 grid gap-4 md:grid-cols-2">
+                      {report.xpComparison.overperformanceDrivers.map((d) => (
+                        <div
+                          key={d.label}
+                          className="rounded-2xl border bg-white/[0.03] p-4 md:p-5"
+                          style={{ borderColor: `${HIF_GREEN}33` }}
+                        >
+                          <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                            <p className="text-sm font-black uppercase tracking-wide text-white">
+                              {d.label}
+                            </p>
+                            <p
+                              className="text-sm font-black tabular-nums md:text-base"
+                              style={{ color: HIF_GREEN }}
+                            >
+                              {d.value}
+                            </p>
+                          </div>
+                          <p className="text-xs leading-relaxed text-white/55 md:text-sm">
+                            {d.explanation}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
+
           <div className="mb-10 flex flex-col items-start justify-between gap-4 lg:flex-row lg:items-center">
             <p className="max-w-2xl text-white/60">
               Grön stapel = Hammarby. Grå = {OPP_SHORT}. Längre stapel = starkare värde på mätetalet.
@@ -1047,7 +1198,11 @@ export default function GaisPodcastDeck() {
 
         {/* 05 Scouting */}
         <SectionShell num="05" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
-          <div className="grid gap-6 lg:grid-cols-3">
+          <div
+            className={`grid gap-6 ${
+              (report.playersToWatch?.length ?? 0) <= 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"
+            }`}
+          >
             {(report.playersToWatch ?? []).slice(0, 3).map((player) => (
               <article key={player.name} className="overflow-hidden rounded-3xl border border-white/10 bg-black/40">
                 <div className="grid grid-cols-[0.9fr_1.1fr] gap-0">
@@ -1064,7 +1219,7 @@ export default function GaisPodcastDeck() {
                   </div>
                   <div className="p-5">
                     {player.scoutBadge && (
-                      <p className="mb-2 text-[10px] font-black uppercase tracking-widest" style={{ color: OPP_ACCENT }}>
+                      <p className="mb-2 text-[10px] font-black uppercase tracking-widest" style={{ color: HIF_GREEN }}>
                         {player.scoutBadge}
                       </p>
                     )}
@@ -1710,7 +1865,7 @@ export default function GaisPodcastDeck() {
               <span className="text-white/55">{OPP_SHORT}</span>
             </p>
             <p className="text-xs text-white/35">
-              Hammarby IF · Big Screen Podcast Deck · Svenska Cupen omg 2 · 2026
+              Hammarby IF · Big Screen Podcast Deck · Omgång 19 · AIK · 2026
             </p>
           </div>
         </SectionShell>

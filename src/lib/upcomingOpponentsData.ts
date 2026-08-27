@@ -1,3 +1,4 @@
+import { aikRound19Report } from "@/lib/aikRound19UpcomingData";
 import { gaisRound18Report } from "@/lib/gaisRound18UpcomingData";
 import { fcStockholmCupReport } from "@/lib/fcStockholmCupUpcomingData";
 
@@ -176,6 +177,32 @@ export interface BolldataRankMetric {
   talkTrack: string;
 }
 
+/** Side-by-side expected points board (tabell vs underliggande). */
+export interface XpComparisonRow {
+  label: string;
+  hammarbyValue: string;
+  hammarbyRank?: string;
+  opponentValue: string;
+  opponentRank?: string;
+  note: string;
+}
+
+export interface XpComparisonSection {
+  title: string;
+  subtitle: string;
+  headline: string;
+  rows: XpComparisonRow[];
+  takeaway: string;
+  /** Why the opponent (or gap) exists – drivers behind p−xP over/underperformance. */
+  overperformanceTitle?: string;
+  overperformanceSummary?: string;
+  overperformanceDrivers?: {
+    label: string;
+    value: string;
+    explanation: string;
+  }[];
+}
+
 export interface UpcomingOpponentReport {
   round: number;
   roundLabel?: string;
@@ -206,6 +233,8 @@ export interface UpcomingOpponentReport {
   twelvePhaseRanks?: TwelvePhaseRank[];
   /** Bolldata lagdata rankings split by offensiv / defensiv / stil. */
   bolldataRankings?: BolldataRankMetric[];
+  /** Explicit points vs xP comparison for broadcast (optional). */
+  xpComparison?: XpComparisonSection;
   quickStatusCards: {
     title: string;
     body: string;
@@ -227,7 +256,8 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
-  fcStockholmCupReport,
+  aikRound19Report,
+  { ...fcStockholmCupReport, hidden: true },
   { ...gaisRound18Report, hidden: true },
   {
     round: 17,
