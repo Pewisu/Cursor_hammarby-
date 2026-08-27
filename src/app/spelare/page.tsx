@@ -17,6 +17,14 @@ const players = [
     accent: "lime" as const,
   },
   {
+    href: "/spelare/ali-habesoglu",
+    name: "Ali Habeşoğlu",
+    role: "Anfallare · Bodrumspor",
+    blurb:
+      "Luftstark poacher i Turkish 1. Lig – Twelve-spindel, rankings och profil.",
+    accent: "orange" as const,
+  },
+  {
     href: "/spelarstatistik/besara-jamforelse",
     name: "Nahir Besara",
     role: "Offensiv mittfältare · A-trupp",
@@ -30,6 +38,11 @@ const accentStyles = {
     border: "border-lime-500/30 hover:border-lime-400/60",
     iconBg: "bg-lime-500/20 text-lime-300",
     link: "text-lime-300 group-hover:text-lime-200",
+  },
+  orange: {
+    border: "border-orange-500/30 hover:border-orange-400/60",
+    iconBg: "bg-orange-500/20 text-orange-300",
+    link: "text-orange-300 group-hover:text-orange-200",
   },
   amber: {
     border: "border-amber-500/30 hover:border-amber-400/60",
