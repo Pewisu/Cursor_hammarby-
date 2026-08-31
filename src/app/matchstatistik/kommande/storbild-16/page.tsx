@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { upcomingOpponents } from "@/lib/upcomingOpponentsData";
 
-const report = upcomingOpponents.find((r) => !r.hidden)!;
+// Efter spelad match döljs alla rapporter; falla tillbaka på den senaste så att
+// den statiska exporten inte kraschar.
+const report = upcomingOpponents.find((r) => !r.hidden) ?? upcomingOpponents[0];
 
 function shortName(name: string) {
   return name.replace(/ IF$/, "").replace(/ FF$/, "").replace(/ BK$/, "").replace(/ FK$/, "");
