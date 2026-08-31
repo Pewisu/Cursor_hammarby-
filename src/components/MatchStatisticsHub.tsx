@@ -4777,7 +4777,9 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ROUND19_HIF_LIGHT }}>
                     Twelve nyckeltal
                   </p>
-                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">Field Tilt · PPDA · Matchranking</h3>
+                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">
+                    Win prob · xP · Field Tilt · Matchranking
+                  </h3>
                   <p className="mt-0.5 text-xs text-white/45">
                     Omgång 19 vs säsongssnitt. Källa: Twelve Football match report vs AIK.
                   </p>
@@ -4800,17 +4802,17 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               <div className="grid grid-cols-2 gap-3 px-5 pb-4 sm:grid-cols-4">
                 <div
                   className="col-span-2 rounded-xl border p-4 sm:col-span-1"
-                  style={{ borderColor: `${ROUND19_HIF_GREEN}44`, backgroundColor: `${ROUND19_HIF_GREEN}18` }}
+                  style={{ borderColor: `${ROUND19_HIF_GREEN}66`, backgroundColor: `${ROUND19_HIF_GREEN}22` }}
                 >
                   <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_HIF_LIGHT }}>
-                    Field Tilt
+                    Win probability
                   </p>
                   <p className="mt-1 text-5xl font-black tabular-nums" style={{ color: ROUND19_HIF_LIGHT }}>
-                    {kpi.fieldTiltPct}
+                    {kpi.winProbabilityPct}
                     <span className="text-2xl opacity-70">%</span>
                   </p>
-                  <p className="mt-1.5 text-[10px] text-white/45">
-                    Snitt: {kpi.fieldTiltAvgPct}% · +{kpi.fieldTiltPct - kpi.fieldTiltAvgPct}pp
+                  <p className="mt-1.5 text-[10px] text-white/55">
+                    Oavg {kpi.drawProbabilityPct}% · förlust {kpi.lossProbabilityPct}% · Twelve Outcome
                   </p>
                 </div>
                 <div
@@ -4818,13 +4820,38 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   style={{ borderColor: `${ROUND19_AIK_GOLD}44`, backgroundColor: `${ROUND19_AIK_GOLD}12` }}
                 >
                   <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_AIK_GOLD }}>
-                    PPDA (press)
+                    xPoints
                   </p>
-                  <p className="mt-1 text-5xl font-black tabular-nums text-white">{kpi.ppda.toFixed(2)}</p>
+                  <p className="mt-1 text-5xl font-black tabular-nums text-white">
+                    {kpi.xPoints.toFixed(2).replace(".", ",")}
+                  </p>
                   <p className="mt-1.5 text-[10px] text-white/45">
-                    Snitt: {kpi.ppdaAvg.toFixed(2)} · nära säsongssnitt
+                    Förväntade poäng · faktiskt 0 p
                   </p>
                 </div>
+                <div
+                  className="rounded-xl border p-4"
+                  style={{ borderColor: `${ROUND19_HIF_GREEN}44`, backgroundColor: `${ROUND19_HIF_GREEN}18` }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_HIF_LIGHT }}>
+                    Field Tilt
+                  </p>
+                  <p className="mt-1 text-4xl font-black tabular-nums" style={{ color: ROUND19_HIF_LIGHT }}>
+                    {kpi.fieldTiltPct}
+                    <span className="text-xl opacity-70">%</span>
+                  </p>
+                  <p className="mt-1.5 text-[10px] text-white/45">
+                    Snitt: {kpi.fieldTiltAvgPct}% · +{kpi.fieldTiltPct - kpi.fieldTiltAvgPct}pp
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">PPDA</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">{kpi.ppda.toFixed(2)}</p>
+                  <p className="mt-1.5 text-[10px] text-white/40">Snitt: {kpi.ppdaAvg.toFixed(2)}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 px-5 pb-4 sm:grid-cols-4">
                 <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">xT (HIF)</p>
                   <p className="mt-1 text-4xl font-black tabular-nums text-white">{kpi.xt.toFixed(2)}</p>
@@ -4836,6 +4863,20 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                     {kpi.oppXt.toFixed(2)}
                   </p>
                   <p className="mt-1.5 text-[10px] text-white/40">Snitt emot: {kpi.oppXtAvg.toFixed(2)}</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">np-xG</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">
+                    {kpi.npXg.toFixed(2).replace(".", ",")}
+                  </p>
+                  <p className="mt-1.5 text-[10px] text-white/40">
+                    AIK {kpi.oppNpXg.toFixed(2).replace(".", ",")}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">HO-shots</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">{kpi.highOppShots}</p>
+                  <p className="mt-1.5 text-[10px] text-white/40">AIK {kpi.oppHighOppShots}</p>
                 </div>
               </div>
 
@@ -4855,10 +4896,22 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </p>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-[#121212] p-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">HO-shots</p>
-                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.highOppShots}</p>
-                  <p className="mt-0.5 text-[10px] text-white/40">AIK {kpi.oppHighOppShots} · intensitet {kpi.defensiveIntensity}</p>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">Def. intensitet</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.defensiveIntensity}</p>
+                  <p className="mt-0.5 text-[10px] text-white/40">Snitt {kpi.defensiveIntensityAvg}</p>
                 </div>
+              </div>
+
+              <div
+                className="mx-5 mb-4 rounded-xl border p-4"
+                style={{ borderColor: `${ROUND19_AIK_GOLD}33`, backgroundColor: `${ROUND19_AIK_GOLD}0d` }}
+              >
+                <p className="text-sm leading-relaxed text-neutral-300">
+                  Twelve Outcome: Hammarby hade{" "}
+                  <span className="font-bold text-emerald-300">{kpi.winProbabilityPct} % vinstsannolikhet</span> och{" "}
+                  <span className="font-bold text-emerald-300">{kpi.xPoints.toFixed(2).replace(".", ",")} xP</span>{" "}
+                  – men tog 0 poäng. Spegelbilden av AIK:s variance: underliggande spelet sa seger, slutresultatet sa förlust.
+                </p>
               </div>
 
               <div className="border-t border-white/10 px-5 py-4">

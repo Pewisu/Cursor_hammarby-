@@ -216,6 +216,7 @@ export const aikRound19SnapshotPills: MatchSnapshotPill[] = [
   { id: "result", label: "Förlust 2–3", tone: "amber" },
   { id: "ht", label: "HT 2–1 HIF", tone: "emerald" },
   { id: "xg", label: "4,26 xG (HIF)", tone: "emerald" },
+  { id: "winprob", label: "Win prob 86 %", tone: "emerald" },
   { id: "adjei", label: "Adjei 14'", tone: "blue" },
   { id: "abraham", label: "Abraham 45+4", tone: "blue" },
   { id: "gustafsson", label: "Gustafsson 83' ⚡", tone: "amber" },
@@ -223,7 +224,7 @@ export const aikRound19SnapshotPills: MatchSnapshotPill[] = [
 
 export const aikRound19Recap = {
   headline: "AIK vände derbyt – HIF dominerade utan poäng",
-  tagline: "4,26 xG · HT 2–1 · Kouame 72' · Gustafsson 83' · Field tilt 74 %",
+  tagline: "4,26 xG · Win prob 86 % · xP 2,67 · HT 2–1 · 0 poäng",
   opponentScore: 3,
   hammarbyScore: 2,
   opponentXg: 1.91,
@@ -347,6 +348,8 @@ export const aikRound19TwelveKpis = {
   oppNpXg: 1.82,
   xPoints: 2.67,
   winProbabilityPct: 86,
+  drawProbabilityPct: 8,
+  lossProbabilityPct: 5,
   rankings: {
     defence: { rank: 18, total: 28, label: "Försvar" },
     defTransition: { rank: 20, total: 28, label: "Def. transition" },
