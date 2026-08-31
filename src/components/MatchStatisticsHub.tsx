@@ -2992,6 +2992,18 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               {round === 19 && (
                 <>
                   <a
+                    href="#win-prob"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_HIF_GREEN}99`,
+                      backgroundColor: `${ROUND19_HIF_GREEN}33`,
+                      color: ROUND19_HIF_LIGHT,
+                    }}
+                  >
+                    <span>📊</span>
+                    <span>Win prob 86 %</span>
+                  </a>
+                  <a
                     href="#first-half"
                     className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors"
                     style={{
@@ -4540,6 +4552,62 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
 
+        {/* ── Round 19: Twelve Outcome win probability (top of page) ── */}
+        {isRound19Dashboard && (() => {
+          const kpi = aikRound19TwelveKpis;
+          return (
+            <section
+              id="win-prob"
+              className="overflow-hidden rounded-2xl border"
+              style={{ borderColor: `${ROUND19_HIF_GREEN}88`, backgroundColor: "#0b0b0b" }}
+            >
+              <div className="grid gap-3 p-4 sm:grid-cols-[1.2fr_1fr_1fr] sm:p-5">
+                <div
+                  className="rounded-xl border p-4"
+                  style={{ borderColor: `${ROUND19_HIF_GREEN}66`, backgroundColor: `${ROUND19_HIF_GREEN}22` }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ROUND19_HIF_LIGHT }}>
+                    Twelve Outcome · Win probability
+                  </p>
+                  <p className="mt-1 text-5xl font-black tabular-nums" style={{ color: ROUND19_HIF_LIGHT }}>
+                    {kpi.winProbabilityPct}
+                    <span className="text-2xl opacity-70">%</span>
+                  </p>
+                  <p className="mt-1.5 text-xs text-white/60">
+                    Oavg {kpi.drawProbabilityPct}% · förlust {kpi.lossProbabilityPct}% – men 0 poäng
+                  </p>
+                </div>
+                <div
+                  className="rounded-xl border p-4"
+                  style={{ borderColor: `${ROUND19_AIK_GOLD}44`, backgroundColor: `${ROUND19_AIK_GOLD}12` }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ROUND19_AIK_GOLD }}>
+                    xPoints
+                  </p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">
+                    {kpi.xPoints.toFixed(2).replace(".", ",")}
+                  </p>
+                  <p className="mt-1.5 text-xs text-white/50">Förväntade poäng · faktiskt 0</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/45">Variance</p>
+                  <p className="mt-1 text-sm leading-relaxed text-neutral-300">
+                    Underliggande spelet sa seger ({kpi.winProbabilityPct}% / {kpi.xPoints.toFixed(2).replace(".", ",")} xP).
+                    Resultatet sa förlust 2–3.
+                  </p>
+                  <a
+                    href="#twelve-kpi"
+                    className="mt-3 inline-flex text-[11px] font-semibold"
+                    style={{ color: ROUND19_HIF_LIGHT }}
+                  >
+                    Alla Twelve-nyckeltal →
+                  </a>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
+
         {/* ── Round 19: Poängsnitt per tränare (efter AIK 3–2) ── */}
         {isRound19Dashboard && (() => {
           const karlsson = coachRecords2026.karlsson;
@@ -5016,6 +5084,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
           return (
             <section
+              id="twelve-kpi"
               className="overflow-hidden rounded-2xl border bg-[#0b0b0b]"
               style={{ borderColor: `${ROUND19_HIF_GREEN}55` }}
             >

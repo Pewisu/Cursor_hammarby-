@@ -206,9 +206,9 @@ export const aikRound19Takeaways: MatchRecapTakeaway[] = [
 ];
 
 export const aikRound19SnapshotStats: MatchSnapshotStat[] = [
+  { label: "Win prob (Twelve)", hammarbyValue: 86, opponentValue: 5, hammarbyDisplay: "86%", opponentDisplay: "5%" },
   { label: "xG", hammarbyValue: 4.26, opponentValue: 1.91, hammarbyDisplay: "4,26", opponentDisplay: "1,91" },
   { label: "Avslut", hammarbyValue: 29, opponentValue: 10, hammarbyDisplay: "29", opponentDisplay: "10" },
-  { label: "Bollinnehav", hammarbyValue: 56, opponentValue: 44, hammarbyDisplay: "56%", opponentDisplay: "44%" },
   { label: "Boxberöringar", hammarbyValue: 39, opponentValue: 16, hammarbyDisplay: "39", opponentDisplay: "16" },
 ];
 

@@ -22,10 +22,16 @@ export default function MatchStatisticsRoutePage() {
           </p>
           <div className="mt-4 flex flex-wrap gap-2">
           <Link
-            href="/matchstatistik/omgang/16"
+            href="/matchstatistik/omgang/19"
             className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/70 bg-emerald-500/25 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/35"
           >
-            ⚽ NY: Hammarby 3–0 Häcken (omgång 16)
+            ⚽ NY: AIK 3–2 Hammarby (omgång 19) · Win prob 86 %
+          </Link>
+          <Link
+            href="/matchstatistik/omgang/16"
+            className="inline-flex items-center gap-2 rounded-lg border border-emerald-400/60 bg-emerald-500/20 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-emerald-300 hover:bg-emerald-500/30"
+          >
+            ⚽ Hammarby 3–0 Häcken (omgång 16)
           </Link>
           <Link
             href="/matchstatistik/europakval-2026"
@@ -58,10 +64,10 @@ export default function MatchStatisticsRoutePage() {
               ⭐ Säsongsanalys 2026
             </Link>
             <Link
-              href="/matchstatistik/kommande"
+              href="/matchstatistik/omgang/19"
               className="inline-flex items-center gap-2 rounded-lg border border-[#006633]/70 bg-[#006633]/25 px-3 py-1.5 text-xs font-bold text-emerald-100 hover:border-[#006633] hover:bg-[#006633]/40"
             >
-              🖥️ Kommande: AIK – Hammarby · Omg 19
+              🖥️ Omgång 19: AIK 3–2 · analys + win prob
             </Link>
             <Link
               href="/matchstatistik/domaranalys"
@@ -153,24 +159,24 @@ export default function MatchStatisticsRoutePage() {
           </Link>
 
           <Link
-            href="/matchstatistik/kommande"
-            className="group rounded-2xl border border-emerald-500/30 bg-slate-800/80 p-6 transition-colors hover:border-emerald-400/60 hover:bg-slate-800"
+            href="/matchstatistik/omgang/19"
+            className="group rounded-2xl border border-emerald-500/40 bg-[#071a0f] p-6 transition-colors hover:border-emerald-400/60 hover:bg-[#0b2419]"
           >
             <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-300">
-              UPPDATERAD · OMGÅNG 19
+              NY · OMGÅNG 19
             </div>
             <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/20 text-emerald-300">
-              🧭
+              ⚽
             </div>
-            <h2 className="text-xl font-semibold text-white">Kommande motståndare</h2>
+            <h2 className="text-xl font-semibold text-white">AIK 3–2 Hammarby</h2>
             <p className="mt-1 text-xs font-bold uppercase tracking-wide text-emerald-400">
-              Nu: AIK – Hammarby · borta · omg 19
+              Omgång 19 · 30 aug · Win prob 86 % · 0 poäng
             </p>
             <p className="mt-2 text-sm text-slate-300">
-              Taktisk scouting inför Stockholmsderbyt borta på Strawberry Arena: Twelve-faser, Bolldata-rankingar, förra mötet 1–2 och matchplan.
+              Derbyanalys med halvlekar, snittålder, Twelve Outcome (86 % vinstsannolikhet / 2,67 xP) och analys vs utfall.
             </p>
             <p className="mt-4 text-sm font-medium text-emerald-300 group-hover:text-emerald-200">
-              Öppna motståndaranalys →
+              Öppna omgång 19 →
             </p>
           </Link>
 
