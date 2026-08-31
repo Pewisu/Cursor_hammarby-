@@ -67,6 +67,54 @@ const METRIC_OPTIONS: TrendMetricOption[] = [
     decimals: 1,
   },
   {
+    key: "forwardPasses",
+    label: "Framåtpassningar",
+    shortLabel: "Framåtpass",
+    description: "Volym av passningar som flyttar spelet framåt.",
+    unit: "st",
+    decimals: 0,
+  },
+  {
+    key: "forwardPassAccuracy",
+    label: "Lyckade framåtpassningar",
+    shortLabel: "Framåtpass%",
+    description: "Träffsäkerhet i framåtriktat passningsspel.",
+    unit: "%",
+    decimals: 1,
+  },
+  {
+    key: "passesToPenaltyArea",
+    label: "Passningar in i straffområdet",
+    shortLabel: "Pass straffområde",
+    description: "Passningar som hittar in i offensivt straffområde.",
+    unit: "st",
+    decimals: 0,
+  },
+  {
+    key: "passesToPenaltyAreaAccuracy",
+    label: "Lyckade passningar in i straffområdet",
+    shortLabel: "Pass straffområde%",
+    description: "Precision i passningar in i offensivt straffområde.",
+    unit: "%",
+    decimals: 1,
+  },
+  {
+    key: "crosses",
+    label: "Inlägg",
+    shortLabel: "Inlägg",
+    description: "Antal inlägg från breda ytor.",
+    unit: "st",
+    decimals: 0,
+  },
+  {
+    key: "crossAccuracy",
+    label: "Inläggningsprocent",
+    shortLabel: "Inlägg%",
+    description: "Andel lyckade inlägg.",
+    unit: "%",
+    decimals: 1,
+  },
+  {
     key: "passesToFinalThird",
     label: "Passningar till sista tredjedelen",
     shortLabel: "PST",
@@ -360,7 +408,6 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
   ]);
 
   const latestMatch = filteredMatches[filteredMatches.length - 1];
-
   const latestTopList = useMemo(() => {
     if (!latestMatch) return [];
     return latestMatch.players
@@ -468,16 +515,41 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
           >
             🏠 Huvudsida
           </Link>
-          <Link href="/lopdata" className="text-slate-300 hover:text-white">
-            ← Till löpdatasidan
+          <Link href="/spelarstatistik" className="text-slate-300 hover:text-white">
+            ← Till spelarstatistik
+          </Link>
+          <Link
+            href="/spelarstatistik/omgangsstandout"
+            className="text-sky-300 hover:text-sky-200"
+          >
+            Till standout i omgång →
           </Link>
           <Link href="/matchstatistik" className="text-slate-400 hover:text-slate-200">
-            Till översikten
+            Till matchstatistik
           </Link>
         </div>
       </header>
 
       <main className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8">
+        <section className="rounded-2xl border border-sky-500/30 bg-sky-500/5 p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.14em] text-sky-300">
+                Ny egen sida
+              </p>
+              <p className="text-sm text-slate-100">
+                Positiva/negativa standout-spelare per omgång finns nu i en separat vy.
+              </p>
+            </div>
+            <Link
+              href="/spelarstatistik/omgangsstandout"
+              className="rounded-md border border-sky-400/40 bg-sky-400/10 px-3 py-1.5 text-xs font-medium text-sky-200 hover:border-sky-300 hover:text-sky-100"
+            >
+              Öppna standout-sidan →
+            </Link>
+          </div>
+        </section>
+
         <section className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-6">
           <h2 className="text-lg font-semibold text-white">
             Parametrar och urval
@@ -567,6 +639,26 @@ export function PlayerTrendsDashboard({ matches }: { matches: PlayerTrendMatch[]
             Minutfiltret påverkar kurvor/tabeller -- du kan fortfarande välja
             spelare i listan. Positioner för Adjei, Fofana och Hagen är manuellt
             korrigerade.
+          </div>
+        </section>
+
+        <section className="rounded-2xl border border-sky-500/30 bg-sky-500/5 p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h2 className="text-lg font-semibold text-white">
+                Standout i omgång har egen sida
+              </h2>
+              <p className="mt-1 text-sm text-slate-300">
+                Positiva och negativa standout-spelare ligger nu på en separat vy för att göra
+                spelartrender över tid mer fokuserad.
+              </p>
+            </div>
+            <Link
+              href="/spelarstatistik/omgangsstandout"
+              className="rounded-lg border border-sky-400/40 bg-sky-500/10 px-3 py-2 text-sm font-medium text-sky-200 hover:border-sky-300 hover:text-sky-100"
+            >
+              Öppna standout-sidan →
+            </Link>
           </div>
         </section>
 

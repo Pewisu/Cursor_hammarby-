@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sync:player-trends": "node scripts/sync-player-trend-data.mjs"
+    "sync:player-trends": "node scripts/sync-player-trend-data.mjs",
+    "sync:match-analysis": "node scripts/sync-match-analysis-data.mjs",
+    "sync:running-data": "node scripts/sync-running-data.mjs"
   },
   "dependencies": {
     "next": "16.2.4",

@@ -1,6 +1,6 @@
 # Hammarby löpdata - Matchvisualisering
 
-Visualisering av löpdata för Hammarby IF från två allsvenska matcher:
+Visualisering av löpdata för Hammarby IF från Allsvenskan 2026:
 
 - [Hammarby - Mjällby AIF](https://allsvenskan.se/matcher/2026/6529830/hammarby-mot-mjallby-aif)
 - [IK Sirius - Hammarby](https://allsvenskan.se/matcher/2026/6529842/ik-sirius-mot-hammarby)
@@ -30,6 +30,19 @@ Sidan publiceras via GitHub Pages:
 - Löpmeter och maxhastighet hämtas från matchdatan bakom länkarna ovan.
 - Spelade minuter beräknas från startelvor + byten, inklusive stopptid.
 - Löpmeter per minut beräknas som `distance / minutesPlayed`.
+
+## Uppdatera löpdata automatiskt
+
+Kör:
+
+```bash
+npm run sync:running-data
+```
+
+Scriptet kontrollerar Hammarbys spelade matcher i Allsvenskan 2026 och rapporterar om
+löpdata finns tillgänglig i API:et. Just nu publicerar tillgängligt API inte fält för
+löpmeter/maxhastighet, så scriptet gör inga gissningar och lämnar datat oförändrat tills
+fälten faktiskt finns.
 
 ## Teknikstack
 

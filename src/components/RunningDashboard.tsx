@@ -3,6 +3,57 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { type RunningMatchStat } from "@/lib/hammarbyRunningData";
+import {
+  hammarbyTeamDistanceHistory,
+  type TeamDistanceHistoryEntry,
+} from "@/lib/hammarbyTeamDistanceHistoryData";
+
+const ALLSVENSKAN_RECORD_DISTANCE_M = 14059;
+const ELITE_SINGLE_MATCH_THRESHOLD_M = 13800;
+// Speed threshold: ≥ 34.0 km/h is historically elite in Allsvenskan (top-10 all-time)
+const ELITE_SINGLE_MATCH_SPEED_KMH = 34.0;
+
+type CombinedMatchEntry = {
+  matchId: number;
+  season: number;
+  round: string;
+  date: string;
+  homeTeam: string;
+  awayTeam: string;
+  hammarbyWasHome: boolean;
+  hammarbyTeamDistanceMeters: number;
+  hasPlayerDetail: boolean;
+};
+
+function buildCombinedHistory(
+  detailMatches: RunningMatchStat[],
+  history: TeamDistanceHistoryEntry[]
+): CombinedMatchEntry[] {
+  const detailIds = new Set(detailMatches.map((m) => m.matchId));
+
+  const fromDetail: CombinedMatchEntry[] = detailMatches.map((m) => ({
+    matchId: m.matchId,
+    season: 2026,
+    round: m.round,
+    date: m.date,
+    homeTeam: m.homeTeam,
+    awayTeam: m.awayTeam,
+    hammarbyWasHome: m.hammarbyWasHome,
+    hammarbyTeamDistanceMeters: m.hammarbyTeamDistanceMeters,
+    hasPlayerDetail: true,
+  }));
+
+  const fromHistory: CombinedMatchEntry[] = history
+    .filter((h) => !detailIds.has(h.matchId))
+    .map((h) => ({
+      ...h,
+      hasPlayerDetail: false,
+    }));
+
+  return [...fromDetail, ...fromHistory].sort(
+    (a, b) => b.hammarbyTeamDistanceMeters - a.hammarbyTeamDistanceMeters
+  );
+}
 
 type PlayerAggregate = {
   name: string;
@@ -200,7 +251,10 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   );
   const [expandedMatchIds, setExpandedMatchIds] = useState<
     Record<number, boolean>
-  >({});
+  >(() => {
+    const latestMatch = matches[matches.length - 1];
+    return latestMatch ? { [latestMatch.matchId]: true } : {};
+  });
 
   const overallDistance = matches.reduce(
     (sum, match) => sum + match.hammarbyTeamDistanceMeters,
@@ -230,6 +284,9 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
   const maxMatchDistance = Math.max(
     ...matches.map((match) => match.hammarbyTeamDistanceMeters)
   );
+
+  const rankInHistory = (matchId: number) =>
+    combinedHistory.findIndex((e) => e.matchId === matchId) + 1;
 
   const sortedMatches = useMemo(() => {
     return matches.map((match) => {
@@ -266,6 +323,11 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
       return totalSort.direction === "desc" ? -compare : compare;
     });
   }, [playerTotals, totalSort]);
+
+  const combinedHistory = useMemo(
+    () => buildCombinedHistory(matches, hammarbyTeamDistanceHistory),
+    [matches]
+  );
 
   const primaryTrendSeries = useMemo(
     () => buildPlayerTrendSeries(matches, trendPrimaryPlayerName),
@@ -448,7 +510,7 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
               Hammarby IF
             </p>
             <h1 className="text-xl font-bold text-white">
-              Löpdata per spelare (2 matcher)
+              Löpdata per spelare ({matches.length} matcher)
             </h1>
           </div>
           <div className="hidden text-right text-xs text-slate-400 md:block">
@@ -471,16 +533,193 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
               ← Till matchstatistik
             </Link>
             <Link
-              href="/lopdata/trender"
+              href="/spelarstatistik"
               className="inline-flex text-blue-300 hover:text-blue-200"
             >
-              Öppna spelartrender över tid →
+              Till spelarstatistik →
+            </Link>
+            <Link
+              href="/spelarstatistik/omgangsstandout"
+              className="inline-flex text-sky-300 hover:text-sky-200"
+            >
+              Till standout i omgång →
             </Link>
           </div>
         </div>
       </header>
 
       <main className="mx-auto flex max-w-7xl flex-col gap-8 px-4 py-8">
+        {(() => {
+          const eliteDistancePlayers = matches
+            .flatMap((m) =>
+              m.players
+                .filter((p) => p.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M)
+                .map((p) => ({ player: p, match: m }))
+            )
+            .sort((a, b) => b.player.distanceMeters - a.player.distanceMeters);
+
+          const eliteSpeedPlayers = matches
+            .flatMap((m) =>
+              m.players
+                .filter((p) => p.maxSpeedKmh >= ELITE_SINGLE_MATCH_SPEED_KMH)
+                .map((p) => ({ player: p, match: m }))
+            )
+            .sort((a, b) => b.player.maxSpeedKmh - a.player.maxSpeedKmh);
+
+          if (eliteDistancePlayers.length === 0 && eliteSpeedPlayers.length === 0) return null;
+
+          const topDist = eliteDistancePlayers[0];
+          const topSpeed = eliteSpeedPlayers[0];
+
+          return (
+            <section className="overflow-hidden rounded-2xl border border-slate-600/60 bg-gradient-to-br from-slate-800 to-slate-900">
+              <div className="border-b border-slate-700/60 px-5 py-3">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
+                  Allsvenskan-historik · {matches[matches.length - 1]?.round}
+                </p>
+              </div>
+              <div className="grid divide-y divide-slate-700/60 sm:grid-cols-2 sm:divide-x sm:divide-y-0">
+                {topDist && (
+                  <div className="flex items-start gap-4 p-5">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-500/15 text-2xl">
+                      🥈
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-amber-400">
+                        Löpdistans · #2 i Allsvenskan sedan 2024
+                      </p>
+                      <p className="mt-1 text-2xl font-black tracking-tight text-white">
+                        {topDist.player.distanceMeters.toLocaleString("sv-SE")} m
+                      </p>
+                      <p className="mt-0.5 text-sm font-semibold text-slate-200">
+                        {topDist.player.name}
+                        <span className="ml-2 text-xs font-normal text-slate-400">
+                          #{topDist.player.shirtNumber} · {topDist.match.round}
+                        </span>
+                      </p>
+                      <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500">
+                        Rekord: {ALLSVENSKAN_RECORD_DISTANCE_M.toLocaleString("sv-SE")} m – Besfort Zeneli (Elfsborg 2025) · {topDist.player.metersPerMinute.toFixed(1)} m/min
+                      </p>
+                    </div>
+                  </div>
+                )}
+                {topSpeed && (
+                  <div className="flex items-start gap-4 p-5">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sky-500/15 text-2xl">
+                      ⚡
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-sky-400">
+                        Maxhastighet · #6 i Allsvenskan sedan 2025
+                      </p>
+                      <p className="mt-1 text-2xl font-black tracking-tight text-white">
+                        {topSpeed.player.maxSpeedKmh.toFixed(2)} km/h
+                      </p>
+                      <p className="mt-0.5 text-sm font-semibold text-slate-200">
+                        {topSpeed.player.name}
+                        <span className="ml-2 text-xs font-normal text-slate-400">
+                          #{topSpeed.player.shirtNumber} · {topSpeed.match.round}
+                        </span>
+                      </p>
+                      <p className="mt-1.5 text-[11px] leading-relaxed text-slate-500">
+                        Rekord: 34,84 km/h – Adam Carlén (IFK Göteborg 2025) · Hammarbys säsongsbästa
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+          );
+        })()}
+
+        <section className="overflow-hidden rounded-2xl border border-slate-700/50 bg-slate-800/80">
+          <div className="border-b border-slate-700/50 px-6 py-4">
+            <h2 className="text-lg font-semibold text-white">
+              Matchranking – lagets löpsträcka
+            </h2>
+            <p className="mt-1 text-sm text-slate-400">
+              Alla Hammarby-matcher med tillgänglig löpdata, sorterade efter lagets löpsträcka.
+              Säsong 2026 (detaljdata) · Säsong 2025 (lagdistans). Data saknas för 2024.
+            </p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-slate-900/70 text-left text-xs uppercase tracking-wide text-slate-400">
+                <tr>
+                  <th className="px-4 py-3 text-right">#</th>
+                  <th className="px-4 py-3">Match</th>
+                  <th className="px-4 py-3 text-right whitespace-nowrap">Säsong</th>
+                  <th className="px-4 py-3 text-right whitespace-nowrap">Löpsträcka</th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {combinedHistory.slice(0, 15).map((entry, index) => {
+                  const isCurrent2026 = entry.hasPlayerDetail;
+                  const isTop3 = index < 3;
+                  const rankLabel =
+                    index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}`;
+                  const distancePct =
+                    (entry.hammarbyTeamDistanceMeters /
+                      combinedHistory[0].hammarbyTeamDistanceMeters) *
+                    100;
+                  return (
+                    <tr
+                      key={entry.matchId}
+                      className={`border-t text-slate-200 ${
+                        isCurrent2026
+                          ? isTop3
+                            ? "border-green-500/30 bg-green-500/8"
+                            : "border-green-700/30 bg-green-900/10"
+                          : "border-slate-700/50"
+                      }`}
+                    >
+                      <td className="px-4 py-2.5 text-right text-base font-bold">
+                        <span className={isCurrent2026 && isTop3 ? "text-green-300" : "text-slate-400"}>
+                          {rankLabel}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2.5">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className={`font-medium ${isCurrent2026 ? "text-white" : "text-slate-300"}`}>
+                            {entry.homeTeam} – {entry.awayTeam}
+                          </span>
+                          {isCurrent2026 && (
+                            <span className="rounded-full bg-green-500/20 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide text-green-300">
+                              2026
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-0.5 text-xs text-slate-500">{entry.round}</div>
+                      </td>
+                      <td className="px-4 py-2.5 text-right text-slate-400">{entry.season}</td>
+                      <td className="px-4 py-2.5 text-right">
+                        <div className={`font-semibold ${isCurrent2026 && isTop3 ? "text-green-200" : "text-white"}`}>
+                          {formatMeters(entry.hammarbyTeamDistanceMeters)}
+                        </div>
+                        <div className="mt-1 h-1.5 w-24 overflow-hidden rounded-full bg-slate-700/60 ml-auto">
+                          <div
+                            className={`h-full rounded-full ${isCurrent2026 ? "bg-green-500" : "bg-slate-500"}`}
+                            style={{ width: `${distancePct}%` }}
+                          />
+                        </div>
+                      </td>
+                      <td className="px-4 py-2.5 text-right text-xs text-slate-500">
+                        {isCurrent2026 ? "Detaljer ↑" : ""}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {combinedHistory.length > 15 && (
+            <div className="border-t border-slate-700/50 px-6 py-3 text-xs text-slate-500">
+              Visar topp 15 av {combinedHistory.length} matcher.
+            </div>
+          )}
+        </section>
+
         <section className="grid grid-cols-2 gap-4 lg:grid-cols-5">
           <div className="rounded-2xl border border-slate-700/50 bg-slate-800/80 p-4">
             <p className="text-xs text-slate-400">Total löpsträcka</p>
@@ -532,12 +771,35 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                   key={match.matchId}
                   className="rounded-xl border border-slate-700/50 bg-slate-900/60 p-4"
                 >
-                  <p className="text-xs text-slate-400">
-                    {match.round} • {match.date}
-                  </p>
-                  <h3 className="mt-1 text-base font-semibold text-white">
-                    {match.homeTeam} - {match.awayTeam}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="text-xs text-slate-400">
+                        {match.round} • {match.date}
+                      </p>
+                      <h3 className="mt-1 text-base font-semibold text-white">
+                        {match.homeTeam} - {match.awayTeam}
+                      </h3>
+                    </div>
+                    {(() => {
+                      const rank = rankInHistory(match.matchId);
+                      const rankLabel = rank === 1 ? "🥇 #1" : rank === 2 ? "🥈 #2" : rank === 3 ? "🥉 #3" : `#${rank}`;
+                      const rankColor =
+                        rank === 1
+                          ? "border-yellow-500/50 bg-yellow-500/15 text-yellow-300"
+                          : rank === 2
+                          ? "border-slate-400/50 bg-slate-400/15 text-slate-300"
+                          : rank === 3
+                          ? "border-orange-500/50 bg-orange-500/15 text-orange-300"
+                          : rank <= 10
+                          ? "border-green-500/40 bg-green-500/10 text-green-300"
+                          : "border-slate-600/40 bg-slate-600/10 text-slate-400";
+                      return (
+                        <span className={`shrink-0 rounded-full border px-2 py-0.5 text-xs font-bold ${rankColor}`}>
+                          {rankLabel}
+                        </span>
+                      );
+                    })()}
+                  </div>
 
                   <div className="mt-4 space-y-3">
                     <div>
@@ -691,30 +953,50 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                           </tr>
                         </thead>
                         <tbody>
-                          {match.sortedPlayers.map((player) => (
-                            <tr
-                              key={`${match.matchId}-${player.name}`}
-                              className="border-t border-slate-700/50 text-slate-200"
-                            >
-                          <td className="sticky left-0 z-10 min-w-[190px] bg-slate-900/95 px-4 py-2.5 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
-                                <span className="font-medium text-white">
-                                  #{player.shirtNumber} {player.name}
-                                </span>
-                              </td>
-                          <td className="px-4 py-2.5 text-right font-medium text-white whitespace-nowrap">
-                                {formatMeters(player.distanceMeters)}
-                              </td>
-                          <td className="px-4 py-2.5 text-right whitespace-nowrap">
-                                {player.minutesPlayed.toFixed(2)}
-                              </td>
-                          <td className="px-4 py-2.5 text-right whitespace-nowrap">
-                                {player.metersPerMinute.toFixed(2)}
-                              </td>
-                          <td className="px-4 py-2.5 text-right whitespace-nowrap">
-                                {player.maxSpeedKmh.toFixed(2)} km/h
-                              </td>
-                            </tr>
-                          ))}
+                          {match.sortedPlayers.map((player) => {
+                            const isEliteDist = player.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M;
+                            const isEliteSpeed = player.maxSpeedKmh >= ELITE_SINGLE_MATCH_SPEED_KMH;
+                            return (
+                              <tr
+                                key={`${match.matchId}-${player.name}`}
+                                className={`border-t text-slate-200 ${
+                                  isEliteDist
+                                    ? "border-amber-700/40 bg-amber-500/5"
+                                    : isEliteSpeed
+                                    ? "border-sky-700/40 bg-sky-500/5"
+                                    : "border-slate-700/50"
+                                }`}
+                              >
+                                <td className="sticky left-0 z-10 min-w-[190px] bg-slate-900/95 px-4 py-2.5 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
+                                  <span className="font-medium text-white">
+                                    #{player.shirtNumber} {player.name}
+                                  </span>
+                                  {isEliteDist && (
+                                    <span className="ml-1.5 text-[9px] font-bold text-amber-400">🥈</span>
+                                  )}
+                                  {isEliteSpeed && !isEliteDist && (
+                                    <span className="ml-1.5 text-[9px] font-bold text-sky-400">⚡</span>
+                                  )}
+                                </td>
+                                <td className={`px-4 py-2.5 text-right font-semibold whitespace-nowrap ${
+                                  isEliteDist ? "text-amber-200" : "text-white"
+                                }`}>
+                                  {formatMeters(player.distanceMeters)}
+                                </td>
+                                <td className="px-4 py-2.5 text-right whitespace-nowrap">
+                                  {player.minutesPlayed.toFixed(2)}
+                                </td>
+                                <td className="px-4 py-2.5 text-right whitespace-nowrap">
+                                  {player.metersPerMinute.toFixed(2)}
+                                </td>
+                                <td className={`px-4 py-2.5 text-right whitespace-nowrap ${
+                                  isEliteSpeed ? "font-semibold text-sky-200" : ""
+                                }`}>
+                                  {player.maxSpeedKmh.toFixed(2)} km/h
+                                </td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                     </div>
@@ -848,35 +1130,47 @@ export function RunningDashboard({ matches }: { matches: RunningMatchStat[] }) {
                 </tr>
               </thead>
               <tbody>
-                {sortedTotals.map((player) => (
-                  <tr
-                    key={player.name}
-                    className="border-t border-slate-700/50 text-slate-200"
-                  >
-                    <td className="sticky left-0 z-10 min-w-[190px] bg-slate-800/95 px-4 py-3 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
-                      <div className="font-medium text-white">
-                        #{player.shirtNumber} {player.name}
-                      </div>
-                      <div className="text-xs text-slate-400">{player.position}</div>
-                    </td>
-                    <td className="px-4 py-3 text-right font-medium text-white whitespace-nowrap">
-                      {formatMeters(player.totalDistanceMeters)}
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">
-                      {player.totalMinutes.toFixed(2)}
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">
-                      {player.metersPerMinute.toFixed(2)}
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">
-                      {player.peakMaxSpeedKmh.toFixed(2)} km/h
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">
-                      {player.averageMaxSpeedKmh.toFixed(2)} km/h
-                    </td>
-                    <td className="px-4 py-3 text-right whitespace-nowrap">{player.matches}</td>
-                  </tr>
-                ))}
+                {sortedTotals.map((player) => {
+                  const hasEliteSingleMatch = matches
+                    .flatMap((m) => m.players)
+                    .some(
+                      (p) =>
+                        p.name === player.name &&
+                        p.distanceMeters >= ELITE_SINGLE_MATCH_THRESHOLD_M
+                    );
+                  return (
+                    <tr
+                      key={player.name}
+                      className="border-t border-slate-700/50 text-slate-200"
+                    >
+                      <td className="sticky left-0 z-10 min-w-[190px] bg-slate-800/95 px-4 py-3 shadow-[8px_0_12px_-10px_rgba(0,0,0,0.9)]">
+                        <div className="font-medium text-white">
+                          #{player.shirtNumber} {player.name}
+                          {hasEliteSingleMatch && (
+                            <span className="ml-1.5 text-[9px] font-bold text-amber-400">🥈</span>
+                          )}
+                        </div>
+                        <div className="text-xs text-slate-400">{player.position}</div>
+                      </td>
+                      <td className="px-4 py-3 text-right font-medium text-white whitespace-nowrap">
+                        {formatMeters(player.totalDistanceMeters)}
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        {player.totalMinutes.toFixed(2)}
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        {player.metersPerMinute.toFixed(2)}
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        {player.peakMaxSpeedKmh.toFixed(2)} km/h
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">
+                        {player.averageMaxSpeedKmh.toFixed(2)} km/h
+                      </td>
+                      <td className="px-4 py-3 text-right whitespace-nowrap">{player.matches}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
