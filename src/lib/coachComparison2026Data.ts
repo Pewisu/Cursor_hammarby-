@@ -10,14 +10,14 @@ export const coachRecords2026 = {
     roundsLabel: "Omg 1–10 + 15",
   },
   rydstrom: {
-    matches: 7,
+    matches: 8,
     wins: 6,
     draws: 1,
-    losses: 0,
+    losses: 1,
     points: 19,
-    goalsFor: 18,
-    goalsAgainst: 2,
-    roundsLabel: "Omg 11–14, 16–18",
+    goalsFor: 20,
+    goalsAgainst: 5,
+    roundsLabel: "Omg 11–14, 16–19",
   },
 } as const;
 

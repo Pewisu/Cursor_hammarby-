@@ -34,6 +34,7 @@ import { round11PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound11Data
 import { round13PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound13Data";
 import { round17PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound17Data";
 import { round18PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound18Data";
+import { round19PredictionVsOutcome } from "@/lib/predictionVsOutcomeRound19Data";
 import {
   elfsborgRound11Goals,
   elfsborgRound11MatchSpider,
@@ -107,6 +108,23 @@ import {
   ROUND18_HIF_LIGHT,
   ROUND18_GAIS_YELLOW,
 } from "@/lib/gaisRound18AnalysisData";
+import {
+  aikRound19Goals,
+  aikRound19MatchSpider,
+  aikRound19MatchStory,
+  aikRound19Recap,
+  aikRound19SnapshotPills,
+  aikRound19SnapshotStats,
+  aikRound19Takeaways,
+  aikRound19RefereeData,
+  aikRound19Momentum,
+  aikRound19MomentumGoals,
+  aikRound19TwelveKpis,
+  aikRound19LineupAges,
+  ROUND19_HIF_GREEN,
+  ROUND19_HIF_LIGHT,
+  ROUND19_AIK_GOLD,
+} from "@/lib/aikRound19AnalysisData";
 import { MatchMomentumChart } from "@/components/MatchMomentumChart";
 import {
   calcDomarindex,
@@ -1703,6 +1721,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const isRound16Dashboard = mode === "round" && round === 16;
   const isRound17Dashboard = mode === "round" && round === 17;
   const isRound18Dashboard = mode === "round" && round === 18;
+  const isRound19Dashboard = mode === "round" && round === 19;
   const matchesThroughRound = sortedMatches.filter((match) => match.gameweek <= comparisonRound);
   const matchCountThroughRound = matchesThroughRound.length;
   const round11MatchPoints =
@@ -1856,6 +1875,35 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   const round18DomarRating = getDomarRating(round18DomarIndex);
   const round18RunningMatch = isRound18Dashboard
     ? getRunningMatchForGameweek(hammarbyRunningMatches, 18)
+    : null;
+  const round19MatchPoints =
+    selectedRoundMatch === null
+      ? 0
+      : getMatchPoints(selectedRoundMatch.hammarby.goals, selectedRoundMatch.opponent.goals);
+  const round19PointsBeforeMatch = season2026PointsThroughRound - round19MatchPoints;
+  const round19MatchCountBefore = Math.max(matchCountThroughRound - 1, 0);
+  const round19PpgBefore =
+    round19MatchCountBefore > 0 ? round19PointsBeforeMatch / round19MatchCountBefore : 0;
+  const round19PpgAfter =
+    matchCountThroughRound > 0 ? season2026PointsThroughRound / matchCountThroughRound : 0;
+  const round19PointsContext: MatchPointsContext | null = isRound19Dashboard
+    ? {
+        seasonLabel: "2026",
+        roundNumber: comparisonRound,
+        matchPoints: round19MatchPoints,
+        seasonPointsAfter: season2026PointsThroughRound,
+        seasonPpgAfter: round19PpgAfter,
+        seasonPpgBefore: round19PpgBefore,
+        matchDeltaVsPpg: round19MatchPoints - round19PpgBefore,
+        projectedSeasonPoints: Math.round(round19PpgAfter * ALLSVENSKAN_TOTAL_ROUNDS),
+        matchesPlayed: matchCountThroughRound,
+      }
+    : null;
+  const round19RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 19);
+  const round19DomarIndex = round19RefereeMatch ? calcDomarindex(round19RefereeMatch) : 0;
+  const round19DomarRating = getDomarRating(round19DomarIndex);
+  const round19RunningMatch = isRound19Dashboard
+    ? getRunningMatchForGameweek(hammarbyRunningMatches, 19)
     : null;
   const round3RefereeMatch = hammarbyRefereeMatches.find((m) => m.gameweek === 3);
   const round3DomarIndex = round3RefereeMatch ? calcDomarindex(round3RefereeMatch) : 0;
@@ -2643,10 +2691,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
   }
 
   return (
-    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
+    <div className={`min-h-screen ${(isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard || isRound19Dashboard) ? "bg-[#13231d]" : "bg-[#0d1117]"}`}>
       <header
         className={`sticky top-0 z-50 border-b backdrop-blur-sm ${
-          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard)
+          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard || isRound19Dashboard)
             ? "border-emerald-800/45 bg-[#163028]/95"
             : "border-white/[0.06] bg-[#0d1117]/90"
         }`}
@@ -2654,7 +2702,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         <div className="mx-auto max-w-6xl px-4 py-4">
           <p
             className={`text-xs uppercase tracking-[0.2em] ${
-              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard) ? "text-emerald-300/90" : "text-blue-400"
+              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard || isRound19Dashboard) ? "text-emerald-300/90" : "text-blue-400"
             }`}
           >
             Matchstatistik
@@ -2714,10 +2762,10 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             </div>
           )}
         </div>
-        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 13 || round === 15 || round === 16 || round === 17 || round === 18) && (
+        {mode === "round" && (round === 8 || round === 9 || round === 10 || round === 11 || round === 13 || round === 15 || round === 16 || round === 17 || round === 18 || round === 19) && (
           <div
             className={`border-t ${
-              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
+              (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard || isRound19Dashboard) ? "border-emerald-800/40 bg-[#163028]/95" : "border-white/[0.05] bg-[#0d1117]/95"
             }`}
           >
             <div className="mx-auto flex max-w-6xl items-center gap-2 overflow-x-auto px-4 py-2">
@@ -2939,7 +2987,83 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
                   </a>
                 </>
               )}
-              {round !== 11 && round !== 13 && round !== 16 && round !== 17 && round !== 18 && (
+              {round === 19 && (
+                <>
+                  <a
+                    href="#match-recap"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_HIF_GREEN}99`,
+                      backgroundColor: `${ROUND19_HIF_GREEN}33`,
+                      color: ROUND19_HIF_LIGHT,
+                    }}
+                  >
+                    <span>⚽</span>
+                    <span>Match 2-3</span>
+                  </a>
+                  <a
+                    href="#snittalder"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_AIK_GOLD}66`,
+                      backgroundColor: `${ROUND19_AIK_GOLD}18`,
+                      color: ROUND19_AIK_GOLD,
+                    }}
+                  >
+                    <span>🎂</span>
+                    <span>Snittålder</span>
+                  </a>
+                  <a
+                    href="#analys-utfall"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_HIF_GREEN}66`,
+                      backgroundColor: `${ROUND19_HIF_GREEN}22`,
+                      color: ROUND19_HIF_LIGHT,
+                    }}
+                  >
+                    <span>🎯</span>
+                    <span>Analys vs utfall</span>
+                  </a>
+                  <a
+                    href="#coach-ppg"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_AIK_GOLD}66`,
+                      backgroundColor: `${ROUND19_AIK_GOLD}18`,
+                      color: ROUND19_AIK_GOLD,
+                    }}
+                  >
+                    <span>📈</span>
+                    <span>Tränare</span>
+                  </a>
+                  <a
+                    href="#lopdata"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_HIF_GREEN}66`,
+                      backgroundColor: `${ROUND19_HIF_GREEN}22`,
+                      color: ROUND19_HIF_LIGHT,
+                    }}
+                  >
+                    <span>🏃</span>
+                    <span>Löpdata</span>
+                  </a>
+                  <a
+                    href="#domar-analys"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_AIK_GOLD}55`,
+                      backgroundColor: `${ROUND19_AIK_GOLD}14`,
+                      color: ROUND19_AIK_GOLD,
+                    }}
+                  >
+                    <span>🟨</span>
+                    <span>Domaranalys</span>
+                  </a>
+                </>
+              )}
+              {round !== 11 && round !== 13 && round !== 16 && round !== 17 && round !== 18 && round !== 19 && (
               <a
                 href="#matchgenomgang"
                 className="flex shrink-0 items-center gap-1.5 rounded-lg border border-blue-500/30 bg-blue-500/10 px-3 py-1.5 text-xs font-medium text-blue-200 transition-colors hover:border-blue-400/60 hover:bg-blue-500/20"
@@ -2975,7 +3099,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {/* ── Tab navigation (round mode only, not special rounds 11/13/14/16/17) ── */}
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && (
           <div className="border-t border-white/[0.05] bg-[#0d1117]/95">
             <div className="mx-auto flex max-w-6xl gap-1.5 overflow-x-auto px-4 py-2.5">
               {(
@@ -3008,7 +3132,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
       <main
         className={`mx-auto flex max-w-6xl flex-col px-4 py-8 ${
-          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard) ? "gap-4" : "gap-8"
+          (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard || isRound19Dashboard) ? "gap-4" : "gap-8"
         }`}
       >
         {mode === "round" && isRound11Dashboard && (
@@ -4389,7 +4513,520 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           </section>
         )}
 
-        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && (mode === "combined" || roundTab === "matchen") && (
+
+        {/* ── Round 19: Poängsnitt per tränare (efter AIK 3–2) ── */}
+        {isRound19Dashboard && (() => {
+          const karlsson = coachRecords2026.karlsson;
+          const rydstrom = coachRecords2026.rydstrom;
+          const kAverages = getCoachRecordAverages(karlsson);
+          const rAverages = getCoachRecordAverages(rydstrom);
+          const K_MATCHES = karlsson.matches, K_POINTS = karlsson.points, K_GF = karlsson.goalsFor, K_GA = karlsson.goalsAgainst;
+          const R_MATCHES = rydstrom.matches, R_POINTS = rydstrom.points, R_GF = rydstrom.goalsFor, R_GA = rydstrom.goalsAgainst;
+          const totalMatches = K_MATCHES + R_MATCHES;
+          const totalPoints  = K_POINTS  + R_POINTS;
+          const totalGF = K_GF + R_GF, totalGA = K_GA + R_GA;
+          const totalPpg = totalPoints / totalMatches;
+          const kPpg     = kAverages.pointsPerGame;
+          const rPpg     = rAverages.pointsPerGame;
+          const barMax   = Math.max(kPpg, rPpg, 0.001);
+
+          return (
+            <section id="coach-ppg" className="overflow-hidden rounded-2xl border border-white/10 bg-[#0b0b0b]">
+              <div className="flex flex-wrap items-start justify-between gap-2 border-b border-white/10 px-5 pt-5 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#5fd39a]">Tränarjämförelse</p>
+                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">Poängsnitt per tränare · Allsvenskan 2026</h3>
+                </div>
+                <Link
+                  href="/matchstatistik/coachjamforelse"
+                  className="rounded-lg border border-[#006633]/60 bg-[#006633]/20 px-3 py-1.5 text-[11px] font-medium text-[#5fd39a] hover:border-[#5fd39a]/60 hover:text-white"
+                >
+                  Full jämförelse →
+                </Link>
+              </div>
+
+              <div className="flex items-center justify-between gap-4 px-5 py-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/35">2026 totalt</p>
+                  <p className="mt-0.5 text-2xl font-black tabular-nums text-white">
+                    {totalPpg.toFixed(2).replace(".", ",")}
+                    <span className="ml-1 text-sm font-normal text-white/45">p/m</span>
+                  </p>
+                </div>
+                <div className="text-right text-xs text-white/35">
+                  <p>{totalMatches} matcher · {totalPoints} poäng</p>
+                  <p className="mt-0.5">{totalGF}–{totalGA} · MS {totalGF - totalGA > 0 ? "+" : ""}{totalGF - totalGA}</p>
+                  <p className="mt-0.5 text-[10px]">Allsvenskan omg 1–19</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 divide-x divide-white/10 border-t border-white/10">
+                <div className="bg-white/[0.04] px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/55">K. Karlsson</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-white">
+                    {kPpg.toFixed(2).replace(".", ",")}
+                    <span className="ml-1 text-sm font-normal text-white/45">p/m</span>
+                  </p>
+                  <p className="mt-2 inline-flex rounded-md border border-white/20 bg-white/10 px-2 py-1 text-sm font-bold tabular-nums text-white">
+                    {K_POINTS} poäng totalt
+                  </p>
+                  <p className="mt-1 text-[11px] text-white/40">{K_MATCHES} matcher</p>
+                  <p className="mt-0.5 text-[11px] text-white/40">
+                    {K_GF}–{K_GA} &nbsp;·&nbsp;
+                    <span className="text-white/70">MS {K_GF - K_GA > 0 ? "+" : ""}{K_GF - K_GA}</span>
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-white/25">{karlsson.roundsLabel}</p>
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-white/70" style={{ width: `${(kPpg / barMax) * 100}%` }} />
+                  </div>
+                </div>
+
+                <div className="bg-[#006633]/20 px-5 py-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#5fd39a]">H. Rydström</p>
+                  <p className="mt-1 text-3xl font-black tabular-nums text-white">
+                    {rPpg.toFixed(2).replace(".", ",")}
+                    <span className="ml-1 text-sm font-normal text-[#5fd39a]/70">p/m</span>
+                  </p>
+                  <p className="mt-2 inline-flex rounded-md border border-[#5fd39a]/35 bg-[#006633]/50 px-2 py-1 text-sm font-bold tabular-nums text-white">
+                    {R_POINTS} poäng totalt
+                  </p>
+                  <p className="mt-1 text-[11px] text-white/45">{R_MATCHES} matcher</p>
+                  <p className="mt-0.5 text-[11px] text-white/45">
+                    {R_GF}–{R_GA} &nbsp;·&nbsp;
+                    <span className="text-[#5fd39a]">MS {R_GF - R_GA > 0 ? "+" : ""}{R_GF - R_GA}</span>
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-white/25">{rydstrom.roundsLabel}</p>
+                  <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                    <div className="h-full rounded-full bg-[#006633]" style={{ width: `${(rPpg / barMax) * 100}%` }} />
+                  </div>
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 bg-black/40 px-5 py-3">
+                <p className="text-[11px] text-white/55">
+                  Efter derbyförlusten står Rydström fortfarande före i totalpoäng:{" "}
+                  <span className="font-bold text-[#5fd39a]">{R_POINTS} mot {K_POINTS}</span>. Poängsnittet är{" "}
+                  <span className="font-bold text-[#5fd39a]">{rPpg.toFixed(2).replace(".", ",")} vs {kPpg.toFixed(2).replace(".", ",")} p/m</span>{" "}
+                  – första förlusten under Rydström (6V–1O–1F).
+                </p>
+              </div>
+            </section>
+          );
+        })()}
+
+        {mode === "round" && isRound19Dashboard && (
+          <PointsComparisonSection
+            comparisonRound={comparisonRound}
+            pointsComparisonRows={pointsComparisonRows}
+            matchContext={round19PointsContext}
+            className={`${ROUND11_SURFACE} p-4 md:p-5`}
+          />
+        )}
+
+        {isRound19Dashboard && (
+          <div id="match-recap" className={ROUND11_SURFACE}>
+            <MatchRecapSection
+              embedded
+              headline={aikRound19Recap.headline}
+              tagline={aikRound19Recap.tagline}
+              dateLabel={aikRound19Recap.dateLabel}
+              opponentLabel="AIK"
+              opponentScore={aikRound19Recap.opponentScore}
+              hammarbyScore={aikRound19Recap.hammarbyScore}
+              opponentXg={aikRound19Recap.opponentXg}
+              hammarbyXg={aikRound19Recap.hammarbyXg}
+              halftimeScore={aikRound19Recap.halftimeScore}
+              snapshotStats={aikRound19SnapshotStats}
+              snapshotPills={aikRound19SnapshotPills}
+              matchStory={aikRound19MatchStory}
+              goals={aikRound19Goals}
+              takeaways={aikRound19Takeaways}
+              spiderAxes={aikRound19MatchSpider}
+              sourceUrl={aikRound19Recap.sourceUrl}
+              hammarbySourceUrl={aikRound19Recap.hammarbySourceUrl}
+            />
+          </div>
+        )}
+
+        {isRound19Dashboard && (() => {
+          const ages = aikRound19LineupAges;
+          const fmt = (n: number) => n.toFixed(1).replace(".", ",");
+          return (
+            <section id="snittalder" className={`${ROUND11_SURFACE} p-5 md:p-6`}>
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ROUND19_AIK_GOLD }}>
+                    Truppålder · matchdag
+                  </p>
+                  <h2 className="mt-1 text-xl font-bold text-white md:text-2xl">Snittålder startelva vs slutelva</h2>
+                  <p className="mt-1 max-w-2xl text-sm text-neutral-400">
+                    Hela år på matchdagen 30 aug 2026 (Bolldata BirthDate). Slutelva = de elva som stod på planen vid slutsignal.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-4 md:grid-cols-2">
+                <div className="rounded-2xl border border-emerald-500/25 bg-[#0d1f12] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-300/80">Hammarby</p>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-white/10 bg-black/30 p-3 text-center">
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/45">Startelva</p>
+                      <p className="mt-1 text-4xl font-black tabular-nums text-emerald-300">{fmt(ages.hammarby.starting.averageAge)}</p>
+                      <p className="mt-1 text-[11px] text-white/40">år</p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-black/30 p-3 text-center">
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/45">Slutelva</p>
+                      <p className="mt-1 text-4xl font-black tabular-nums text-white">{fmt(ages.hammarby.finishing.averageAge)}</p>
+                      <p className="mt-1 text-[11px] text-white/40">
+                        {ages.hammarby.delta > 0 ? "+" : ""}
+                        {fmt(ages.hammarby.delta)} vs start
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-xs leading-relaxed text-neutral-400">
+                    Byten in: Tekie, Fofana, Johansson, Besara, Kebbeh. Erfarenhet in → snittet upp till 26,0.
+                  </p>
+                </div>
+
+                <div className="rounded-2xl border p-4" style={{ borderColor: `${ROUND19_AIK_GOLD}44`, backgroundColor: `${ROUND19_AIK_GOLD}10` }}>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.18em]" style={{ color: ROUND19_AIK_GOLD }}>AIK</p>
+                  <div className="mt-3 grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-white/10 bg-black/30 p-3 text-center">
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/45">Startelva</p>
+                      <p className="mt-1 text-4xl font-black tabular-nums text-white">{fmt(ages.aik.starting.averageAge)}</p>
+                      <p className="mt-1 text-[11px] text-white/40">år</p>
+                    </div>
+                    <div className="rounded-xl border border-white/10 bg-black/30 p-3 text-center">
+                      <p className="text-[10px] font-semibold uppercase tracking-widest text-white/45">Slutelva</p>
+                      <p className="mt-1 text-4xl font-black tabular-nums" style={{ color: ROUND19_AIK_GOLD }}>{fmt(ages.aik.finishing.averageAge)}</p>
+                      <p className="mt-1 text-[11px] text-white/40">
+                        {fmt(ages.aik.delta)} vs start
+                      </p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-xs leading-relaxed text-neutral-400">
+                    Byten in: Camara, Kouame, Gustafsson, Järeteg, Pukelis. Ungdomarna in → snittet ner till 23,1 – och de avgjorde.
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 rounded-xl border border-white/10 bg-[#1a2d26] p-4">
+                <p className="text-sm leading-relaxed text-neutral-300">
+                  Motpoler i derbyt: Hammarby åldrades med erfarenheten (Besara 35, Tekie 29, Johansson 31), medan AIK yngre-lade slutelvan.
+                  Sixten Gustafsson (19) satte 3–2 – spegelbilden av scoutingbilden där AIK:s variance ofta kommer via unga finishers.
+                </p>
+              </div>
+            </section>
+          );
+        })()}
+
+        {isRound19Dashboard && (
+          <div id="analys-utfall">
+            <PredictionVsOutcome embedded {...round19PredictionVsOutcome} />
+          </div>
+        )}
+
+        {isRound19Dashboard && (
+          <MatchMomentumChart
+            momentum={aikRound19Momentum}
+            goals={aikRound19MomentumGoals}
+            homeTeam="Hammarby"
+            awayTeam="AIK"
+            homeLabel="HIF"
+            awayLabel="AIK"
+            homeColor={ROUND19_HIF_GREEN}
+            awayColor={ROUND19_AIK_GOLD}
+          />
+        )}
+
+        {isRound19Dashboard && (() => {
+          const kpi = aikRound19TwelveKpis;
+          type RankKey = keyof typeof kpi.rankings;
+          const rankKeys = Object.keys(kpi.rankings) as RankKey[];
+
+          function RankBadge({ rank, total, label }: { rank: number; total: number; label: string }) {
+            const isTop = rank <= 3;
+            const isBottom = rank >= total - 3;
+            return (
+              <div
+                className="flex flex-col items-center rounded-xl border px-3 py-2.5"
+                style={{
+                  borderColor: isTop ? `${ROUND19_HIF_GREEN}88` : isBottom ? "#fb718555" : "#ffffff14",
+                  backgroundColor: isTop ? `${ROUND19_HIF_GREEN}22` : isBottom ? "#88133733" : "#1a2d26",
+                }}
+              >
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-white/45">{label}</span>
+                <span
+                  className="mt-1 text-2xl font-black tabular-nums"
+                  style={{ color: isTop ? ROUND19_HIF_LIGHT : isBottom ? "#fb7185" : "#e5e5e5" }}
+                >
+                  #{rank}
+                </span>
+                <span className="text-[10px] text-white/35">av {total}</span>
+              </div>
+            );
+          }
+
+          return (
+            <section
+              className="overflow-hidden rounded-2xl border bg-[#0b0b0b]"
+              style={{ borderColor: `${ROUND19_HIF_GREEN}55` }}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-2 px-5 pt-5 pb-4">
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ROUND19_HIF_LIGHT }}>
+                    Twelve nyckeltal
+                  </p>
+                  <h3 className="mt-1 text-base font-bold text-white md:text-lg">Field Tilt · PPDA · Matchranking</h3>
+                  <p className="mt-0.5 text-xs text-white/45">
+                    Omgång 19 vs säsongssnitt. Källa: Twelve Football match report vs AIK.
+                  </p>
+                </div>
+                <a
+                  href={aikRound19Recap.twelveReportUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-lg border px-3 py-1.5 text-[11px] font-medium"
+                  style={{
+                    borderColor: `${ROUND19_HIF_GREEN}88`,
+                    backgroundColor: `${ROUND19_HIF_GREEN}22`,
+                    color: ROUND19_HIF_LIGHT,
+                  }}
+                >
+                  Twelve rapport →
+                </a>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 px-5 pb-4 sm:grid-cols-4">
+                <div
+                  className="col-span-2 rounded-xl border p-4 sm:col-span-1"
+                  style={{ borderColor: `${ROUND19_HIF_GREEN}44`, backgroundColor: `${ROUND19_HIF_GREEN}18` }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_HIF_LIGHT }}>
+                    Field Tilt
+                  </p>
+                  <p className="mt-1 text-5xl font-black tabular-nums" style={{ color: ROUND19_HIF_LIGHT }}>
+                    {kpi.fieldTiltPct}
+                    <span className="text-2xl opacity-70">%</span>
+                  </p>
+                  <p className="mt-1.5 text-[10px] text-white/45">
+                    Snitt: {kpi.fieldTiltAvgPct}% · +{kpi.fieldTiltPct - kpi.fieldTiltAvgPct}pp
+                  </p>
+                </div>
+                <div
+                  className="col-span-2 rounded-xl border p-4 sm:col-span-1"
+                  style={{ borderColor: `${ROUND19_AIK_GOLD}44`, backgroundColor: `${ROUND19_AIK_GOLD}12` }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_AIK_GOLD }}>
+                    PPDA (press)
+                  </p>
+                  <p className="mt-1 text-5xl font-black tabular-nums text-white">{kpi.ppda.toFixed(2)}</p>
+                  <p className="mt-1.5 text-[10px] text-white/45">
+                    Snitt: {kpi.ppdaAvg.toFixed(2)} · nära säsongssnitt
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">xT (HIF)</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums text-white">{kpi.xt.toFixed(2)}</p>
+                  <p className="mt-1.5 text-[10px] text-white/40">Snitt: {kpi.xtAvg.toFixed(2)}</p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-4">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">xT (AIK)</p>
+                  <p className="mt-1 text-4xl font-black tabular-nums" style={{ color: ROUND19_AIK_GOLD }}>
+                    {kpi.oppXt.toFixed(2)}
+                  </p>
+                  <p className="mt-1.5 text-[10px] text-white/40">Snitt emot: {kpi.oppXtAvg.toFixed(2)}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 px-5 pb-4">
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">Def. aktionshöjd</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">
+                    {kpi.defensiveActionHeightM}
+                    <span className="text-sm text-white/40"> m</span>
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">Box touches</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.boxTouches}</p>
+                  <p className="mt-0.5 text-[10px] text-white/40">
+                    Snitt {kpi.boxTouchesAvg} · +{kpi.boxTouches - kpi.boxTouchesAvg}
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-[#121212] p-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-white/40">HO-shots</p>
+                  <p className="mt-1 text-2xl font-black tabular-nums text-white">{kpi.highOppShots}</p>
+                  <p className="mt-0.5 text-[10px] text-white/40">AIK {kpi.oppHighOppShots} · intensitet {kpi.defensiveIntensity}</p>
+                </div>
+              </div>
+
+              <div className="border-t border-white/10 px-5 py-4">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.18em] text-white/40">
+                  Twelve matchranking (ur 28 lag denna omgång)
+                </p>
+                <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">
+                  {rankKeys.map((k) => {
+                    const r = kpi.rankings[k];
+                    return <RankBadge key={k} rank={r.rank} total={r.total} label={r.label} />;
+                  })}
+                </div>
+              </div>
+            </section>
+          );
+        })()}
+
+        {isRound19Dashboard && round19RunningMatch && (
+          <section id="lopdata" className="space-y-3">
+            <div className="flex flex-wrap items-end justify-between gap-2 px-1">
+              <div>
+                <p
+                  className="text-[10px] font-bold uppercase tracking-[0.25em]"
+                  style={{ color: ROUND19_HIF_LIGHT }}
+                >
+                  Löpdata · Allsvenskan GPS
+                </p>
+                <h3 className="mt-1 text-base font-bold text-white md:text-lg">
+                  Hammarby mot AIK · omgång 19
+                </h3>
+                <p className="mt-0.5 text-xs text-white/45">
+                  Lagsträcka {(round19RunningMatch.hammarbyTeamDistanceMeters / 1000).toLocaleString("sv-SE", { maximumFractionDigits: 1 })} km · toppfart{" "}
+                  {round19RunningMatch.hammarbyTopSpeedKmh.toLocaleString("sv-SE", { maximumFractionDigits: 1 })} km/h
+                </p>
+              </div>
+              <a
+                href={round19RunningMatch.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg border px-3 py-1.5 text-[11px] font-medium"
+                style={{
+                  borderColor: `${ROUND19_HIF_GREEN}66`,
+                  backgroundColor: `${ROUND19_HIF_GREEN}22`,
+                  color: ROUND19_HIF_LIGHT,
+                }}
+              >
+                Allsvenskan →
+              </a>
+            </div>
+            <RoundRunningStatsSection
+              match={round19RunningMatch}
+              allDetailMatches={hammarbyRunningMatches}
+            />
+          </section>
+        )}
+
+        {isRound19Dashboard && round19RefereeMatch && (
+          <section id="domar-analys" className={`${ROUND11_SURFACE} p-5 md:p-6`}>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: ROUND19_AIK_GOLD }}>
+                  Domaranalys
+                </p>
+                <h2 className="mt-1 text-xl font-bold text-white md:text-2xl">
+                  {aikRound19RefereeData.refereeName}
+                </h2>
+                <p className="mt-0.5 text-sm text-neutral-400">Omgång 19 · 30 aug 2026 · AIK – Hammarby</p>
+              </div>
+              <div
+                className={`flex flex-col items-center rounded-xl border px-5 py-3 ${round19DomarRating.border} ${round19DomarRating.bg}`}
+              >
+                <span className="text-2xl">{round19DomarRating.emoji}</span>
+                <span className={`mt-1 text-sm font-bold ${round19DomarRating.color}`}>{round19DomarRating.label}</span>
+                <span className="mt-0.5 text-[10px] text-neutral-500">Domarindex</span>
+                <span
+                  className={`text-2xl font-black tabular-nums ${
+                    round19DomarIndex > 0 ? "text-emerald-300" : round19DomarIndex < 0 ? "text-rose-400" : "text-slate-300"
+                  }`}
+                >
+                  {round19DomarIndex > 0 ? `+${round19DomarIndex}` : round19DomarIndex}
+                </span>
+              </div>
+            </div>
+
+            <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Fouls (HIF)</p>
+                <p className="mt-1 text-4xl font-black tabular-nums text-white">{aikRound19RefereeData.matchFoulsHIF}</p>
+              </div>
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Fouls (AIK)</p>
+                <p className="mt-1 text-4xl font-black tabular-nums" style={{ color: ROUND19_AIK_GOLD }}>
+                  {aikRound19RefereeData.matchFoulsOpp}
+                </p>
+              </div>
+              <div
+                className="rounded-xl border p-4 text-center"
+                style={{ borderColor: `${ROUND19_AIK_GOLD}33`, backgroundColor: `${ROUND19_AIK_GOLD}12` }}
+              >
+                <p className="text-[10px] font-semibold uppercase tracking-widest" style={{ color: ROUND19_AIK_GOLD }}>
+                  Gula kort
+                </p>
+                <p className="mt-1 text-4xl font-black tabular-nums" style={{ color: ROUND19_AIK_GOLD }}>
+                  {aikRound19RefereeData.matchYellowHIF}–{aikRound19RefereeData.matchYellowOpp}
+                </p>
+                <p className="mt-1 text-[10px] text-neutral-600">HIF – AIK</p>
+              </div>
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">Röda kort</p>
+                <p className="mt-1 text-4xl font-black tabular-nums text-slate-300">
+                  {aikRound19RefereeData.matchRedHIF}–{aikRound19RefereeData.matchRedOpp}
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="mt-4 rounded-xl border p-4"
+              style={{ borderColor: `${ROUND19_AIK_GOLD}22`, backgroundColor: `${ROUND19_AIK_GOLD}0d` }}
+            >
+              <p className="text-sm leading-relaxed text-neutral-300">{aikRound19RefereeData.analysis}</p>
+            </div>
+
+            <div className="mt-4">
+              <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-neutral-500">
+                Nybergs tidigare Hammarby-match 2026
+              </p>
+              <div className="rounded-xl border border-white/[0.06] bg-[#1a2d26] p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-medium text-neutral-300">
+                      Omgång {aikRound19RefereeData.previousMatch.gameweek} · {aikRound19RefereeData.previousMatch.date}
+                    </p>
+                    <p className="mt-0.5 text-sm font-semibold text-white">
+                      {aikRound19RefereeData.previousMatch.matchName}
+                    </p>
+                    <p className="mt-1 text-[11px] text-neutral-400">{aikRound19RefereeData.previousMatch.note}</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <span className="text-xs text-neutral-500">Domarindex</span>
+                    <span className="text-3xl font-black tabular-nums text-emerald-300">
+                      +{aikRound19RefereeData.previousMatch.domarindex}
+                    </span>
+                    <span className="text-xs font-semibold text-emerald-400">
+                      {aikRound19RefereeData.previousMatch.ratingLabel}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-3 flex items-center justify-end">
+              <a
+                href="/matchstatistik/domaranalys"
+                className="rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                style={{
+                  borderColor: `${ROUND19_AIK_GOLD}55`,
+                  backgroundColor: `${ROUND19_AIK_GOLD}14`,
+                  color: ROUND19_AIK_GOLD,
+                }}
+              >
+                → Full domarstatistik 2026
+              </a>
+            </div>
+          </section>
+        )}
+
+
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section id="matchgenomgang" className="grid grid-cols-2 gap-3 md:grid-cols-4">
           {/* Hammarby goals */}
           <div className="relative overflow-hidden rounded-2xl border border-emerald-500/20 bg-[#0d1f12] p-5">
@@ -4443,7 +5080,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && roundTab === "sasong" && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && roundTab === "sasong" && (
           <PointsComparisonSection
             comparisonRound={comparisonRound}
             pointsComparisonRows={pointsComparisonRows}
@@ -4451,14 +5088,14 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         )}
 
         {/* ── Matchanalys KPI cards (Twelve data) ── */}
-        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
+        {mode === "round" && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && roundTab === "matchen" && resolvedAnalysisRound && (
           <MatchAnalysisKpiSection
             roundData={resolvedAnalysisRound}
             matchLabel={selectedRoundMatch ? `${selectedRoundMatch.matchName}` : ""}
           />
         )}
 
-        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && roundTab === "matchen" && (
+        {mode === "round" && standoutPlayersForRound && !isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && roundTab === "matchen" && (
           <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
             <div className="flex flex-wrap items-start justify-between gap-4">
               <div>
@@ -4894,7 +5531,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
-        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && (mode === "combined" || roundTab === "matchen") && (
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && (mode === "combined" || roundTab === "matchen") && (
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <h2 className="text-lg font-semibold text-white">Nyckeltal (vad du ser)</h2>
           <p className="mt-1 text-sm text-neutral-400">
@@ -4975,7 +5612,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
         </section>
         )}
 
-        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && (mode === "combined" || roundTab === "sasong") && (
+        {!isRound11Dashboard && !isRound13Dashboard && !isRound14Dashboard && !isRound16Dashboard && !isRound17Dashboard && !isRound18Dashboard && !isRound19Dashboard && (mode === "combined" || roundTab === "sasong") && (
         <>
         <section className="rounded-2xl border border-white/[0.06] bg-[#161b22] p-6 [content-visibility:auto] [contain-intrinsic-size:820px]">
           <div className="flex flex-wrap items-start justify-between gap-4">
@@ -6202,7 +6839,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
 
         <footer
           className={
-            (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard)
+            (isRound11Dashboard || isRound13Dashboard || isRound14Dashboard || isRound16Dashboard || isRound17Dashboard || isRound18Dashboard || isRound19Dashboard)
               ? "rounded-2xl border border-emerald-800/35 bg-[#13231d]/80 p-5 text-xs leading-relaxed text-neutral-400"
               : "rounded-2xl border border-white/[0.06] bg-neutral-900/60 p-5 text-xs leading-relaxed text-neutral-400"
           }

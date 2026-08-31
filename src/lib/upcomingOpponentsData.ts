@@ -256,7 +256,7 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
-  aikRound19Report,
+  { ...aikRound19Report, hidden: true },
   { ...fcStockholmCupReport, hidden: true },
   { ...gaisRound18Report, hidden: true },
   {
