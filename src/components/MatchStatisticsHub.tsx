@@ -121,6 +121,8 @@ import {
   aikRound19MomentumGoals,
   aikRound19TwelveKpis,
   aikRound19LineupAges,
+  aikRound19FirstHalf,
+  aikRound19SecondHalf,
   ROUND19_HIF_GREEN,
   ROUND19_HIF_LIGHT,
   ROUND19_AIK_GOLD,
@@ -2990,6 +2992,30 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
               {round === 19 && (
                 <>
                   <a
+                    href="#first-half"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_HIF_GREEN}99`,
+                      backgroundColor: `${ROUND19_HIF_GREEN}33`,
+                      color: ROUND19_HIF_LIGHT,
+                    }}
+                  >
+                    <span>⚡</span>
+                    <span>1:a halvlek</span>
+                  </a>
+                  <a
+                    href="#second-half"
+                    className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors"
+                    style={{
+                      borderColor: `${ROUND19_AIK_GOLD}66`,
+                      backgroundColor: `${ROUND19_AIK_GOLD}18`,
+                      color: ROUND19_AIK_GOLD,
+                    }}
+                  >
+                    <span>🔄</span>
+                    <span>2:a halvlek</span>
+                  </a>
+                  <a
                     href="#match-recap"
                     className="flex shrink-0 items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors"
                     style={{
@@ -4614,6 +4640,7 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
           );
         })()}
 
+
         {mode === "round" && isRound19Dashboard && (
           <PointsComparisonSection
             comparisonRound={comparisonRound}
@@ -4621,6 +4648,226 @@ export function MatchStatisticsHub({ mode, round, rounds }: MatchStatisticsHubPr
             matchContext={round19PointsContext}
             className={`${ROUND11_SURFACE} p-4 md:p-5`}
           />
+        )}
+
+        {isRound19Dashboard && (
+          <section
+            id="first-half"
+            className="overflow-hidden rounded-2xl border bg-[#0b0b0b]"
+            style={{ borderColor: `${ROUND19_HIF_GREEN}66` }}
+          >
+            <div
+              className="h-2.5 w-full"
+              style={{
+                backgroundImage: `repeating-linear-gradient(90deg, ${ROUND19_HIF_GREEN} 0 14px, #ffffff 14px 28px)`,
+                opacity: 0.9,
+              }}
+              aria-hidden
+            />
+            <div className="border-b border-white/10 px-5 pt-5 pb-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p
+                    className="text-[10px] font-bold uppercase tracking-[0.25em]"
+                    style={{ color: ROUND19_HIF_LIGHT }}
+                  >
+                    Första halvlek · FotMob + Twelve
+                  </p>
+                  <h3 className="mt-1 text-xl font-black text-white md:text-2xl">
+                    {aikRound19FirstHalf.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-white/55">{aikRound19FirstHalf.subtitle}</p>
+                </div>
+                <div
+                  className="rounded-xl border px-4 py-3 text-center"
+                  style={{
+                    borderColor: `${ROUND19_HIF_GREEN}88`,
+                    backgroundColor: `${ROUND19_HIF_GREEN}33`,
+                  }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">HT</p>
+                  <p className="text-3xl font-black tabular-nums text-white">
+                    {aikRound19FirstHalf.scoreline}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-white/45">AIK – HIF</p>
+                </div>
+              </div>
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/70">
+                {aikRound19FirstHalf.narrative}
+              </p>
+            </div>
+
+            <div className="grid gap-3 px-5 py-4 sm:grid-cols-2 lg:grid-cols-3">
+              {aikRound19FirstHalf.stats.map((stat) => {
+                const width = (stat.hammarbyValue / (stat.hammarbyValue + stat.opponentValue || 1)) * 100;
+                return (
+                  <div key={stat.label} className="rounded-xl border border-white/10 bg-black/40 p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">{stat.label}</p>
+                    <div className="mt-2 flex items-end justify-between gap-2">
+                      <p className="text-2xl font-black tabular-nums" style={{ color: ROUND19_HIF_LIGHT }}>
+                        {stat.hammarby}
+                      </p>
+                      <p className="text-lg font-bold tabular-nums" style={{ color: ROUND19_AIK_GOLD }}>
+                        {stat.opponent}
+                      </p>
+                    </div>
+                    <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-white/10">
+                      <div className="h-full" style={{ width: `${width}%`, backgroundColor: ROUND19_HIF_GREEN }} />
+                      <div className="h-full flex-1" style={{ backgroundColor: `${ROUND19_AIK_GOLD}55` }} />
+                    </div>
+                    <div className="mt-1 flex justify-between text-[10px] font-semibold uppercase tracking-wide">
+                      <span style={{ color: ROUND19_HIF_LIGHT }}>HIF</span>
+                      <span style={{ color: ROUND19_AIK_GOLD }}>AIK</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="border-t border-white/10 px-5 py-4">
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                Twelve · 1H per 15 min (boll % · field tilt · avslut · np-xG)
+              </p>
+              <div className="grid gap-2 sm:grid-cols-3">
+                {aikRound19FirstHalf.twelvePeriods.labels.map((label, i) => (
+                  <div key={label} className="rounded-xl border border-white/10 bg-[#0f1a14] p-3">
+                    <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_HIF_LIGHT }}>
+                      {label}
+                    </p>
+                    <p className="mt-2 text-sm text-white">
+                      Boll <span className="font-black tabular-nums">{aikRound19FirstHalf.twelvePeriods.possessionPct[i]}%</span>
+                      {" · "}Tilt{" "}
+                      <span className="font-black tabular-nums">{aikRound19FirstHalf.twelvePeriods.fieldTiltPct[i]}%</span>
+                    </p>
+                    <p className="mt-1 text-xs text-white/55">
+                      {aikRound19FirstHalf.twelvePeriods.shots[i]} avslut ·{" "}
+                      {aikRound19FirstHalf.twelvePeriods.npXg[i].toFixed(2).replace(".", ",")} xG ·{" "}
+                      {aikRound19FirstHalf.twelvePeriods.xt[i].toFixed(2).replace(".", ",")} xT
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2 border-t border-white/10 bg-black/30 px-5 py-4">
+              {aikRound19FirstHalf.callouts.map((line) => (
+                <p key={line} className="text-sm leading-relaxed text-white/70">
+                  <span className="mr-2 font-bold" style={{ color: ROUND19_HIF_LIGHT }}>▸</span>
+                  {line}
+                </p>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {isRound19Dashboard && (
+          <section
+            id="second-half"
+            className="overflow-hidden rounded-2xl border bg-[#0b0b0b]"
+            style={{ borderColor: `${ROUND19_AIK_GOLD}66` }}
+          >
+            <div
+              className="h-2.5 w-full"
+              style={{
+                backgroundImage: `repeating-linear-gradient(90deg, ${ROUND19_AIK_GOLD} 0 14px, #111111 14px 28px)`,
+                opacity: 0.9,
+              }}
+              aria-hidden
+            />
+            <div className="border-b border-white/10 px-5 pt-5 pb-4">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p
+                    className="text-[10px] font-bold uppercase tracking-[0.25em]"
+                    style={{ color: ROUND19_AIK_GOLD }}
+                  >
+                    Andra halvlek · FotMob + Twelve
+                  </p>
+                  <h3 className="mt-1 text-xl font-black text-white md:text-2xl">
+                    {aikRound19SecondHalf.title}
+                  </h3>
+                  <p className="mt-1 text-sm text-white/55">{aikRound19SecondHalf.subtitle}</p>
+                </div>
+                <div
+                  className="rounded-xl border px-4 py-3 text-center"
+                  style={{
+                    borderColor: `${ROUND19_AIK_GOLD}88`,
+                    backgroundColor: `${ROUND19_AIK_GOLD}22`,
+                  }}
+                >
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-white/50">FT</p>
+                  <p className="text-3xl font-black tabular-nums text-white">
+                    {aikRound19SecondHalf.scoreline}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-white/45">AIK – HIF</p>
+                </div>
+              </div>
+              <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/70">
+                {aikRound19SecondHalf.narrative}
+              </p>
+            </div>
+
+            <div className="grid gap-3 px-5 py-4 sm:grid-cols-2 lg:grid-cols-3">
+              {aikRound19SecondHalf.stats.map((stat) => {
+                const width = (stat.hammarbyValue / (stat.hammarbyValue + stat.opponentValue || 1)) * 100;
+                return (
+                  <div key={stat.label} className="rounded-xl border border-white/10 bg-black/40 p-4">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">{stat.label}</p>
+                    <div className="mt-2 flex items-end justify-between gap-2">
+                      <p className="text-2xl font-black tabular-nums" style={{ color: ROUND19_HIF_LIGHT }}>
+                        {stat.hammarby}
+                      </p>
+                      <p className="text-lg font-bold tabular-nums" style={{ color: ROUND19_AIK_GOLD }}>
+                        {stat.opponent}
+                      </p>
+                    </div>
+                    <div className="mt-3 flex h-2 overflow-hidden rounded-full bg-white/10">
+                      <div className="h-full" style={{ width: `${width}%`, backgroundColor: ROUND19_HIF_GREEN }} />
+                      <div className="h-full flex-1" style={{ backgroundColor: `${ROUND19_AIK_GOLD}55` }} />
+                    </div>
+                    <div className="mt-1 flex justify-between text-[10px] font-semibold uppercase tracking-wide">
+                      <span style={{ color: ROUND19_HIF_LIGHT }}>HIF</span>
+                      <span style={{ color: ROUND19_AIK_GOLD }}>AIK</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="border-t border-white/10 px-5 py-4">
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">
+                Twelve · 2H per 15 min (boll % · field tilt · avslut · np-xG)
+              </p>
+              <div className="grid gap-2 sm:grid-cols-3">
+                {aikRound19SecondHalf.twelvePeriods.labels.map((label, i) => (
+                  <div key={label} className="rounded-xl border border-white/10 bg-[#0f1a14] p-3">
+                    <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: ROUND19_AIK_GOLD }}>
+                      {label}
+                    </p>
+                    <p className="mt-2 text-sm text-white">
+                      Boll <span className="font-black tabular-nums">{aikRound19SecondHalf.twelvePeriods.possessionPct[i]}%</span>
+                      {" · "}Tilt{" "}
+                      <span className="font-black tabular-nums">{aikRound19SecondHalf.twelvePeriods.fieldTiltPct[i]}%</span>
+                    </p>
+                    <p className="mt-1 text-xs text-white/55">
+                      {aikRound19SecondHalf.twelvePeriods.shots[i]} avslut ·{" "}
+                      {aikRound19SecondHalf.twelvePeriods.npXg[i].toFixed(2).replace(".", ",")} xG ·{" "}
+                      {aikRound19SecondHalf.twelvePeriods.xt[i].toFixed(2).replace(".", ",")} xT
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2 border-t border-white/10 bg-black/30 px-5 py-4">
+              {aikRound19SecondHalf.callouts.map((line) => (
+                <p key={line} className="text-sm leading-relaxed text-white/70">
+                  <span className="mr-2 font-bold" style={{ color: ROUND19_AIK_GOLD }}>▸</span>
+                  {line}
+                </p>
+              ))}
+            </div>
+          </section>
         )}
 
         {isRound19Dashboard && (

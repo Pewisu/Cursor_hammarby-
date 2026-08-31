@@ -238,6 +238,76 @@ export const aikRound19Recap = {
 };
 
 /**
+ * Halvleksstatistik – FotMob (AIK hemma / HIF borta) + Twelve 15-min perioder.
+ * FotMob visar AIK till vänster; här lagras alltid HIF-värdet som hammarby*.
+ */
+export const aikRound19FirstHalf = {
+  title: "Första halvlek · ledning trots straffmiss",
+  subtitle: "FotMob 1H: 2,39 xG och 19 avslut – HT 2–1 till HIF",
+  scoreline: "1–2",
+  narrative:
+    "Hammarby ägde chansskapandet före paus. Adjei 14', Abraham 45+4 efter straffmiss – HT 2–1. FotMob: 55 % boll, 2,39–1,01 xG, 19–4 avslut, 28–7 boxberöringar. Twelve-perioderna: np-xG 0,18+1,10+1,21 ≈ 2,49 redan i 1H.",
+  stats: [
+    { label: "Bollinnehav (FotMob 1H)", hammarby: "55%", opponent: "45%", hammarbyValue: 55, opponentValue: 45 },
+    { label: "xG (FotMob 1H)", hammarby: "2,39", opponent: "1,01", hammarbyValue: 2.39, opponentValue: 1.01 },
+    { label: "Avslut (FotMob 1H)", hammarby: "19", opponent: "4", hammarbyValue: 19, opponentValue: 4 },
+    { label: "Skott på mål", hammarby: "7", opponent: "3", hammarbyValue: 7, opponentValue: 3 },
+    { label: "Boxberöringar", hammarby: "28", opponent: "7", hammarbyValue: 28, opponentValue: 7 },
+    { label: "Hörnor", hammarby: "4", opponent: "0", hammarbyValue: 4, opponentValue: 0 },
+    { label: "Stora möjligheter", hammarby: "3", opponent: "1", hammarbyValue: 3, opponentValue: 1 },
+    { label: "Precisa passningar", hammarby: "206 (92%)", opponent: "164 (86%)", hammarbyValue: 206, opponentValue: 164 },
+    { label: "Regelfel", hammarby: "6", opponent: "11", hammarbyValue: 6, opponentValue: 11 },
+  ],
+  twelvePeriods: {
+    labels: ["0–15", "15–30", "30–HT"],
+    possessionPct: [49, 70, 51],
+    fieldTiltPct: [83, 100, 70],
+    shots: [5, 5, 7],
+    npXg: [0.18, 1.1, 1.21],
+    xt: [0.21, 0.46, 0.85],
+  },
+  callouts: [
+    "Adjei 14' + Abraham 45+4 – ledning till paus trots att Nordfeldt räddade Abrahams straff.",
+    "FotMob 1H: 2,39 xG och 19 avslut – derbyt var HIF:s speelmässigt före paus.",
+    "Carlstrand kvitterade 15' (1,01 xG totalt för AIK i 1H) – tidig variance som scoutingplanen varnade för.",
+    "Twelve: field tilt 100 % i 15–30 och 7 avslut i 30–HT – presset hölls hela halvleken.",
+  ],
+} as const;
+
+export const aikRound19SecondHalf = {
+  title: "Andra halvlek · AIK vänder spelet",
+  subtitle: "FotMob 2H: AIK 1,31 xG mot HIF 1,08 – Kouame 72' och Gustafsson 83'",
+  scoreline: "3–2",
+  narrative:
+    "Efter paus vände chansbilden. FotMob 2H: AIK 1,31–1,08 i xG trots att HIF fortfarande hade mer boll (59 %) och fler avslut (13–7). Kouame kvitterade 72', Gustafsson avgjorde 83'. Twelve: field tilt föll till 43 % i 75–90 – exakt variance-zonen.",
+  stats: [
+    { label: "Bollinnehav (FotMob 2H)", hammarby: "59%", opponent: "41%", hammarbyValue: 59, opponentValue: 41 },
+    { label: "xG (FotMob 2H)", hammarby: "1,08", opponent: "1,31", hammarbyValue: 1.08, opponentValue: 1.31 },
+    { label: "Avslut (FotMob 2H)", hammarby: "13", opponent: "7", hammarbyValue: 13, opponentValue: 7 },
+    { label: "Skott på mål", hammarby: "5", opponent: "3", hammarbyValue: 5, opponentValue: 3 },
+    { label: "Boxberöringar", hammarby: "23", opponent: "14", hammarbyValue: 23, opponentValue: 14 },
+    { label: "Hörnor", hammarby: "3", opponent: "1", hammarbyValue: 3, opponentValue: 1 },
+    { label: "Stora möjligheter", hammarby: "2", opponent: "1", hammarbyValue: 2, opponentValue: 1 },
+    { label: "Precisa passningar", hammarby: "248 (87%)", opponent: "160 (80%)", hammarbyValue: 248, opponentValue: 160 },
+    { label: "Regelfel", hammarby: "5", opponent: "5", hammarbyValue: 5, opponentValue: 5 },
+  ],
+  twelvePeriods: {
+    labels: ["45–60", "60–75", "75–90"],
+    possessionPct: [59, 45, 73],
+    fieldTiltPct: [100, 71, 43],
+    shots: [3, 5, 3],
+    npXg: [0.22, 0.22, 0.57],
+    xt: [0.4, 0.26, 0.45],
+  },
+  callouts: [
+    "FotMob 2H: AIK ledde xG (1,31–1,08) trots HIF:s bollinnehav 59 % – omställningarna avgjorde.",
+    "Kouame 72' (assist Filling) och Gustafsson 83' (assist Camara) – AIK:s ungdomar straffade bakåtpasset.",
+    "Twelve field tilt 43 % i 75–90: scoutingvarningen om variance-zonen 76–90+ slog in maximalt.",
+    "HIF skapade fortfarande (13 avslut, 2 stora chanser) men missade 2 stora – finishen sviktade när det gällde.",
+  ],
+} as const;
+
+/**
  * Snittålder startelva vs slutelva.
  * Ålder = hela år på matchdagen 2026-08-30 (Bolldata BirthDate).
  * Slutelva = de 11 som stod på planen vid slutsignal.
