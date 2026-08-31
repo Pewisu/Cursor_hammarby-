@@ -297,6 +297,20 @@ export const hammarbyRefereeMatches: RefereeMatchStats[] = [
     hammarby: { freeKicks: 6, fouls: 11, foulsSuffered: 18, yellowCards: 0, redCards: 0, isHome: true },
     opponent: { name: "GAIS", freeKicks: 2, fouls: 18, foulsSuffered: 11, yellowCards: 2, redCards: 0 },
   },
+  {
+    key: "omgang-19",
+    gameweek: 19,
+    date: "2026-08-30",
+    matchName: "AIK - Hammarby, 3-2",
+    sourceUrl: "https://bolldata.se/allsvenskan/matcher/2026/2026-08-30/aik-hammarby-3-2",
+    referee: "Glenn Nyberg",
+    effectivePlayingTimeS: 2989,
+    totalTimeMin: 100,
+    totalFreeKicks: 5,
+    totalCards: 5,
+    hammarby: { freeKicks: 4, fouls: 11, foulsSuffered: 16, yellowCards: 1, redCards: 0, isHome: false },
+    opponent: { name: "AIK", freeKicks: 1, fouls: 16, foulsSuffered: 11, yellowCards: 4, redCards: 0 },
+  },
 ];
 
 export function calcDomarindex(match: RefereeMatchStats): number {

@@ -7,17 +7,16 @@ import {
   coachRecords2026,
   getCoachRecordAverages,
 } from "@/lib/coachComparison2026Data";
-import { gaisRound18PartialMatchData } from "@/lib/gaisRound18PartialMatchData";
 
 // Twelve uses the scheduled gameweek, while the site presents matches in played
 // order. The postponed GAIS match is therefore the source of a one-round shift:
 // Twelve GW11 = Häcken (Karlsson), GW12 = Elfsborg (Rydström).
 const KARLSSON_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
-const RYDSTROM_GAMEWEEKS = new Set([12, 13, 17, 18]);
+const RYDSTROM_GAMEWEEKS = new Set([12, 13, 17, 18, 19]);
 
-// Bolldata overview gameweeks per coach (pass + xG data available through round 18).
+// Bolldata overview gameweeks per coach (pass + xG data available through round 19).
 const KARLSSON_BD_GAMEWEEKS = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15]);
-const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17, 18]);
+const RYDSTROM_BD_GAMEWEEKS = new Set([11, 12, 13, 14, 16, 17, 18, 19]);
 
 type Tab = "oversikt" | "anfall" | "press" | "defensiv";
 
@@ -273,10 +272,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
   }, [karlssonRounds]);
   const rAvg = useMemo<Record<string, number>>(() => {
     const analysis = computeAnalysisAverages(rydstromRounds);
-    const xg = computeXgAverages(
-      RYDSTROM_BD_GAMEWEEKS,
-      [gaisRound18PartialMatchData],
-    );
+    const xg = computeXgAverages(RYDSTROM_BD_GAMEWEEKS);
     return {
       ...analysis,
       np_xg: xg.hammarbyXg,
@@ -334,7 +330,7 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
           <span className="text-[#5fd39a]">{rRecord.matches} matcher (Rydström)</span>
           <span className="mt-1 block text-white/30">
             Twelve-spelmåtten omfattar Rydström-matcher med synkad rapport (bl.a. Elfsborg, Kalmar, GAIS).
-            xG-snittet omfattar samtliga 7 matcher t.o.m. omgång 18.
+            xG-snittet omfattar samtliga 8 matcher t.o.m. omgång 19.
           </span>
         </p>
         <div
@@ -521,11 +517,10 @@ export function CoachComparisonDashboard({ rounds }: { rounds: HammarbyMatchAnal
       )}
 
       <div className="border-t border-white/10 px-5 py-2.5 text-[9px] leading-relaxed text-white/30">
-        Resultatfacit efter Hammarby–GAIS 2–0: Rydström = omg 11–14, 16–18 (7 matcher,
+        Resultatfacit efter AIK–Hammarby 3–2: Rydström = omg 11–14, 16–19 (8 matcher,
         19 poäng) · Karlsson = omg 1–10 + 15 (11 matcher, 17 poäng). Övriga spelmått
         bygger fortsatt på tillgängliga Twelve- och Bolldata-rapporter. xG-snittet för
-        Rydström omfattar 7 matcher t.o.m. omgång 18; övriga omgång 18-mått läggs till
-        när de fullständiga rapporterna finns.
+        Rydström omfattar 8 matcher t.o.m. omgång 19.
       </div>
     </section>
   );
