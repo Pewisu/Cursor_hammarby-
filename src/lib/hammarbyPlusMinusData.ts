@@ -82,7 +82,7 @@ export interface HammarbyPlusMinusSeason {
 export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
   "season": "2026",
   "competition": "Allsvenskan",
-  "generatedAt": "2026-09-02T06:50:43.938Z",
+  "generatedAt": "2026-09-03T10:55:56.416Z",
   "source": "Bolldata API (matches, matches/player/stats, matches/goals)",
   "matchesPlayed": 19,
   "goalsFor": 44,
