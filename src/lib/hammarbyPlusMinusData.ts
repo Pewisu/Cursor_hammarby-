@@ -3,6 +3,7 @@
  * Synkad från Bolldata: matches + matches/player/stats + matches/goals.
  * Beräkning: spelare på plan (minuteIn–minuteOut) när Hammarby gör/släpper in mål.
  * Självmål: team-fältet i Bolldata är laget som får målet på tavlan.
+ * Snitt: min/match + GF/GA/+/− per 90; truppsnitt är minutviktat (rättvis referens).
  *
  * Genererad av scripts/sync-plus-minus-data.mjs – skriv inte manuellt.
  */
@@ -45,12 +46,29 @@ export interface PlusMinusPlayerSeason {
   roleName: PlusMinusRole;
   matchesPlayed: number;
   minutes: number;
+  minutesPerMatch: number;
   starts: number;
   goalsForOnPitch: number;
   goalsAgainstOnPitch: number;
   plusMinus: number;
+  goalsForPer90: number;
+  goalsAgainstPer90: number;
   plusMinusPer90: number;
+  plusMinusPer90VsAvg: number;
   matchLogs: PlusMinusPlayerMatchLog[];
+}
+
+export interface PlusMinusSeasonAverages {
+  /** Totala spelarminuter / antal spelarframträdanden. */
+  minutesPerMatch: number;
+  /** Minutviktat: sum(GF på plan) * 90 / sum(minuter). */
+  goalsForPer90: number;
+  /** Minutviktat: sum(GA på plan) * 90 / sum(minuter). */
+  goalsAgainstPer90: number;
+  /** Minutviktat: sum(+/-) * 90 / sum(minuter) ≈ lagets målskillnad per 90. */
+  plusMinusPer90: number;
+  totalAppearances: number;
+  totalMinutes: number;
 }
 
 export interface PlusMinusMatchSummary {
@@ -75,6 +93,7 @@ export interface HammarbyPlusMinusSeason {
   goalsFor: number;
   goalsAgainst: number;
   goalDiff: number;
+  averages: PlusMinusSeasonAverages;
   matches: PlusMinusMatchSummary[];
   players: PlusMinusPlayerSeason[];
 }
@@ -82,12 +101,20 @@ export interface HammarbyPlusMinusSeason {
 export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
   "season": "2026",
   "competition": "Allsvenskan",
-  "generatedAt": "2026-09-03T10:55:56.416Z",
+  "generatedAt": "2026-09-03T11:02:06.354Z",
   "source": "Bolldata API (matches, matches/player/stats, matches/goals)",
   "matchesPlayed": 19,
   "goalsFor": 44,
   "goalsAgainst": 18,
   "goalDiff": 26,
+  "averages": {
+    "minutesPerMatch": 67.2,
+    "goalsForPer90": 2.17,
+    "goalsAgainstPer90": 0.9,
+    "plusMinusPer90": 1.28,
+    "totalAppearances": 299,
+    "totalMinutes": 20090
+  },
   "matches": [
     {
       "matchId": 7442,
@@ -1116,7 +1143,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.45
+      "minutesPerMatch": 93.1,
+      "goalsForPer90": 2.31,
+      "goalsAgainstPer90": 0.86,
+      "plusMinusPer90": 1.45,
+      "plusMinusPer90VsAvg": 0.17
     },
     {
       "playerId": 15803,
@@ -1415,7 +1446,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.59
+      "minutesPerMatch": 80.6,
+      "goalsForPer90": 2.41,
+      "goalsAgainstPer90": 0.82,
+      "plusMinusPer90": 1.59,
+      "plusMinusPer90VsAvg": 0.31
     },
     {
       "playerId": 15810,
@@ -1714,7 +1749,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.29
+      "minutesPerMatch": 95.8,
+      "goalsForPer90": 2.17,
+      "goalsAgainstPer90": 0.89,
+      "plusMinusPer90": 1.29,
+      "plusMinusPer90VsAvg": 0.01
     },
     {
       "playerId": 15794,
@@ -2013,7 +2052,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.28
+      "minutesPerMatch": 96.2,
+      "goalsForPer90": 2.17,
+      "goalsAgainstPer90": 0.89,
+      "plusMinusPer90": 1.28,
+      "plusMinusPer90VsAvg": 0
     },
     {
       "playerId": 15798,
@@ -2297,7 +2340,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.27
+      "minutesPerMatch": 94.3,
+      "goalsForPer90": 2.17,
+      "goalsAgainstPer90": 0.9,
+      "plusMinusPer90": 1.27,
+      "plusMinusPer90VsAvg": -0.01
     },
     {
       "playerId": 15805,
@@ -2596,7 +2643,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.3
+      "minutesPerMatch": 80.1,
+      "goalsForPer90": 2.25,
+      "goalsAgainstPer90": 0.95,
+      "plusMinusPer90": 1.3,
+      "plusMinusPer90VsAvg": 0.02
     },
     {
       "playerId": 15800,
@@ -2895,7 +2946,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.35
+      "minutesPerMatch": 77.3,
+      "goalsForPer90": 2.33,
+      "goalsAgainstPer90": 0.98,
+      "plusMinusPer90": 1.35,
+      "plusMinusPer90VsAvg": 0.07
     },
     {
       "playerId": 15806,
@@ -3194,7 +3249,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.56
+      "minutesPerMatch": 66.9,
+      "goalsForPer90": 2.48,
+      "goalsAgainstPer90": 0.92,
+      "plusMinusPer90": 1.56,
+      "plusMinusPer90VsAvg": 0.28
     },
     {
       "playerId": 15811,
@@ -3448,7 +3507,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 1
         }
       ],
-      "plusMinusPer90": 2.27
+      "minutesPerMatch": 47.1,
+      "goalsForPer90": 2.51,
+      "goalsAgainstPer90": 0.24,
+      "plusMinusPer90": 2.27,
+      "plusMinusPer90VsAvg": 0.99
     },
     {
       "playerId": 15799,
@@ -3687,7 +3750,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 1
         }
       ],
-      "plusMinusPer90": 1.09
+      "minutesPerMatch": 93.7,
+      "goalsForPer90": 2.05,
+      "goalsAgainstPer90": 0.96,
+      "plusMinusPer90": 1.09,
+      "plusMinusPer90VsAvg": -0.19
     },
     {
       "playerId": 15801,
@@ -3926,7 +3993,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -2
         }
       ],
-      "plusMinusPer90": 1.15
+      "minutesPerMatch": 67.6,
+      "goalsForPer90": 1.95,
+      "goalsAgainstPer90": 0.8,
+      "plusMinusPer90": 1.15,
+      "plusMinusPer90VsAvg": -0.13
     },
     {
       "playerId": 15793,
@@ -4195,7 +4266,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 0.9
+      "minutesPerMatch": 70.7,
+      "goalsForPer90": 1.87,
+      "goalsAgainstPer90": 0.97,
+      "plusMinusPer90": 0.9,
+      "plusMinusPer90VsAvg": -0.38
     },
     {
       "playerId": 15802,
@@ -4284,7 +4359,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 2.89
+      "minutesPerMatch": 56,
+      "goalsForPer90": 3.54,
+      "goalsAgainstPer90": 0.64,
+      "plusMinusPer90": 2.89,
+      "plusMinusPer90VsAvg": 1.61
     },
     {
       "playerId": 15796,
@@ -4478,7 +4557,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": 1.1
+      "minutesPerMatch": 54.7,
+      "goalsForPer90": 2.33,
+      "goalsAgainstPer90": 1.23,
+      "plusMinusPer90": 1.1,
+      "plusMinusPer90VsAvg": -0.18
     },
     {
       "playerId": 15795,
@@ -4762,7 +4845,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -2
         }
       ],
-      "plusMinusPer90": 0.38
+      "minutesPerMatch": 52.2,
+      "goalsForPer90": 1.72,
+      "goalsAgainstPer90": 1.34,
+      "plusMinusPer90": 0.38,
+      "plusMinusPer90VsAvg": -0.9
     },
     {
       "playerId": 15558,
@@ -4881,7 +4968,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 2.61
+      "minutesPerMatch": 19.7,
+      "goalsForPer90": 2.61,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 2.61,
+      "plusMinusPer90VsAvg": 1.33
     },
     {
       "playerId": 15809,
@@ -5015,7 +5106,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 2.23
+      "minutesPerMatch": 15.1,
+      "goalsForPer90": 2.23,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 2.23,
+      "plusMinusPer90VsAvg": 0.95
     },
     {
       "playerId": 15808,
@@ -5089,7 +5184,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 1.61
+      "minutesPerMatch": 42,
+      "goalsForPer90": 1.61,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 1.61,
+      "plusMinusPer90VsAvg": 0.33
     },
     {
       "playerId": 15880,
@@ -5223,7 +5322,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 0
+      "minutesPerMatch": 27.9,
+      "goalsForPer90": 0.81,
+      "goalsAgainstPer90": 0.81,
+      "plusMinusPer90": 0,
+      "plusMinusPer90VsAvg": -1.28
     },
     {
       "playerId": 15879,
@@ -5252,7 +5355,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 0
+      "minutesPerMatch": 8,
+      "goalsForPer90": 0,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 0,
+      "plusMinusPer90VsAvg": -1.28
     },
     {
       "playerId": 15562,
@@ -5296,7 +5403,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 0
+      "minutesPerMatch": 6,
+      "goalsForPer90": 0,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 0,
+      "plusMinusPer90VsAvg": -1.28
     },
     {
       "playerId": 15951,
@@ -5370,7 +5481,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 0
+      "minutesPerMatch": 12,
+      "goalsForPer90": 0,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 0,
+      "plusMinusPer90VsAvg": -1.28
     },
     {
       "playerId": 15813,
@@ -5399,7 +5514,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": 0
+      "minutesPerMatch": 4,
+      "goalsForPer90": 0,
+      "goalsAgainstPer90": 0,
+      "plusMinusPer90": 0,
+      "plusMinusPer90VsAvg": -1.28
     },
     {
       "playerId": 15814,
@@ -5458,7 +5577,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": -1
         }
       ],
-      "plusMinusPer90": -2.57
+      "minutesPerMatch": 11.7,
+      "goalsForPer90": 0,
+      "goalsAgainstPer90": 2.57,
+      "plusMinusPer90": -2.57,
+      "plusMinusPer90VsAvg": -3.85
     },
     {
       "playerId": 15807,
@@ -5667,7 +5790,11 @@ export const hammarbyPlusMinusSeason: HammarbyPlusMinusSeason = {
           "plusMinus": 0
         }
       ],
-      "plusMinusPer90": -0.68
+      "minutesPerMatch": 20.5,
+      "goalsForPer90": 1.02,
+      "goalsAgainstPer90": 1.69,
+      "plusMinusPer90": -0.68,
+      "plusMinusPer90VsAvg": -1.96
     }
   ]
 };

@@ -29,15 +29,30 @@ type SortKey =
   | "goalsForOnPitch"
   | "goalsAgainstOnPitch"
   | "minutes"
+  | "minutesPerMatch"
   | "plusMinusPer90"
+  | "plusMinusPer90VsAvg"
   | "playerName"
   | "matchesPlayed";
 
-function formatSigned(value: number) {
-  return value > 0 ? `+${value}` : `${value}`;
+function formatSigned(value: number, decimals = 0) {
+  const formatted =
+    decimals > 0 ? value.toFixed(decimals) : String(Math.round(value * 100) / 100);
+  const normalized =
+    decimals > 0 ? Number(value).toFixed(decimals) : String(value);
+  const display = decimals > 0 ? normalized : formatted;
+  if (value > 0) return `+${display}`;
+  return display;
 }
 
-function DiffBadge({ value }: { value: number }) {
+function formatSignedFixed(value: number, decimals = 2) {
+  const absolute = Math.abs(value).toFixed(decimals);
+  if (value > 0) return `+${absolute}`;
+  if (value < 0) return `-${absolute}`;
+  return Number(0).toFixed(decimals);
+}
+
+function DiffBadge({ value, decimals = 0 }: { value: number; decimals?: number }) {
   const tone =
     value > 0
       ? "bg-emerald-500/15 text-emerald-300 ring-emerald-500/30"
@@ -48,12 +63,16 @@ function DiffBadge({ value }: { value: number }) {
     <span
       className={`inline-flex min-w-[3.25rem] justify-center rounded-md px-2 py-0.5 text-sm font-semibold ring-1 ring-inset ${tone}`}
     >
-      {formatSigned(value)}
+      {decimals > 0 ? formatSignedFixed(value, decimals) : formatSigned(value)}
     </span>
   );
 }
 
-function sortPlayers(players: PlusMinusPlayerSeason[], sortKey: SortKey, ascending: boolean) {
+function sortPlayers(
+  players: PlusMinusPlayerSeason[],
+  sortKey: SortKey,
+  ascending: boolean
+) {
   const sorted = [...players].sort((a, b) => {
     const left = a[sortKey];
     const right = b[sortKey];
@@ -67,12 +86,14 @@ function sortPlayers(players: PlusMinusPlayerSeason[], sortKey: SortKey, ascendi
 
 export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason }) {
   const [roleFilter, setRoleFilter] = useState<"all" | PlusMinusRole>("all");
-  const [minMinutes, setMinMinutes] = useState(0);
+  const [minMinutes, setMinMinutes] = useState(450);
   const [sortKey, setSortKey] = useState<SortKey>("plusMinus");
   const [ascending, setAscending] = useState(false);
   const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(
     season.players[0]?.playerId ?? null
   );
+
+  const averages = season.averages;
 
   const filteredPlayers = useMemo(() => {
     const base = season.players.filter((player) => {
@@ -92,8 +113,11 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
     const withMinutes = season.players.filter((player) => player.minutes >= 450);
     return {
       best: [...withMinutes].sort((a, b) => b.plusMinus - a.plusMinus)[0] ?? null,
-      worst: [...withMinutes].sort((a, b) => a.plusMinus - b.plusMinus)[0] ?? null,
       rate: [...withMinutes].sort((a, b) => b.plusMinusPer90 - a.plusMinusPer90)[0] ?? null,
+      vsAvg:
+        [...withMinutes].sort(
+          (a, b) => b.plusMinusPer90VsAvg - a.plusMinusPer90VsAvg
+        )[0] ?? null,
     };
   }, [season.players]);
 
@@ -103,7 +127,9 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
       return;
     }
     setSortKey(nextKey);
-    setAscending(nextKey === "playerName" || nextKey === "goalsAgainstOnPitch");
+    setAscending(
+      nextKey === "playerName" || nextKey === "goalsAgainstOnPitch"
+    );
   }
 
   return (
@@ -122,8 +148,8 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
           </h1>
           <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
             Vilka Hammarbyspelare var på plan när laget gjorde respektive släppte in mål.
-            Beräknat från Bolldata: startelva/byten (`minuteIn`/`minuteOut`) matchas mot
-            målhändelser minut för minut.
+            Tempojusterade snitt (per 90) och snittminuter gör jämförelser rättvisare mellan
+            heltidsspelare och inhoppare.
           </p>
           <div className="mt-5 flex flex-wrap gap-3 text-sm">
             <div className="rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-3">
@@ -144,6 +170,22 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                 {formatSigned(season.goalDiff)}
               </p>
             </div>
+            <div className="rounded-xl border border-violet-500/20 bg-violet-500/10 px-4 py-3">
+              <p className="text-xs uppercase tracking-wide text-violet-300/80">
+                Snitt min/match
+              </p>
+              <p className="text-xl font-semibold text-violet-200">
+                {averages.minutesPerMatch.toFixed(1)}
+              </p>
+            </div>
+            <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/10 px-4 py-3">
+              <p className="text-xs uppercase tracking-wide text-cyan-300/80">
+                Trupp +/−/90
+              </p>
+              <p className="text-xl font-semibold text-cyan-200">
+                {formatSignedFixed(averages.plusMinusPer90)}
+              </p>
+            </div>
           </div>
         </div>
       </header>
@@ -155,19 +197,25 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
               title: "Bäst +/-",
               player: leaders.best,
               value: leaders.best ? formatSigned(leaders.best.plusMinus) : "–",
-              hint: "Minst 450 min",
-            },
-            {
-              title: "Sämst +/-",
-              player: leaders.worst,
-              value: leaders.worst ? formatSigned(leaders.worst.plusMinus) : "–",
-              hint: "Minst 450 min",
+              hint: leaders.best
+                ? `${leaders.best.minutesPerMatch.toFixed(1)} min/match`
+                : "Minst 450 min",
             },
             {
               title: "Högst +/- per 90",
               player: leaders.rate,
-              value: leaders.rate ? formatSigned(leaders.rate.plusMinusPer90) : "–",
-              hint: "Tempojusterat",
+              value: leaders.rate
+                ? formatSignedFixed(leaders.rate.plusMinusPer90)
+                : "–",
+              hint: "Tempojusterat mot speltid",
+            },
+            {
+              title: "Bäst vs truppsnitt",
+              player: leaders.vsAvg,
+              value: leaders.vsAvg
+                ? formatSignedFixed(leaders.vsAvg.plusMinusPer90VsAvg)
+                : "–",
+              hint: `Referens ${formatSignedFixed(averages.plusMinusPer90)}/90`,
             },
           ].map((card) => (
             <div
@@ -189,7 +237,8 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
             <div>
               <h2 className="text-lg font-semibold text-white">Spelartabell</h2>
               <p className="mt-1 text-sm text-slate-400">
-                Klicka en rad för matchlogg. Sortera via kolumnrubrikerna.
+                Standardfilter 450+ min för rättvisare tempojämförelse. Δ/90 är skillnad mot
+                truppens minutviktade snitt ({formatSignedFixed(averages.plusMinusPer90)}).
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -235,10 +284,12 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                       ["playerName", "Spelare"],
                       ["matchesPlayed", "M"],
                       ["minutes", "Min"],
+                      ["minutesPerMatch", "Min/M"],
                       ["goalsForOnPitch", "GF"],
                       ["goalsAgainstOnPitch", "GA"],
                       ["plusMinus", "+/−"],
                       ["plusMinusPer90", "+/−/90"],
+                      ["plusMinusPer90VsAvg", "Δ/90"],
                     ] as Array<[SortKey, string]>
                   ).map(([key, label]) => (
                     <th key={key} className="px-2 py-3 font-medium">
@@ -274,13 +325,23 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                       </td>
                       <td className="px-2 py-3 text-slate-300">{player.matchesPlayed}</td>
                       <td className="px-2 py-3 text-slate-300">{player.minutes}</td>
+                      <td className="px-2 py-3 text-violet-200">
+                        {player.minutesPerMatch.toFixed(1)}
+                      </td>
                       <td className="px-2 py-3 text-emerald-300">{player.goalsForOnPitch}</td>
                       <td className="px-2 py-3 text-rose-300">{player.goalsAgainstOnPitch}</td>
                       <td className="px-2 py-3">
                         <DiffBadge value={player.plusMinus} />
                       </td>
-                      <td className="px-2 py-3 text-slate-300">
-                        {formatSigned(player.plusMinusPer90)}
+                      <td className="px-2 py-3 text-slate-200">
+                        {formatSignedFixed(player.plusMinusPer90)}
+                        <div className="text-[11px] text-slate-500">
+                          {player.goalsForPer90.toFixed(2)}–
+                          {player.goalsAgainstPer90.toFixed(2)} /90
+                        </div>
+                      </td>
+                      <td className="px-2 py-3">
+                        <DiffBadge value={player.plusMinusPer90VsAvg} decimals={2} />
                       </td>
                     </tr>
                   );
@@ -297,10 +358,21 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                 <h2 className="text-lg font-semibold text-white">
                   Matchlogg · {selectedPlayer.playerName}
                 </h2>
-                <p className="mt-1 text-sm text-slate-400">
-                  {ROLE_LABELS[selectedPlayer.roleName] ?? selectedPlayer.roleName} ·{" "}
-                  {selectedPlayer.minutes} min ·{" "}
+                <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-slate-400">
+                  <span>
+                    {ROLE_LABELS[selectedPlayer.roleName] ?? selectedPlayer.roleName}
+                  </span>
+                  <span>·</span>
+                  <span>{selectedPlayer.minutes} min</span>
+                  <span>·</span>
+                  <span>{selectedPlayer.minutesPerMatch.toFixed(1)} min/match</span>
+                  <span>·</span>
                   <DiffBadge value={selectedPlayer.plusMinus} />
+                  <span>·</span>
+                  <span>
+                    {formatSignedFixed(selectedPlayer.plusMinusPer90)}/90 (
+                    {formatSignedFixed(selectedPlayer.plusMinusPer90VsAvg)} vs snitt)
+                  </span>
                 </p>
               </div>
             </div>
@@ -352,7 +424,8 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
           <ul className="mt-3 list-disc space-y-2 pl-5">
             <li>
               Källa: Bolldata Allsvenskan {season.season} (`matches`, `matches/player/stats`,
-              `matches/goals`). Senast synkad {new Date(season.generatedAt).toLocaleString("sv-SE")}.
+              `matches/goals`). Senast synkad{" "}
+              {new Date(season.generatedAt).toLocaleString("sv-SE")}.
             </li>
             <li>
               En spelare räknas som på plan om målets minut ligger mellan `minuteIn` och
@@ -363,8 +436,14 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
               Bolldatas team-fält (laget som får målet på tavlan).
             </li>
             <li>
-              +/−/90 = (plusMinus × 90) / minuter. Säsongens lagresultat: {season.goalsFor}–
-              {season.goalsAgainst}.
+              Min/M = minuter / matcher. +/−/90 = (plusMinus × 90) / minuter. GF/90 och GA/90
+              visas under tempo-kolumnen.
+            </li>
+            <li>
+              Truppsnitt är minutviktat: summa över alla spelarminuter, så heltidsspelare väger
+              tyngre än korta inhopp. Δ/90 = spelarens +/−/90 minus truppsnittet (
+              {formatSignedFixed(averages.plusMinusPer90)}, snitt{" "}
+              {averages.minutesPerMatch.toFixed(1)} min/match).
             </li>
           </ul>
         </section>

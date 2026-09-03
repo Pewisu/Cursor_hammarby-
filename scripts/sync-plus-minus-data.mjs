@@ -60,6 +60,16 @@ function resolveRole(playerName, roleName) {
   return PLAYER_ROLE_OVERRIDES[playerName] ?? roleName ?? "Unknown";
 }
 
+function round(value, decimals = 2) {
+  const factor = 10 ** decimals;
+  return Math.round(Number(value) * factor) / factor;
+}
+
+function ratePer90(count, minutes) {
+  if (!minutes) return 0;
+  return round((count * 90) / minutes, 2);
+}
+
 function emptyPlayer(playerId, playerName, roleName) {
   return {
     playerId,
@@ -81,6 +91,7 @@ function buildTypeScriptFile(payload) {
  * Synkad från Bolldata: matches + matches/player/stats + matches/goals.
  * Beräkning: spelare på plan (minuteIn–minuteOut) när Hammarby gör/släpper in mål.
  * Självmål: team-fältet i Bolldata är laget som får målet på tavlan.
+ * Snitt: min/match + GF/GA/+/− per 90; truppsnitt är minutviktat (rättvis referens).
  *
  * Genererad av scripts/sync-plus-minus-data.mjs – skriv inte manuellt.
  */
@@ -123,12 +134,29 @@ export interface PlusMinusPlayerSeason {
   roleName: PlusMinusRole;
   matchesPlayed: number;
   minutes: number;
+  minutesPerMatch: number;
   starts: number;
   goalsForOnPitch: number;
   goalsAgainstOnPitch: number;
   plusMinus: number;
+  goalsForPer90: number;
+  goalsAgainstPer90: number;
   plusMinusPer90: number;
+  plusMinusPer90VsAvg: number;
   matchLogs: PlusMinusPlayerMatchLog[];
+}
+
+export interface PlusMinusSeasonAverages {
+  /** Totala spelarminuter / antal spelarframträdanden. */
+  minutesPerMatch: number;
+  /** Minutviktat: sum(GF på plan) * 90 / sum(minuter). */
+  goalsForPer90: number;
+  /** Minutviktat: sum(GA på plan) * 90 / sum(minuter). */
+  goalsAgainstPer90: number;
+  /** Minutviktat: sum(+/-) * 90 / sum(minuter) ≈ lagets målskillnad per 90. */
+  plusMinusPer90: number;
+  totalAppearances: number;
+  totalMinutes: number;
 }
 
 export interface PlusMinusMatchSummary {
@@ -153,6 +181,7 @@ export interface HammarbyPlusMinusSeason {
   goalsFor: number;
   goalsAgainst: number;
   goalDiff: number;
+  averages: PlusMinusSeasonAverages;
   matches: PlusMinusMatchSummary[];
   players: PlusMinusPlayerSeason[];
 }
@@ -298,15 +327,57 @@ async function main() {
     await sleep(120);
   }
 
-  const players = [...playersById.values()]
-    .map((player) => ({
-      ...player,
-      plusMinusPer90:
-        player.minutes > 0
-          ? Number(((player.plusMinus * 90) / player.minutes).toFixed(2))
-          : 0,
-      matchLogs: player.matchLogs.sort((a, b) => a.date.localeCompare(b.date)),
-    }))
+  const rawPlayers = [...playersById.values()];
+  const totalAppearances = rawPlayers.reduce(
+    (sum, player) => sum + player.matchesPlayed,
+    0
+  );
+  const totalMinutes = rawPlayers.reduce((sum, player) => sum + player.minutes, 0);
+  const totalGoalsForOnPitch = rawPlayers.reduce(
+    (sum, player) => sum + player.goalsForOnPitch,
+    0
+  );
+  const totalGoalsAgainstOnPitch = rawPlayers.reduce(
+    (sum, player) => sum + player.goalsAgainstOnPitch,
+    0
+  );
+  const totalPlusMinus = rawPlayers.reduce(
+    (sum, player) => sum + player.plusMinus,
+    0
+  );
+
+  const averages = {
+    minutesPerMatch:
+      totalAppearances > 0 ? round(totalMinutes / totalAppearances, 1) : 0,
+    goalsForPer90: ratePer90(totalGoalsForOnPitch, totalMinutes),
+    goalsAgainstPer90: ratePer90(totalGoalsAgainstOnPitch, totalMinutes),
+    plusMinusPer90: ratePer90(totalPlusMinus, totalMinutes),
+    totalAppearances,
+    totalMinutes,
+  };
+
+  const players = rawPlayers
+    .map((player) => {
+      const minutesPerMatch =
+        player.matchesPlayed > 0
+          ? round(player.minutes / player.matchesPlayed, 1)
+          : 0;
+      const goalsForPer90 = ratePer90(player.goalsForOnPitch, player.minutes);
+      const goalsAgainstPer90 = ratePer90(
+        player.goalsAgainstOnPitch,
+        player.minutes
+      );
+      const plusMinusPer90 = ratePer90(player.plusMinus, player.minutes);
+      return {
+        ...player,
+        minutesPerMatch,
+        goalsForPer90,
+        goalsAgainstPer90,
+        plusMinusPer90,
+        plusMinusPer90VsAvg: round(plusMinusPer90 - averages.plusMinusPer90, 2),
+        matchLogs: player.matchLogs.sort((a, b) => a.date.localeCompare(b.date)),
+      };
+    })
     .sort((a, b) => {
       if (b.plusMinus !== a.plusMinus) return b.plusMinus - a.plusMinus;
       if (b.goalsForOnPitch !== a.goalsForOnPitch) {
@@ -324,13 +395,14 @@ async function main() {
     goalsFor: seasonGoalsFor,
     goalsAgainst: seasonGoalsAgainst,
     goalDiff: seasonGoalsFor - seasonGoalsAgainst,
+    averages,
     matches: matchSummaries,
     players,
   };
 
   fs.writeFileSync(OUT_PATH, buildTypeScriptFile(payload), "utf8");
   console.log(
-    `Synced plus/minus for ${players.length} players across ${matchSummaries.length} matches (${seasonGoalsFor}-${seasonGoalsAgainst}) → ${path.relative(process.cwd(), OUT_PATH)}`
+    `Synced plus/minus for ${players.length} players across ${matchSummaries.length} matches (${seasonGoalsFor}-${seasonGoalsAgainst}) · snitt ${averages.minutesPerMatch} min/match, ${averages.plusMinusPer90 >= 0 ? "+" : ""}${averages.plusMinusPer90}/90 → ${path.relative(process.cwd(), OUT_PATH)}`
   );
 }
 
