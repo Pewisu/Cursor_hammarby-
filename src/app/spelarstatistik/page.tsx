@@ -17,14 +17,14 @@ export default function PlayerStatisticsRoutePage() {
             Välj vad du vill följa
           </h1>
           <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
-            Här hittar du individfokus i tre vyer: standout i omgång, löpdata per spelare
+            Här hittar du individfokus: standout i omgång, plus/minus, löpdata per spelare
             och spelartrender över tid.
           </p>
         </div>
       </header>
 
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <Link
             href="/spelarstatistik/omgangsstandout"
             className="group rounded-2xl border border-sky-500/30 bg-slate-800/80 p-6 transition-colors hover:border-sky-400/60 hover:bg-slate-800"
@@ -125,6 +125,23 @@ export default function PlayerStatisticsRoutePage() {
             </p>
             <p className="mt-4 text-sm font-medium text-lime-300 group-hover:text-lime-200">
               Öppna Spelare →
+            </p>
+          </Link>
+
+          <Link
+            href="/spelarstatistik/plus-minus"
+            className="group rounded-2xl border border-cyan-500/30 bg-slate-800/80 p-6 transition-colors hover:border-cyan-400/60 hover:bg-slate-800"
+          >
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300">
+              +/−
+            </div>
+            <h2 className="text-xl font-semibold text-white">Plus/minus 2026</h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Mål för och emot medan varje spelare var på plan – matchat från Bolldata
+              (startelva, byten och målhändelser).
+            </p>
+            <p className="mt-4 text-sm font-medium text-cyan-300 group-hover:text-cyan-200">
+              Öppna plus/minus →
             </p>
           </Link>
 

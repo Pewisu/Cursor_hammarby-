@@ -9,7 +9,8 @@
     "lint": "eslint",
     "sync:player-trends": "node scripts/sync-player-trend-data.mjs",
     "sync:match-analysis": "node scripts/sync-match-analysis-data.mjs",
-    "sync:running-data": "node scripts/sync-running-data.mjs"
+    "sync:running-data": "node scripts/sync-running-data.mjs",
+    "sync:plus-minus": "node scripts/sync-plus-minus-data.mjs"
   },
   "dependencies": {
     "next": "16.2.4",
