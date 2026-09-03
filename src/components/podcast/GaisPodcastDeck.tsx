@@ -704,10 +704,10 @@ export default function GaisPodcastDeck() {
                   ))}
                 </div>
                 <p className="max-w-xs text-center text-sm text-white/60">
-                  Söndag 30 augusti 2026 · 14:00
+                  {report.dateLabel.split(" · ").slice(0, 2).join(" · ")}
                   <br />
                   <span className="font-bold text-white">
-                    {report.venueLabel ?? "Strawberry Arena"}
+                    {report.venueLabel ?? "Arena"}
                   </span>
                 </p>
               </div>
