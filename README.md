@@ -44,6 +44,17 @@ löpdata finns tillgänglig i API:et. Just nu publicerar tillgängligt API inte 
 löpmeter/maxhastighet, så scriptet gör inga gissningar och lämnar datat oförändrat tills
 fälten faktiskt finns.
 
+## Uppdatera plus/minus
+
+Kör:
+
+```bash
+npm run sync:plus-minus
+```
+
+Scriptet hämtar Hammarbys spelade Allsvenskan-matcher från Bolldata och beräknar
+plus/minus per spelare genom att matcha `minuteIn`/`minuteOut` mot målhändelser.
+
 ## Teknikstack
 
 - [Next.js 16](https://nextjs.org/) med App Router
