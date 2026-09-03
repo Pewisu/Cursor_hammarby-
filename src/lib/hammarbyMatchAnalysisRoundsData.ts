@@ -8744,10 +8744,10 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
     }
   },
   {
-    "key": "2026-gw-9",
+    "key": "2026-gw-15",
     "season": 2026,
     "competition": "Allsvenskan 2026",
-    "gameweek": 9,
+    "gameweek": 15,
     "date": "2026-05-20",
     "matchName": "GAIS - Hammarby, 2-0",
     "opponent": "GAIS",
@@ -8974,10 +8974,10 @@ export const hammarbyMatchAnalysisRounds: HammarbyMatchAnalysisRound[] = [
     }
   },
   {
-    "key": "2026-gw-10",
+    "key": "2026-gw-9",
     "season": 2026,
     "competition": "Allsvenskan 2026",
-    "gameweek": 10,
+    "gameweek": 9,
     "date": "2026-05-24",
     "matchName": "Hammarby - AIK, 1-2",
     "opponent": "AIK",
