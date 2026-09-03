@@ -15,7 +15,7 @@ export const orgryteRound20Report: UpcomingOpponentReport = {
   comparisonLabel: "Allsvenskan 2026 · 19 omgångar",
   oneLineSummary:
     "Borta på Gamla Ullevi: HIF vann 8–1 hemma i april. HIF är 2:a (36p) efter derbyförlusten mot AIK. Örgryte är 15:a (14p) – Twelve Outcome 15:a, sämst i insläppta (2,21/match) och opp. np-skott (16,7). Djup låglinje, svag transition, ineffektiv attack.",
-  hifBadges: ["2:a i Allsvenskan", "36p", "Form: WWWL"],
+  hifBadges: ["2:a i Allsvenskan", "36p", "Form: LWWWL"],
   opponentBadges: ["15:a i Allsvenskan", "14p", "Outcome 15:a · sämst GA"],
   introStats: [
     { label: "HIF tabell", value: "2:a (36p)", tone: "emerald" },
