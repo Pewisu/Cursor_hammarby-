@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
-import { aikRound19Report as report } from "@/lib/aikRound19UpcomingData";
+import { orgryteRound20Report as report } from "@/lib/orgryteRound20UpcomingData";
 import {
   calcDomarindex,
   calcFoulDiff,
@@ -17,13 +17,13 @@ import {
 
 const HIF_GREEN = "#006633";
 const OPP_MUTED = "#8a9096";
-const OPP_ACCENT = "#c4a035";
-const OPP_SHORT = "AIK";
-const OPP_FORM_LABEL = "AIK form";
+const OPP_ACCENT = "#3b82f6";
+const OPP_SHORT = "ÖIS";
+const OPP_FORM_LABEL = "ÖIS form";
 
 type ViewMode = "mobile" | "desktop" | "bigscreen";
 
-const MATCH_KICKOFF = new Date("2026-08-30T12:00:00Z"); // 14:00 Stockholm (CEST)
+const MATCH_KICKOFF = new Date("2026-09-06T12:00:00Z"); // 14:00 Stockholm (CEST)
 
 function rankToScore(rank: number, total = 16) {
   return ((total - rank + 1) / total) * 100;
@@ -534,11 +534,11 @@ export default function GaisPodcastDeck() {
   const homeBadges = hammarbyIsAway ? report.opponentBadges : report.hifBadges;
   const awayBadges = hammarbyIsAway ? report.hifBadges : report.opponentBadges;
   const homeForm: ("W" | "D" | "L")[] = hammarbyIsAway
-    ? ["W", "D", "L", "W", "W"]
-    : ["W", "D", "W", "W", "W"];
+    ? ["W", "L", "L", "D", "L"]
+    : ["L", "W", "W", "W", "L"];
   const awayForm: ("W" | "D" | "L")[] = hammarbyIsAway
-    ? ["W", "D", "W", "W", "W"]
-    : ["W", "D", "L", "W", "W"];
+    ? ["L", "W", "W", "W", "L"]
+    : ["W", "L", "L", "D", "L"];
   const homeFormLabel = hammarbyIsAway ? `${OPP_FORM_LABEL} (5)` : "HIF form (5)";
   const awayFormLabel = hammarbyIsAway ? "HIF form (5)" : `${OPP_FORM_LABEL} (5)`;
   const homeIsHif = !hammarbyIsAway;
@@ -556,17 +556,17 @@ export default function GaisPodcastDeck() {
     string,
     { x: number; y: number; r: number; opacity: number }[]
   > = {
-    "Dino Beširović": [
-      { x: 50, y: 48, r: 16, opacity: 0.5 },
-      { x: 38, y: 52, r: 11, opacity: 0.32 },
-      { x: 62, y: 52, r: 11, opacity: 0.32 },
-      { x: 50, y: 36, r: 10, opacity: 0.28 },
-    ],
-    "Linus Carlstrand": [
+    "Noah Christoffersson": [
       { x: 50, y: 16, r: 18, opacity: 0.55 },
       { x: 38, y: 22, r: 11, opacity: 0.32 },
       { x: 62, y: 22, r: 11, opacity: 0.32 },
       { x: 50, y: 28, r: 10, opacity: 0.3 },
+    ],
+    "Tobias Sana": [
+      { x: 50, y: 42, r: 16, opacity: 0.5 },
+      { x: 36, y: 48, r: 11, opacity: 0.32 },
+      { x: 64, y: 48, r: 11, opacity: 0.32 },
+      { x: 50, y: 30, r: 10, opacity: 0.28 },
     ],
   };
 
@@ -652,7 +652,7 @@ export default function GaisPodcastDeck() {
                   : "mt-10 grid items-center gap-8 lg:grid-cols-[1fr_auto_1fr]"
               }
             >
-              {/* Hemmalag först (AIK i derbyt) – även i staplad mobilläge */}
+              {/* Hemmalag först (ÖIS på Gamla Ullevi) – även i staplad mobilläge */}
               <div
                 className={
                   mode === "mobile"
@@ -704,10 +704,10 @@ export default function GaisPodcastDeck() {
                   ))}
                 </div>
                 <p className="max-w-xs text-center text-sm text-white/60">
-                  Söndag 30 augusti 2026 · 14:00
+                  {report.dateLabel.split(" · ").slice(0, 2).join(" · ")}
                   <br />
                   <span className="font-bold text-white">
-                    {report.venueLabel ?? "Strawberry Arena"}
+                    {report.venueLabel ?? "Arena"}
                   </span>
                 </p>
               </div>
@@ -753,7 +753,7 @@ export default function GaisPodcastDeck() {
           eyebrow="Förra mötet"
           title={
             report.previousMeeting
-              ? `${report.previousMeeting.result} · derby maj 2026`
+              ? `${report.previousMeeting.result} · april 2026`
               : "Förra mötet"
           }
           mode={mode}

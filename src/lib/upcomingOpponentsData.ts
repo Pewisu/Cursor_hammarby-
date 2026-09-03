@@ -1,6 +1,7 @@
 import { aikRound19Report } from "@/lib/aikRound19UpcomingData";
 import { gaisRound18Report } from "@/lib/gaisRound18UpcomingData";
 import { fcStockholmCupReport } from "@/lib/fcStockholmCupUpcomingData";
+import { orgryteRound20Report } from "@/lib/orgryteRound20UpcomingData";
 
 export interface TrafficLightCard {
   metric: string;
@@ -256,6 +257,7 @@ export interface UpcomingOpponentReport {
 }
 
 export const upcomingOpponents: UpcomingOpponentReport[] = [
+  orgryteRound20Report,
   { ...aikRound19Report, hidden: true },
   { ...fcStockholmCupReport, hidden: true },
   { ...gaisRound18Report, hidden: true },
