@@ -8,6 +8,11 @@ import type {
   PlusMinusRole,
 } from "@/lib/hammarbyPlusMinusData";
 
+/** Hammarbys klubbgrönt – samma nyans som används i kommande-motstånd/storbild-grafiken. */
+const HIF_GREEN = "#006633";
+/** Ljus, neutral "vit"-sida i det grönvita manéret (mål emot / motståndarsidan). */
+const HIF_WHITE = "#e2e8f0";
+
 const ROLE_LABELS: Record<PlusMinusRole | string, string> = {
   Goalkeeper: "Målvakt",
   Defender: "Försvarare",
@@ -35,14 +40,8 @@ type SortKey =
   | "playerName"
   | "matchesPlayed";
 
-function formatSigned(value: number, decimals = 0) {
-  const formatted =
-    decimals > 0 ? value.toFixed(decimals) : String(Math.round(value * 100) / 100);
-  const normalized =
-    decimals > 0 ? Number(value).toFixed(decimals) : String(value);
-  const display = decimals > 0 ? normalized : formatted;
-  if (value > 0) return `+${display}`;
-  return display;
+function formatSigned(value: number) {
+  return value > 0 ? `+${value}` : `${value}`;
 }
 
 function formatSignedFixed(value: number, decimals = 2) {
@@ -52,6 +51,42 @@ function formatSignedFixed(value: number, decimals = 2) {
   return Number(0).toFixed(decimals);
 }
 
+/** Diagonal grön/vit stripe – samma dekorativa divider som på kommande motstånd/storbild. */
+function StripeDivider({ className = "my-2" }: { className?: string }) {
+  return (
+    <div
+      className={`h-2.5 w-full rounded-full ${className}`}
+      style={{
+        backgroundImage: `repeating-linear-gradient(90deg, ${HIF_GREEN} 0 12px, ${HIF_WHITE} 12px 24px)`,
+        opacity: 0.85,
+      }}
+      aria-hidden
+    />
+  );
+}
+
+/** Färglegend som förklarar den grönvita GF/GA-stapeln, samma mönster som H2H-graferna. */
+function RateLegend() {
+  return (
+    <div className="flex flex-wrap items-center gap-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+      <span className="inline-flex items-center gap-2">
+        <span
+          className="inline-block h-2.5 w-5 rounded-sm"
+          style={{ background: HIF_GREEN }}
+        />
+        Gjorda på plan (GF/90)
+      </span>
+      <span className="inline-flex items-center gap-2">
+        <span
+          className="inline-block h-2.5 w-5 rounded-sm"
+          style={{ background: HIF_WHITE }}
+        />
+        Insläppta på plan (GA/90)
+      </span>
+    </div>
+  );
+}
+
 function DiffBadge({ value, decimals = 0 }: { value: number; decimals?: number }) {
   const tone =
     value > 0
@@ -59,12 +94,58 @@ function DiffBadge({ value, decimals = 0 }: { value: number; decimals?: number }
       : value < 0
         ? "bg-rose-500/15 text-rose-300 ring-rose-500/30"
         : "bg-slate-500/15 text-slate-300 ring-slate-500/30";
+  const arrow = value > 0 ? "▲" : value < 0 ? "▼" : "•";
   return (
     <span
-      className={`inline-flex min-w-[3.25rem] justify-center rounded-md px-2 py-0.5 text-sm font-semibold ring-1 ring-inset ${tone}`}
+      className={`inline-flex min-w-[3.5rem] items-center justify-center gap-1 rounded-md px-2 py-1 text-sm font-bold ring-1 ring-inset ${tone}`}
     >
+      <span className="text-[10px] leading-none">{arrow}</span>
       {decimals > 0 ? formatSignedFixed(value, decimals) : formatSigned(value)}
     </span>
+  );
+}
+
+/**
+ * Grönvit "center-out" stapel för GF/90 vs GA/90 – samma bolldata-manér som
+ * jämförelsestaplarna på kommande motstånd (grön Hammarby-sida mot vit motsida).
+ */
+function RatePer90Bar({
+  goalsForPer90,
+  goalsAgainstPer90,
+  maxForPer90,
+  maxAgainstPer90,
+}: {
+  goalsForPer90: number;
+  goalsAgainstPer90: number;
+  maxForPer90: number;
+  maxAgainstPer90: number;
+}) {
+  const forWidth = maxForPer90 > 0 ? (goalsForPer90 / maxForPer90) * 100 : 0;
+  const againstWidth =
+    maxAgainstPer90 > 0 ? (goalsAgainstPer90 / maxAgainstPer90) * 100 : 0;
+
+  return (
+    <div className="w-28">
+      <div className="grid h-2 grid-cols-[1fr_2px_1fr] items-stretch">
+        <div className="flex justify-end overflow-hidden rounded-l-full bg-white/5">
+          <div
+            className="h-2 rounded-l-full"
+            style={{ width: `${forWidth}%`, background: HIF_GREEN }}
+          />
+        </div>
+        <div className="bg-white/15" />
+        <div className="flex justify-start overflow-hidden rounded-r-full bg-white/5">
+          <div
+            className="h-2 rounded-r-full"
+            style={{ width: `${againstWidth}%`, background: HIF_WHITE }}
+          />
+        </div>
+      </div>
+      <div className="mt-1 flex justify-between text-[10px] tabular-nums text-slate-500">
+        <span style={{ color: HIF_GREEN }}>{goalsForPer90.toFixed(2)}</span>
+        <span className="text-slate-300">{goalsAgainstPer90.toFixed(2)}</span>
+      </div>
+    </div>
   );
 }
 
@@ -84,6 +165,11 @@ function sortPlayers(
   return ascending ? sorted : sorted.reverse();
 }
 
+/** Bakgrund som matchar sidans mörka yta så den stickiga kolumnen inte blir transparent. */
+const STICKY_BG_DEFAULT = "bg-[#0f172a]";
+const STICKY_BG_ACTIVE = "bg-[#0f253d]";
+const STICKY_BG_HOVER = "group-hover:bg-[#182234]";
+
 export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason }) {
   const [roleFilter, setRoleFilter] = useState<"all" | PlusMinusRole>("all");
   const [minMinutes, setMinMinutes] = useState(450);
@@ -94,6 +180,17 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
   );
 
   const averages = season.averages;
+
+  const rateScale = useMemo(
+    () => ({
+      maxForPer90: Math.max(...season.players.map((p) => p.goalsForPer90), 0.01),
+      maxAgainstPer90: Math.max(
+        ...season.players.map((p) => p.goalsAgainstPer90),
+        0.01
+      ),
+    }),
+    [season.players]
+  );
 
   const filteredPlayers = useMemo(() => {
     const base = season.players.filter((player) => {
@@ -136,12 +233,16 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
     <div className="min-h-screen bg-[#0f172a]">
       <header className="border-b border-slate-700/50 bg-[#0f172a]/90">
         <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-sky-400">
-            <Link href="/spelarstatistik" className="hover:text-sky-300">
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em]">
+            <Link
+              href="/spelarstatistik"
+              className="transition-colors hover:opacity-80"
+              style={{ color: HIF_GREEN }}
+            >
               Spelarstatistik
             </Link>
             <span className="text-slate-600">/</span>
-            <span>Plus/minus</span>
+            <span className="text-slate-300">Plus/minus</span>
           </div>
           <h1 className="mt-3 text-3xl font-bold text-white md:text-4xl">
             Plus/minus · Allsvenskan {season.season}
@@ -151,14 +252,24 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
             Tempojusterade snitt (per 90) och snittminuter gör jämförelser rättvisare mellan
             heltidsspelare och inhoppare.
           </p>
-          <div className="mt-5 flex flex-wrap gap-3 text-sm">
+
+          <StripeDivider className="mb-5 mt-5" />
+
+          <div className="flex flex-wrap gap-3 text-sm">
             <div className="rounded-xl border border-slate-700 bg-slate-900/70 px-4 py-3">
               <p className="text-xs uppercase tracking-wide text-slate-400">Matcher</p>
               <p className="text-xl font-semibold text-white">{season.matchesPlayed}</p>
             </div>
-            <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-4 py-3">
-              <p className="text-xs uppercase tracking-wide text-emerald-300/80">Gjorda</p>
-              <p className="text-xl font-semibold text-emerald-300">{season.goalsFor}</p>
+            <div
+              className="rounded-xl border px-4 py-3"
+              style={{ borderColor: `${HIF_GREEN}55`, background: `${HIF_GREEN}22` }}
+            >
+              <p className="text-xs uppercase tracking-wide" style={{ color: `${HIF_GREEN}` }}>
+                Gjorda
+              </p>
+              <p className="text-xl font-semibold" style={{ color: "#4ade80" }}>
+                {season.goalsFor}
+              </p>
             </div>
             <div className="rounded-xl border border-rose-500/20 bg-rose-500/10 px-4 py-3">
               <p className="text-xs uppercase tracking-wide text-rose-300/80">Insläppta</p>
@@ -220,14 +331,26 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
           ].map((card) => (
             <div
               key={card.title}
-              className="rounded-2xl border border-slate-700/70 bg-slate-900/60 p-5"
+              className="overflow-hidden rounded-2xl border border-slate-700/70 bg-slate-900/60"
             >
-              <p className="text-xs uppercase tracking-wide text-slate-400">{card.title}</p>
-              <p className="mt-2 text-2xl font-semibold text-white">
-                {card.player?.playerName ?? "–"}
-              </p>
-              <p className="mt-1 text-lg text-sky-300">{card.value}</p>
-              <p className="mt-2 text-xs text-slate-500">{card.hint}</p>
+              <div
+                className="h-1.5 w-full"
+                style={{
+                  backgroundImage: `repeating-linear-gradient(90deg, ${HIF_GREEN} 0 8px, ${HIF_WHITE} 8px 16px)`,
+                  opacity: 0.7,
+                }}
+                aria-hidden
+              />
+              <div className="p-5">
+                <p className="text-xs uppercase tracking-wide text-slate-400">{card.title}</p>
+                <p className="mt-2 text-2xl font-semibold text-white">
+                  {card.player?.playerName ?? "–"}
+                </p>
+                <p className="mt-1 text-lg" style={{ color: HIF_GREEN, filter: "brightness(1.6)" }}>
+                  {card.value}
+                </p>
+                <p className="mt-2 text-xs text-slate-500">{card.hint}</p>
+              </div>
             </div>
           ))}
         </section>
@@ -239,6 +362,7 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
               <p className="mt-1 text-sm text-slate-400">
                 Standardfilter 450+ min för rättvisare tempojämförelse. Δ/90 är skillnad mot
                 truppens minutviktade snitt ({formatSignedFixed(averages.plusMinusPer90)}).
+                Spelarkolumnen är fastlåst när du scrollar sidled.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
@@ -275,13 +399,28 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
             </div>
           </div>
 
-          <div className="mt-4 overflow-x-auto">
+          <div className="mt-4">
+            <RateLegend />
+          </div>
+
+          <div className="mt-3 overflow-x-auto rounded-lg border border-slate-800/70">
             <table className="min-w-full text-left text-sm">
               <thead className="border-b border-slate-700 text-xs uppercase tracking-wide text-slate-400">
                 <tr>
+                  <th
+                    className={`sticky left-0 z-20 border-r border-slate-700/70 px-2 py-3 font-medium ${STICKY_BG_DEFAULT}`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => toggleSort("playerName")}
+                      className="hover:text-white"
+                    >
+                      Spelare
+                      {sortKey === "playerName" ? (ascending ? " ↑" : " ↓") : ""}
+                    </button>
+                  </th>
                   {(
                     [
-                      ["playerName", "Spelare"],
                       ["matchesPlayed", "M"],
                       ["minutes", "Min"],
                       ["minutesPerMatch", "Min/M"],
@@ -312,11 +451,17 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                     <tr
                       key={player.playerId}
                       onClick={() => setSelectedPlayerId(player.playerId)}
-                      className={`cursor-pointer border-b border-slate-800/80 transition-colors ${
+                      className={`group cursor-pointer border-b border-slate-800/80 transition-colors ${
                         active ? "bg-sky-500/10" : "hover:bg-slate-800/60"
                       }`}
                     >
-                      <td className="px-2 py-3">
+                      <td
+                        className={`sticky left-0 z-10 border-r border-slate-800/70 px-2 py-3 ${
+                          active
+                            ? STICKY_BG_ACTIVE
+                            : `${STICKY_BG_DEFAULT} ${STICKY_BG_HOVER}`
+                        }`}
+                      >
                         <div className="font-medium text-white">{player.playerName}</div>
                         <div className="text-xs text-slate-400">
                           {ROLE_LABELS[player.roleName] ?? player.roleName}
@@ -333,11 +478,15 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                       <td className="px-2 py-3">
                         <DiffBadge value={player.plusMinus} />
                       </td>
-                      <td className="px-2 py-3 text-slate-200">
-                        {formatSignedFixed(player.plusMinusPer90)}
-                        <div className="text-[11px] text-slate-500">
-                          {player.goalsForPer90.toFixed(2)}–
-                          {player.goalsAgainstPer90.toFixed(2)} /90
+                      <td className="px-2 py-3">
+                        <div className="flex flex-col gap-1.5">
+                          <DiffBadge value={player.plusMinusPer90} decimals={2} />
+                          <RatePer90Bar
+                            goalsForPer90={player.goalsForPer90}
+                            goalsAgainstPer90={player.goalsAgainstPer90}
+                            maxForPer90={rateScale.maxForPer90}
+                            maxAgainstPer90={rateScale.maxAgainstPer90}
+                          />
                         </div>
                       </td>
                       <td className="px-2 py-3">
@@ -377,12 +526,15 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
               </div>
             </div>
 
-            <div className="mt-4 overflow-x-auto">
+            <div className="mt-4 overflow-x-auto rounded-lg border border-slate-800/70">
               <table className="min-w-full text-left text-sm">
                 <thead className="border-b border-slate-700 text-xs uppercase tracking-wide text-slate-400">
                   <tr>
-                    <th className="px-2 py-3 font-medium">Omg</th>
-                    <th className="px-2 py-3 font-medium">Motståndare</th>
+                    <th
+                      className={`sticky left-0 z-20 border-r border-slate-700/70 px-2 py-3 font-medium ${STICKY_BG_DEFAULT}`}
+                    >
+                      Match
+                    </th>
                     <th className="px-2 py-3 font-medium">Min</th>
                     <th className="px-2 py-3 font-medium">På plan</th>
                     <th className="px-2 py-3 font-medium">GF</th>
@@ -394,11 +546,15 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
                   {selectedPlayer.matchLogs.map((log) => (
                     <tr
                       key={log.matchId}
-                      className="border-b border-slate-800/80 text-slate-300"
+                      className="group border-b border-slate-800/80 text-slate-300"
                     >
-                      <td className="px-2 py-3">{log.gameweek}</td>
-                      <td className="px-2 py-3 text-white">
-                        {log.isHome ? "H" : "B"} · {log.opponent}
+                      <td
+                        className={`sticky left-0 z-10 border-r border-slate-800/70 px-2 py-3 ${STICKY_BG_DEFAULT} ${STICKY_BG_HOVER}`}
+                      >
+                        <div className="font-medium text-white">
+                          {log.isHome ? "H" : "B"} · {log.opponent}
+                        </div>
+                        <div className="text-xs text-slate-500">Omgång {log.gameweek}</div>
                       </td>
                       <td className="px-2 py-3">{log.minutes}</td>
                       <td className="px-2 py-3">
@@ -436,8 +592,9 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
               Bolldatas team-fält (laget som får målet på tavlan).
             </li>
             <li>
-              Min/M = minuter / matcher. +/−/90 = (plusMinus × 90) / minuter. GF/90 och GA/90
-              visas under tempo-kolumnen.
+              Min/M = minuter / matcher. +/−/90 = (plusMinus × 90) / minuter. Den grönvita
+              stapeln under +/−/90 visar GF/90 (grönt) mot GA/90 (vitt), skalad mot truppens
+              högsta värden.
             </li>
             <li>
               Truppsnitt är minutviktat: summa över alla spelarminuter, så heltidsspelare väger
