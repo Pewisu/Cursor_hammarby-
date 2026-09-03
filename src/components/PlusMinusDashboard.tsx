@@ -172,7 +172,7 @@ const STICKY_BG_HOVER = "group-hover:bg-[#182234]";
 
 export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason }) {
   const [roleFilter, setRoleFilter] = useState<"all" | PlusMinusRole>("all");
-  const [minMinutes, setMinMinutes] = useState(450);
+  const [minMinutes, setMinMinutes] = useState(0);
   const [sortKey, setSortKey] = useState<SortKey>("plusMinus");
   const [ascending, setAscending] = useState(false);
   const [selectedPlayerId, setSelectedPlayerId] = useState<number | null>(
@@ -360,7 +360,8 @@ export function PlusMinusDashboard({ season }: { season: HammarbyPlusMinusSeason
             <div>
               <h2 className="text-lg font-semibold text-white">Spelartabell</h2>
               <p className="mt-1 text-sm text-slate-400">
-                Standardfilter 450+ min för rättvisare tempojämförelse. Δ/90 är skillnad mot
+                Visar alla spelare som fått speltid (0+ min). Höj minutgränsen för att
+                fokusera på tempojämförelser mellan heltidsspelare. Δ/90 är skillnad mot
                 truppens minutviktade snitt ({formatSignedFixed(averages.plusMinusPer90)}).
                 Spelarkolumnen är fastlåst när du scrollar sidled.
               </p>
