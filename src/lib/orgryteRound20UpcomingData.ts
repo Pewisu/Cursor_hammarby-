@@ -28,7 +28,7 @@ export const orgryteRound20Report: UpcomingOpponentReport = {
     title: "Poäng vs xP",
     subtitle: "Twelve Outcome · ÖIS 3 sep · HIF Bolldata 19 omg / Twelve 20 aug",
     headline:
-      "Örgryte tar 0,74 p/match (15:a) och förtjänar ~0,92 xP (15:a) – underliggande spelet matchar bottenplaceringen. HIF är 2:a i poäng (1,89/match) och fortsätter skapa elitnivå (2,55 xG/match).",
+      "Örgryte tar 0,74 p/match (15:a) mot en xP på ~0,92 (15:a) – underliggande spelet matchar bottenplaceringen. HIF ligger 2:a (1,89 p/match).",
     rows: [
       {
         label: "Poäng / match",
@@ -44,56 +44,11 @@ export const orgryteRound20Report: UpcomingOpponentReport = {
         hammarbyRank: "elit",
         opponentValue: "0,92",
         opponentRank: "15:a av 16",
-        note: "ÖIS ligger rättvist i botten – ingen stor 'otur'-historia.",
-      },
-      {
-        label: "p − xP",
-        hammarbyValue: "nära 0",
-        hammarbyRank: "rättvist",
-        opponentValue: "−0,18",
-        opponentRank: "11:e av 16",
-        note: "ÖIS underpresterar lätt – men huvudproblemet är nivån, inte variance.",
-      },
-      {
-        label: "Tabell vs xP-rank",
-        hammarbyValue: "2:a ≈ topp",
-        hammarbyRank: "rättvist",
-        opponentValue: "15:a ≈ 15:a",
-        opponentRank: "rättvist svagt",
-        note: "Spela mot ÖIS:s spelet: läckande box + svag transition.",
+        note: "ÖIS ligger rättvist i botten – ingen 'otur'-historia att vänta sig.",
       },
     ],
     takeaway:
-      "Det här är inte ett 'varning för överpresterande bottenlag'. Örgryte är 15:a i både poäng och xP. HIF ska dominera field tilt, straffa boxen och inte ge dem gratis omställningar – trots derbybesvikelsen.",
-    overperformanceTitle: "Varför ligger Örgryte i botten?",
-    overperformanceSummary:
-      "ÖIS underpresterar lätt (−0,18 p−xP) men är framför allt underliggande svaga: sämst i insläppta (2,21), näst sämst i xGA-klassen (2,14–2,15), Attack 13 / Chance Creation 11 / Outcome 15. Positiv trend i chansskapande räcker inte när defensiven läcker konstant.",
-    overperformanceDrivers: [
-      {
-        label: "Defensiv kollaps (huvudorsak)",
-        value: "2,21 insläppta · Opp. np-skott 16,7 (16:e)",
-        explanation:
-          "Twelve Opp. Chance Creation 14:e. Motståndare får 25,6 boxberöringar och 2,06 opp. np xG/match. Låglinje (def. action height 38,5 m) + låg intensitet (4,92, 14:e) = konstant tryck.",
-      },
-      {
-        label: "Svag defensiv transition",
-        value: "Twelve 14:e · opp. xG inom 10s 0,37",
-        explanation:
-          "Efter bollvinster/turnovers (36,2, 15:e) får motståndaren snabba HQ-lägen. HIF:s Attacking Transition (1:a) är exakt vapnet.",
-      },
-      {
-        label: "Ineffektiv attack",
-        value: "1,31 xG · 1,16 mål · field tilt 39 % (16:e)",
-        explanation:
-          "De når final third för sällan (31 %) och skapar för lite trots viss förbättring i CC på sistone. Finish ≈ xG – de är inte 'otursamma' framåt i volym.",
-      },
-      {
-        label: "Hemmafacit ger ingen mur",
-        value: "1V–5O–3F · 15–17 i mål",
-        explanation:
-          "Gamla Ullevi har inte varit fästning. Många oavgjorda, få segrar – HIF ska attackera hemmaplansmyten direkt.",
-      },
-    ],
+      "Ingen varning för överpresterande bottenlag här – ÖIS är 15:a i både poäng och xP. Nivåskillnaden är strukturell.",
   },
   previousMeeting: {
     date: "2026-04-18",
@@ -116,11 +71,8 @@ export const orgryteRound20Report: UpcomingOpponentReport = {
     xgHammarby: 4.37,
     xgOpponent: 1.46,
     contextNote:
-      "HIF öppnade 3–0 på 22 minuter (Persson, Besara, Abraham). Styffe reducerade (31'), Lind slog tillbaka direkt (32') – 4–1 i paus. Madjed 56' och Vasić-hattrick som inhoppare (69'/78'/85') spikade 8–1. Bolldata: 4,37–1,46 xG, 32–12 avslut, 44–11 boxberöringar.",
-    keyStory:
-      "Total offensiv kollaps för ÖIS på 3Arena. HIF:s press (PPDA 4,06 i matchen) och boxvolym krossade deras låglinje. På Gamla Ullevi handlar det om samma sak i mindre extrem form: field tilt, HQ-chanser, och att stänga Christoffersson/Sana i omställningsfickor.",
-    seriesTurnedNote:
-      "Sedan 8–1 har ÖIS fortsatt i botten (14p på 19). HIF kommer in efter derbyförlust (2–3 vs AIK) trots 4,26 xG – hunger på poäng, inte på bekräftelse av nivågapet.",
+      "HIF vann enkelt 8–1 på 3Arena i april – 3–0 redan efter 22 minuter och Vasić-hattrick som inhoppare spikade resultatet (4,37–1,46 xG).",
+    keyStory: "Total dominans i april. Samma nivågap gäller fortfarande på Gamla Ullevi.",
   },
   mobileTakeaways: [
     "HIF 2:a (36p), ÖIS 15:a (14p). Twelve: ÖIS Outcome 15:a, xP 0,92, p−xP −0,18.",

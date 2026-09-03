@@ -747,135 +747,8 @@ export default function GaisPodcastDeck() {
           </div>
         </header>
 
-        {/* 01 Bakgrund */}
-        <SectionShell
-          num="01"
-          eyebrow="Förra mötet"
-          title={
-            report.previousMeeting
-              ? `${report.previousMeeting.result} · april 2026`
-              : "Förra mötet"
-          }
-          mode={mode}
-        >
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-            <div>
-              <div className="mb-6 flex flex-wrap items-center gap-4">
-                <p className="text-sm font-black uppercase tracking-[0.2em] text-white/50">
-                  {OPP_SHORT}
-                </p>
-                <p className="font-[family-name:var(--font-podcast-display)] text-5xl font-black tabular-nums text-white md:text-7xl">
-                  {report.previousMeeting?.result ?? "–"}
-                </p>
-                <p className="text-sm font-black uppercase tracking-[0.2em]" style={{ color: HIF_GREEN }}>
-                  HIF
-                </p>
-              </div>
-              <p className="text-sm font-bold uppercase tracking-widest text-white/40">
-                {report.previousMeeting?.fixture} · {report.previousMeeting?.date}
-                {report.previousMeeting?.halfTimeScore
-                  ? ` · HT ${report.previousMeeting.halfTimeScore}`
-                  : ""}
-              </p>
-              <p className="mt-4 text-base leading-relaxed text-white/75 md:text-lg">
-                {report.previousMeeting?.contextNote}
-              </p>
-              <p className="mt-4 border-l-4 pl-4 text-base leading-relaxed text-white/60" style={{ borderColor: HIF_GREEN }}>
-                {report.previousMeeting?.keyStory}
-              </p>
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:max-w-sm">
-                {report.previousMeeting?.xgHammarby != null && report.previousMeeting?.xgOpponent != null ? (
-                  <>
-                    <div className="rounded-2xl bg-white/5 p-4 text-center">
-                      <p className="text-2xl font-black tabular-nums" style={{ color: HIF_GREEN }}>
-                        {report.previousMeeting.xgHammarby}
-                      </p>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">HIF xG</p>
-                    </div>
-                    <div className="rounded-2xl bg-white/5 p-4 text-center">
-                      <p className="text-2xl font-black tabular-nums" style={{ color: OPP_MUTED }}>
-                        {report.previousMeeting.xgOpponent}
-                      </p>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-                        {OPP_SHORT} xG
-                      </p>
-                    </div>
-                  </>
-                ) : (
-                  <div className="col-span-2 rounded-2xl bg-white/5 p-4 text-center">
-                    <p className="text-sm text-white/55">Cupmöte · xG ej tillgängligt</p>
-                    <p className="mt-1 text-xs text-white/40">Resultat och händelser från matchrapport</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Timeline – vertical list (no overlapping labels) */}
-            <div className="rounded-3xl border border-white/10 bg-black/40 p-6">
-              <p className="mb-5 text-xs font-bold uppercase tracking-[0.3em] text-white/40">
-                Matchhändelser · 0–90+
-              </p>
-              <div className="relative mb-6 h-2 rounded-full bg-white/10">
-                <div
-                  className="absolute inset-y-0 left-0 rounded-full"
-                  style={{ width: "100%", background: `linear-gradient(90deg, #222, ${HIF_GREEN}33)` }}
-                />
-                {(report.previousMeeting?.scorers ?? []).map((s) => (
-                  <div
-                    key={`${s.player}-${s.minute}`}
-                    className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-[#111]"
-                    style={{
-                      left: `${(Math.min(s.minute, 90) / 90) * 100}%`,
-                      background: s.team === "hammarby" ? HIF_GREEN : OPP_ACCENT,
-                    }}
-                  />
-                ))}
-                <span className="absolute -left-0.5 -top-5 text-[10px] font-bold text-white/35">0&apos;</span>
-                <span className="absolute -right-1 -top-5 text-[10px] font-bold text-white/35">90+</span>
-              </div>
-              <div className="space-y-3">
-                {(report.previousMeeting?.scorers ?? []).map((s) => (
-                  <div
-                    key={`${s.player}-${s.minute}-row`}
-                    className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-3 py-3"
-                  >
-                    <span
-                      className="flex h-10 w-12 shrink-0 items-center justify-center rounded-lg text-sm font-black tabular-nums"
-                      style={{
-                        background: s.team === "hammarby" ? `${HIF_GREEN}22` : `${OPP_ACCENT}22`,
-                        color: s.team === "hammarby" ? HIF_GREEN : OPP_ACCENT,
-                      }}
-                    >
-                      {s.minute}&apos;
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-sm font-black text-white">⚽ {s.player}</p>
-                      <p className="text-xs text-white/50">
-                        {s.team === "hammarby" ? "HIF" : OPP_SHORT}
-                        {s.isPenalty ? " · straff" : ""}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-5 text-sm leading-relaxed text-white/55">
-                {report.previousMeeting?.seriesTurnedNote}
-              </p>
-            </div>
-          </div>
-        </SectionShell>
-
-        {/* 02 Inbördesmöten */}
-        <SectionShell num="02" eyebrow="Inbördesmöten" title="Senaste mötena" mode={mode}>
-          {report.headToHead ? (
-            <H2HMeetingsBoard h2h={report.headToHead} mode={mode} />
-          ) : (
-            <p className="text-white/50">Ingen inbördes data tillgänglig.</p>
-          )}
-        </SectionShell>
-
-        {/* 03 Mätvärden */}
-        <SectionShell num="03" eyebrow="Säsongsdata" title="Nyckeltal per match" mode={mode}>
+        {/* 01 Mätvärden */}
+        <SectionShell num="01" eyebrow="Säsongsdata" title="Nyckeltal per match" mode={mode}>
           {report.xpComparison && (
             <div
               className="mb-10 overflow-hidden rounded-3xl border p-5 md:p-8"
@@ -1199,8 +1072,152 @@ export default function GaisPodcastDeck() {
           )}
         </SectionShell>
 
-        {/* 04 Poddens analys */}
-        <SectionShell num="04" eyebrow="Analys" title="Tre nyckelpunkter" mode={mode}>
+        {/* 02 Spelidé – hur motståndaren anfaller + hur HIF sårar */}
+        <SectionShell num="02" eyebrow="Spelidé" title={`Hur ${OPP_SHORT} anfaller`} mode={mode}>
+          {(report.styleChips?.length ?? 0) > 0 && (
+            <div className="mb-8 flex flex-wrap gap-2">
+              {report.styleChips!.map((chip) => (
+                <div
+                  key={chip.label}
+                  className={`rounded-2xl border px-4 py-3 ${chip.color}`}
+                >
+                  <p className="text-sm font-black uppercase tracking-wide">{chip.label}</p>
+                  <p className="mt-1 text-xs leading-snug opacity-80">{chip.sub}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="rounded-3xl border border-white/10 bg-black/40 p-6 md:p-7">
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
+                Motståndarens anfall
+              </p>
+              <h3 className="mt-2 font-[family-name:var(--font-podcast-display)] text-2xl font-black uppercase text-white md:text-3xl">
+                Så spelar {OPP_SHORT}
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {report.opponentStyle.map((line) => (
+                  <li key={line} className="flex gap-3 text-sm leading-snug text-white/70 md:text-base">
+                    <span style={{ color: OPP_MUTED }}>▸</span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div
+              className="rounded-3xl border p-6 md:p-7"
+              style={{ borderColor: `${HIF_GREEN}66`, background: `${HIF_GREEN}14` }}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: HIF_GREEN }}>
+                HIF:s svar
+              </p>
+              <h3 className="mt-2 font-[family-name:var(--font-podcast-display)] text-2xl font-black uppercase text-white md:text-3xl">
+                Så sårar vi dem
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {report.hammarbyPlan.withBall.map((pt, i) => (
+                  <li key={pt} className="flex gap-3 text-sm leading-snug text-white/80 md:text-base">
+                    <span className="font-black tabular-nums" style={{ color: HIF_GREEN }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>{pt}</span>
+                  </li>
+                ))}
+              </ul>
+              {(report.styleProfile?.length ?? 0) > 0 && (
+                <div className="mt-6 space-y-3 border-t border-white/10 pt-5">
+                  {report.styleProfile!
+                    .filter((s) => s.score <= 40)
+                    .slice(0, 3)
+                    .map((s) => (
+                      <div key={s.label}>
+                        <div className="mb-1 flex items-end justify-between gap-2">
+                          <p className="text-xs font-black uppercase tracking-wide text-white/80">
+                            {s.label}
+                          </p>
+                          <p className="text-[10px] tabular-nums text-white/40">{s.value}</p>
+                        </div>
+                        <div className="h-2 overflow-hidden rounded-full bg-black/40">
+                          <div
+                            className="h-2 rounded-full"
+                            style={{ width: `${s.score}%`, background: HIF_GREEN }}
+                          />
+                        </div>
+                        <p className="mt-1 text-[11px] leading-snug text-white/45">{s.explanation}</p>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </SectionShell>
+
+        {/* 03 Bakgrund – kort summering */}
+        <SectionShell
+          num="03"
+          eyebrow="Förra mötet"
+          title={
+            report.previousMeeting
+              ? `${report.previousMeeting.result} · april 2026`
+              : "Förra mötet"
+          }
+          mode={mode}
+        >
+          <div className="rounded-3xl border border-white/10 bg-black/40 p-6 md:p-8">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-center gap-4">
+                <p className="text-sm font-black uppercase tracking-[0.2em] text-white/50">
+                  {OPP_SHORT}
+                </p>
+                <p className="font-[family-name:var(--font-podcast-display)] text-5xl font-black tabular-nums text-white md:text-6xl">
+                  {report.previousMeeting?.result ?? "–"}
+                </p>
+                <p className="text-sm font-black uppercase tracking-[0.2em]" style={{ color: HIF_GREEN }}>
+                  HIF
+                </p>
+              </div>
+              {report.previousMeeting?.xgHammarby != null && report.previousMeeting?.xgOpponent != null && (
+                <div className="flex gap-3">
+                  <div className="rounded-2xl bg-white/5 px-5 py-3 text-center">
+                    <p className="text-xl font-black tabular-nums" style={{ color: HIF_GREEN }}>
+                      {report.previousMeeting.xgHammarby}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">HIF xG</p>
+                  </div>
+                  <div className="rounded-2xl bg-white/5 px-5 py-3 text-center">
+                    <p className="text-xl font-black tabular-nums" style={{ color: OPP_MUTED }}>
+                      {report.previousMeeting.xgOpponent}
+                    </p>
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+                      {OPP_SHORT} xG
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+            <p className="mt-4 text-xs font-bold uppercase tracking-widest text-white/40">
+              {report.previousMeeting?.fixture} · {report.previousMeeting?.date}
+              {report.previousMeeting?.halfTimeScore
+                ? ` · HT ${report.previousMeeting.halfTimeScore}`
+                : ""}
+            </p>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/70 md:text-lg">
+              {report.previousMeeting?.contextNote}
+            </p>
+          </div>
+        </SectionShell>
+
+        {/* 04 Inbördesmöten – bara vid rikare H2H-historik */}
+        {(report.headToHead?.matches.length ?? 0) > 1 && (
+        <SectionShell num="04" eyebrow="Inbördesmöten" title="Senaste mötena" mode={mode}>
+          <H2HMeetingsBoard h2h={report.headToHead!} mode={mode} />
+        </SectionShell>
+        )}
+
+        {/* 05 Poddens analys */}
+        <SectionShell num="05" eyebrow="Analys" title="Tre nyckelpunkter" mode={mode}>
           <div className="grid gap-6 lg:grid-cols-3">
             {(report.trafficLightCards ?? []).map((card) => (
               <article
@@ -1248,8 +1265,8 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 05 Scouting */}
-        <SectionShell num="05" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
+        {/* 06 Scouting */}
+        <SectionShell num="06" eyebrow="Scouting" title="Spelare att bevaka" mode={mode}>
           <div
             className={`grid gap-6 ${
               (report.playersToWatch?.length ?? 0) <= 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"
@@ -1305,9 +1322,9 @@ export default function GaisPodcastDeck() {
           </div>
         </SectionShell>
 
-        {/* 06 Domaranalys */}
+        {/* 07 Domaranalys */}
         {report.refereePreview ? (
-        <SectionShell num="06" eyebrow="Domaranalys" title={report.refereePreview.name} mode={mode}>
+        <SectionShell num="07" eyebrow="Domaranalys" title={report.refereePreview.name} mode={mode}>
           {(() => {
             const preview = report.refereePreview!;
             const prior = hammarbyRefereeMatches.filter((m) => m.referee === preview.name);
@@ -1726,7 +1743,7 @@ export default function GaisPodcastDeck() {
           })()}
         </SectionShell>
         ) : report.cupSpecial ? (
-        <SectionShell num="06" eyebrow="Cup-special" title={report.cupSpecial.title} mode={mode}>
+        <SectionShell num="07" eyebrow="Cup-special" title={report.cupSpecial.title} mode={mode}>
           <p className="max-w-3xl text-base leading-relaxed text-white/75 md:text-lg">
             {report.cupSpecial.context}
           </p>
@@ -1740,88 +1757,6 @@ export default function GaisPodcastDeck() {
           </ul>
         </SectionShell>
         ) : null}
-
-        {/* 07 Spelidé – hur motståndaren anfaller + hur HIF sårar */}
-        <SectionShell num="07" eyebrow="Spelidé" title={`Hur ${OPP_SHORT} anfaller`} mode={mode}>
-          {(report.styleChips?.length ?? 0) > 0 && (
-            <div className="mb-8 flex flex-wrap gap-2">
-              {report.styleChips!.map((chip) => (
-                <div
-                  key={chip.label}
-                  className={`rounded-2xl border px-4 py-3 ${chip.color}`}
-                >
-                  <p className="text-sm font-black uppercase tracking-wide">{chip.label}</p>
-                  <p className="mt-1 text-xs leading-snug opacity-80">{chip.sub}</p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-black/40 p-6 md:p-7">
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
-                Motståndarens anfall
-              </p>
-              <h3 className="mt-2 font-[family-name:var(--font-podcast-display)] text-2xl font-black uppercase text-white md:text-3xl">
-                Så spelar {OPP_SHORT}
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {report.opponentStyle.map((line) => (
-                  <li key={line} className="flex gap-3 text-sm leading-snug text-white/70 md:text-base">
-                    <span style={{ color: OPP_MUTED }}>▸</span>
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div
-              className="rounded-3xl border p-6 md:p-7"
-              style={{ borderColor: `${HIF_GREEN}66`, background: `${HIF_GREEN}14` }}
-            >
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em]" style={{ color: HIF_GREEN }}>
-                HIF:s svar
-              </p>
-              <h3 className="mt-2 font-[family-name:var(--font-podcast-display)] text-2xl font-black uppercase text-white md:text-3xl">
-                Så sårar vi dem
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {report.hammarbyPlan.withBall.map((pt, i) => (
-                  <li key={pt} className="flex gap-3 text-sm leading-snug text-white/80 md:text-base">
-                    <span className="font-black tabular-nums" style={{ color: HIF_GREEN }}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>{pt}</span>
-                  </li>
-                ))}
-              </ul>
-              {(report.styleProfile?.length ?? 0) > 0 && (
-                <div className="mt-6 space-y-3 border-t border-white/10 pt-5">
-                  {report.styleProfile!
-                    .filter((s) => s.score <= 40)
-                    .slice(0, 3)
-                    .map((s) => (
-                      <div key={s.label}>
-                        <div className="mb-1 flex items-end justify-between gap-2">
-                          <p className="text-xs font-black uppercase tracking-wide text-white/80">
-                            {s.label}
-                          </p>
-                          <p className="text-[10px] tabular-nums text-white/40">{s.value}</p>
-                        </div>
-                        <div className="h-2 overflow-hidden rounded-full bg-black/40">
-                          <div
-                            className="h-2 rounded-full"
-                            style={{ width: `${s.score}%`, background: HIF_GREEN }}
-                          />
-                        </div>
-                        <p className="mt-1 text-[11px] leading-snug text-white/45">{s.explanation}</p>
-                      </div>
-                    ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </SectionShell>
 
         {/* 08 Plan */}
         <SectionShell num="08" eyebrow="Matchplan" title="Så kan HIF vinna" mode={mode}>
