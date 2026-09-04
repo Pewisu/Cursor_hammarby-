@@ -61,6 +61,19 @@ export interface BolldataSpiderMetric {
   >;
 }
 
+export interface GoalPatternSeasonValue {
+  primary: string;
+  secondary: string;
+}
+
+export interface GoalPatternInsight {
+  id: string;
+  title: string;
+  question: string;
+  takeaway: string;
+  values: Record<SeasonKey, GoalPatternSeasonValue>;
+}
+
 export const seasonHeadlines: SeasonHeadline[] = [
   {
     season: "2026",
@@ -392,8 +405,137 @@ export const bolldataSpiderMetrics: BolldataSpiderMetric[] = [
   },
 ];
 
+export const goalPatternInsights: GoalPatternInsight[] = [
+  {
+    id: "scored-location",
+    title: "Var görs målen?",
+    question: "Plats för gjorda mål",
+    takeaway:
+      "Nej, inte som huvudförklaring. 2024 hade 19% mål utanför boxen, men 2025 var högre med 22%. 2026 ligger nära samma profil men med ännu större boxandel.",
+    values: {
+      "2026": {
+        primary: "19/24 i box (79%)",
+        secondary: "4 utanför box (17%)",
+      },
+      "2025": {
+        primary: "44/60 i box (73%)",
+        secondary: "13 utanför box (22%)",
+      },
+      "2024": {
+        primary: "37/48 i box (77%)",
+        secondary: "9 utanför box (19%)",
+      },
+    },
+  },
+  {
+    id: "set-pieces-for",
+    title: "Hur görs målen?",
+    question: "Måltyper framåt",
+    takeaway:
+      "2026 har fått mycket från hörnor tidigt, men nästan inget från nickmål eller frisparkar jämfört med 2024/2025.",
+    values: {
+      "2026": {
+        primary: "4 hörnmål · 0 frisparksmål",
+        secondary: "1 nickmål · 1 straffmål",
+      },
+      "2025": {
+        primary: "6 hörnmål · 4 frisparksmål",
+        secondary: "7 nickmål · 3 straffmål",
+      },
+      "2024": {
+        primary: "3 hörnmål · 3 frisparksmål",
+        secondary: "8 nickmål · 2 straffmål",
+      },
+    },
+  },
+  {
+    id: "scored-timing",
+    title: "När görs målen?",
+    question: "Timing för gjorda mål",
+    takeaway:
+      "Alla tre säsonger gör Hammarby fler mål efter paus. 2026 är mer jämn hittills, medan 2025 hade tydligast tryck i andra halvlek.",
+    values: {
+      "2026": {
+        primary: "1H 11 · 2H 13",
+        secondary: "Bäst fönster: 31-45+ och 61-75",
+      },
+      "2025": {
+        primary: "1H 24 · 2H 36",
+        secondary: "Bäst fönster: 46-60",
+      },
+      "2024": {
+        primary: "1H 21 · 2H 27",
+        secondary: "Bäst fönster: 16-30 och 61-75",
+      },
+    },
+  },
+  {
+    id: "conceded-location",
+    title: "Var släpps målen in?",
+    question: "Plats för insläppta mål",
+    takeaway:
+      "Nej. 2026 liknar 2024: nästan alla insläppta kommer i boxen. Det matchar Twelve-bilden att motståndarnas chanser är för högkvalitativa.",
+    values: {
+      "2026": {
+        primary: "11/13 i box (85%)",
+        secondary: "1 utanför box (8%)",
+      },
+      "2025": {
+        primary: "20/29 i box (69%)",
+        secondary: "7 utanför box (24%)",
+      },
+      "2024": {
+        primary: "22/25 i box (88%)",
+        secondary: "3 utanför box (12%)",
+      },
+    },
+  },
+  {
+    id: "set-pieces-against",
+    title: "Hur släpps målen in?",
+    question: "Måltyper bakåt",
+    takeaway:
+      "2026 har inte samma fasta-situation-volym bakåt som 2025. Den större signalen är att öppna spel-lägen i boxen blir för farliga.",
+    values: {
+      "2026": {
+        primary: "1 hörnmål · 1 frisparksmål",
+        secondary: "1 nickmål · 1 straffmål emot",
+      },
+      "2025": {
+        primary: "6 hörnmål · 2 frisparksmål",
+        secondary: "2 nickmål · 2 straffmål emot",
+      },
+      "2024": {
+        primary: "4 hörnmål · 1 frisparksmål",
+        secondary: "4 nickmål · 0 straffmål emot",
+      },
+    },
+  },
+  {
+    id: "conceded-timing",
+    title: "När släpps målen in?",
+    question: "Timing för insläppta mål",
+    takeaway:
+      "Starterna sticker ut: 2026 har redan släppt 3 mål första 15 minuterna på 11 matcher. 2024 släppte bara 1 där på hela säsongen.",
+    values: {
+      "2026": {
+        primary: "0-15: 3 insläppta",
+        secondary: "1H 6 · 2H 7",
+      },
+      "2025": {
+        primary: "0-15: 6 insläppta",
+        secondary: "1H 14 · 2H 15",
+      },
+      "2024": {
+        primary: "0-15: 1 insläppt",
+        secondary: "1H 9 · 2H 16",
+      },
+    },
+  },
+];
+
 export const sourceNotes = [
   "Twelve Earpiece shared season reports: Hammarby Swedish Allsvenskan 2026, 2025 och 2024.",
   "Twelve chart API: ranking-bar visualiseringar för respektive säsongsrapport.",
-  "Bolldata lagdata och team-advanced API: säsong 2026 hittills samt helsäsong 2025 och 2024.",
+  "Bolldata lagdata, målrelaterade tabeller och team-advanced API: säsong 2026 hittills samt helsäsong 2025 och 2024.",
 ];

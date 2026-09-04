@@ -3,11 +3,13 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 import {
   bolldataSpiderMetrics,
+  goalPatternInsights,
   season2026LeagueMetrics,
   seasonHeadlines,
   sourceNotes,
   twelveIdentityMetrics,
   type BolldataSpiderMetric,
+  type GoalPatternInsight,
   type SeasonIdentityMetric,
   type SeasonKey,
 } from "@/lib/hammarbySeasonAnalysisData";
@@ -406,6 +408,42 @@ function GraphicMetricComparison({ metric }: { metric: SeasonIdentityMetric }) {
   );
 }
 
+function GoalPatternCard({ insight }: { insight: GoalPatternInsight }) {
+  return (
+    <article className="rounded-3xl border border-stone-200 bg-white/90 p-4 shadow-sm">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#d6a51d]">{insight.question}</p>
+          <h3 className="mt-1 text-xl font-black text-[#0b3b22]">{insight.title}</h3>
+        </div>
+      </div>
+
+      <div className="mt-4 space-y-3">
+        {seasons.map((season) => (
+          <div key={season} className="rounded-2xl border border-stone-200 bg-[#f7f8ef] p-3">
+            <div className="flex items-start gap-3">
+              <span
+                className="mt-1 h-3 w-3 shrink-0 rounded-full"
+                style={{ backgroundColor: seasonStyles[season].stroke }}
+              />
+              <div>
+                <p className="text-sm font-black text-[#0b3b22]">{season}</p>
+                <p className="mt-1 text-base font-black text-[#12351f]">{insight.values[season].primary}</p>
+                <p className="mt-1 text-sm leading-5 text-stone-600">{insight.values[season].secondary}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-4 overflow-hidden rounded-2xl border border-[#d6a51d]/35 bg-[#fff4c7] p-4">
+        <p className="text-xs font-black uppercase tracking-wide text-[#705410]">Tolkning</p>
+        <p className="mt-2 break-words text-sm font-semibold leading-7 text-[#12351f]">{insight.takeaway}</p>
+      </div>
+    </article>
+  );
+}
+
 export default function HammarbySeasonAnalysisPage() {
   const headline2026 = seasonHeadlines[0];
   const mainWarning = season2026LeagueMetrics.find((metric) => metric.id === "opp-np-xg");
@@ -575,6 +613,27 @@ export default function HammarbySeasonAnalysisPage() {
           <div className="grid gap-4 lg:grid-cols-2">
             {twelveIdentityMetrics.map((metric) => (
               <GraphicMetricComparison key={metric.id} metric={metric} />
+            ))}
+          </div>
+        </SlideShell>
+
+        <SlideShell eyebrow="Bolldata målrelaterat" title="Hur målen görs och släpps in">
+          <div className="mb-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["Inte bara totalsiffror", "Här jämförs målens typ, plats och timing mellan 2024, 2025 och 2026."],
+              ["Långskottshypotesen", "2024 var inte extremt på mål utanför boxen; 2025 hade både fler och högre andel."],
+              ["2026-signalen", "Insläppta mål kommer fortsatt från boxen, samtidigt som matchstarter sticker ut negativt."],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-stone-200 bg-white/80 p-4">
+                <p className="font-black text-[#0b3b22]">{title}</p>
+                <p className="mt-1 text-sm leading-6 text-stone-600">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            {goalPatternInsights.map((insight) => (
+              <GoalPatternCard key={insight.id} insight={insight} />
             ))}
           </div>
         </SlideShell>
